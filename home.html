@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripTrack</title>
+    <link rel="stylesheet" href="home.css">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    
+
+   
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="logo.png" alt="TripTrack Logo" class="logo">
+        <h1 class="tagline">Travel <span>WITH US</span></h1>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <input type="text" placeholder="From" class="search-input">
+            <input type="text" placeholder="To" class="search-input">
+            <input type="date" class="search-input">
+            <button class="search-button">Search</button>
+        </div>
+    </section>
+
+    <!-- Bus Cards Section -->
+    <section class="bus-cards">
+        <div class="bus-card">
+            <h3>Colombo - Ampra</h3>
+            <p>Time: 8:00 AM</p>
+            <p>Price: LKR 1500</p>
+            <button class="book-button">Book Now</button>
+        </div>
+    </section>
+
+    <!-- Information Section -->
+    <section class="info-section">
+        <h2>Trip Track: Your Ticket to Effortless Travel</h2>
+        <p>Plan, Book, Go!</p>
+        <p>Discover the easiest way to book bus tickets in Sri Lanka with Trip Track.</p>
+    </section>
+
+    <!-- Why Book Section -->
+    <section class="why-book-section">
+        <h2>Why Book with Trip Track</h2>
+        <div class="benefit">
+            <i class="fas fa-list"></i>
+            <p>More Choices</p>
+        </div>
+        <div class="benefit">
+            <i class="fas fa-headset"></i>
+            <p>Customer Support</p>
+        </div>
+        <div class="benefit">
+            <i class="fas fa-percent"></i>
+            <p>Best Price</p>
+        </div>
+        <div class="benefit">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Google Map Location</p>
+        </div>
+    </section>
+
+    <!-- Top Routes Section -->
+    <section class="top-routes">
+        <h2>Top Bus Routes</h2>
+        <ul>
+            <li>Jaffna - Colombo</li>
+            <li>Ampara - Colombo</li>
+            <!-- Add more routes as needed -->
+        </ul>
+    </section>
+
+    <!-- Script to import navbar -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('navbar-placeholder').innerHTML = data);
+    </script>
+
+</body>
+</html>

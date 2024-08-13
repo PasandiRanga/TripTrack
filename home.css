@@ -1,0 +1,131 @@
+/* General styling for body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Navbar positioning */
+#navbar-placeholder {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* Ensure it stays on top */
+}
+
+/* Hero section */
+.hero {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #063946;
+    color: white;
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.tagline {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.tagline span {
+    color: #acd1db;
+}
+
+/* Search section */
+.search-section {
+    padding: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Bus cards section */
+.bus-cards {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.bus-card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.book-button {
+    padding: 10px 20px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Information section */
+.info-section {
+    padding: 20px;
+    text-align: center;
+    background-color: #acd1db;
+}
+
+/* Why book section */
+.why-book-section {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: #f0f0f0;
+}
+
+.benefit {
+    text-align: center;
+    width: 150px;
+}
+
+.benefit i {
+    font-size: 2rem;
+    color: #063946;
+}
+
+.benefit p {
+    margin-top: 10px;
+}
+
+/* Top routes section */
+.top-routes {
+    padding: 20px;
+    text-align: center;
+}
+
+.top-routes ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.top-routes li {
+    margin: 10px 0;
+}
