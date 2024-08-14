@@ -1,0 +1,38 @@
+button.custom-button {
+    padding: 10px 20px;
+    border-radius: 90.11px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button.custom-button:hover {
+    background-color: #36A690; /* Change this for a hover effect */
+}
+
+button.cancel-button {
+    padding: 10px 20px;
+    border-radius: 90.11px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button.cancel-button:hover {
+    background-color: red; /* Change this for a hover effect */
+}
+
+button.google {
+    padding: 10px 20px;
+    border-radius: 90.11px;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+button.google:hover {
+    background-color: #36A690; /* Change this for a hover effect */
+}
