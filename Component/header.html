@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Header</title>
     <style type="text/css">
+         html, body {
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+        }
         .header{
             background-color:#064060;
             padding-right:15px;
             padding-left:15px;
+            width: 100%; 
+            box-sizing: border-box;
         }
         .abc{
             display:flex;
@@ -24,10 +31,10 @@
             color: aliceblue;
         }
         ul {
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
+            margin: 0; 
+            padding: 0; 
             display: flex;
-            align-items: center; /* Vertically center items within the ul */
+            align-items: center;
         }
         li{
             list-style: none;
