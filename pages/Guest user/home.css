@@ -18,7 +18,7 @@ body {
 .hero {
     text-align: center;
     padding: 50px 0;
-    background-color: #063946;
+    background-color: rgba(54, 166, 144, 0.812);
     color: white;
 }
 

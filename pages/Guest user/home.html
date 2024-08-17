@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TripTrack</title>
     <link rel="stylesheet" href="home.css">
-   
+    <link rel="stylesheet" href="./../../Component/navbar.css">
+    <link rel="stylesheet" href="./../../Component/header.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div> <!-- Add this div -->
 
-    
-
-   
-
+    <!-- Navbar Placeholder -->
+    <div id="navbar"></div>
 
     <!-- Hero Section -->
     <section class="hero">
-        <img src="logo.png" alt="TripTrack Logo" class="logo">
+        <img src="./../../images/logo.png" alt="TripTrack Logo" class="logo">
         <h1 class="tagline">Travel <span>WITH US</span></h1>
     </section>
 
@@ -79,12 +81,23 @@
         </ul>
     </section>
 
-    <!-- Script to import navbar -->
+    <!-- Script to import header and navbar -->
     <script>
-        fetch('navbar.html')
+        // Import header
+        fetch('./../../Component/header.html')
             .then(response => response.text())
-            .then(data => document.getElementById('navbar-placeholder').innerHTML = data);
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+
+        // Import navbar
+        fetch('./../../Component/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
     </script>
+    <script src="./../app.js"></script>
 
 </body>
 </html>

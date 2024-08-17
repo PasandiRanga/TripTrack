@@ -1,0 +1,38 @@
+.header {
+    background-color: #064060;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.abc {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+}
+
+.login {
+    font-size: 20px;
+    color: aliceblue;
+}
+
+ul {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex;
+    align-items: center; /* Vertically center items within the ul */
+}
+
+li {
+    list-style: none;
+    display: inline-block;
+}
+
+.topic {
+    font-size: 20px;
+    color: aliceblue;
+}
