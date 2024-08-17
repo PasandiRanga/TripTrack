@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Layout</title>
+    <link rel="stylesheet" href="Bus_layout.css" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+
+            <div class="box left-box">
+                <div class="abc">
+                    <div class="left-content">
+                        <div class="route">Colombo >>> Kurunegala</div>
+                        <div class="detail">
+                            29th August - 6.00AM<br />
+                            Route number: 87<br />
+                            Bus number: ht76543
+                        </div>
+                    </div>
+                    <div class="right-content">
+                        <div class="service">Average</div>
+                        <div>Normal service - non-AC<br />
+                        Available seats: 49/54</div>
+                    </div>
+                </div><br/>
+
+                <div class="container">
+                    <figure class="image-caption-container">
+                    <img src="./Images/bus.jpg">
+                    <div class="caption">
+                        Colombo For Bus stand<br/>7.45AM
+                    </div></figure>
+                    <hr style="">
+                    <figure class="image-caption-container">
+                    <img src="./Images/Map.jpg">
+                    <div class="caption">
+                        Shripura<br/>3.45PM
+                    </div></figure>
+                </div>
+                <br/>
+                <div class="container">
+                    <button class="more">View bus stops and times</button>
+                    <button class="more">View rating and reviews</button>
+                    <div style="font-weight: bold;font-size: 20px;">LKR 1400</div>
+                </div>
+
+            </div>
+    
+            <br/>
+
+            <div class="box left-box" style="background-color:#C5F2E9;">
+                <div class="form-container">
+                    <form id="bookingForm">
+                        <label for="seats">Seats Layout:</label>
+                        <input type="text" id="seats" name="seats" required placeholder="Please select the seats">
+                        
+                        <label for="total">Seats:</label>
+                        <input type="text" id="total" name="total" required placeholder="Total">
+            
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+            
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" required>
+            
+                        <label for="contact">Contact No:</label>
+                        <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" required>
+            
+                        <label for="nic">NIC No:</label>
+                        <input type="text" id="nic" name="nic" required>
+            
+                        <label for="destination">Destination:</label>
+                        <input type="text" id="destination" name="destination" required>
+            
+                        <label for="payment">Payment method:</label>
+                        <div class="payment-options">
+                            <label><input type="radio" name="payment" value="Cash"> Cash</label>
+                            <label><input type="radio" name="payment" value="Online" checked> Online</label>
+                        </div>
+            
+                        <label for="ticket">Receive ticket via:</label>
+                        <div class="ticket-options">
+                            <label><input type="radio" name="ticket" value="Cash"> Cash</label>
+                            <label><input type="radio" name="ticket" value="Online"> Online</label>
+                        </div>
+            
+                        <button type="submit" id="proceedButton">Proceed</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="right-column">
+            <div class="box right-box">
+               
+            </div>
+</body>
+</html>
