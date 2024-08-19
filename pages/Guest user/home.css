@@ -1,143 +1,69 @@
-/* General styling for body */
 body {
-    margin: 0;
+    margin-top: 5px;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: rgba(54, 166, 144, 0.812);
-}
-
-/* Header positioning */
-#header-placeholder {
-    position: relative; /* Adjust positioning as needed */
-    width: 100%;
-    z-index: 1000;
-    background-color: #064060;
-    height :3rem; /* Match header background color */
-}
-
-
-/* Navbar positioning */
-#navbar-placeholder {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000; /* Ensure it stays on top */
-    background-color: rgba(54, 166, 144, 0.812);
-    margin-top: 2rem;
-}
-
-/* Hero section */
-.hero {
-    text-align: center;
-    padding: 50px 0;
+    background-color: transparent;
     /* background-color: rgba(54, 166, 144, 0.812); */
-    color: white;
 }
 
-.logo {
-    width: 150px;
-    margin-bottom: 20px;
-}
-
-.tagline {
-    font-size: 3rem;
-    margin: 0;
-}
-
-.tagline span {
-    color: #acd1db;
-}
-
-/* Search section */
-.search-section {
-    padding: 20px;
-    text-align: center;
-    background-color: #f0f0f0;
-}
-
-.search-container {
+/* Navbar container */
+.navbar {
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    align-items: center;
+    background-color: #063946;
+    padding: 10px 20px;
+    border-radius: 50px;
+    width: fit-content;
+    height : 30px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
-.search-input {
+/* Individual navbar items */
+.navbar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 10px;
-    font-size: 1rem;
+    margin: 0 5px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    color: #FFFFFF;
+    position: relative;
+    text-decoration: none;
+    font-family: Adamina;
+    font-weight: 400; 
+    line-height: 10px;
+    word-wrap: break-word
 }
 
-.search-button {
-    padding: 10px 20px;
-    background-color: #063946;
-    color: white;
-    border: none;
-    cursor: pointer;
+/* Styling for selected item */
+.navbar-item.selected {
+    background-color: #f0f0f0;
+    color: #063946;
+    font-weight: bold;
+    height: 20px;
 }
 
-/* Bus cards section */
-.bus-cards {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+/* Text hiding for non-selected items */
+.navbar-item:not(.selected) .text {
+    display: none;
 }
 
-.bus-card {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: white;
-}
-
-.book-button {
-    padding: 10px 20px;
-    background-color: #063946;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* Information section */
-.info-section {
-    padding: 20px;
-    text-align: center;
+/* Hover effect for all items */
+.navbar-item:hover {
     background-color: #acd1db;
 }
 
-/* Why book section */
-.why-book-section {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    background-color: #f0f0f0;
+/* Style for icons */
+.navbar-item i {
+    width: 24px;
+    height: 24px;
+    margin-top: 4px;
+    margin-left: 2px;
 }
 
-.benefit {
-    text-align: center;
-    width: 150px;
-}
-
-.benefit i {
-    font-size: 2rem;
-    color: #063946;
-}
-
-.benefit p {
-    margin-top: 10px;
-}
-
-/* Top routes section */
-.top-routes {
-    padding: 20px;
-    text-align: center;
-}
-
-.top-routes ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.top-routes li {
-    margin: 10px 0;
+/* Text styling */
+.navbar-item .text {
+    margin-left: 3px;
 }
