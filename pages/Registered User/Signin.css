@@ -1,0 +1,128 @@
+body {
+    background-color: #36A690;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0px;
+}
+
+.left {
+    text-align: left;
+    flex: 1;
+    padding-right: 40px;
+}
+
+.caption {
+    color: aliceblue;
+    font-size: 48px;
+}
+
+.tagline {
+    font-size: 56px;
+    margin: 0;
+    color: aliceblue;
+}
+
+.tagline span {
+    color: #acd1db;
+}
+
+.bus {
+    width: 600px;
+    max-width: 600px;
+    height: 600px;
+}
+
+.signin-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Georgia', serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.signup-link {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+button[type="submit"] {
+    background-color: #0a3b46;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #064045;
+}
+
+.google-signin {
+    text-align: center;
+    margin-top: 20px;
+    justify-content: center;
+    display: flex;
+
+}
+
+.google-signin button {
+    background-color: white;
+    color: #3c4043;
+    padding: 10px;
+    border: 1px solid #dadce0;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.google-signin img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
