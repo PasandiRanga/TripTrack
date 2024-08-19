@@ -1,13 +1,22 @@
+html, body {
+    margin: 0; 
+    padding: 0; 
+    width: 100%; 
+}
+
 .header {
     background-color: #064060;
     padding-right: 15px;
     padding-left: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    
 }
 
 .abc {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between;;
 }
 
 .logo {
@@ -21,10 +30,10 @@
 }
 
 ul {
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: center; /* Vertically center items within the ul */
+    align-items: center;
 }
 
 li {
@@ -35,4 +44,5 @@ li {
 .topic {
     font-size: 20px;
     color: aliceblue;
+    margin-left: 2rem;
 }
