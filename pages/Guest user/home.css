@@ -3,8 +3,18 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: rgba(54, 166, 144, 0.812);
 }
+
+/* Header positioning */
+#header-placeholder {
+    position: relative; /* Adjust positioning as needed */
+    width: 100%;
+    z-index: 1000;
+    background-color: #064060;
+    height :3rem; /* Match header background color */
+}
+
 
 /* Navbar positioning */
 #navbar-placeholder {
@@ -12,13 +22,15 @@ body {
     top: 10px;
     left: 10px;
     z-index: 1000; /* Ensure it stays on top */
+    background-color: rgba(54, 166, 144, 0.812);
+    margin-top: 2rem;
 }
 
 /* Hero section */
 .hero {
     text-align: center;
     padding: 50px 0;
-    background-color: rgba(54, 166, 144, 0.812);
+    /* background-color: rgba(54, 166, 144, 0.812); */
     color: white;
 }
 
