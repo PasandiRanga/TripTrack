@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TripTrack</title>
+    <title>Home</title>
     <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="./../../Component/navbar.css">
-    <link rel="stylesheet" href="./../../Component/header.css">
+    <link rel="stylesheet" href="./../../Component/navbarRU.css">
+    <link rel="stylesheet" href="./../../Component/HeaderRU.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -116,22 +116,37 @@
         </ul>
     </section>
 
-    <!-- Script to import header and navbar -->
-    <script>
-        // Import header
-        fetch('./../../Component/header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header-placeholder').innerHTML = data;
-            });
+   <!-- Script to import header and navbar -->
+   <script>
+    // Import header
+    fetch('./../../Component/HeaderRU.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
 
-        // Import navbar
-        fetch('./../../Component/navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar').innerHTML = data;
+    // Import navbar
+    fetch('./../../Component/navbarRU.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+
+        // After the navbar is loaded, add the event listeners
+        const navbarItems = document.querySelectorAll('.navbar-item');
+
+        // Add click event listener to each navbar item
+        navbarItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove the 'selected' class from all items
+                navbarItems.forEach(nav => nav.classList.remove('selected'));
+
+                // Add the 'selected' class to the clicked item
+                this.classList.add('selected');
             });
-    </script>
+        });
+    })
+    .catch(error => console.error('Error loading navbar:', error));
+</script>
     <script src="./../app.js"></script>
 
 </body>
