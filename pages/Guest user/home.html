@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="./home.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="home.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Header</title>
@@ -42,39 +43,17 @@
             font-size: 20px;
             color: aliceblue;
         }
-        
     </style>
 </head>
 <body>
-    <nav class="header">
-        <div class="abc">
-            <div class = "xyz">
-<nav class="header">
-    <div class="abc">
-        <div class="xyz">
-            <ul>
-                <li><img class="logo" src="./../../images/logo.png" alt="Logo"></li>
-                <li class="topic">Trip Track</li>
-            </ul>
-        </div>
-    </div>
-</nav>
-</nav>
-<nav>
-    <div class="navbar">
-        <a href="./home.html" class="navbar-item selected">
-            <i class="fa fa-bus"></i>
-            <span class="text">Search Buses</span>
-        </a>
-        <a href="./aboutus.html" class="navbar-item">
-            <i class="fa fa-users"></i>
-            <span class="text">About Us</span>
-        </a>
-        <a href="./contactus.html" class="navbar-item">
-            <i class="fa fa-phone"></i>
-            <span class="text">Contact Us</span>
-        </a>    
-    </div>
-</nav>
+
+    <script>
+        const userRole = "GuestUser"; // This could be set dynamically
+    </script>
+    <!-- Navbar container where the navbar.html content will be injected -->
+    <div id="navbar-container"></div>   
+
+    <!-- Link the external JavaScript file -->
+    <script src="./navbar.js"></script>
 </body>
 </html>
