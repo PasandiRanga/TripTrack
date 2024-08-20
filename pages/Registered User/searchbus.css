@@ -1,0 +1,99 @@
+/* General styling for body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: rgba(54, 166, 144, 0.812);
+}
+
+/* Header positioning */
+#header-placeholder {
+    position: relative; /* Adjust positioning as needed */
+    width: 100%;
+    z-index: 1000;
+    background-color: #064060;
+    height :3rem; /* Match header background color */
+}
+
+
+/* Navbar positioning */
+#navbar-placeholder {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* Ensure it stays on top */
+    background-color: rgba(54, 166, 144, 0.812);
+    margin-top: 2rem;
+}
+
+/* Hero section */
+.hero {
+    text-align: center;
+    padding: 50px 0;
+    /* background-color: rgba(54, 166, 144, 0.812); */
+    color: white;
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.tagline {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.tagline span {
+    color: #acd1db;
+}
+
+/* Search section */
+.search-section {
+    padding: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Bus cards section */
+.bus-cards {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color:rgba(54, 166, 144, 0.812);
+}
+
+.bus-card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.book-button {
+    padding: 10px 20px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

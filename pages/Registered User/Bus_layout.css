@@ -1,17 +1,37 @@
 body {
     background-color: #36A690;
-    margin: 200px 100px 50px 100px;
+    margin: 0; /* Remove the default margin */
     padding: 0;
-    display: flex;
     justify-content: center; 
     align-items: center;
-    height: ;
 }
 
+/* Header positioning */
+#header-placeholder {
+    position: relative; 
+    width: 100%;
+    z-index: 1000;
+    background-color: #064060;
+    height: 3rem; 
+    margin-bottom: 20px; /* Gap between header and content */
+}
+
+/* Navbar positioning */
+#navbar-placeholder {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background-color: rgba(54, 166, 144, 0.812);
+    margin-top: 2rem;
+}
+
+/* Main container spacing */
 .container {
     display: flex;
     justify-content: space-between; 
     width: 90%; 
+    margin: 20px auto; /* Space around the content */
 }
 
 .left-column, .right-column {
@@ -23,6 +43,9 @@ body {
 .left-column {
     margin-right: 20px; 
 }
+
+/* Other styles remain unchanged */
+
 
 .box {
     border: 1px solid #ffffff; 
