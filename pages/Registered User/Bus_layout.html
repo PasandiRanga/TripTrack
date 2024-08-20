@@ -12,12 +12,19 @@
 </head>
 <body>
 
-    <!-- Header Placeholder -->
-    <div id="header-placeholder"></div> <!-- Add this div -->
+    <script>
+        localStorage.setItem('userRole', 'RegisteredUser'); // Ensure this is set before the header loads
+    </script>
+    <!-- Header container where the header.html content will be injected -->
+    <div id="header-container"></div>
 
-    <!-- Navbar Placeholder -->
-    <div id="navbar"></div>
+    <!-- Navbar container where the navbar.html content will be injected -->
+    <div id="navbar-container"></div>   
 
+    <!-- Link the external JavaScript files -->
+    <script src="./../../Component/Header/header.js"></script>
+    <script src="./../../Component/NavBar/navbar.js"></script>
+    
     <div class="container">
         <div class="left-column">
 
@@ -44,7 +51,7 @@
                     <div class="caption">
                         Colombo For Bus stand<br/>7.45AM
                     </div></figure>
-                    <hr style="">
+                    <hr>
                     <figure class="image-caption-container">
                     <img src="./../../Images/Map.jpg">
                     <div class="caption">
