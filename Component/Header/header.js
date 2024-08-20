@@ -9,8 +9,28 @@ document.addEventListener("DOMContentLoaded", function() {
             const headerTopic = document.querySelector(".topic");
             const abcContainer = document.querySelector(".abc");
 
-            if (userRole === "admin") {
+            if (userRole === "Admin") {
                 headerTopic.textContent = "Admin Dashboard";
+
+                const adminName = localStorage.getItem('adminName') || "Admin";
+                const adminProfilePicUrl = localStorage.getItem('adminProfilePicUrl') || "./default-profile.png";
+
+                const adminProfileContainer = document.createElement("div");
+                adminProfileContainer.classList.add("admin-profile-container");
+
+                const profilePic = document.createElement("img");
+                profilePic.src = adminProfilePicUrl;
+                profilePic.alt = "Profile Picture";
+                profilePic.classList.add("profile-pic");
+
+                const adminNameText = document.createElement("span");
+                adminNameText.textContent = adminName;
+                adminNameText.classList.add("admin-name");
+
+                adminProfileContainer.appendChild(profilePic);
+                adminProfileContainer.appendChild(adminNameText);
+                document.querySelector(".header").appendChild(adminProfileContainer);
+
             } else if (userRole === "GuestUser") {
                 headerTopic.textContent = "Trip Track";
 

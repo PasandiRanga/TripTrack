@@ -32,24 +32,28 @@ document.addEventListener("DOMContentLoaded", function() {
                         <span class="text">Contact Us</span>
                     </a>
                 `;
-            } else if (userRole === "admin") {
+            } else if (userRole === "Admin") {
                 navbarItems.innerHTML = `
-                    <a href="./dashboard.html" class="navbar-item ${currentPage === 'dashboard.html' ? 'selected' : ''}">
-                        <i class="fa fa-tachometer-alt"></i>
-                        <span class="text">Dashboard</span>
+                    <a href="./Super_Admin_home.html" class="navbar-item ${currentPage === 'Super_Admin_home.html' ? 'selected' : ''}">
+                        <i class="fa fa-house"></i>
+                        <span class="text">Home</span>
                     </a>
-                    <a href="./users.html" class="navbar-item ${currentPage === 'users.html' ? 'selected' : ''}">
-                        <i class="fa fa-users"></i>
-                        <span class="text">Manage Users</span>
+                    <a href="./Super_Admin_Support.html" class="navbar-item ${currentPage === 'Super_Admin_Support.html' ? 'selected' : ''}">
+                        <i class="fa-regular fa-message"></i>
+                        <span class="text">Support</span>
                     </a>
-                    <a href="./settings.html" class="navbar-item ${currentPage === 'settings.html' ? 'selected' : ''}">
-                        <i class="fa fa-cog"></i>
-                        <span class="text">Settings</span>
+                    <a href="./Super_Admin_Profile.html" class="navbar-item ${currentPage === 'Super_Admin_Profile.html' ? 'selected' : ''}">
+                        <i class="fa-regular fa-user"></i>
+                        <span class="text">Profile</span>
                     </a>
+                    <a href="./Super_Admin_Logout.html" class="navbar-item ${currentPage === 'Super_Admin_Logout.html' ? 'selected' : ''}">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span class="text">Log out</span>
+                    </a> 
                 `;
             } else if(userRole == "RegisteredUser") {
                 navbarItems.innerHTML = `
-                <a href="./home.html" class="navbar-item ${currentPage === 'home.html' ? 'selected' : ''}">
+                <a href="./Home.html" class="navbar-item ${currentPage === 'Home.html' ? 'selected' : ''}">
                         <i class="fa fa-home"></i>
                         <span class="text">Home</span>
                 </a>
