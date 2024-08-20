@@ -1,0 +1,75 @@
+/* Resetting margins and paddings for the header and body */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Header container */
+.header {
+    background-color: #064060;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.5rem;
+}
+
+/* Inner container for logo and topic */
+.abc {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo styling */
+.logo {
+    width: 70px;
+    height: 70px;
+}
+
+/* Unordered list reset */
+ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* List item styling */
+li {
+    list-style: none;
+    display: inline-block;
+}
+
+/* Topic text styling */
+.topic {
+    font-size: 20px;
+    color: aliceblue;
+    margin-left: 15px;
+}
+
+.login-container{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+/* Login button styling (for GuestUser role) */
+.login-button {
+    background-color: #fff;
+    color: #064060;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+  
+}
+
+.login-button:hover {
+    background-color: #acd1db;
+    color: #063946;
+}

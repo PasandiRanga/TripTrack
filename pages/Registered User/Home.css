@@ -7,12 +7,7 @@ body {
 }
 
 /* Navbar positioning */
-#navbar-placeholder {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000; /* Ensure it stays on top */
-}
+
 
 /* Hero section */
 .hero {
@@ -20,11 +15,6 @@ body {
     padding: 50px 0;
     background-color: rgba(54, 166, 144, 0.812);
     color: white;
-}
-
-.logo {
-    width: 150px;
-    margin-bottom: 20px;
 }
 
 .booking-box {

@@ -5,8 +5,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Get the current page URL
     const currentPage = window.location.pathname.split("/").pop();
 
+    // Fetch the header.html content
     // Fetch the navbar.html content
-    fetch("./navbar.html")
+    fetch("../../Component/NavBar/navbar.html")
         .then(response => response.text())
         .then(data => {
             // Inject the navbar HTML into the page
@@ -46,7 +47,34 @@ document.addEventListener("DOMContentLoaded", function() {
                         <span class="text">Settings</span>
                     </a>
                 `;
-            } // Add more roles as needed
+            } else if(userRole == "RegisteredUser") {
+                navbarItems.innerHTML = `
+                <a href="./home.html" class="navbar-item ${currentPage === 'home.html' ? 'selected' : ''}">
+                        <i class="fa fa-home"></i>
+                        <span class="text">Home</span>
+                </a>
+
+                <a href="./Bookings.html" class="navbar-item ${currentPage === 'Bookings.html' ? 'selected' : ''}">
+                        <i class="fa fa-ticket" aria-hidden="true"></i>
+                        <span class="text">Bookings</span>
+                </a>
+
+                <a href="./searchbus.html" class="navbar-item ${currentPage === 'searchbus.html' ? 'selected' : ''}">
+                        <i class="fa fa-bus"></i>
+                        <span class="text">Search Buses</span>
+                </a>
+
+                <a href="./notifications.html" class="navbar-item ${currentPage === 'notifications.html' ? 'selected' : ''}">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                        <span class="text">Notifications</span>
+                </a>
+
+                <a href="./contactus.html" class="navbar-item ${currentPage === 'contactus.html' ? 'selected' : ''}">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <span class="text">Contact Us</span>
+                </a>
+                `;
+            }// Add more roles as needed
         })
         .catch(error => console.error("Error loading navbar:", error));
 });
