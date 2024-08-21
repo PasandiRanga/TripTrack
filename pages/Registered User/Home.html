@@ -40,7 +40,7 @@
             <input type="text" placeholder="From" class="search-input">
             <input type="text" placeholder="To" class="search-input">
             <input type="date" class="search-input">
-            <button class="search-button">Search</button>
+            <button class="search-button" onclick="redirectToBusSearch()">Search</button>
         </div>
     </section>
 
@@ -85,7 +85,7 @@
             <h3>Colombo - Ampra</h3>
             <p>Time: 8:00 AM</p>
             <p>Price: LKR 1500</p>
-            <button class="book-button">Book Now</button>
+            <button class="book-button" onclick="redirectToBusLayout()">Book Now</button>
         </div>
     </section>
 
@@ -126,5 +126,16 @@
             <!-- Add more routes as needed -->
         </ul>
     </section>
+
+    <script>
+        function redirectToBusLayout() {
+            window.location.href = "Bus_layout.html"; // Redirect to buslayout.html
+        }
+        function redirectToBusSearch() {
+            window.location.href = "searchbus.html"; // Redirect to buslayout.html
+        }
+    </script>
+        
+
 </body>
 </html>
