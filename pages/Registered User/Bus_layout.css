@@ -68,7 +68,7 @@ body {
 }
 
 .detail {
-    font-size: 12px;
+    font-size: 16px;
     margin-top: 5px;
 }
 
@@ -92,17 +92,24 @@ body {
     padding: 5px;
     border-radius: 5px;
     display: inline-block;
+    font-size: 20px;
     font-weight: bold;
     font-family: 'ABeeZee';
     letter-spacing: 1px;
     color: darkgreen;
 }
 
+.extra{
+    font-size: 16px;
+}
+
 .more{
     background-color: #36A690;
     border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
     border: none;
-    padding: 10px;
+    padding: 5px;
 }
 
 img{
@@ -111,8 +118,9 @@ img{
 }
 
 .caption {
-    margin-left: 10px;
+    margin-left: 20px;
     font-size: 16px;
+    font-weight: bold;
     color: #333;
 }
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="profile.css" type="text/css">
+    <link rel="stylesheet" href="./../../Component/NavBar/navbar.css">
+    <link rel="stylesheet" href="./../../Component/Header/header.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <script>
+        localStorage.setItem('userRole', 'RegisteredUser'); // Ensure this is set before the header loads
+    </script>
+    <!-- Header container where the header.html content will be injected -->
+    <div id="header-container"></div>
+
+    <!-- Navbar container where the navbar.html content will be injected -->
+    <div id="navbar-container"></div>   
+
+    <!-- Link the external JavaScript files -->
+    <script src="./../../Component/Header/header.js"></script>
+    <script src="./../../Component/NavBar/navbar.js"></script>
+
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <!-- Left Side: User Info -->
+        <div class="profile-left">
+            <div class="profile-pic">
+                <img src="./../../images/profile.png" alt="User Profile Picture">
+                <button class="edit-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>
+            </div>
+            <h2>Susan S.Doe</h2>
+            <p>TT3452D</p>
+            <button class="logout-button">LogOut</button>
+        </div>
+
+        <!-- Right Side: User Details -->
+        <div class="profile-right">
+            <div class="detail">
+                <label>Full Name</label>
+                <input type="text" placeholder="Enter the name">
+            </div>
+            <div class="detail">
+                <label>Email Address</label>
+                <input type="email" placeholder="Enter the mail">
+            </div>
+            <div class="detail">
+                <label>Contact Number</label>
+                <input type="text" placeholder="Enter the number">
+            </div>
+            <div class="detail">
+                <label>NIC</label>
+                <input type="text" placeholder="Enter the NIC card number">
+            </div>
+            <div class="detail">
+                <label>HomeTown</label>
+                <input type="text" placeholder="Enter the hometown" >
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
