@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Layout</title>
     <link rel="stylesheet" href="Bus_layout.css" type="text/css">
-    <link rel="stylesheet" href="./../../Component/navbarRU.css">
-    <link rel="stylesheet" href="./../../Component/HeaderRU.css">
+    <link rel="stylesheet" href="./../../Component/NavBar/navbar.css">
+    <link rel="stylesheet" href="./../../Component/Header/header.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
+    <!-- Header Placeholder -->
     <script>
         localStorage.setItem('userRole', 'RegisteredUser'); // Ensure this is set before the header loads
     </script>
@@ -24,10 +24,9 @@
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
-    
+
     <div class="container">
         <div class="left-column">
-
             <div class="box left-box">
                 <div class="abc">
                     <div class="left-content">
@@ -40,33 +39,34 @@
                     </div>
                     <div class="right-content">
                         <div class="service">Average</div>
-                        <div>Normal service - non-AC<br />
+                        <div class="extra">Normal service - non-AC<br />
                         Available seats: 49/54</div>
                     </div>
-                </div><br/>
+                </div>
 
                 <div class="container">
                     <figure class="image-caption-container">
-                    <img src="./../../Images/bus.jpg">
-                    <div class="caption">
-                        Colombo For Bus stand<br/>7.45AM
-                    </div></figure>
+                        <img src="./../../Images/bus.jpg">
+                        <div class="caption">
+                            Colombo For Bus stand<br/>7.45AM
+                        </div>
+                    </figure>
                     <hr>
                     <figure class="image-caption-container">
-                    <img src="./../../Images/Map.jpg">
-                    <div class="caption">
-                        Shripura<br/>3.45PM
-                    </div></figure>
+                        <img src="./../../Images/Map.jpg">
+                        <div class="caption">
+                            Shripura<br/>3.45PM
+                        </div>
+                    </figure>
                 </div>
-                <br/>
+                
                 <div class="container">
                     <button class="more">View bus stops and times</button>
                     <button class="more">View rating and reviews</button>
-                    <div style="font-weight: bold;font-size: 20px;">LKR 1400</div>
+                    <div style="font-weight: bold; font-size: 30px;">LKR 1400</div>
                 </div>
-
             </div>
-    
+
             <br/>
 
             <div class="box left-box" style="background-color:#C5F2E9;">
@@ -96,7 +96,7 @@
                         <label for="payment">Payment method:</label>
                         <div class="payment-options">
                             <label><input type="radio" name="payment" value="Cash"> Cash</label>
-                            <label><input type="radio" name="payment" value="Online" checked> Online</label>
+                            <label><input type="radio" name="payment" value="Online"> Online</label>
                         </div>
             
                         <label for="ticket">Receive ticket via:</label>
@@ -109,12 +109,11 @@
                     </form>
                 </div>
             </div>
-
         </div>
-
 
         <div class="right-column" id="right-column">
             <div class="box right-box">
+                <!-- Seat Layout -->
                 <div class="button-container">
                     <button class="number-button">1</button>
                     <button class="number-button">2</button>
@@ -220,38 +219,5 @@
                     document.getElementById('right-column').style.display = 'block';
                 });
             </script>
-
-            <!-- Script to import header and navbar -->
-    <script>
-        // Import header
-        fetch('./../../Component/HeaderRU.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header-placeholder').innerHTML = data;
-            });
-
-        // Import navbar
-        fetch('./../../Component/navbarRU.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('navbar').innerHTML = data;
-
-            // After the navbar is loaded, add the event listeners
-            const navbarItems = document.querySelectorAll('.navbar-item');
-
-            // Add click event listener to each navbar item
-            navbarItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Remove the 'selected' class from all items
-                    navbarItems.forEach(nav => nav.classList.remove('selected'));
-
-                    // Add the 'selected' class to the clicked item
-                    this.classList.add('selected');
-                });
-            });
-        })
-        .catch(error => console.error('Error loading navbar:', error));
-    </script>
-    <script src="./../app.js"></script>
 </body>
 </html>
