@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../../Component/NavBar/navbar.css">
     <link rel="stylesheet" href="./../../Component/Header/header.css">
+    <link rel="stylesheet" href="./../../Component/Header/header.css">
+    <link rel="stylesheet" href="./../../Component/BusCard/busCard.css">
+    
+    <link rel="stylesheet" href="./home.css" type="text/css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
@@ -18,10 +22,34 @@
     <div id="header-container"></div>
 
     <!-- Navbar container where the navbar.html content will be injected -->
-    <div id="navbar-container"></div>   
-
+    <div id="navbar-container"></div>  
+    
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
+    <!-- <script src="./../../Component/BusCard/busCard.js"></script> -->
+    <script src="./../../Component/BusCard/busData.js"></script>
+    <script src="./../../Component/BusCard/busCardGenerator.js"></script>
+
+    <div class="hero-container">
+        <div class="background"></div>
+        <img class="main-image" src="./images/image.png" />
+        <img class="bus" src="./images/bus.png" />
+        <div class="text-container">
+            <span class="light-text">Travel </span>
+            <span class="bold-text">with us</span>
+        </div>
+        <img class="name-image" src="./images/name.png" />
+    </div>
+    <div class="body-section">
+        <br>
+        <div class="busCard-container">
+            <div id="bus-card-container" class="bus-card-container"></div>
+        </div>
+    </div>
+
+   
+        
+
 </body>
 </html>

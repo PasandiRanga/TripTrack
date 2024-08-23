@@ -1,6 +1,7 @@
 body {
     margin-top: 5px;
     padding: 0;
+    margin:0;
     font-family: Arial, sans-serif;
     background-color: rgba(54, 166, 144, 0.812);
 }
@@ -13,9 +14,11 @@ body {
     padding: 10px 20px;
     border-radius: 50px;
     width: fit-content;
-    height : 30px;
+    height : auto;
     margin-top: 10px;
     margin-left: 10px;
+    position: relative;
+    z-index: 10;
 }
 
 /* Individual navbar items */
