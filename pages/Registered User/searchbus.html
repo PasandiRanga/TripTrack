@@ -46,7 +46,7 @@
             <h3>Colombo - Ampra</h3>
             <p>Time: 8:00 AM</p>
             <p>Price: LKR 1500</p>
-            <button class="book-button">Book Now</button>
+            <button class="book-button" onclick="redirectToBusLayout()">Book Now</button>
         </div>
     </section>
 
@@ -80,6 +80,10 @@
             });
         })
         .catch(error => console.error('Error loading navbar:', error));
+
+        function redirectToBusLayout() {
+            window.location.href = "Bus_layout.html"; // Redirect to buslayout.html
+        }
     </script>
     <script src="./../app.js"></script>
 

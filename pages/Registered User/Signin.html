@@ -48,7 +48,11 @@
            alert("Both fields are required.");
            return false;
        }
-       return true;
+       else {
+        // Redirect to home.html after validation
+        window.location.href = "home.html";
+        return false; // Prevent form submission to allow for redirection
+        }
    }
    </script>
     
