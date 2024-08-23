@@ -1,0 +1,120 @@
+.body-bus-card {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+.bus-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between cards */
+    justify-content: center; /* Center the cards horizontally */
+}
+
+.bus-card {
+    background-color: white;
+    border-radius: 8px; /* Slightly smaller rounded corners */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Slightly softer shadow */
+    padding: 15px; /* Reduced padding */
+    width: 350px; /* Smaller width */
+    height: 180px; /* Smaller height */
+    box-sizing: border-box;
+}
+
+.bus-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px; /* Reduced margin */
+}
+
+.route-info h2 {
+    margin: 0;
+    font-size: 20px; /* Smaller font size */
+    color: #2c3e50;
+}
+
+.service-type {
+    color: #7f8c8d;
+    font-size: 12px; /* Smaller font size */
+}
+
+.cheapest-badge {
+    background-color: #e9f7ef;
+    color: #2ecc71;
+    padding: 3px 4px; /* Smaller padding */
+    border-radius: 4px; /* Smaller border radius */
+    font-size: 12px; /* Smaller font size */
+}
+.expensive-badge {
+    background-color: #f3eae8;
+    color: #cc2e2e;
+    padding: 3px 4px; /* Smaller padding */
+    border-radius: 4px; /* Smaller border radius */
+    font-size: 12px; /* Smaller font size */
+}
+
+.bus-card-timing {
+    display: flex;
+    flex-direction: column; /* Stack timing-info and duration vertically */
+    gap: 5px; /* Space between timing info and duration */
+    margin-bottom: 15px; /* Reduced margin */
+}
+
+.timing-info {
+    display: flex;
+    justify-content: space-between; /* Align departure and arrival times in a row */
+    gap: 10px; /* Space between departure and arrival times */
+}
+
+.departure-time, .arrival-time {
+    font-size: 12px; /* Smaller font size */
+    color: #2c3e50;
+}
+
+
+.duration {
+    text-align: center;
+    font-size: 12px; /* Smaller font size */
+    color: #bdc3c7;
+}
+
+.route-stops {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: left;
+    font-size: 12px; /* Smaller font size */
+    color: #bdc3c7; /* Space between stops */
+}
+
+.route-line {
+    width: 30px; /* Smaller width */
+    height: 1px; /* Thinner line */
+    background-color: #bdc3c7;
+}
+
+.bus-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rating, .passenger-count, .price {
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* Smaller font size */
+    color: #2c3e50;
+}
+
+.rating i, .passenger-count i {
+    margin-right: 4px; /* Reduced margin */
+    color: #f1c40f;
+}
+
+.price {
+    font-size: 18px; /* Smaller font size */
+    color: #27ae60;
+}

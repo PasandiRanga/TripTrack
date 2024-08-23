@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Customize the navbar based on the user role
             if (userRole === "GuestUser") {
                 navbarItems.innerHTML = `
+                    
                     <a href="./home.html" class="navbar-item ${currentPage === 'home.html' ? 'selected' : ''}">
                         <i class="fa fa-bus"></i>
                         <span class="text">Search Buses</span>
