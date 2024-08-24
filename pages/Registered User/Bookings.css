@@ -1,3 +1,9 @@
+.main{
+    padding: 10px;
+    border-radius: 20px;
+    background-color:#d6f0ec;
+}
+
 /* Base Table Styling */
 table {
     width: 100%;
@@ -53,28 +59,50 @@ table td:last-child {
 
 /* Pop-Up Menu */
 .pop-up-menu {
-    display: none;
+    display: none; /* Hidden by default */
     position: absolute;
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: #042F40;
+    border: 3px solid #4CAF50;
+    
     border-radius: 5px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Pop-Up Menu Show Effect */
+.pop-up-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Pop-Up Menu Items */
 .pop-up-menu p {
     margin: 0;
-    padding: 5px 10px;
+    padding: 10px 15px;
     font-size: 0.9rem;
     cursor: pointer;
+    color: #ffffff; /* Ensure readability */
 }
 
 /* Pop-Up Menu Hover Effect */
 .pop-up-menu p:hover {
     background-color: #f2f2f2;
+    color: #4CAF50; /* Highlight text on hover */
 }
+
+/* Adjust Position of Pop-Up Menu for Responsive Design */
+@media screen and (max-width: 768px) {
+    .pop-up-menu {
+        width: 100%;
+        border: 2px solid #4CAF50; /* Enhanced border on smaller screens */
+    }
+}
+
 
 /* Responsive Table */
 @media screen and (max-width: 768px) {
@@ -118,23 +146,45 @@ table td:last-child {
     .pop-up-menu {
         position: relative;
         width: 100%;
+        border: 2px solid #4CAF50;
     }
 }
 
-/* Additional Container and Button Styling */
-.search-input {
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    background-color: #f0f4f8;
     padding: 10px;
-    font-size: 1rem;
-    margin-left: auto; /* Align to the right side */
+    border-radius: 5px;
+    border: 1px solid #d1d9e6;
+    margin-left: auto; /* Pushes the input group to the right */
+    
+}
+
+.icon {
+    margin-right: 10px;
+    color: #4a5568;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 5px;
+    font-size: 16px;
+    color: #4a5568;
+}
+
+.search-input[type="date"]{
+    color: #4a5568;
 }
 
 .container {
     padding: 10px;
     border-radius: 20px;
-    background-color: aquamarine;
+    background-color:transparent;
     display: flex;
-    justify-content: space-between; /* Distribute space between child elements */
-    align-items: center;
     gap:30px;
 }
 

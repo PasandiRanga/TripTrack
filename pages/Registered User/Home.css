@@ -120,18 +120,13 @@ img.name-image {
     color: #acd1db;
 }
 
-/* Search section */
+/* Search section 
 .search-section {
     padding: 20px;
     text-align: center;
     background-color: #f0f0f0;
 }
-
-.search-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+*/
 
 .search-input {
     padding: 10px;

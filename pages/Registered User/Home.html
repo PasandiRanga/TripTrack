@@ -28,7 +28,6 @@
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
-    <!-- <script src="./../../Component/BusCard/busCard.js"></script> -->
     <script src="./../../Component/BusCard/busData.js"></script>
     <script src="./../../Component/BusCard/busCardGenerator.js"></script>
 
@@ -44,15 +43,11 @@
         <img class="name-image" src="./../Guest user/images/name.png" />
     </div>
 
-    <!-- Search Section -->
-    <section class="search-section">
-        <div class="search-container">
-            <input type="text" placeholder="From" class="search-input">
-            <input type="text" placeholder="To" class="search-input">
-            <input type="date" class="search-input">
-            <button class="search-button" onclick="redirectToBusSearch()">Search</button>
-        </div>
-    </section>
+    <!--SearchBar-->
+    <div class="search-section">
+        <iframe src="./../../Component/SearchBar/searchBar.html" width="100%" height="200px" style="border:none;"></iframe>
+    </div>
+
 
     <!--Reminder section-->
     <section class="booking-box">

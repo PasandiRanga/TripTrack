@@ -83,14 +83,6 @@ img.name-image {
     background-color:#ffff ;
 }
 
-
-/* Search section */
-.search-section {
-    padding: 20px;
-    text-align: center;
-    background-color: #f0f0f0;
-}
-
 .search-container {
     display: flex;
     justify-content: center;
