@@ -1,0 +1,67 @@
+/* footer.css */
+.footer-container {
+    /* background-color: #e0f7fa; */
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    background-color: #C5F2E9;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Drop shadow */
+    padding: 20px; /* Add padding if needed */
+    margin: 20px auto; /* Center the container */
+    width: 93%; 
+    box-sizing: border-box;
+}
+
+h2.footer-section{
+    font-size: 46.24px;
+    font-family: ABeeZee;
+    font-weight: 400;
+    line-height: 33.85px;
+    word-wrap: break-word;
+}
+
+.footer-section.why-book {
+    display: flex;
+    justify-content: space-around;
+    background-color: #004d40;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.footer-item {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.footer-item i {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.footer-section.top-routes h4 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.bus-routes-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.bus-routes-list div {
+    background-color: #80deea;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #004d40;
+}
