@@ -1,0 +1,147 @@
+/* Base Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Removes gaps between table cells */
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table Header Styling */
+table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+}
+
+/* Table Cell Styling */
+table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Alternating Row Colors */
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover Effect */
+table tr:hover {
+    background-color: #d1ecf1; /* Light blue background */
+}
+
+/* Highlighted Row Styling */
+.highlighted-row {
+    background-color: #00bfff !important; /* Blue background */
+    color: white;
+}
+
+/* Action Column Styling */
+table td:last-child {
+    cursor: pointer;
+}
+
+/* Search Icon */
+.search-icon {
+    color: #4CAF50;
+    font-size: 1.2rem;
+}
+
+/* Pop-Up Menu */
+.pop-up-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 10;
+}
+
+/* Pop-Up Menu Items */
+.pop-up-menu p {
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Pop-Up Menu Hover Effect */
+.pop-up-menu p:hover {
+    background-color: #f2f2f2;
+}
+
+/* Responsive Table */
+@media screen and (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    /* Hide Table Headers */
+    table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    /* Each Cell as a Row */
+    table tr {
+        margin-bottom: 10px;
+    }
+
+    /* Display Each Cell as Block */
+    table td {
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Add Label for Each Cell */
+    table td:before {
+        content: attr(data-label); /* Use the data-label attribute */
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-left: 15px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    /* Adjust Pop-Up Menu Position */
+    .pop-up-menu {
+        position: relative;
+        width: 100%;
+    }
+}
+
+/* Additional Container and Button Styling */
+.search-input {
+    padding: 10px;
+    font-size: 1rem;
+    margin-left: auto; /* Align to the right side */
+}
+
+.container {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: space-between; /* Distribute space between child elements */
+    align-items: center;
+    gap:30px;
+}
+
+.container h3 {
+    margin: 0;
+}
+
+.clickable {
+    cursor: pointer;
+}

@@ -4,24 +4,140 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../../Component/NavBar/navbar.css">
     <link rel="stylesheet" href="./../../Component/Header/header.css">
+    <link rel="stylesheet" href="./Bookings.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    
+    <title>Bookings</title>
 </head>
 <body>
-
     <script>
         localStorage.setItem('userRole', 'RegisteredUser'); // Ensure this is set before the header loads
     </script>
-    <!-- Header container where the header.html content will be injected -->
+    <!-- Header and Navbar -->
     <div id="header-container"></div>
-
-    <!-- Navbar container where the navbar.html content will be injected -->
     <div id="navbar-container"></div>   
 
-    <!-- Link the external JavaScript files -->
+   <!-- Bookings Section -->
+   <h1>Bookings</h1>
+   <br>
+
+   <div class="container">
+       <h3 class="clickable" id="showPastBookings">Past Bookings</h3>
+       <h3 class="clickable" id="showUpcomingBookings">Upcoming Bookings</h3>
+       <input type="date" class="search-input">
+   </div>
+
+   <!-- Table Structure for past bookings -->
+   <table id="pastBookings">
+       <thead>
+           <tr>
+               <th>Date</th>
+               <th>Time</th>
+               <th>Route</th>
+               <th>From</th>
+               <th>To</th>
+               <th>Bus No</th>
+               <th>Price (LKR)</th>
+               <th>Status</th>
+           </tr>
+       </thead>
+       <tbody>
+           <tr>
+               <td data-label="Date">07/06/2024</td>
+               <td data-label="Time">09.30 a.m.</td>
+               <td data-label="Route">438</td>
+               <td data-label="From">Mathugama</td>
+               <td data-label="To">Colombo</td>
+               <td data-label="Bus No">XP23415</td>
+               <td data-label="Price (LKR)">400</td>
+               <td data-label="Status" class="status">Completed <i class="fas fa-check-circle"></i></td>
+           </tr>
+           <!-- Add more rows as needed -->
+       </tbody>
+   </table>
+
+   <!-- Table Structure to upcoming bookings -->
+   <table id="upcomingBookings">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Route</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Bus No</th>
+            <th>Price (LKR)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td data-label="Date">07/06/2024</td>
+            <td data-label="Time">09.30 a.m.</td>
+            <td data-label="Route">438</td>
+            <td data-label="From">Mathugama</td>
+            <td data-label="To">Colombo</td>
+            <td data-label="Bus No">XP23415</td>
+            <td data-label="Price (LKR)">400</td>
+            <td data-label="Action">
+                <i class="fas fa-search search-icon"></i>
+                <div class="pop-up-menu">
+                    <p>See Ticket</p>
+                    <p>Cancel Booking</p>
+                </div>
+            </td>
+        </tr>
+        <!-- Add more rows as needed -->
+    </tbody>
+</table>
+
+    <!-- External JavaScript -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
+    <script src="./Bookings.js"></script>
+
+    <script>
+
+       // Default color for the non-clicked element
+        const defaultColor = 'black'; // or whatever the default color is
+
+        // Add click event listeners for the headers
+        document.getElementById('showPastBookings').addEventListener('click', function() {
+            document.getElementById('pastBookings').style.display = 'table';
+            document.getElementById('upcomingBookings').style.display = 'none';
+
+            // Change color of the clicked text
+            document.getElementById('showPastBookings').style.color = 'red';
+
+            // Revert the other text to default color
+            document.getElementById('showUpcomingBookings').style.color = defaultColor;
+        });
+
+        document.getElementById('showUpcomingBookings').addEventListener('click', function() {
+            document.getElementById('pastBookings').style.display = 'none';
+            document.getElementById('upcomingBookings').style.display = 'table';
+
+            // Change color of the clicked text
+            document.getElementById('showUpcomingBookings').style.color = 'red';
+
+            // Revert the other text to default color
+            document.getElementById('showPastBookings').style.color = defaultColor;
+        });
+
+
+        //handle pop up menu
+        document.querySelectorAll('.search-icon').forEach(icon => {
+            icon.addEventListener('mouseover', function() {
+                const popUpMenu = this.nextElementSibling;
+                popUpMenu.style.display = 'block';
+            });
+
+            icon.addEventListener('mouseout', function() {
+                const popUpMenu = this.nextElementSibling;
+                popUpMenu.style.display = 'none';
+            });
+        });
+
+    </script>
 </body>
 </html>
