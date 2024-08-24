@@ -4,14 +4,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../../Component/NavBar/navbar.css">
     <link rel="stylesheet" href="./../../Component/Header/header.css">
-    <link rel="stylesheet" href="./../../Component/Header/header.css">
     <link rel="stylesheet" href="./../../Component/BusCard/busCard.css">
-    
     <link rel="stylesheet" href="./home.css" type="text/css">
+    <link rel="stylesheet" href="./Components/rotateText.css" type="text/css"> <!-- Add this line -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    
 </head>
 <body>
 
@@ -27,17 +25,16 @@
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
-    <!-- <script src="./../../Component/BusCard/busCard.js"></script> -->
     <script src="./../../Component/BusCard/busData.js"></script>
     <script src="./../../Component/BusCard/busCardGenerator.js"></script>
+    <script src="./Components/heroTextRotater.js"></script>
 
     <div class="hero-container">
         <div class="background"></div>
         <img class="main-image" src="./images/image.png" />
         <img class="bus" src="./images/bus.png" />
         <div class="text-container">
-            <span class="light-text">Travel </span>
-            <span class="bold-text">with us</span>
+            <div class="rotate-text"></div>
         </div>
         <img class="name-image" src="./images/name.png" />
     </div>
@@ -47,9 +44,5 @@
             <div id="bus-card-container" class="bus-card-container"></div>
         </div>
     </div>
-
-   
-        
-
 </body>
 </html>

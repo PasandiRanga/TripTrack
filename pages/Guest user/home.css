@@ -26,34 +26,14 @@ img.bus {
     position: absolute;
 }
 
-div.text-container {
-    /* width: 866.47px; */
-    /* height: 232.15px; */
-    left: 800px;
-    top: 240px;
-    position: absolute;
-    color: white;
-    font-family: 'Encode Sans SC';
-    /* word-wrap: break-word; */
-}
 
-div.text-container .light-text {
-    font-size: 81.88px;
-    font-weight: 400;
-    line-height: 33.85px;
-}
 
-div.text-container .bold-text {
-    font-size: 81.88px;
-    font-weight: 700;
-    line-height: 33.85px;
-}
 
 img.name-image {
     width: 530.69px;
-    height: 118.35px;
-    left: 790px;
-    top: 100px;
+    height: 95px;
+    left: 720px;
+    top: 110px;
     position: absolute;
 }
 

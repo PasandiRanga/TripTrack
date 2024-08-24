@@ -1,0 +1,65 @@
+div.text-container {
+    /* width: 866.47px; */
+    /* height: 232.15px; */
+    left: 700px;
+    top: 250px;
+    position: absolute;
+    color: white;
+    font-family: 'Encode Sans SC';
+    position: absolute; 
+    /* word-wrap: break-word; */
+}
+
+
+.rotate-text {
+    font-size: 55px;
+    font-weight: 400;
+    line-height: 33.85px;
+    display: inline-block;
+    position: relative;
+    overflow: visible;
+    height: 120px; /* Adjust this to match the text size */
+    color: white; /* Ensure text color is set */
+    /* padding-top: 50px; */
+    padding-left: 100px;
+    visibility: hidden; /* Hide initially */
+}
+
+/* Show the element after the page has loaded */
+body.loaded .rotate-text {
+    visibility: visible;
+}
+
+/* Animation for sliding out the old text */
+.slide-out {
+    animation: slideOut 0.5s forwards;
+}
+
+/* Animation for sliding in the new text */
+.slide-in {
+    animation: slideIn 0.5s forwards;
+}
+
+/* Keyframes for slide-out */
+@keyframes slideOut {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+/* Keyframes for slide-in */
+@keyframes slideIn {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
