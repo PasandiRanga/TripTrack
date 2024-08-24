@@ -20,6 +20,11 @@
     width: 350px; /* Smaller width */
     height: 180px; /* Smaller height */
     box-sizing: border-box;
+    transition: transform 0.3s ease; /* Transition effect for hover */
+}
+
+.bus-card:hover {
+    transform: scale(1.05); /* Increase size on hover */
 }
 
 .bus-card-header {
@@ -72,7 +77,6 @@
     font-size: 12px; /* Smaller font size */
     color: #2c3e50;
 }
-
 
 .duration {
     text-align: center;
