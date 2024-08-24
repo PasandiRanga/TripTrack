@@ -1,7 +1,7 @@
 // Function to create a bus card HTML structure
 function createBusCard(bus) {
     return `
-        <div class="bus-card">
+        <div class="bus-card" onclick="navigateToBusLayout('${bus.id}')">
             <div class="bus-card-header">
                 <div class="route-info">
                     <h2>${bus.route}</h2>
@@ -45,7 +45,10 @@ function createBusCard(bus) {
     `;
 }
 
-
+// Function to navigate to the bus layout page
+function navigateToBusLayout(busId) {
+    window.location.href = `/bus-layout.html?busId=${busId}`;
+}
 
 // Function to load and display bus cards
 function loadBusCards() {
