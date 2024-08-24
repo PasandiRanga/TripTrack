@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar {
+    width: 36%;
+    height: calc(100% - 30px);
+    background-color: #C5F2E9;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    bottom: 15px;
+    border-radius: 15px;
+}
+
+.sidebar-header {
+    margin: 50px;
+    padding: 20px 20px;
+    font-family: 'ABeeZee', sans-serif;
+    font-size: 35px; /* Adjust the font size as needed */
+    color: #000000; /* Adjust text color as needed */
+    text-align: left; /* Center the header text */
+}
+
+.detailbox {
+    width: 60%;
+    height: calc(100% - 30px);
+    background-color: #C5F2E9;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 15px;
+}
