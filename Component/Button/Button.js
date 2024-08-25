@@ -1,71 +1,42 @@
-function createButton({label, variant, icon, onClick}) {
-    const template = document.createElement("template");
+function createButtonComponent() {
+    // Create three buttons with specific classes
+    const button1 = document.createElement("button");
+    button1.classList.add('button-style-1');
 
-    // Set up the basic button structure with a placeholder class
-    template.innerHTML = `
-        <button class="custom-button ${variant ? `custom-button-${variant}` : ''}">
-            ${icon ? `<span class="material-symbols-outlined">${icon}</span>` : ''}
-            <span class="button-custom">${label}</span>
-        </button>
-    `;
-    const button = template.content.firstElementChild;
+    const button2 = document.createElement("button");
+    button2.classList.add('button-style-2');
 
-    // Apply event listener if onClick is provided
-    if (onClick) {  
-        button.addEventListener("click", onClick);
+    const button3 = document.createElement("button");
+    button3.classList.add('button-style-3');
+
+    // Function to set the label for a specific button
+    function setLabel(buttonNumber, label) {
+        let button;
+        switch(buttonNumber) {
+            case 1:
+                button1.textContent = label;
+                button = button1;
+                break;
+            case 2:
+                button2.textContent = label;
+                button = button2;
+                break;
+            case 3:
+                button3.textContent = label;
+                button = button3;
+                break;
+            default:
+                console.error("Invalid button number. Please use 1, 2, or 3.");
+                return null;
+        }
+        return button; // Return the button with the specified label
     }
 
-    return button;
+    // Return the function to set labels and get the specific button
+    return {
+        setLabel,
+    };
 }
 
-//create a button for cancelations
-
-function createButton_cancel({label, variant, icon, onClick}) {
-    const template = document.createElement("template");
-
-    // Set up the basic button structure with a placeholder class
-    template.innerHTML = `
-        <button class="cancel-button ${variant ? `cancel-button-${variant}` : ''}">
-            ${icon ? `<span class="material-symbols-outlined">${icon}</span>` : ''}
-            <span class="button-custom">${label}</span>
-        </button>
-    `;
-    const button = template.content.firstElementChild;
-
-    // Apply event listener if onClick is provided
-    if (onClick) {  
-        button.addEventListener("click", onClick);
-    }
-
-    return button;
-}
-//----------------------------------------------------------------------------------------------------------
-
-// Example usage
-
-//apply this code to your js file
-
-const myButton = createButton({
-    label: "Log in",
-    variant: "custom-button",  // Use 'custom-button' to match CSS class
-    onClick: () => alert('Button clicked!'),
-});
-
-document.body.appendChild(myButton);
-
-// Another example usage without an icon or variant
-const myButton1 = createButton({
-    label: "Log in"
-});
-
-// Append the button to a container in the document
-document.body.appendChild(myButton1);
-
-console.log("");
-
-const button2 = createButton_cancel({ //apply the createbutton_cancel for the cancelations
-    label: "Cancel",
-    variant: "cancel-button"
-});
-document.body.appendChild(button2);
-
+// Export the function so it can be imported in another file
+export { createButtonComponent };

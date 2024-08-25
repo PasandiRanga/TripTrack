@@ -1,38 +1,37 @@
-button.custom-button {
-    padding: 10px 20px;
-    border-radius: 90.11px;
-    background-color: #063946;
-    color: white;
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 300px; /* Adjust width of container as needed */
+}
+
+.button-style-1,
+.button-style-2,
+.button-style-3 {
+    border-radius: 50px;
+    padding: 15px 20px; /* Adjust padding to add space around the text */
+    text-align: center;
+    font-size: 16px;
+    white-space: nowrap; /* Prevent the text from wrapping */
+}
+
+.button-style-1 {
+    background-color: #003B4C;
+    color: #FFFFFF;
     border: none;
-    cursor: pointer;
+    min-width: 100px; /* Optional: Set a minimum width */
 }
 
-button.custom-button:hover {
-    background-color: #36A690; /* Change this for a hover effect */
+.button-style-2 {
+    background-color: #FFFFFF;
+    color: #003B4C;
+    border: 2px solid #003B4C;
+    min-width: 100px; /* Optional: Set a minimum width */
 }
 
-button.cancel-button {
-    padding: 10px 20px;
-    border-radius: 90.11px;
-    background-color: red;
-    color: white;
+.button-style-3 {
+    background-color: #4CAF92;
+    color: #FFFFFF;
     border: none;
-    cursor: pointer;
-}
-
-button.cancel-button:hover {
-    background-color: red; /* Change this for a hover effect */
-}
-
-button.google {
-    padding: 10px 20px;
-    border-radius: 90.11px;
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-    cursor: pointer;
-}
-
-button.google:hover {
-    background-color: #36A690; /* Change this for a hover effect */
+    min-width: 100px; /* Optional: Set a minimum width */
 }
