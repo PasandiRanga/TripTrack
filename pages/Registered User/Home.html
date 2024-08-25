@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="./../../Component/NavBar/navbar.css">
     <link rel="stylesheet" href="./../../Component/Header/header.css">
+    <link rel="stylesheet" href="./../../Component/BusCard/busCard.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="path/to/font-awesome/css/all.min.css">
@@ -27,22 +28,26 @@
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
+    <script src="./../../Component/BusCard/busData.js"></script>
+    <script src="./../../Component/BusCard/busCardGenerator.js"></script>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <img src="./../../images/logo.png" alt="TripTrack Logo" class="logo">
-        <h1 class="tagline">Travel <span>WITH US</span></h1>
-    </section>
-
-    <!-- Search Section -->
-    <section class="search-section">
-        <div class="search-container">
-            <input type="text" placeholder="From" class="search-input">
-            <input type="text" placeholder="To" class="search-input">
-            <input type="date" class="search-input">
-            <button class="search-button" onclick="redirectToBusSearch()">Search</button>
+    <div class="hero-container">
+        <div class="background"></div>
+        <img class="main-image" src="./../Guest user/images/image.png" />
+        <img class="bus" src="./../Guest user/images/bus.png" />
+        <div class="text-container">
+            <span class="light-text">Travel </span>
+            <span class="bold-text">with us</span>
         </div>
-    </section>
+        <img class="name-image" src="./../Guest user/images/name.png" />
+    </div>
+
+    <!--SearchBar-->
+    <div class="search-section">
+        <iframe src="./../../Component/SearchBar/searchBar.html" width="100%" height="200px" style="border:none;"></iframe>
+    </div>
+
 
     <!--Reminder section-->
     <section class="booking-box">
@@ -80,14 +85,12 @@
     </section>
 
     <!-- Bus Cards Section -->
-    <section class="bus-cards">
-        <div class="bus-card">
-            <h3>Colombo - Ampra</h3>
-            <p>Time: 8:00 AM</p>
-            <p>Price: LKR 1500</p>
-            <button class="book-button" onclick="redirectToBusLayout()">Book Now</button>
+    <div class="body-section">
+        <br>
+        <div class="busCard-container">
+            <div id="bus-card-container" class="bus-card-container"></div>
         </div>
-    </section>
+    </div>
 
     <!-- Information Section -->
     <section class="info-section">
