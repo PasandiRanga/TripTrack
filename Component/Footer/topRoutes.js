@@ -1,5 +1,5 @@
-// data.js
-const topBusRoutes = [
+// topRoutes.js
+var topBusRoutes = [
     "Jaffna-Colombo",
     "Kilinochchi-Colombo",
     "Vavuniya-Colombo",
@@ -21,4 +21,4 @@ const topBusRoutes = [
     "Badulla-Colombo"
 ];
 
-export default topBusRoutes;
+window.topBusRoutes = topBusRoutes;

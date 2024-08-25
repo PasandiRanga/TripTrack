@@ -1,5 +1,3 @@
-// footer.js
-
 document.addEventListener('DOMContentLoaded', () => {
     // Get the footer container
     const footerContainer = document.getElementById('footer-container');
@@ -13,12 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Optionally, execute further logic here, such as loading dynamic data from topRoutes.js
             const busRoutesList = document.getElementById('bus-routes-list');
             if (busRoutesList) {
-                import('./../../Component/Footer/topRoutes.js').then(module => {
-                    module.default.forEach(route => {
-                        const routeDiv = document.createElement('div');
-                        routeDiv.textContent = route;
-                        busRoutesList.appendChild(routeDiv);
-                    });
+                // Use the global variable defined in topRoutes.js
+                window.topBusRoutes.forEach(route => {
+                    const routeDiv = document.createElement('div');
+                    routeDiv.textContent = route;
+                    busRoutesList.appendChild(routeDiv);
                 });
             }
         })
