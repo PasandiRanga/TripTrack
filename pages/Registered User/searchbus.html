@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="./../../Component/NavBar/navbar.css">
     <link rel="stylesheet" href="./../../Component/Header/header.css">
     <link rel="stylesheet" href="./../../Component/BusCard/busCard.css">
+    <link rel="stylesheet" href="./../../Component/SearchBar/searchBar.css">
+    <link rel="stylesheet" href="./../Guest user/Components/RotatingText/rotateText.css" type="text/css"> <!-- Add this line -->
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -24,6 +26,8 @@
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
+    <script src="./../../Component/SearchBar/searchBar.js"></script>
+    <script src="./../Guest user/Components/RotatingText/heroTextRotater.js"></script>
     <!-- <script src="./../../Component/BusCard/busCard.js"></script> -->
     <script src="./../../Component/BusCard/busData.js"></script>
     <script src="./../../Component/BusCard/busCardGenerator.js"></script>
@@ -34,16 +38,13 @@
         <img class="main-image" src="./../Guest user/images/image.png" />
         <img class="bus" src="./../Guest user/images/bus.png" />
         <div class="text-container">
-            <span class="light-text">Travel </span>
-            <span class="bold-text">with us</span>
+            <div class="rotate-text"></div>
         </div>
         <img class="name-image" src="./../Guest user/images/name.png" />
     </div>
 
     <!--SearchBar-->
-    <div class="search-section">
-        <iframe src="./../../Component/SearchBar/searchBar.html" width="100%" height="200px" style="border:none;"></iframe>
-    </div>
+    <div id="search-bar-container"></div>
 
     <!-- Bus Cards Section -->
     <div class="body-section">
