@@ -10,28 +10,17 @@ div.background {
     position: absolute;
 }
 
-img.main-image {
-    width: 575.67px;
-    height: 286.94px;
-    left: 145.95px;
-    top: 65px;
+img.headerpic {
+    width: 450px;
+    height: 450px;
+    left: 150px;
+    top: 25px;
     position: absolute;
 }
-
-img.bus {
-    width: 198.92px;
-    height: 132.45px;
-    left: 374.71px;
-    top: 115px;
-    position: absolute;
-}
-
-
-
 
 img.name-image {
-    width: 530.69px;
-    height: 95px;
+    width: 510px;
+    height: 90px;
     left: 720px;
     top: 110px;
     position: absolute;
