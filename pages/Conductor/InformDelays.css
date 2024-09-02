@@ -16,6 +16,9 @@ body {
     left: 15px;
     bottom: 15px;
     border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
 }
 
 .sidebar-header {
@@ -41,13 +44,47 @@ body {
 button {
     background-color: white;
     color: #042F40;
-    border: none;
+    border: 1px solid #000000;
     padding: 10px 20px;
+    width: 200px;
+    height: 50px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 18px;
     margin: 4px 2px;
     cursor: pointer;
-    border-radius: 12px;
+    border-radius: 25px;
+    align-self: center;
+    margin-bottom: 30px;
 }
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+}
+
+label {
+    font-size: 16px;
+    color: #205978;
+}
+
+input[id="routeNo"],
+input[id="busNo"],
+input[id="time"],
+input[id="newTime"],
+input[id="busRoute"],
+input[id="reason"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+

@@ -11,7 +11,30 @@
     <div class="sidebar">
         <h2 class="sidebar-header">Contact Admin</h2>
         <button class="InformDelays">Inform Delays</button>
+        <button class="RequestDelays">Request Leave</button>
+        <button class="Notifications">Notifications</button>
     </div>
-    <div class="detailbox"></div>
+    <div class="detailbox">
+        <form class="form-container">
+            <label for="routeNo">Route Number</label>
+            <input type="text" id="routeNo" name="routeNo" required>
+
+            <label for="busNo">Bus Number</label>
+            <input type="text" id="busNo" name="busNo" required>
+
+            <label for="busRoute">Bus Route</label>
+            <input type="text" id="busRoute" name="busRoute" required>
+
+            <label for="time">Departure Time</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="newTime">New Departure Time</label>
+            <input type="time" id="newTime" name="newTime" required>
+
+            <label for="reason">Reason</label>
+            <input type="text" id="reason" name="reason" required>
+
+        </form>
+    </div>
 </body>
 </html>
