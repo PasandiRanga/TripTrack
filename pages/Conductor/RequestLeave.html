@@ -14,6 +14,23 @@
         <button class="RequestLeave" onclick="window.location.href='RequestLeave.html'">Request Leave</button>
         <button class="Notifications" onclick="window.location.href='Notification.html'">Notifications</button>
     </div>
-    <div class="detailbox"></div>
+    <div class="detailbox">
+        <form class="form-container">
+            <label for="employeeId">Emplyee ID</label>
+            <input type="text" id="employeeId" name="employeeId" required>
+
+            <label for="from-date">From</label>
+            <input type="date" id="from-date" name="from-date" required>
+
+            <label for="to-date">Emplyee ID</label>
+            <input type="date" id="to-date" name="to-date" required>
+
+            <label for="noOfDays">Number of Days</label>
+            <input type="number" id="noOfDays" name="noOfDays" required>
+
+            <label for="reason">Reason</label>
+            <input type="text" id="reason" name="reason" required>
+        </form>
+    </div>
 </body>
 </html>
