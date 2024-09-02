@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inform Delays</title>
+    <link rel="stylesheet" href="InformDelays.css">
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+    <script src="../../Component/NavBar/navbar.js" defer></script>
+</head>
+<body>
+    <div id="navbar-container"></div>
+    <div class="sidebar">
+        <h2 class="sidebar-header">Contact Admin</h2>
+        <button class="InformDelays" onclick="window.location.href='InformDelays.html'">Inform Delays</button>
+        <button class="RequestLeave" onclick="window.location.href='RequestLeave.html'">Request Leave</button>
+        <button class="Notifications" onclick="window.location.href='Notification.html'">Notifications</button>
+    </div>
+    <div class="detailbox">
+        <form class="form-container">
+            <label for="routeNo">Route Number</label>
+            <input type="text" id="routeNo" name="routeNo" required>
+
+            <label for="busNo">Bus Number</label>
+            <input type="text" id="busNo" name="busNo" required>
+
+            <label for="busRoute">Bus Route</label>
+            <input type="text" id="busRoute" name="busRoute" required>
+
+            <label for="time">Departure Time</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="newTime">New Departure Time</label>
+            <input type="time" id="newTime" name="newTime" required>
+
+            <label for="reason">Reason</label>
+            <input type="text" id="reason" name="reason" required>
+
+        </form>
+    </div>
+</body>
+</html>
