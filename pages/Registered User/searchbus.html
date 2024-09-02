@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="searchbus.css">
     <link rel="stylesheet" href="./../../Component/NavBar/navbar.css">
     <link rel="stylesheet" href="./../../Component/Header/header.css">
+    <link rel="stylesheet" href="./../../Component/BusCard/busCard.css">
+    <link rel="stylesheet" href="./../../Component/SearchBar/searchBar.css">
+    <link rel="stylesheet" href="./../Guest user/Components/RotatingText/rotateText.css" type="text/css"> <!-- Add this line -->
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -23,32 +26,33 @@
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
     <script src="./../../Component/NavBar/navbar.js"></script>
+    <script src="./../../Component/SearchBar/searchBar.js"></script>
+    <script src="./../Guest user/Components/RotatingText/heroTextRotater.js"></script>
+    <!-- <script src="./../../Component/BusCard/busCard.js"></script> -->
+    <script src="./../../Component/BusCard/busData.js"></script>
+    <script src="./../../Component/BusCard/busCardGenerator.js"></script>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <img src="./../../images/logo.png" alt="TripTrack Logo" class="logo">
-        <h1 class="tagline">Travel <span>WITH US</span></h1>
-    </section>
-
-    <!-- Search Section -->
-    <section class="search-section">
-        <div class="search-container">
-            <input type="text" placeholder="From" class="search-input">
-            <input type="text" placeholder="To" class="search-input">
-            <input type="date" class="search-input">
-            <button class="search-button">Search</button>
+    <div class="hero-container">
+        <div class="background"></div>
+        <img class="main-image" src="./../Guest user/images/image.png" />
+        <img class="bus" src="./../Guest user/images/bus.png" />
+        <div class="text-container">
+            <div class="rotate-text"></div>
         </div>
-    </section>
+        <img class="name-image" src="./../Guest user/images/name.png" />
+    </div>
+
+    <!--SearchBar-->
+    <div id="search-bar-container"></div>
 
     <!-- Bus Cards Section -->
-    <section class="bus-cards">
-        <div class="bus-card">
-            <h3>Colombo - Ampra</h3>
-            <p>Time: 8:00 AM</p>
-            <p>Price: LKR 1500</p>
-            <button class="book-button" onclick="redirectToBusLayout()">Book Now</button>
+    <div class="body-section">
+        <br>
+        <div class="busCard-container">
+            <div id="bus-card-container" class="bus-card-container"></div>
         </div>
-    </section>
+    </div>
 
     <!-- Script to import header and navbar -->
     <script>

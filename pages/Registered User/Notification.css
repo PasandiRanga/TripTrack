@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(54, 166, 144, 0.812);
+}
+
+.notification-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #C5F2E9;
+    border-radius: 5px;
+}
+
+.notification-topic {
+    margin: 0;
+}
+
+.dropdown-arrow {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+
+.notification-content {
+    display: none;
+    padding: 10px;
+    background-color: #e0f7fa;
+    border-top: 1px solid #ddd;
+}
+
+.notification-content p {
+    margin: 0;
+}
+
+.notification-item.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.notification-item.open .notification-content {
+    display: block;
+}
