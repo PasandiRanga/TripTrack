@@ -1,1 +1,10 @@
-READ ME FILE
+MVC Framework
+
+View : UI (html)
+
+Controller : Moderator betweeen view and model. Request data from the model
+
+Model : Can execute sql queries to get data from the database. 
+
+PHP will be the scripting language
+
