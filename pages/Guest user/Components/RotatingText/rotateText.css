@@ -1,15 +1,11 @@
 div.text-container {
-    /* width: 866.47px; */
-    /* height: 232.15px; */
-    left: 700px;
+    left: 650px;
     top: 250px;
     position: absolute;
     color: white;
-    font-family: 'Encode Sans SC';
+    font-family: 'Poppins', sans-serif; /* Corrected font-family */
     position: absolute; 
-    /* word-wrap: break-word; */
 }
-
 
 .rotate-text {
     font-size: 55px;
@@ -20,9 +16,9 @@ div.text-container {
     overflow: visible;
     height: 120px; /* Adjust this to match the text size */
     color: white; /* Ensure text color is set */
-    /* padding-top: 50px; */
     padding-left: 100px;
-    visibility: hidden; /* Hide initially */
+    visibility: hidden;
+    font-family: 'Poppins', sans-serif; /* Corrected font-family */
 }
 
 /* Show the element after the page has loaded */

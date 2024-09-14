@@ -1,11 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Load Google Fonts dynamically
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
     document.body.classList.add('loaded');
     const rotatingTexts = [
         { text: "Book your way with ease" },
         { text: "Anuradhapura" },
         { text: "Trincomalee" },
         { text: "Galle" },
-        { text: "Mahanuwara" }
+        { text: "Kandy" }
     ];
 
     let currentTextIndex = 0;
