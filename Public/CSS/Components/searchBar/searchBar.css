@@ -1,0 +1,100 @@
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    gap: 40px;
+    flex-wrap: wrap; /* Allows wrapping of items */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: #f0f4f8;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d1d9e6;
+    flex: 1 1 200px; /* Allows flexible resizing */
+    min-width: 0;
+}
+
+.icon {
+    margin-right: 10px;
+    color: #4a5568;
+    flex-shrink: 0;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 5px;
+    font-size: 16px;
+    color: #4a5568;
+    width: 100%;
+    min-width: 0;
+}
+
+.search-input[type="date"],
+.search-input[type="time"] {
+    color: #4a5568;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+    .search-bar-container {
+        gap: 20px; /* Reduce gap */
+    }
+
+    .input-group {
+        flex-basis: calc(30% - 20px); /* Each input takes up 50% of the width */
+    }
+}
+
+@media (max-width: 768px) {
+    .search-bar-container {
+        flex-direction: column; /* Stack items vertically */
+        align-items: stretch;
+        gap: 15px; /* Reduce gap */
+        padding: 15px; /* Reduce padding */
+    }
+
+    .input-group {
+        width: 100%; /* Full width for each input */
+        flex-basis: auto; /* Allow automatic sizing */
+    }
+
+    .button-style-1 {
+        width: 100%; /* Full width button */
+        padding: 12px 20px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-bar-container {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .input-group {
+        padding: 8px; /* Reduce padding */
+    }
+
+    .search-input {
+        font-size: 14px; /* Smaller font size for small screens */
+    }
+
+    .icon {
+        margin-right: 8px;
+    }
+
+    .button-style-1 {
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+}
