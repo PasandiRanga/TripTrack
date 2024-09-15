@@ -1,0 +1,117 @@
+/* navbar.css */
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #064060;
+    padding: 10px 20px;
+    border-radius: 50px;
+    position: relative;
+    z-index: 10;
+    margin-top: 10px;
+    width: fit-content;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+    
+}
+
+.navbar #navbar-container {
+    display: flex;
+    align-items: center;
+    width: fit-content; 
+}
+
+.navbar #navbar-items {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: fit-content; 
+}
+
+.navbar .navbar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 0 5px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: Adamina, serif;
+    font-weight: 400;
+}
+
+.navbar .navbar-item .text {
+    display: none; /* Hide text by default */
+    margin-left: 5px;
+}
+
+.navbar .navbar-item.selected {
+    background-color: #f0f0f0;
+    color: #063946;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.navbar .navbar-item.selected .text {
+    display: inline-block !important; /* Show text only when item is selected */
+}
+
+.navbar .navbar-item:hover {
+    background-color: #acd1db;
+}
+
+.navbar .navbar-item i {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.navbar .navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .navbar #navbar-items {
+        display: none;
+        flex-direction: column;
+        width: auto;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #063946;
+        border-radius: 0 0 50px 50px;
+    }
+
+    .navbar .navbar-toggle {
+        display: block;
+    }
+
+    .navbar #navbar-items.active {
+        display: flex;
+    }
+
+    .navbar .navbar-item {
+        padding: 15px;
+        text-align: center;
+        border-top: 1px solid #ddd;
+    }
+
+    .navbar .navbar-item.selected {
+        background-color: #f0f0f0;
+        color: #063946;
+        font-weight: bold;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar .navbar-item.selected .text {
+        display: inline-block; /* Show text when item is selected */
+        margin-left: 10px;
+    }
+}
