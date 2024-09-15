@@ -5,6 +5,7 @@ div.text-container {
     color: rgb(0, 0, 0);
     font-family: 'Poppins', sans-serif; /* Corrected font-family */
     position: absolute; 
+    align-items: center !important;
 }
 
 .rotate-text {
@@ -16,9 +17,10 @@ div.text-container {
     overflow: visible;
     height: 120px; /* Adjust this to match the text size */
     color: rgb(0, 0, 0); /* Ensure text color is set */
-    padding-left: 100px;
+    padding-left: 120px;
     visibility: hidden;
     font-family: 'Poppins', sans-serif; /* Corrected font-family */
+    align-items: center !important;
 }
 
 /* Show the element after the page has loaded */
