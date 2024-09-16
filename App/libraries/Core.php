@@ -3,7 +3,7 @@
         //Things related to routing
         //URL format: /controller/method/params
 
-        protected $currentController = 'Pages';
+        protected $currentController = 'GuestPages';
         protected $currentMethod = 'index'; //basic method
         protected $params = [];
 
