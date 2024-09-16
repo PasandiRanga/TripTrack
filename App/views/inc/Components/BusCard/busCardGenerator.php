@@ -41,10 +41,7 @@ foreach ($busDetails as $bus) {
                 <i class="fas fa-star"></i>
                 <span><?php echo $bus['rating']; ?></span>
             </div>
-            <div class="passenger-count">
-                <i class="fas fa-user"></i>
-                <span><?php echo $bus['passengers']; ?></span>
-            </div>
+            
             <div class="price">
                 <span><?php echo $bus['price']; ?></span>
             </div>

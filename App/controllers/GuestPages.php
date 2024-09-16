@@ -1,8 +1,11 @@
 <?php
-    class Pages extends Controller {
+    class GuestPages extends Controller {
         //so that it will inherit all the functionalities of the Controller class
+        private $GuestpagesModel;
+        
         public function __construct() {
-            // echo "This is the pages controller<br/>";
+            //Call the model method and assign it to the pagesModel variable
+            $this->GuestpagesModel = $this->model('M_GuestPages');
         }
 
         public function index() {
@@ -18,5 +21,7 @@
         public function home() {
             $this->view('pages/GuestUser/home');
         }
+
+
     }  
 ?>
