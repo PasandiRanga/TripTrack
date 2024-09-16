@@ -1,0 +1,55 @@
+
+
+
+
+div.background {
+    width: 50px;
+    height: 408.91px;
+    left: 0px;
+    /* top: 3.5rem; */
+    position: absolute;
+}
+
+img.headerpic {
+    width: 450px;
+    height: 450px;
+    left: 70px;
+    top: 5px;
+    position: absolute;
+}
+
+img.name-image {
+    width: 510px;
+    height: 90px;
+    left: 700px;
+    top: 110px;
+    margin-right: 50px;
+    position: absolute;
+}
+
+.hero-container {
+    width: 100%;
+    height: 230px;
+    
+}
+
+.body-section{
+    background-color:#F0F1F3;
+}
+
+.bus-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Drop shadow */
+    padding: 20px; /* Add padding if needed */
+    margin: 20px auto; /* Center the container */
+    width: 90%; 
+    box-sizing: border-box; /* Ensure padding and border are included in total width */
+    color : black;
+}
+
+
