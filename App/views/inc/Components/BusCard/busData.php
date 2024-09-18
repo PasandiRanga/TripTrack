@@ -2,7 +2,7 @@
 $busDetails = [
     [
         'route' => 'Colombo - Ampara',
-        'service' => 'Normal service • non-AC',
+        'busType' => '38 Seats',
         'departure' => '6:00AM',
         'arrival' => '3:00PM',
         'duration' => '9 hours 30 mins',
@@ -14,7 +14,7 @@ $busDetails = [
     ],
     [
         'route' => 'Colombo - Kandy',
-        'service' => 'Luxury service • AC',
+        'busType' => '38 Seats',
         'departure' => '8:00AM',
         'arrival' => '11:30AM',
         'duration' => '3 hours 30 mins',
@@ -26,7 +26,7 @@ $busDetails = [
     ],
     [
         'route' => 'Colombo - Galle',
-        'service' => 'Normal service • non-AC',
+        'busType' => '38 Seats',
         'departure' => '9:00AM',
         'arrival' => '1:00PM',
         'duration' => '4 hours',
@@ -38,7 +38,7 @@ $busDetails = [
     ],
     [
         'route' => 'Colombo - Jaffna',
-        'service' => 'Luxury service • AC',
+        'busType' => '38 Seats',
         'departure' => '10:00AM',
         'arrival' => '5:00PM',
         'duration' => '7 hours',
@@ -50,7 +50,7 @@ $busDetails = [
     ],
     [
         'route' => 'Colombo - Negombo',
-        'service' => 'Normal service • non-AC',
+        'busType' => '38 Seats',
         'departure' => '11:00AM',
         'arrival' => '12:00PM',
         'duration' => '1 hour',
@@ -62,7 +62,7 @@ $busDetails = [
     ],
     [
         'route' => 'Colombo - Matara',
-        'service' => 'Luxury service • AC',
+        'busType' => '38 Seats',
         'departure' => '2:00PM',
         'arrival' => '7:00PM',
         'duration' => '5 hours',

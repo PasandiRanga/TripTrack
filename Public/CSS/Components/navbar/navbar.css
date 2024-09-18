@@ -79,7 +79,7 @@
 
 @media (max-width: 768px) {
     .navbar #navbar-items {
-        display: none;
+        /* display: none */
         flex-direction: column;
         width: auto;
         position: absolute;
