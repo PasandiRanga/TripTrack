@@ -15,7 +15,7 @@
 
         public function Bookings() {
             //call a view
-            $this->view('pages/Registered User/Bookings');
+            $this->view('pages/RegisteredUser/Bookings');
             
         }
 

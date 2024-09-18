@@ -22,6 +22,16 @@
             $this->view('pages/GuestUser/home');
         }
 
+        public function Booking() {
+            // Retrieve the 'busId' from the URL parameters
+            $busId = isset($_GET['busId']) ? $_GET['busId'] : null;
+            
+            // Pass the busId to the view if necessary
+            $data = ['busId' => $busId];
+            
+            $this->view('pages/GuestUser/BusBooking', $data);
+        }
+        
 
     }  
 ?>

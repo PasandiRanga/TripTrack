@@ -21,6 +21,14 @@
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
+
+    <?php
+    $data = [
+        'currentController' => 'GuestPages', // Adjust this based on your controller
+        'currentMethod' => 'home' // Adjust this based on the method
+    ];
+    ?>
+
     
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     

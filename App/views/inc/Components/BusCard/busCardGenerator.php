@@ -3,11 +3,11 @@ require 'busData.php'; // Include the bus data
 
 foreach ($busDetails as $bus) {
     ?>
-    <div class="bus-card" onclick="window.location.href = '/Bus_layout.php?busId=<?php echo urlencode($bus['route']); ?>'">
-        <div class="bus-card-header">
+<div class="bus-card" onclick="window.location.href = '<?php echo URLROOT; ?>/RegisteredUser/Bus_layout.php?busId=<?php echo urlencode($bus['route']); ?>'">
+    <div class="bus-card-header">
             <div class="route-info">
                 <h2><?php echo $bus['route']; ?></h2>
-                <span class="service-type"><?php echo $bus['service']; ?></span>
+                <span class="bus-type"><?php echo $bus['busType']; ?></span>
             </div>
             <?php if ($bus['cheapest']) { ?>
                 <div class="cheapest-badge">CHEAPEST</div>

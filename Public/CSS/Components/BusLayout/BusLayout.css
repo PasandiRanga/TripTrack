@@ -1,0 +1,39 @@
+/* busLayout.css */
+
+.button-container {
+    display: flex;
+    gap: 45px;
+}
+
+.number-button {
+    width: 60px;
+    height: 100px;
+    background-color: #17f5cc;
+    border: none;
+    border-radius: 10px;
+    color: #002b38;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+.number-button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    background-color: #005569;
+}
+
+.disable {
+    width: 60px;
+    height: 100px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
