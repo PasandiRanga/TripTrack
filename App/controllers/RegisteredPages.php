@@ -8,10 +8,10 @@
             $this->RegisteredpagesModel = $this->model('M_RegisteredPages');
         }
 
-        /*
-        public function index() {
-            echo "This is the index method";
-        }*/
+        
+        public function Home() {
+            $this->view('pages/RegisteredUser/Home');
+        }
 
         public function Bookings() {
             //call a view
@@ -19,10 +19,37 @@
             
         }
 
-        /*
-        public function home() {
-            $this->view('pages/GuestUser/home');
-        }*/
+        public function BusLayout() {
+            $this->view('pages/RegisteredUser/Bus_layout');
+        }
+
+        public function CancelBooking() {
+            $this->view('pages/RegisteredUser/CancelBooking');
+        }
+
+        public function contactus() {
+            $this->view('pages/RegisteredUser/contactus');
+        }
+
+        public function Notification() {
+            $this->view('pages/RegisteredUser/Notifications');
+        }
+
+        public function Profile() {
+            $this->view('pages/RegisteredUser/profile');
+        }
+
+        public function SearchBus() {
+            $this->view('pages/RegisteredUser/searchbus');
+        }
+
+        public function SeeTicket() {
+            $this->view('pages/RegisteredUser/seeTicket');
+        }
+
+        public function SignIn() {
+            $this->view('pages/RegisteredUser/Signin');
+        }
         
 
     }  

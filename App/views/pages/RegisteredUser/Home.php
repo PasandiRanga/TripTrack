@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="./../../Component/NavBar/navbar.css">
-    <link rel="stylesheet" href="./../../Component/Header/header.css">
-    <link rel="stylesheet" href="./../../Component/BusCard/busCard.css">
-    <link rel="stylesheet" href="./../../Component/SearchBar/searchBar.css">
-    <link rel="stylesheet" href="./../Guest user/Components/RotatingText/rotateText.css" type="text/css"> <!-- Add this line -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Home <?php echo SITENAME; ?></title>
+
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Home.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusCard/busCard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/seachBar/searchBar.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/RotateText/nrotateText.css">
     <link rel="stylesheet" href="./../../Component/Footer/footer.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -20,13 +23,24 @@
 <body>
     <!-- Header Placeholder -->
     <script>
-        localStorage.setItem('userRole', 'RegisteredUser'); // Ensure this is set before the header loads
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
+        localStorage.setItem('userRole', userRole); // Ensure this is set before the header loads
     </script>
-    <!-- Header container where the header.html content will be injected -->
-    <div id="header-container"></div>
+     <?php
+    $data = [
+        'currentController' => 'GuestPages', // Adjust this based on your controller
+        'currentMethod' => 'home' // Adjust this based on the method
+    ];
+    ?>
 
-    <!-- Navbar container where the navbar.html content will be injected -->
-    <div id="navbar-container"></div>   
+    
+    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+    
+    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script src="./../../Component/Footer/footer.js"></script>
+    <script src="./../../Component/Footer/topRoutes.js"></script>
 
     <!-- Link the external JavaScript files -->
     <script src="./../../Component/Header/header.js"></script>
