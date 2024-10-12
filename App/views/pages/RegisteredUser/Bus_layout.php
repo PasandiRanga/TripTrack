@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Layout</title>
-    <link rel="stylesheet" href="Bus_layout.css" type="text/css">
-    <link rel="stylesheet" href="./../../Component/NavBar/navbar.css">
-    <link rel="stylesheet" href="./../../Component/Header/header.css">
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Bus Layout <?php echo SITENAME; ?></title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Bus_layout.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
     <!-- Header Placeholder -->
     <script>
-        localStorage.setItem('userRole', 'RegisteredUser'); // Ensure this is set before the header loads
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
+        localStorage.setItem('userRole', userRole); // Ensure this is set before the header loads
     </script>
-    <!-- Header container where the header.html content will be injected -->
-    <div id="header-container"></div>
+    <!-- Header and Navbar -->
+    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
-    <!-- Navbar container where the navbar.html content will be injected -->
-    <div id="navbar-container"></div>   
-
-    <!-- Link the external JavaScript files -->
-    <script src="./../../Component/Header/header.js"></script>
-    <script src="./../../Component/NavBar/navbar.js"></script>
-
+   
     <div class="container">
         <div class="left-column">
             <div class="box left-box">
