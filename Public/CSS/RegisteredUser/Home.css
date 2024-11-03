@@ -1,56 +1,29 @@
-/* General styling for body */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
 
 
-img.main-image {
-    width: 575.67px;
-    height: 286.94px;
-    left: 145.95px;
-    top: 65px;
+
+
+div.background {
+    width: 50px;
+    height: 408.91px;
+    left: 0px;
+    /* top: 3.5rem; */
     position: absolute;
 }
 
-img.bus {
-    width: 198.92px;
-    height: 132.45px;
-    left: 374.71px;
-    top: 115px;
+img.headerpic {
+    width: 450px;
+    height: 450px;
+    left: 70px;
+    top: 5px;
     position: absolute;
-}
-
-div.text-container {
-    /* width: 866.47px; */
-    /* height: 232.15px; */
-    left: 800px;
-    top: 240px;
-    position: absolute;
-    color: white;
-    font-family: 'Encode Sans SC';
-    /* word-wrap: break-word; */
-}
-
-div.text-container .light-text {
-    font-size: 81.88px;
-    font-weight: 400;
-    line-height: 33.85px;
-}
-
-div.text-container .bold-text {
-    font-size: 81.88px;
-    font-weight: 700;
-    line-height: 33.85px;
 }
 
 img.name-image {
-    width: 530.69px;
-    height: 118.35px;
-    left: 790px;
-    top: 100px;
+    width: 510px;
+    height: 90px;
+    left: 700px;
+    top: 110px;
+    margin-right: 50px;
     position: absolute;
 }
 
@@ -61,152 +34,7 @@ img.name-image {
 }
 
 .body-section{
-    background-color:#ffff ;
-}
-
-.booking-box {
-    background-color: #d4f7f4; /* Light cyan background */
-    padding: 15px;
-    border-radius: 10px;
-    width: auto; /* Adjust width according to your need */
-    font-family: Arial, sans-serif;
-}
-
-.booking-box h3 {
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    color: #00564d;
-}
-
-.booking {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #c0e9e7;
-}
-
-.booking:last-child {
-    border-bottom: none;
-}
-
-.route {
-    display: flex;
-    align-items: center;
-}
-
-.route img {
-    margin-right: 8px;
-    width: 24px;
-    height: 24px;
-}
-
-.details {
-    text-align: right;
-}
-
-.details span {
-    display: block;
-    color: #00796b;
-}
-
-
-.tagline {
-    font-size: 3rem;
-    margin: 0;
-}
-
-.tagline span {
-    color: #acd1db;
-}
-
-/* Search section 
-.search-section {
-    padding: 20px;
-    text-align: center;
-    background-color: #f0f0f0;
-}
-*/
-
-.search-input {
-    padding: 10px;
-    font-size: 1rem;
-}
-
-.search-button {
-    padding: 10px 20px;
-    background-color: #063946;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* Bus cards section */
-.bus-cards {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.bus-card {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: white;
-}
-
-.book-button {
-    padding: 10px 20px;
-    background-color: #063946;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* Information section */
-.info-section {
-    padding: 20px;
-    text-align: center;
-    background-color: #acd1db;
-}
-
-/* Why book section */
-.why-book-section {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    background-color: #f0f0f0;
-}
-
-.benefit {
-    text-align: center;
-    width: 150px;
-}
-
-.benefit i {
-    font-size: 2rem;
-    color: #063946;
-}
-
-.benefit p {
-    margin-top: 10px;
-}
-
-/* Top routes section */
-.top-routes {
-    padding: 20px;
-    text-align: center;
-}
-
-.top-routes ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.top-routes li {
-    margin: 10px 0;
+    background-color:#F0F1F3;
 }
 
 .bus-card-container {
@@ -221,4 +49,7 @@ img.name-image {
     margin: 20px auto; /* Center the container */
     width: 90%; 
     box-sizing: border-box; /* Ensure padding and border are included in total width */
+    color : black;
 }
+
+
