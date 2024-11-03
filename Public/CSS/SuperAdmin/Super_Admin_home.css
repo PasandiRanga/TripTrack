@@ -1,0 +1,98 @@
+body {
+    height: 100vh;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: transparent;
+    /* background-color: rgba(54, 166, 144, 0.812); */
+}
+
+/* Navbar container 
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #063946;
+    padding: 10px 20px;
+    border-radius: 50px;
+    width: fit-content;
+    height : 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/* Individual navbar items 
+.navbar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 0 5px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    color: #FFFFFF;
+    position: relative;
+    text-decoration: none;
+    font-family: Adamina;
+    font-weight: 400; 
+    line-height: 10px;
+    word-wrap: break-word
+}
+
+/* Styling for selected item 
+.navbar-item.selected {
+    background-color: #f0f0f0;
+    color: #063946;
+    font-weight: bold;
+    height: 20px;
+}
+
+/* Text hiding for non-selected items 
+.navbar-item:not(.selected) .text {
+    display: none;
+}
+
+/* Hover effect for all items 
+.navbar-item:hover {
+    background-color: #acd1db;
+}
+
+/* Style for icons 
+.navbar-item i {
+    width: 24px;
+    height: 24px;
+    margin-top: 4px;
+    margin-left: 2px;
+}
+
+/* Text styling 
+.navbar-item .text {
+    margin-left: 3px;
+}
+*/
+.sidebar .text{
+    font-size: 16px;
+    font-weight: 500;
+}
+.sidebar{
+    position: fixed;
+    top: 56px;
+    left: 0;
+    height: 100%;
+    width: 330px;
+    padding: 10px 14px;
+    background-color: wheat;
+}
+.sidebar .image-text img{
+    width: 100px;
+    border-radius: 6px;
+    margin-top: 65px;
+
+}
+
+.sidebar .header .image-text{
+    display: flex;
+    align-items: center;
+}
+
+.navbar_process{
+    margin-left: 100px;
+}
