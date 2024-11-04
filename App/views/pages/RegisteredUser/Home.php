@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/searchBar/searchBar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/RotateText/rotateText.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusCard/busCard.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Home.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/home.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
 
-    <link rel="stylesheet" href="./../../Component/Footer/footer.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
@@ -23,28 +23,34 @@
     </script>
 
     <?php
-    $data = [
-        'currentController' => 'RegisteredPages', // Adjust this based on your controller
-        'currentMethod' => 'Home' // Adjust this based on the method
-    ];
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
     ?>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-    <script src="./../../Component/Footer/footer.js"></script>
-    <script src="./../../Component/Footer/topRoutes.js"></script>
+
+    <?php
+    $data = [
+        'currentController' => 'RegisteredPages', // Adjust this based on your controller
+        'currentMethod' => 'home', // Adjust this based on the method
+        'userRole' => $userRole
+    ];
+    ?>
     
 
     <div class="hero-container">
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
         <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
         <div class="background"></div>
-        <!--<img class="headerpic" src="<?php echo URLROOT; ?>/public/images/Main.png" alt="Main Image" />-->
+   
         <div class="text-container">
             <?php require APPROOT . '/views/inc/Components/RotateText/rotateText.php'; ?>
         </div>
+
         <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
     </div>
+    
     <class="body-section">
         <br>
         <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
@@ -54,8 +60,7 @@
         </div>
 
         
-
-        <div id="footer-container"></div>
+        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
 
     
