@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/RotateText/rotateText.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusCard/busCard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Home.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
 
-    <link rel="stylesheet" href="./../../Component/Footer/footer.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
@@ -53,9 +53,9 @@
             <?php require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php'; ?>
         </div>
 
-        
+        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
 
-        <div id="footer-container"></div>
+       
     </div>
 
     
