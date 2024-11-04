@@ -1,0 +1,42 @@
+/* admin-sidebar.css */
+.sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #063946;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    margin-top: 56px;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    flex-direction: column;
+}
+
+.sidebar-menu li {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.sidebar-menu a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+}
+
+.sidebar-menu a:hover {
+    background-color: #34495e;
+    padding-left: 10px;
+}

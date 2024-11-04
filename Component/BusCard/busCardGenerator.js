@@ -47,7 +47,7 @@ function createBusCard(bus) {
 
 // Function to navigate to the bus layout page
 function navigateToBusLayout(busId) {
-    window.location.href = `/Bus_layout.html?busId=${busId}`;
+    window.location.href = `/Pages/Registered User/Bus_layout.html?busId=${busId}`;
 }
 
 // Function to load and display bus cards

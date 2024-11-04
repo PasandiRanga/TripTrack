@@ -1,0 +1,10 @@
+CREATE TABLE Customers ( 
+    Customer_id AUTO_INCREMENT,
+    Name VARCHAR(255),
+    E-mail char(100),
+    NIC INT(12),
+    Address VARCHAR(255),
+    Contact_no INT(10),
+    PRIMARY_KEY(Customer_id)
+);
+

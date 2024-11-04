@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../Component/NavBar/navbar.css">
+    <link rel="stylesheet" href="./../../Component/Header/header.css">
+    <link rel="stylesheet" href="./Super_Admin_home.css">
+    <link rel="stylesheet" href="./Component/Admin_sidebar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+</head>
+<body>
+    <script>
+        localStorage.setItem('userRole', 'Admin'); // Ensure this is set before the header loads
+    </script>
+    <!-- Header container where the header.html content will be injected -->
+    <div id="header-container"></div>
+
+    <!-- Navbar container where the navbar.html content will be injected -->
+    <div id="navbar-container"></div>   
+
+    <!-- Link the external JavaScript files -->
+    <script src="./../../Component/Header/header.js"></script>
+    <div class="navbar_process">
+        <script src="./../../Component/NavBar/navbar.js"></script>
+    </div>
+    <script src="./Component/Admin_sidebar.js"></script>
+</nav>
+<!--
+
+<nav class="sidebar">
+    <header>
+        <div class="image-text">
+            <span class="image">
+                <img src="../../images/logo.png" alt="logo">
+            </span>
+            <div class="text header-text">
+                <span class="name">TripTrack</span>
+            </div>
+        </div>
+    </header>
+</nav>
+
+-->
+
+</body>
+</html>

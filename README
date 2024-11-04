@@ -1,1 +1,33 @@
-READ ME FILE
+MVC Framework
+
+View : UI (html)
+
+Controller : Moderator betweeen view and model. Request data from the model
+
+Model : Can execute sql queries to get data from the database. 
+
+PHP will be the scripting language
+
+bootLoader.php : Entry point to our framework. Everthing will be redirected through the bootloader.
+                 It will load the corressponding controller and action based on the url. Libtaries will be loaded here.
+
+.htaccess : htaccess file allows you to make changes to your website's configuration without having to edit server configuration files.
+/public/.htaccess : This file will be used to redirect all the requests to the public folder. This is the only folder that will be accessible to the public
+                    Whenever we go to TripTrack folder, it must redirect to the index.php file in the public folder.
+                    And Whenever we go to TripTrack/public, it must redirect to the index.php file in the public folder.
+
+index : Initial php file that will be executed. Even though it is specified as php it will render the html content
+        Index.php will be the entry point to our application. It will include the bootLoader.php file and will redirect all the requests to the bootLoader.php file
+        Specify the path to the bootLoader.php file in the index.php file
+
+Core.php :
+within our core class we must get the URL from the browser and we need to divide that to controller methods and prameter list.
+contoller class will be loaded and the method will be called based on the url.
+
+Routing in MVC : localhost/TripTrack/controller/method/parameterList
+//this method will be called in the controller file
+
+configuration folder :
+Contains things that needs to stay static but can be changed by the time.
+ex : database name, username, password, host.
+This folder will contain the database configuration file. This file will be used to connect to the database.
