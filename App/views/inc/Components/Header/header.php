@@ -12,7 +12,7 @@ $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
     <div class="abc">
         <div class="xyz">
             <ul>
-                <li><img class="logo" src="<?php echo URLROOT; ?>/public/images/logo.png" alt="Logo"></li>
+                <li><img class="logo" src="<?php echo URLROOT; ?>/public/images/logo2.png" alt="Logo"></li>
                 <li class="topic">
                     <?php
                     // Set the header topic based on the user role
