@@ -1,0 +1,97 @@
+/* contactus.css */
+
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f4f9;
+}
+
+/* Container for the contact form */
+.contact-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    margin: 100px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+.contact-container h3 {
+    margin-top: 0;
+    color: #333333;
+    font-size: 24px;
+    text-align: center;
+}
+
+
+/* Form styling */
+.contact-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+img.name-image {
+    width: 300px;
+    height: 55px;
+    left: 100px;
+    top: 180px;
+    margin-right: 50px;
+    position: absolute;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #5c9ded;
+}
+
+/* Button styling */
+.button-component {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #5c9ded;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-component:hover {
+    background-color: #3b7ad8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contact-container {
+        padding: 15px;
+        margin: 20px;
+    }
+}

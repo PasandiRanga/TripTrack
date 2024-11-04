@@ -21,6 +21,9 @@
         public function home() {
             $this->view('pages/GuestUser/home');
         }
+        public function contact() {
+            $this->view('pages/GuestUser/contactus');
+        }
 
         public function Booking() {
             // Retrieve the 'busId' from the URL parameters

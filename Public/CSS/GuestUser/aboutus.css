@@ -1,8 +1,8 @@
-body {
+/* body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     color: #333;
-}
+} */
 
 .about-container {
     max-width: 1200px;
@@ -11,7 +11,7 @@ body {
 }
 
 .about-section, .owner-section, .vision-section {
-    background-color:#C5F2E9;
+    background-color:#FFFF;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 10px;

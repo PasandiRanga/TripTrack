@@ -1,4 +1,3 @@
-<!-- footer.html -->
 <div class="footer-container">
     <div class="footer-section">
         <h2>Trip Track: Your Ticket to Effortless Travel</h2>
@@ -29,6 +28,14 @@
     </div>
     <div class="footer-section top-routes">
         <h4>Top Bus Routes</h4>
-        <div id="bus-routes-list" class="bus-routes-list"></div>
+        <div id="bus-routes-list" class="bus-routes-list">
+            <?php if (!empty($topBusRoutes)): ?>
+                <?php foreach ($topBusRoutes as $route): ?>
+                    <div><?php echo htmlspecialchars($route); ?></div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No routes available at the moment.</p>
+            <?php endif; ?>
+        </div>
     </div>
 </div>

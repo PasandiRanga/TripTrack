@@ -26,11 +26,11 @@ function isCurrentPage($controller, $method, $currentController, $currentMethod)
                         <i class="fa fa-bus"></i>
                         <span class="text">Search Buses</span>
                     </a>
-                    <a href="' . URLROOT . '/GuestPages/about" class="navbar-item ' . (isCurrentPage('pages', 'about', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/GuestPages/about" class="navbar-item ' . (isCurrentPage('GuestPages', 'about', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-users"></i>
                         <span class="text">About Us</span>
                     </a>
-                    <a href="' . URLROOT . '/GuestPages/contact" class="navbar-item ' . (isCurrentPage('pages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/GuestPages/contact" class="navbar-item ' . (isCurrentPage('Guestpages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-phone"></i>
                         <span class="text">Contact Us</span>
                     </a>';
