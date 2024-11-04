@@ -1,7 +1,11 @@
 <?php
+
 // Assuming $data['currentController'] and $data['currentMethod'] are passed to this view
 $currentController = $data['currentController'] ?? '';
+// echo "Current controller is: " . $currentController;
 $currentMethod = $data['currentMethod'] ?? '';
+// echo "Current method is: " . $currentMethod;
+$userRole = $data['userRole'] ?? '';
 
 // Helper function to check if the current page matches
 function isCurrentPage($controller, $method, $currentController, $currentMethod) {
@@ -18,16 +22,18 @@ function isCurrentPage($controller, $method, $currentController, $currentMethod)
         <div id="navbar-items">
             <?php
             // Retrieve user role from session or default to 'GuestUser'
-            $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
+            // $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
+            
+            // Debug output for user role
 
             // Generate navbar items based on the user role
             if ($userRole === "GuestUser") {
-                echo '<a href="' . URLROOT . '/GuestPages/home" class="navbar-item ' . (isCurrentPage('GuestPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
+                echo '<a href="' . URLROOT . '/GuestPages/home" class="navbar-item ' . (isCurrentPage('GuestPages', 'Guesthome', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-bus"></i>
                         <span class="text">Search Buses</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/about" class="navbar-item ' . (isCurrentPage('GuestPages', 'about', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <i class="fa fa-users"></i>
+                        <i class="fa fa-RegisteredPages"></i>
                         <span class="text">About Us</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/contact" class="navbar-item ' . (isCurrentPage('Guestpages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
@@ -52,23 +58,23 @@ function isCurrentPage($controller, $method, $currentController, $currentMethod)
                         <span class="text">Log out</span>
                     </a>';
             } elseif ($userRole === "RegisteredUser") {
-                echo '<a href="' . URLROOT . '/users/home" class="navbar-item ' . (isCurrentPage('users', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
+                echo '<a href="' . URLROOT . '/RegisteredPages/home" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-home"></i>
                         <span class="text">Home</span>
                     </a>
-                    <a href="' . URLROOT . '/users/bookings" class="navbar-item ' . (isCurrentPage('users', 'bookings', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/bookings" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'bookings', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-ticket" aria-hidden="true"></i>
                         <span class="text">Bookings</span>
                     </a>
-                    <a href="' . URLROOT . '/users/searchbus" class="navbar-item ' . (isCurrentPage('users', 'searchbus', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/searchbus" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'searchbus', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-bus"></i>
                         <span class="text">Search Buses</span>
                     </a>
-                    <a href="' . URLROOT . '/users/notifications" class="navbar-item ' . (isCurrentPage('users', 'notifications', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/notifications" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'notifications', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="text">Notifications</span>
                     </a>
-                    <a href="' . URLROOT . '/users/contact" class="navbar-item ' . (isCurrentPage('users', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/contact" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-phone" aria-hidden="true"></i>
                         <span class="text">Contact Us</span>
                     </a>';

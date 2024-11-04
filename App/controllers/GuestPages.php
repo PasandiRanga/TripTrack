@@ -18,7 +18,7 @@
             
         }
 
-        public function home() {
+        public function Guesthome() {
             $this->view('pages/GuestUser/home');
         }
         public function contact() {
