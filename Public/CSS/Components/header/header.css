@@ -8,7 +8,7 @@ html, body {
 
 /* Header container */
 .header {
-    background-color: #064060;
+    background-color: transparent;
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
