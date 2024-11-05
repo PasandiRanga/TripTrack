@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inform Delays</title>
-    <link rel="stylesheet" href="InformDelays.css">
+    <title>Request Leave</title>
+    <link rel="stylesheet" href="../../../../Public/CSS/Conductor/RequestLeave.css">
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
-    <script src="../../Component/NavBar/navbar.js" defer></script>
 </head>
 <body>
-    <div id="navbar-container"></div>
     <div class="sidebar">
         <h2 class="sidebar-header">Contact Admin</h2>
         <button class="InformDelays" onclick="window.location.href='InformDelays.html'">Inform Delays</button>
@@ -18,24 +16,20 @@
     </div>
     <div class="detailbox">
         <form class="form-container">
-            <label for="routeNo">Route Number</label>
-            <input type="text" id="routeNo" name="routeNo" required>
+            <label for="employeeId">Emplyee ID</label>
+            <input type="text" id="employeeId" name="employeeId" required>
 
-            <label for="busNo">Bus Number</label>
-            <input type="text" id="busNo" name="busNo" required>
+            <label for="from-date">From</label>
+            <input type="date" id="from-date" name="from-date" required>
 
-            <label for="busRoute">Bus Route</label>
-            <input type="text" id="busRoute" name="busRoute" required>
+            <label for="to-date">Emplyee ID</label>
+            <input type="date" id="to-date" name="to-date" required>
 
-            <label for="time">Departure Time</label>
-            <input type="time" id="time" name="time" required>
-
-            <label for="newTime">New Departure Time</label>
-            <input type="time" id="newTime" name="newTime" required>
+            <label for="noOfDays">Number of Days</label>
+            <input type="number" id="noOfDays" name="noOfDays" required>
 
             <label for="reason">Reason</label>
             <input type="text" id="reason" name="reason" required>
-
         </form>
     </div>
 </body>

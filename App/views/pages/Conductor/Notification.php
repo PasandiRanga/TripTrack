@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications</title>
-    <link rel="stylesheet" href="RequestLeave.css">
+    <link rel="stylesheet" href="../../../../Public/CSS/Conductor/Notifications.css">
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
 </head>
 <body>
