@@ -14,7 +14,7 @@ function createButton($buttonNumber, $label, $type = 'button') {
         $type = ($buttonNumber === 1) ? 'submit' : 'button'; // Set submit type for button 1
         return "<button type='$type' class='$class'>$label</button>\n";
     } else {
-        return "Invalid button number: $buttonNumber. Please use 1, 2, or 3.<br>";
+        echo "Invalid button number: $buttonNumber. Please use 1, 2, or 3.<br>";
     }
 }
 

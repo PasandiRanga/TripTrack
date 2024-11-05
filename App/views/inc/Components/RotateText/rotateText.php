@@ -2,10 +2,10 @@
 // You can dynamically set the rotating texts if needed using PHP
 $rotatingTexts = [
     "Book your way with ease",
-    "Anuradhapura",
-    "Trincomalee",
-    "Galle",
-    "Kandy"
+    "Colombo - Anuradhapura",
+    "Colombo - Trincomalee",
+    "Colombo - Galle",
+    "Colombo - Kandy"
 ];
 ?>
 

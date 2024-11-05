@@ -20,25 +20,31 @@
     </script>
 
     <?php
-    $data = [
-        'currentController' => 'GuestPages', // Adjust this based on your controller
-        'currentMethod' => 'contact' // Adjust this based on the method
-    ];
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     ?>
 
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>    
+    <?php
+    $data = [
+        'currentController' => 'GuestPages', // Adjust this based on your controller
+        'currentMethod' => 'contact', // Adjust this based on the method
+        'userRole' => $userRole
+    ];
+    ?> 
 
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
-    <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
+    <div class="hero-container">
+        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
-  
-    <?php require APPROOT.'/views/inc/Components/ContactForm/contactForm.php'; ?>
+        <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
+    
+        <?php require APPROOT.'/views/inc/Components/ContactForm/contactForm.php'; ?>
 
-    <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+
+    </div>
 
     
 </body>

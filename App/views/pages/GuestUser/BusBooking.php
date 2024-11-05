@@ -11,21 +11,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Header Placeholder -->
-    <script>
+<script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+    ?>
+
+
+    <?php
     $data = [
         'currentController' => 'GuestPages', // Adjust this based on your controller
-        'currentMethod' => 'home' // Adjust this based on the method
+        'currentMethod' => 'booking', // Adjust this based on the method
+        'userRole' => $userRole
     ];
     ?>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    
 
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+
+    <?php
+        $busId = $_GET['busId'] ?? '';
+        $busType = $_GET['busType'] ?? '';
+        $departure = $_GET['departure'] ?? '';
+        $arrival = $_GET['arrival'] ?? '';
+        $duration = $_GET['duration'] ?? '';
+        $rating = $_GET['rating'] ?? '';
+        $price = $_GET['price'] ?? '';
+
+        echo "<h2>Bus Route: $busId</h2>";
+        echo "<p>Bus Type: $busType</p>";
+        echo "<p>Departure: $departure</p>";
+        echo "<p>Arrival: $arrival</p>";
+        echo "<p>Duration: $duration</p>";
+        echo "<p>Rating: $rating</p>";
+        echo "<p>Price: $price</p>";
+    ?>
 
     <div class="container">
         <div class="left-column">

@@ -28,12 +28,12 @@ function isCurrentPage($controller, $method, $currentController, $currentMethod)
 
             // Generate navbar items based on the user role
             if ($userRole === "GuestUser") {
-                echo '<a href="' . URLROOT . '/GuestPages/home" class="navbar-item ' . (isCurrentPage('GuestPages', 'Guesthome', $currentController, $currentMethod) ? 'selected' : '') . '">
+                echo '<a href="' . URLROOT . '/GuestPages/home" class="navbar-item ' . (isCurrentPage('GuestPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-bus"></i>
                         <span class="text">Search Buses</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/about" class="navbar-item ' . (isCurrentPage('GuestPages', 'about', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <i class="fa fa-RegisteredPages"></i>
+                        <i class="fa fa-users"></i>
                         <span class="text">About Us</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/contact" class="navbar-item ' . (isCurrentPage('Guestpages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
