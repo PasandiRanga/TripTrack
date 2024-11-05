@@ -1,4 +1,6 @@
 body {
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+    position: relative;
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
@@ -15,9 +17,10 @@ body {
 }
 
 .profile-left {
-    background-color: #e6f3f3;
+    background-color: transparent;
     padding: 20px;
     border-radius: 10px;
+    border: 3px solid #002b38;  
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 500px;
     text-align: center;
@@ -72,8 +75,9 @@ p {
 }
 
 .profile-right {
-    background-color: #d6f0ec;
+    background-color: white;
     padding: 20px;
+    border: 3px solid #002b38;  
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     flex-grow: 1;

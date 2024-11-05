@@ -42,8 +42,8 @@
     <div class="main">
         <br>
         <div class="container">
-            <h3 class="clickable" id="showPastBookings"><u>Past Bookings</u></h3>
-            <h3 class="clickable" id="showUpcomingBookings"><u>Upcoming Bookings</u></h3>
+            <h3 class="clickable" id="showPastBookings">Past Bookings</h3>
+            <h3 class="clickable" id="showUpcomingBookings">Upcoming Bookings</h3>
             <div class="input-group">
                 <div class="icon"><i class="fas fa-calendar-alt"></i></div>
                 <input type="date" class="search-input">
@@ -65,6 +65,28 @@
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td data-label="Date">07/06/2024</td>
+                    <td data-label="Time">09.30 a.m.</td>
+                    <td data-label="Route">438</td>
+                    <td data-label="From">Mathugama</td>
+                    <td data-label="To">Colombo</td>
+                    <td data-label="Bus No">XP23415</td>
+                    <td data-label="Price (LKR)">400</td>
+                    <td data-label="Status" class="status">Completed <i class="fas fa-check-circle"></i></td>
+                </tr>
+
+                <tr>
+                    <td data-label="Date">07/06/2024</td>
+                    <td data-label="Time">09.30 a.m.</td>
+                    <td data-label="Route">438</td>
+                    <td data-label="From">Mathugama</td>
+                    <td data-label="To">Colombo</td>
+                    <td data-label="Bus No">XP23415</td>
+                    <td data-label="Price (LKR)">400</td>
+                    <td data-label="Status" class="status">Completed <i class="fas fa-check-circle"></i></td>
+                </tr>
+
                 <tr>
                     <td data-label="Date">07/06/2024</td>
                     <td data-label="Time">09.30 a.m.</td>
@@ -111,6 +133,42 @@
                     </td>
                     
                 </tr>
+
+                <tr>
+                    <td data-label="Date">07/06/2024</td>
+                    <td data-label="Time">09.30 a.m.</td>
+                    <td data-label="Route">438</td>
+                    <td data-label="From">Mathugama</td>
+                    <td data-label="To">Colombo</td>
+                    <td data-label="Bus No">XP23415</td>
+                    <td data-label="Price (LKR)">400</td>
+                    <td data-label="Action">
+                        <i class="fas fa-search search-icon"></i>
+                        <div class="pop-up-menu">
+                            <a href="./SeeTicket.html"><p>See Ticket</p></a>
+                            <a href="./CancelBooking.html"><p>Cancel Booking</p></a>
+                        </div>
+                    </td>
+                    
+                </tr>
+
+                <tr>
+                    <td data-label="Date">07/06/2024</td>
+                    <td data-label="Time">09.30 a.m.</td>
+                    <td data-label="Route">438</td>
+                    <td data-label="From">Mathugama</td>
+                    <td data-label="To">Colombo</td>
+                    <td data-label="Bus No">XP23415</td>
+                    <td data-label="Price (LKR)">400</td>
+                    <td data-label="Action">
+                        <i class="fas fa-search search-icon"></i>
+                        <div class="pop-up-menu">
+                            <a href="./SeeTicket.html"><p>See Ticket</p></a>
+                            <a href="./CancelBooking.html"><p>Cancel Booking</p></a>
+                        </div>
+                    </td>
+                    
+                </tr>
                 <!-- Add more rows as needed -->
             </tbody>
         </table>
@@ -129,7 +187,7 @@
         // Show only the "Past Bookings" table by default
         document.getElementById('pastBookings').style.display = 'table';
         document.getElementById('upcomingBookings').style.display = 'none';
-        document.getElementById('showPastBookings').style.color = 'red';
+        document.getElementById('showPastBookings').style.color = '#4CAF50';
 
         // Add click event listeners for the headers
         document.getElementById('showPastBookings').addEventListener('click', function() {
@@ -137,7 +195,7 @@
             document.getElementById('upcomingBookings').style.display = 'none';
 
             // Change color of the clicked text
-            document.getElementById('showPastBookings').style.color = 'red';
+            document.getElementById('showPastBookings').style.color = '#4CAF50';
 
             // Revert the other text to default color
             document.getElementById('showUpcomingBookings').style.color = defaultColor;
@@ -148,7 +206,7 @@
             document.getElementById('upcomingBookings').style.display = 'table';
 
             // Change color of the clicked text
-            document.getElementById('showUpcomingBookings').style.color = 'red';
+            document.getElementById('showUpcomingBookings').style.color = '#4CAF50';
 
             // Revert the other text to default color
             document.getElementById('showPastBookings').style.color = defaultColor;

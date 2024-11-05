@@ -1,5 +1,6 @@
 body {
-    background-color: #36A690;
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+    position: relative;
     margin: 0; /* Remove the default margin */
     padding: 0;
     justify-content: center; 
@@ -104,11 +105,11 @@ body {
 }
 
 .more{
-    background-color: #36A690;
+    background-color: transparent;
     border-radius: 50px;
     font-size: 16px;
     font-weight: bold;
-    border: none;
+    border: 3px solid #002b38;  
     padding: 5px;
 }
 
@@ -196,8 +197,8 @@ input:required {
 .number-button {
     width: 60px;
     height: 100px;
-    background-color: #17f5cc;
-    border: none;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 3px solid #002b38; /* Thick border color to complement page background */
     border-radius: 10px;
     color: #002b38;
     font-size: 20px;
@@ -211,8 +212,9 @@ input:required {
 .number-button:hover {
     transform: scale(1.1);
     cursor: pointer;
-    background-color: #005569;
+    background-color: rgba(0, 85, 105, 0.5); /* Semi-transparent dark color on hover */
 }
+
 
 .disable{
     width: 60px;

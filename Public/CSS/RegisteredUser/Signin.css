@@ -1,5 +1,6 @@
 body {
-    background-color: #36A690;
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+    position: relative;    
     margin: 20px;
     display: flex;
     justify-content: center;

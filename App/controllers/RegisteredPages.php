@@ -24,7 +24,7 @@
         }
 
         public function busLayout() {
-            $this->view('pages/RegisteredUser/busLayout');
+            $this->view('pages/RegisteredUser/Bus_layout');
         }
 
         public function cancelBooking() {
