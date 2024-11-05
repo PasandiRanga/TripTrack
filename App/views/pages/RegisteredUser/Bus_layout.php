@@ -8,12 +8,31 @@
     <title>Bus Layout <?php echo SITENAME; ?></title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Bus_layout.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Bus_layout.css?v=<?php echo time(); ?>">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
+    <script>
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
+        localStorage.setItem('userRole', userRole);
+    </script>
+
+    <?php
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    ?>
+
+
+    <?php
+    $data = [
+        'currentController' => 'RegisteredPages', // Adjust this based on your controller
+        'currentMethod' => 'busLayout', // Adjust this based on the method
+        'userRole' => $userRole
+    ];
+    ?>
+
     <!-- Header Placeholder -->
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;

@@ -58,7 +58,7 @@ function isCurrentPage($controller, $method, $currentController, $currentMethod)
                         <span class="text">Log out</span>
                     </a>';
             } elseif ($userRole === "RegisteredUser") {
-                echo '<a href="' . URLROOT . '/RegisteredPages/home" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
+                echo '<a href="' . URLROOT . '/RegisteredPages/Home" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-home"></i>
                         <span class="text">Home</span>
                     </a>
@@ -66,15 +66,15 @@ function isCurrentPage($controller, $method, $currentController, $currentMethod)
                         <i class="fa fa-ticket" aria-hidden="true"></i>
                         <span class="text">Bookings</span>
                     </a>
-                    <a href="' . URLROOT . '/RegisteredPages/searchbus" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'searchbus', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/searchBus" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'searchBus', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-bus"></i>
                         <span class="text">Search Buses</span>
                     </a>
-                    <a href="' . URLROOT . '/RegisteredPages/notifications" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'notifications', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/notification" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'notification', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="text">Notifications</span>
                     </a>
-                    <a href="' . URLROOT . '/RegisteredPages/contact" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/contactUs" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contactUs', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-phone" aria-hidden="true"></i>
                         <span class="text">Contact Us</span>
                     </a>';
