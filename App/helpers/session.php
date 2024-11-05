@@ -2,11 +2,13 @@
 session_start();
 
 // Check if a user role is already set, if not default to 'GuestUser'
-if (!isset($_SESSION['userRole'])) {
-    $_SESSION['userRole'] = 'GuestUser';  // Default to GuestUser
-}
+// if (!isset($_SESSION['userRole'])) {
+//     $_SESSION['userRole'] = 'GuestUser';  // Default to GuestUser
+// }
 
 $userRole = $_SESSION['userRole'];
+
+echo "User role is: " . $userRole;
 
 // Simulate setting session data based on different user roles
 switch ($userRole) {
@@ -33,7 +35,7 @@ switch ($userRole) {
         break;
 
     case 'GuestUser':
-    default:
+    // default:
         $_SESSION['guestName'] = "Guest";
         break;
 }

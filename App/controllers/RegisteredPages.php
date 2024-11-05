@@ -8,47 +8,51 @@
             $this->RegisteredpagesModel = $this->model('M_RegisteredPages');
         }
 
-        
-        public function Home() {
-            $this->view('pages/RegisteredUser/Home');
+        public function index() {
+            echo "This is the index method";
         }
 
-        public function Bookings() {
+        
+        public function home() {
+            $this->view('pages/RegisteredUser/home');
+        }
+
+        public function bookings() {
             //call a view
-            $this->view('pages/RegisteredUser/Bookings');
+            $this->view('pages/RegisteredUser/bookings');
             
         }
 
-        public function BusLayout() {
-            $this->view('pages/RegisteredUser/Bus_layout');
+        public function busLayout() {
+            $this->view('pages/RegisteredUser/busLayout');
         }
 
-        public function CancelBooking() {
-            $this->view('pages/RegisteredUser/CancelBooking');
+        public function cancelBooking() {
+            $this->view('pages/RegisteredUser/cancelBooking');
         }
 
-        public function contactus() {
-            $this->view('pages/RegisteredUser/contactus');
+        public function contactUs() {
+            $this->view('pages/RegisteredUser/contactUs');
         }
 
-        public function Notification() {
-            $this->view('pages/RegisteredUser/Notifications');
+        public function notification() {
+            $this->view('pages/RegisteredUser/notifications');
         }
 
-        public function Profile() {
+        public function profile() {
             $this->view('pages/RegisteredUser/profile');
         }
 
-        public function SearchBus() {
+        public function searchBus() {
             $this->view('pages/RegisteredUser/searchbus');
         }
 
-        public function SeeTicket() {
+        public function seeTicket() {
             $this->view('pages/RegisteredUser/seeTicket');
         }
 
-        public function SignIn() {
-            $this->view('pages/RegisteredUser/Signin');
+        public function signIn() {
+            $this->view('pages/RegisteredUser/signIn');
         }
         
 

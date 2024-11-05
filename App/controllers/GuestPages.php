@@ -21,11 +21,12 @@
         public function home() {
             $this->view('pages/GuestUser/home');
         }
+
         public function contact() {
             $this->view('pages/GuestUser/contactus');
         }
 
-        public function Booking() {
+        public function booking() {
             // Retrieve the 'busId' from the URL parameters
             $busId = isset($_GET['busId']) ? $_GET['busId'] : null;
             

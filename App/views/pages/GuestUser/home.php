@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusCard/busCard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/home.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,28 +25,35 @@
     </script>
 
     <?php
-    $data = [
-        'currentController' => 'GuestPages', // Adjust this based on your controller
-        'currentMethod' => 'home' // Adjust this based on the method
-    ];
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     ?>
 
-    
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+
+    <?php
+    $data = [
+        'currentController' => 'GuestPages', // Adjust this based on your controller
+        'currentMethod' => 'home', // Adjust this based on the method
+        'userRole' => $userRole
+    ];
+    ?>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     
 
     <div class="hero-container">
+        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+
         <div class="background"></div>
-        <img class="headerpic" src="<?php echo URLROOT; ?>/public/images/Main.png" alt="Main Image" />
+   
         <div class="text-container">
             <?php require APPROOT . '/views/inc/Components/RotateText/rotateText.php'; ?>
         </div>
+
         <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
     </div>
+    
     <class="body-section">
         <br>
         <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>

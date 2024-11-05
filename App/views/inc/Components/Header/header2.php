@@ -46,9 +46,7 @@ $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
 
         <?php else: ?>
             <!-- Guest User content -->
-            <div class="login-container">
-                <button class="login-button" onclick="window.location.href='<?php echo URLROOT; ?>/login'">Login</button>
-            </div>
+            
         <?php endif; ?>
     </div>
 </nav>

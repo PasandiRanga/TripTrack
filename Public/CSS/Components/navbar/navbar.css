@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     background-color: #064060;
-    padding: 10px 20px;
+    padding: 5px 5px;
     border-radius: 50px;
     position: relative;
     z-index: 10;
@@ -42,7 +42,7 @@
 }
 
 .navbar .navbar-item .text {
-    display: none; /* Hide text by default */
+  
     margin-left: 5px;
 }
 
@@ -110,8 +110,9 @@
         box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    .navbar .navbar-item.selected .text {
-        display: inline-block; /* Show text when item is selected */
-        margin-left: 10px;
+    .navbar .navbar-item .text {
+        display: inline-block !important; /* Always show text */
+        margin-left: 5px;
     }
+    
 }

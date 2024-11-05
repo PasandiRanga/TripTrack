@@ -30,8 +30,8 @@ h2.footer-section{
 .footer-section.why-book {
     display: flex;
     justify-content: space-around;
-    background-color: #004d40;
-    color: white;
+    background-color: #a2d8ff;
+    color:#000000;
     padding: 20px;
     border-radius: 10px;
 }
