@@ -12,10 +12,25 @@
 
 </head>
 <body>
-<script>
+    <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
-        localStorage.setItem('userRole', userRole); // Ensure this is set before the header loads
+        localStorage.setItem('userRole', userRole);
     </script>
+
+    <?php
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    ?>
+
+
+    <?php
+    $data = [
+        'currentController' => 'RegisteredPages', // Adjust this based on your controller
+        'currentMethod' => 'seeTicket', // Adjust this based on the method
+        'userRole' => $userRole
+    ];
+    ?>
+
     <!-- Header and Navbar -->
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
 
