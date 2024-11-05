@@ -4,6 +4,7 @@ html, body {
     padding: 0;
     width: 100%;
     background-color:transparent;
+    /* background: linear-gradient(to bottom, #a2d8ff, #ffffff); */
 }
 
 /* Header container */
@@ -47,7 +48,7 @@ li {
 /* Topic text styling */
 .topic {
     font-size: 20px;
-    color: #000000;
+    color: #063946;
     margin-left: 15px;
 }
 
@@ -73,4 +74,8 @@ li {
 .login-button:hover {
     background-color: #acd1db;
     color: #063946;
+}
+
+.user-section {
+    margin-left: auto;
 }

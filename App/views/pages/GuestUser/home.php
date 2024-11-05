@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusCard/busCard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/home.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +33,7 @@
     <?php
     $data = [
         'currentController' => 'GuestPages', // Adjust this based on your controller
-        'currentMethod' => 'Guesthome', // Adjust this based on the method
+        'currentMethod' => 'home', // Adjust this based on the method
         'userRole' => $userRole
     ];
     ?>

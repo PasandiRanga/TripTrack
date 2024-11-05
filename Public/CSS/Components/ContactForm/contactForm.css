@@ -1,14 +1,16 @@
 /* contactForm.css */
 
 /* Container for the entire contact page layout */
+/* Contact page container */
 .contact-page {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     gap: 20px;
-    padding: 130px;
-
+    padding: 50px; /* Reduced padding to move the form up */
+    margin-top: -50px; /* Add negative margin if needed for further adjustment */
 }
+
 
 /* Contact information styling */
 .contact-info {
@@ -17,6 +19,7 @@
     font-size: 14px;
     margin-left: 0; /* Remove left margin */
     margin-right: 300px; /* Add right margin instead to create space from the form */
+    margin-top: 100px;
 }
 
 .contact-info .logo {
@@ -55,9 +58,9 @@
 
 /* Contact form styling */
 .contact-form-container {
-    width: 100%;
+    width: 80%;
     max-width: 400px;
-    background-color: #5bc8b4;
+    background-color: #a2d8ff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -77,6 +80,7 @@
 
 .form-group {
     margin-bottom: 15px;
+    margin-right: 15px;
 }
 
 .form-group label {

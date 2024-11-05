@@ -18,7 +18,7 @@ img.headerpic {
 img.name-image {
     width: 510px;
     height: 90px;
-    left: 700px;
+    left: 480px;
     top: 110px;
     margin-right: 50px;
     position: absolute;
@@ -27,7 +27,7 @@ img.name-image {
 .hero-container {
     width: 100%;
     height: 370px;
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
     position: relative;
 }
 
@@ -48,6 +48,15 @@ img.name-image {
     width: 90%; 
     box-sizing: border-box; /* Ensure padding and border are included in total width */
     color : black;
+}
+
+/* Center-align text and set font family for text-container */
+.text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
 }
 
 
