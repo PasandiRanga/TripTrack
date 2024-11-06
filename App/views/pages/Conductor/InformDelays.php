@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inform Delays</title>
-    <link rel="stylesheet" href="InformDelays.css">
+    <link rel="stylesheet" href="../../../../Public/CSS/Conductor/InformDelays.css">
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
     <script src="../../Component/NavBar/navbar.js" defer></script>
 </head>
