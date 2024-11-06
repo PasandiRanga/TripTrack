@@ -84,26 +84,31 @@ li {
 }
 
 /*-----------------------NOTIFICATION ICON-------------------------*/
+/* Notification Icon Container */
 .icon {
     cursor: pointer;
-    margin-right: 50px;
-    line-height: 60px;
+    margin-right: 20px; /* Adjust margin for better spacing */
+    line-height: initial;
 }
 
+/* Notification Count (Number) Styling */
 .icon span {
     background: #f00;
-    padding: 7px;
+    padding: 4px; /* Smaller padding to reduce size */
     border-radius: 50%;
     color: #fff;
     vertical-align: top;
-    margin-left: -25px;
+    font-size: 12px; /* Adjust font size for compatibility */
+    margin-left: -15px; /* Adjust position as per icon size */
 }
 
+/* Bell Icon Styling */
 .icon img {
+    width: 30px; /* Decrease width for better alignment */
+    margin-top: 5px; /* Adjust margin to align with login button */
     display: inline-block;
-    width: 40px;
-    margin-top: 20px;
 }
+
 
 .icon:hover {
     opacity: .7;
@@ -217,4 +222,18 @@ li {
 /* Apply animation */
 .notifi-box.show {
     animation: fadeIn 0.5s ease-out;
+}
+
+/* Style for the cross (close) icon */
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: #ff0000;
+    cursor: pointer;
+    font-weight: bold;
+}
+.close-icon:hover {
+    color: #cc0000; /* Darker shade on hover */
 }

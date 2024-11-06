@@ -44,6 +44,7 @@ $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
 			<h2>Notifications <span>3</span></h2>
 
 			<div class="notifi-item">
+                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div> <!-- Cross icon -->
 				<div class="text">
 				   <h4>Booking Confirmation</h4>
 				   <p>August 12, 2024, 2:00 PM</p>
@@ -56,6 +57,7 @@ $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
 			</div>
 
 			<div class="notifi-item">
+                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div> <!-- Cross icon -->
 				<div class="text">
 				   <h4>Bus Delay Alert</h4>
 				   <p>August 10, 2024, 11:45 AM</p>
@@ -67,6 +69,7 @@ $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
 			</div>
 
 			<div class="notifi-item">
+                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div> <!-- Cross icon -->
 				<div class="text">
 				   <h4>Cancelation Confirmation</h4>
 				   <p>August 9, 2024, 5:00 PM</p>
@@ -130,6 +133,14 @@ $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
                     down = false;
                 }
             });
+
+            function removeNotification(element) {
+                event.stopPropagation(); // Prevent the click from bubbling up
+                var notificationItem = element.closest('.notifi-item');
+                notificationItem.remove();
+            }
+
+
 
         </script>
 

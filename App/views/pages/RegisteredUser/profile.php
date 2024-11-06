@@ -46,9 +46,9 @@
         <!-- Left Side: User Info -->
         <div class="profile-left">
             <div class="profile-pic">
-                <img src="./../../images/profile.png" alt="User Profile Picture">
-                <button class="edit-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>
+                <img src="<?php echo URLROOT; ?>/public/images/profile.png" alt="User Profile Picture"> 
             </div>
+            <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
             <h2>Susan S.Doe</h2>
             <p>TT3452D</p>
             <button class="logout-button">LogOut</button>
@@ -76,6 +76,9 @@
                 <label>HomeTown</label>
                 <input type="text" value="Colombo" readonly>
             </div>
+
+            <button class="edit-button">Edit</button>
+
         </div>
     </div>
 
