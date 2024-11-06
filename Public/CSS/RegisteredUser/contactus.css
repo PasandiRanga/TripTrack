@@ -1,107 +1,106 @@
-body {
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+/* contactus.css */
+
+/* General page styling */
+.hero-container {
+    width: 100%;
+    height: 370px;
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
     position: relative;
-    justify-content: space-between; 
-    align-items: center;
+}
+
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
-}
-
-.caption {
-    color: aliceblue;
-    font-size: 48px;
-}
-
-.container {
     display: flex;
-    justify-content: space-between; /* Distribute space between left and right */
-    align-items: center;
-    max-width: 1200px;
+    flex-direction: column;
+    /* background: linear-gradient(to bottom, #a2d8ff, #ffffff); */
+}
+
+/* Container for the contact form */
+.contact-container {
     width: 100%;
-    margin: 20px auto; /* Center the container horizontally */
+    max-width: 600px;
     padding: 20px;
-    gap: 100px;
+    margin: 100px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.left {
-    text-align: left;
-    flex: 1;
-    padding-right: 20px; /* Reduce padding if needed */
-    background-color:none;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-h2{
-    font-size: 35px;
-    font-weight:800;
-}
-
-.right {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex: 1; /* Ensure both left and right take equal space */
-    max-width: 600px; /* Limit the width of the right section */
-}
-
-.abc{
-    font-size: 28px;
-    margin-bottom: 20px;
+/* Header styling */
+.contact-container h3 {
+    margin-top: 0;
+    color: #333333;
+    font-size: 24px;
     text-align: center;
-    font-family: 'Georgia', serif;
 }
 
-form {
+
+/* Form styling */
+.contact-container form {
     display: flex;
     flex-direction: column;
 }
 
-label {
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #333333;
     margin-bottom: 5px;
-    font-weight: bold;
 }
 
-input {
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-button[type="submit"] {
-    background-color: #0a3b46;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-button[type="submit"]:hover {
-    background-color: #064045;
-}
-
-
-/* Header positioning */
-#header-placeholder {
-    position: relative; /* Adjust positioning as needed */
-    width: 100%;
-    z-index: 1000;
-    background-color: #064060;
-    height: 3rem; /* Match header background color */
-}
-
-/* Navbar positioning */
-#navbar-placeholder {
+img.name-image {
+    width: 300px;
+    height: 55px;
+    left: 100px;
+    top: 180px;
+    margin-right: 50px;
     position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000; /* Ensure it stays on top */
-    background-color: rgba(54, 166, 144, 0.812);
-    margin-top: 2rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #5c9ded;
+}
+
+
+
+/* Button styling */
+.button-component {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color:#063946;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-component:hover {
+    background-color: #3b7ad8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contact-container {
+        padding: 15px;
+        margin: 20px;
+    }
 }
