@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Leave</title>
+    <link rel="stylesheet" href="../../../../Public/CSS/Conductor/RequestLeave.css">
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-header">Contact Admin</h2>
+        <button class="InformDelays" onclick="window.location.href='InformDelays.html'">Inform Delays</button>
+        <button class="RequestLeave" onclick="window.location.href='RequestLeave.html'">Request Leave</button>
+        <button class="Notifications" onclick="window.location.href='Notification.html'">Notifications</button>
+    </div>
+    <div class="detailbox">
+        <form class="form-container">
+            <label for="employeeId">Emplyee ID</label>
+            <input type="text" id="employeeId" name="employeeId" required>
+
+            <label for="from-date">From</label>
+            <input type="date" id="from-date" name="from-date" required>
+
+            <label for="to-date">Emplyee ID</label>
+            <input type="date" id="to-date" name="to-date" required>
+
+            <label for="noOfDays">Number of Days</label>
+            <input type="number" id="noOfDays" name="noOfDays" required>
+
+            <label for="reason">Reason</label>
+            <input type="text" id="reason" name="reason" required>
+        </form>
+    </div>
+</body>
+</html>
