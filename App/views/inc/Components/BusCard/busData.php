@@ -1,6 +1,9 @@
 <?php
 $busDetails = [
     [
+        'busId' => '1',
+        'busNumber' => 'NA-1234',
+        'routeNumber' => '101',
         'route' => 'Colombo - Ampara',
         'busType' => '38 Seats',
         'departure' => '6:00AM',
@@ -13,6 +16,9 @@ $busDetails = [
         'cheapest' => true
     ],
     [
+        'busId' => '2',
+        'busNumber' => 'NA-5678',
+        'routeNumber' => '102',
         'route' => 'Colombo - Kandy',
         'busType' => '38 Seats',
         'departure' => '8:00AM',
@@ -25,6 +31,9 @@ $busDetails = [
         'cheapest' => false
     ],
     [
+        'busId' => '3',
+        'busNumber' => 'NA-9012',
+        'routeNumber' => '103',
         'route' => 'Colombo - Galle',
         'busType' => '38 Seats',
         'departure' => '9:00AM',
@@ -37,6 +46,9 @@ $busDetails = [
         'cheapest' => false
     ],
     [
+        'busId' => '4',
+        'busNumber' => 'NA-3456',
+        'routeNumber' => '104',
         'route' => 'Colombo - Jaffna',
         'busType' => '38 Seats',
         'departure' => '10:00AM',
@@ -49,6 +61,9 @@ $busDetails = [
         'cheapest' => true
     ],
     [
+        'busId' => '5',
+        'busNumber' => 'NA-7890',
+        'routeNumber' => '105',
         'route' => 'Colombo - Negombo',
         'busType' => '38 Seats',
         'departure' => '11:00AM',
@@ -61,6 +76,9 @@ $busDetails = [
         'cheapest' => true
     ],
     [
+        'busId' => '6',
+        'busNumber' => 'NA-6543',
+        'routeNumber' => '106',
         'route' => 'Colombo - Matara',
         'busType' => '38 Seats',
         'departure' => '2:00PM',
