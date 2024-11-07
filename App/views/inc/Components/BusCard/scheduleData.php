@@ -6,6 +6,7 @@ $busSchedules = [
         'route' => 'Colombo - Ampara',
         'schedule' => [
             [
+                'scheduleId' => '1',
                 'date' => '2024-11-10',
                 'departureTime' => '6:00 AM',
                 'arrivalTime' => '3:00 PM',
@@ -14,6 +15,7 @@ $busSchedules = [
                 'availableSeats' => 4
             ],
             [
+                'scheduleId' => '2',
                 'date' => '2024-11-11',
                 'departureTime' => '2:00 PM',
                 'arrivalTime' => '11:30 PM',
@@ -30,6 +32,7 @@ $busSchedules = [
         'route' => 'Colombo - Kandy',
         'schedule' => [
             [
+                'scheduleId' => '3',
                 'date' => '2024-11-10',
                 'departureTime' => '8:00 AM',
                 'arrivalTime' => '11:30 AM',
@@ -38,6 +41,7 @@ $busSchedules = [
                 'availableSeats' => 10
             ],
             [
+                'scheduleId' => '4',
                 'date' => '2024-11-12',
                 'departureTime' => '4:00 PM',
                 'arrivalTime' => '7:30 PM',

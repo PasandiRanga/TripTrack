@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Layout</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/busLayout.css?v=<?php echo time(); ?>">
-</head>
-<body>
-
 <?php
-// Define the seat layout data
+// Define the full seat layout data
 $seats = [
     [1, 2, 51, 19, 20, 21],
     [3, 4, 51, 22, 23, 24],
@@ -24,15 +14,23 @@ $seats = [
     [49, 50, 51, 52, 53, 54]
 ];
 
+// Handle the selected seats and number of seats
+$numSeats = isset($_GET['numSeats']) ? (int)$_GET['numSeats'] : 0;
+
 echo '<div class="box right-box">';
 
+$selectedSeats = [];
+
+// Generate the seat layout with the ability to select seats
 foreach ($seats as $row) {
     echo '<div class="button-container">';
     foreach ($row as $seat) {
         if ($seat === '') {
-            echo '<button class="disable"></button>';
+            echo '<button class="disable"></button>';  // Disabled seat button
         } else {
-            echo '<button class="number-button">' . htmlspecialchars($seat) . '</button>';
+            // Display each seat with a unique class for selection
+            $seatId = "seat-" . $seat;
+            echo '<button class="number-button" id="' . $seatId . '" data-seat="' . $seat . '">' . htmlspecialchars($seat) . '</button>';
         }
     }
     echo '</div><br/>';
@@ -41,5 +39,26 @@ foreach ($seats as $row) {
 echo '</div>';
 ?>
 
-</body>
-</html>
+<script>
+// JavaScript to handle seat selection
+let selectedSeats = [];  // Array to hold selected seats
+
+// Attach click event to all seat buttons
+document.querySelectorAll('.number-button').forEach(button => {
+    button.addEventListener('click', function () {
+        const seatNumber = this.getAttribute('data-seat');
+
+        // Toggle seat selection
+        if (selectedSeats.includes(seatNumber)) {
+            selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
+            this.classList.remove('selected');
+        } else if (selectedSeats.length < <?php echo $numSeats; ?>) {
+            selectedSeats.push(seatNumber);
+            this.classList.add('selected');
+        }
+
+        // Update the selected seats input field (you can use it to pass the seats in the booking form)
+        document.getElementById('selectedSeats').value = selectedSeats.join(',');
+    });
+});
+</script>

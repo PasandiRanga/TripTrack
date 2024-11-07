@@ -109,17 +109,25 @@
     justify-content: space-between;
     align-items: center;
 }
-.rating i, .passenger-count i {
+.passenger-count i {
     margin-right: 4px; /* Reduced margin */
     color: #f1c40f !important;
 }
 
-.rating  {
-    display: flex;
-    align-items: center;
-    font-size: 16px; /* Smaller font size */
-    color: #2c3e50;
+.rating i {
+    font-size: 1.2em; /* Adjust star size as needed */
+    color: #cccccc; /* Default unfilled star color */
+    margin-right: 2px;
 }
+
+.filled-star {
+    color: #ffc107; /* Yellow color for filled stars */
+}
+
+.empty-star {
+    color: #cccccc; /* Gray color for empty stars */
+}
+
 
 
 .price {

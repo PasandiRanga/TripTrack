@@ -170,11 +170,12 @@ input:required {
 }
 /* Bus info container */
 .bus-info {
-    width: 90%;
-    max-width: 700px;
+    width: 60%;
+    max-width: 600px;
     margin-top: 30px;
-    margin: 10px 20px;
-    padding: 20px;
+    margin-left: 300px;
+    padding: 40px;
+    padding-bottom: 40px;;
     border-radius: 12px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -183,13 +184,38 @@ input:required {
     /* display: flex; */
     flex-direction: column;
     /* gap: 10px; */
+    position:relative;
+    margin-bottom: 30px;
+    /* flex:1; */
+    height: auto;
+
 }
+
+.route-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.route-container h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #222;
+}
+
+.route-container .date {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 0;
+}
+
 
 /* Route title styling */
 .bus-info h2 {
     font-size: 1.5em;
     margin: 0;
     color: #222;
+    /* font-family: "ABeeZee"; */
 }
 
 /* Subtitle styling */
@@ -209,20 +235,45 @@ input:required {
 /* Container for departure and arrival details */
 .info-details {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 20px;
+    /* gap: 20px; Reduce gap between departure and arrival times */
+    margin-left: 70px;
+    margin-bottom: 60px;
+   
 }
 
 .info-item {
-    text-align: center;
-    flex: 1;
+    display: flex;
+    align-items: center;
+    /* margin-left: 30px; */
+}
+
+.icon-time {
+    margin-right: 8px; /* Space between the icon and the text */
+    margin-left:8px;
+}
+
+.info-item div {
+    display: flex;
+    flex-direction: column; /* Arrange the time and text vertically */
+    align-items: flex-start; /* Align the text to the left */
+}
+
+.info-item i {
+    font-size: 10em; /* Adjust the icon size */
+    color: #007bff; /* Set the color of the icons */
+}
+
+/* Optional: reduce the margin between the two .info-item elements */
+.info-details > .info-item:not(:last-child) {
+    margin-right: 2px; /* Adjust this value to reduce the gap */
 }
 
 .info-item h3 {
-    font-size: 1.1em;
-    margin: 0;
-    color: #222;
+    font-size: 1em;
+    margin: 1px;
+    color: #666;
 }
 
 .info-item p {
@@ -230,17 +281,53 @@ input:required {
     color: #666;
 }
 
+
+/* Ensure the dotted line stays in the middle */
+/* Style for the horizontal dotted line with a circle in the middle */
+.time-container {
+    position: relative; /* Make it a positioned container for the pseudo-element */
+    flex-grow: 0.75; /* Allow the line to expand between the two items */
+    margin: 0 10px; /* Add space between the elements */
+    
+}
+
+/* Dotted line style */
+.dotted-line {
+    border: none;
+    border-top: 2px dotted #064060; /* Dotted line with blue color */
+    width: 100%; /* Ensure the line stretches */
+    margin: 0; /* Remove any margins */
+}
+
+/* Add a hollow circle in the middle of the dotted line */
+.time-container::before {
+    content: ""; /* Empty content for the hollow circle */
+    position: absolute;
+    top: -5px; /* Adjust to center vertically on the line */
+    left: 50%; /* Position in the middle horizontally */
+    transform: translateX(-50%); /* Center it */
+    width: 12px; /* Circle size */
+    height: 12px; /* Circle size */
+    border: 2px solid #064060; /* Border color matching the line */
+    border-radius: 50%; /* Make it circular */
+    background-color: #fff; /* Hollow circle with white background */
+}
+
+
+
 /* Button styling */
 .view-button {
-    margin-top: 15px;
+    position: absolute;
+    bottom: 20px; /* Position from the bottom */
+    left: 20px;   /* Position from the left */
     display: flex;
     gap: 10px;
-    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .view-button button {
     padding: 10px 20px;
-    background-color: #36A690;
+    background-color: #064060;
     border: none;
     color: white;
     font-size: 0.9em;
@@ -249,5 +336,115 @@ input:required {
 }
 
 .view-button button:hover {
-    background-color: #2b8777;
+    background-color: #074096;
+}
+
+.rating i {
+    font-size: 1.2em; /* Adjust star size as needed */
+    color: #cccccc; /* Default unfilled star color */
+    margin-right: 2px;
+}
+
+.filled-star {
+    color: #ffc107; /* Yellow color for filled stars */
+}
+
+.empty-star {
+    color: #cccccc; /* Gray color for empty stars */
+}
+
+.price-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    margin-bottom: 20px;
+}
+
+.price-container .highlight {
+    font-size: 28px; /* Adjust font size if needed */
+    font-weight: bold;
+    color: #035339; /* Customize color as desired */
+    margin-right: 10px;
+}
+
+/* Booking form styling */
+.booking-form {
+    flex: 1; /* Take up available space */
+    /* width: 35%; Adjust the width of booking form */
+    padding-left: 40px;
+    padding-right: 45px;
+    padding-top: 20px;
+    background-color: #a2d8ff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* margin-left: 70px; */
+    margin-left: 300px;
+    max-width: 600px;
+}
+.booking-form label {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.booking-form .form-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 2px;
+}
+
+.booking-form input[type="text"],
+.booking-form input[type="email"]{
+    width:280px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Ensure the booking form input fields and buttons are responsive */
+.booking-form input[type="text"],
+.booking-form input[type="email"],
+.booking-form input[type="tel"],
+.booking-form input[type="number"] {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to each field */
+}
+
+/* .booking-form h2{
+    align: center;
+} */
+
+.booking-form button {
+    padding: 12px;
+    background-color: #064060;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to button */
+}
+
+.booking-form button:hover {
+    background-color: #074096;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darken shadow on hover */
+}
+
+.form-group-inline {
+    /* display: flex; */
+    align-items: center;
+    margin-bottom: 10px; /* Optional: to control spacing between groups */
+    gap: 10px; /* Optional: to control spacing between elements */
+}
+
+.form-group-inline label {
+    margin-right: 5px; /* Reduce right margin for a closer fit */
+}
+
+.form-group-inline input[type="radio"],
+.form-group-inline input[type="radio"]  {
+    margin-left: 5px; /* Optional: control spacing between radio buttons */
 }

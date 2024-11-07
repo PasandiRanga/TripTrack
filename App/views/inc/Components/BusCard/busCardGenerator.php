@@ -25,8 +25,8 @@ foreach ($busDetails as $bus) {
         $busScheduleData = array_values($busScheduleData)[0]; // Get the first matched schedule entry
         foreach ($busScheduleData['schedule'] as $schedule) { // Loop through each schedule for the bus
             ?>
-            <div class="bus-card" onclick="window.location.href = '<?php echo URLROOT; ?>/GuestPages/BusBooking?busId=<?php echo urlencode($bus['busId']); ?>'">
-                <div class="bus-card-header">
+            <div class="bus-card" onclick="window.location.href = '<?php echo URLROOT; ?>/GuestPages/BusBooking?busId=<?php echo urlencode($bus['busId']); ?>&scheduleId=<?php echo urlencode($schedule['scheduleId']); ?>'">
+            <div class="bus-card-header">
                     <div class="route-info">
                         <h2><?php echo $bus['route']; ?></h2>
                         <span class="bus-type"><?php echo $bus['busType']; ?></span>
@@ -57,10 +57,22 @@ foreach ($busDetails as $bus) {
                     </div>
                 </div>
                 <div class="bus-card-footer">
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <span><?php echo $bus['rating']; ?></span>
-                    </div>
+                <div class="rating">
+                    <?php
+                    $rating = $bus['rating']; // Assume $bus['rating'] is an integer (e.g., 4 for 4 stars)
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $rating) {
+                            // Display a yellow star for each rating point
+                            echo '<i class="fas fa-star" style="color: #FFD700;"></i>'; // Yellow star
+                        } else {
+                            // Display a gray star for the remaining
+                            echo '<i class="fas fa-star" style="color: #ccc;"></i>'; // Gray star
+                        }
+                    }
+                    ?>
+                    <span><?php echo $rating; ?></span> <!-- Display rating value -->
+                </div>
+
                     <div class="price">
                         <span><?php echo $schedule['price']; ?></span>
                     </div>
