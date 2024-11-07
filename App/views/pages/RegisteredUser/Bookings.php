@@ -32,6 +32,7 @@
     ];
     ?>
 
+    <?php require 'bookingsData.php'; ?>
     
     <!-- Header and Navbar -->
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
@@ -50,80 +51,65 @@
             </div>
         </div>
 
-        <!-- Table Structure for past bookings -->
-        <table id="pastBookings">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Route</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Bus No</th>
-                    <th>Price (LKR)</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="Date">07/06/2024</td>
-                    <td data-label="Time">09.30 a.m.</td>
-                    <td data-label="Route">438</td>
-                    <td data-label="From">Mathugama</td>
-                    <td data-label="To">Colombo</td>
-                    <td data-label="Bus No">XP23415</td>
-                    <td data-label="Price (LKR)">400</td>
-                    <td data-label="Status" class="status">Completed <i class="fas fa-check-circle"></i></td>
-                </tr>
+        <?php require 'bookingsData.php'; ?>
 
+<!-- Past Bookings Table -->
+<table id="pastBookings">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Route</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Bus No</th>
+            <th>Price (LKR)</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($bookingsDetails as $booking): ?>
+            <?php if ($booking['date'] < $currentDate): // Past booking ?>
                 <tr>
-                    <td data-label="Date">07/06/2024</td>
-                    <td data-label="Time">09.30 a.m.</td>
-                    <td data-label="Route">438</td>
-                    <td data-label="From">Mathugama</td>
-                    <td data-label="To">Colombo</td>
-                    <td data-label="Bus No">XP23415</td>
-                    <td data-label="Price (LKR)">400</td>
-                    <td data-label="Status" class="status">Completed <i class="fas fa-check-circle"></i></td>
+                    <td data-label="Date"><?php echo $booking['date']; ?></td>
+                    <td data-label="Time"><?php echo $booking['time']; ?></td>
+                    <td data-label="Route"><?php echo $booking['route']; ?></td>
+                    <td data-label="From"><?php echo $booking['from']; ?></td>
+                    <td data-label="To"><?php echo $booking['to']; ?></td>
+                    <td data-label="Bus No"><?php echo $booking['busNo']; ?></td>
+                    <td data-label="Price (LKR)"><?php echo $booking['price']; ?></td>
+                    <td data-label="Status" class="status"><?php echo $booking['status']; ?></td>
                 </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
+<!-- Upcoming Bookings Table -->
+<table id="upcomingBookings">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Route</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Bus No</th>
+            <th>Price (LKR)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($bookingsDetails as $booking): ?>
+            <?php if ($booking['date'] >= $currentDate): // Upcoming booking ?>
                 <tr>
-                    <td data-label="Date">07/06/2024</td>
-                    <td data-label="Time">09.30 a.m.</td>
-                    <td data-label="Route">438</td>
-                    <td data-label="From">Mathugama</td>
-                    <td data-label="To">Colombo</td>
-                    <td data-label="Bus No">XP23415</td>
-                    <td data-label="Price (LKR)">400</td>
-                    <td data-label="Status" class="status">Completed <i class="fas fa-check-circle"></i></td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-
-        <!-- Table Structure to upcoming bookings -->
-        <table id="upcomingBookings">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Route</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Bus No</th>
-                    <th>Price (LKR)</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="Date">07/06/2024</td>
-                    <td data-label="Time">09.30 a.m.</td>
-                    <td data-label="Route">438</td>
-                    <td data-label="From">Mathugama</td>
-                    <td data-label="To">Colombo</td>
-                    <td data-label="Bus No">XP23415</td>
-                    <td data-label="Price (LKR)">400</td>
+                    <td data-label="Date"><?php echo $booking['date']; ?></td>
+                    <td data-label="Time"><?php echo $booking['time']; ?></td>
+                    <td data-label="Route"><?php echo $booking['route']; ?></td>
+                    <td data-label="From"><?php echo $booking['from']; ?></td>
+                    <td data-label="To"><?php echo $booking['to']; ?></td>
+                    <td data-label="Bus No"><?php echo $booking['busNo']; ?></td>
+                    <td data-label="Price (LKR)"><?php echo $booking['price']; ?></td>
                     <td data-label="Action">
                         <i class="fas fa-search search-icon"></i>
                         <div class="pop-up-menu">
@@ -131,47 +117,12 @@
                             <a href="./CancelBooking.html"><p>Cancel Booking</p></a>
                         </div>
                     </td>
-                    
                 </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
-                <tr>
-                    <td data-label="Date">07/06/2024</td>
-                    <td data-label="Time">09.30 a.m.</td>
-                    <td data-label="Route">438</td>
-                    <td data-label="From">Mathugama</td>
-                    <td data-label="To">Colombo</td>
-                    <td data-label="Bus No">XP23415</td>
-                    <td data-label="Price (LKR)">400</td>
-                    <td data-label="Action">
-                        <i class="fas fa-search search-icon"></i>
-                        <div class="pop-up-menu">
-                            <a href="./SeeTicket.html"><p>See Ticket</p></a>
-                            <a href="./CancelBooking.html"><p>Cancel Booking</p></a>
-                        </div>
-                    </td>
-                    
-                </tr>
-
-                <tr>
-                    <td data-label="Date">07/06/2024</td>
-                    <td data-label="Time">09.30 a.m.</td>
-                    <td data-label="Route">438</td>
-                    <td data-label="From">Mathugama</td>
-                    <td data-label="To">Colombo</td>
-                    <td data-label="Bus No">XP23415</td>
-                    <td data-label="Price (LKR)">400</td>
-                    <td data-label="Action">
-                        <i class="fas fa-search search-icon"></i>
-                        <div class="pop-up-menu">
-                            <a href="./SeeTicket.html"><p>See Ticket</p></a>
-                            <a href="./CancelBooking.html"><p>Cancel Booking</p></a>
-                        </div>
-                    </td>
-                    
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
     </div>
 
     <!-- External JavaScript -->
@@ -212,8 +163,8 @@
             document.getElementById('showPastBookings').style.color = defaultColor;
         });
 
-        // Handle pop-up menu visibility
-document.querySelectorAll('.search-icon').forEach(icon => {
+    // Handle pop-up menu visibility
+    document.querySelectorAll('.search-icon').forEach(icon => {
     const popUpMenu = icon.nextElementSibling;
 
     // Show the pop-up menu on mouseenter
