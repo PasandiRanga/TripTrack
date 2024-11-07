@@ -1,4 +1,13 @@
-<!-- busLayout.php -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Layout</title>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/busLayout.css?v=<?php echo time(); ?>">
+</head>
+<body>
+
 <?php
 // Define the seat layout data
 $seats = [
@@ -31,3 +40,6 @@ foreach ($seats as $row) {
 
 echo '</div>';
 ?>
+
+</body>
+</html>

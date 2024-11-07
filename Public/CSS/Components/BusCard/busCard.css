@@ -31,13 +31,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px; /* Reduced margin */
+    /* margin-bottom: 10px; Reduced margin */
 }
 
 .route-info h2 {
     margin: 0;
     font-size: 20px; /* Smaller font size */
     color: #2c3e50;
+}
+
+.route-info{
+    margin-bottom: 1px;
 }
 
 .bus-type {
@@ -63,7 +67,7 @@
 .bus-card-timing {
     display: flex;
     flex-direction: column; /* Stack timing-info and duration vertically */
-    gap: 5px; /* Space between timing info and duration */
+    gap: 1px; /* Space between timing info and duration */
     margin-bottom: 15px; /* Reduced margin */
 }
 
@@ -105,20 +109,28 @@
     justify-content: space-between;
     align-items: center;
 }
+.rating i, .passenger-count i {
+    margin-right: 4px; /* Reduced margin */
+    color: #f1c40f !important;
+}
 
-.rating, .passenger-count, .price {
+.rating  {
     display: flex;
     align-items: center;
     font-size: 16px; /* Smaller font size */
     color: #2c3e50;
 }
 
-.rating i, .passenger-count i {
-    margin-right: 4px; /* Reduced margin */
-    color: #f1c40f;
-}
 
 .price {
     font-size: 18px; /* Smaller font size */
     color: #27ae60;
 }
+
+.date{
+    font-size: 12px; /* Smaller font size */
+    color: #2c3e50;
+    margin-bottom: 7px;;
+}
+
+
