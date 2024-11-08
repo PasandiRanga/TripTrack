@@ -37,6 +37,7 @@
         $scheduleId = $_GET['scheduleId'] ?? null;
         $selectedBus = null;
         $selectedSchedule = null;
+        $seats = $_GET['busType'];
 
         // Find the selected bus
         foreach ($busDetails as $bus) {
