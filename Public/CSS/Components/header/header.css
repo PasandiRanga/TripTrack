@@ -3,20 +3,22 @@ html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color:transparent;
-    /* background: linear-gradient(to bottom, #a2d8ff, #ffffff); */
+    background-color: transparent;
 }
 
 /* Header container */
 .header {
-    background-color: transparent;
+    background-color: transparent !important;
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 3.5rem;
+    height: 60px;
+    position: relative;
+    border: none;
+    box-shadow: none;
 }
 
 /* Inner container for logo and topic */
@@ -52,7 +54,7 @@ li {
     margin-left: 15px;
 }
 
-.login-container{
+.login-container {
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -68,7 +70,6 @@ li {
     cursor: pointer;
     font-size: 16px;
     font-family: Arial, sans-serif;
-  
 }
 
 .login-button:hover {
@@ -77,5 +78,162 @@ li {
 }
 
 .user-section {
-    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between the icon and login button */
+}
+
+/*-----------------------NOTIFICATION ICON-------------------------*/
+/* Notification Icon Container */
+.icon {
+    cursor: pointer;
+    margin-right: 20px; /* Adjust margin for better spacing */
+    line-height: initial;
+}
+
+/* Notification Count (Number) Styling */
+.icon span {
+    background: #f00;
+    padding: 4px; /* Smaller padding to reduce size */
+    border-radius: 50%;
+    color: #fff;
+    vertical-align: top;
+    font-size: 12px; /* Adjust font size for compatibility */
+    margin-left: -15px; /* Adjust position as per icon size */
+}
+
+/* Bell Icon Styling */
+.icon img {
+    width: 30px; /* Decrease width for better alignment */
+    margin-top: 5px; /* Adjust margin to align with login button */
+    display: inline-block;
+}
+
+
+.icon:hover {
+    opacity: .7;
+}
+
+/* Ensure notification box is above other elements */
+.notifi-box {
+    position: absolute;
+    top: 63px;
+    right: 35px;
+    background: linear-gradient(145deg, #ffffff, #f7f7f7); /* Light gradient for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    width: 500px;
+    max-height: 400px; /* Set a maximum height for the box */
+    opacity: 0;
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    transition: opacity 0.3s ease, height 0.3s ease, transform 0.3s ease-in-out;
+    transform: translateY(-10px); /* Start with a subtle lift effect */
+    z-index: 999;
+    border-radius: 10px; /* Rounded corners for a soft look */
+    padding: 15px;
+}
+
+/* Notification box title */
+.notifi-box h2 {
+    font-size: 16px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* Notification items styling */
+.notifi-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+    border-radius: 8px; /* Soft rounded borders for each item */
+}
+
+.notifi-item:hover {
+    background-color: #f1f1f1; /* Subtle hover effect */
+}
+
+.notifi-item .text h4 {
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.notifi-item .text p {
+    color: #777;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Dropdown arrow to the right */
+.dropdown-arrow {
+    font-size: 18px;
+    cursor: pointer;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+    color: #0085cc; /* Add a subtle color for the arrow */
+}
+
+/* Notification item content */
+.notification-content {
+    display: none; /* Initially hidden */
+    padding: 10px 15px;
+    color: #333;
+    font-size: 16px;
+    border-top: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Show notification content when it's visible */
+.notifi-item.show .notification-content {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* For better scroll experience, let's add some padding and space */
+.notifi-box.show {
+    opacity: 1; /* Show the notification box */
+    transform: translateY(0); /* Slide into view */
+    padding-bottom: 10px;
+}
+
+/* Add subtle animations to the notification box */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply animation */
+.notifi-box.show {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Style for the cross (close) icon */
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: #ff0000;
+    cursor: pointer;
+    font-weight: bold;
+}
+.close-icon:hover {
+    color: #cc0000; /* Darker shade on hover */
 }

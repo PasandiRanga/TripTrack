@@ -1,7 +1,11 @@
+body {
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+    position: relative;
+}
+
 .main{
     padding: 10px;
     border-radius: 20px;
-    background-color:#d6f0ec;
 }
 
 /* Base Table Styling */
@@ -16,12 +20,15 @@ table {
 
 /* Table Header Styling */
 table th {
-    background-color: #4CAF50;
-    color: white;
+    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+    color: #040113; /* Dark text for contrast */
     font-weight: bold;
     padding: 12px;
     text-align: center;
+    border: 3px solid #042F40; /* Thick border for each table header cell */
+    border-radius: 5px; /* Optional: rounded corners for the header cells */
 }
+
 
 /* Table Cell Styling */
 table td {
@@ -32,12 +39,12 @@ table td {
 
 /* Alternating Row Colors */
 table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #dbecfa;
 }
 
 /* Hover Effect */
 table tr:hover {
-    background-color: #d1ecf1; /* Light blue background */
+    background-color: #D1ECF1; /* Light blue background */
 }
 
 /* Highlighted Row Styling */
@@ -53,7 +60,7 @@ table td:last-child {
 
 /* Search Icon */
 .search-icon {
-    color: #4CAF50;
+    color: #000000;
     font-size: 1.2rem;
 }
 
@@ -62,7 +69,7 @@ table td:last-child {
     display: none; /* Hidden by default */
     position: absolute;
     background-color: #042F40;
-    border: 3px solid #4CAF50;
+    border: 3px solid #a2d8ff;
     
     border-radius: 5px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -92,14 +99,14 @@ table td:last-child {
 /* Pop-Up Menu Hover Effect */
 .pop-up-menu p:hover {
     background-color: #f2f2f2;
-    color: #4CAF50; /* Highlight text on hover */
+    color: #a2d8ff; /* Highlight text on hover */
 }
 
 /* Adjust Position of Pop-Up Menu for Responsive Design */
 @media screen and (max-width: 768px) {
     .pop-up-menu {
         width: 100%;
-        border: 2px solid #4CAF50; /* Enhanced border on smaller screens */
+        border: 2px solid #a2d8ff; /* Enhanced border on smaller screens */
     }
 }
 
@@ -146,7 +153,7 @@ table td:last-child {
     .pop-up-menu {
         position: relative;
         width: 100%;
-        border: 2px solid #4CAF50;
+        border: 2px solid #a2d8ff;
     }
 }
 

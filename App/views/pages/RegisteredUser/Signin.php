@@ -11,37 +11,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-   <div class="container">
-      <div class="left">
-        <h1 class="caption">TRIP TRACK</h1>
-        <h1 class="tagline">Travel <span>WITH US  </span><i class="fa-solid fa-map-pin" style="color: #e74757;"></i></h1>
-        <img src="./../../images/s1.png" alt="Travel with us" class="bus">
-      </div>
+    <div class="container">
+        <!-- Login Section -->
+        <div class="login-section">
+            <div class="logo">
+            <img src="<?php echo URLROOT; ?>/public/images/logo2.png" alt="User Profile Picture"> 
+            </div>
+            <h1>Login to Your Account</h1>
+            <p>Login using social networks</p>
+            <div class="social-login">
+                <button class="social-btn facebook">f</button>
+                <button class="social-btn google">G+</button>
+                <button class="social-btn linkedin">in</button>
+            </div>
+            <div class="separator">OR</div>
+            <form>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="sign-in-btn">Sign In</button>
+            </form>
+        </div>
 
-      <div class="signin-box">
-          <h2>Sign in</h2>
-          <form id="signin-form" onsubmit="return validateForm()">
-              <label for="email">Email :</label>
-              <input type="email" id="email" name="email" required>
-              
-              <label for="password">Password :</label>
-              <input type="password" id="password" name="password" required>
-              
-              <div class="signup-link">
-                  <span>New to TripTrack? </span><a href="#">Sign up</a>
-              </div>
-              
-              <button type="submit">Sign In</button>
-              
-              <div class="google-signin">
-                  <button type="button">
-                      <img src="./../../images/google-logo.png" alt="Google logo">
-                      Continue with Google
-                  </button>
-              </div>
-          </form>
-      </div>
-   </div>
+        <!-- Signup Section -->
+        <div class="signup-section">
+            <h2>New Here?</h2>
+            <p>"Sign up to find and book buses with ease and enjoy a hassle-free journey!"</p>
+            <button class="sign-up-btn">Sign Up</button>
+        </div>
+    </div>
 
    <script>
    function validateForm() {

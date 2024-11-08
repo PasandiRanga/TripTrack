@@ -32,6 +32,11 @@
     ];
     ?>
 
+    <?php
+    require 'profileData.php';
+    foreach ($profileDetails as $profile){}
+        ?>
+
     <!-- Header and Navbar -->
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
@@ -46,11 +51,11 @@
         <!-- Left Side: User Info -->
         <div class="profile-left">
             <div class="profile-pic">
-                <img src="./../../images/profile.png" alt="User Profile Picture">
-                <button class="edit-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>
+                <img src="<?php echo URLROOT; ?>/public/images/profile.png" alt="User Profile Picture"> 
             </div>
-            <h2>Susan S.Doe</h2>
-            <p>TT3452D</p>
+            <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
+            <h2><?php echo $profile['fullName']; ?></h2>
+            <p><?php echo $profile['userID']; ?></p>
             <button class="logout-button">LogOut</button>
         </div>
 
@@ -58,24 +63,27 @@
         <div class="profile-right">
             <div class="detail">
                 <label>Full Name</label>
-                <input type="text" value="Susan Sofia Doe" readonly>
+                <input type="text" value="<?php echo $profile['fullName']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>Email Address</label>
-                <input type="email" value="susansofiadoe@gmail.com" readonly>
+                <input type="email" value="<?php echo $profile['email']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>Contact Number</label>
-                <input type="text" value="+94 528510362" readonly>
+                <input type="text" value="<?php echo $profile['contact']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>NIC</label>
-                <input type="text" value="931650254869" readonly>
+                <input type="text" value="<?php echo $profile['NIC']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>HomeTown</label>
-                <input type="text" value="Colombo" readonly>
+                <input type="text" value="<?php echo $profile['homeTown']; ?>" readonly>
             </div>
+
+            <button class="edit-button">Edit</button>
+
         </div>
     </div>
 

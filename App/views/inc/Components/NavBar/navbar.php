@@ -77,10 +77,6 @@ function isCurrentPage($controller, $method, $currentController, $currentMethod)
                         <i class="fa fa-ticket" aria-hidden="true"></i>
                         <span class="text">Bookings</span>
                     </a>
-                    <a href="' . URLROOT . '/RegisteredPages/searchBus" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'searchBus', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <i class="fa fa-bus"></i>
-                        <span class="text">Search Buses</span>
-                    </a>
                     <a href="' . URLROOT . '/RegisteredPages/notification" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'notification', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="text">Notifications</span>
