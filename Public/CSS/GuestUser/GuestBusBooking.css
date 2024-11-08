@@ -448,3 +448,67 @@ input:required {
 .form-group-inline input[type="radio"]  {
     margin-left: 5px; /* Optional: control spacing between radio buttons */
 }
+
+/* Styling for select (dropdown) fields */
+select {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to dropdown */
+    background-color: #fff; /* Set background color for dropdown */
+    width: 100%; /* Ensure the select element takes up the full width */
+}
+
+/* Styling for select options (for when the dropdown is open) */
+select:focus {
+    border-color: #0000; /* Change the border color when focused */
+    outline: none; /* Remove default outline */
+    background-color: #f9f9f9; /* Light background when focused */
+}
+
+select option {
+    padding: 10px;
+    font-size: 14px;
+    color: #000;
+}
+
+/* Optional: style for the dropdown arrow to match the input fields */
+select::-ms-expand {
+    display: none; /*Remove default arrow in Internet Explorer*/
+}
+
+/* Custom arrow styling for modern browsers */
+select {
+    /* appearance: none;  */
+    /* -webkit-appearance: none; For Safari */
+    /* -moz-appearance: none; For Firefox */
+    /* background-image: url('path-to-your-arrow-icon.svg'); Set a custom arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Position the arrow on the right */
+    background-size: 15px; /* Set the size of the arrow */
+    width:280px;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000; /* Ensures it’s on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Center it */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be adjusted as needed */
+    max-width: 500px; /* Limits the max width */
+}
+
