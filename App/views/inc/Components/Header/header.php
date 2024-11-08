@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation</title>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar.css?v=<?php echo time(); ?>">
+</head>
+<body>
+
 <?php
 // Start the session to access session variables
 if (session_status() === PHP_SESSION_NONE) {
@@ -168,3 +178,6 @@ $userRole = isset($_SESSION['userRole']) ? $_SESSION['userRole'] : 'GuestUser';
         <?php endif; ?>
     </div>
 </nav>
+
+</body>
+</html>
