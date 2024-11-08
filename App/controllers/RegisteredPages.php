@@ -24,7 +24,7 @@
         }
 
         public function busLayout() {
-            $this->view('pages/RegisteredUser/busLayout');
+            $this->view('pages/RegisteredUser/Bus_layout');
         }
 
         public function cancelBooking() {
@@ -32,7 +32,7 @@
         }
 
         public function contactUs() {
-            $this->view('pages/RegisteredUser/contactUs');
+            $this->view('pages/RegisteredUser/contactus');
         }
 
         public function notification() {
@@ -53,6 +53,10 @@
 
         public function signIn() {
             $this->view('pages/RegisteredUser/signIn');
+        }
+
+        public function Notify() {
+            $this->view('pages/RegisteredUser/Notify');
         }
         
 

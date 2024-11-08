@@ -1,4 +1,6 @@
 body {
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+    position: relative;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
