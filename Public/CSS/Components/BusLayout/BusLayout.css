@@ -1,34 +1,69 @@
-/* busLayout.css */
+.hero-container {
+    width: 100%;
+    margin-bottom: 10px;
+    /* height: 370px; */
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff);
+    position: relative;
+}
+
+body {
+    /* background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient * */
+    position: relative;
+    margin: 0; /* Remove the default margin */
+    padding: 0;
+    justify-content: center; 
+    align-items: center;
+}
+
+.box {
+    border: 1px solid #ffffff;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 100px;
+}
 
 .button-container {
     display: flex;
-    gap: 45px;
+    column-gap: 20px;
+    max-height: 60px;
+    /* margin:0 auto; */
 }
 
 .number-button {
-    width: 60px;
-    height: 100px;
-    background-color: #17f5cc;
-    border: none;
-    border-radius: 10px;
+    width: 40px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid #002b38; /* Thick border color to complement page background */
+    border-radius: 8px;
     color: #002b38;
-    font-size: 20px;
+    font-size: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .number-button:hover {
     transform: scale(1.1);
     cursor: pointer;
-    background-color: #005569;
+    background-color: rgba(0, 85, 105, 0.5); /* Semi-transparent dark color on hover */
 }
 
-.disable {
-    width: 60px;
-    height: 100px;
+
+.disable{
+    width: 40px;
+    height: 60px;
     background-color: #ffffff;
     border: none;
     border-radius: 10px;
@@ -37,3 +72,97 @@
     justify-content: center;
     align-items: center;
 }
+
+.layout-container {
+    display: flex;
+    gap: 40px;
+    align-items: center; 
+    margin: 0 auto;
+    /* max-width: 900px;
+    width: 80%;  */
+}
+
+.details-container,
+.payment-container {
+    border: 1px solid #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    /* max-width: 100%; */
+    margin-top: 20px;
+    
+}
+
+.details-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 50px;
+    height: 200px;
+    
+}
+
+.details-container h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    grid-column: 1 / -1; /* Spans the title across both columns */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.details-container p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+    margin-top: 8px;
+}
+
+
+/* .details-container p:nth-child(odd) {
+    grid-column: 1; /* Aligns odd-numbered paragraphs in the first column 
+}
+
+.details-container p:nth-child(even) {
+    grid-column: 2; /* Aligns even-numbered paragraphs in the second column 
+} */
+
+.details-container p strong {
+    display: inline-block;
+}
+
+.number-button.booked {
+    background-color: #ccc; /* Grey color for booked seats */
+    color: #fff;
+    cursor: not-allowed;
+}
+.number-button.selected {
+    background-color: rgba(0, 85, 105, 0.7);
+    color: #fff;
+}
+
+.number-button.selected {
+    background-color: rgba(0, 85, 105, 0.7);
+    color: #fff;
+}
+
+.number-button.selected {
+    background-color: rgba(0, 85, 105, 0.7);
+    color: #fff;
+}
+
+.checkout-button{
+    padding: 10px;
+    background-color: #002b38;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.checkout-button{
+    background-color: #005569;
+}
+

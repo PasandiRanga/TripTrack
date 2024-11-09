@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Booking</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/GuestBusBooking.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusLayout/BusLayout.css?v=<?php echo time(); ?>">
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusLayout/BusLayout.css?v=<?php echo time(); ?>"> -->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
+
 </head>
 <body>
+    
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
         localStorage.setItem('userRole', userRole);
@@ -37,7 +39,7 @@
         $scheduleId = $_GET['scheduleId'] ?? null;
         $selectedBus = null;
         $selectedSchedule = null;
-        $seats = $_GET['busType'];
+        // $seats = $_GET['busType'];
 
         // Find the selected bus
         foreach ($busDetails as $bus) {
@@ -47,6 +49,13 @@
             }
         }
 
+        $busStops = [];
+        if (isset($selectedBus['stops']) && is_array($selectedBus['stops']) && !empty($selectedBus['stops'])) {
+            $busStops = $selectedBus['stops']; // Use the stops from the selected bus
+        } else {
+            $busStops = ["No stops available"]; // Handle case if no stops are available
+        }
+        
         // Find the selected schedule for the bus
         if ($selectedBus) {
             foreach ($busSchedules as $busSchedule) {
@@ -59,6 +68,7 @@
                     }
                 }
             }
+            // var_dump($selectedBus);
         }
 
         if ($selectedBus && $selectedSchedule) {
@@ -134,15 +144,23 @@
                     <button>View ratings and reviews</button>
                 </div>
         </div>
-        <div class="seat-layout">
-            <?php require_once APPROOT . '/views/inc/Components/BusLayout/BusLayout.php'; ?>
-        </div>
+       
     </div>
+
+    <!-- Modal for Bus Layout
+    <div id="busLayoutModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="busLayoutContent"></div>  Container to load busLayout.php 
+            <input type="hidden" id="selectedSeats" name="selectedSeats">
+        </div>
+    </div> -->
+
     <div class="booking-form">
         <h2>Book Your Seat</h2>
-        <form action="processBooking.php" method="post">
-            <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>">
-            <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
+        <form id="bookingForm" action="<?php echo URLROOT; ?>/GuestPages/busLayout" method="post">
+        <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>">
+        <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
             <div class="form-group">
                 <div>
@@ -165,11 +183,23 @@
                     <input type="text" id="nic" name="nic" required>
                 </div>
             </div>
-            
+
             <div class="form-group">
-                <div>
-                    <label for="destination">Destination:</label>
-                    <input type="text" id="destination" name="destination" required><br>
+            <div>
+                <label for="destination">Destination:</label>
+                <select id="destination" name="destination" required>
+                    <?php 
+                    if (!empty($busStops) && is_array($busStops)) {
+                            // Loop through each stop in the busStops array and create an option for it
+                        foreach ($busStops as $stop) {
+                                echo "<option value=\"" . htmlspecialchars($stop) . "\">" . htmlspecialchars($stop) . "</option>";
+                        }
+                    } else {
+                            // If no stops are available, show a default option
+                            echo "<option value=\"\">No stops available</option>";
+                    }
+                    ?>
+                </select><br>
                 </div>
                 <div>
                     <label for="destination">Number of seats:</label>
@@ -191,21 +221,54 @@
             </div>
             <br>
 
-
             <button type="submit">Proceed</button>
         </form>
         <br>
     </div>
     <br><br>
 
-   
-
-
     <?php
     } else {
         echo "<p>Bus or schedule not found.</p>";
     }
     ?>
+    <!-- <script>
+    // Define the function to open the bus layout
+    function openBusLayout() {
+        console.log("BusLayout is called");
+
+        // Open the modal to show the bus layout
+        document.getElementById('busLayoutModal').style.display = 'block';
+
+        // Dynamically load the bus layout from the server using fetch()
+        fetch('<?php echo URLROOT; ?>/views/inc/Components/BusLayout/BusLayout.php')
+            .then(response => response.text())  // Get the response as text
+            .then(data => {
+                console.log("alayout to model")
+                // Insert the bus layout content into the modal
+                document.getElementById('busLayoutContent').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading bus layout:', error);
+            });
+    }
+
+     // Function to close the modal
+     function closeModal() {
+        document.getElementById('busLayoutModal').style.display = 'none';
+    }
+
+    // Event listener to close modal when clicking outside the modal-content
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('busLayoutModal')) {
+            closeModal();
+        }
+    }
+
+    // Add an event listener to the element with id "seats" to trigger the openBusLayout function
+    document.getElementById('noOfseats').addEventListener('click', openBusLayout);
+</script> -->
+
 
 </body>
 </html>
