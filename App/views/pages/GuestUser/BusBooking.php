@@ -159,8 +159,8 @@
     <div class="booking-form">
         <h2>Book Your Seat</h2>
         <form id="bookingForm" action="<?php echo URLROOT; ?>/GuestPages/busLayout" method="post">
-            <!-- <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>"> -->
-            <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
+        <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>">
+        <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
             <div class="form-group">
                 <div>

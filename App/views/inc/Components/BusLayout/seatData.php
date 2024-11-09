@@ -21,12 +21,12 @@ $busData = [
     2 => [
         'seatType' => 58,
         'seats' => [
-            [1, 2, 3, 4, 5, 6],           // Row with seats 1-6
-            [7, 8, 9, 10, 11, 12],        // Row with seats 7-12
-            [13, 14, 15, 16, 17, 18],     // Row with seats 13-18
-            [19, 20, 21, 22, 23, 24],     // Row with seats 19-24
-            [25, 26, 27, 28, 29, 30],     // Row with seats 25-30
-            [31, 32, 33, 34, 35, 36],     // Row with seats 31-36
+            [1, '', '', '', '', ''],           // Row with seats 1-6
+            [2, 3, '', 4,5, 6],        // Row with seats 7-12
+            [7, 8, '', 9, 10, 11],     // Row with seats 13-18
+            [12, 13, '', 14, 15, 16],     // Row with seats 19-24
+            [17, 18, '', 19, 20, 21],     // Row with seats 25-30
+            [22, 23, '', 24, 25, 26],     // Row with seats 31-36
         ]
     ]
 ];

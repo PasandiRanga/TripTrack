@@ -15,206 +15,43 @@ body {
     align-items: center;
 }
 
-/* Header positioning */
-#header-placeholder {
-    position: relative; 
-    width: 100%;
-    z-index: 1000;
-    background-color: #064060;
-    height: 3rem; 
-    margin-bottom: 20px; /* Gap between header and content */
-}
-
-/* Navbar positioning */
-#navbar-placeholder {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-    background-color: rgba(54, 166, 144, 0.812);
-    margin-top: 2rem;
-}
-
-/* Main container spacing */
-.container {
-    display: flex;
-    justify-content: space-between; 
-    width: 90%; 
-    margin: 20px auto; /* Space around the content */
-}
-
-.left-column, .right-column {
-    display: flex;
-    flex-direction: column; 
-    flex: 1; 
-}
-
-.left-column {
-    margin-right: 20px; 
-}
-
-/* Other styles remain unchanged */
-
-
 .box {
-    border: 1px solid #ffffff; 
-    padding: 15px;         
-    border-radius: 8px;   
-    background-color: #ffffff; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    margin-bottom: 20px; 
-    width: 600px; 
-    max-width: 100%; 
-}
-
-#right-column {
-    display: none; /* Hide the right column by default */
-}
-
-.route {
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.detail {
-    font-size: 16px;
-    margin-top: 5px;
-}
-
-.abc {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.left-content {
-    flex: 1;
-}
-
-.right-content {
-    text-align: right;
-    font-size: 12px;
-}
-
-.service {
-    background-color: #e0f7e0; /* light green background similar to the image */
+    border: 1px solid #ffffff;
     padding: 5px;
-    border-radius: 5px;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'ABeeZee';
-    letter-spacing: 1px;
-    color: darkgreen;
-}
-
-.extra{
-    font-size: 16px;
-}
-
-.more{
-    background-color: transparent;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: bold;
-    border: 3px solid #002b38;  
-    padding: 5px;
-}
-
-img{
-    height:40px;
-    width:40px;
-}
-
-.caption {
-    margin-left: 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-.image-caption-container {
-    display: flex;
-    align-items: center;
-}
-
-
-.form-container {
-    background-color: #fff;
-    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 550px;
-}
-
-form {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
-}
-
-label {
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="number"] {
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.payment-options,
-.ticket-options {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-.proceedButton {
-    padding: 10px;
-    background-color: #002b38;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.proceedButton:hover {
-    background-color: #005569;
-}
-
-input:invalid {
-    border-color: #002b38;
-}
-
-input:required {
-    background-color: #f9f9f9;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 100px;
 }
 
 .button-container {
     display: flex;
-    gap: 45px;
+    column-gap: 20px;
+    max-height: 60px;
+    /* margin:0 auto; */
 }
 
 .number-button {
-    width: 60px;
-    height: 100px;
+    width: 40px;
+    height: 50px;
     background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-    border: 3px solid #002b38; /* Thick border color to complement page background */
-    border-radius: 10px;
+    border: 2px solid #002b38; /* Thick border color to complement page background */
+    border-radius: 8px;
     color: #002b38;
-    font-size: 20px;
+    font-size: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .number-button:hover {
@@ -225,8 +62,8 @@ input:required {
 
 
 .disable{
-    width: 60px;
-    height: 100px;
+    width: 40px;
+    height: 60px;
     background-color: #ffffff;
     border: none;
     border-radius: 10px;
@@ -235,3 +72,97 @@ input:required {
     justify-content: center;
     align-items: center;
 }
+
+.layout-container {
+    display: flex;
+    gap: 40px;
+    align-items: center; 
+    margin: 0 auto;
+    /* max-width: 900px;
+    width: 80%;  */
+}
+
+.details-container,
+.payment-container {
+    border: 1px solid #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    /* max-width: 100%; */
+    margin-top: 20px;
+    
+}
+
+.details-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 50px;
+    height: 200px;
+    
+}
+
+.details-container h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    grid-column: 1 / -1; /* Spans the title across both columns */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.details-container p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+    margin-top: 8px;
+}
+
+
+/* .details-container p:nth-child(odd) {
+    grid-column: 1; /* Aligns odd-numbered paragraphs in the first column 
+}
+
+.details-container p:nth-child(even) {
+    grid-column: 2; /* Aligns even-numbered paragraphs in the second column 
+} */
+
+.details-container p strong {
+    display: inline-block;
+}
+
+.number-button.booked {
+    background-color: #ccc; /* Grey color for booked seats */
+    color: #fff;
+    cursor: not-allowed;
+}
+.number-button.selected {
+    background-color: rgba(0, 85, 105, 0.7);
+    color: #fff;
+}
+
+.number-button.selected {
+    background-color: rgba(0, 85, 105, 0.7);
+    color: #fff;
+}
+
+.number-button.selected {
+    background-color: rgba(0, 85, 105, 0.7);
+    color: #fff;
+}
+
+.checkout-button{
+    padding: 10px;
+    background-color: #002b38;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.checkout-button{
+    background-color: #005569;
+}
+
