@@ -133,6 +133,8 @@
                     <button>View ratings and reviews</button>
                 </div>
         </div>
+
+        
         <div class="seat-layout">
             <?php require_once APPROOT . '/views/inc/Components/BusLayout/BusLayout.php'; ?>
         </div>

@@ -202,3 +202,54 @@ table td:last-child {
 .clickable {
     cursor: pointer;
 }
+
+/* Ensure search icon is on top */
+.search-icon {
+    color: #000000;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10; /* Ensure it's clickable */
+}
+
+/* Overlay for the ticket box */
+.ticketBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Higher z-index */
+    transition: opacity 0.3s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.signInContent {
+    background: white;
+    width: 80%;
+    max-width: 700px;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height:450px;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 40px;
+    cursor: pointer;
+    color: #cc0000;
+}
+

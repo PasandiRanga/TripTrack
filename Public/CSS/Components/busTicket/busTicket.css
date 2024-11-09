@@ -1,0 +1,84 @@
+.bus-ticket {
+    background-color: #004e66;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 500px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.location h2 {
+    font-size: 1.2em;
+    margin: 0;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.location p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: antiquewhite;
+}
+
+.icon i {
+    font-size: 1.5em;
+    color: #ffffff;
+    
+}
+
+/* Dotted line style */
+.dotted-line {
+    border: none;
+    border-top: 1px dotted #ffffff; /* Dotted line with blue color */
+    width: 100%; /* Ensure the line stretches */
+    margin: 0; /* Remove any margins */
+}
+
+.dotted-separator {
+    border: none;
+    border-top: 1px dashed #ffffff;
+    margin: 15px 0;
+}
+
+.ticket-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #ffffff;
+}
+
+.price h3 {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #4CAF50; /* Gold color for price */
+}
+
+.ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.passenger-info p {
+    margin: 3px 0;
+    font-size: 0.85em;
+    color: #ffffff;
+}
+
+.qr-code i {
+    font-size: 100px;
+    color: #ffffff;
+}
