@@ -25,6 +25,9 @@
         public function contact() {
             $this->view('pages/GuestUser/contactus');
         }
+        public function busLayout() {
+            $this->view('inc/Components/BusLayout/BusLayout');
+        }
 
         public function BusBooking() {
             $busId = isset($_GET['busId']) ? $_GET['busId'] : null;

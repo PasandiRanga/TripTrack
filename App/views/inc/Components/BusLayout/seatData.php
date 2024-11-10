@@ -1,55 +1,33 @@
 <?php
-// seatData.php
-
-// Array containing bus data, including bus ID, number of seats, and seat layout
-$seatData = [
-    // Example for a bus with 32 seats
-    [
-        'busId' => 1,
-        'noOfSeats' => 32,
-        'layout' => [
-            'rows' => 8, // number of rows
-            'seatsPerRow' => 4, // number of seats per row
-            'seatConfiguration' => [
-                ['A', 'B', 'C', 'D'], // Row 1 seats
-                ['A', 'B', 'C', 'D'], // Row 2 seats
-                ['A', 'B', 'C', 'D'], // Row 3 seats
-                ['A', 'B', 'C', 'D'], // Row 4 seats
-                ['A', 'B', 'C', 'D'], // Row 5 seats
-                ['A', 'B', 'C', 'D'], // Row 6 seats
-                ['A', 'B', 'C', 'D'], // Row 7 seats
-                ['A', 'B', 'C', 'D'], // Row 8 seats
-            ],
-        ],
+// Seat data for the bus with 56 seats
+$busData = [
+    // Bus 56 Seat Layout
+    1 => [
+        'seatType' => 38,
+        'seats' => [
+            [1, '', '',  '', ''],     // No seat in this row, should be empty spaces for visualization
+            [2, 3, '',  4, 5],         // Row with seats 2, 3, 4, 5
+            [6, 7, '', 8, 9],        // Row with seats 6, 7, 8, 9, 10, 11
+            [10, 11, '', 12, 13],    // Row with seats 12-17
+            [14, 15,'', 16 , 17],    // Row with seats 18-23
+            [18, 19, '', 20, 21],    // Row with seats 24-29
+            [22,23,'',24,25],    // Row with seats 30-35
+            [26,27,'',28,29],    // Row with seats 36-41
+            [30,31,'',32,33],    // Row with seats 42-47
+            [34,35,36,37,38],    // Row with seats 48-53    // Back row with seats 54-56 (empty spaces for visual purpose)
+        ]
     ],
-    // Example for a bus with 56 seats
-    [
-        'busId' => 2,
-        'noOfSeats' => 56,
-        'layout' => [
-            'rows' => 14, // number of rows
-            'seatsPerRow' => 4, // number of seats per row
-            'seatConfiguration' => [
-                ['A', 'B', 'C', 'D'], // Row 1 seats
-                ['A', 'B', 'C', 'D'], // Row 2 seats
-                ['A', 'B', 'C', 'D'], // Row 3 seats
-                ['A', 'B', 'C', 'D'], // Row 4 seats
-                ['A', 'B', 'C', 'D'], // Row 5 seats
-                ['A', 'B', 'C', 'D'], // Row 6 seats
-                ['A', 'B', 'C', 'D'], // Row 7 seats
-                ['A', 'B', 'C', 'D'], // Row 8 seats
-                ['A', 'B', 'C', 'D'], // Row 9 seats
-                ['A', 'B', 'C', 'D'], // Row 10 seats
-                ['A', 'B', 'C', 'D'], // Row 11 seats
-                ['A', 'B', 'C', 'D'], // Row 12 seats
-                ['A', 'B', 'C', 'D'], // Row 13 seats
-                ['A', 'B', 'C', 'D'], // Row 14 seats
-            ],
-        ],
-    ],
-    // Additional bus examples can be added here following the same structure
+    // Bus 36 Seat Layout
+    2 => [
+        'seatType' => 58,
+        'seats' => [
+            [1, '', '', '', '', ''],           // Row with seats 1-6
+            [2, 3, '', 4,5, 6],        // Row with seats 7-12
+            [7, 8, '', 9, 10, 11],     // Row with seats 13-18
+            [12, 13, '', 14, 15, 16],     // Row with seats 19-24
+            [17, 18, '', 19, 20, 21],     // Row with seats 25-30
+            [22, 23, '', 24, 25, 26],     // Row with seats 31-36
+        ]
+    ]
 ];
-
-// You can return this array or include it in other files to access bus seat data
-return $seatData;
 ?>

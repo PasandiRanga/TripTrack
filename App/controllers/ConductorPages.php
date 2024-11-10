@@ -24,5 +24,13 @@
             $this->view('pages/Conductor/RequestLeave');
         }
 
+        public function home() {
+            $this->view('pages/Conductor/home');
+        }
+
+        public function viewAssigns() {
+            $this->view('pages/Conductor/ViewAssigns');
+        }
+
     }
 ?>
