@@ -32,6 +32,8 @@
     <?php require 'bookingsData.php'; ?>
 
     <!-- Header and Navbar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
