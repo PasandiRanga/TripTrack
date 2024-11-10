@@ -98,13 +98,14 @@ li {
     border-radius: 50%;
     color: #fff;
     vertical-align: top;
-    font-size: 12px; /* Adjust font size for compatibility */
+    font-size: 10px; /* Adjust font size for compatibility */
     margin-left: -15px; /* Adjust position as per icon size */
 }
 
 /* Bell Icon Styling */
 .icon img {
-    width: 30px; /* Decrease width for better alignment */
+    width: 26px;
+    height: 26px; /* Decrease width for better alignment */
     margin-top: 5px; /* Adjust margin to align with login button */
     display: inline-block;
 }
@@ -400,4 +401,16 @@ input {
     text-align: center;
     position: relative;
     border:2px solid #d1d9e6;
+}
+
+.profile-pic {
+    width: 40px;  /* Adjust size as needed */
+    height: 20px;
+    border-radius: 50%;  /* Make it circular */
+    object-fit: cover;  /* Ensure the image fits the circle */
+    border: 2px solid #fff;  /* Optional: add a white border around the image */
+}
+
+.profile-pic:hover {
+    transform: scale(1.1); /* Optional: Adds a slight zoom effect on hover */
 }

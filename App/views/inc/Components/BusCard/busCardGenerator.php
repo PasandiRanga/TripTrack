@@ -10,6 +10,15 @@
 </head>
 <body>
 
+    <?php
+        // Assuming $data['currentController'] and $data['currentMethod'] are passed to this view
+        $currentController = $data['currentController'] ?? '';
+        // echo "Current controller is: " . $currentController;
+        $currentMethod = $data['currentMethod'] ?? '';
+        // echo "Current method is: " . $currentMethod;
+        $userRole = $data['userRole'] ?? '';
+    ?>
+
 <?php
 require_once 'busData.php'; // Include the bus data
 require_once 'scheduleData.php'; // Include the schedule data
@@ -25,7 +34,17 @@ foreach ($busDetails as $bus) {
         $busScheduleData = array_values($busScheduleData)[0]; // Get the first matched schedule entry
         foreach ($busScheduleData['schedule'] as $schedule) { // Loop through each schedule for the bus
             ?>
-            <div class="bus-card" onclick="window.location.href = '<?php echo URLROOT; ?>/GuestPages/BusBooking?busId=<?php echo urlencode($bus['busId']); ?>&scheduleId=<?php echo urlencode($schedule['scheduleId']); ?>'">
+            <div class="bus-card" onclick="window.location.href = '<?php 
+                // Check userRole and adjust the URL accordingly
+                if ($userRole === 'GuestUser') {
+                    echo URLROOT . '/GuestPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                } elseif ($userRole === 'RegisteredUser') {
+                    echo URLROOT . '/RegisteredPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                } else {
+                    // Default case for other roles (if any), you can change this if needed
+                    echo URLROOT . '/GuestPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                }
+            ?>'">            
             <div class="bus-card-header">
                     <div class="route-info">
                         <h2><?php echo $bus['route']; ?></h2>

@@ -16,13 +16,29 @@
 </script>
 
 <?php
-    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+    // Retrieve the user role from the form submission or session
+    $formUserRole = $_POST['userRole'] ?? ($_SESSION['userRole'] ?? 'GuestUser');
+
+    // Set `userRole` and `currentController` based on the form data or session
+    if ($formUserRole === 'GuestUser') {
+        $userRole = 'GuestUser';
+        $currentController = 'GuestPages';
+    } elseif ($formUserRole === 'RegisteredUser') {
+        $userRole = 'RegisteredUser';
+        $currentController = 'RegisteredPages';
+    } else {
+        $userRole = 'GuestUser'; // Default to GuestUser if no valid role is provided
+        $currentController = 'GuestPages';
+    }
+
+    // Pass data to the template
     $data = [
-        'currentController' => 'GuestPages',
-        'currentMethod' => 'home',
+        'currentController' => $currentController,
+        'currentMethod' => 'home', // Adjust as needed
         'userRole' => $userRole
     ];
 ?>
+
 
 <div class="hero-container">
     <?php require APPROOT . '/views/inc/Components/Header/header.php'; ?>
