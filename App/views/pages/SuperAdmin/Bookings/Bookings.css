@@ -1,0 +1,42 @@
+/* Style for the back button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+h1 {
+    text-align: center;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.booking-table th, .booking-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.booking-table th {
+    background-color: #063946;
+    color: white;
+}
+
+/* Style for selected row */
+.booking-table tr.selected {
+    background-color: #d3d3d3; /* Light grey color */
+}
+
+.booking-table tr:hover {
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
