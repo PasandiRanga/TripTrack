@@ -19,13 +19,16 @@ $currentMethod = $data['currentMethod'] ?? '';
 $userRole = $data['userRole'] ?? '';
 
 // Helper function to check if the current page matches
-function isCurrentPage($controller, $method, $currentController, $currentMethod) {
-    // Debug output
-    
 
-    return (strtolower($currentController) === strtolower($controller) && 
-            strtolower($currentMethod) === strtolower($method));
+// Check if the function is already defined before declaring it
+if (!function_exists('isCurrentPage')) {
+    function isCurrentPage($controller, $method, $currentController, $currentMethod) {
+        return (strtolower($currentController) === strtolower($controller) && 
+                strtolower($currentMethod) === strtolower($method));
+    }
 }
+
+
 ?>
 
 <nav class="navbar">

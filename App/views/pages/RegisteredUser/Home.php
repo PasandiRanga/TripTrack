@@ -18,7 +18,7 @@
 </head>
 <body>
 
-    <script>
+<script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
@@ -33,12 +33,13 @@
     $data = [
         'currentController' => 'RegisteredPages', // Adjust this based on your controller
         'currentMethod' => 'home', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
+        'userRole' => $userRole 
+    ];   
     ?>
     
 
     <div class="hero-container">
+        <!-- <p><?php echo($userRole)?></p> -->
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
         <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>

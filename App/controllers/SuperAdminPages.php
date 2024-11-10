@@ -8,8 +8,8 @@ class SuperAdminPages extends Controller {
         $this->SuperAdminModel = $this->model('M_SuperAdminPages'); // Adjust the model name as per your implementation
     }
 
-    public function Super_Admin_home() {
-        $this->view('pages/SuperAdmin/Super_Admin_home');
+    public function home() {
+        $this->view('pages/SuperAdmin/Dashboard');
     }
 
 }

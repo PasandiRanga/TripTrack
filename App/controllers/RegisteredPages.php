@@ -24,7 +24,7 @@
         }
 
         public function busLayout() {
-            $this->view('pages/RegisteredUser/Bus_layout');
+            $this->view('inc/Components/BusLayout/BusLayout');
         }
 
         public function cancelBooking() {
@@ -57,6 +57,19 @@
 
         public function Notify() {
             $this->view('pages/RegisteredUser/Notify');
+        }
+
+        public function BusBooking() {
+            $busId = isset($_GET['busId']) ? $_GET['busId'] : null;
+            
+            if ($busId === null) {
+                echo "Bus ID is missing!";
+                exit;
+            }
+        
+            $data = ['busId' => $busId];
+            
+            $this->view('pages/RegisteredUser/BusBooking', $data);
         }
         
 

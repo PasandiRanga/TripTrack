@@ -13,14 +13,14 @@
 <body>
     
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
-    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
     $data = [
-        'currentController' => 'GuestPages',
+        'currentController' => 'RegisteredPages',
         'currentMethod' => 'home',
         'userRole' => $userRole
     ];
@@ -144,26 +144,15 @@
                     <button>View ratings and reviews</button>
                 </div>
         </div>
-
-        
-        
        
     </div>
 
-    <!-- Modal for Bus Layout
-    <div id="busLayoutModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="busLayoutContent"></div>  Container to load busLayout.php 
-            <input type="hidden" id="selectedSeats" name="selectedSeats">
-        </div>
-    </div> -->
-
     <div class="booking-form">
         <h2>Book Your Seat</h2>
-        <form id="bookingForm" action="<?php echo URLROOT; ?>/GuestPages/busLayout" method="post">
+        <form id="bookingForm" action="<?php echo URLROOT; ?>/RegisteredPages/busLayout" method="post">
         <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>">
         <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
+        <input type="hidden" name="userRole" value="<?php echo htmlspecialchars($userRole); ?>">
 
             <div class="form-group">
                 <div>
@@ -172,7 +161,7 @@
                 </div>
                 <div>
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="Bemail" name="Bemail" required>
                 </div>
             </div>
 
@@ -235,42 +224,6 @@
         echo "<p>Bus or schedule not found.</p>";
     }
     ?>
-    <!-- <script>
-    // Define the function to open the bus layout
-    function openBusLayout() {
-        console.log("BusLayout is called");
-
-        // Open the modal to show the bus layout
-        document.getElementById('busLayoutModal').style.display = 'block';
-
-        // Dynamically load the bus layout from the server using fetch()
-        fetch('<?php echo URLROOT; ?>/views/inc/Components/BusLayout/BusLayout.php')
-            .then(response => response.text())  // Get the response as text
-            .then(data => {
-                console.log("alayout to model")
-                // Insert the bus layout content into the modal
-                document.getElementById('busLayoutContent').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading bus layout:', error);
-            });
-    }
-
-     // Function to close the modal
-     function closeModal() {
-        document.getElementById('busLayoutModal').style.display = 'none';
-    }
-
-    // Event listener to close modal when clicking outside the modal-content
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('busLayoutModal')) {
-            closeModal();
-        }
-    }
-
-    // Add an event listener to the element with id "seats" to trigger the openBusLayout function
-    document.getElementById('noOfseats').addEventListener('click', openBusLayout);
-</script> -->
 
 
 </body>

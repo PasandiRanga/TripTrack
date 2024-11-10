@@ -20,6 +20,36 @@ $bookingsDetails = [
         'price' => '1200',
         'status' => 'Scheduled',
     ],
+    [
+        'date' => '2025-11-08',
+        'time' => '11:00 a.m.',
+        'route' => '440',
+        'from' => 'Galle',
+        'to' => 'Kandy',
+        'busNo' => 'XP23975',
+        'price' => '1200',
+        'status' => 'Scheduled',
+    ],
+    [
+        'date' => '2024-12-30',
+        'time' => '11:00 a.m.',
+        'route' => '440',
+        'from' => 'Galle',
+        'to' => 'Kandy',
+        'busNo' => 'XP23975',
+        'price' => '1200',
+        'status' => 'Scheduled',
+    ],
+    [
+        'date' => '2025-01-08',
+        'time' => '11:00 a.m.',
+        'route' => '440',
+        'from' => 'Galle',
+        'to' => 'Kandy',
+        'busNo' => 'XP23975',
+        'price' => '1200',
+        'status' => 'Scheduled',
+    ],
     // Add more bookings as needed
 ];
 
