@@ -53,8 +53,9 @@
 
     </div>
     <div class="body-section">
-        <br>
-        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+        <div class="footer-container">
+            <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+        </div>
     </div>
 
     

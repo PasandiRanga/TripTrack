@@ -30,24 +30,15 @@ img.name-image {
     position: relative;
 }
 
-.body-section{
-    background-color:#ffffff;
+.footer-container {
+    background-color: #ffffff;
 }
 
-.bus-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    background-color: #ffffff;
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Drop shadow */
-    padding: 20px; /* Add padding if needed */
-    margin: 20px auto; /* Center the container */
-    width: 90%; 
-    box-sizing: border-box; /* Ensure padding and border are included in total width */
-    color : black;
+.body-section{
+    background-color:#F0F1F3;
 }
+
+
 
 /* Center-align text and set font family for text-container */
 .text-container {
