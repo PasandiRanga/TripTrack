@@ -144,7 +144,15 @@
                     <button>View ratings and reviews</button>
                 </div>
         </div>
+<<<<<<< HEAD
+
+        
+        <div class="seat-layout">
+            <?php require_once APPROOT . '/views/inc/Components/BusLayout/BusLayout.php'; ?>
+        </div>
+=======
        
+>>>>>>> ac4bbf649b858990af231b83d1e9e740bd533ad6
     </div>
 
     <!-- Modal for Bus Layout
