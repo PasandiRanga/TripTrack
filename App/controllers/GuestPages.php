@@ -28,6 +28,9 @@
         public function busLayout() {
             $this->view('inc/Components/BusLayout/BusLayout');
         }
+        public function GuestReceipt() {
+            $this->view('inc/Components/Receipt/GuestReceipt');
+        }
 
         public function BusBooking() {
             $busId = isset($_GET['busId']) ? $_GET['busId'] : null;

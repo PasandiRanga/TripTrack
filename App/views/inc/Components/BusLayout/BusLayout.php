@@ -124,28 +124,41 @@
             <p><strong>Price per Seat:</strong> Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
             <p><strong>Total Price:</strong> Rs. <span id="total-price">0</span></p>
             
-            <form action="paymentGateway.php" method="POST">
-                    <p><strong>Payment Method:</strong></p>
-                    <label>
-                        <input type="radio" name="paymentMethod" value="credit" checked>
-                        Credit Card
-                    </label>
-                    <label>
-                        <input type="radio" name="paymentMethod" value="debit">
-                        Debit Card
-                    </label>
-                    <label>
-                        <input type="radio" name="paymentMethod" value="cash">
-                        Cash
-                    </label>
-                    <label>
-                        <input type="radio" name="paymentMethod" value="online">
-                        Online
-                    </label>
-                    <br/><br/>
-                    <!-- Checkout Button -->
-                    <button type="submit" class="checkout-button">Proceed to Checkout</button>
+            <form action="" method="POST" id="checkout-form">
+                <!-- Existing form fields -->
+                <input type="hidden" name="busId" value="<?php echo htmlspecialchars($busId); ?>">
+                <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>">
+                <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
+                <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+                <input type="hidden" name="contact" value="<?php echo htmlspecialchars($contact); ?>">
+                <input type="hidden" name="nic" value="<?php echo htmlspecialchars($nic); ?>">
+                <input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
+                <input type="hidden" name="noOfseats" value="<?php echo htmlspecialchars($noOfSeats); ?>">
+                <input type="hidden" name="pricePerSeat" value="<?php echo htmlspecialchars($pricePerSeat); ?>">
+                <input type="hidden" name="totalPrice" value="<?php echo htmlspecialchars($pricePerSeat * $noOfSeats); ?>">
+                <input type="hidden" name="selectedSeats" id="selected-seats-input">
+                
+                <!-- Other form fields and payment options as before -->
+                <p><strong>Payment Method:</strong></p>
+                <label>
+                    <input type="radio" name="paymentMethod" value="credit" checked> Credit Card
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="debit"> Debit Card
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="cash"> Cash
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="online"> Online
+                </label>
+                <br><br>
+
+                <!-- Checkout Button -->
+                <button type="submit" class="checkout-button" disabled>Proceed to Checkout</button>
+
             </form>
+
         </div>
     </div> 
 
@@ -153,8 +166,8 @@
 </div>
 
 <script>
-    // JavaScript to handle seat selection limit
-    document.addEventListener("DOMContentLoaded", function() {
+// JavaScript to handle seat selection limit and form action based on user role
+document.addEventListener("DOMContentLoaded", function() {
     const seatLimit = parseInt(document.querySelector(".box.right-box").getAttribute("data-seat-limit"));
     const pricePerSeat = <?php echo json_encode($pricePerSeat); ?>;
     let selectedSeats = 0;
@@ -162,28 +175,40 @@
 
     const selectedSeatsElement = document.getElementById("selected-seats");
     const totalPriceElement = document.getElementById("total-price");
+    const checkoutButton = document.querySelector(".checkout-button");
+    const checkoutForm = document.getElementById("checkout-form");
 
-    document.querySelectorAll(".number-button:not(.booked)").forEach(button => {
+    // Adjust form action based on user role
+    const userRole = "<?php echo $userRole; ?>";
+    console.log(userRole);
+    checkoutForm.action = userRole === 'RegisteredUser' ? 'RegisteredReceipt' : 'GuestReceipt';
+
+    const buttons = document.querySelectorAll(".number-button:not(.booked):not(.disable)");
+
+    buttons.forEach(button => {
         button.addEventListener("click", function() {
-            if (button.classList.contains("selected")) {
-                button.classList.remove("selected");
-                selectedSeatNumbers = selectedSeatNumbers.filter(seat => seat !== button.textContent);
-                selectedSeats--;
-            } else if (selectedSeats < seatLimit) {
-                button.classList.add("selected");
-                selectedSeatNumbers.push(button.textContent);
-                selectedSeats++;
-            } else {
-                alert(`You can only select up to ${seatLimit} seats.`);
-            }
+            const seatNumber = button.textContent;
 
-            selectedSeatsElement.textContent = selectedSeatNumbers.join(", ");
-            totalPriceElement.textContent = selectedSeats * pricePerSeat;
+            if (selectedSeats < seatLimit) {
+                selectedSeats++;
+                selectedSeatNumbers.push(seatNumber);
+                button.classList.add("selected");
+
+                selectedSeatsElement.textContent = selectedSeatNumbers.join(", ");
+                totalPriceElement.textContent = selectedSeats * pricePerSeat;
+
+                if (selectedSeats === seatLimit) {
+                    checkoutButton.disabled = false;
+                }
+            }
         });
     });
+
+    checkoutButton.addEventListener("click", function() {
+        // Set the selected seat numbers in the form input
+        document.getElementById("selected-seats-input").value = selectedSeatNumbers.join(", ");
+    });
 });
-
-
 </script>
 
 <style>

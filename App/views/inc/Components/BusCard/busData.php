@@ -6,16 +6,13 @@ $busDetails = [
         'routeNumber' => '101',
         'route' => 'Colombo - Ampara',
         'busType' => '38 Seats',
-        'departure' => '6:00AM',
-        'arrival' => '3:00PM',
-        'duration' => '9 hours 30 mins',
         'stops' => ['Colombo Fort', 'Pettah', 'Kandy', 'Mahiyanganaya', 'Ampara'],
         'start' => 'Colombo',
         'destination' => 'Ampara',
         'rating' => '4.4',
         'passengers' => '34',
         'price' => 'Rs. 700',
-        'cheapest' => true
+     
     ],
     [
         'busId' => '2',
@@ -23,16 +20,13 @@ $busDetails = [
         'routeNumber' => '102',
         'route' => 'Colombo - Kandy',
         'busType' => '58 Seats',
-        'departure' => '8:00AM',
-        'arrival' => '11:30AM',
-        'duration' => '3 hours 30 mins',
         'stops' => ['Colombo Fort', 'Pettah', 'Kadawatha', 'Peradeniya', 'Kandy'],
         'start' => 'Colombo',
         'destination' => 'Kandy',
         'rating' => '4.7',
         'passengers' => '20',
         'price' => 'Rs. 1200',
-        'cheapest' => false
+    
     ],
     [
         'busId' => '3',
@@ -40,16 +34,13 @@ $busDetails = [
         'routeNumber' => '103',
         'route' => 'Colombo - Galle',
         'busType' => '38 Seats',
-        'departure' => '9:00AM',
-        'arrival' => '1:00PM',
-        'duration' => '4 hours',
         'stops' => ['Colombo Fort', 'Pettah', 'Panadura', 'Kalutara', 'Galle'],
         'start' => 'Colombo',
         'destination' => 'Galle',
         'rating' => '4.2',
         'passengers' => '40',
         'price' => 'Rs. 800',
-        'cheapest' => false
+     
     ],
     [
         'busId' => '4',
@@ -57,16 +48,13 @@ $busDetails = [
         'routeNumber' => '104',
         'route' => 'Colombo - Jaffna',
         'busType' => '38 Seats',
-        'departure' => '10:00AM',
-        'arrival' => '5:00PM',
-        'duration' => '7 hours',
         'stops' => ['Colombo Fort', 'Kurunegala', 'Anuradhapura', 'Vavuniya', 'Jaffna'],
         'start' => 'Colombo',
         'destination' => 'Jaffna',
         'rating' => '4.6',
         'passengers' => '25',
         'price' => 'Rs. 1500',
-        'cheapest' => true
+      
     ],
     [
         'busId' => '5',
@@ -74,16 +62,13 @@ $busDetails = [
         'routeNumber' => '105',
         'route' => 'Colombo - Negombo',
         'busType' => '38 Seats',
-        'departure' => '11:00AM',
-        'arrival' => '12:00PM',
-        'duration' => '1 hour',
         'stops' => ['Colombo Fort', 'Peliyagoda', 'Katunayake', 'Negombo'],
         'start' => 'Colombo',
         'destination' => 'Negombo',
         'rating' => '4.0',
         'passengers' => '50',
         'price' => 'Rs. 300',
-        'cheapest' => true
+     
     ],
     [
         'busId' => '6',
@@ -91,16 +76,13 @@ $busDetails = [
         'routeNumber' => '106',
         'route' => 'Colombo - Matara',
         'busType' => '38 Seats',
-        'departure' => '2:00PM',
-        'arrival' => '7:00PM',
-        'duration' => '5 hours',
         'stops' => ['Colombo Fort', 'Kalutara', 'Galle', 'Weligama', 'Matara'],
         'start' => 'Colombo',
         'destination' => 'Matara',
         'rating' => '4.8',
         'passengers' => '18',
         'price' => 'Rs. 1000',
-        'cheapest' => false
+     
     ],
     [
         'busId' => '7',
@@ -108,16 +90,13 @@ $busDetails = [
         'routeNumber' => '106',
         'route' => 'Colombo - Matara',
         'busType' => '38 Seats',
-        'departure' => '3:00PM',
-        'arrival' => '8:00PM',
-        'duration' => '5 hours',
         'stops' => ['Colombo Fort', 'Kalutara', 'Galle', 'Weligama', 'Matara'],
         'start' => 'Colombo',
         'destination' => 'Matara',
         'rating' => '4.8',
         'passengers' => '18',
         'price' => 'Rs. 1000',
-        'cheapest' => false
+     
     ]
 ];
 ?>
