@@ -12,9 +12,30 @@
 </head>
 
 <body>
+<script>
+    var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'Conductor'); ?>;
+    localStorage.setItem('userRole', userRole);
+    </script>
+
+    <?php
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['userRole'] ?? 'Conductor';
+    ?>
+
+
+    <?php
+    $data = [
+        'currentController' => 'ConductorPages', // Adjust this based on your controller
+        'currentMethod' => 'informDelays', // Adjust this based on the method
+        'userRole' => $userRole
+    ];
+    ?>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
     <div class="hero-container">
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/C_navbar.php'; ?>
+        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
         <div class="background"></div>
     </div>

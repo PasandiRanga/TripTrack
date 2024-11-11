@@ -88,6 +88,23 @@ if (!function_exists('isCurrentPage')) {
                         <i class="fa fa-phone" aria-hidden="true"></i>
                         <span class="text">Contact Us</span>
                     </a>';
+            } elseif ($userRole === "Conductor") {
+                echo '<a href="' . URLROOT . '/ConductorPages/home" class="navbar-item ' . (isCurrentPage('ConductorPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
+                        <i class="fa fa-home"></i>
+                        <span class="text">Home</span>
+                    </a>
+                    <a href="' . URLROOT . '/ConductorPages/viewAssigns" class="navbar-item ' . (isCurrentPage('ConductorPages', 'viewAssigns', $currentController, $currentMethod) ? 'selected' : '') . '">
+                        <i class="fa fa-bus" aria-hidden="true"></i>
+                        <span class="text">View Assigns</span>
+                    </a>
+                    <a href="' . URLROOT . '/ConductorPages/scanQRcode" class="navbar-item ' . (isCurrentPage('ConductorPages', 'scanQRcode', $currentController, $currentMethod) ? 'selected' : '') . '">
+                        <i class="fa fa-qrcode" aria-hidden="true"></i>
+                        <span class="text">Scan QR Code</span>
+                    </a>
+                    <a href="' . URLROOT . '/ConductorPages/informDelays" class="navbar-item ' . (isCurrentPage('ConductorPages', 'informDelays', $currentController, $currentMethod) ? 'selected' : '') . '">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <span class="text">Contact Admin</span>
+                    </a>';
             }
             ?>
         </div>

@@ -32,5 +32,9 @@
             $this->view('pages/Conductor/ViewAssigns');
         }
 
+        public function scanQRcode() {
+            $this->view('pages/Conductor/ScanQRcode');
+        }
+
     }
 ?>

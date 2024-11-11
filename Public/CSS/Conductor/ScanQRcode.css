@@ -1,0 +1,42 @@
+#qr-reader {
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#qr-result {
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'ABeeZee', sans-serif;
+    font-size: 1.2em;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'ABeeZee', sans-serif;
+}
+
+.qr-scanner-container {
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.hero-container {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(to bottom, #a2d8ff, #eff9ff); 
+    position: relative;
+}
+
+.body-section {
+    display: flex;
+    background: linear-gradient(to bottom, #eff9ff, #ffffff); 
+    height: 100%;
+}
