@@ -5,6 +5,7 @@
         
         public function __construct() {
             //Call the model method and assign it to the pagesModel variable
+            //Instantiated model inside the controller so that we can use the database
             $this->GuestpagesModel = $this->model('M_GuestPages');
         }
 
@@ -19,8 +20,18 @@
         }
 
         public function home() {
-            $this->view('pages/GuestUser/home');
+            // Retrieve the schedule from the model
+            $schedule = $this->GuestpagesModel->getSchedule();
+
+            // Prepare the data array to pass to the view
+            $scheduleData = [
+                'schedule' => $schedule
+            ];
+
+            // Call the home view with schedule data
+            $this->view('pages/GuestUser/home', $scheduleData);
         }
+
 
         public function contact() {
             $this->view('pages/GuestUser/contactus');

@@ -27,15 +27,21 @@
     <?php
     // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+    $scheduleData = $data['schedule'] ?? [];
+
     ?>
+    <script>
+        var scheduleData = <?php echo json_encode($scheduleData); ?>;
+        console.log("Schedule Data: ", scheduleData);  
+    </script>
 
-
-    <?php
+<?php
     $data = [
         'currentController' => 'GuestPages', // Adjust this based on your controller
         'currentMethod' => 'home', // Adjust this based on the method
-        'userRole' => $userRole
+        'userRole' => $userRole,
     ];
+    
     ?>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -59,7 +65,10 @@
         <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
         
         <div id="bus-card-container" class="bus-card-container">
-            <?php require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php'; ?>
+            <?php 
+                // Pass $data['schedule'] to busCardGenerator.php
+                require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
+            ?>
         </div>
 
         
