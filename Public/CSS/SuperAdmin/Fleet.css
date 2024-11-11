@@ -1,0 +1,80 @@
+/* Style for the back button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #063946;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+h1 {
+    text-align: center;
+}
+
+.search-container {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.search-container .search-button{
+    background-color: #063946;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+.search-container .search-button-clear{
+    background-color: #063946;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+.search-container input {
+    padding: 8px;
+    width: 200px;
+}
+
+.fleet-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.fleet-table th, .fleet-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.fleet-table th {
+    background-color: #063946;
+    color: white;
+}
+
+.fleet-table tr.selected {
+    background-color: #d3d3d3; /* Light grey color */
+}
+.fleet-table tr.hover {
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
+.action-buttons {
+    display: flex;
+    border-radius: 4px;
+    justify-content: right;
+    gap: 10px;
+    margin: 20px;
+}
+
+.action-buttons button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

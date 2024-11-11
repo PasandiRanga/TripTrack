@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews</title>
-    <link rel="stylesheet" href="Reviews/Reviews.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Reviews.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <button onclick="goBack()" class="back-button">Back</button>
@@ -41,6 +41,17 @@
         ?>
     </table>
 
-    <script src="Reviews/Reviews.js"></script>
+    <script>
+                // Function to navigate to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to navigate to the reply page
+        function goToReplyPage(reviewId) {
+            window.location.href = "Reviews/Reply.php?review_id=" + reviewId;
+        }
+
+    </script>
 </body>
 </html>

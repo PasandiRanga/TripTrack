@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monthly Report</title>
-    <link rel="stylesheet" href="Reports/Reports.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Reports.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
