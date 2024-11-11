@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fleet Management</title>
-    <link rel="stylesheet" href="Fleet/Fleet.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Fleet.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <!-- Back button -->
@@ -59,6 +59,57 @@
         <button onclick="updateBus()">Update</button>
     </div>
 
-    <script src="Fleet/Fleet.js"></script>
+    <script>
+                let selectedRow = null;
+
+        // Go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Clear the search input
+        function clearSearch() {
+            document.getElementById("search").value = "";
+        }
+
+        // Add a bus (Placeholder function)
+        function addBus() {
+            window.location.href = "Fleet/Add_fleet.php";
+            alert("Add Bus functionality to be implemented");
+        }
+
+        // Delete the selected bus
+        function deleteBus() {
+            if (selectedRow) {
+                selectedRow.remove();
+                selectedRow = null;
+                alert("Bus deleted successfully.");
+            } else {
+                alert("Please select a row to delete.");
+            }
+        }
+
+        // Update the selected bus (Placeholder function)
+        function updateBus() {
+            if (selectedRow) {
+                alert("Update Bus functionality to be implemented.");
+                // You can add a modal or form to edit the selected row details here
+            } else {
+                alert("Please select a row to update.");
+            }
+        }
+
+        // Select a row
+        function selectRow(row) {
+            // Clear previous selection
+            if (selectedRow) {
+                selectedRow.classList.remove("selected");
+            }
+            // Set the new selection
+            selectedRow = row;
+            selectedRow.classList.add("selected");
+        }
+
+    </script>
 </body>
 </html>

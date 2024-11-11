@@ -1,0 +1,69 @@
+/* Style for the back button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.table-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    margin: 20px auto;
+    width: 90%;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.schedule-table th {
+    background-color: #063946;
+    color: white;
+}
+
+.schedule-table tr.selected {
+    background-color: #d3d3d3;
+}
+
+.schedule-table tr:hover {
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #063946;
+}

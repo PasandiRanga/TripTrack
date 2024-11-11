@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Records</title>
-    <link rel="stylesheet" href="Bookings/Bookings.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Bookings.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <!-- Back button -->
@@ -45,6 +45,24 @@
         </tbody>
     </table>
 
-    <script src="Bookings/Bookings.js"></script>
+    <script>
+                // Function to navigate back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to select a row in the table
+        function selectRow(row) {
+            // Deselect any previously selected row
+            const previouslySelectedRow = document.querySelector(".booking-table tr.selected");
+            if (previouslySelectedRow) {
+                previouslySelectedRow.classList.remove("selected");
+            }
+
+            // Select the clicked row
+            row.classList.add("selected");
+        }
+
+    </script>
 </body>
 </html>
