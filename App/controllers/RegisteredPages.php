@@ -71,6 +71,10 @@
             
             $this->view('pages/RegisteredUser/BusBooking', $data);
         }
+
+        public function RegisteredReceipt() {
+            $this->view('inc/Components/Receipt/RegisteredReceipt');
+        }
         
 
     }  
