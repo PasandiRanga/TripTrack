@@ -20,16 +20,17 @@
         }
 
         public function home() {
-            // Retrieve the schedule from the model
             $schedule = $this->GuestpagesModel->getSchedule();
-
-            // Prepare the data array to pass to the view
-            $scheduleData = [
-                'schedule' => $schedule
+            // Retrieve bus details
+            $bus = $this->GuestpagesModel->getBusDetails();
+            // Combine the schedule and bus details into a single data array
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus
             ];
 
             // Call the home view with schedule data
-            $this->view('pages/GuestUser/home', $scheduleData);
+            $this->view('pages/GuestUser/home', $data);
         }
 
 
@@ -37,24 +38,33 @@
             $this->view('pages/GuestUser/contactus');
         }
         public function busLayout() {
-            $this->view('inc/Components/BusLayout/BusLayout');
+            $schedule = $this->GuestpagesModel->getSchedule();
+            $data =[
+                'schedule' => $schedule
+            ];
+            $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
         public function GuestReceipt() {
             $this->view('inc/Components/Receipt/GuestReceipt');
         }
 
         public function BusBooking() {
-            $busId = isset($_GET['busId']) ? $_GET['busId'] : null;
+            // Retrieve the schedule from the model
+            $schedule = $this->GuestpagesModel->getSchedule();
             
-            if ($busId === null) {
-                echo "Bus ID is missing!";
-                exit;
-            }
-        
-            $data = ['busId' => $busId];
+            // Retrieve bus details
+            $bus = $this->GuestpagesModel->getBusDetails();
             
+            // Combine the schedule and bus details into a single data array
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus
+            ];
+            
+            // Pass the combined data array to the view
             $this->view('pages/GuestUser/BusBooking', $data);
         }
+        
         
         
 

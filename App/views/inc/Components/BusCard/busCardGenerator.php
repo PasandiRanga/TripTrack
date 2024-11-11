@@ -20,10 +20,8 @@
     ?>
 
 <?php
-require_once 'busData.php'; // Include the bus data
-// require_once 'scheduleData.php'; // Include the schedule data
 
-foreach ($busDetails as $bus) {
+foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
         if ($schedule['busId'] === $bus['busId']) {
@@ -62,25 +60,34 @@ foreach ($busDetails as $bus) {
                     </div>
                     <div class="route-stops">
                         <?php 
-                        $totalStops = count($bus['stops']);
-                        $middleIndex = floor($totalStops / 2); // Calculate the middle stop index
+                        // Ensure that 'stops' is not empty and is a string before processing
+                            if (!empty($bus['stops']) && is_string($bus['stops'])) {
+                                // Convert the string of stops into an array
+                                $stopsArray = explode(',', $bus['stops']);
 
-                        // Display the first stop
-                        if ($totalStops > 0) {
-                            echo '<span>' . $bus['stops'][0] . '</span>';
-                        }
-                        
-                        // Display the middle stop if there is more than one stop
-                        if ($totalStops > 1) {
-                            echo '<div class="route-line"></div>'; // Optional separator
-                            echo '<span>' . $bus['stops'][$middleIndex] . '</span>';
-                        }
-                        
-                        // Display the last stop if there is more than one stop
-                        if ($totalStops > 2) {
-                            echo '<div class="route-line"></div>'; // Optional separator
-                            echo '<span>' . $bus['stops'][$totalStops - 1] . '</span>';
-                        }
+                                // Count the number of stops
+                                $totalStops = count($stopsArray);
+                                $middleIndex = floor($totalStops / 2); // Calculate the middle stop index
+
+                                // Display the stops only if there are any
+                                if ($totalStops > 0) {
+                                    echo '<span>' . htmlspecialchars($stopsArray[0]) . '</span>';
+                                }
+
+                                if ($totalStops > 1) {
+                                    echo '<div class="route-line"></div>'; // Optional separator
+                                    echo '<span>' . htmlspecialchars($stopsArray[$middleIndex]) . '</span>';
+                                }
+
+                                if ($totalStops > 2) {
+                                    echo '<div class="route-line"></div>'; // Optional separator
+                                    echo '<span>' . htmlspecialchars($stopsArray[$totalStops - 1]) . '</span>';
+                                }
+                            } else {
+                                // Display a default message if there are no stops
+                                echo '<span>No stops available</span>';
+                            }
+
                         ?>
                     </div>
 

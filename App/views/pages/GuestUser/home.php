@@ -28,6 +28,7 @@
     // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     $scheduleData = $data['schedule'] ?? [];
+    $busData = $data['bus'] ?? [];
 
     ?>
     <script>
