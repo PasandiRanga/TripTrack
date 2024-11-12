@@ -22,6 +22,19 @@
         <button type="button" onclick="processReply('Rejected')">Reject</button>
     </form>
 
-    <script src="JS/reply_leave_request.js"></script>
+    <script>
+                // Function to process the reply to a leave request
+        function processReply(status) {
+            const requestId = document.getElementById("requestId").value;
+
+            // Confirm with the admin
+            const confirmReply = confirm(`Are you sure you want to mark this request as ${status}?`);
+            if (confirmReply) {
+                alert(`Leave request #${requestId} has been ${status}.`);
+                window.location.href = "leave_request.php"; // Redirect back to leave requests page
+            }
+        }
+
+    </script>
 </body>
 </html>

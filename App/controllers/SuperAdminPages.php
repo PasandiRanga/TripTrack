@@ -16,7 +16,7 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Fleet');
     }
     public function AddFleet() {
-        $this->view('pages/SuperAdmin/Fleet/Addfleet');
+        $this->view('pages/SuperAdmin/Addfleet');
     }
 
     public function bookings() {
@@ -35,8 +35,8 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Schedule');
     }
 
-    public function leave_requests() {
-        $this->view('pages/SuperAdmin/Leave_Requests');
+    public function leaverequests() {
+        $this->view('pages/SuperAdmin/LeaveRequests');
     }
 
     public function notifications() {
@@ -45,6 +45,14 @@ class SuperAdminPages extends Controller {
 
     public function users() {
         $this->view('pages/SuperAdmin/Users');
+    }
+
+    public function replyleaves() {
+        $this->view('pages/SuperAdmin/ReplyLeaves');
+    }
+
+    public function replyreviews() {
+        $this->view('pages/SuperAdmin/ReplyReviews');
     }
 
 }
