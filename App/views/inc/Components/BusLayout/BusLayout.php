@@ -19,6 +19,7 @@
 
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
+    $distanceData = $data['distance'] ?? [];
 
     // Retrieve the user role from the form submission or session
     $formUserRole = $_POST['userRole'] ?? ($_SESSION['userRole'] ?? 'GuestUser');
@@ -63,7 +64,8 @@
         $email = $_POST['email'] ?? '';
         $contact = $_POST['contact'] ?? '';
         $nic = $_POST['nic'] ?? '';
-        $destination = $_POST['destination'] ?? '';
+        $from = $_POST['from'] ?? '';
+        $to = $_POST['to'] ?? '';
         $noOfSeats = $_POST['noOfseats'] ?? ''; // Number of seats limit
         $paymentMethod = $_POST['paymentMethod'] ?? '';
         $receiveTicket = $_POST['receiveTicket'] ?? [];
@@ -73,12 +75,12 @@
         $bookedSeats = [];
         $pricePerSeat = 0;
         $busLayout = [];
+        // $leastPrice = 0;
  
 
         foreach ($scheduleData as $schedule) {
             if ($schedule['scheduleId'] === $scheduleId) {
                 $bookedSeats = array_map('trim', explode(',', $schedule['bookedSeats']));
-                $pricePerSeat = $schedule['price'];
                 break;
             }
         }
@@ -86,21 +88,95 @@
         foreach($busData as $bus) {
             if ($bus['busId'] === $busId) {
                 $selectedBus = $bus;
+                // echo($selectedBus['busId']);
                 // echo '<pre>'; print_r($selectedBus); echo '</pre>';
                 $busType = $bus['busType'];
+                $leastPrice = $bus['priceperkm'];
+                // echo($leastPrice);
                 // echo($busType);
                 break;
             }
         }
-
-        // Get the bus data for seat layout
-        foreach ($seatData as $layout) {
-            if($layout['seatType'] === $busType) {
-                $busLayout = $layout['seats'];
-                // echo '<pre>'; print_r($busLayout); echo '</pre>';
-                break;
+        if($selectedBus['destination'] == trim($to) && $selectedBus['start_location'] !=  trim($from)) {
+            // Get the distance between the two cities
+            $Sdistance = 0;
+            $Tdistance = 0;
+            $Fdistance = 0;
+            foreach ($distanceData as $dist) {
+                // echo($dist['start']);
+                // echo($selectedBus['start_location']);
+                // echo($dist['location']);
+                // echo($from);
+                // echo "<br>";
+                if($dist['start'] == $selectedBus['start_location'] && trim($dist['location']) == trim($from)) {
+                    $Tdistance = $dist['distance'];
+                    // echo("t$Tdistance");
+                    break;
+                }
             }
+
+            foreach($distanceData as $dist) {
+                // echo($dist['start']);
+                // echo($selectedBus['start_location']);
+                // echo($dist['location']);
+                // echo($selectedBus['destination']);
+                // echo($dist['distance']);
+                // echo "<br>";
+                if($dist['start'] == $selectedBus['start_location'] && trim($dist['location']) == trim($selectedBus['destination'])) {
+                    $Sdistance = $dist['distance'];
+                    // echo("s$Sdistance");
+                    break;
+                }
+            }
+
+            $Fdistance = $Sdistance - $Tdistance;
+
+            $pricePerSeat = $leastPrice * $Fdistance;
+
+        }else if($selectedBus['destination'] == trim($to) && $selectedBus['start_location'] ==  trim($from)) {
+            $pricePerSeat = $selectedBus['price'];
+
+        }else if($selectedBus['destination'] != trim($to) && $selectedBus['start_location'] != trim($from)){
+            $Sdistance = 0;
+            $Tdistance = 0;
+            $Fdistance = 0;
+
+            foreach($distanceData as $dist){
+                if($selectedBus['start_location'] == $dist['start'] && $dist['location'] == trim($to)){
+                    $Sdistance = $dist['distance'];
+                    break;
+                }
+            }
+            foreach($distanceData as $dist){
+                if($selectedBus['start_location'] == $dist['start'] && $dist['location'] == trim($from)){
+                    $Tdistance = $dist['distance'];
+                    break;
+                }
+            }
+
+            $Fdistance = $Sdistance - $Tdistance;
+
+            $pricePerSeat = $leastPrice * $Fdistance;
+        }else if($selectedBus['start_location'] == trim($from) && $selectedBus['destination'] != trim($to)){
+            foreach($distanceData as $dist){
+                if($selectedBus['start_location'] == $dist['start'] && $dist['location'] == trim($to)){
+                    $Fdistance = $dist['distance'];
+                }
+            }
+
+            $pricePerSeat = $leastPrice * $Fdistance;
         }
+
+
+            // Get the bus data for seat layout
+            foreach ($seatData as $layout) {
+                if($layout['seatType'] === $busType) {
+                    $busLayout = $layout['seats'];
+                    // echo '<pre>'; print_r($busLayout); echo '</pre>';
+                    break;
+                }
+            }
+        
         // echo '<pre>'; print_r($busLayout); echo '</pre>';
 
 
@@ -132,7 +208,8 @@
             <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
             <p><strong>Contact:</strong> <?php echo htmlspecialchars($contact); ?></p>
             <p><strong>NIC:</strong> <?php echo htmlspecialchars($nic); ?></p>
-            <p><strong>Destination:</strong> <?php echo htmlspecialchars($destination); ?></p>
+            <p><strong>From:</strong> <?php echo htmlspecialchars($from); ?></p>
+            <p><strong>To:</strong> <?php echo htmlspecialchars($to); ?></p>
             <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($noOfSeats); ?></p>
             <p><strong>Payment Method:</strong> <?php echo htmlspecialchars($paymentMethod); ?></p>
             <p><strong>Receive Ticket Options:</strong> <?php echo htmlspecialchars(implode(', ', $receiveTicket)); ?></p>
@@ -144,14 +221,15 @@
             <p><strong>Price per Seat:</strong> Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
             <p><strong>Total Price:</strong> Rs. <span id="total-price">0</span></p>
             
-            <form action="" method="POST" id="checkout-form">
+            <form action="" method="POST" id="checkout-form" onsubmit="console.log('Form data:', new FormData(this));">
                 <input type="hidden" name="busId" value="<?php echo htmlspecialchars($busId); ?>">
                 <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>">
                 <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
                 <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
                 <input type="hidden" name="contact" value="<?php echo htmlspecialchars($contact); ?>">
                 <input type="hidden" name="nic" value="<?php echo htmlspecialchars($nic); ?>">
-                <input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
+                <input type="hidden" name="from" value="<?php echo htmlspecialchars($from); ?>">
+                <input type="hidden" name="to" value="<?php echo htmlspecialchars($to); ?>">
                 <input type="hidden" name="noOfseats" value="<?php echo htmlspecialchars($noOfSeats); ?>">
                 <input type="hidden" name="pricePerSeat" value="<?php echo htmlspecialchars($pricePerSeat); ?>">
                 <input type="hidden" name="totalPrice" value="<?php echo htmlspecialchars($pricePerSeat * $noOfSeats); ?>">
@@ -234,8 +312,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     checkoutButton.addEventListener("click", function() {
-        // Set the selected seat numbers in the form input
         document.getElementById("selected-seats-input").value = selectedSeatNumbers.join(", ");
+        console.log("Selected Seats:", selectedSeatNumbers.join(", "));
     });
 });
 </script>

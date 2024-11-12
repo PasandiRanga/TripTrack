@@ -21,6 +21,7 @@
     $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
+    $distanceData = $data['distance'] ?? [];
     $data = [
         'currentController' => 'GuestPages',
         'currentMethod' => 'home',
@@ -163,7 +164,7 @@
 
     <div class="booking-form">
         <h2>Book Your Seat</h2>
-        <form id="bookingForm" action="<?php echo URLROOT; ?>/GuestPages/busLayout" method="post">
+        <form id="bookingForm" action="<?php echo URLROOT; ?>/GuestPages/busLayout" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>">
         <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
@@ -190,28 +191,62 @@
             </div>
 
             <div class="form-group">
-            <div>
-                <label for="destination">Destination:</label>
-                <select id="destination" name="destination" required>
-                    <?php 
-                    if (!empty($busStops) && is_array($busStops)) {
+                <!-- 'From' Dropdown (Departure) -->
+                <div>
+                    <label for="from">From:</label>
+                    <select id="from" name="from" required>
+                        <?php 
+                        if (!empty($busStops) && is_array($busStops)) {
                             // Loop through each stop in the busStops array and create an option for it
-                        foreach ($busStops as $stop) {
+                            foreach ($busStops as $stop) {
                                 echo "<option value=\"" . htmlspecialchars($stop) . "\">" . htmlspecialchars($stop) . "</option>";
-                        }
-                    } else {
+                            }
+                        } else {
                             // If no stops are available, show a default option
                             echo "<option value=\"\">No stops available</option>";
-                    }
-                    ?>
-                </select><br>
+                        }
+                        ?>
+                    </select>
                 </div>
+
+                <!-- 'To' Dropdown (Arrival) -->
                 <div>
-                    <label for="destination">Number of seats:</label>
-                    <input type="text" id="noOfseats" name="noOfseats" required><br>
+                    <label for="to">To:</label>
+                    <select id="to" name="to" required>
+                        <?php 
+                        if (!empty($busStops) && is_array($busStops)) {
+                            // Skip the first element (departure) and loop through the rest of the bus stops
+                            array_shift($busStops); // Remove the first element
+                            foreach ($busStops as $stop) {
+                                echo "<option value=\"" . htmlspecialchars($stop) . "\">" . htmlspecialchars($stop) . "</option>";
+                            }
+                        } else {
+                            // If no stops are available, show a default option
+                            echo "<option value=\"\">No stops available</option>";
+                        }
+                        ?>
+                    </select>
                 </div>
-                
             </div>
+            <script>
+                function validateForm() {
+                    var from = document.getElementById("from").value;
+                    var to = document.getElementById("to").value;
+
+                    if (from === to) {
+                        alert("The 'From' and 'To' locations cannot be the same.");
+                        return false; // Prevent form submission
+                    }
+                    return true; // Allow form submission
+                }
+            </script>
+            <div class="form-group">
+                <div>
+                    <label for="noOfseats">Number of seats:</label>
+                    <input type="number" id="noOfseats" name="noOfseats" min="1" step="1" value="1" required>
+                </div>
+            </div>
+
 
             <div class="form-group-inline">
                 <label>Payment method:</label>
@@ -230,6 +265,7 @@
         </form>
         <br>
     </div>
+
     <br><br>
 
     <?php
@@ -237,6 +273,8 @@
         echo "<p>Bus or schedule not found.</p>";
     }
     ?>
+
+    
     
 
 </body>

@@ -6,7 +6,8 @@ $name = $_POST['name'] ?? '';
 $email = $_POST['email'] ?? '';
 $contact = $_POST['contact'] ?? '';
 $nic = $_POST['nic'] ?? '';
-$destination = $_POST['destination'] ?? '';
+$from = $_POST['from'] ?? '';
+$to = $_POST['to'] ?? '';
 $noOfSeats = $_POST['noOfseats'] ?? '0';
 $pricePerSeat = $_POST['pricePerSeat'] ?? '0';
 $totalPrice = $_POST['totalPrice'] ?? '0';
@@ -42,10 +43,12 @@ $qrText .= "Total Price: Rs. $totalPrice\n";
             <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
             <p><strong>Contact:</strong> <?php echo htmlspecialchars($contact); ?></p>
             <p><strong>NIC:</strong> <?php echo htmlspecialchars($nic); ?></p>
-            <p><strong>Destination:</strong> <?php echo htmlspecialchars($destination); ?></p>
+            <p><strong>From:</strong> <?php echo htmlspecialchars($from); ?></p>
+            <p><strong>To:</strong> <?php echo htmlspecialchars($to); ?></p>
             <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($busId); ?></p>
             <p><strong>Schedule ID:</strong> <?php echo htmlspecialchars($scheduleId); ?></p>
             <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($noOfSeats); ?></p>
+            <p><strong>Seats:</strong> <?php echo htmlspecialchars($selectedSeats); ?></p>
             <p><strong>Price per Seat:</strong> Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
             <p><strong>Total Price:</strong> Rs. <?php echo htmlspecialchars($totalPrice); ?></p>
         </div>
