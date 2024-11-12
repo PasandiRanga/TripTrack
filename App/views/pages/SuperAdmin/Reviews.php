@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Reviews.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <button onclick="goBack()" class="back-button">Back</button>
+<button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back </button>
     <h2>Reviews</h2>
 
     <table>

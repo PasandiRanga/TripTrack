@@ -8,7 +8,7 @@
 </head>
 <body>
     <!-- Back button -->
-    <button class="back-button" onclick="location.href='Dashboard.php'">Back</button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back </button>
 
     <h1>Fleet Management</h1>
 
