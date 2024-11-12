@@ -40,7 +40,20 @@
             $this->view('pages/GuestUser/contactus');
         }
         public function busLayout() {
-            $this->view('inc/Components/BusLayout/BusLayout');
+            $schedule = $this->GuestpagesModel->getSchedule();
+            
+            // Retrieve bus details
+            $bus = $this->GuestpagesModel->getBusDetails();
+            
+            // Combine the schedule and bus details into a single data array
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus
+            ];
+            // var_dump($schedule); // To check if schedule data is loaded
+            // var_dump($bus);
+
+            $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
         public function GuestReceipt() {
             $this->view('inc/Components/Receipt/GuestReceipt');

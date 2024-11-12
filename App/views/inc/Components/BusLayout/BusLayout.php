@@ -16,6 +16,10 @@
 </script>
 
 <?php
+
+    $scheduleData = $data['schedule'] ?? [];
+    $busData = $data['bus'] ?? [];
+
     // Retrieve the user role from the form submission or session
     $formUserRole = $_POST['userRole'] ?? ($_SESSION['userRole'] ?? 'GuestUser');
 
@@ -48,8 +52,7 @@
         <!-- Seat Layout -->
         <?php
         include 'seatData.php';
-        include APPROOT . '/views/inc/Components/BusCard/scheduleData.php';
-        include APPROOT . '/views/inc/Components/BusCard/busData.php';
+       
         echo '<script>';
         echo 'console.log(' . json_encode($_POST) . ')';
         echo '</script>';
@@ -72,15 +75,15 @@
         $busLayout = [];
  
 
-        foreach ($busSchedules as $schedule) {
+        foreach ($scheduleData as $schedule) {
             if ($schedule['scheduleId'] === $scheduleId) {
-                $bookedSeats = $schedule['bookedSeats'];
+                $bookedSeats = array_map('trim', explode(',', $schedule['bookedSeats']));
                 $pricePerSeat = $schedule['price'];
                 break;
             }
         }
 
-        foreach($busDetails as $bus) {
+        foreach($busData as $bus) {
             if ($bus['busId'] === $busId) {
                 $selectedBus = $bus;
                 // echo '<pre>'; print_r($selectedBus); echo '</pre>';
@@ -91,7 +94,7 @@
         }
 
         // Get the bus data for seat layout
-        foreach ($busData as $layout) {
+        foreach ($seatData as $layout) {
             if($layout['seatType'] === $busType) {
                 $busLayout = $layout['seats'];
                 // echo '<pre>'; print_r($busLayout); echo '</pre>';
