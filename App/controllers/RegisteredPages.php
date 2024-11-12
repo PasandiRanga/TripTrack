@@ -59,6 +59,10 @@
             $this->view('pages/RegisteredUser/Notify');
         }
 
+        public function LoginBox() {
+            $this->view('inc/Components/LoginBox/loginBox');
+        }
+
         public function BusBooking() {
             $busId = isset($_GET['busId']) ? $_GET['busId'] : null;
             
