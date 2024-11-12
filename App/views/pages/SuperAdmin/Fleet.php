@@ -54,10 +54,13 @@
 
     <!-- Action buttons -->
     <div class="action-buttons">
-        <a href="Fleet/Add_fleet.php"><button onclick="addBus()">Add</button></a>
+        <a href="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet">
+            <button>Add</button>
+        </a>
         <button onclick="deleteBus()">Delete</button>
         <button onclick="updateBus()">Update</button>
     </div>
+
 
     <script>
                 let selectedRow = null;
