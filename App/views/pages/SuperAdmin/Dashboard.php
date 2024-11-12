@@ -47,31 +47,35 @@
                     <span class="material-icons-outlined">queue</span> Fleet
                 </li>
                 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/App/views/pages/SuperAdmin/Bookings.php?v=<?php echo time(); ?>'">
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/bookings'">
                     <span class="material-icons-outlined">book</span> Bookings
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/App/views/pages/SuperAdmin/Users.php?v=<?php echo time(); ?>'">
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/users'">
                     <span class="material-icons-outlined">groups</span> Users
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/App/views/pages/SuperAdmin/Reviews.php?v=<?php echo time(); ?>'">
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reviews'">
                     <span class="material-icons-outlined">fact_check</span> Reviews
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/App/views/pages/SuperAdmin/Reports.php?v=<?php echo time(); ?>'">
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reports'">
                     <span class="material-icons-outlined">poll</span> Reports
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/App/views/pages/SuperAdmin/Notifications.php?v=<?php echo time(); ?>'">
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/notifications'">
                     <span class="material-icons-outlined">notifications</span> Notifications
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/App/views/pages/SuperAdmin/Schedule.php?v=<?php echo time(); ?>'">
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/leaverequests'">
+                    <span class="material-icons-outlined">publish</span> Leave Requests
+                </li>
+
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">
                     <span class="material-icons-outlined">schedule</span> Schedule
                 </li>
 
-                <li class="sidebar-list-item" onclick="Openpopup">
+                <li class="sidebar-list-item" onclick="Openpopup()">
                     <span class="material-icons-outlined">logout</span> Logout
                 </li>
             </ul>
@@ -423,7 +427,7 @@
 
         // Function to redirect back to dashboard
         function cancelLogout() {
-        window.location.href = "Dashboard.php"; // Replace with your dashboard file
+        window.location.href = "'<?php echo URLROOT; ?>/SuperAdminPages/home'"; // Replace with your dashboard file
         }
     </script>
 </body>
