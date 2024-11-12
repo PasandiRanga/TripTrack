@@ -8,7 +8,7 @@
 </head>
 <body>
     <!-- Back button -->
-    <button class="back-button" onclick="window.history.back()">Back</button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back </button>
 
     <h1>Bus Schedules</h1>
 
