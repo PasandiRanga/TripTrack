@@ -29,11 +29,14 @@
     $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
+    $distanceData = $data['distance'] ?? [];
 
     ?>
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
-        console.log("Schedule Data: ", scheduleData);  
+        var busData = <?php echo json_encode($busData); ?>;
+        console.log("Schedule Data: ", scheduleData);
+        console.log("Bus Data: ", busData);  
     </script>
 
 <?php
