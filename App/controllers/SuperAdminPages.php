@@ -15,6 +15,9 @@ class SuperAdminPages extends Controller {
     public function fleet() {
         $this->view('pages/SuperAdmin/Fleet');
     }
+    public function AddFleet() {
+        $this->view('pages/SuperAdmin/Fleet/Addfleet');
+    }
 
     public function bookings() {
         $this->view('pages/SuperAdmin/Bookings');
