@@ -21,8 +21,10 @@
 
         public function home() {
             $schedule = $this->GuestpagesModel->getSchedule();
+            
             // Retrieve bus details
             $bus = $this->GuestpagesModel->getBusDetails();
+            
             // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
@@ -38,11 +40,7 @@
             $this->view('pages/GuestUser/contactus');
         }
         public function busLayout() {
-            $schedule = $this->GuestpagesModel->getSchedule();
-            $data =[
-                'schedule' => $schedule
-            ];
-            $this->view('inc/Components/BusLayout/BusLayout', $data);
+            $this->view('inc/Components/BusLayout/BusLayout');
         }
         public function GuestReceipt() {
             $this->view('inc/Components/Receipt/GuestReceipt');

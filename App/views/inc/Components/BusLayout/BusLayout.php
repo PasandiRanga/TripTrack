@@ -39,7 +39,6 @@
     ];
 ?>
 
-
 <div class="hero-container">
     <?php require APPROOT . '/views/inc/Components/Header/header.php'; ?>
     <?php require APPROOT . '/views/inc/Components/NavBar/navbar.php'; ?>
@@ -50,8 +49,11 @@
         <?php
         include 'seatData.php';
         include APPROOT . '/views/inc/Components/BusCard/scheduleData.php';
-
-        //Retrieve data from POST
+        include APPROOT . '/views/inc/Components/BusCard/busData.php';
+        echo '<script>';
+        echo 'console.log(' . json_encode($_POST) . ')';
+        echo '</script>';
+        // Retrieve data from POST
         $busId = $_POST['busId'] ?? null;
         $scheduleId = $_POST['scheduleId'] ?? null;
         $name = $_POST['name'] ?? '';
@@ -59,36 +61,53 @@
         $contact = $_POST['contact'] ?? '';
         $nic = $_POST['nic'] ?? '';
         $destination = $_POST['destination'] ?? '';
-        $noOfSeats = $_POST['noOfseats'] ?? ''; //Number of seats limit
+        $noOfSeats = $_POST['noOfseats'] ?? ''; // Number of seats limit
         $paymentMethod = $_POST['paymentMethod'] ?? '';
         $receiveTicket = $_POST['receiveTicket'] ?? [];
 
         // Find the selected bus and schedule to get booked seats
-        $selectedBus = $busData[$busId];
-        $bookedSeats =[];
-        // Set price per seat (replace with actual price retrieval logic if needed)
-        $pricePerSeat = $busSchedules[$busId]['schedule'][$scheduleId]['price'] ?? 0;
+        $selectedBus = null;
+        $bookedSeats = [];
+        $pricePerSeat = 0;
+        $busLayout = [];
+ 
 
-        foreach ($busSchedules as $bus) {
-            if ($bus['busId'] === $busId) {
-                foreach ($bus['schedule'] as $schedule) {
-                    if ($schedule['scheduleId'] === $scheduleId) {
-                        $bookedSeats = $schedule['bookedSeats'];
-                        $pricePerSeat = (int) filter_var($schedule['price'], FILTER_SANITIZE_NUMBER_INT); // Sanitize to extract integer price
-                        break;
-                    }
-                }
+        foreach ($busSchedules as $schedule) {
+            if ($schedule['scheduleId'] === $scheduleId) {
+                $bookedSeats = $schedule['bookedSeats'];
+                $pricePerSeat = $schedule['price'];
                 break;
             }
         }
 
-        //Add the data-seat-limit attrubute to the container
+        foreach($busDetails as $bus) {
+            if ($bus['busId'] === $busId) {
+                $selectedBus = $bus;
+                // echo '<pre>'; print_r($selectedBus); echo '</pre>';
+                $busType = $bus['busType'];
+                // echo($busType);
+                break;
+            }
+        }
+
+        // Get the bus data for seat layout
+        foreach ($busData as $layout) {
+            if($layout['seatType'] === $busType) {
+                $busLayout = $layout['seats'];
+                // echo '<pre>'; print_r($busLayout); echo '</pre>';
+                break;
+            }
+        }
+        // echo '<pre>'; print_r($busLayout); echo '</pre>';
+
+
+        // Add the data-seat-limit attribute to the container
         echo '<div class="box right-box" data-seat-limit="' . htmlspecialchars($noOfSeats) . '">';
-        foreach ($selectedBus['seats'] as $row) {
+        foreach ($busLayout as $row) {
             echo '<div class="button-container">';
             foreach ($row as $seat) {
                 if ($seat === '') {
-                    echo '<button class="disable"></button>'; // Disabled seat
+                    echo '<button class="disable"></button>'; // Disabled seat (empty spaces)
                 } elseif (in_array($seat, $bookedSeats)) {
                     // Booked seat: non-clickable and styled differently
                     echo '<button class="number-button booked" disabled>' . htmlspecialchars($seat) . '</button>';
@@ -100,13 +119,12 @@
             echo '</div>';
         }
         echo '</div>';
+        
         ?>
 
     <div>   <!-- Booking Details -->
         <div class="details-container">
             <h2>Booking Details</h2>
-            <!-- <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($busId); ?></p>
-            <p><strong>Schedule ID:</strong> <?php echo htmlspecialchars($scheduleId); ?></p> -->
             <p><strong>Name:</strong> <?php echo htmlspecialchars($name); ?></p>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
             <p><strong>Contact:</strong> <?php echo htmlspecialchars($contact); ?></p>
@@ -119,13 +137,11 @@
 
         <!-- Selected Seats and Payment -->
         <div class="payment-container">
-            <!-- <h2>Seat Selection & Payment</h2> -->
             <p><strong>Selected Seats:</strong> <span id="selected-seats"></span></p>
             <p><strong>Price per Seat:</strong> Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
             <p><strong>Total Price:</strong> Rs. <span id="total-price">0</span></p>
             
             <form action="" method="POST" id="checkout-form">
-                <!-- Existing form fields -->
                 <input type="hidden" name="busId" value="<?php echo htmlspecialchars($busId); ?>">
                 <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>">
                 <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
@@ -138,7 +154,6 @@
                 <input type="hidden" name="totalPrice" value="<?php echo htmlspecialchars($pricePerSeat * $noOfSeats); ?>">
                 <input type="hidden" name="selectedSeats" id="selected-seats-input">
                 
-                <!-- Other form fields and payment options as before -->
                 <p><strong>Payment Method:</strong></p>
                 <label>
                     <input type="radio" name="paymentMethod" value="credit" checked> Credit Card
@@ -152,15 +167,11 @@
                 <label>
                     <input type="radio" name="paymentMethod" value="online"> Online
                 </label>
-                <br><br>
 
-                <!-- Checkout Button -->
                 <button type="submit" class="checkout-button" disabled>Proceed to Checkout</button>
-
             </form>
-
         </div>
-    </div> 
+    </div>
 
     </div>
 </div>
@@ -189,11 +200,26 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener("click", function() {
             const seatNumber = button.textContent;
 
-            if (selectedSeats < seatLimit) {
+            if (button.classList.contains("selected")) {
+                // Deselect the seat
+                selectedSeats--;
+                selectedSeatNumbers = selectedSeatNumbers.filter(seat => seat !== seatNumber);
+                button.classList.remove("selected");
+
+                // Update the display
+                selectedSeatsElement.textContent = selectedSeatNumbers.join(", ");
+                totalPriceElement.textContent = selectedSeats * pricePerSeat;
+
+                if (selectedSeats < seatLimit) {
+                    checkoutButton.disabled = true;
+                }
+            } else if (selectedSeats < seatLimit) {
+                // Select the seat
                 selectedSeats++;
                 selectedSeatNumbers.push(seatNumber);
                 button.classList.add("selected");
 
+                // Update the display
                 selectedSeatsElement.textContent = selectedSeatNumbers.join(", ");
                 totalPriceElement.textContent = selectedSeats * pricePerSeat;
 

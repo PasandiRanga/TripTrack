@@ -10,12 +10,14 @@ $destination = $_POST['destination'] ?? '';
 $noOfSeats = $_POST['noOfseats'] ?? '0';
 $pricePerSeat = $_POST['pricePerSeat'] ?? '0';
 $totalPrice = $_POST['totalPrice'] ?? '0';
+$selectedSeats = $_POST['selectedSeats'] ?? [];
 
 // Create the booking details text for QR code
 $qrText = "Booking Receipt\n";
 $qrText .= "Name: $name\nEmail: $email\nContact: $contact\n";
 $qrText .= "Bus ID: $busId\nSchedule ID: $scheduleId\n";
-$qrText .= "Seats: $noOfSeats\nTotal Price: Rs. $totalPrice";
+$qrText .= "Seats: $noOfSeats\nTotal Price: Rs. $totalPrice\nSeats : $selectedSeats\n";
+
 ?>
 
 <!DOCTYPE html>
@@ -65,8 +67,8 @@ $qrText .= "Seats: $noOfSeats\nTotal Price: Rs. $totalPrice";
         var qrText = <?php echo json_encode($qrText); ?>;
         new QRCode(document.getElementById("qrcode"), {
             text: qrText,
-            width: 100,  // Smaller QR code size
-            height: 100
+            width: 150,  // Smaller QR code size
+            height: 150
         });
 
         // Function to download the receipt as PDF

@@ -237,43 +237,7 @@
         echo "<p>Bus or schedule not found.</p>";
     }
     ?>
-    <!-- <script>
-    // Define the function to open the bus layout
-    function openBusLayout() {
-        console.log("BusLayout is called");
-
-        // Open the modal to show the bus layout
-        document.getElementById('busLayoutModal').style.display = 'block';
-
-        // Dynamically load the bus layout from the server using fetch()
-        fetch('<?php echo URLROOT; ?>/views/inc/Components/BusLayout/BusLayout.php')
-            .then(response => response.text())  // Get the response as text
-            .then(data => {
-                console.log("alayout to model")
-                // Insert the bus layout content into the modal
-                document.getElementById('busLayoutContent').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading bus layout:', error);
-            });
-    }
-
-     // Function to close the modal
-     function closeModal() {
-        document.getElementById('busLayoutModal').style.display = 'none';
-    }
-
-    // Event listener to close modal when clicking outside the modal-content
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('busLayoutModal')) {
-            closeModal();
-        }
-    }
-
-    // Add an event listener to the element with id "seats" to trigger the openBusLayout function
-    document.getElementById('noOfseats').addEventListener('click', openBusLayout);
-</script> -->
-
+    
 
 </body>
 </html>

@@ -11,7 +11,7 @@ $busSchedules = [
         'duration' => '4 hours',
         'price' => 1200.00,
         'availableSeats' => 40,
-        'selectedSeats' => [1, 5, 10] // Example selected seats
+        'bookedSeats' => [1, 5, 10] // Example selected seats
     ],
     [
         'scheduleId' => 'SCH002',
