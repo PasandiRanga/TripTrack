@@ -17,13 +17,15 @@
         $currentMethod = $data['currentMethod'] ?? '';
         // echo "Current method is: " . $currentMethod;
         $userRole = $data['userRole'] ?? '';
-    ?>
 
+        $DataToUse = isset($fileredData) ? $filteredData : $scheduleData;
+    ?>
+       
 <?php
 
 foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
-    foreach ($scheduleData as $schedule) {
+    foreach ($DataToUse as $schedule) {
         if ($schedule['busId'] === $bus['busId']) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
@@ -45,7 +47,7 @@ foreach ($busData as $bus) {
                 </div>
                 <div class="bus-card-timing">
                     <div class="date">
-                        <span><?php echo $schedule['date']; ?></span>
+               ass      <span><?php echo $schedule['date']; ?></span>
                     </div>
                     <div class="timing-info">
                         <div class="departure-time">

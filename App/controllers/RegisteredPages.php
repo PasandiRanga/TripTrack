@@ -14,7 +14,20 @@
 
         
         public function home() {
-            $this->view('pages/RegisteredUser/home');
+            $schedule = $this->RegisteredpagesModel->getSchedule();
+            
+            // Retrieve bus details
+            $bus = $this->RegisteredpagesModel->getBusDetails();
+
+            $distance = $this->RegisteredpagesModel->getDistance();
+            
+            // Combine the schedule and bus details into a single data array
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus,
+                'distance' => $distance
+            ];
+            $this->view('pages/RegisteredUser/home' , $data);
         }
 
         public function bookings() {
@@ -60,14 +73,19 @@
         }
 
         public function BusBooking() {
-            $busId = isset($_GET['busId']) ? $_GET['busId'] : null;
+            $schedule = $this->RegisteredpagesModel->getSchedule();
             
-            if ($busId === null) {
-                echo "Bus ID is missing!";
-                exit;
-            }
-        
-            $data = ['busId' => $busId];
+            // Retrieve bus details
+            $bus = $this->RegisteredpagesModel->getBusDetails();
+
+            $distance = $this->RegisteredpagesModel->getDistance();
+            
+            // Combine the schedule and bus details into a single data array
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus,
+                'distance' => $distance
+            ];
             
             $this->view('pages/RegisteredUser/BusBooking', $data);
         }

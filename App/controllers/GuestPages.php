@@ -24,11 +24,14 @@
             
             // Retrieve bus details
             $bus = $this->GuestpagesModel->getBusDetails();
+
+            $distance = $this->GuestpagesModel->getDistance();
             
             // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
-                'bus' => $bus
+                'bus' => $bus,
+                'distance' => $distance
             ];
 
             // Call the home view with schedule data
