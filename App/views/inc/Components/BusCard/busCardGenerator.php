@@ -20,19 +20,11 @@
     ?>
 
 <?php
-require_once 'busData.php'; // Include the bus data
-require_once 'scheduleData.php'; // Include the schedule data
 
-foreach ($busDetails as $bus) {
-    // Find the matching bus schedule in scheduleData
-    $busScheduleData = array_filter($busSchedules, function($schedule) use ($bus) {
-        return $schedule['busId'] === $bus['busId'];
-    });
-
-    // Check if schedule data exists for the bus
-    if (!empty($busScheduleData)) {
-        $busScheduleData = array_values($busScheduleData)[0]; // Get the first matched schedule entry
-        foreach ($busScheduleData['schedule'] as $schedule) { // Loop through each schedule for the bus
+foreach ($busData as $bus) {
+    // Find the matching schedule data for the bus
+    foreach ($scheduleData as $schedule) {
+        if ($schedule['busId'] === $bus['busId']) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
                 // Check userRole and adjust the URL accordingly
@@ -41,14 +33,14 @@ foreach ($busDetails as $bus) {
                 } elseif ($userRole === 'RegisteredUser') {
                     echo URLROOT . '/RegisteredPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } else {
-                    // Default case for other roles (if any), you can change this if needed
+                    // Default case for other roles (if any)
                     echo URLROOT . '/GuestPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
             ?>'">            
             <div class="bus-card-header">
                     <div class="route-info">
                         <h2><?php echo $bus['route']; ?></h2>
-                        <span class="bus-type"><?php echo $bus['busType']; ?></span>
+                        <span class="bus-type"><?php echo $bus['routeNumber']; ?></span>
                     </div>
                 </div>
                 <div class="bus-card-timing">
@@ -67,13 +59,38 @@ foreach ($busDetails as $bus) {
                         <span><?php echo $schedule['duration']; ?></span>
                     </div>
                     <div class="route-stops">
-                        <?php foreach ($bus['stops'] as $index => $stop) { ?>
-                            <span><?php echo $stop; ?></span>
-                            <?php if ($index < count($bus['stops']) - 1) { ?>
-                                <div class="route-line"></div>
-                            <?php } ?>
-                        <?php } ?>
+                        <?php 
+                        // Ensure that 'stops' is not empty and is a string before processing
+                            if (!empty($bus['stops']) && is_string($bus['stops'])) {
+                                // Convert the string of stops into an array
+                                $stopsArray = explode(',', $bus['stops']);
+
+                                // Count the number of stops
+                                $totalStops = count($stopsArray);
+                                $middleIndex = floor($totalStops / 2); // Calculate the middle stop index
+
+                                // Display the stops only if there are any
+                                if ($totalStops > 0) {
+                                    echo '<span>' . htmlspecialchars($stopsArray[0]) . '</span>';
+                                }
+
+                                if ($totalStops > 1) {
+                                    echo '<div class="route-line"></div>'; // Optional separator
+                                    echo '<span>' . htmlspecialchars($stopsArray[$middleIndex]) . '</span>';
+                                }
+
+                                if ($totalStops > 2) {
+                                    echo '<div class="route-line"></div>'; // Optional separator
+                                    echo '<span>' . htmlspecialchars($stopsArray[$totalStops - 1]) . '</span>';
+                                }
+                            } else {
+                                // Display a default message if there are no stops
+                                echo '<span>No stops available</span>';
+                            }
+
+                        ?>
                     </div>
+
                 </div>
                 <div class="bus-card-footer">
                 <div class="rating">

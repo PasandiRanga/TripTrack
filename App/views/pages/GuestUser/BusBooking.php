@@ -19,12 +19,19 @@
 
     <?php
     $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+    $scheduleData = $data['schedule'] ?? [];
+    $busData = $data['bus'] ?? [];
     $data = [
         'currentController' => 'GuestPages',
         'currentMethod' => 'home',
         'userRole' => $userRole
     ];
     ?>
+
+    <script>
+        var scheduleData = <?php echo json_encode($scheduleData); ?>;
+        console.log("Schedule Data: ", scheduleData);  
+    </script>
 
     <div class="hero-container">
         <?php require APPROOT . '/views/inc/Components/Header/header.php'; ?>
@@ -33,8 +40,6 @@
     
 
         <?php
-        require_once APPROOT . '/views/inc/Components/BusCard/busData.php';
-        require_once APPROOT . '/views/inc/Components/BusCard/scheduleData.php';
         $busId = $_GET['busId'] ?? null;
         $scheduleId = $_GET['scheduleId'] ?? null;
         $selectedBus = null;
@@ -42,7 +47,7 @@
         // $seats = $_GET['busType'];
 
         // Find the selected bus
-        foreach ($busDetails as $bus) {
+        foreach ($busData as $bus) {
             if ($bus['busId'] == $busId) {
                 $selectedBus = $bus;
                 break;
@@ -50,25 +55,22 @@
         }
 
         $busStops = [];
-        if (isset($selectedBus['stops']) && is_array($selectedBus['stops']) && !empty($selectedBus['stops'])) {
-            $busStops = $selectedBus['stops']; // Use the stops from the selected bus
+        if (isset($selectedBus['stops']) && !empty($selectedBus['stops'])) {
+            // Convert the stops text into an array by splitting it at commas
+            $busStops = explode(',', $selectedBus['stops']);
         } else {
-            $busStops = ["No stops available"]; // Handle case if no stops are available
+            $busStops = ["No stops available"];
         }
+
         
         // Find the selected schedule for the bus
         if ($selectedBus) {
-            foreach ($busSchedules as $busSchedule) {
-                if ($busSchedule['busId'] == $busId) {
-                    foreach ($busSchedule['schedule'] as $schedule) {
-                        if ($schedule['scheduleId'] == $scheduleId) {
-                            $selectedSchedule = $schedule;
-                            break;
-                        }
-                    }
+            foreach ($scheduleData as $schedule) {
+                if ($schedule['busId'] == $busId && $schedule['scheduleId'] == $scheduleId) {
+                    $selectedSchedule = $schedule;
+                    break;
                 }
             }
-            // var_dump($selectedBus);
         }
 
         if ($selectedBus && $selectedSchedule) {
@@ -78,7 +80,7 @@
                     <h2><?php echo htmlspecialchars($selectedBus['route']); ?></h2>
                     <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
                 </div>
-                <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['busNumber']); ?></p>
+                <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['License_id']); ?></p>
                 <p><strong>Route Number:</strong> <?php echo htmlspecialchars($selectedBus['routeNumber']); ?></p>
                 <p><strong>Available Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['availableSeats']); ?></p>
                 <div class="rating">
@@ -235,43 +237,7 @@
         echo "<p>Bus or schedule not found.</p>";
     }
     ?>
-    <!-- <script>
-    // Define the function to open the bus layout
-    function openBusLayout() {
-        console.log("BusLayout is called");
-
-        // Open the modal to show the bus layout
-        document.getElementById('busLayoutModal').style.display = 'block';
-
-        // Dynamically load the bus layout from the server using fetch()
-        fetch('<?php echo URLROOT; ?>/views/inc/Components/BusLayout/BusLayout.php')
-            .then(response => response.text())  // Get the response as text
-            .then(data => {
-                console.log("alayout to model")
-                // Insert the bus layout content into the modal
-                document.getElementById('busLayoutContent').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading bus layout:', error);
-            });
-    }
-
-     // Function to close the modal
-     function closeModal() {
-        document.getElementById('busLayoutModal').style.display = 'none';
-    }
-
-    // Event listener to close modal when clicking outside the modal-content
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('busLayoutModal')) {
-            closeModal();
-        }
-    }
-
-    // Add an event listener to the element with id "seats" to trigger the openBusLayout function
-    document.getElementById('noOfseats').addEventListener('click', openBusLayout);
-</script> -->
-
+    
 
 </body>
 </html>
