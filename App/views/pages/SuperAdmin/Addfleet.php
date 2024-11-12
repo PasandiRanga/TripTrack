@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Bus</title>
-    <link rel="stylesheet" href="Add_fleet.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Addfleet.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <!-- Back button -->
-    <button class="back-button" onclick="location.href='../Fleet.php'">Back</button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/fleet'">Back </button>
 
     <h1>Add New Bus</h1>
 
@@ -44,6 +44,36 @@
         <button type="button" onclick="clearForm()">Clear</button>
     </form>
 
-    <script src="Add_fleet.js"></script>
+    <script>
+                // Go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Handle form submission
+        function submitFleetForm(event) {
+            event.preventDefault();
+
+            const fleetData = {
+                licence_id: document.getElementById("licence_id").value,
+                driver_id: document.getElementById("driver_id").value,
+                conductor_id: document.getElementById("conductor_id").value,
+                no_of_seats: document.getElementById("no_of_seats").value,
+                bus_route_no: document.getElementById("bus_route_no").value
+            };
+
+            console.log("Fleet added:", fleetData);
+            alert("Fleet added successfully!");
+
+            // Optionally, clear the form fields after submission
+            clearForm();
+        }
+
+        // Clear form fields
+        function clearForm() {
+            document.getElementById("fleet-form").reset();
+        }
+
+    </script>
 </body>
 </html>
