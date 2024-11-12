@@ -42,5 +42,18 @@
                 return []; // Return an empty array on error
             }
         }
+        public function getDistance(){
+            try {
+                // If you need all columns, this is fine
+                $this->db->query('SELECT * FROM distancefromstart');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                // Log or handle error
+                error_log("Error fetching bus details: " . $e->getMessage());
+                // Log to console
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return []; // Return an empty array on error
+            }
+        }
     }
 ?>
