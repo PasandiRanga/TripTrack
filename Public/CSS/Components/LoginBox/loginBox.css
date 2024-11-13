@@ -131,3 +131,9 @@ form {
     border:2px solid #d1d9e6;
 }
 
+
+.form-invalid{
+    color:red;
+    margin-bottom:20px;
+}
+

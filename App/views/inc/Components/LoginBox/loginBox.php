@@ -10,12 +10,23 @@
             <button class="social-btn google">G+</button>
             <button class="social-btn linkedin">in</button>
         </div>
-        <form id="loginForm" onsubmit="validateForm(event)">
+        <form action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
+
             <label>Email</label>
-            <input id="email" type="email" placeholder="Email" required>
+            <input type="text" name="email" id="email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>">
+            <span class="form-invalid">
+                <?php echo isset($_SESSION['email_err']) ? $_SESSION['email_err'] : ''; ?>
+            </span>
+
             <label>Password</label>
-            <input id="password" type="password" placeholder="Password"  required>
+
+            <input type="password" name="password" id="password" value="<?php echo isset($_SESSION['password']) ? $_SESSION['password'] : ''; ?>">
+            <span class="form-invalid">
+                <?php echo isset($_SESSION['password_err']) ? $_SESSION['password_err'] : ''; ?>
+            </span>
+
             <button type="submit" class="sign-in-btn">Sign In</button>
+
         </form>
     </div>
 

@@ -166,6 +166,71 @@
                 $this->view('inc/Components/SignUp/signUp', $data);
             }
         }
+
+        public function Login(){
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                //Form is submitting
+                $_POST=filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                $data=[
+                    'email' => trim($_POST['email']),
+                    'password' => trim($_POST['password']),
+  
+                    'email_err'=>'',
+                    'password_err'=>''
+                ];
+                //validate the email
+                if(empty($data['email'])){
+                    $data['email_err']='Please enter the email';
+                }
+                else{
+                    if($this->GuestpagesModel->findUserByEmail($data['email'])){
+                        //user is found
+                    }
+                    else{
+                        //user is not found
+                        $data['email_err']='User not found';
+                    }
+                }
+                //validate the password
+                if(empty($data['password'])){
+                    $data['password_err']='Please enter the password';
+                }
+                //if no error found the login the user
+                if(empty($data['email_err']) && empty($data['password_err'])){
+                    //log the user
+                    $loggedUser=$this->GuestpagesModel->login($data['email'],$data['password']);
+
+                    if($loggedUser){
+                        //User the authenticated
+                        //Create user session
+                        die('Access granted');
+                    }
+                    else{
+                        $data['password_err']='Password incorrect';
+
+                        //Load view with errors
+                        $this->view('inc/Components/LoginBox/loginBox', $data);
+                    }
+                }
+                else{
+                    //Load view with errors
+                    $this->view('inc/Components/LoginBox/loginBox', $data);
+                }
+            }
+            else{
+                //initial form
+                $data=[
+                    'email'=>'',
+                    'password'=>'',
+
+                    'email_err'=>'',
+                    'password_err'=>''
+                ];
+                //Load view
+                $this->view('inc/Components/LoginBox/loginBox', $data);
+
+            }
+        }
         
 
         public function BusBooking() {
