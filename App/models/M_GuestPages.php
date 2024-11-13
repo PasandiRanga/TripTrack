@@ -44,6 +44,23 @@
                 }
             }
 
+            //login the user
+            public function login($email,$password){
+                $this->db->query('SELECT * FROM customer WHERE Email=:email');
+                $this->db->bind(":email",$email);
+
+                $row = $this->db->single();
+
+                $hashed_password = $row->Password;//it's confusing "password" or "Password"
+                if(password_verify($password,$hashed_password)){
+                    return $row;
+                }
+                else{
+                    return false;
+                }
+            }
+
+
             //we need to connect the controller with the model as well so that we can use the database 
             //In this case controller is GuestPages.php so whenever GuestPages.php is constructed M_GuestPages.php will also be constructed
             //You can do this in controller class statement model
