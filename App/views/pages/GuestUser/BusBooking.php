@@ -143,7 +143,6 @@
                 
                 <!--buttons-->
                 <div class="view-button">
-                    <button>View bus stops and times</button>
                     <button>View ratings and reviews</button>
                 </div>
         </div>
