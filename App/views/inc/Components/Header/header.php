@@ -132,9 +132,7 @@
             document.getElementById('signInBox').classList.add('hidden');
         }
         
-
-
-
+        
         //Login form
         function validateForm(event) {
             event.preventDefault();

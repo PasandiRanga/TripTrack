@@ -50,13 +50,17 @@
                 $this->db->bind(":email",$email);
 
                 $row = $this->db->single();
+                print_r($row);
 
-                $hashed_password = $row->Password;//it's confusing "password" or "Password"
-                if(password_verify($password,$hashed_password)){
-                    return $row;
-                }
-                else{
-                    return false;
+                if ($row && isset($row['Password'])) {
+                    $hashed_password = $row['Password']; // Access as an array
+                    if (password_verify($password, $hashed_password)) {
+                        return $row; // Return the user data if password matches
+                    } else {
+                        return false; // Password mismatch
+                    }
+                } else {
+                    return false; // No user found
                 }
             }
 

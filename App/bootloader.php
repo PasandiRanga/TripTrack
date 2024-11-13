@@ -1,5 +1,5 @@
 <?php
-
+    require_once 'helpers/session.php';
     //Load Configarations
     require_once 'config/config.php';
 

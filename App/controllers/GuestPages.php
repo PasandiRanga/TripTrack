@@ -203,9 +203,11 @@
                     if($loggedUser){
                         //User the authenticated
                         //Create user session
-                        die('Access granted');
+                        $this->createUserSession($loggedUser);
+                        // die('Access granted');
                     }
                     else{
+                        
                         $data['password_err']='Password incorrect';
 
                         //Load view with errors
@@ -252,9 +254,32 @@
             // Pass the combined data array to the view
             $this->view('pages/GuestUser/BusBooking', $data);
         }
+
+
+        public function createUserSession($user){
+            $_SESSION['user_id']=$user->id;
+            $_SESSION['user_email']=$user->email;
+            $_SESSION['user_name']=$user->name;
+           
+            header('Location: ' . URLROOT . '/RegisteredPages/home');
+        }
         
-        
-        
+        public function logout(){
+            unset($_SESSION['user_id']);
+            unset($_SESSION['user_email']);
+            unset($_SESSION['user_name']);
+            session_destroy();
+            header('Location: ' . URLROOT . '/GuestPages/home');
+        }
+
+        public function isLoggedin(){
+            if(isset($_SESSION['user_id'])){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
 
     }  
 ?>
