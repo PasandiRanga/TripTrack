@@ -143,7 +143,6 @@
                 
                 <!--buttons-->
                 <div class="view-button">
-                    <button>View bus stops and times</button>
                     <button>View ratings and reviews</button>
                 </div>
         </div>
@@ -184,6 +183,7 @@
                     <label for="contact">Contact No:</label>
                     <input type="text" id="contact" name="contact" required>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div>
                     <label for="nic">NIC No:</label>
                     <input type="text" id="nic" name="nic" required>
