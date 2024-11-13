@@ -28,4 +28,8 @@ class RegionalAdminPages extends Controller {
         $this->view('pages/RegionalAdmin/Notifications');
     }
 
+    public function addschedule() {
+        $this->view('pages/RegionalAdmin/Addschedule');
+    }
+
 }
