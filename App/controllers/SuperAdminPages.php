@@ -55,5 +55,9 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/ReplyReviews');
     }
 
+    public function addschedule() {
+        $this->view('pages/SuperAdmin/Addschedule');
+    }
+
 }
 ?>

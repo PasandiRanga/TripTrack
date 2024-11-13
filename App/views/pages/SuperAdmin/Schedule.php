@@ -76,8 +76,8 @@
 
         // Function to handle adding a schedule
         function addSchedule() {
-            window.location.href = "Schedule/Add_schedule.php";
-        }
+            window.location.href="<?php echo URLROOT; ?>/SuperAdminPages/addschedule"
+                }
 
         // Function to handle updating a selected schedule
         function updateSchedule() {

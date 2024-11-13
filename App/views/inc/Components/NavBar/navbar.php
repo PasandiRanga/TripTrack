@@ -55,21 +55,25 @@ if (!function_exists('isCurrentPage')) {
                         <span class="text">Contact Us</span>
                     </a>';
             } elseif ($userRole === "Admin") {
-                echo '<a href="' . URLROOT . '/admin/home" class="navbar-item ' . (isCurrentPage('admin', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
+                echo '<a href="' . URLROOT . '/RegionalAdminPages/home" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa fa-house"></i>
                         <span class="text">Home</span>
                     </a>
-                    <a href="' . URLROOT . '/admin/support" class="navbar-item ' . (isCurrentPage('admin', 'support', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegionalAdminPages/support" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'support', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa-regular fa-message"></i>
                         <span class="text">Support</span>
                     </a>
-                    <a href="' . URLROOT . '/admin/profile" class="navbar-item ' . (isCurrentPage('admin', 'profile', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <i class="fa-regular fa-user"></i>
-                        <span class="text">Profile</span>
+                    <a href="' . URLROOT . '/RegionalAdminPages/viewbookings" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'viewbookings', $currentController, $currentMethod) ? 'selected' : '') . '">
+                        <i class="fa-regular fa-message"></i>
+                        <span class="text">Bookings</span>
                     </a>
-                    <a href="' . URLROOT . '/admin/logout" class="navbar-item ' . (isCurrentPage('admin', 'logout', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegionalAdminPages/schedule" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'schedule', $currentController, $currentMethod) ? 'selected' : '') . '">
+                        <i class="fa-regular fa-user"></i>
+                        <span class="text">Schedule</span>
+                    </a>
+                    <a href="' . URLROOT . '/RegionalAdminPages/notifications" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'notifications', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        <span class="text">Log out</span>
+                        <span class="text">Notifications</span>
                     </a>';
             } elseif ($userRole === "RegisteredUser") {
                 echo '<a href="' . URLROOT . '/RegisteredPages/Home" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
