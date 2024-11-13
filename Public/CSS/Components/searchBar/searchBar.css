@@ -39,6 +39,13 @@
     min-width: 0;
 }
 
+.bus-card {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 10px;
+    padding: 20px;
+}
+
 .search-button {
     padding: 10px 20px;
     background-color: #064060;
