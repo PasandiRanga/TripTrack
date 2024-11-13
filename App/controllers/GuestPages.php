@@ -135,9 +135,10 @@
         
                     // Register the user
                     if ($this->GuestpagesModel->register($data)) {
-                        die('User is registered');
+                        header('Location: ' . URLROOT . '/RegisteredPages/home' );
+                        exit();  // Make sure no further code executes after the redirect
                     } else {
-                        die('Something went wrong');
+                        die('Something went wrong');  // Handle errors in registration
                     }
                 } else {
                     // Reload view with errors

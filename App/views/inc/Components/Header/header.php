@@ -138,10 +138,10 @@
 
         document.addEventListener('click', function(event) {
             const box = document.getElementById('box');
-            if (!box.contains(event.target) && !event.target.closest('.icon')) {
-                box.style.height = '0px';
-                box.style.opacity = '0';
-            }
+            if (box && !box.contains(event.target) && !event.target.closest('.icon')) {
+            box.style.height = '0px';
+            box.style.opacity = '0';
+    }
         });
 
         document.querySelectorAll('.dropdown-arrow').forEach(arrow => {
