@@ -128,6 +128,10 @@
         
                     // Hash the password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                    // Debug output
+                    var_dump($data['password']); // This should display a hashed string
+
         
                     // Register the user
                     if ($this->GuestpagesModel->register($data)) {
@@ -155,7 +159,7 @@
                     'address_err' => '',
                     'email_err' => '',
                     'password_err' => '',
-                    'confirm_err' => ''
+                    'confirm_err' => '',
                 ];
                 // Load the sign-up form view
                 $this->view('inc/Components/SignUp/signUp', $data);
