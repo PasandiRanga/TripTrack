@@ -427,7 +427,7 @@
 
         // Function to redirect back to dashboard
         function cancelLogout() {
-        window.location.href = "'<?php echo URLROOT; ?>/SuperAdminPages/home'"; // Replace with your dashboard file
+            window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home"; // Replace with your dashboard file
         }
     </script>
 </body>
