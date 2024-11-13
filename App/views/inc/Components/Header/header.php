@@ -132,9 +132,7 @@
             document.getElementById('signInBox').classList.add('hidden');
         }
         
-
-
-
+        
         //Login form
         function validateForm(event) {
             event.preventDefault();
@@ -147,7 +145,7 @@
             } else {
                 alert("Please fill in both email and password.");
             }
-        }*/
+        }
 
         document.addEventListener('click', function(event) {
             const box = document.getElementById('box');
