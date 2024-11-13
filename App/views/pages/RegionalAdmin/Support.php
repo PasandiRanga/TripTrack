@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusCard/busCard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/home.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegionalAdmin/Support.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <meta charset="UTF-8">
@@ -53,6 +54,43 @@
 
     </div>
     <div class="body-section">
+    <div class="body-section">
+        <div class="messages-table-container">
+            <h2>Customer Messages</h2>
+            <table class="messages-table">
+                <thead>
+                    <tr>
+                        <th>UserID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Define an array of customer messages
+                    $customerMessages = [
+                        ['refID' => 101, 'name' => 'John Doe', 'email' => 'johndoe@example.com', 'message' => 'Hello, I need help with my account.'],
+                        ['refID' => 102, 'name' => 'Jane Smith', 'email' => 'janesmith@example.com', 'message' => 'I would like to inquire about your services.'],
+                        ['refID' => 103, 'name' => 'Sam Wilson', 'email' => 'samwilson@example.com', 'message' => 'Can you help me with a billing issue?'],
+                        ['refID' => 104, 'name' => 'Emily Brown', 'email' => 'emilybrown@example.com', 'message' => 'I am facing a technical issue.']
+                    ];
+
+                    // Loop through the array and display each message in a table row
+                    foreach ($customerMessages as $message) {
+                        echo "<tr>
+                                <td>{$message['refID']}</td>
+                                <td>{$message['name']}</td>
+                                <td><a href='mailto:{$message['email']}?subject=Reply to Your Message'>{$message['email']}</a></td>
+                                <td>{$message['message']}</td>
+                              </tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
         <div class="footer-container">
             <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
         </div>

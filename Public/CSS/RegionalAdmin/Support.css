@@ -1,0 +1,79 @@
+/* CSS for Support Page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: top;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Back Button Style */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    background-color: #063946;
+}
+
+/* Header Styling */
+h2 {
+    margin: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Table Styling */
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid white; /* White line between columns */
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #063946;
+    color: #fff;
+}
+
+/* Table Row on Hover */
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Add padding to the message table */
+.messages-table-container {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Styling for table rows with new review */
+.new-review {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
