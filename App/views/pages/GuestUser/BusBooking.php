@@ -184,6 +184,7 @@
                     <label for="contact">Contact No:</label>
                     <input type="text" id="contact" name="contact" required>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div>
                     <label for="nic">NIC No:</label>
                     <input type="text" id="nic" name="nic" required>

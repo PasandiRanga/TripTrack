@@ -7,6 +7,8 @@
     </div>
     <h3>filling all fields are mandotary</h3>
 
+    
+
     <form action="<?php echo URLROOT ?>/GuestPages/GuestSignUp" method="POST">
 
         <!----Full Name---->

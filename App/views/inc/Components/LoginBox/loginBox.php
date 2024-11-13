@@ -14,7 +14,7 @@
             <label>Email</label>
             <input id="email" type="email" placeholder="Email" required>
             <label>Password</label>
-            <input id="password" type="password" placeholder="Password" required>
+            <input id="password" type="password" placeholder="Password"  required>
             <button type="submit" class="sign-in-btn">Sign In</button>
         </form>
     </div>

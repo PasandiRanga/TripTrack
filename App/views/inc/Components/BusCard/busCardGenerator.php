@@ -47,7 +47,7 @@ foreach ($busData as $bus) {
                 </div>
                 <div class="bus-card-timing">
                     <div class="date">
-               ass      <span><?php echo $schedule['date']; ?></span>
+                      <span><?php echo $schedule['date']; ?></span>
                     </div>
                     <div class="timing-info">
                         <div class="departure-time">
