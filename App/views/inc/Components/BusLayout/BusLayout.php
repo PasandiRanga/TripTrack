@@ -235,20 +235,6 @@
                 <input type="hidden" name="totalPrice" value="<?php echo htmlspecialchars($pricePerSeat * $noOfSeats); ?>">
                 <input type="hidden" name="selectedSeats" id="selected-seats-input">
                 
-                <p><strong>Payment Method:</strong></p>
-                <label>
-                    <input type="radio" name="paymentMethod" value="credit" checked> Credit Card
-                </label>
-                <label>
-                    <input type="radio" name="paymentMethod" value="debit"> Debit Card
-                </label>
-                <label>
-                    <input type="radio" name="paymentMethod" value="cash"> Cash
-                </label>
-                <label>
-                    <input type="radio" name="paymentMethod" value="online"> Online
-                </label>
-
                 <button type="submit" class="checkout-button" disabled>Proceed to Checkout</button>
             </form>
         </div>

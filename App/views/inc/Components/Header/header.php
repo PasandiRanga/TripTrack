@@ -87,7 +87,7 @@
     <div class="signInBox hidden" id="signInBox">
         <div class="signInBoxContent">
             <div class="close-btn" onclick="closeSignInBox()">×</div>
-            <div id="content1"><?php require APPROOT.'/views/inc/Components/LoginBox/loginBox.php'; ?></div>
+            <div id="content1" style="display:block;"><?php require APPROOT.'/views/inc/Components/LoginBox/loginBox.php'; ?></div>
             <div id="content2" style="display:none;"><?php require APPROOT.'/views/inc/Components/SignUp/signUp.php'; ?></div>
         </div>
     </div>
@@ -115,15 +115,28 @@
             event.target.innerHTML = content.style.display === 'block' ? '&#9650;' : '&#9660;';
         }
 
+        // function showSignInBox() {
+        //     document.getElementById('signInBox').classList.remove('hidden');
+        // }
+
         function showSignInBox() {
+            // Reset content to show the login form by default
+            document.getElementById('content1').style.display = 'block';
+            document.getElementById('content2').style.display = 'none';
+
+            // Show the sign-in box
             document.getElementById('signInBox').classList.remove('hidden');
         }
 
         function closeSignInBox() {
             document.getElementById('signInBox').classList.add('hidden');
         }
+        
 
-        /*function validateForm(event) {
+
+
+        //Login form
+        function validateForm(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;

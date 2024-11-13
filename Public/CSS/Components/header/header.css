@@ -273,8 +273,8 @@ li {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional box shadow */
     position: relative;  /* This ensures the close button is positioned relative to this box */
-    max-height: 80vh; /* Set a max height for the container (80% of viewport height) */
-    overflow-y: auto; /* Enables vertical scrolling when content overflows */
+    max-height: 100vh; /*Set a max height for the container (80% of viewport height)*/
+    overflow-y: auto;/* Enables vertical scrolling when content overflows*/
 }
 
 

@@ -19,6 +19,7 @@
             </span>
 
             <label>Password</label>
+
             <input type="password" name="password" id="password" value="<?php echo isset($_SESSION['password']) ? $_SESSION['password'] : ''; ?>">
             <span class="form-invalid">
                 <?php echo isset($_SESSION['password_err']) ? $_SESSION['password_err'] : ''; ?>
