@@ -56,7 +56,10 @@
             <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
             <h2><?php echo $profile['fullName']; ?></h2>
             <p><?php echo $profile['userID']; ?></p>
-            <button class="logout-button">LogOut</button>
+            <div class="btn">
+                <button class="logout-button"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
+                <button class="delete-account-button"><i class="fa fa-trash fa-lg" ></i>  Delete Account</button>
+            </div>
         </div>
 
         <!-- Right Side: User Details -->
@@ -78,7 +81,7 @@
                 <input type="text" value="<?php echo $profile['NIC']; ?>" readonly>
             </div>
             <div class="detail">
-                <label>HomeTown</label>
+                <label>Address</label>
                 <input type="text" value="<?php echo $profile['homeTown']; ?>" readonly>
             </div>
 

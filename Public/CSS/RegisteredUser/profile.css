@@ -78,10 +78,27 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    width: 80px;
+    width: auto;
+    margin-right: 40px; /* Add space between buttons */
 }
 
+
+.delete-account-button {
+    background-color: #ff4d4d;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: auto;
+}
+
+
 .logout-button:hover {
+    background-color: #962020;
+}
+.delete-account-button:hover {
     background-color: #962020;
 }
 
