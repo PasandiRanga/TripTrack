@@ -147,7 +147,7 @@
             } else {
                 alert("Please fill in both email and password.");
             }
-        }*/
+        }
 
         document.addEventListener('click', function(event) {
             const box = document.getElementById('box');
