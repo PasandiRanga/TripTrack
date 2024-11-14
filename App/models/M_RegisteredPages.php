@@ -77,6 +77,7 @@
             $row = $this->db->single();
 
             if($this->db->rowCount()>0){
+                error_log(print_r($row, true));
                 return $row;
             }
             else{
