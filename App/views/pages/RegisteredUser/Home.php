@@ -37,8 +37,10 @@
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
         var busData = <?php echo json_encode($busData); ?>;
+        var userID = <?php echo json_encode($userID); ?>;
         console.log("Schedule Data: ", scheduleData);
-        console.log("Bus Data: ", busData);  
+        console.log("Bus Data: ", busData); 
+        console.log("User ID: ", userID); 
     </script>
 
 <?php

@@ -69,7 +69,13 @@
         }
 
         public function profile() {
-            $this->view('pages/RegisteredUser/profile');
+            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+
+            $data =[
+                'user' => $user
+            ];
+            
+            $this->view('pages/RegisteredUser/profile' , $data);
         }
 
         public function searchBus() {
