@@ -18,10 +18,14 @@
     </script>
 
     <?php
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    $userID = $_SESSION['user_id'] ?? null;
+   // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
+    $userData = $data['user'] ?? [];
+    
     $data = [
         'currentController' => 'RegisteredPages',
         'currentMethod' => 'home',
@@ -32,6 +36,8 @@
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
         console.log("Schedule Data: ", scheduleData);  
+        var userData = <?php echo json_encode($userData); ?>;
+        console.log("User Data:", userData);
     </script>
 
     <div class="hero-container">
@@ -164,29 +170,29 @@
 
     <div class="booking-form">
         <h2>Book Your Seat</h2>
-        <form id="bookingForm" action="<?php echo URLROOT; ?>/GuestPages/busLayout" method="post" onsubmit="return validateForm()">
+        <form id="bookingForm" action="<?php echo URLROOT; ?>/RegisteredPages/busLayout" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>">
         <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
             <div class="form-group">
                 <div>
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($userData['Name']); ?>" required>
                 </div>
                 <div>
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userData['Email']); ?>" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <div>
                     <label for="contact">Contact No:</label>
-                    <input type="text" id="contact" name="contact" required>
+                    <input type="text" id="contact" name="contact" value = "<?php echo htmlspecialchars($userData['Contact_number']); ?>" required>
                 </div>
                 <div>
                     <label for="nic">NIC No:</label>
-                    <input type="text" id="nic" name="nic" required>
+                    <input type="text" id="nic" name="nic" value="<?php echo htmlspecialchars($userData['NIC']); ?> "required>
                 </div>
             </div>
 

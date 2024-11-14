@@ -25,8 +25,10 @@
     </script>
 
     <?php
+    $userID = $_SESSION['user_id'] ?? null;
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
+    echo "<script>console.log('User Role: $userRole');</script>";
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];

@@ -55,5 +55,33 @@
                 return []; // Return an empty array on error
             }
         }
+
+        public function findUserByEmail($email){
+            $this->db->query('SELECT * FROM customer WHERE Email=:email');
+            $this->db->bind(":email",$email);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                return true;
+            }
+            else{
+                return false;  
+            }
+        }
+
+        public function findUserById($userId){
+            $this->db->query('SELECT * FROM customer WHERE User_id=:userId');
+            $this->db->bind("userId",$userId);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                return $row;
+            }
+            else{
+                return false;  
+            }
+        }
     }
 ?>

@@ -16,7 +16,7 @@
         // echo "Current controller is: " . $currentController;
         $currentMethod = $data['currentMethod'] ?? '';
         // echo "Current method is: " . $currentMethod;
-        $userRole = $data['userRole'] ?? '';
+        $userRole = $_SESSION['user_role'] ?? '';
 
         $DataToUse = isset($fileredData) ? $filteredData : $scheduleData;
     ?>
