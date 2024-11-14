@@ -72,7 +72,7 @@
 
         public function findUserById($userId){
             $this->db->query('SELECT * FROM customer WHERE User_id=:userId');
-            $this->db->bind("userId",$userId);
+            $this->db->bind(":userId",$userId);
 
             $row = $this->db->single();
 
@@ -82,6 +82,17 @@
             }
             else{
                 return false;  
+            }
+        }
+
+        public function getBookings($userId){
+            try {
+                $this->db->query('SELECT * FROM registeredbooking WHERE User_id=:userId');
+                $this->db->bind(":userId", $userId);
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error in getBookings: " . $e->getMessage());
+                return false;
             }
         }
     }
