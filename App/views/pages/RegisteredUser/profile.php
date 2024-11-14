@@ -14,7 +14,7 @@
 </head>
 <body>
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
+        var userRole = <?php echo json_encode($_SESSION['user_role'] ?? 'RegisteredUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
