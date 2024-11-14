@@ -33,19 +33,17 @@
     ];
     ?>
 
-    <!-- <?php
-    require 'profileData.php';
-    foreach ($profileDetails as $profile){}
-        ?> -->
+    <script>
+        // Encode the PHP array as JSON for JavaScript
+        var profileData = <?php echo json_encode($profile); ?>;
+        console.log("Profile Data:", profileData);
+    </script>
 
+    
     <!-- Header and Navbar -->
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
-
-    <!-- Link the external JavaScript files -->
-    <script src="./../../Component/Header/header.js"></script>
-    <script src="./../../Component/NavBar/navbar.js"></script>
 
     <!-- Profile Container -->
     <div class="profile-container">
@@ -55,8 +53,8 @@
                 <img src="<?php echo URLROOT; ?>/public/images/profile.png" alt="User Profile Picture"> 
             </div>
             <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
-            <h2><?php echo $profile['fullName']; ?></h2>
-            <p><?php echo $profile['userID']; ?></p>
+            <h2><?php echo $profile['Name']; ?></h2>
+            <p><?php echo $profile['User_id']; ?></p>
             <div class="btn">
                 <button class="logout-button"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
                 <button class="delete-account-button"><i class="fa fa-trash fa-lg" ></i>  Delete Account</button>
