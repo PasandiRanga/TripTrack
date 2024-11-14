@@ -20,7 +20,7 @@
 
     <?php
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
     ?>
 
 

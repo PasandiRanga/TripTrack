@@ -20,12 +20,19 @@
 <body>
 
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
-        localStorage.setItem('userRole', userRole);
+        var userRole = <?php echo json_encode($_SESSION['user_role'] ?? 'RegisteredUser'); ?>;
+        localStorage.setItem('user_role', userRole);
     </script>
 
     <?php
-    $userID = $_SESSION['user_id'] ?? null;
+    // 
+    if(isset($_SESSION['user_id'])){
+        $userID = $_SESSION['user_id'];
+    }
+    else{
+        header('Location: ' . URLROOT . '/GuestPages/home');
+        exit();
+    }
     // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
     echo "<script>console.log('User Role: $userRole');</script>";

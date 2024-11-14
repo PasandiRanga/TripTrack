@@ -31,8 +31,21 @@
         }
 
         public function bookings() {
+            $bookingsDetails = $this->RegisteredpagesModel->getBookings($_SESSION['user_id']);
+            // var_dump($bookingsDetails);
+            $schedule = $this->RegisteredpagesModel->getSchedule();
+
+            $bus = $this->RegisteredpagesModel->getBusDetails();
+            // var_dump($schedule);
+            $data =[
+                'bookingsDetails' => $bookingsDetails,
+                'schedule' => $schedule,
+                'bus' => $bus
+            ];
+            // var_dump($data);
+
             //call a view
-            $this->view('pages/RegisteredUser/bookings');
+            $this->view('pages/RegisteredUser/Bookings' , $data);
             
         }
 

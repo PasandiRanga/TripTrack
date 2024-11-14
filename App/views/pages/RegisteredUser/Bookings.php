@@ -21,13 +21,27 @@
     </script>
 
     <?php
-        $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+        $userId = $_SESSION['user_id'] ?? '';
+        $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
+        $scheduleData = $data['schedule'] ?? [];
+        $bookingData = $data['bookingsDetails'] ?? [];
+        $busData = $data['bus'] ?? [];
         $data = [
             'currentController' => 'RegisteredPages', // Adjust this based on your controller
             'currentMethod' => 'bookings', // Adjust this based on the method
             'userRole' => $userRole
         ];
+        
     ?>
+
+    <script>
+        var scheduleData = <?php echo json_encode($scheduleData); ?>;
+        console.log("Schedule Data: ", scheduleData);
+        var bookingData = <?php echo json_encode($bookingData); ?>;
+        console.log("Booking Data: ", bookingData);
+        var userId = <?php echo json_encode($userId); ?>;
+        console.log("User ID: ", userId);
+    </script>
 
     <?php require 'bookingsData.php'; ?>
 
@@ -36,6 +50,33 @@
 
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+
+    <?php
+        $currentDate = date("Y-m-d"); // Current date to compare with booking dates
+        
+        // Filter upcoming and past bookings based on the schedule date
+        $upcomingBookings = [];
+        $pastBookings = [];
+
+        foreach ($bookingData as $booking) {
+            // Assuming each booking has a `schedule_id` to match the scheduleData
+            $schedule = array_filter($scheduleData, function($s) use ($booking) {
+                return $s['scheduleId'] == $booking['schedule_id']; // Match schedule by ID
+            });
+
+            $schedule = reset($schedule); // Get the first matching schedule entry
+
+            if ($schedule) {
+                // Compare booking date with schedule date
+                if ($booking['Booking_date'] >= $schedule['date']) {
+                    $upcomingBookings[] = $booking; // Upcoming booking
+                } else {
+                    $pastBookings[] = $booking; // Past booking
+                }
+            }
+        }
+    ?>
+
 
     <div class="main">
         <div class="container">
@@ -62,19 +103,17 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($bookingsDetails as $booking): ?>
-                    <?php if ($booking['date'] < $currentDate): ?>
-                        <tr>
-                            <td data-label="Date"><?php echo $booking['date']; ?></td>
-                            <td data-label="Time"><?php echo $booking['time']; ?></td>
-                            <td data-label="Route"><?php echo $booking['route']; ?></td>
-                            <td data-label="From"><?php echo $booking['from']; ?></td>
-                            <td data-label="To"><?php echo $booking['to']; ?></td>
-                            <td data-label="Bus No"><?php echo $booking['busNo']; ?></td>
-                            <td data-label="Price (LKR)"><?php echo $booking['price']; ?></td>
-                            <td data-label="Status" class="status"><?php echo $booking['status']; ?></td>
-                        </tr>
-                    <?php endif; ?>
+                <?php foreach ($pastBookings as $booking): ?>
+                    <tr>
+                        <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
+                        <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
+                        <td data-label="Route"><?php echo $booking['route']; ?></td>
+                        <td data-label="From"><?php echo $booking['from_location']; ?></td>
+                        <td data-label="To"><?php echo $booking['to_location']; ?></td>
+                        <td data-label="Bus No"><?php echo $booking['busNo']; ?></td>
+                        <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
+                        <td data-label="Status" class="status"><?php echo $booking['status']; ?></td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -94,22 +133,35 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($bookingsDetails as $booking): ?>
-                    <?php if ($booking['date'] >= $currentDate): ?>
-                        <tr>
-                            <td data-label="Date"><?php echo $booking['date']; ?></td>
-                            <td data-label="Time"><?php echo $booking['time']; ?></td>
-                            <td data-label="Route"><?php echo $booking['route']; ?></td>
-                            <td data-label="From"><?php echo $booking['from']; ?></td>
-                            <td data-label="To"><?php echo $booking['to']; ?></td>
-                            <td data-label="Bus No"><?php echo $booking['busNo']; ?></td>
-                            <td data-label="Price (LKR)"><?php echo $booking['price']; ?></td>
-                            <!-- Search Icon -->
-                            <td data-label="Action">
-                                <i class="fas fa-search search-icon" onclick="toggleTicketBox()"></i>
-                            </td>
-                        </tr>
-                    <?php endif; ?>
+                <?php foreach ($upcomingBookings as $booking):
+
+                    //Find the corresponding schedule for this booking based on schedule_id
+                    $schedule = array_filter($scheduleData, function($s) use ($booking) {
+                        return $s['scheduleId'] == $booking['schedule_id']; // Match schedule by ID
+                    });
+
+                    $schedule = reset($schedule); // Get the first matching schedule entry
+
+                    if($schedule) {
+                        $bus = array_filter($busData, function($b) use ($schedule) {
+                            return $b['busId'] == $schedule['busId']; // Match bus by ID
+                        });
+                    }
+                    $bus = reset($bus); // Get the first matching bus entry
+
+                ?>
+                    <tr>
+                        <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
+                        <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
+                        <td data-label="Route"><?php echo $bus['route']; ?></td>
+                        <td data-label="From"><?php echo $booking['from_location']; ?></td>
+                        <td data-label="To"><?php echo $booking['to_location']; ?></td>
+                        <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>
+                        <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
+                        <td data-label="Action">
+                            <i class="fas fa-search search-icon" onclick="toggleTicketBox()"></i>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -146,10 +198,11 @@
     <script>
         const defaultColor = 'black';
 
-        // Show only "Past Bookings" table by default
-        document.getElementById('pastBookings').style.display = 'table';
-        document.getElementById('upcomingBookings').style.display = 'none';
-        document.getElementById('showPastBookings').style.color = '#4CAF50';
+        // Show only "Upcoming Bookings" table by default
+        document.getElementById('upcomingBookings').style.display = 'table';  // Change this line
+        document.getElementById('pastBookings').style.display = 'none';       // Ensure Past bookings are hidden
+        document.getElementById('showUpcomingBookings').style.color = '#4CAF50'; // Highlight Upcoming
+        document.getElementById('showPastBookings').style.color = defaultColor; // Set Past Bookings color to black
 
         // Toggle between Past and Upcoming Bookings
         document.getElementById('showPastBookings').addEventListener('click', function() {
@@ -191,5 +244,6 @@
             });
         });
     </script>
+
 </body>
 </html>
