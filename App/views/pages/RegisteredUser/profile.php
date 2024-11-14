@@ -55,9 +55,28 @@
             <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
             <h2><?php echo $profile['Name']; ?></h2>
             <p><?php echo $profile['User_id']; ?></p>
+
             <div class="btn">
-                <button class="logout-button"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
-                <button class="delete-account-button"><i class="fa fa-trash fa-lg" ></i>  Delete Account</button>
+
+            <button class="logout-button" onclick="showConfirmBox('logout')">
+            <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
+
+            <button class="delete-account-button" onclick="showConfirmBox('delete')">
+            <i class="fa fa-trash fa-lg" ></i>  Delete Account</button>
+
+            </div>
+        </div>
+
+        <!--Pop Up the confirmation box-->
+        <div class="confirmBox hidden" id="confirmBox">
+            <div class="confirmBoxContent">
+                <h1>Are You Sure ? </h1>
+                <h4>You won't be able to revert this !</h4>
+                <p>
+                <button id="yes" onclick="confirmAction()">Yes</button>
+                <button id="no" onclick="closeConfirmBox()">No</button>
+                </p>
+                <div class="close-btn" onclick="closeConfirmBox()">×</div>
             </div>
         </div>
 
@@ -89,6 +108,28 @@
         </div>
     </div>
 
+    <script>
+        let actionType = "";
 
+        function showConfirmBox(type) {
+            actionType = type;
+            document.getElementById("confirmBox").classList.remove("hidden");
+        }
+
+        function closeConfirmBox() {
+            document.getElementById("confirmBox").classList.add("hidden");
+        }
+
+        function confirmAction() {
+            if (actionType === 'logout') {
+                window.location.href = '<?php echo URLROOT; ?>/GuestPages/logout';
+            } else if (actionType === 'delete') {
+                window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount';
+            }
+            closeConfirmBox();
+        }
+    </script>
+<!-- onclick="window.location.href='<?php echo URLROOT; ?>/GuestPages/logout';"-->
+<!--onclick="window.location.href='<?php echo URLROOT; ?>/RegisteredPages/deleteAccount';"-->
 </body>
 </html>

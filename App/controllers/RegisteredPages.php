@@ -78,6 +78,14 @@
             $this->view('pages/RegisteredUser/profile' , $data);
         }
 
+        public function deleteAccount(){
+            if($this->RegisteredpagesModel->deleteAccount($_SESSION['user_id'])) {
+                $this->view('pages/GuestPages/home'); 
+            } else {
+                // Handle error if needed, like showing a message
+            }
+        }        
+
         public function searchBus() {
             $this->view('pages/RegisteredUser/searchbus');
         }
@@ -126,6 +134,10 @@
             $this->view('inc/Components/Receipt/RegisteredReceipt');
         }
         
+        public function viewPop(){
+            $this->view('inc/Components/PopUp/popUp');
+
+        }
 
     }  
 ?>

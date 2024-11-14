@@ -84,5 +84,20 @@
                 return false;  
             }
         }
+
+        public function deleteAccount($userID){
+            $this->db->query('DELETE FROM customer WHERE User_id=:userId');
+            $this->db->bind("userId",$userID);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                error_log(print_r($row, true));
+                return $row;
+            }
+            else{
+                return false;  
+            }
+        }
     }
 ?>
