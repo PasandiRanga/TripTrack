@@ -6,39 +6,21 @@ div.background {
     position: absolute;
 }
 
-img.headerpic {
-    width: 450px;
-    height: 450px;
-    left: 70px;
-    top: 5px;
-    position: absolute;
-}
-
 img.name-image {
     width: 510px;
     height: 90px;
     left: 480px;
-    top: 150px;
+    top: 130px;
     margin-right: 50px;
     position: absolute;
 }
 
 .hero-container {
     width: 100%;
-    height: 450px;
+    height: 370px;
     background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
     position: relative;
 }
-
-.footer-container {
-    background-color: #ffffff;
-}
-
-.body-section{
-    background-color:#F0F1F3;
-}
-
-
 
 /* Center-align text and set font family for text-container */
 .text-container {
@@ -48,5 +30,3 @@ img.name-image {
     text-align: center;
     font-family: 'Poppins', sans-serif;
 }
-
-

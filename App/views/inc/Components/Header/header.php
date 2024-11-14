@@ -19,6 +19,7 @@
     $userRole = $data['userRole'] ?? '';
 
     include_once 'notificationData.php';
+    include_once 'c_notificationData.php';
 
     ?>
 
@@ -43,29 +44,54 @@
         </div>
 
         <div class="user-section">
-            <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Employee"])): ?>
-                <div class="icon" onclick="toggleNotifi()">
-                    <img src="<?php echo URLROOT; ?>/public/images/bell.png" alt="not"><span>3</span>
-                </div>
+            <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Conductor"])): ?>
 
-                <div class="notifi-box" id="box">
-                    <h2>Notifications <span><?php echo count($notifications); ?></span></h2>
+                <?php if ($userRole === "RegisteredUser"): ?>
+                    <div class="icon" onclick="toggleNotifi()">
+                        <img src="<?php echo URLROOT; ?>/public/images/bell.png" alt="not"><span><?php echo count($notifications); ?></span>
+                    </div>
 
-                    <?php 
-                    foreach ($notifications as $notification): ?>
-                        <div class="notifi-item">
-                            <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
-                            <div class="text">
-                                <h4><?php echo $notification["title"]; ?></h4>
-                                <p><?php echo $notification["date"]; ?></p>
-                                <span class="dropdown-arrow">&#9660;</span>
+                    <div class="notifi-box" id="box">
+                        <h2>Notifications <span><?php echo count($notifications); ?></span></h2>
+
+                        <?php foreach ($notifications as $notification): ?>
+                            <div class="notifi-item">
+                                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
+                                <div class="text">
+                                    <h4><?php echo $notification["title"]; ?></h4>
+                                    <p><?php echo $notification["date"]; ?></p>
+                                    <span class="dropdown-arrow">&#9660;</span>
+                                </div>
+                                <div class="notification-content">
+                                    <p><?php echo $notification["content"]; ?></p>
+                                </div>
                             </div>
-                            <div class="notification-content">
-                                <p><?php echo $notification["content"]; ?></p>
+                        <?php endforeach; ?>
+                    </div>
+
+                <?php elseif ($userRole === "Conductor"): ?>
+                    <div class="icon" onclick="toggleNotifi()">
+                        <img src="<?php echo URLROOT; ?>/public/images/bell.png" alt="not"><span><?php echo count($c_notifications); ?></span>
+                    </div>
+                    <div class="notifi-box" id="box">
+                        <h2>Notifications <span><?php echo count($c_notifications); ?></span></h2>
+
+                        <?php foreach ($c_notifications as $c_notification): ?>
+                            <div class="notifi-item">
+                                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
+                                <div class="text">
+                                    <h4><?php echo $c_notification["title"]; ?></h4>
+                                    <p><?php echo $c_notification["date"]; ?></p>
+                                    <span class="dropdown-arrow">&#9660;</span>
+                                </div>
+                                <div class="notification-content">
+                                    <p><?php echo $c_notification["content"]; ?></p>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
             <?php endif; ?>
 
             <?php if ($userRole === "Admin" || $userRole === "RegisteredUser"): ?>
@@ -74,7 +100,12 @@
                     <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
                 </a>
                 </div>
-
+            <?php elseif ($userRole === "Conductor"): ?>
+                <div class="user-profile-container">
+                <a href="<?php echo URLROOT; ?>/ConductorPages/profile">
+                    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+                </a>
+                </div>
             <?php else: ?>
                 <div class="login-container">
                     <!-- Login Button -->

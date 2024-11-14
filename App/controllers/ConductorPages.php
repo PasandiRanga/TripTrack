@@ -36,5 +36,9 @@
             $this->view('pages/Conductor/ScanQRcode');
         }
 
+        public function profile() {
+            $this->view('pages/Conductor/Profile');
+        }
+
     }
 ?>

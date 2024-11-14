@@ -8,7 +8,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inform Delays</title>
+    <title>Notifications</title>
 </head>
 
 <body>
@@ -37,9 +37,6 @@
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
         <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
-        <div class="background"></div>
-    </div>
-
     <div class="notification-container">
         <!-- Notification Item -->
         <div class="notification-item">
@@ -56,6 +53,7 @@
         </div>
     </div>
 
+
     <div class="notification-container">
         <!-- Notification Item -->
         <div class="notification-item">
@@ -70,6 +68,8 @@
                 <p>Your leave request for following dates have been approved.<br>November 15, 2024<br>November 16, 2024<br>November 17, 2024</p>
             </div>
         </div>
+    </div>
+
     </div>
 
     <script>
