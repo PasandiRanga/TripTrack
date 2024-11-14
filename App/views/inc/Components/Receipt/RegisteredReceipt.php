@@ -12,6 +12,10 @@ $noOfSeats = $_POST['noOfseats'] ?? '0';
 $pricePerSeat = $_POST['pricePerSeat'] ?? '0';
 $totalPrice = $_POST['totalPrice'] ?? '0';
 $selectedSeats = $_POST['selectedSeats'] ?? [];
+date_default_timezone_set("Asia/Colombo");
+$currentDate = date("Y-m-d");
+date_default_timezone_set("Asia/Colombo");
+$currentTime = date("H:i:s");
 
 // Create the booking details text for QR code
 $qrText = "Booking Receipt\n";
@@ -28,20 +32,11 @@ try {
     $db = new Database();
 
     // Prepare the insert query
-    $db->query("INSERT INTO RegisteredBookingz (name, email, contact, nic, from_location, to_location, number_of_seats,  selected_seats, total_price, schedule_id)
-                VALUES (:name, :email, :contact, :nic, :fromLocation, :toLocation, :noOfSeats,  :selectedSeats, :totalPrice , :scheduleId)");
+    $db->query("INSERT INTO RegisteredBookings (Booking_date, Booking_time,  State, No_of_seats,User_id , schedule_id, from_location, to_location, total_price)
+                VALUES (:currentDate , :currentTime , 'upcoming , :noOfSeats )");
 
     // Bind parameters
-    $db->bind(':name', $name);
-    $db->bind(':email', $email);
-    $db->bind(':contact', $contact);
-    $db->bind(':nic', $nic);
-    $db->bind(':fromLocation', $from);
-    $db->bind(':toLocation', $to);
-    $db->bind(':noOfSeats', $noOfSeats);
-    $db->bind(':selectedSeats', $selectedSeatsJSON);
-    $db->bind(':totalPrice', $totalPrice);
-    $db->bind(':scheduleId', $scheduleId);
+    
 
     $db->execute();
 
