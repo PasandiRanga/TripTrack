@@ -13,7 +13,11 @@ class SuperAdminPages extends Controller {
     }
 
     public function fleet() {
-        $this->view('pages/SuperAdmin/Fleet');
+        $bus = $this->SuperAdminModel->getBus();
+        $data = [
+            'bus' => $bus
+        ];
+        $this->view('pages/SuperAdmin/Fleet',$data);
     }
     public function AddFleet() {
         $this->view('pages/SuperAdmin/Addfleet');

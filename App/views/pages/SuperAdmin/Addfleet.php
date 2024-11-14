@@ -13,36 +13,71 @@
     <h1>Add New Bus</h1>
 
     <!-- Fleet form -->
-    <form id="fleet-form" >
-        <div class="form-group">
-            <label for="licence_id">Licence ID:</label>
-            <input type="text" id="licence_id" name="licence_id" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="driver_id">Driver ID:</label>
-            <input type="text" id="driver_id" name="driver_id" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="conductor_id">Conductor ID:</label>
-            <input type="text" id="conductor_id" name="conductor_id" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="no_of_seats">No of Seats:</label>
-            <input type="number" id="no_of_seats" name="no_of_seats" required min="1">
-        </div>
-        
-        <div class="form-group">
-            <label for="bus_route_no">Bus Route No:</label>
-            <input type="text" id="bus_route_no" name="bus_route_no" required>
-        </div>
-        
-        <!-- Submit and Clear buttons -->
-        <button type="button">Add Bus</button>
-        <button type="button" onclick="clearForm()">Clear</button>
-    </form>
+    <form id="fleet-form">
+    <div class="form-group">
+        <label for="bus_id">Bus ID:</label>
+        <input type="text" id="bus_id" name="bus_id" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="licence_id">Licence ID:</label>
+        <input type="text" id="licence_id" name="licence_id" required>
+    </div>
+
+    <div class="form-group">
+        <label for="route_no">Route No:</label>
+        <input type="text" id="route_no" name="route_no" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="route">Route:</label>
+        <input type="text" id="route" name="route" required placeholder="e.g., Colombo - Kandy">
+    </div>
+    
+    <div class="form-group">
+        <label for="bus_type">Bus Type:</label>
+        <input type="text" id="bus_type" name="bus_type" required placeholder="e.g., Luxury, Semi-Luxury">
+    </div>
+    
+    <div class="form-group">
+        <label for="stops">Stops:</label>
+        <textarea id="stops" name="stops" rows="3" required placeholder="e.g., Colombo, Kegalle, Kandy"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="starts">Starts:</label>
+        <input type="text" id="starts" name="starts" required placeholder="e.g., Colombo">
+    </div>
+    
+    <div class="form-group">
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" required placeholder="e.g., Kandy">
+    </div>
+    
+    <div class="form-group">
+        <label for="ratings">Ratings:</label>
+        <input type="number" id="ratings" name="ratings" required min="0" max="5" step="0.1">
+    </div>
+    
+    <div class="form-group">
+        <label for="passengers">Passengers:</label>
+        <input type="number" id="passengers" name="passengers" required min="1">
+    </div>
+    
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required min="0" step="0.01" placeholder="e.g., 1200.00">
+    </div>
+    
+    <div class="form-group">
+        <label for="price_per_km">Price per KM:</label>
+        <input type="number" id="price_per_km" name="price_per_km" required min="0" step="0.01" placeholder="e.g., 10.00">
+    </div>
+    
+    <!-- Submit and Clear buttons -->
+    <button type="button">Add Bus</button>
+    <button type="button" onclick="clearForm()">Clear</button>
+</form>
 
     <script>
                 // Go back to the previous page
