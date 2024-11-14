@@ -21,7 +21,7 @@
     </script>
 
     <?php
-        $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+        $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
         $data = [
             'currentController' => 'RegisteredPages', // Adjust this based on your controller
             'currentMethod' => 'bookings', // Adjust this based on the method
@@ -146,10 +146,11 @@
     <script>
         const defaultColor = 'black';
 
-        // Show only "Past Bookings" table by default
-        document.getElementById('pastBookings').style.display = 'table';
-        document.getElementById('upcomingBookings').style.display = 'none';
-        document.getElementById('showPastBookings').style.color = '#4CAF50';
+        // Show only "Upcoming Bookings" table by default
+        document.getElementById('upcomingBookings').style.display = 'table';  // Change this line
+        document.getElementById('pastBookings').style.display = 'none';       // Ensure Past bookings are hidden
+        document.getElementById('showUpcomingBookings').style.color = '#4CAF50'; // Highlight Upcoming
+        document.getElementById('showPastBookings').style.color = defaultColor; // Set Past Bookings color to black
 
         // Toggle between Past and Upcoming Bookings
         document.getElementById('showPastBookings').addEventListener('click', function() {
@@ -191,5 +192,6 @@
             });
         });
     </script>
+
 </body>
 </html>

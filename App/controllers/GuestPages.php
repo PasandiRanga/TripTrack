@@ -135,7 +135,7 @@
         
                     // Register the user
                     if ($this->GuestpagesModel->register($data)) {
-                        header('Location: ' . URLROOT . '/RegisteredPages/home' );
+                        header('Location: ' . URLROOT . '/GuestPages/home' );
                         exit();  // Make sure no further code executes after the redirect
                     } else {
                         die('Something went wrong');  // Handle errors in registration

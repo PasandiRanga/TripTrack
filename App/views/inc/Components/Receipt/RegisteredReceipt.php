@@ -1,5 +1,7 @@
 <?php
+
 // Retrieve booking data from POST
+$userId = $_SESSION['user_id'] ?? 'Unknown User';
 $busId = $_POST['busId'] ?? 'Unknown Bus';
 $scheduleId = $_POST['scheduleId'] ?? 'Unknown Schedule';
 $name = $_POST['name'] ?? '';
@@ -21,7 +23,9 @@ $currentTime = date("H:i:s");
 $qrText = "Booking Receipt\n";
 $qrText .= "Schedule ID: $scheduleId\n";
 $qrText .= "Seats: $selectedSeats\n";
+$qrText .= "User ID: $userId\n";
 $qrText .= "Total Price: Rs. $totalPrice\n";
+
 
 // Convert selectedSeats array to JSON format for storage
 $selectedSeatsJSON = json_encode($selectedSeats);
@@ -32,11 +36,19 @@ try {
     $db = new Database();
 
     // Prepare the insert query
-    $db->query("INSERT INTO RegisteredBookings (Booking_date, Booking_time,  State, No_of_seats,User_id , schedule_id, from_location, to_location, total_price)
-                VALUES (:currentDate , :currentTime , 'upcoming , :noOfSeats )");
+    $db->query("INSERT INTO registeredbooking (Booking_date, Booking_time,   No_of_seats, Seats , User_id , schedule_id, from_location, to_location, total_price)
+                VALUES (:currentDate , :currentTime , :noOfSeats , :selectedSeats, :userId, :scheduleId, :from, :to, :totalPrice)");
 
     // Bind parameters
-    
+    $db->bind(':currentDate', $currentDate);
+    $db->bind(':currentTime', $currentTime);
+    $db->bind(':noOfSeats', $noOfSeats);
+    $db->bind(':selectedSeats', $selectedSeatsJSON);
+    $db->bind(':userId', $userId);
+    $db->bind(':scheduleId', $scheduleId);
+    $db->bind(':from', $from);
+    $db->bind(':to', $to);
+    $db->bind(':totalPrice', $totalPrice);
 
     $db->execute();
 
@@ -66,7 +78,7 @@ try {
 
     $db->execute();
 
-    echo "Booking and seat reservation successfully saved.";
+    // echo "Booking and seat reservation successfully saved.";
 
 } catch (Exception $e) {
     echo "An error occurred while saving the booking: " . $e->getMessage();
