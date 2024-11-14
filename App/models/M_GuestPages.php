@@ -50,7 +50,7 @@
                 $this->db->bind(":email",$email);
 
                 $row = $this->db->single();
-                print_r($row);
+                // print_r($row);
 
                 if ($row && isset($row['Password'])) {
                     $hashed_password = $row['Password']; // Access as an array
@@ -114,6 +114,7 @@
                 return []; // Return an empty array on error
             }
         }
-      
+
+        
     }
 ?>

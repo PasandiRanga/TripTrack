@@ -37,7 +37,23 @@
         }
 
         public function busLayout() {
-            $this->view('inc/Components/BusLayout/BusLayout');
+            $schedule = $this->RegisteredpagesModel->getSchedule();
+            
+            // Retrieve bus details
+            $bus = $this->RegisteredpagesModel->getBusDetails();
+
+            $distance = $this->RegisteredpagesModel->getDistance();
+            
+            // Combine the schedule and bus details into a single data array
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus,
+                'distance' => $distance
+            ];
+            // var_dump($schedule); // To check if schedule data is loaded
+            // var_dump($bus);
+
+            $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
 
         public function cancelBooking() {
@@ -53,7 +69,13 @@
         }
 
         public function profile() {
-            $this->view('pages/RegisteredUser/profile');
+            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+
+            $data =[
+                'user' => $user
+            ];
+            
+            $this->view('pages/RegisteredUser/profile' , $data);
         }
 
         public function searchBus() {
@@ -83,12 +105,18 @@
             $bus = $this->RegisteredpagesModel->getBusDetails();
 
             $distance = $this->RegisteredpagesModel->getDistance();
+
+            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+
+     
             
             // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
-                'distance' => $distance
+                'distance' => $distance,
+                'user' => $user,
+     
             ];
             
             $this->view('pages/RegisteredUser/BusBooking', $data);

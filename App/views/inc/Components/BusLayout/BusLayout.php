@@ -16,13 +16,17 @@
 </script>
 
 <?php
+    $userID = $_SESSION['user_id'] ?? null;
+    // Retrieve user role from session or set to a default value
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
 
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
 
     // Retrieve the user role from the form submission or session
-    $formUserRole = $_POST['userRole'] ?? ($_SESSION['userRole'] ?? 'GuestUser');
+    $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
+    echo("<script>console.log('User Role: $formUserRole');</script>");
 
     // Set `userRole` and `currentController` based on the form data or session
     if ($formUserRole === 'GuestUser') {

@@ -260,8 +260,10 @@
             $_SESSION['user_id']=$user['User_id'];
             $_SESSION['user_email']=$user['Email'];
             $_SESSION['user_name']=$user['Name'];
+            $_SESSION['user_role']='RegisteredUser';
            
             header('Location: ' . URLROOT . '/RegisteredPages/home');
+            exit();
         }
         
         public function logout(){
