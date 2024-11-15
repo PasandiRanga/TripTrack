@@ -14,17 +14,18 @@
 </head>
 <body>
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
+        var userRole = <?php echo json_encode($_SESSION['user_role'] ?? 'RegisteredUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
     ?>
 
 
     <?php
+    $profile = $data['user'] ?? [];
     $data = [
         'currentController' => 'RegisteredPages', // Adjust this based on your controller
         'currentMethod' => 'profile', // Adjust this based on the method
@@ -32,19 +33,17 @@
     ];
     ?>
 
-    <?php
-    require 'profileData.php';
-    foreach ($profileDetails as $profile){}
-        ?>
+    <script>
+        // Encode the PHP array as JSON for JavaScript
+        var profileData = <?php echo json_encode($profile); ?>;
+        console.log("Profile Data:", profileData);
+    </script>
 
+    
     <!-- Header and Navbar -->
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
-
-    <!-- Link the external JavaScript files -->
-    <script src="./../../Component/Header/header.js"></script>
-    <script src="./../../Component/NavBar/navbar.js"></script>
 
     <!-- Profile Container -->
     <div class="profile-container">
@@ -54,8 +53,8 @@
                 <img src="<?php echo URLROOT; ?>/public/images/profile.png" alt="User Profile Picture"> 
             </div>
             <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
-            <h2><?php echo $profile['fullName']; ?></h2>
-            <p><?php echo $profile['userID']; ?></p>
+            <h2><?php echo $profile['Name']; ?></h2>
+            <p><?php echo $profile['User_id']; ?></p>
             <div class="btn">
                 <button class="logout-button"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
                 <button class="delete-account-button"><i class="fa fa-trash fa-lg" ></i>  Delete Account</button>
@@ -66,15 +65,15 @@
         <div class="profile-right">
             <div class="detail">
                 <label>Full Name</label>
-                <input type="text" value="<?php echo $profile['fullName']; ?>" readonly>
+                <input type="text" value="<?php echo $profile['Name']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>Email Address</label>
-                <input type="email" value="<?php echo $profile['email']; ?>" readonly>
+                <input type="email" value="<?php echo $profile['Email']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>Contact Number</label>
-                <input type="text" value="<?php echo $profile['contact']; ?>" readonly>
+                <input type="text" value="<?php echo $profile['Contact_number']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>NIC</label>
@@ -82,7 +81,7 @@
             </div>
             <div class="detail">
                 <label>Address</label>
-                <input type="text" value="<?php echo $profile['homeTown']; ?>" readonly>
+                <input type="text" value="<?php echo $profile['Address']; ?>" readonly>
             </div>
 
             <button class="edit-button">Edit</button>

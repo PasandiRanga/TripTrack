@@ -55,5 +55,45 @@
                 return []; // Return an empty array on error
             }
         }
+
+        public function findUserByEmail($email){
+            $this->db->query('SELECT * FROM customer WHERE Email=:email');
+            $this->db->bind(":email",$email);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                return true;
+            }
+            else{
+                return false;  
+            }
+        }
+
+        public function findUserById($userId){
+            $this->db->query('SELECT * FROM customer WHERE User_id=:userId');
+            $this->db->bind(":userId",$userId);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                error_log(print_r($row, true));
+                return $row;
+            }
+            else{
+                return false;  
+            }
+        }
+
+        public function getBookings($userId){
+            try {
+                $this->db->query('SELECT * FROM registeredbooking WHERE User_id=:userId');
+                $this->db->bind(":userId", $userId);
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error in getBookings: " . $e->getMessage());
+                return false;
+            }
+        }
     }
 ?>

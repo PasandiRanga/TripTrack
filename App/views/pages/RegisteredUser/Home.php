@@ -20,13 +20,22 @@
 <body>
 
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
-        localStorage.setItem('userRole', userRole);
+        var userRole = <?php echo json_encode($_SESSION['user_role'] ?? 'RegisteredUser'); ?>;
+        localStorage.setItem('user_role', userRole);
     </script>
 
     <?php
+    // 
+    if(isset($_SESSION['user_id'])){
+        $userID = $_SESSION['user_id'];
+    }
+    else{
+        header('Location: ' . URLROOT . '/GuestPages/home');
+        exit();
+    }
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
+    echo "<script>console.log('User Role: $userRole');</script>";
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
@@ -35,8 +44,10 @@
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
         var busData = <?php echo json_encode($busData); ?>;
+        var userID = <?php echo json_encode($userID); ?>;
         console.log("Schedule Data: ", scheduleData);
-        console.log("Bus Data: ", busData);  
+        console.log("Bus Data: ", busData); 
+        console.log("User ID: ", userID); 
     </script>
 
 <?php

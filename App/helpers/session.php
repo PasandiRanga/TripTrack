@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // Check if a user role is already set, if not default to 'GuestUser'

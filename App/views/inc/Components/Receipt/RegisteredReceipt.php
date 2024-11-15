@@ -1,5 +1,7 @@
 <?php
+
 // Retrieve booking data from POST
+$userId = $_SESSION['user_id'] ?? 'Unknown User';
 $busId = $_POST['busId'] ?? 'Unknown Bus';
 $scheduleId = $_POST['scheduleId'] ?? 'Unknown Schedule';
 $name = $_POST['name'] ?? '';
@@ -12,14 +14,79 @@ $noOfSeats = $_POST['noOfseats'] ?? '0';
 $pricePerSeat = $_POST['pricePerSeat'] ?? '0';
 $totalPrice = $_POST['totalPrice'] ?? '0';
 $selectedSeats = $_POST['selectedSeats'] ?? [];
+date_default_timezone_set("Asia/Colombo");
+$currentDate = date("Y-m-d");
+date_default_timezone_set("Asia/Colombo");
+$currentTime = date("H:i:s");
 
 // Create the booking details text for QR code
 $qrText = "Booking Receipt\n";
 $qrText .= "Schedule ID: $scheduleId\n";
 $qrText .= "Seats: $selectedSeats\n";
+$qrText .= "User ID: $userId\n";
 $qrText .= "Total Price: Rs. $totalPrice\n";
 
+
+// Convert selectedSeats array to JSON format for storage
+$selectedSeatsJSON = json_encode($selectedSeats);
+
+// Insert the booking data into the GuestBooking table
+try {
+    // Instantiate the Database
+    $db = new Database();
+
+    // Prepare the insert query
+    $db->query("INSERT INTO registeredbooking (Booking_date, Booking_time,   No_of_seats, Seats , User_id , schedule_id, from_location, to_location, total_price)
+                VALUES (:currentDate , :currentTime , :noOfSeats , :selectedSeats, :userId, :scheduleId, :from, :to, :totalPrice)");
+
+    // Bind parameters
+    $db->bind(':currentDate', $currentDate);
+    $db->bind(':currentTime', $currentTime);
+    $db->bind(':noOfSeats', $noOfSeats);
+    $db->bind(':selectedSeats', $selectedSeatsJSON);
+    $db->bind(':userId', $userId);
+    $db->bind(':scheduleId', $scheduleId);
+    $db->bind(':from', $from);
+    $db->bind(':to', $to);
+    $db->bind(':totalPrice', $totalPrice);
+
+    $db->execute();
+
+    // Step 2: Retrieve current bookedSeats from the schedule table
+        
+    $db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
+    $db->bind(':scheduleId', $scheduleId);
+    $currentBookedSeats = $db->single()['bookedSeats'];
+
+    // Convert current bookedSeats from CSV to array if it's not empty
+    $currentBookedSeatsArray = $currentBookedSeats ? explode(',', $currentBookedSeats) : [];
+
+    // Ensure $selectedSeats is an array
+    $selectedSeatsArray = is_array($selectedSeats) ? $selectedSeats : explode(',', $selectedSeats);
+
+    // Step 3: Merge selected seats with current booked seats
+    $updatedBookedSeatsArray = array_merge($currentBookedSeatsArray, $selectedSeatsArray);
+    $updatedBookedSeatsArray = array_unique($updatedBookedSeatsArray); // Ensure unique values
+
+    // Convert back to CSV for storage in database
+    $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
+
+    // Step 4: Update the bookedSeats field in the schedule table
+    $db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats WHERE scheduleId = :scheduleId");
+    $db->bind(':updatedBookedSeats', $updatedBookedSeats);
+    $db->bind(':scheduleId', $scheduleId);
+
+    $db->execute();
+
+    // echo "Booking and seat reservation successfully saved.";
+
+} catch (Exception $e) {
+    echo "An error occurred while saving the booking: " . $e->getMessage();
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

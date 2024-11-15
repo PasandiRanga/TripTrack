@@ -135,7 +135,7 @@
         
                     // Register the user
                     if ($this->GuestpagesModel->register($data)) {
-                        header('Location: ' . URLROOT . '/RegisteredPages/home' );
+                        header('Location: ' . URLROOT . '/GuestPages/home' );
                         exit();  // Make sure no further code executes after the redirect
                     } else {
                         die('Something went wrong');  // Handle errors in registration
@@ -257,11 +257,13 @@
 
 
         public function createUserSession($user){
-            $_SESSION['user_id']=$user->id;
-            $_SESSION['user_email']=$user->email;
-            $_SESSION['user_name']=$user->name;
+            $_SESSION['user_id']=$user['User_id'];
+            $_SESSION['user_email']=$user['Email'];
+            $_SESSION['user_name']=$user['Name'];
+            $_SESSION['user_role']='RegisteredUser';
            
             header('Location: ' . URLROOT . '/RegisteredPages/home');
+            exit();
         }
         
         public function logout(){
@@ -279,7 +281,6 @@
             else{
                 return false;
             }
-        }
-
+        }  
     }  
 ?>
