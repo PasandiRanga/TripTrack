@@ -72,7 +72,7 @@
 
         public function findUserById($userId){
             $this->db->query('SELECT * FROM customer WHERE User_id=:userId');
-            $this->db->bind("userId",$userId);
+            $this->db->bind(":userId",$userId);
 
             $row = $this->db->single();
 
@@ -99,5 +99,24 @@
                 return false;  
             }
         }
+
+        public function updateProfile($data) {
+            // Update profile where the current email matches
+            $this->db->query("UPDATE customer 
+                              SET Name = :name, Email = :email, Contact_number = :contact_number, NIC = :nic, Address = :address 
+                              WHERE Email = :current_email");
+        
+            // Bind parameters
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':contact_number', $data['contact_number']);
+            $this->db->bind(':nic', $data['nic']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':current_email', $data['current_email']); // Use the current email for the condition
+        
+            // Execute and check success
+            return $this->db->execute();
+        }
+        
     }
 ?>
