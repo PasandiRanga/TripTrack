@@ -24,7 +24,14 @@ class SuperAdminPages extends Controller {
     }
 
     public function bookings() {
-        $this->view('pages/SuperAdmin/Bookings');
+        $guestbookings = $this->SuperAdminModel->getGuestBookings();
+        $registerbookings = $this->SuperAdminModel->getRegisterBookings();
+        $data = [
+            'book' => $guestbookings,
+            'book1' => $registerbookings
+        ];
+        $this->view('pages/SuperAdmin/Bookings',$data);
+
     }
 
     public function reports() {
