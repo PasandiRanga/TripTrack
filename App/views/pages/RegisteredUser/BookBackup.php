@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Bookings.css?v=<?php echo time(); ?>">
 </head>
+
     <!-- Set user role in localStorage -->
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
@@ -42,13 +43,10 @@
         console.log("User ID: ", userId);
     </script>
 
-    <?php require 'bookingsData.php'; ?>
+  
 
     <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
     <?php
         $currentDate = date("Y-m-d"); // Current date to compare with booking dates
@@ -76,7 +74,10 @@
         }
     ?>
 
-    
+    <div class="hero-container">
+        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+
         <div class="container">
             <h3 class="clickable" id="showPastBookings">Past Bookings</h3>
             <h3 class="clickable" id="showUpcomingBookings">Upcoming Bookings</h3>
@@ -204,7 +205,7 @@
             </tbody>
         </table>
         </div>
-    </div>
+   
 
 <!-- Ticket Box Pop-Up -->
 <div id="ticketBox" class="ticketBox hidden">
@@ -325,6 +326,6 @@
 
 
     </script>
-
+    </div>
 </body>
 </html>
