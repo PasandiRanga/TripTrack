@@ -1,7 +1,11 @@
 <?php
+    //Load helpers
     require_once 'helpers/session.php';
+    require_once 'helpers/imageUpload_helper.php';
+
     //Load Configarations
     require_once 'config/config.php';
+    
 
     //Load Libraries
     require_once 'libraries/Core.php';

@@ -9,7 +9,7 @@
 
     
 
-    <form action="<?php echo URLROOT ?>/GuestPages/GuestSignUp" method="POST">
+    <form action="<?php echo URLROOT ?>/GuestPages/GuestSignUp" method="POST" enctype="multipart/form-data">
 
         <!----Full Name---->
         <div class="form-input-title">Full Name</div>
@@ -46,9 +46,111 @@
         <input type="text" name="confirm" id="confirm" value="<?php echo isset($data['confirm']) ? $data['confirm'] : ''; ?>">
         <span class="form-invalid"><?php echo isset($data['confirm_err']) ? $data['confirm_err'] : ''; ?></span>
 
-        <p><input type="checkbox">I agree to the Terms of Service and Privacy Policy.</p>
+        <!-- Profile Image Upload Section -->
+        <div class="form-drag-area">
+            <div class="icon">
+                <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
+            </div>
+            <div class="right_content">
+                <div class="description">Drag & Drop to Upload Image</div>
+                <div class="form_upload">
+                    <input type="file" name="profile_image" id="profile_image" style="display:none" >
+                    Browse File
+                </div>
+            </div>
+        </div>
+        <div class="form-validation">
+            <div class="profile_image_validation">
+                <img src="<?php echo URLROOT; ?>/public/images/tick1.png" alt="tick" width="35px" height="35px">
+                Selected a profile image
+            </div>
+        </div>
+        <span class="form-invalid"><?php echo isset($data['profile_image_err']) ? $data['profile_image_err'] : ''; ?></span>
 
-        <center><input class="button" type="submit" value="Register"></center>
+
+        <!-- Checkbox Section -->
+        <div class="form-agreement">
+            <p>
+                <input type="checkbox" id="terms" name="terms">
+                I agree to the Terms of Service and Privacy Policy.
+            </p>
+        </div>
+
+        <!-- Register Button Section -->
+        <div class="form-register">
+            <center><input class="button" type="submit" value="Register"></center>
+        </div>
+
+        <script>
+            // Profile image drag-and-drop
+            const dropArea = document.querySelector(".form-drag-area");
+            const dropText = document.querySelector(".description");
+            const browseButton = document.querySelector(".form_upload");
+            const inputPath = document.querySelector("#profile_image");
+            const placeholder = document.querySelector("#placeholder");
+            const validate = document.querySelector(".profile_image_validation");
+            let file;
+
+            // Browse option and upload functionality
+            browseButton.onclick = () => {
+                inputPath.click();
+            };
+
+            inputPath.addEventListener("change", function () {
+                file = this.files[0];
+                showImage();
+            });
+
+            dropArea.addEventListener("dragover", (event) => {
+                event.preventDefault();
+                dropArea.classList.add("active");
+                dropText.textContent = "Release to Upload the Image";
+            });
+
+            dropArea.addEventListener("dragleave", () => {
+                dropArea.classList.remove("active");
+                dropText.textContent = "Drag & Drop to Upload Image";
+            });
+
+            dropArea.addEventListener("drop", (event) => {
+                event.preventDefault();
+                file = event.dataTransfer.files[0];
+
+                // Adding the file to the input element programmatically
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                inputPath.files = dataTransfer.files;
+
+                showImage();
+                dropArea.classList.remove("active");
+            });
+
+            function showImage() {
+                const fileType = file.type;
+
+                // Valid image extensions
+                const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
+
+                if (validExtensions.includes(fileType)) {
+                    const fileReader = new FileReader();
+
+                    fileReader.onload = () => {
+                        const fileURL = fileReader.result;
+
+                        // Set image preview
+                        placeholder.setAttribute("src", fileURL);
+                    };
+
+                    fileReader.readAsDataURL(file);
+
+                    // Show validation tick
+                    validate.classList.add("active");
+                } else {
+                    alert("This is not a valid image file. Please upload a JPEG, JPG, or PNG file.");
+                    dropArea.classList.remove("active");
+                }
+            }
+        </script>
 
 
     </form>

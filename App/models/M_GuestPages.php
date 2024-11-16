@@ -14,13 +14,14 @@
 
             //Register the user
             public function register($data){
-                $this->db->query('INSERT INTO customer(Name,Email,NIC,Address,Contact_number,Password) VALUES(:name,:email,:nic,:address,:number,:password)');
+                $this->db->query('INSERT INTO customer(Name,Email,NIC,Address,Contact_number,Password,Profile_image) VALUES(:name,:email,:nic,:address,:number,:password,:profile_image)');
                 $this->db->bind(':name',$data['name']);
                 $this->db->bind(':email',$data['email']);
                 $this->db->bind(':nic',$data['nic']);
                 $this->db->bind(':address',$data['address']);
                 $this->db->bind(':number',$data['number']);
                 $this->db->bind(':password',$data['password']);
+                $this->db->bind(':profile_image',$data['profile_image_name']);
 
                 if($this->db->execute()){
                     return true;

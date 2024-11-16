@@ -15,5 +15,8 @@
     define('DB_PASSWORD', '');
     define('DB_NAME', 'triptrack');
 
+    //PUBROOT
+    define('PUBROOT',dirname(dirname(dirname(__FILE__))).'\public');
+
 
 ?>
