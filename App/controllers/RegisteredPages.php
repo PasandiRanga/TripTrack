@@ -73,9 +73,7 @@
             $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
 
-        public function cancelBooking() {
-            $this->view('pages/RegisteredUser/cancelBooking');
-        }
+        
 
         public function contactUs() {
             $this->view('pages/RegisteredUser/contactus');
@@ -188,6 +186,40 @@
                 header("Location: " . URLROOT . "/profile");
             }
         }
+
+        public function cancelBooking() {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Ensure the booking ID is provided
+                $scheduleId = $_POST['schedule_id']?? null;
+                $bookingId = $_POST['booking_id'] ?? null;
+                // $seats = $_POST['seats'] ?? null;
+                var_dump($scheduleId);
+                var_dump($bookingId);
+                
+        
+                if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
+                    // Attempt to cancel the booking
+                    if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId)) {
+                        // Redirect or show success message
+                        header("Location: " . URLROOT . "/RegisteredPages/bookings");
+                        exit;
+                    } else {
+                        // Redirect with error message
+                        header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Unable to cancel booking");
+                        exit;
+                    }
+                } else {
+                    // Redirect with validation error
+                    header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Invalid booking ID");
+                    exit;
+                }
+            } else {
+                // Redirect if accessed without POST
+                header("Location: " . URLROOT . "/RegisteredPages/bookings");
+                exit;
+            }
+        }
+    
 
     }  
 ?>
