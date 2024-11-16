@@ -10,6 +10,12 @@
             $this->db = new Database();
 
             //We should connect this model with the corressponding controller
+        }
+
+        public function getBus(){
+            $this->db->query('SELECT * FROM bus');
+
+            return $this->db->resultSet();
 
         }
     }
