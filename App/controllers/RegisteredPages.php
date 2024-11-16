@@ -91,6 +91,14 @@
             $this->view('pages/RegisteredUser/profile' , $data);
         }
 
+        public function deleteAccount(){
+            if($this->RegisteredpagesModel->deleteAccount($_SESSION['user_id'])) {
+                $this->view('pages/GuestPages/home'); 
+            } else {
+                // Handle error if needed, like showing a message
+            }
+        }        
+
         public function searchBus() {
             $this->view('pages/RegisteredUser/searchbus');
         }
@@ -139,6 +147,43 @@
             $this->view('inc/Components/Receipt/RegisteredReceipt');
         }
         
+        public function viewPopUp(){
+            $this->view('inc/Components/ProfileForm/profileForm');
+
+        }
+
+        public function profileUpdate() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Sanitize POST data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
+                $data = [
+                    'name' => trim($_POST['name']),
+                    'email' => trim($_POST['email']),
+                    'contact_number' => trim($_POST['contact_number']),
+                    'nic' => trim($_POST['nic']),
+                    'address' => trim($_POST['address']),
+                    'current_email' => $_SESSION['user_email'], // Assume session stores logged-in user email
+                ];
+    
+                if ($this->RegisteredpagesModel->updateProfile($data)) {
+
+                    // Update session email after a successful update
+                    $_SESSION['user_email'] = $data['email'];
+
+                    // Redirect with success message
+                    header("Location: " . URLROOT . "/profile");
+                    flash('profile_update_success', 'Profile updated successfully!');
+                } else {
+                    // Redirect with error message
+                    header("Location: " . URLROOT . "/profile");
+                    flash('profile_update_error', 'Something went wrong. Please try again.');
+                }
+            } else {
+                // Load default view if accessed incorrectly
+                header("Location: " . URLROOT . "/profile");
+            }
+        }
 
     }  
 ?>

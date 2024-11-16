@@ -85,15 +85,38 @@
             }
         }
 
-        public function getBookings($userId){
-            try {
-                $this->db->query('SELECT * FROM registeredbooking WHERE User_id=:userId');
-                $this->db->bind(":userId", $userId);
-                return $this->db->resultSet();
-            } catch (Exception $e) {
-                error_log("Error in getBookings: " . $e->getMessage());
-                return false;
+        public function deleteAccount($userID){
+            $this->db->query('DELETE FROM customer WHERE User_id=:userId');
+            $this->db->bind("userId",$userID);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                error_log(print_r($row, true));
+                return $row;
+            }
+            else{
+                return false;  
             }
         }
+
+        public function updateProfile($data) {
+            // Update profile where the current email matches
+            $this->db->query("UPDATE customer 
+                              SET Name = :name, Email = :email, Contact_number = :contact_number, NIC = :nic, Address = :address 
+                              WHERE Email = :current_email");
+        
+            // Bind parameters
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':contact_number', $data['contact_number']);
+            $this->db->bind(':nic', $data['nic']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':current_email', $data['current_email']); // Use the current email for the condition
+        
+            // Execute and check success
+            return $this->db->execute();
+        }
+        
     }
 ?>
