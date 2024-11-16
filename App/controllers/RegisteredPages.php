@@ -32,6 +32,10 @@
 
         public function bookings() {
             $bookingsDetails = $this->RegisteredpagesModel->getBookings($_SESSION['user_id']);
+            // echo "<pre>";
+            // var_dump($bookingsDetails);
+            // echo "</pre>";
+
             // var_dump($bookingsDetails);
             $schedule = $this->RegisteredpagesModel->getSchedule();
 
@@ -173,11 +177,11 @@
 
                     // Redirect with success message
                     header("Location: " . URLROOT . "/profile");
-                    flash('profile_update_success', 'Profile updated successfully!');
+                    // flash('profile_update_success', 'Profile updated successfully!');
                 } else {
                     // Redirect with error message
                     header("Location: " . URLROOT . "/profile");
-                    flash('profile_update_error', 'Something went wrong. Please try again.');
+                    // flash('profile_update_error', 'Something went wrong. Please try again.');
                 }
             } else {
                 // Load default view if accessed incorrectly

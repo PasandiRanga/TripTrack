@@ -56,6 +56,22 @@
             }
         }
 
+        public function getBookings($userId){
+            try {
+                // If you need all columns, this is fine
+                $this->db->query('SELECT * FROM registeredbooking WHERE User_id = :userId');
+                $this->db->bind(':userId', $userId);
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                // Log or handle error
+                error_log("Error fetching bus details: " . $e->getMessage());
+                // Log to console
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return []; // Return an empty array on error
+            }
+
+        }
+
         public function findUserByEmail($email){
             $this->db->query('SELECT * FROM customer WHERE Email=:email');
             $this->db->bind(":email",$email);
