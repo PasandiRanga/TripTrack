@@ -8,61 +8,112 @@
 </head>
 <body>
     <!-- Back button -->
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back </button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
     <h1>Booking Records</h1>
 
-    <!-- Booking table -->
+    <!-- Select box for filtering booking types -->
+    <div class="filter-container">
+        <label for="bookingType">Select Booking Type:</label>
+        <select id="bookingType" onchange="toggleBookingType()">
+            <option value="guest">Guest User Bookings</option>
+            <option value="registered">Registered User Bookings</option>
+        </select>
+    </div>
+
+    <!-- Booking tables -->
     <table class="booking-table">
-        <thead>
+        <!-- Guest bookings table -->
+        <thead id="guest-thead">
             <tr>
-                <th>Book ID</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>NIC</th>
+                <th>From</th>
+                <th>To</th>
+                <th>No. of Seats</th>
+                <th>Selected Seats</th>
+                <th>Total Price</th>
+                <th>Schedule ID</th>
+            </tr>
+        </thead>
+        <tbody id="guest-tbody">
+            <?php foreach ($data['book'] as $booking): ?>
+                <tr>
+                    <td><?= $booking['id'] ?></td>
+                    <td><?= $booking['name'] ?></td>
+                    <td><?= $booking['email'] ?></td>
+                    <td><?= $booking['contact'] ?></td>
+                    <td><?= $booking['nic'] ?></td>
+                    <td><?= $booking['from_location'] ?></td>
+                    <td><?= $booking['to_location'] ?></td>
+                    <td><?= $booking['number_of_seats'] ?></td>
+                    <td><?= $booking['selected_seats'] ?></td>
+                    <td><?= $booking['total_price'] ?></td>
+                    <td><?= $booking['schedule_id'] ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+
+        <!-- Registered bookings table -->
+        <thead id="registered-thead">
+            <tr>
+                <th>ID</th>
                 <th>Booking Date</th>
                 <th>Booking Time</th>
                 <th>No. of Seats</th>
-                <th>Amount</th>
-                <th>State</th>
+                <th>Seats</th>
+                <th>User ID</th>
+                <th>Schedule ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Total Price</th>
             </tr>
         </thead>
-        <tbody id="booking-tbody">
-            <?php
-            // Example data; replace this with a database query to fetch real booking data
-            $bookingData = [
-                ['1001', '2024-11-05', '14:30', 2, '$40', 'Confirmed'],
-                ['1002', '2024-11-06', '09:00', 1, '$20', 'Pending'],
-                ['1003', '2024-11-07', '11:00', 3, '$60', 'Confirmed']
-                // Add more data as needed
-            ];
-
-            foreach ($bookingData as $booking) {
-                echo "<tr onclick='selectRow(this)'>";
-                foreach ($booking as $item) {
-                    echo "<td>$item</td>";
-                }
-                echo "</tr>";
-            }
-            ?>
+        <tbody id="registered-tbody">
+            <?php foreach ($data['book1'] as $booking1): ?>
+                <tr>
+                    <td><?= $booking1['id'] ?></td>
+                    <td><?= $booking1['Booking_date'] ?></td>
+                    <td><?= $booking1['Booking_time'] ?></td>
+                    <td><?= $booking1['No_of_seats'] ?></td>
+                    <td><?= $booking1['Seats'] ?></td>
+                    <td><?= $booking1['User_id'] ?></td>
+                    <td><?= $booking1['schedule_id'] ?></td>
+                    <td><?= $booking1['from_location'] ?></td>
+                    <td><?= $booking1['to_location'] ?></td>
+                    <td><?= $booking1['total_price'] ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
 
     <script>
-                // Function to navigate back to the previous page
-        function goBack() {
-            window.history.back();
-        }
+        function toggleBookingType() {
+            const bookingType = document.getElementById('bookingType').value;
 
-        // Function to select a row in the table
-        function selectRow(row) {
-            // Deselect any previously selected row
-            const previouslySelectedRow = document.querySelector(".booking-table tr.selected");
-            if (previouslySelectedRow) {
-                previouslySelectedRow.classList.remove("selected");
+            const guestThead = document.getElementById('guest-thead');
+            const guestTbody = document.getElementById('guest-tbody');
+            const registeredThead = document.getElementById('registered-thead');
+            const registeredTbody = document.getElementById('registered-tbody');
+
+            if (bookingType === 'guest') {
+                guestThead.style.display = '';
+                guestTbody.style.display = '';
+                registeredThead.style.display = 'none';
+                registeredTbody.style.display = 'none';
+            } else {
+                guestThead.style.display = 'none';
+                guestTbody.style.display = 'none';
+                registeredThead.style.display = '';
+                registeredTbody.style.display = '';
             }
-
-            // Select the clicked row
-            row.classList.add("selected");
         }
 
+        // Set default visibility on load
+        toggleBookingType();
     </script>
 </body>
 </html>
