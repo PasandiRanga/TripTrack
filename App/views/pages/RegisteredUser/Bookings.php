@@ -68,7 +68,7 @@
 
             if ($schedule) {
                 // Compare booking date with schedule date
-                if ($booking['Booking_date'] >= $schedule['date']) {
+                if ($currentDate < $schedule['date']) {
                     $upcomingBookings[] = $booking; // Upcoming booking
                 } else {
                     $pastBookings[] = $booking; // Past booking
@@ -77,8 +77,7 @@
         }
     ?>
 
-
-    <div class="main">
+    
         <div class="container">
             <h3 class="clickable" id="showPastBookings">Past Bookings</h3>
             <h3 class="clickable" id="showUpcomingBookings">Upcoming Bookings</h3>
@@ -103,21 +102,47 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($pastBookings as $booking): ?>
+                <?php if (empty($pastBookings)): ?>
                     <tr>
-                        <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
-                        <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
-                        <td data-label="Route"><?php echo $booking['route']; ?></td>
-                        <td data-label="From"><?php echo $booking['from_location']; ?></td>
-                        <td data-label="To"><?php echo $booking['to_location']; ?></td>
-                        <td data-label="Bus No"><?php echo $booking['busNo']; ?></td>
-                        <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
-                        <td data-label="Status" class="status"><?php echo $booking['status']; ?></td>
+                        <td colspan="8" style="text-align: center;">No past bookings available</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php else: ?>
+                    <?php foreach ($pastBookings as $booking): 
+                        //Find the corresponding schedule for this booking based on schedule_id
+                        $schedule = array_filter($scheduleData, function($s) use ($booking) {
+                            return $s['scheduleId'] == $booking['schedule_id']; // Match schedule by ID
+                        });
+
+                        $schedule = reset($schedule); // Get the first matching schedule entry
+
+                        if($schedule) {
+                            $bus = array_filter($busData, function($b) use ($schedule) {
+                                return $b['busId'] == $schedule['busId']; // Match bus by ID
+                            });
+                        }
+                    
+                        $bus = reset($bus);
+                        // echo($bus);
+
+                    ?>
+                        <tr>
+                            <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
+                            <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
+                            <td data-label="Route"><?php echo $bus['route']; ?></td>
+                            <td data-label="From"><?php echo $booking['from_location']; ?></td>
+                            <td data-label="To"><?php echo $booking['to_location']; ?></td>
+                            <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>
+                            <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
+                            <td data-label="Action">
+                                <i class="fas fa-search search-icon" onclick="toggleTicketBox()"></i>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
 
+        <div class ="table-wrapper">
         <!-- Upcoming Bookings Table -->
         <table id="upcomingBookings">
             <thead>
@@ -133,39 +158,54 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($upcomingBookings as $booking):
-
-                    //Find the corresponding schedule for this booking based on schedule_id
-                    $schedule = array_filter($scheduleData, function($s) use ($booking) {
-                        return $s['scheduleId'] == $booking['schedule_id']; // Match schedule by ID
-                    });
-
-                    $schedule = reset($schedule); // Get the first matching schedule entry
-
-                    if($schedule) {
-                        $bus = array_filter($busData, function($b) use ($schedule) {
-                            return $b['busId'] == $schedule['busId']; // Match bus by ID
-                        });
-                    }
-                    $bus = reset($bus); // Get the first matching bus entry
-
-                ?>
+                <?php if (empty($upcomingBookings)): ?>
                     <tr>
-                        <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
-                        <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
-                        <td data-label="Route"><?php echo $bus['route']; ?></td>
-                        <td data-label="From"><?php echo $booking['from_location']; ?></td>
-                        <td data-label="To"><?php echo $booking['to_location']; ?></td>
-                        <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>
-                        <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
-                        <td data-label="Action">
-                            <i class="fas fa-search search-icon" onclick="toggleTicketBox()"></i>
-                        </td>
+                        <td colspan="8" style="text-align: center;">No upcoming bookings available</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php else: ?>
+                    <?php foreach ($upcomingBookings as $booking):
+
+                        //Find the corresponding schedule for this booking based on schedule_id
+                        $schedule = array_filter($scheduleData, function($s) use ($booking) {
+                            return $s['scheduleId'] == $booking['schedule_id']; // Match schedule by ID
+                        });
+
+                        $schedule = reset($schedule); // Get the first matching schedule entry
+
+                        if($schedule) {
+                            $bus = array_filter($busData, function($b) use ($schedule) {
+                                return $b['busId'] == $schedule['busId']; // Match bus by ID
+                            });
+                        }
+                        $bus = reset($bus); // Get the first matching bus entry
+
+                    ?>
+                        <tr>
+                            <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
+                            <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
+                            <td data-label="Route"><?php echo $bus['route']; ?></td>
+                            <td data-label="From"><?php echo $booking['from_location']; ?></td>
+                            <td data-label="To"><?php echo $booking['to_location']; ?></td>
+                            <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>
+                            <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
+                            <td data-label="Action">
+                                <div class="action-dropdown">
+                                    <button class="action-btn">Actions <i class="fas fa-caret-down"></i></button>
+                                    <div class="dropdown-content">
+                                        <button onclick="cancelBooking('<?php echo $booking['id']; ?>')">Cancel Booking</button>
+                                        <button >Update Booking</button>
+                                        <button >View Ticket</button>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
-    </div>
+        </div>
+    
 
 <!-- Ticket Box Pop-Up -->
 <div id="ticketBox" class="ticketBox hidden">
@@ -179,6 +219,31 @@
 
 
 <script>
+    function cancelBooking(bookingId) {
+        if (confirm("Are you sure you want to cancel this booking?")) {
+            fetch("<?php echo URLROOT; ?>/RegisteredPages/cancelBooking", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ bookingId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Booking successfully canceled.");
+                    location.reload();
+                } else {
+                    alert("Failed to cancel the booking. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        }
+    }
+
     // Toggle the visibility of the ticket box
     function toggleTicketBox() {
         document.getElementById('ticketBox').classList.toggle('hidden');
@@ -190,10 +255,8 @@
     }
 </script>
 
-    <!-- External JavaScript -->
-    <script src="./../../Component/Header/header.js"></script>
-    <script src="./../../Component/NavBar/navbar.js"></script>
-    <script src="./Bookings.js"></script>
+  
+    
 
     <script>
         const defaultColor = 'black';
@@ -219,30 +282,49 @@
             document.getElementById('showPastBookings').style.color = defaultColor;
         });
 
-        // Pop-up menu handling
-        document.querySelectorAll('.search-icon').forEach(icon => {
-            const popUpMenu = icon.nextElementSibling;
+        document.querySelector('#upcoming-bookings-container').addEventListener('click', function (event) {
+            if (event.target.classList.contains('action-button')) {
+                console.log('Action button clicked!');
+            }
+        });
 
-            icon.addEventListener('mouseenter', function() {
-                popUpMenu.classList.add('show');
-            });
+        setTimeout(() => {
+            document.querySelector('.action-button').click();
+        }, 1000); // Delay to ensure DOM is ready
 
-            popUpMenu.addEventListener('mouseenter', function() {
-                popUpMenu.classList.add('show');
-            });
 
-            icon.addEventListener('mouseleave', function() {
-                setTimeout(function() {
-                    if (!popUpMenu.matches(':hover')) {
-                        popUpMenu.classList.remove('show');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listeners for the action buttons
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    const dropdown = button.nextElementSibling;
+
+                    // Toggle the dropdown
+                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+
+                    // Adjust position if it overflows
+                    const rect = dropdown.getBoundingClientRect();
+                    if (rect.bottom > window.innerHeight) {
+                        dropdown.style.top = `-${rect.height}px`; // Move dropdown upwards
+                    } else {
+                        dropdown.style.top = '100%'; // Default position below the button
                     }
-                }, 200);
+
+                    // Prevent event propagation
+                    event.stopPropagation();
+                });
             });
 
-            popUpMenu.addEventListener('mouseleave', function() {
-                popUpMenu.classList.remove('show');
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function () {
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    dropdown.style.display = 'none';
+                });
             });
         });
+
+
     </script>
 
 </body>
