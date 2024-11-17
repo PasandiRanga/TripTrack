@@ -148,35 +148,28 @@
 
         function updateBus(button) {
             const row = button.closest('tr');
-            const busId = row.cells[0].innerText;
-
-            // Collect current row data
-            const data = {
-                busId: busId,
-                License_id: row.cells[1].innerText,
+            const busData = {
+                busId: row.cells[0].innerText,
+                licenseId: row.cells[1].innerText,
                 routeNumber: row.cells[2].innerText,
                 route: row.cells[3].innerText,
                 busType: row.cells[4].innerText,
                 stops: row.cells[5].innerText,
-                start_location: row.cells[6].innerText,
+                startLocation: row.cells[6].innerText,
                 destination: row.cells[7].innerText,
                 rating: row.cells[8].innerText,
                 passengers: row.cells[9].innerText,
                 price: row.cells[10].innerText,
-                priceperkm: row.cells[11].innerText
+                pricePerKm: row.cells[11].innerText
             };
 
-            fetch('<?php echo URLROOT; ?>/SuperAdminPages/updateBus', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-            })
-            .catch(error => alert('Error updating the bus.'));
+            // Store the data in session storage
+            sessionStorage.setItem('busData', JSON.stringify(busData));
+
+            // Navigate to the Updatefleet page
+            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/Updatefleet';
         }
+
 
     </script>
 </body>
