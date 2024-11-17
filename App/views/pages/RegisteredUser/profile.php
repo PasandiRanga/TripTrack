@@ -51,7 +51,7 @@
         <!-- Left Side: User Info -->
         <div class="profile-left">
             <div class="profile-pic">
-                <img src="<?php echo URLROOT; ?>/public/images/profile.png" alt="User Profile Picture"> 
+                <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $_SESSION['user_profile_image'];?>" alt="Profile Picture" class="profile-pic">
             </div>
             <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
             <h2><?php echo $profile['Name']; ?></h2>
