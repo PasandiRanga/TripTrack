@@ -20,6 +20,8 @@
 
     include_once 'notificationData.php';
 
+    $profileImage = !empty($_SESSION['user_profile_image']) ? $_SESSION['user_profile_image'] : 'default.jpg';
+
     ?>
 
     <nav class="header">
