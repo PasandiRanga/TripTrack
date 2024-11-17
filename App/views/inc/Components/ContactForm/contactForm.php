@@ -7,10 +7,10 @@
         <p>Email: info@example.com</p>
 
         <div class="social-links">
-            <a href="https://facebook.com/yourpage" target="_blank"><i class="fab fa-facebook"></i>&nbsp;&nbsp;facebook.com/yourpage</a>
-            <a href="https://twitter.com/yourpage" target="_blank"><i class="fab fa-twitter"></i>&nbsp;&nbsp;twitter.com/yourpage</a>
-            <a href="https://instagram.com/yourpage" target="_blank"><i class="fab fa-instagram"></i>&nbsp;&nbsp;instagram.com/yourpage</a>
-            <a href="https://linkedin.com/company/yourpage" target="_blank"><i class="fab fa-linkedin"></i>&nbsp;&nbsp;linkedin.com/company/yourpage</a>
+            <a href="https://facebook.com/yourpage" target="_blank"><i class="fab fa-facebook"></i>&nbsp;&nbsp;facebook.com/ourpage</a>
+            <a href="https://twitter.com/yourpage" target="_blank"><i class="fab fa-twitter"></i>&nbsp;&nbsp;twitter.com/ourpage</a>
+            <a href="https://instagram.com/yourpage" target="_blank"><i class="fab fa-instagram"></i>&nbsp;&nbsp;instagram.com/ourpage</a>
+            <a href="https://linkedin.com/company/yourpage" target="_blank"><i class="fab fa-linkedin"></i>&nbsp;&nbsp;linkedin.com/company/ourpage</a>
         </div>
 
     </div>
