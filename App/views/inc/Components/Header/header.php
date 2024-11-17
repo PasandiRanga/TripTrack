@@ -71,7 +71,11 @@
             <?php if ($userRole === "Admin" || $userRole === "RegisteredUser"): ?>
                 <div class="<?php echo $userRole === "Admin" ? "admin-profile-container" : "user-profile-container"; ?>">
                 <a href="<?php echo URLROOT; ?>/RegisteredPages/profile">
-                    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+                    <div class="profile">
+                        <div class="pic">
+                            <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $_SESSION['user_profile_image'];?>" alt="Profile Picture" class="profile-pic">
+                        </div>
+                    </div>
                 </a>
                 </div>
 

@@ -14,7 +14,7 @@ h3{
     padding:15px;
     background-color: rgb(255, 255, 255);
     box-shadow:0 2px 4px 0 rgb(0, 0, 0);
-    width:500px;
+    width:575px;
     border:1px solid rgb(243, 233, 233)
 }
 
@@ -64,3 +64,109 @@ input[type=text]:focus, input[type=password]:focus{
     color:red;
     margin-bottom:20px;
 }
+
+/* Checkbox Section */
+.form-agreement {
+    margin: 20px 0; /* Add margin above and below */
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Register Button Section */
+.form-register {
+    margin-top: 20px; /* Add space above the button */
+    text-align: center;
+}
+
+/* -------------Drag Area-------------- */
+.form-drag-area {
+    background-color: #eeeded;
+    padding: 20px; /* Add padding inside the drag area */
+    border: 1px solid #ccc; /* Add a border for better visibility */
+    border-radius: 5px;
+    display: grid; /* Use grid layout for better structure */
+    grid-template-columns: 1fr 2fr; /* Define two columns */
+    gap: 15px; /* Add spacing between columns */
+    padding:10px;
+}
+
+.form-drag-area.active{
+    border:2px dashed #888888;
+    background-color: #d8d8d8;
+}
+
+.form-drag-area .right_content{
+    margin:0 auto;
+}
+
+.form-drag-area .form_upload{
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 8px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    border-radius: 3px;
+    width: 100px;
+}
+
+.form-drag-area .icon{
+    margin:0 auto;
+}
+
+.form-drag-area .description{
+    font-size: 13px;
+    font-weight: 500;
+    color: #494949;
+}
+
+.form-drag-area .form_upload:hover{
+    opacity: 1;
+}
+
+/*-----form validation-----*/
+.form-validation{
+    padding: 5px;
+    transition: .2s all;
+}
+
+.form-validation.active{
+    opacity: 1;
+    height: auto;
+}
+
+.form-validation > div{
+    opacity: 0.5;
+}
+
+.form-validation > div.active{
+    opacity:1;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.form-validation > div.img{
+    opacity:1;
+}
+
+.profile_image_validation{
+    display: flex;
+    align-items: center;
+}
+
+#placeholder {
+    width: 100px; /* Set width for the placeholder */
+    height: 100px; /* Set height for the placeholder (same as width) */
+    border-radius: 50%; /* Makes the placeholder a circle */
+    object-fit: cover; /* Ensures the image fits well inside the circle */
+    border: 2px solid #ccc; /* Optional: Add a border for better visibility */
+    display: block; /* Ensures proper rendering */
+    margin: auto; /* Center the image within its container */
+}
+
+
+
+
+
+
+
