@@ -18,5 +18,17 @@
             return $this->db->resultSet();
 
         }
+
+        public function getGuestBookings(){
+            $this->db->query('SELECT * FROM guestbooking');
+
+            return $this->db->resultSet();
+        }
+
+        public function getRegisterBookings(){
+            $this->db->query('SELECT * FROM registeredbooking');
+
+            return $this->db->resultSet();
+        }
     }
 ?>

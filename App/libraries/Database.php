@@ -98,6 +98,24 @@
             return $this->statement->fetch(PDO::FETCH_ASSOC);
         }
 
+        public function beginTransaction() {
+
+            $this->dbh->beginTransaction();
+    
+        }
+
+        public function endTransaction() {
+
+            $this->dbh->commit();
+    
+        }
+
+        public function rollBack() {
+
+            $this->dbh->rollBack();
+    
+        }
+
         //To check there are results to retrieve 
         //checking the record count
         //If there are any rows in the database to return

@@ -7,7 +7,13 @@ html, body {
 body {
     background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
     position: relative;
-    overflow: hidden; /* Prevent scroll issues */
+}
+
+html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+
 }
 
 /* Base Table Styling */
@@ -16,6 +22,8 @@ table {
     width: 100%;
     border-collapse: collapse; /* Removes gaps between table cells */
     margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     background-color: #f9f9f9;
     border-radius: 10px;
     overflow: hidden;
@@ -294,51 +302,38 @@ table td:last-child {
     color: #cc0000;
 }
 
-.action-dropdown {
-    position: relative;
+button {
     display: inline-block;
-}
-
-.action-btn {
-    background-color: #4CAF50; /* Customize color */
-    color: white;
-    padding: 10px 15px;
+    padding: 8px 8px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #4CAF50;
     border: none;
+    border-radius: 5px;
+    text-align: center;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    width:150px;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    overflow-y: auto; /* Add vertical scroll */
-    max-height: 50px; /* Set a maximum height */
-    min-width: 150px; /* Ensure dropdown is wide enough */
+button:hover {
+    background-color: #45a049;
 }
 
-
-.dropdown-content button {
-    background-color: transparent;
-    border: none;
-    text-align: left;
-    padding: 10px 20px;
-    width: 100%;
-    cursor: pointer;
-    color:#333
+button.secondary {
+    background-color: #007BFF;
 }
 
-.dropdown-content button:hover {
-    background-color: #ddd;
+button.secondary:hover {
+    background-color: #0056b3;
 }
 
-.action-dropdown:hover .dropdown-content {
-    display: block;
+button.danger {
+    background-color: #cc0000;
 }
 
-.table-wrapper {
-    position: relative;
-    overflow: visible; /* Ensure dropdowns can overflow the table */
+button.danger:hover {
+    background-color: #990000;
 }
 

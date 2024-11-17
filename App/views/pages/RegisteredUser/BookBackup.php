@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/Bookings.css?v=<?php echo time(); ?>">
 </head>
+
     <!-- Set user role in localStorage -->
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
@@ -42,13 +43,10 @@
         console.log("User ID: ", userId);
     </script>
 
-    <?php require 'bookingsData.php'; ?>
+  
 
     <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
     <?php
         $currentDate = date("Y-m-d"); // Current date to compare with booking dates
@@ -76,15 +74,10 @@
         }
     ?>
 
-    <?php
-    if (isset($_SESSION['error'])) {
-        echo "<p class='error'>" . $_SESSION['error'] . "</p>"; // Display the error message
-        unset($_SESSION['error']); // Clear the error message from session after displaying
-    }
-    ?>
+    <div class="hero-container">
+        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
-
-    
         <div class="container">
             <h3 class="clickable" id="showPastBookings">Past Bookings</h3>
             <h3 class="clickable" id="showUpcomingBookings">Upcoming Bookings</h3>
@@ -160,7 +153,6 @@
                     <th>From</th>
                     <th>To</th>
                     <th>Bus No</th>
-                    <th>Seats</th>
                     <th>Price (LKR)</th>
                     <th>Action</th>
                 </tr>
@@ -195,24 +187,16 @@
                             <td data-label="From"><?php echo $booking['from_location']; ?></td>
                             <td data-label="To"><?php echo $booking['to_location']; ?></td>
                             <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>
-                            <td data-label="Seats"><?php echo $booking['Seats']; ?></td>
                             <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
                             <td data-label="Action">
-                                <!-- Show buttons one after the other -->
-                                <form method="POST" action="<?php echo URLROOT; ?>/RegisteredPages/cancelBooking" style="display:inline;">
-                                    <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
-                                    <?php echo($booking['id']); ?>
-                                    <input type="hidden" name="schedule_id" value="<?php echo $booking['schedule_id']; ?>">
-                                    <?php echo($booking['schedule_id']); ?>
-                                    <input type="hidden" name="seats" value="<?php echo $booking['Seats']; ?>">
-                                    <?php echo($booking['Seats']); ?>
-                                    <script console.log(<?php echo $booking['id']; ?>)></script>
-                                    <script console.log(<?php echo $booking['schedule_id']; ?>)></script>
-                                    <!-- <script console.log(<?php echo $booking['Seats']; ?>)></script> -->
-                                    <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</button>
-                                </form><br/>
-                                <button>Update Booking</button><br/>
-                                <button>View Ticket</button><br/>
+                                <div class="action-dropdown">
+                                    <button class="action-btn">Actions <i class="fas fa-caret-down"></i></button>
+                                    <div class="dropdown-content">
+                                        <button onclick="cancelBooking('<?php echo $booking['id']; ?>')">Cancel Booking</button>
+                                        <button >Update Booking</button>
+                                        <button >View Ticket</button>
+                                    </div>
+                                </div>
                             </td>
 
                         </tr>
@@ -221,7 +205,7 @@
             </tbody>
         </table>
         </div>
-    </div>
+   
 
 <!-- Ticket Box Pop-Up -->
 <div id="ticketBox" class="ticketBox hidden">
@@ -235,6 +219,30 @@
 
 
 <script>
+    function cancelBooking(bookingId) {
+        if (confirm("Are you sure you want to cancel this booking?")) {
+            fetch("<?php echo URLROOT; ?>/RegisteredPages/cancelBooking", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ bookingId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Booking successfully canceled.");
+                    location.reload();
+                } else {
+                    alert("Failed to cancel the booking. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        }
+    }
 
     // Toggle the visibility of the ticket box
     function toggleTicketBox() {
@@ -280,10 +288,44 @@
             }
         });
 
-        
+        setTimeout(() => {
+            document.querySelector('.action-button').click();
+        }, 1000); // Delay to ensure DOM is ready
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listeners for the action buttons
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    const dropdown = button.nextElementSibling;
+
+                    // Toggle the dropdown
+                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+
+                    // Adjust position if it overflows
+                    const rect = dropdown.getBoundingClientRect();
+                    if (rect.bottom > window.innerHeight) {
+                        dropdown.style.top = `-${rect.height}px`; // Move dropdown upwards
+                    } else {
+                        dropdown.style.top = '100%'; // Default position below the button
+                    }
+
+                    // Prevent event propagation
+                    event.stopPropagation();
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function () {
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    dropdown.style.display = 'none';
+                });
+            });
+        });
 
 
     </script>
-
+    </div>
 </body>
 </html>

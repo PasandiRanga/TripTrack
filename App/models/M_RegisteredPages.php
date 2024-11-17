@@ -15,6 +15,68 @@
 
         }
 
+        public function validateBooking($bookingId, $userId) {
+            $this->db->query("SELECT * FROM registeredbooking WHERE id = :bookingId AND User_id = :userId");
+            $this->db->bind(':bookingId', $bookingId);
+            $this->db->bind(':userId', $userId);
+            return $this->db->single() ? true : false;
+        }
+
+        public function cancelBooking($bookingId, $scheduleId) {
+            try {
+                // Start a transaction
+                $this->db->beginTransaction();
+                
+                //Get the seats in the booking
+                $this->db->query("SELECT Seats FROM registeredbooking WHERE id = :bookingId");
+                $this->db->bind(':bookingId', $bookingId);
+                $seats = $this->db->single();
+                var_dump($seats);
+
+                //Get the booked seats for schedule
+                $this->db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
+                $this->db->bind(':scheduleId', $scheduleId);
+                $bookedSeats = $this->db->single();
+                var_dump($bookedSeats);
+
+                 // Convert the comma-separated strings into arrays
+                $seatsArray = explode(',', $seats['Seats']); // Convert booked seats into an array
+                $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); // Convert bookedSeats into an array
+
+                // Remove the seats to be removed from the booked seats array
+                $bookedSeatsArray = array_diff($bookedSeatsArray, $seatsArray);               
+
+                // Convert the arrays back to comma-separated strings
+                $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
+
+                //Update the booked seat
+                $this->db->query("UPDATE schedule SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
+                $this->db->bind(':bookedSeats', $bookedSeats);
+                $this->db->bind(':scheduleId', $scheduleId);
+                $this->db->execute();
+
+                //Delete the booking
+                $this->db->query("DELETE FROM registeredbooking WHERE id = :bookingId");
+                $this->db->bind(':bookingId', $bookingId);
+                $this->db->execute();
+
+                // Commit the transaction
+                $this->db->endTransaction();
+                return true;
+        
+            } catch (Exception $e) {
+                // Rollback the transaction in case of an error
+                $this->db->rollBack();
+                $_SESSION['error'] = $e->getMessage();
+                error_log($e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return false;
+            }
+        }
+        
+        
+        
+
         //Get the schedule from the database
         public function getSchedule(){
             try {

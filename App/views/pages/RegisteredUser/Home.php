@@ -39,8 +39,8 @@
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
-
     ?>
+
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
         var busData = <?php echo json_encode($busData); ?>;
