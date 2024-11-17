@@ -42,7 +42,7 @@ body {
     height: 250px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid #002b38;
+    border: 1px solid #002b38;
 }
 
 .profile-pic img {
