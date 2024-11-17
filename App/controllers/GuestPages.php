@@ -93,7 +93,10 @@
                 ];
 
                 //validate profile image and upload
+
                 if(uploadImage($data['profile_image']['tmp_name'],$data['profile_image_name'],'/images/profileImages/')){
+
+                
                     //Done
                 }
                 else{
