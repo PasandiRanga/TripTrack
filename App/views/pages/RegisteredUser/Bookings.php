@@ -48,9 +48,11 @@
 
     <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+    <div class="hero-container">
+        <br/>
+        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+    </div>
+    
 
     <?php
         $currentDate = date("Y-m-d"); // Current date to compare with booking dates
@@ -213,14 +215,14 @@
                                 <!-- Show buttons one after the other -->
                                 <form method="POST" action="<?php echo URLROOT; ?>/RegisteredPages/cancelBooking" style="display:inline;">
                                     <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
-                                    <?php echo($booking['id']); ?>
+                                    <!-- <?php echo($booking['id']); ?> -->
                                     <input type="hidden" name="schedule_id" value="<?php echo $booking['schedule_id']; ?>">
-                                    <?php echo($booking['schedule_id']); ?>
+                                    <!-- <?php echo($booking['schedule_id']); ?> -->
                                     <input type="hidden" name="seats" value="<?php echo $booking['Seats']; ?>">
-                                    <?php echo($booking['Seats']); ?>
-                                    <script console.log(<?php echo $booking['id']; ?>)></script>
+                                    <!-- <?php echo($booking['Seats']); ?> -->
+                                    <script console.log(<?php echo $booking['id']; ?>)></script> 
                                     <script console.log(<?php echo $booking['schedule_id']; ?>)></script>
-                                    <!-- <script console.log(<?php echo $booking['Seats']; ?>)></script> -->
+                                    <script console.log(<?php echo $booking['Seats']; ?>)></script> 
                                     <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</button>
                                 </form><br/>
                                 <button>Update Booking</button><br/>

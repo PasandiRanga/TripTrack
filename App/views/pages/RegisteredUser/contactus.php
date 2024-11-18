@@ -39,7 +39,6 @@
 
 <div class="hero-container">
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
     <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
 

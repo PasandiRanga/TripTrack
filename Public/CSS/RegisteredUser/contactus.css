@@ -3,9 +3,9 @@
 /* General page styling */
 .hero-container {
     width: 100%;
-    height: 370px;
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
+    /* height: 370px; */
     position: relative;
+    margin-top: 20px;
 }
 
 body {
@@ -14,7 +14,7 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    /* background: linear-gradient(to bottom, #a2d8ff, #ffffff); */
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff);
 }
 
 /* Container for the contact form */
@@ -58,7 +58,8 @@ img.name-image {
     width: 300px;
     height: 55px;
     left: 100px;
-    top: 180px;
+    top: 130px;
+    margin-bottom: 40px;
     margin-right: 50px;
     position: absolute;
 }

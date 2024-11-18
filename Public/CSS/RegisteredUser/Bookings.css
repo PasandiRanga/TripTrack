@@ -5,8 +5,17 @@ html, body {
 }
 
 body {
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
     position: relative;
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
+}
+
+.hero-container {
+    width: 100%;
+    margin-bottom: 38px;
+    /* height: 370px; */
+    
+    position: relative;
+
 }
 
 html,body{

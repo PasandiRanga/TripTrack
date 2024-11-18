@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigation</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
     // echo "Current controller is: " . $currentController;
     $currentMethod = $data['currentMethod'] ?? '';
     // echo "Current method is: " . $currentMethod;
-    $userRole = $data['userRole'] ?? '';
+    $userRole = $_SESSION['user_role'];
 
     include_once 'notificationData.php';
 
@@ -40,6 +40,7 @@
                         }
                         ?>
                     </li>
+                    <li class="navbar-container"><?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?></li>
                 </ul>
             </div>
         </div>
@@ -47,7 +48,7 @@
         <div class="user-section">
             <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Employee"])): ?>
                 <div class="icon" onclick="toggleNotifi()">
-                    <img src="<?php echo URLROOT; ?>/public/images/bell.png" alt="not"><span>3</span>
+                <i class="fa-solid fa-bell"></i><span class="badge"><?php echo count($notifications); ?></span>
                 </div>
 
                 <div class="notifi-box" id="box">
