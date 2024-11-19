@@ -45,6 +45,18 @@
 
         }
 
+        public function getBusDetailsById($busId) {
+            // Prepare the SQL query to fetch the bus details
+            $this->db->query("SELECT * FROM bus WHERE busId = :busId");
+        
+            // Bind the busId to the prepared statement
+            $this->db->bind(':busId', $busId);
+        
+            // Execute the query and fetch the result
+            return $this->db->single(); // Use single() to get one record
+        }
+        
+
         public function deleteBus($busId) {
             $this->db->query('DELETE FROM bus WHERE busId = :busId');
             $this->db->bind(':busId', $busId);
