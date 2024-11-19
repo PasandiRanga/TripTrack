@@ -30,8 +30,12 @@
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
-
+    $imagePaths = [
+        APPROOT . '/public/images/rotateImages/img1.jpg',
+        APPROOT . '/public/images/rotateImages/img2.jpg',
+    ];
     ?>
+
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
         var busData = <?php echo json_encode($busData); ?>;
@@ -52,11 +56,8 @@
     
 
     <div class="hero-container">
+        <br/>
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
-
-        <div class="background"></div>
-   
         <div class="text-container">
             <?php require APPROOT . '/views/inc/Components/RotateText/rotateText.php'; ?>
         </div>
