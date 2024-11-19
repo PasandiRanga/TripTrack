@@ -28,7 +28,6 @@ img.name-image {
 .hero-container {
     width: 100%;
     height: 370px;
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
     position: relative;
 }
 
@@ -68,6 +67,25 @@ img.name-image {
     text-align: center;
     font-family: 'Poppins', sans-serif;
 }
+
+.header-container {
+    position: relative;
+    z-index: 999;   /* Higher than the image slider */
+    position: fixed;
+    top: 0;    
+    width:98%;
+    display: flex;  
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin-top: 20px;
+    
+}
+
+.searchbar-container {
+    position: relative;
+    z-index: 3; /* Higher than the image slider */
+}
+
 
 
 
