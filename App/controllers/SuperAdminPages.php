@@ -106,9 +106,23 @@ class SuperAdminPages extends Controller {
 
     }
 
-    public function updatefleet() {
-        $this->view('pages/SuperAdmin/Updatefleet');
+    public function Updatefleet() {
+        // Check if busId is passed as a GET parameter
+        if (isset($_GET['busId'])) {
+            $busId = $_GET['busId'];
+    
+            // Fetch the bus details
+            $busDetails = $this->SuperAdminModel->getBusDetailsById($busId);
+    
+            // Pass data to the view
+            $this->view('SuperAdmin/Updatefleet', $busDetails);
+        } else {
+            // Redirect to the fleet page if no busId is provided
+            header("Location: " . URLROOT . "/SuperAdminPages/fleet");
+            exit(); 
+        }
     }
+    
 
     public function reports() {
         $this->view('pages/SuperAdmin/Reports');

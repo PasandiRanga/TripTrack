@@ -40,11 +40,15 @@
             $schedule = $this->RegisteredpagesModel->getSchedule();
 
             $bus = $this->RegisteredpagesModel->getBusDetails();
+
+            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+        //     var_dump($user);
             // var_dump($schedule);
             $data =[
                 'bookingsDetails' => $bookingsDetails,
                 'schedule' => $schedule,
-                'bus' => $bus
+                'bus' => $bus,
+                'user' => $user
             ];
             // var_dump($data);
 
@@ -60,6 +64,8 @@
             $bus = $this->RegisteredpagesModel->getBusDetails();
 
             $distance = $this->RegisteredpagesModel->getDistance();
+
+            
             
             // Combine the schedule and bus details into a single data array
             $data = [
@@ -130,6 +136,7 @@
             $distance = $this->RegisteredpagesModel->getDistance();
 
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+            // var_dump($user);
 
      
             

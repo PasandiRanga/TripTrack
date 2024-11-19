@@ -43,8 +43,8 @@
 
     
     <!-- Header and Navbar -->
+    <br/>
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
     <!-- Profile Container -->
     <div class="profile-container">

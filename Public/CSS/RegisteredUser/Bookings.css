@@ -5,8 +5,17 @@ html, body {
 }
 
 body {
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
     position: relative;
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
+}
+
+.hero-container {
+    width: 100%;
+    margin-bottom: 38px;
+    /* height: 370px; */
+    
+    position: relative;
+
 }
 
 html,body{
@@ -263,44 +272,28 @@ table td:last-child {
 /* Overlay for the ticket box */
 .ticketBox {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Higher z-index */
-    transition: opacity 0.3s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
-.hidden {
+.ticketBox.hidden {
     display: none;
 }
 
-
-.signInContent {
-    background: white;
-    width: 80%;
-    max-width: 700px;
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: row;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    height:450px;
-}
-
-/* Close button styling */
-.close-btn {
+.signInContent .close-btn {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 40px;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
-    color: #cc0000;
+    font-size: 18px;
+    color: #333;
 }
+
 
 button {
     display: inline-block;
@@ -337,3 +330,87 @@ button.danger:hover {
     background-color: #990000;
 }
 
+.bus-ticket {
+    background-color: #004e66;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 500px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.location h2 {
+    font-size: 1.2em;
+    margin: 0;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.location p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: antiquewhite;
+}
+
+.icon i {
+    font-size: 1.5em;
+    color: #ffffff;
+    
+}
+
+/* Dotted line style */
+.dotted-line {
+    border: none;
+    border-top: 1px dotted #ffffff; /* Dotted line with blue color */
+    width: 100%; /* Ensure the line stretches */
+    margin: 0; /* Remove any margins */
+}
+
+.dotted-separator {
+    border: none;
+    border-top: 1px dashed #ffffff;
+    margin: 15px 0;
+}
+
+.ticket-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #ffffff;
+}
+
+.price h3 {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #4CAF50; /* Gold color for price */
+}
+
+.ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.passenger-info p {
+    margin: 3px 0;
+    font-size: 0.85em;
+    color: #ffffff;
+}
+
+.qr-code i {
+    font-size: 100px;
+    color: #ffffff;
+}

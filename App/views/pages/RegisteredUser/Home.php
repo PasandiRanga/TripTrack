@@ -64,8 +64,8 @@
     
 
     <div class="hero-container">
+        <br/>
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
 
         <div class="background"></div>
    
