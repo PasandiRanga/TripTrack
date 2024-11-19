@@ -72,6 +72,8 @@
         
                 // Initialize form data with user input and error placeholders
                 $data = [
+                    'profile_image'=>$_FILES['profile_image'],
+                    'profile_image_name'=>time().'_'.$_FILES['profile_image']['name'],
                     'name' => trim($_POST['name']),
                     'number' => trim($_POST['number']),
                     'nic' => trim($_POST['nic']),
@@ -79,6 +81,8 @@
                     'email' => trim($_POST['email']),
                     'password' => trim($_POST['password']),
                     'confirm' => trim($_POST['confirm']),
+
+                    'profile_image_err'=>'',
                     'name_err' => '',
                     'number_err' => '',
                     'nic_err' => '',
@@ -87,6 +91,17 @@
                     'password_err' => '',
                     'confirm_err' => ''
                 ];
+
+                //validate profile image and upload
+
+                if(uploadImage($data['profile_image']['tmp_name'],$data['profile_image_name'],'/images/profileImages/')){
+
+                
+                    //Done
+                }
+                else{
+                    $data['profile_image_err']='profile image uploading unsuccessful';
+                }
         
                 // Perform validation and check if all fields are filled
                 if (empty($data['name'])) {
@@ -124,7 +139,7 @@
         
                 // Register the user if no errors are present
                 if (empty($data['name_err']) && empty($data['number_err']) && empty($data['nic_err']) &&
-                    empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_err'])) {
+                    empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_err']) && empty($data['profile_image_err'])) {
         
                     // Hash the password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -147,6 +162,8 @@
             } else {
                 // Initialize empty form data for GET request
                 $data = [
+                    'profile_image'=>'',
+                    'profile_image_name'=>'',
                     'name' => '',
                     'number' => '',
                     'nic' => '',
@@ -154,6 +171,7 @@
                     'email' => '',
                     'password' => '',
                     'confirm' => '',
+                    'profile_image_err'=>'',
                     'name_err' => '',
                     'number_err' => '',
                     'nic_err' => '',
@@ -261,6 +279,7 @@
             $_SESSION['user_email']=$user['Email'];
             $_SESSION['user_name']=$user['Name'];
             $_SESSION['user_role']='RegisteredUser';
+            $_SESSION['user_profile_image']=$user['Profile_image'];
            
             header('Location: ' . URLROOT . '/RegisteredPages/home');
             exit();
@@ -270,6 +289,7 @@
             unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
+            unset($_SESSION['user_profile_image']);
             session_destroy();
             header('Location: ' . URLROOT . '/GuestPages/home');
         }

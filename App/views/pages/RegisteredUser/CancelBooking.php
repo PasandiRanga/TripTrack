@@ -1,41 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<?php
+require_once '../../../Database.php'; // Include your database connection file
 
-    <title>SeeTicket <?php echo SITENAME; ?></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/CancelBooking.css?v=<?php echo time(); ?>">
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $bookingId = $_POST['booking_id'];
+    echo($bookingId);
+    $scheduleId = $_POST['schedule_id'];
+    $seatsToCancel = $_POST['seats']; // E.g., "1,2,3"
 
-</head>
-<body>
-<script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
-        localStorage.setItem('userRole', userRole);
-    </script>
+    try {
+        $db = new Database();
 
-    <?php
-    // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
-    ?>
+        // Begin transaction
+        $db->beginTransaction();
 
+        // Step 1: Delete the booking record from `registeredbooking`
+        $db->query("DELETE FROM registeredbooking WHERE id = :id");
+        $db->bind(':id', $bookingId);
+        $db->execute();
 
-    <?php
-    $data = [
-        'currentController' => 'RegisteredPages', // Adjust this based on your controller
-        'currentMethod' => 'cancelBookings', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
-    ?>
+        // Step 2: Update the `schedule` table
+        // Fetch the current booked seats for the schedule
+        $db->query("SELECT bookedSeat FROM schedule WHERE scheduleId = :scheduleId");
+        $db->bind(':scheduleId', $scheduleId);
+        $currentBookedSeats = $db->single()['bookedSeat'];
 
-    <!-- Header and Navbar -->
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+        // Remove the cancelled seats from bookedSeat
+        $currentBookedSeatsArray = explode(',', $currentBookedSeats);
+        $seatsToCancelArray = explode(',', $seatsToCancel);
+        $updatedBookedSeatsArray = array_diff($currentBookedSeatsArray, $seatsToCancelArray);
+        $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
 
-    
-</body>
-</html>
+        // Update the `schedule` table
+        $db->query("UPDATE schedule SET bookedSeat = :bookedSeat, availableSeats = availableSeats + :seatCount WHERE scheduleId = :scheduleId");
+        $db->bind(':bookedSeat', $updatedBookedSeats);
+        $db->bind(':seatCount', count($seatsToCancelArray));
+        $db->bind(':scheduleId', $scheduleId);
+        $db->execute();
+
+        // Commit transaction
+        $db->endTransaction();
+
+        // Redirect back to bookings page with success message
+        header("Location: " . URLROOT . "/RegisteredPages/bookings?status=success");
+        exit();
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        $db->rollBack();
+        // Redirect back with error message
+        header("Location: " . URLROOT . "/RegisteredPages/bookings?status=error&message=" . $e->getMessage());
+        exit();
+    }
+}
+?>

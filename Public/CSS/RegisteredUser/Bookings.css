@@ -1,18 +1,29 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
     position: relative;
 }
 
-.main{
-    padding: 10px;
-    border-radius: 20px;
+html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+
 }
 
+/* Base Table Styling */
 /* Base Table Styling */
 table {
     width: 100%;
     border-collapse: collapse; /* Removes gaps between table cells */
     margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     background-color: #f9f9f9;
     border-radius: 10px;
     overflow: hidden;
@@ -23,18 +34,29 @@ table th {
     background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
     color: #040113; /* Dark text for contrast */
     font-weight: bold;
-    padding: 12px;
-    text-align: center;
-    border: 3px solid #042F40; /* Thick border for each table header cell */
-    border-radius: 5px; /* Optional: rounded corners for the header cells */
+    padding: 15px 10px;
+    text-align: left;
+    font-size: 14px;
 }
 
-
-/* Table Cell Styling */
+/* Table Body Styling */
 table td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    font-size: 13px;
+    color: #333;
+    border-bottom: 1px solid #ddd; /* Separator for rows */
+    text-align: left;
+}
+
+/* Alternating Row Colors */
+table tbody tr:nth-child(odd) {
+    background-color: #f0f8ff; /* Light blue for odd rows */
+}
+
+/* Hover Effect for Rows */
+table tbody tr:hover {
+    background-color: #d9eaff; /* Slightly darker blue on hover */
+    cursor: pointer;
 }
 
 /* Alternating Row Colors */
@@ -56,6 +78,33 @@ table tr:hover {
 /* Action Column Styling */
 table td:last-child {
     cursor: pointer;
+}
+/* Responsive Tables */
+@media (max-width: 768px) {
+    table thead {
+        display: none; /* Hide table headers on small screens */
+    }
+
+    table tr {
+        display: block; /* Make rows block elements */
+        margin-bottom: 15px; /* Space between rows */
+    }
+
+    table td {
+        display: flex; /* Make cells flex containers */
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd; /* Separator for cells */
+        font-size: 12px; /* Smaller font for mobile */
+    }
+
+    table td:before {
+        content: attr(data-label); /* Use `data-label` for accessibility */
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #555;
+    }
 }
 
 /* Search Icon */
@@ -214,42 +263,145 @@ table td:last-child {
 /* Overlay for the ticket box */
 .ticketBox {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Higher z-index */
-    transition: opacity 0.3s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
-.hidden {
+.ticketBox.hidden {
     display: none;
 }
 
-
-.signInContent {
-    background: white;
-    width: 80%;
-    max-width: 700px;
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: row;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    height:450px;
-}
-
-/* Close button styling */
-.close-btn {
+.signInContent .close-btn {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 40px;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
-    color: #cc0000;
+    font-size: 18px;
+    color: #333;
 }
 
+
+button {
+    display: inline-block;
+    padding: 8px 8px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width:150px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button.secondary {
+    background-color: #007BFF;
+}
+
+button.secondary:hover {
+    background-color: #0056b3;
+}
+
+button.danger {
+    background-color: #cc0000;
+}
+
+button.danger:hover {
+    background-color: #990000;
+}
+
+.bus-ticket {
+    background-color: #004e66;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 500px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.location h2 {
+    font-size: 1.2em;
+    margin: 0;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.location p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: antiquewhite;
+}
+
+.icon i {
+    font-size: 1.5em;
+    color: #ffffff;
+    
+}
+
+/* Dotted line style */
+.dotted-line {
+    border: none;
+    border-top: 1px dotted #ffffff; /* Dotted line with blue color */
+    width: 100%; /* Ensure the line stretches */
+    margin: 0; /* Remove any margins */
+}
+
+.dotted-separator {
+    border: none;
+    border-top: 1px dashed #ffffff;
+    margin: 15px 0;
+}
+
+.ticket-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #ffffff;
+}
+
+.price h3 {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #4CAF50; /* Gold color for price */
+}
+
+.ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.passenger-info p {
+    margin: 3px 0;
+    font-size: 0.85em;
+    color: #ffffff;
+}
+
+.qr-code i {
+    font-size: 100px;
+    color: #ffffff;
+}

@@ -288,3 +288,14 @@ li {
     color: #cc0000;
 }
 
+/*profile image in header*/
+.profile .pic img{
+
+    height:50px;
+    width:50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #002b38;
+
+}
+

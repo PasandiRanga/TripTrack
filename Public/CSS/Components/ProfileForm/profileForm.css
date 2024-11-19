@@ -1,0 +1,101 @@
+/* Overlay for the sign-in box */
+.updateBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Full screen height */
+    background: rgba(0, 0, 0, 0.7);  /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    overflow: hidden; /* Prevent overflow outside the overlay */
+}
+
+
+/* Hidden class for toggling visibility */
+.hidden {
+    display: none;
+}
+
+.updateBoxContent {
+    background-color: #fff;
+    width: auto;
+    height: auto; /* Ensure the height is dynamic */
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional box shadow */
+    position: relative;  /* This ensures the close button is positioned relative to this box */
+    max-height: 100vh; /*Set a max height for the container (80% of viewport height)*/
+    overflow-y: auto;/* Enables vertical scrolling when content overflows*/
+}
+
+
+/* Close button styling - positioned at top right of the signInBoxContent */
+.close-btn {
+    position: absolute;
+    top: 10px; /* Adjust for desired distance from the top */
+    right: 10px; /* Adjust for desired distance from the right */
+    font-size: 30px;
+    cursor: pointer;
+    color: #cc0000;
+}
+
+.done {
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    align-self: flex-start;
+    width: 120px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.done:hover {
+    background-color: #268029;
+}
+
+.profileForm {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    border: 3px solid #002b38;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 800px;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e1eafa;
+}
+
+input:focus {
+    border-color: #007bff;
+    background-color: #fff;
+}

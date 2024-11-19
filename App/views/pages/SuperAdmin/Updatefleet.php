@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Bus</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Addfleet.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Updatefleet.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <!-- Back button -->
@@ -75,7 +75,7 @@
     </div>
 
     <!-- Submit and Clear buttons -->
-    <button class="button" type="submit">Add Bus</button>
+    <button class="button" type="submit">Update Bus</button>
     <button class="button" onclick="clearForm()">Clear</button>
 </form>
 
