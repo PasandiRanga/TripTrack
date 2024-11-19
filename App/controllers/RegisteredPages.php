@@ -219,6 +219,10 @@
                 exit;
             }
         }
+
+        public function slide() {
+            $this->view('inc/Components/ImageSlide/imageSlide');
+        }
     
 
     }  
