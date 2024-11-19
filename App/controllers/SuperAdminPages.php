@@ -54,23 +54,35 @@ class SuperAdminPages extends Controller {
     }
     public function deleteBus() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Retrieve Bus ID from the POST request
-            $busId = $_POST['busId'];
+            // Decode the JSON input
+            $data = json_decode(file_get_contents('php://input'), true);
     
-            // Delete the bus
-            if ($this->SuperAdminModel->deleteBus($busId)) {
-                echo json_encode(['status' => 'success', 'message' => 'Bus deleted successfully']);
+            if (!empty($data['busId'])) {
+                $busId = $data['busId'];
+    
+                // Delete the bus
+                if ($this->SuperAdminModel->deleteBus($busId)) {
+                    echo json_encode(['status' => 'success', 'message' => 'Bus deleted successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error deleting the bus']);
+                }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Error deleting the bus']);
+                echo json_encode(['status' => 'error', 'message' => 'Bus ID is required']);
             }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }
     }
     
+    
     public function updateBus() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Retrieve the updated bus data
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Sanitize input
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
+            // Prepare the data array
             $data = [
-                'busId' => $_POST['busId'],
+                'busId' => $_POST['bus_id'],
                 'License_id' => $_POST['License_id'],
                 'routeNumber' => $_POST['routeNumber'],
                 'route' => $_POST['route'],
@@ -84,14 +96,16 @@ class SuperAdminPages extends Controller {
                 'priceperkm' => $_POST['priceperkm']
             ];
     
-            // Update the bus
+            // Call the model method to update the bus
             if ($this->SuperAdminModel->updateBus($data)) {
-                echo json_encode(['status' => 'success', 'message' => 'Bus updated successfully']);
+                header("Location: " . URLROOT . "/SuperAdminPages/fleet");
+                exit;
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Error updating the bus']);
+                die("Error: Unable to update the bus.");
             }
         }
     }
+    
     
     
 
@@ -106,20 +120,22 @@ class SuperAdminPages extends Controller {
 
     }
 
-    public function Updatefleet() {
-        // Check if busId is passed as a GET parameter
-        if (isset($_GET['busId'])) {
-            $busId = $_GET['busId'];
+    public function updatefleet() {
+        // Retrieve the bus ID from the GET request
+        $busId = isset($_GET['busId']) ? $_GET['busId'] : null;
     
-            // Fetch the bus details
-            $busDetails = $this->SuperAdminModel->getBusDetailsById($busId);
+        if ($busId) {
+            // Fetch the bus details using the model
+            $busDetails = $this->SuperAdminModel->getBusById($busId);
     
-            // Pass data to the view
-            $this->view('SuperAdmin/Updatefleet', $busDetails);
+            // Pass the details to the view
+            if ($busDetails) {
+                $this->view('pages/SuperAdmin/Updatefleet', ['busDetails' => $busDetails]);
+            } else {
+                die("Bus not found.");
+            }
         } else {
-            // Redirect to the fleet page if no busId is provided
-            header("Location: " . URLROOT . "/SuperAdminPages/fleet");
-            exit(); 
+            die("Bus ID not provided.");
         }
     }
     

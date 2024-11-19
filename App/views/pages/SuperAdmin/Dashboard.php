@@ -90,7 +90,7 @@
             <div class="main-cards">
                 <div class="card">
                     <div class="card-inner">
-                        <h3>Total Income</h3>
+                        <h3>Total Monthly Income</h3>
                         <span class="material-icons-outlined">money</span>
                     </div>
                     <h1><?php echo '345890LKR'; ?></h1>
@@ -98,7 +98,7 @@
 
                 <div class="card">
                     <div class="card-inner">
-                        <h3>Categories</h3>
+                        <h3>Customers</h3>
                         <span class="material-icons-outlined">groups</span>
                     </div>
                     <h1><?php echo '25'; // Example PHP dynamic content ?></h1>
@@ -106,7 +106,7 @@
 
                 <div class="card">
                     <div class="card-inner">
-                        <h3>Customers</h3>
+                        <h3>Monthly Bookings</h3>
                         <span class="material-icons-outlined">groups</span>
                     </div>
                     <h1><?php echo '1500'; // Example PHP dynamic content ?></h1>
