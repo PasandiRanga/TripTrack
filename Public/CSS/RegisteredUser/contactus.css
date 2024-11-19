@@ -5,7 +5,8 @@
     width: 100%;
     /* height: 370px; */
     position: relative;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff);
 }
 
 body {
@@ -14,7 +15,6 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff);
 }
 
 /* Container for the contact form */

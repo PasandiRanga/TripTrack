@@ -61,6 +61,7 @@ img.name-image {
     top: 180px;
     margin-right: 50px;
     position: absolute;
+    margin-bottom: 200px;
 }
 
 .form-group input,
@@ -103,4 +104,9 @@ img.name-image {
         padding: 15px;
         margin: 20px;
     }
+}
+
+
+.footer{
+    margin-top: 200px;
 }

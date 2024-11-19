@@ -16,7 +16,7 @@
     // echo "Current controller is: " . $currentController;
     $currentMethod = $data['currentMethod'] ?? '';
     // echo "Current method is: " . $currentMethod;
-    $userRole = $_SESSION['user_role'];
+    $userRole = $_SESSION['user_role'] ?? 'GuestUser';
 
     include_once 'notificationData.php';
 

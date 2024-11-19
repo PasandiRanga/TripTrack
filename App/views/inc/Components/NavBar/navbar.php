@@ -43,13 +43,13 @@ if (!function_exists('isCurrentPage')) {
             // Generate navbar items based on the user role
             if ($userRole === "GuestUser") {
                 echo '<a href="' . URLROOT . '/GuestPages/home" class="navbar-item ' . (isCurrentPage('GuestPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Search Buses</span>
+                        <span class="text">SEARCH BUSES</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/about" class="navbar-item ' . (isCurrentPage('GuestPages', 'about', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">About Us</span>
+                        <span class="text">ABOUT US</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/contact" class="navbar-item ' . (isCurrentPage('Guestpages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Contact Us</span>
+                        <span class="text">CONTACT US</span>
                     </a>';
             } elseif ($userRole === "Admin") {
                 echo '<a href="' . URLROOT . '/RegionalAdminPages/home" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">

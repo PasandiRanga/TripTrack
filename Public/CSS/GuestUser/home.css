@@ -1,6 +1,4 @@
-body {
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff);
-}
+
 
 div.background {
     width: 50px;
@@ -30,7 +28,7 @@ img.name-image {
 .hero-container {
     width: 100%;
     height: 370px;
-    /* background: linear-gradient(to bottom, #a2d8ff, #ffffff);  */
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
     position: relative;
 }
 
@@ -53,6 +51,15 @@ img.name-image {
     color : black;
 }
 
+.rotate-img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it's in the background */
+}
+
 /* Center-align text and set font family for text-container */
 .text-container {
     display: flex;
@@ -61,5 +68,7 @@ img.name-image {
     text-align: center;
     font-family: 'Poppins', sans-serif;
 }
+
+
 
 
