@@ -27,7 +27,8 @@ html, body {
 .navbar-container{
     display: flex;
     align-items: center;
-    margin-left: 300px;
+    margin-left: 650px;
+   
 }
 
 /* Inner container for logo and topic */

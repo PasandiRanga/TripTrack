@@ -13,6 +13,7 @@
     width: 100%;
     height: 500px;
     overflow: hidden;
+    z-index: 1;
   }
   
   .images-wrapper {
@@ -22,7 +23,8 @@
     left: 0;
     width: 400%; /* 4 images, adjust if you add more */
     height: 100%;
-    animation: slideImages 12s infinite ease-in-out; /* Match text duration and smooth out */
+    width: max-content;
+    animation: slideImages 20s infinite; /* Match text duration and smooth out */
   }
   
   .image-container .image {
@@ -38,7 +40,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 1;
+    z-index: 2;
   }
   
   .text-slider {
@@ -55,7 +57,7 @@
     font-size: 50px;
     font-weight: bold;
     color: #fff;
-    animation: fadeIn 3s linear;
+    animation: fadeIn 3s ease-in-out;
   }
   
   .text-slider .slide.active {
@@ -77,17 +79,20 @@
     0% {
       transform: translateX(0%);
     }
-    25% {
-      transform: translateX(-100%);
+    20% {
+      transform: translateX(0%); /* First image */
     }
-    50% {
-      transform: translateX(-200%);
+    40% {
+      transform: translateX(-100%); /* Second image */
     }
-    75% {
-      transform: translateX(-300%);
+    60% {
+      transform: translateX(-200%); /* Third image */
+    }
+    80% {
+      transform: translateX(-300%); /* Fourth image */
     }
     100% {
-      transform: translateX(-400%);
+      transform: translateX(-400%); /* Back to first (duplicate) */
     }
   }
   
