@@ -45,16 +45,13 @@
 
         }
 
-        public function getBusDetailsById($busId) {
-            // Prepare the SQL query to fetch the bus details
-            $this->db->query("SELECT * FROM bus WHERE busId = :busId");
-        
-            // Bind the busId to the prepared statement
+        public function getBusById($busId) {
+            $this->db->query('SELECT * FROM bus WHERE busId = :busId');
             $this->db->bind(':busId', $busId);
         
-            // Execute the query and fetch the result
-            return $this->db->single(); // Use single() to get one record
+            return $this->db->single(); // Fetch a single row
         }
+        
         
 
         public function deleteBus($busId) {
@@ -64,16 +61,21 @@
         }
         
         public function updateBus($data) {
-            $this->db->query('
-                UPDATE bus 
-                SET License_id = :License_id, routeNumber = :routeNumber, route = :route, busType = :busType, 
-                    stops = :stops, start_location = :start_location, destination = :destination, 
-                    rating = :rating, passengers = :passengers, price = :price, priceperkm = :priceperkm
-                WHERE busId = :busId
-            ');
-        
-            // Bind values
-            $this->db->bind(':busId', $data['busId']);
+            $this->db->query('UPDATE bus SET 
+                License_id = :License_id,
+                routeNumber = :routeNumber,
+                route = :route,
+                busType = :busType,
+                stops = :stops,
+                start_location = :start_location,
+                destination = :destination,
+                rating = :rating,
+                passengers = :passengers,
+                price = :price,
+                priceperkm = :priceperkm
+                WHERE busId = :busId');
+            
+            // Bind parameters
             $this->db->bind(':License_id', $data['License_id']);
             $this->db->bind(':routeNumber', $data['routeNumber']);
             $this->db->bind(':route', $data['route']);
@@ -85,9 +87,38 @@
             $this->db->bind(':passengers', $data['passengers']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':priceperkm', $data['priceperkm']);
+            $this->db->bind(':busId', $data['busId']);
         
+            // Execute and return result
             return $this->db->execute();
         }
+        
+
+        //search bus with license_id and routeNumber
+
+        public function searchFleet($searchQuery) {
+            // Prepare the SQL query to search for License ID or Route Number
+            $sql = "SELECT * FROM bus WHERE LOWER(License_id) LIKE :searchQuery OR LOWER(routeNumber) LIKE :searchQuery";
+
+            // Prepare the query
+            $this->db->query($sql);
+
+            // Bind the search query parameter (with wildcards for partial matching)
+            $this->db->bind(':searchQuery', '%' . strtolower($searchQuery) . '%');
+
+            // Execute the query and return the results
+            return $this->db->resultSet();
+        }
+
+        public function getAllFleet() {
+            $sql = "SELECT * FROM bus"; // Query to fetch all buses
+            $this->db->query($sql);
+        
+            $results = $this->db->resultSet();
+            return $results;
+        }
+        
+
  // -------------------------------------------------------------------------------------------------------------------------------------------------------------
         //Bookings        
 

@@ -1,3 +1,8 @@
+body {
+    font-family: "Arial", sans-serif;
+}
+
+
 /* Style for the back button */
 .back-button {
     position: absolute;
