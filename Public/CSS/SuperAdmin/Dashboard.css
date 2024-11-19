@@ -4,7 +4,7 @@ body{
     padding: 0;
     background-color: #063946;
     color: #9e9ea4;
-    font-family: monospace;
+    font-family: "Arial", sans-serif;
 }
 
 .material-icons-outlined {
@@ -31,7 +31,7 @@ body{
 
 .header {
     grid-area: header;
-    height: 5px;
+    height: 15px;
     background-color: flex;
     align-items: center;
     justify-content: space-between;
@@ -85,6 +85,7 @@ body{
     margin-top: 15px;
     font-size: 20px;
     font-weight: 700;
+    color: white;
 }
 .sidebar-list{
     padding: 0;
@@ -94,7 +95,8 @@ body{
 
 .sidebar-list-item {
     padding: 20px 20px 20px 20px;
-    font-size: 18px;
+    font-size: 20px;
+    color: white;
 }
 
 .sidebar-list-item:hover {

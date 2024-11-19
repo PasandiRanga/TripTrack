@@ -106,9 +106,51 @@ class SuperAdminPages extends Controller {
         }
     }
     
+    // In your Controller (e.g., SuperAdminController.php)
+
+    public function searchFleet() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Decode the incoming JSON payload
+            $data = json_decode(file_get_contents('php://input'), true);
+            $searchQuery = $data['searchQuery'] ?? '';
     
+            // Log the search query for debugging
+            error_log("Search Query Received: " . $searchQuery);
+    
+            // Perform the search using the model
+            $results = $this->SuperAdminModel->searchFleet($searchQuery);
+    
+            if ($results) {
+                echo json_encode(['status' => 'success', 'data' => $results]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No results found.']);
+            }
+        } else {
+            // Handle invalid request methods
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
+
+    public function getAllFleet() {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            // Fetch all fleet data from the model
+            $results = $this->SuperAdminModel->getAllFleet();
+    
+            if ($results) {
+                echo json_encode(['status' => 'success', 'data' => $results]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No fleet data found.']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
     
 
+    
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
     public function bookings() {
         $guestbookings = $this->SuperAdminModel->getGuestBookings();
         $registerbookings = $this->SuperAdminModel->getRegisterBookings();

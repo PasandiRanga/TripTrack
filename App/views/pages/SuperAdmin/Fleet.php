@@ -65,7 +65,7 @@
     <div class="search-container">
         <label for="search">Search: </label>
         <input type="text" id="search" placeholder="Search buses...">
-        <button class="search-button" onclick="Search()">Search</button>
+        <button class="search-button" onclick="searchFleet()">Search</button>
         <button class="search-button-clear" onclick="clearSearch()">Clear</button>
     </div>
 
@@ -118,10 +118,6 @@
     </table>
 
     <script>
-        // Clear the search input
-        function clearSearch() {
-            document.getElementById("search").value = "";
-        }
 
         function deleteBus(button) {
             const row = button.closest('tr');
@@ -154,6 +150,101 @@
             window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/updatefleet?busId=' + encodeURIComponent(busId);
         }
 
+
+        //search bus
+
+        // Updated search function (JavaScript)
+       // Updated search function (JavaScript)
+        function searchFleet() {
+            const searchQuery = document.getElementById("search").value;
+
+            console.log("Search query:", searchQuery); // Debugging log
+
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/searchFleet', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ searchQuery: searchQuery })
+            })
+            .then(response => {
+                console.log("Raw response:", response); // Debugging log
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Response data:", data); // Debugging log
+                if (data.status === 'success') {
+                    updateTable(data.data);
+                } else {
+                    alert('Error fetching search results: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during search:', error);
+                alert('An error occurred while searching.');
+            });
+        }
+
+        // Update the table with the filtered data
+        function updateTable(buses) {
+            const tableBody = document.getElementById("fleet-table-body");
+            tableBody.innerHTML = ''; // Clear the table before inserting new rows
+
+            if (buses.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="14">No buses found.</td></tr>';
+                return;
+            }
+
+            buses.forEach(bus => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${bus.busId}</td>
+                    <td>${bus.License_id}</td>
+                    <td>${bus.routeNumber}</td>
+                    <td>${bus.route}</td>
+                    <td>${bus.busType}</td>
+                    <td>${bus.stops}</td>
+                    <td>${bus.start_location}</td>
+                    <td>${bus.destination}</td>
+                    <td>${bus.rating}</td>
+                    <td>${bus.passengers}</td>
+                    <td>${bus.price}</td>
+                    <td>${bus.priceperkm}</td>
+                    <td><button class='update-button' onclick='updateBus(this)'>Update</button></td>
+                    <td><button class='delete-button' onclick='deleteBus(this)'>Delete</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+                // Clear the search input and reload original table data
+        function clearSearch() {
+            document.getElementById("search").value = ""; // Clear the input field
+
+            // Fetch and reload the original data
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/getAllFleet', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    updateTable(data.data); // Use the same updateTable function to reload data
+                } else {
+                    alert('Error fetching original data.');
+                }
+            })
+            .catch(error => {
+                console.error('Error reloading data:', error);
+                alert('An error occurred while reloading the data.');
+            });
+        }
 
 
     </script>
