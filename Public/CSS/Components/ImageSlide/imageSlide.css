@@ -24,7 +24,7 @@
     width: 400%; /* 4 images, adjust if you add more */
     height: 100%;
     width: max-content;
-    animation: slideImages 20s infinite; /* Match text duration and smooth out */
+    animation: slideImages 20s linear infinite; /* Match text duration and smooth out */
   }
   
   .image-container .image {
@@ -79,20 +79,14 @@
     0% {
       transform: translateX(0%);
     }
-    20% {
+    33.33% {
       transform: translateX(0%); /* First image */
     }
-    40% {
+    66.66% {
       transform: translateX(-100%); /* Second image */
     }
-    60% {
-      transform: translateX(-200%); /* Third image */
-    }
-    80% {
-      transform: translateX(-300%); /* Fourth image */
-    }
     100% {
-      transform: translateX(-400%); /* Back to first (duplicate) */
+      transform: translateX(-200%); /* Third image (then loops back seamlessly) */
     }
   }
   

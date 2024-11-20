@@ -12,6 +12,9 @@
       <img class="image" src="<?php echo URLROOT; ?>/public/images/imageSlide/s4.jpg" alt="image1">
       <img class="image" src="<?php echo URLROOT; ?>/public/images/imageSlide/img1.jpg" alt="image2">
       <img class="image" src="<?php echo URLROOT; ?>/public/images/imageSlide/img2.jpg" alt="image3">
+      <img class="image" src="<?php echo URLROOT; ?>/public/images/imageSlide/s4.jpg" alt="image1-duplicate">
+      <img class="image" src="<?php echo URLROOT; ?>/public/images/imageSlide/img1.jpg" alt="image2-duplicate">
+      <img class="image" src="<?php echo URLROOT; ?>/public/images/imageSlide/img2.jpg" alt="image3-duplicate">
       
     </div>
     <div class="dark-layer"></div>
@@ -39,7 +42,7 @@
     currentIndex = (currentIndex + 1) % slides.length;
     }
 
-    setInterval(startSlideshow, 3000); // Match image sliding duration
+    setInterval(startSlideshow, 0); // Match image sliding duration
     startSlideshow(); // Start the slideshow on page load
   </script>
 </body>
