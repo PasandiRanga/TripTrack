@@ -30,10 +30,6 @@
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
-    $imagePaths = [
-        APPROOT . '/public/images/rotateImages/img1.jpg',
-        APPROOT . '/public/images/rotateImages/img2.jpg',
-    ];
     ?>
 
     <script>

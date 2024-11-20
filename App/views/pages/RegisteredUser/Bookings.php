@@ -56,6 +56,7 @@
 
     <?php
         $currentDate = date("Y-m-d"); // Current date to compare with booking dates
+        // echo($currentDate);
         
         // Filter upcoming and past bookings based on the schedule date
         $upcomingBookings = [];
@@ -71,7 +72,7 @@
 
             if ($schedule) {
                 // Compare booking date with schedule date
-                if ($currentDate < $schedule['date']) {
+                if ($currentDate <= $schedule['date']) {
                     $upcomingBookings[] = $booking; // Upcoming booking
                 } else {
                     $pastBookings[] = $booking; // Past booking
@@ -138,7 +139,7 @@
 
                     ?>
                         <tr>
-                            <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
+                            <td data-label="Date"><?php echo $schedule['date']; ?></td>
                             <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
                             <td data-label="Route"><?php echo $bus['route']; ?></td>
                             <td data-label="From"><?php echo $booking['from_location']; ?></td>
@@ -203,7 +204,7 @@
 
                     ?>
                         <tr>
-                            <td data-label="Date"><?php echo $booking['Booking_date']; ?></td>
+                            <td data-label="Date"><?php echo $schedule['date']; ?></td>
                             <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
                             <td data-label="Route"><?php echo $bus['route']; ?></td>
                             <td data-label="From"><?php echo $booking['from_location']; ?></td>
