@@ -74,9 +74,6 @@ if (!function_exists('isCurrentPage')) {
                     <a href="' . URLROOT . '/RegisteredPages/bookings" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'bookings', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">BOOKINGS</span>
                     </a>
-                    <a href="' . URLROOT . '/RegisteredPages/notification" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'notification', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">NOTIFICATIONS</span>
-                    </a>
                     <a href="' . URLROOT . '/RegisteredPages/contactUs" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contactUs', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">CONTACT US</span>
                     </a>';
@@ -109,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         navbarItems.classList.toggle('active');
     });
 });
+
 </script>
 
 </body>

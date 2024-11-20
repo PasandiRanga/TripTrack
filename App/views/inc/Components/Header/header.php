@@ -169,6 +169,18 @@
         function removeNotification(element) {
             element.closest('.notifi-item').remove();
         }
+
+     
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarItems = document.getElementById('navbar-items');
+
+    menuToggle.addEventListener('click', function() {
+        navbarItems.classList.toggle('active');
+    });
+});
+
+
     </script>
 </body>
 
