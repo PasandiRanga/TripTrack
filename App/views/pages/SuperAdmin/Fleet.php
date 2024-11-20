@@ -73,7 +73,6 @@
     <table class="fleet-table">
         <thead>
             <tr>
-                <th>Bus ID</th>
                 <th>Licence ID</th>
                 <th>Route No</th>
                 <th>Route</th>
@@ -94,7 +93,6 @@
             if (isset($data['bus']) && is_array($data['bus'])) {
                 foreach ($data['bus'] as $bus) {
                     echo "<tr>";
-                    echo "<td>{$bus['busId']}</td>";
                     echo "<td>{$bus['License_id']}</td>";
                     echo "<td>{$bus['routeNumber']}</td>";
                     echo "<td>{$bus['route']}</td>";
@@ -106,8 +104,8 @@
                     echo "<td>{$bus['passengers']}</td>";
                     echo "<td>{$bus['price']}</td>";
                     echo "<td>{$bus['priceperkm']}</td>";
-                    echo "<td><button class='update-button' onclick='updateBus(this)'>Update</button></td>";
-                    echo "<td><button class='delete-button' onclick='deleteBus(this)'>Delete</button></td>";
+                    echo "<td><button class='update-button' onclick='updateBus(\"{$bus['License_id']}\")'>Update</button></td>";
+                    echo "<td><button class='delete-button' onclick='deleteBus(\"{$bus['License_id']}\")'>Delete</button></td>";
                     echo "</tr>";
                 }
             } else {
@@ -118,75 +116,78 @@
     </table>
 
     <script>
-
-        function deleteBus(button) {
-            const row = button.closest('tr');
-            const busId = row.cells[0].innerText;
-
+        // Delete Bus Function
+        function deleteBus(License_id) {
             if (confirm("Are you sure you want to delete this bus?")) {
                 fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteBus', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ busId })
+                    body: JSON.stringify({ License_id })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        row.remove();
+                        // Find the row with the matching License_id and remove it
+                        const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
+                        const row = rows.find(row => row.cells[0].innerText === License_id);
+                        if (row) {
+                            row.remove(); // Remove the row if it matches the License_id
+                        }
                         alert(data.message);
                     } else {
                         alert(data.message);
                     }
                 })
-                .catch(error => alert('Error deleting the bus.'));
+                .catch(() => alert('Error deleting the bus from the fleet.'));
             }
         }
 
-        function updateBus(button) {
-            const row = button.closest('tr');
-            const busId = row.cells[0].innerText; // Assuming the first cell contains the Bus ID
 
-            // Navigate to the Updatefleet page with the Bus ID as a query parameter
-            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/updatefleet?busId=' + encodeURIComponent(busId);
+        // Update Bus Function
+        function updateBus(License_id) {
+            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/updatefleet?License_id=' + encodeURIComponent(License_id);
         }
 
-
-        //search bus
-
-        // Updated search function (JavaScript)
-       // Updated search function (JavaScript)
+        // Search Function
         function searchFleet() {
-            const searchQuery = document.getElementById("search").value;
-
-            console.log("Search query:", searchQuery); // Debugging log
+            const searchQuery = document.getElementById("search").value.trim();
 
             fetch('<?php echo URLROOT; ?>/SuperAdminPages/searchFleet', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ searchQuery: searchQuery })
+                body: JSON.stringify({ searchQuery })
             })
-            .then(response => {
-                console.log("Raw response:", response); // Debugging log
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log("Response data:", data); // Debugging log
                 if (data.status === 'success') {
                     updateTable(data.data);
                 } else {
-                    alert('Error fetching search results: ' + data.message);
+                    alert('No matching buses found.');
                 }
             })
-            .catch(error => {
-                console.error('Error during search:', error);
-                alert('An error occurred while searching.');
-            });
+            .catch(() => alert('An error occurred while searching.'));
         }
 
-        // Update the table with the filtered data
+        // Clear Search Function
+        function clearSearch() {
+            document.getElementById("search").value = "";
+
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/getAllFleet', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateTable(data.data);
+                } else {
+                    alert('Error reloading data.');
+                }
+            })
+            .catch(() => alert('An error occurred while reloading data.'));
+        }
+
+        // Update Table Function
         function updateTable(buses) {
             const tableBody = document.getElementById("fleet-table-body");
             tableBody.innerHTML = ''; // Clear the table before inserting new rows
@@ -199,7 +200,6 @@
             buses.forEach(bus => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${bus.busId}</td>
                     <td>${bus.License_id}</td>
                     <td>${bus.routeNumber}</td>
                     <td>${bus.route}</td>
@@ -211,42 +211,12 @@
                     <td>${bus.passengers}</td>
                     <td>${bus.price}</td>
                     <td>${bus.priceperkm}</td>
-                    <td><button class='update-button' onclick='updateBus(this)'>Update</button></td>
-                    <td><button class='delete-button' onclick='deleteBus(this)'>Delete</button></td>
+                    <td><button class='update-button' onclick='updateBus("${bus.License_id}")'>Update</button></td>
+                    <td><button class='delete-button' onclick='deleteBus("${bus.License_id}")'>Delete</button></td>
                 `;
                 tableBody.appendChild(row);
             });
         }
-
-                // Clear the search input and reload original table data
-        function clearSearch() {
-            document.getElementById("search").value = ""; // Clear the input field
-
-            // Fetch and reload the original data
-            fetch('<?php echo URLROOT; ?>/SuperAdminPages/getAllFleet', {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === 'success') {
-                    updateTable(data.data); // Use the same updateTable function to reload data
-                } else {
-                    alert('Error fetching original data.');
-                }
-            })
-            .catch(error => {
-                console.error('Error reloading data:', error);
-                alert('An error occurred while reloading the data.');
-            });
-        }
-
-
     </script>
 </body>
 </html>
