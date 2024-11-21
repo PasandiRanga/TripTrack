@@ -1,67 +1,77 @@
-/* footer.css */
-.footer-container {
-    /* background-color: #e0f7fa; */
-    padding: 20px;
+/* Footer Styles */
+
+
+.footer {
+    background: linear-gradient(135deg, #43cea2 0%, #185a9d 50%, #43cea2 100%);
+    color: #fff; /* White text */
     text-align: center;
+    padding: 20px;
+    font-family: 'Poppins';
+    font-size: 14px;
 }
 
-.footer-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    background-color: #ffff;
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Drop shadow */
-    padding: 20px; /* Add padding if needed */
-    margin: 20px auto; /* Center the container */
-    width: 93%; 
-    box-sizing: border-box;
+.footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 14px;
 }
 
-h2.footer-section{
-    font-size: 46.24px;
-    font-family: ABeeZee;
-    font-weight: 400;
-    line-height: 33.85px;
-    word-wrap: break-word;
+.footer-icons {
+    margin-bottom: 15px;
+}
+
+.footer-icons a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 18px;
+}
+
+.footer-icons a:hover {
+    color: #1e90ff; /* Change color on hover */
+}
+
+.footer-links, .footer-policy {
+    margin-bottom: 10px;
+}
+
+.footer-copy {
+    font-size: 12px;
+    color: #ccc;
 }
 
 .footer-section.why-book {
     display: flex;
-    justify-content: space-around;
-    background-color: #a2d8ff;
+    justify-content: center;
+    gap:30px;
+    /* background-color: white; */
     color:#000000;
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2); /* Shadow above */
 }
 
 .footer-item {
     flex: 1;
     margin: 0 10px;
-}
-
-.footer-item i {
-    font-size: 50px;
-    margin-bottom: 10px;
-}
-
-.footer-section.top-routes h4 {
-    margin-bottom: 10px;
-    font-size: 24px;
-}
-
-.bus-routes-list {
-    display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
+    flex-direction: column;
+    display: flex;
 }
 
-.bus-routes-list div {
-    background-color: #80deea;
-    padding: 10px;
-    border-radius: 5px;
+.footer-section.why-book .footer-item i {
+    font-size: 150px !important; /* Increase font size */
+}
+
+.footer-item h4 {
     font-size: 18px;
-    color: #004d40;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.footer-item p {
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center; /* Center-align the paragraph text */
 }

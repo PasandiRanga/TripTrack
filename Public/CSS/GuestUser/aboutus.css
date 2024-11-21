@@ -1,9 +1,11 @@
 
 .hero-container {
     width: 100%;
-    height: 370px;
-    /* background: linear-gradient(to bottom, #2b0530, #ffffff);  */
-    background-color: #340055;
+    /* height: 370px; */
+    /* background: linear-gradient(to bottom, #a2d8ff, #ffffff);  */
+   
+
+
     position: relative;
 }
 
