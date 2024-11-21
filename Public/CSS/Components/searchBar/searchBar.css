@@ -9,6 +9,7 @@
     margin: 20px;
     gap: 40px;
     flex-wrap: wrap; /* Allows wrapping of items */
+    font-family: poppins;
 }
 
 .input-group {
@@ -47,22 +48,30 @@
 } */
 
 .search-button {
-    padding: 10px 20px;
-    background-color: #064060;
+    padding: 10px 10px;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     border: none;
     color: white;
-    font-size: 0.9em;
+    font-size: 1.2em;
     border-radius: 6px;
     cursor: pointer;
+    height:57px;
+    width:110px;
+
 }
 
 .search-button:hover {
-    background-color: #074096;
+    background: linear-gradient(135deg, #185a9d, #43cea2)
 }
 
+.search-input,
 .search-input[type="date"],
 .search-input[type="time"] {
     color: #4a5568;
+}
+
+search-input::focused{
+    border-color: #43cea2;
 }
 
 /* Media queries for responsiveness */

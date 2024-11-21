@@ -64,7 +64,7 @@
     <div class="body-section">
         <br>
         <div class="searchbar-container">
-        <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
+            <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
         </div>
         
         <div id="bus-card-container" class="bus-card-container">

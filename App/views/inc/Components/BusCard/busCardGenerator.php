@@ -21,19 +21,15 @@
         $userRole = $_SESSION['user_role'] ?? '';
 
 
-        // Access the schedule and bus data
-        
-
-        
+      
     
-        $DataToUse = isset($filteredschedule) && isset($filteredbus) ? $filteredschedule : $scheduleData;
         ?>
        
 <?php
 
 foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
-    foreach ($DataToUse as $schedule) {
+    foreach ($scheduleData as $schedule) {
         if ($schedule['busId'] === $bus['busId']) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
