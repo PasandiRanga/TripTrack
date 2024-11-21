@@ -32,25 +32,20 @@ img.name-image {
 }
 
 .body-section{
-    background: linear-gradient(to bottom, #063946, #4da8d6);
-    ;
+    background: #e7e7e7;
 }
 
 .bus-card-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    background-color: #ffffff;
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Drop shadow */
-    padding: 20px; /* Add padding if needed */
-    margin: 20px; /* Center the container */
-    /* width: 100%;  */
-    box-sizing: border-box; /* Ensure padding and border are included in total width */
-    color : black;
+    flex-wrap: wrap; /* Allows items to wrap */
+    justify-content: center; /* Centers the items */
+    gap: 20px; /* Adds spacing between the cards */
+    padding: 20px;
+    /* background-color: #ffffff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
+    margin: 20px;
+    box-sizing: border-box;
 }
 
 .rotate-img{

@@ -6,6 +6,8 @@
     <title>Bus Cards</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/busCard/busCard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 
 </head>
 <body>
@@ -21,19 +23,15 @@
         $userRole = $_SESSION['user_role'] ?? '';
 
 
-        // Access the schedule and bus data
-        
-
-        
+      
     
-        $DataToUse = isset($filteredschedule) && isset($filteredbus) ? $filteredschedule : $scheduleData;
         ?>
        
 <?php
 
 foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
-    foreach ($DataToUse as $schedule) {
+    foreach ($scheduleData as $schedule) {
         if ($schedule['busId'] === $bus['busId']) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
