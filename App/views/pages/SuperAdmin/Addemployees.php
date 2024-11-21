@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Users</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Users.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Addemployees.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back </button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">Back </button>
 
     <h2>Create Users</h2>
 
@@ -32,6 +32,9 @@
             <label for="nic">NIC:</label>
             <input type="text" id="nic" name="nic" placeholder="Enter NIC">
 
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" placeholder="Enter Address">
+
             <label for="contactNo">Contact No:</label>
             <input type="text" id="contactNo" name="contactNo" placeholder="Enter Contact No">
         </div>
@@ -44,8 +47,20 @@
             <label for="adminName">Admin Name:</label>
             <input type="text" id="adminName" name="adminName" placeholder="Enter Admin Name">
 
-            <label for="role">Role:</label>
-            <input type="text" id="role" name="role" placeholder="Enter Role">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Enter Email">
+
+            <label for="nic">NIC:</label>
+            <input type="text" id="nic" name="nic" placeholder="Enter NIC">
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" placeholder="Enter Address">
+
+            <label for="contactNo">Contact No:</label>
+            <input type="text" id="contactNo" name="contactNo" placeholder="Enter Contact No">
+
+            <label for="region">Region:</label>
+            <input type="text" id="region" name="region" placeholder="Enter Region">
         </div>
 
         <button type="submit">Create User</button>

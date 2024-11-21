@@ -1,0 +1,119 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #007bff; /* Default background color for buttons */
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the Back button */
+.back-button {
+    background-color: #007bff; /* Light blue for back button */
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the Add Employee button */
+.top-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.add-employee-btn {
+    background-color: #28a745;
+    padding: 10px 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-employee-btn:hover {
+    background-color: #218838;
+}
+
+/* Centering elements */
+.centered {
+    text-align: center;
+}
+
+/* Styling for the User Role selection form */
+.user-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.user-form select {
+    padding: 8px;
+    font-size: 16px;
+}
+
+/* Styling for the user tables */
+.user-table {
+    width: 100%;
+    margin-top: 20px;
+    display: none;
+}
+
+.user-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+/* Table header styling with light blue color */
+.user-table th, .user-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+.user-table th {
+    background-color: #063946; /* Light blue for column titles */
+    color: white;
+    font-weight: normal;
+    
+}
+
+.user-table td button {
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #007bff; /* Light blue for Update button */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.user-table td button:hover {
+    background-color: #007bff; /* Darker blue when hovering over the Update button */
+}
+
+/* Styling for the Delete button */
+.user-table td button.delete {
+    background-color: #e60000; /* Red for Delete button */
+}
+
+.user-table td button.delete:hover {
+    background-color: #b30000; /* Darker red when hovering over the Delete button */
+}
