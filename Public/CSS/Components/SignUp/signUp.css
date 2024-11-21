@@ -31,6 +31,7 @@
     margin: 10px 5px; /* Add margin around the container */
 }
 
+
 .form-input-title{
     color: #777a7a;
     font-family: 'arial';
@@ -270,5 +271,4 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     color:#28a745;
   }
 
-
-
+  
