@@ -1,15 +1,10 @@
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/LoginBox/loginBox.css?v=<?php echo time(); ?>">
 
 <div class="signInContent">
+    <center><h1 class="topic">LOGIN</h1></center>
+
     <div class="login-section">
-        <img src="<?php echo URLROOT; ?>/public/images/logo2.png" alt="Logo" class="logo">
-        <h2>Login to Your Account</h2>
-        <p>Login using social networks</p>
-        <div class="social-icons">
-            <button class="social-btn fb">f</button>
-            <button class="social-btn google">G+</button>
-            <button class="social-btn linkedin">in</button>
-        </div>
+        
         <form action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
 
         <label>Email</label>
@@ -23,14 +18,20 @@
         <span class="form-invalid">
             <?php echo !empty($data['password_err']) ? $data['password_err'] : ''; ?>
         </span>
-            <button type="submit" class="sign-in-btn">Sign In</button>
+        <div class="checkbox-group">
+            <label>
+                <input type="checkbox"> Remember me
+            </label>
+            <label>
+                <input type="checkbox"> Forgot password?
+            </label>
+        </div>
+
+        <center><button type="submit" class="sign-in-btn">Sign In</button></center>
+        <div class="tosign">Not a member? <a href="<?php echo URLROOT ?>/GuestPages/GuestSignUp">Signup Now</a></div>
 
         </form>
     </div>
 
-    <div class="signup-section">
-        <h3>New Here?</h3>
-        <p>"Sign up to find and book buses with ease and enjoy a hassle-free journey!"</p>
-        <button class="sign-up-btn" onclick="fillForm()">Sign Up</button>
-    </div>
+    
 </div>

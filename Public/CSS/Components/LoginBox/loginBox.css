@@ -1,139 +1,172 @@
+/* Base container styles */
 .signInContent {
-    background: white;
-    width: auto;
-    max-width: 700px;
-    padding: 20px;
-    border-radius: 8px;
+    background: #f4f4f4;
+    width: 500px;
+    padding: 0;
+    border-radius: 10px;
     display: flex;
-    flex-direction: row;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* height:auto; */
-}
-
-/* Logo styling */
-.login-section .logo {
-    width: 100px;
-    height: auto;
-    margin-bottom: 10px;
-}
-
-/* Header text */
-h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-/* Paragraph text */
-p {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-/* Social icons container */
-.social-icons {
-    display: flex;
-    justify-content: space-around;
-    margin: 10px 0;
-}
-
-/* Social button styling */
-.social-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
     align-items: center;
-    cursor: pointer;
-    border: none;
-    color: white;
+    justify-content: center;
 }
 
-/* Specific styles for each social media button */
-.fb { background: #3b5998; }
-.google { background: #dd4b39; }
-.linkedin { background: #0077b5; }
+/* Form labels */
+label {
+    color: #777a7a;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+}
 
 /* Form styling */
 form {
     display: flex;
     flex-direction: column;
-    margin: 10px 0;
+    margin: 20px 0;
     width: 100%;
+    padding: 20px;
 }
 
-/* .input {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 100%;
-
-} */
-
-/* Sign-in button styling */
-.sign-in-btn {
-    background: #064060;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+/* Form input fields */
+input[type="password"], input[type="email"] {
     width: 100%;
-}
-
-.sign-in-btn:hover {
-    background-color: #074096;
-}
-
-.signup-section {
-    background:#f0f4f8;
-    color: #064060;
-    text-align: center;
-    position: relative;
-    border:2px solid #d1d9e6;
-}
-
-/* Sign-up button in new-here section */
-.sign-up-btn {
-    margin-top: 10px;
-    background: white;
-    border: 1px solid #064060;
-    color: #064060;
-    padding: 10px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #43cea2;
     border-radius: 5px;
-    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-.sign-up-btn:hover {
-    background-color: #f0f0f0;
+input[type="password"]:focus, input[type="email"]:focus {
+    border-color: #43cea2;
+    box-shadow: 0 0 8px rgba(66, 204, 162, 0.5);
 }
 
-.login-section, .signup-section {
-    width: 50%;
-    padding: 30px;
+/* Checkbox group */
+.checkbox-group {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    color: #777a7a;
+}
+
+/* Checkbox label */
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border: 1px solid #43cea2;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Checkbox input */
+.checkbox-group input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #43cea2;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for checkbox */
+.checkbox-group input[type="checkbox"]:hover {
+    border-color: #185a9d;
+    background: rgba(66, 204, 162, 0.1);
+}
+
+/* Checked state for checkbox */
+.checkbox-group input[type="checkbox"]:checked {
+    background: #43cea2;
+    border-color: #185a9d;
+    position: relative;
+}
+
+/* Checkmark when checkbox is checked */
+.checkbox-group input[type="checkbox"]:checked::before {
+    content: "✔";
+    font-size: 12px;
+    color: white;
+    position: absolute;
+    left: 3px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.signup-section {
-    background:#f0f4f8;
-    color: #064060;
+/* Hover effect for label */
+.checkbox-group label:hover {
+    border-color: #185a9d;
+    background: rgba(66, 204, 162, 0.1);
+    color: #185a9d;
+}
+
+/* Sign-in button styling */
+.sign-in-btn {
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.sign-in-btn:hover {
+    background: linear-gradient(135deg, #185a9d, #43cea2);
+}
+
+/* Error Message */
+.form-invalid {
+    color: red;
+    margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .signInContent {
+        width: 90%;
+    }
+}
+
+/* Styling for the "tosign" section */
+.tosign {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #777a7a;
     text-align: center;
-    position: relative;
-    border:2px solid #d1d9e6;
+    font-family: 'Arial', sans-serif;
 }
 
-
-.form-invalid{
-    color:red;
-    margin-bottom:20px;
+.tosign a {
+    color: #43cea2;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
+.tosign a:hover {
+    color: #185a9d;
+    text-decoration: underline;
+}
