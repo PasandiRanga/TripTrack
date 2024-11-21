@@ -12,6 +12,7 @@
 
 </head>
 <body>
+    <div class="signupbody">
     <div class="container">
         <div class="left-column">
             <h2 class="zoom-in">Welcome to Our Platform!</h2>
@@ -170,6 +171,7 @@
             
 
         </div>
+    </div>
     </div>
 </body>
 </html>
