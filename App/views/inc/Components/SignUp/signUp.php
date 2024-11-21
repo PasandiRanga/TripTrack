@@ -1,5 +1,4 @@
- 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +10,7 @@
 
 </head>
 <body>
+    <div class="signupbody">
     <div class="container">
         <div class="left-column">
             <h2 class="zoom-in">Welcome to Our Platform!</h2>
@@ -18,7 +18,7 @@
             <a href="#back" class="back-button" onClick="window.location.href='/GuestPages/Home'">
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
-        </div>
+      </div>
 
         <div class="right-column">
                 
@@ -169,6 +169,7 @@
             
 
         </div>
+    </div>
     </div>
 </body>
 </html>
