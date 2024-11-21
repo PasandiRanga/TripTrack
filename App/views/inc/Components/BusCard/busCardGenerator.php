@@ -32,17 +32,17 @@
 foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
-        if ($schedule['busId'] === $bus['busId']) {
+        if ($schedule['License_id'] === $bus['License_id']) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
                 // Check userRole and adjust the URL accordingly
                 if ($userRole === 'GuestUser') {
-                    echo URLROOT . '/GuestPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } elseif ($userRole === 'RegisteredUser') {
-                    echo URLROOT . '/RegisteredPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/RegisteredPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } else {
                     // Default case for other roles (if any)
-                    echo URLROOT . '/GuestPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
             ?>'">            
             <div class="bus-card-header">

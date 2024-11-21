@@ -62,7 +62,7 @@
         echo 'console.log(' . json_encode($_POST) . ')';
         echo '</script>';
         // Retrieve data from POST
-        $busId = $_POST['busId'] ?? null;
+        $License_id = $_POST['License_id'] ?? null;
         $scheduleId = $_POST['scheduleId'] ?? null;
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -90,9 +90,9 @@
         }
 
         foreach($busData as $bus) {
-            if ($bus['busId'] === $busId) {
+            if ($bus['License_id'] === $License_id) {
                 $selectedBus = $bus;
-                // echo($selectedBus['busId']);
+                // echo($selectedBus['License_id']);
                 // echo '<pre>'; print_r($selectedBus); echo '</pre>';
                 $busType = $bus['busType'];
                 $leastPrice = $bus['priceperkm'];
@@ -226,7 +226,7 @@
             <p><strong>Total Price:</strong> Rs. <span id="total-price">0</span></p>
             
             <form action="" method="POST" id="checkout-form" onsubmit="console.log('Form data:', new FormData(this));">
-                <input type="hidden" name="busId" value="<?php echo htmlspecialchars($busId); ?>">
+                <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($License_id); ?>">
                 <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>">
                 <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
                 <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">

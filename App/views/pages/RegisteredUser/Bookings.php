@@ -129,7 +129,7 @@
 
                         if($schedule) {
                             $bus = array_filter($busData, function($b) use ($schedule) {
-                                return $b['busId'] == $schedule['busId']; // Match bus by ID
+                                return $b['License_id'] == $schedule['License_id']; // Match bus by ID
                             });
                         }
                     
@@ -197,7 +197,7 @@
 
                         if($schedule) {
                             $bus = array_filter($busData, function($b) use ($schedule) {
-                                return $b['busId'] == $schedule['busId']; // Match bus by ID
+                                return $b['License_id'] == $schedule['License_id']; // Match bus by ID
                             });
                         }
                         $bus = reset($bus); // Get the first matching bus entry
