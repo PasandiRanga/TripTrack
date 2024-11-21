@@ -1,11 +1,10 @@
 
 .hero-container {
     width: 100%;
+    height:100%;
     /* height: 370px; */
     /* background: linear-gradient(to bottom, #a2d8ff, #ffffff);  */
-   
-
-
+    background: #e7e7e7;
     position: relative;
 }
 
@@ -13,6 +12,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    font-family: 'Poppins';
     
 }
 
@@ -21,7 +21,9 @@
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #FFFFFF;
+    background: linear-gradient(135deg, rgba(67, 206, 162, 0.4), rgba(24, 90, 157, 0.4));
+
+
 }
 
 .about-section h2, .owner-section h2, .vision-section h2 {
@@ -48,8 +50,8 @@
 
 .owner-image {
     width: 150px;
-    height: 150px;
-    border-radius: 50%;
+    height: 170px;
+    /* border-radius: 50%; */
     margin-right: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
