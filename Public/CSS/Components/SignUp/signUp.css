@@ -5,9 +5,9 @@
     padding: 0;
     box-sizing: border-box;
 
-
+}
 /* Ensure the container fits the page size and is centered */
-body {
+.signupbody {
     min-height: 100vh;
     display: flex;
     justify-content: center;
