@@ -51,8 +51,8 @@
                     <span class="material-icons-outlined">book</span> Bookings
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/users'">
-                    <span class="material-icons-outlined">groups</span> Users
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">
+                    <span class="material-icons-outlined">groups</span> Employees
                 </li>
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reviews'">
