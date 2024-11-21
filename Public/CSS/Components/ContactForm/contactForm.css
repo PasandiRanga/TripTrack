@@ -19,7 +19,7 @@
     font-size: 14px;
     margin-left: 0; /* Remove left margin */
     margin-right: 300px; /* Add right margin instead to create space from the form */
-    margin-top: 100px;
+    margin-top: 140px;
 }
 
 .contact-info .logo {
@@ -30,6 +30,7 @@
 .contact-info h2 {
     font-size: 20px;
     margin-bottom: 10px;
+    top:20px;
 }
 
 .contact-info p {
@@ -60,10 +61,11 @@
 .contact-form-container {
     width: 80%;
     max-width: 400px;
-    background-color: #a2d8ff;
+    background-color: #ffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 .contact-form-container h3 {

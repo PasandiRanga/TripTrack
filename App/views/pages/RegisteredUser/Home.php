@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/SignUp/signUp.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/buttons/button.css?v=<?php echo time(); ?>">
@@ -63,21 +64,19 @@
     
 
     <div class="hero-container">
+        <?php require APPROOT.'/views/inc/Components/imageSlide/imageSlide.php'; ?>
+    </div>
+
+    <div class="header-container">
+  
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
-
-        <div class="background"></div>
-   
-        <div class="text-container">
-            <?php require APPROOT . '/views/inc/Components/RotateText/rotateText.php'; ?>
-        </div>
-
-        <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
     </div>
     
-    <class="body-section">
-        <br>
+    <div class="body-section">
+    <br>
+        <div class="searchbar-container">
         <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
+        </div>
         
         <div id="bus-card-container" class="bus-card-container">
             <?php 

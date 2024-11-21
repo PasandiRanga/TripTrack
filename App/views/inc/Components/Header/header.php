@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigation</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -16,7 +18,7 @@
     // echo "Current controller is: " . $currentController;
     $currentMethod = $data['currentMethod'] ?? '';
     // echo "Current method is: " . $currentMethod;
-    $userRole = $data['userRole'] ?? '';
+    $userRole = $_SESSION['user_role'] ?? 'GuestUser';
 
     include_once 'notificationData.php';
     include_once 'c_notificationData.php';
@@ -41,11 +43,16 @@
                         }
                         ?>
                     </li>
+                    <li class="navbar-container"><?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?></li>
                 </ul>
             </div>
         </div>
 
         <div class="user-section">
+            <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Employee"])): ?>
+                <div class="icon" onclick="toggleNotifi()">
+                <i class="fa-solid fa-bell"></i><span class="badge"><?php echo count($notifications); ?></span>
+                </div>
             <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Conductor"])): ?>
 
                 <?php if ($userRole === "RegisteredUser"): ?>
@@ -199,6 +206,18 @@
         function removeNotification(element) {
             element.closest('.notifi-item').remove();
         }
+
+     
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarItems = document.getElementById('navbar-items');
+
+    menuToggle.addEventListener('click', function() {
+        navbarItems.classList.toggle('active');
+    });
+});
+
+
     </script>
 </body>
 

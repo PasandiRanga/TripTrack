@@ -35,8 +35,8 @@
     </script>
 
     <div class="hero-container">
+        <br/>
         <?php require APPROOT . '/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT . '/views/inc/Components/NavBar/navbar.php'; ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     
 

@@ -11,6 +11,8 @@
 <body>
 
     <?php
+        
+        
         // Assuming $data['currentController'] and $data['currentMethod'] are passed to this view
         $currentController = $data['currentController'] ?? '';
         // echo "Current controller is: " . $currentController;
@@ -18,8 +20,14 @@
         // echo "Current method is: " . $currentMethod;
         $userRole = $_SESSION['user_role'] ?? '';
 
-        $DataToUse = isset($fileredData) ? $filteredData : $scheduleData;
-    ?>
+
+        // Access the schedule and bus data
+        
+
+        
+    
+        $DataToUse = isset($filteredschedule) && isset($filteredbus) ? $filteredschedule : $scheduleData;
+        ?>
        
 <?php
 

@@ -26,16 +26,4 @@
             <p>We send you the boarding place and destination place link in Google Maps.</p>
         </div>
     </div>
-    <div class="footer-section top-routes">
-        <h4>Top Bus Routes</h4>
-        <div id="bus-routes-list" class="bus-routes-list">
-            <?php if (!empty($topBusRoutes)): ?>
-                <?php foreach ($topBusRoutes as $route): ?>
-                    <div><?php echo htmlspecialchars($route); ?></div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No routes available at the moment.</p>
-            <?php endif; ?>
-        </div>
-    </div>
 </div>

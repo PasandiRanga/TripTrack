@@ -94,13 +94,13 @@
 
                 //validate profile image and upload
 
-                if(uploadImage($data['profile_image']['tmp_name'],$data['profile_image_name'],'/images/profileImages/')){
-
-                
-                    //Done
-                }
-                else{
-                    $data['profile_image_err']='profile image uploading unsuccessful';
+                if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
+                    if (!uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
+                        $data['profile_image_err'] = 'Profile image uploading unsuccessful';
+                    }
+                } else {
+                    // Optional: you can set a default profile image or leave it null.
+                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; // Replace with your actual default image filename, if applicable
                 }
         
                 // Perform validation and check if all fields are filled
@@ -108,34 +108,72 @@
                     $data['name_err'] = 'Please enter a name';
                 }
         
+                // Validate contact number
                 if (empty($data['number'])) {
-                    $data['number_err'] = 'Please enter a contact number';
+                    $data['number_err'] = 'Please enter a contact number'; // Check if the field is empty
+                } elseif (!ctype_digit($data['number'])) {
+                    $data['number_err'] = 'The contact number must contain only numbers'; // Check if it contains only numeric characters
+                } elseif (strlen($data['number']) !== 10) {
+                    $data['number_err'] = 'The contact number must be exactly 10 digits long'; // Check if it is exactly 10 digits
+                } elseif ($data['number'][0] !== '0') {
+                    $data['number_err'] = 'The contact number must start with 0'; // Check if it starts with 0
                 }
+
         
+                // Validate NIC
                 if (empty($data['nic'])) {
                     $data['nic_err'] = 'Please enter a NIC';
+                } elseif (!preg_match('/^\d{10}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
+                    // Check if the NIC is either 10 digits or 9 digits followed by "V"
+                    $data['nic_err'] = 'NIC must be exactly 10 digits or 9 digits followed by "V" at the end';
                 }
-        
+
+
+                //Validate the Address
                 if (empty($data['address'])) {
                     $data['address_err'] = 'Please enter an address';
                 }
         
+
+                // Validate Email
                 if (empty($data['email'])) {
                     $data['email_err'] = 'Please enter an email';
+                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
                 } else {
                     // Check if email is already registered
                     if ($this->GuestpagesModel->findUserByEmail($data['email'])) {
                         $data['email_err'] = 'This email is already registered';
                     }
                 }
+
         
+                // Validate password
                 if (empty($data['password'])) {
                     $data['password_err'] = 'Please enter a password';
-                } else if (empty($data['confirm'])) {
+                } elseif (strlen($data['password']) < 8) {
+                    // Check if the password is at least 8 characters long
+                    $data['password_err'] = 'Password must be at least 8 characters long';
+                } elseif (!preg_match('/[A-Z]/', $data['password'])) {
+                    // Check if the password contains at least one uppercase letter
+                    $data['password_err'] = 'Password must contain at least one uppercase letter';
+                } elseif (!preg_match('/[a-z]/', $data['password'])) {
+                    // Check if the password contains at least one lowercase letter
+                    $data['password_err'] = 'Password must contain at least one lowercase letter';
+                } elseif (!preg_match('/\d/', $data['password'])) {
+                    // Check if the password contains at least one number
+                    $data['password_err'] = 'Password must contain at least one number';
+                } elseif (!preg_match('/[\W_]/', $data['password'])) {
+                    // Check if the password contains at least one special character (symbol)
+                    $data['password_err'] = 'Password must contain at least one special character';
+                } elseif (empty($data['confirm'])) {
+                    // Check if confirm password is empty
                     $data['confirm_err'] = 'Please confirm the password';
-                } else if ($data['password'] != $data['confirm']) {
+                } elseif ($data['password'] != $data['confirm']) {
+                    // Check if the password and confirm password match
                     $data['confirm_err'] = 'Passwords do not match';
                 }
+
         
                 // Register the user if no errors are present
                 if (empty($data['name_err']) && empty($data['number_err']) && empty($data['nic_err']) &&
@@ -198,9 +236,14 @@
                 ];
                 //validate the email
                 if(empty($data['email'])){
+
                     $data['email_err']='Please enter the email';
-                }
-                else{
+
+                }elseif(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    //validate the email
+                    $data['email_err'] = 'Please enter a valid email address';
+
+                }else{
                     if($this->GuestpagesModel->findUserByEmail($data['email'])){
                         //user is found
                     }

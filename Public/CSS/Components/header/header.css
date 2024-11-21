@@ -3,22 +3,32 @@ html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: transparent;
+    background-color: #ffff
 }
 
 /* Header container */
 .header {
-    background-color: transparent !important;
+    display: flex;
     padding: 15px;
-    width: 100%;
+    width: 90%;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 60px;
-    position: relative;
     border: none;
-    box-shadow: none;
+    border-radius: 30px;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left:50px;
+    margin-right:50px;
+    background-color: #FFF;
+}
+
+.navbar-container{
+    display: flex;
+    align-items: center;
+    margin-left: 600px;
+   
 }
 
 /* Inner container for logo and topic */
@@ -29,8 +39,8 @@ html, body {
 
 /* Logo styling */
 .logo {
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
 }
 
 /* Unordered list reset */
@@ -49,9 +59,10 @@ li {
 
 /* Topic text styling */
 .topic {
-    font-size: 20px;
+    font-size: 23px;
     color: #063946;
-    margin-left: 15px;
+    margin-left: 10px;
+    
 }
 
 .login-container {
@@ -68,8 +79,10 @@ li {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-family: poppins;
+    font-weight: bold;
+ 
 }
 
 .login-button:hover {
@@ -89,6 +102,7 @@ li {
     cursor: pointer;
     margin-right: 20px; /* Adjust margin for better spacing */
     line-height: initial;
+    font-size: 1.5rem;
 }
 
 /* Notification Count (Number) Styling */
@@ -96,7 +110,7 @@ li {
     background: #f00;
     padding: 4px; /* Smaller padding to reduce size */
     border-radius: 50%;
-    color: #fff;
+    color: #063946;
     vertical-align: top;
     font-size: 10px; /* Adjust font size for compatibility */
     margin-left: -15px; /* Adjust position as per icon size */
@@ -109,6 +123,8 @@ li {
     margin-top: 5px; /* Adjust margin to align with login button */
     display: inline-block;
 }
+
+
 
 
 .icon:hover {

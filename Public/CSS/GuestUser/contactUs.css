@@ -3,8 +3,9 @@
 /* General page styling */
 .hero-container {
     width: 100%;
-    height: 370px;
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
+    /* height: 370px;
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff);  */
+
     position: relative;
 }
 
@@ -14,6 +15,8 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(to bottom, #063946, #145b76, #2a7c9e, #4da8d6, #a8d8f0);
+
     /* background: linear-gradient(to bottom, #a2d8ff, #ffffff); */
 }
 
@@ -61,6 +64,7 @@ img.name-image {
     top: 180px;
     margin-right: 50px;
     position: absolute;
+    margin-bottom: 200px;
 }
 
 .form-group input,
@@ -104,3 +108,5 @@ img.name-image {
         margin: 20px;
     }
 }
+
+

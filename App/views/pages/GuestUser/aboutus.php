@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/aboutus.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
@@ -38,8 +40,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     
     <div class="hero-container">
+    
+        <br/>
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
     
         <div class="about-container">
         

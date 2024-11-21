@@ -65,7 +65,7 @@
     <div class="search-container">
         <label for="search">Search: </label>
         <input type="text" id="search" placeholder="Search buses...">
-        <button class="search-button" onclick="Search()">Search</button>
+        <button class="search-button" onclick="searchFleet()">Search</button>
         <button class="search-button-clear" onclick="clearSearch()">Clear</button>
     </div>
 
@@ -73,7 +73,6 @@
     <table class="fleet-table">
         <thead>
             <tr>
-                <th>Bus ID</th>
                 <th>Licence ID</th>
                 <th>Route No</th>
                 <th>Route</th>
@@ -94,7 +93,6 @@
             if (isset($data['bus']) && is_array($data['bus'])) {
                 foreach ($data['bus'] as $bus) {
                     echo "<tr>";
-                    echo "<td>{$bus['busId']}</td>";
                     echo "<td>{$bus['License_id']}</td>";
                     echo "<td>{$bus['routeNumber']}</td>";
                     echo "<td>{$bus['route']}</td>";
@@ -106,8 +104,8 @@
                     echo "<td>{$bus['passengers']}</td>";
                     echo "<td>{$bus['price']}</td>";
                     echo "<td>{$bus['priceperkm']}</td>";
-                    echo "<td><button class='update-button' onclick='updateBus(this)'>Update</button></td>";
-                    echo "<td><button class='delete-button' onclick='deleteBus(this)'>Delete</button></td>";
+                    echo "<td><button class='update-button' onclick='updateBus(\"{$bus['License_id']}\")'>Update</button></td>";
+                    echo "<td><button class='delete-button' onclick='deleteBus(\"{$bus['License_id']}\")'>Delete</button></td>";
                     echo "</tr>";
                 }
             } else {
@@ -118,66 +116,107 @@
     </table>
 
     <script>
-        // Clear the search input
-        function clearSearch() {
-            document.getElementById("search").value = "";
-        }
-
-        function deleteBus(button) {
-            const row = button.closest('tr');
-            const busId = row.cells[0].innerText;
-
+        // Delete Bus Function
+        function deleteBus(License_id) {
             if (confirm("Are you sure you want to delete this bus?")) {
                 fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteBus', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ busId })
+                    body: JSON.stringify({ License_id })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        row.remove();
+                        // Find the row with the matching License_id and remove it
+                        const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
+                        const row = rows.find(row => row.cells[0].innerText === License_id);
+                        if (row) {
+                            row.remove(); // Remove the row if it matches the License_id
+                        }
                         alert(data.message);
                     } else {
                         alert(data.message);
                     }
                 })
-                .catch(error => alert('Error deleting the bus.'));
+                .catch(() => alert('Error deleting the bus from the fleet.'));
             }
         }
 
-        function updateBus(button) {
-            const row = button.closest('tr');
-            const busId = row.cells[0].innerText;
 
-            // Collect current row data
-            const data = {
-                busId: busId,
-                License_id: row.cells[1].innerText,
-                routeNumber: row.cells[2].innerText,
-                route: row.cells[3].innerText,
-                busType: row.cells[4].innerText,
-                stops: row.cells[5].innerText,
-                start_location: row.cells[6].innerText,
-                destination: row.cells[7].innerText,
-                rating: row.cells[8].innerText,
-                passengers: row.cells[9].innerText,
-                price: row.cells[10].innerText,
-                priceperkm: row.cells[11].innerText
-            };
+        // Update Bus Function
+        function updateBus(License_id) {
+            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/updatefleet?License_id=' + encodeURIComponent(License_id);
+        }
 
-            fetch('<?php echo URLROOT; ?>/SuperAdminPages/updateBus', {
+        // Search Function
+        function searchFleet() {
+            const searchQuery = document.getElementById("search").value.trim();
+
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/searchFleet', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ searchQuery })
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
+                if (data.status === 'success') {
+                    updateTable(data.data);
+                } else {
+                    alert('No matching buses found.');
+                }
             })
-            .catch(error => alert('Error updating the bus.'));
+            .catch(() => alert('An error occurred while searching.'));
         }
 
+        // Clear Search Function
+        function clearSearch() {
+            document.getElementById("search").value = "";
+
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/getAllFleet', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateTable(data.data);
+                } else {
+                    alert('Error reloading data.');
+                }
+            })
+            .catch(() => alert('An error occurred while reloading data.'));
+        }
+
+        // Update Table Function
+        function updateTable(buses) {
+            const tableBody = document.getElementById("fleet-table-body");
+            tableBody.innerHTML = ''; // Clear the table before inserting new rows
+
+            if (buses.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="14">No buses found.</td></tr>';
+                return;
+            }
+
+            buses.forEach(bus => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${bus.License_id}</td>
+                    <td>${bus.routeNumber}</td>
+                    <td>${bus.route}</td>
+                    <td>${bus.busType}</td>
+                    <td>${bus.stops}</td>
+                    <td>${bus.start_location}</td>
+                    <td>${bus.destination}</td>
+                    <td>${bus.rating}</td>
+                    <td>${bus.passengers}</td>
+                    <td>${bus.price}</td>
+                    <td>${bus.priceperkm}</td>
+                    <td><button class='update-button' onclick='updateBus("${bus.License_id}")'>Update</button></td>
+                    <td><button class='delete-button' onclick='deleteBus("${bus.License_id}")'>Delete</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
     </script>
 </body>
 </html>

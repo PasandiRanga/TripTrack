@@ -127,30 +127,30 @@
             $this->view('inc/Components/LoginBox/loginBox');
         }
 
-        // public function BusBooking() {
-        //     $schedule = $this->RegisteredpagesModel->getSchedule();
+        public function BusBooking() {
+            $schedule = $this->RegisteredpagesModel->getSchedule();
             
-        //     // Retrieve bus details
-        //     $bus = $this->RegisteredpagesModel->getBusDetails();
+            // Retrieve bus details
+            $bus = $this->RegisteredpagesModel->getBusDetails();
 
-        //     $distance = $this->RegisteredpagesModel->getDistance();
+            $distance = $this->RegisteredpagesModel->getDistance();
 
-        //     $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-        //     var_dump($user);
+            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+            // var_dump($user);
 
      
             
-        //     // Combine the schedule and bus details into a single data array
-        //     $data = [
-        //         'schedule' => $schedule,
-        //         'bus' => $bus,
-        //         'distance' => $distance,
-        //         'user' => $user,
+            // Combine the schedule and bus details into a single data array
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus,
+                'distance' => $distance,
+                'user' => $user,
      
-        //     ];
+            ];
             
-        //     $this->view('pages/RegisteredUser/BusBooking', $data);
-        // }
+            $this->view('pages/RegisteredUser/BusBooking', $data);
+        }
 
         public function RegisteredReceipt() {
             $this->view('inc/Components/Receipt/RegisteredReceipt');
@@ -225,6 +225,10 @@
                 header("Location: " . URLROOT . "/RegisteredPages/bookings");
                 exit;
             }
+        }
+
+        public function slide() {
+            $this->view('inc/Components/ImageSlide/imageSlide');
         }
     
 

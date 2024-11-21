@@ -30,8 +30,8 @@
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
-
     ?>
+
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
         var busData = <?php echo json_encode($busData); ?>;
@@ -52,21 +52,20 @@
     
 
     <div class="hero-container">
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
-
-        <div class="background"></div>
-   
-        <div class="text-container">
-            <?php require APPROOT . '/views/inc/Components/RotateText/rotateText.php'; ?>
-        </div>
-
-        <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
+        <?php require APPROOT.'/views/inc/Components/imageSlide/imageSlide.php'; ?>
     </div>
+
+    <div class="header-container">
+  
+        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+    </div>
+
     
-    <class="body-section">
+    <div class="body-section">
         <br>
+        <div class="searchbar-container">
         <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
+        </div>
         
         <div id="bus-card-container" class="bus-card-container">
             <?php 

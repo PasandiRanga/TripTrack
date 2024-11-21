@@ -15,11 +15,6 @@
     <!-- Fleet form -->
     <form id="fleet-form" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet">
     <div class="form-group">
-        <label for="bus_id">Bus ID:</label>
-        <input type="text" id="bus_id" name="bus_id" required>
-    </div>
-
-    <div class="form-group">
         <label for="licence_id">Licence ID:</label>
         <input type="text" id="licence_id" name="licence_id" required>
     </div>
@@ -52,11 +47,6 @@
     <div class="form-group">
         <label for="destination">Destination:</label>
         <input type="text" id="destination" name="destination" required placeholder="e.g., Kandy">
-    </div>
-
-    <div class="form-group">
-        <label for="ratings">Ratings:</label>
-        <input type="number" id="ratings" name="ratings" required min="0" max="5" step="0.1">
     </div>
 
     <div class="form-group">

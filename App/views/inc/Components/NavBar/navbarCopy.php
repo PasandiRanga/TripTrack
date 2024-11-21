@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigation</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbarCopy.css?v=<?php echo time(); ?>"0>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbarCopy.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
@@ -44,13 +43,13 @@ if (!function_exists('isCurrentPage')) {
             // Generate navbar items based on the user role
             if ($userRole === "GuestUser") {
                 echo '<a href="' . URLROOT . '/GuestPages/home" class="navbar-item ' . (isCurrentPage('GuestPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">SEARCH BUSES</span>
+                        <span class="text">Search Buses</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/about" class="navbar-item ' . (isCurrentPage('GuestPages', 'about', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">ABOUT US</span>
+                        <span class="text">About Us</span>
                     </a>
                     <a href="' . URLROOT . '/GuestPages/contact" class="navbar-item ' . (isCurrentPage('Guestpages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">CONTACT US</span>
+                        <span class="text">Contact Us</span>
                     </a>';
             } elseif ($userRole === "Admin") {
                 echo '<a href="' . URLROOT . '/RegionalAdminPages/home" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
@@ -74,6 +73,9 @@ if (!function_exists('isCurrentPage')) {
                     </a>
                     <a href="' . URLROOT . '/RegisteredPages/bookings" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'bookings', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">BOOKINGS</span>
+                    </a>
+                    <a href="' . URLROOT . '/RegisteredPages/notification" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'notification', $currentController, $currentMethod) ? 'selected' : '') . '">
+                        <span class="text">NOTIFICATIONS</span>
                     </a>
                     <a href="' . URLROOT . '/RegisteredPages/contactUs" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contactUs', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">CONTACT US</span>
@@ -107,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
         navbarItems.classList.toggle('active');
     });
 });
-
 </script>
 
 </body>
