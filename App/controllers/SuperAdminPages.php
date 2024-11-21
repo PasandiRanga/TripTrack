@@ -192,8 +192,12 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Notifications');
     }
 
-    public function users() {
-        $this->view('pages/SuperAdmin/Users');
+    public function addemployees() {
+        $this->view('pages/SuperAdmin/Addemployees');
+    }
+
+    public function employees() {
+        $this->view('pages/SuperAdmin/Employees');
     }
 
     public function replyleaves() {

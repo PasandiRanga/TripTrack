@@ -1,12 +1,13 @@
+
 /* Reset some default styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
 
+}
 /* Ensure the container fits the page size and is centered */
-body {
+.signupbody {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -16,6 +17,20 @@ body {
     padding: 20px; /* Add padding to ensure margin around the content */
     background-color: #f4f4f4; /* Optional background color */
 }
+
+/* Container for the two columns */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1500px;
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 10px 5px; /* Add margin around the container */
+}
+
 
 .form-input-title{
     color: #777a7a;
