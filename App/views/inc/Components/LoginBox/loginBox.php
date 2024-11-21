@@ -2,7 +2,9 @@
 
 <div class="signInContent">
     <center><h1 class="topic">LOGIN</h1></center>
+
     <div class="login-section">
+        
         <form action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
 
         <label>Email</label>
@@ -16,7 +18,6 @@
         <span class="form-invalid">
             <?php echo !empty($data['password_err']) ? $data['password_err'] : ''; ?>
         </span>
-
         <div class="checkbox-group">
             <label>
                 <input type="checkbox"> Remember me
@@ -26,12 +27,11 @@
             </label>
         </div>
 
-
         <center><button type="submit" class="sign-in-btn">Sign In</button></center>
-
-        <div class="tosign">Not a member? <a href="<?php echo URLROOT ?>/GuestPages/GuestSignUp">Signup Now</a><div>
+        <div class="tosign">Not a member? <a href="<?php echo URLROOT ?>/GuestPages/GuestSignUp">Signup Now</a></div>
 
         </form>
     </div>
 
-
+    
+</div>

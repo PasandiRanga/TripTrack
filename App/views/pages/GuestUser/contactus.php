@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/ContactForm/contactForm.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/contactUs.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,10 +44,11 @@
         <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
     
         <?php require APPROOT.'/views/inc/Components/ContactForm/contactForm.php'; ?>
-    </div>
-    <div class="footer">
+      
         <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
-    </div> 
+ 
+    </div>
+     
 
    
 

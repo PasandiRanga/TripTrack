@@ -1,52 +1,262 @@
-div.background {
-    width: 50px;
-    height: 408.91px;
-    left: 0px;
-    /* top: 3.5rem; */
-    position: absolute;
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #063946;
+    font-family: "Arial", sans-serif;
 }
 
-img.headerpic {
-    width: 450px;
-    height: 450px;
-    left: 70px;
-    top: 5px;
-    position: absolute;
+.fa-solid{
+    vertical-align: middle;
+    color: white;
+    font-size: 25px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    /*cursor: pointer;
+    margin-top: 0%;
+    line-height: 1px;*/
 }
 
-img.name-image {
-    width: 510px;
-    height: 90px;
-    left: 480px;
-    top: 150px;
-    margin-right: 50px;
-    position: absolute;
+.grid-container{
+
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+            "sidebar header header header"
+            "sidebar main main main";
+    height: 100vh;
+    color: #212121;;
 }
 
-.hero-container {
-    width: 100%;
-    height: 450px;
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
-    position: relative;
-}
-
-.footer-container {
-    background-color: #ffffff;
-}
-
-.body-section{
-    background-color:#F0F1F3;
-}
-
-
-
-/* Center-align text and set font family for text-container */
-.text-container {
-    display: flex;
-    justify-content: center;
+.header {
+    grid-area: header;
+    height: 5px;
+    background-color: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 30px 0 30px;
+    box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
+    margin-left: auto;
+    margin-top: 40px;
+}
+.header-right{
+    margin-top: 1%;
+    margin-left: auto; /* Pushes this element to the right */
+    display: flex; /* Make header-right a flex container for its items */
+    gap: 30px;
+}
+.header-left{
+    margin-right: 100%; /* Pushes this element to the right */
+    display: flex; /* Make header-right a flex container for its items */
+}
+.header-dashboard{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    color: black;
+    font-size: 20px;
+}
+.menu-icons{
+    display: none;
+}
+
+#sidebar {
+
+    grid-area: sidebar;
+    height: 100%;
+    background-color: #263043;
+    overflow-y: auto;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    color: white;
+}
+
+.sidebar-title{
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 30px 30px 30px 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    font-size: 21px;
+}
+/*.sidebar-title > span {
+    display: none;
+}
+.sidebar-brand {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: 700;
+}*/
+.sidebar-list{
+    padding: 0;
+    margin-top: 15px;
+    list-style-type: none;
+}
+
+.sidebar-list-item {
+    padding: 20px 20px 20px 20px;
+    font-size: 20px;
+}
+
+.sidebar-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+.sidebar-responsive {
+    display: inline !important;
+    position: absolute;
+    z-index: 12 !important;
+}
+
+.main-container{
+    grid-area: main;
+    background-color: beige;
+}
+
+.main-title {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    color: black;
+    font-size: 20px;
+    margin-left: 28px;
+}
+
+@media screen and (max-width: 992px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 0.2fr 3fr;
+      grid-template-areas:
+        'header'
+        'main';
+    }
+  
+    #sidebar {
+      display: none;
+    }
+  
+    .menu-icon {
+      display: inline;
+    }
+  
+    .sidebar-title > span {
+      display: inline;
+    }
+  }
+
+.container {
+    padding: 20px;
+    border-radius: 20px;
+    background-color:transparent;
+    display: flex;
+    gap:30px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+
+}
+
+table {
+    width: 95%;
+    border-collapse: collapse; /* Removes gaps between table cells */
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Table Header Styling */
+table th {
+    background-color: #063946;  /* Semi-transparent background */
+    color: white; /* Dark text for contrast */
+    font-weight: bold;
+    padding: 12px;
     text-align: center;
-    font-family: 'Poppins', sans-serif;
+    border: 1px solid #ddd; /* Thick border for each table header cell */
+    font-size: 18px;
 }
 
 
+/* Table Cell Styling */
+table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+/* Hover Effect */
+table tr:hover {
+    background-color: #D1ECF1; /* Light blue background */
+}
+
+/* Highlighted Row Styling */
+.highlighted-row {
+    background-color: #00bfff !important; /* Blue background */
+    color: white;
+}
+
+/* Action Column Styling */
+table td:last-child {
+    cursor: pointer;
+}
+
+/* Search Icon */
+.search-icon {
+    color: #000000;
+    font-size: 1.2rem;
+}
+
+/* Pop-Up Menu */
+.pop-up-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: #042F40;
+    border: 3px solid #a2d8ff;
+    
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Pop-Up Menu Show Effect */
+.pop-up-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    background-color: #f0f4f8;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d1d9e6;
+    margin-left: auto; /* Pushes the input group to the right */   
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 5px;
+    font-size: 16px;
+    color: #4a5568;
+}
+
+.search-input[type="date"]{
+    color: #4a5568;
+}
+
+h3 {
+    font-size: 18px;
+    cursor: pointer;
+    color: #9e9ea4;
+}

@@ -143,14 +143,6 @@ input[type="password"]:focus, input[type="email"]:focus {
     margin-bottom: 20px;
 }
 
-/* Header Topic */
-.topic {
-    color: #43cea2;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .signInContent {

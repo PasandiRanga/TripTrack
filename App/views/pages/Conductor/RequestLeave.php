@@ -34,42 +34,53 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     
-    <div class="hero-container">
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
-
-        <div class="background"></div>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
+    
+    <div class="page-header">
+        <h1>Request Leaves</h1>
     </div>
 
-    <div class="body-section">
-        <div class="sidebar">
-            <h2 class="sidebar-header">Contact Admin</h2>
-            <button class="InformDelays" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/InformDelays'">Inform Delays</button>
-            <button class="RequestLeave" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/RequestLeave'">Request Leave</button>
-            <button class="Notifications" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/Notifications'">Notifications</button>
+        <div class="container">
+            <div class="leave-form">
+                <h2>Fill the following details</h2>
+                <form id="leaveForm">
+
+                    <div class="form-group">
+                        <div>
+                            <label for="employeeId">Emplyee ID</label>
+                            <input type="text" id="employeeId" name="employeeId" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="from-date">From:</label>
+                            <input type="date" id="from-date" name="from-date" required>
+                        </div>
+                        <div>
+                            <label for="to-date">To:</label>
+                            <input type="date" id="to-date" name="to-date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="noOfDays">Number of Days</label>
+                            <input type="number" id="noOfDays" name="noOfDays" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="reason">Reason</label>
+                            <input type="text" id="reason" name="reason" required>
+                        </div>
+                    </div>                     
+
+                    <br>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            </div>
         </div>
-
-        <div class="detailbox">
-            <form class="form-container">
-                <label for="employeeId">Emplyee ID</label>
-                <input type="text" id="employeeId" name="employeeId" required>
-
-                <label for="from-date">From</label>
-                <input type="date" id="from-date" name="from-date" required>
-
-                <label for="to-date">Emplyee ID</label>
-                <input type="date" id="to-date" name="to-date" required>
-
-                <label for="noOfDays">Number of Days</label>
-                <input type="number" id="noOfDays" name="noOfDays" required>
-
-                <label for="reason">Reason</label>
-                <input type="text" id="reason" name="reason" required>
-
-                <br>
-                <button type="submit" class="submit-btn">Submit</button>
-            </form>
-        </div>
-    </div>
 </body>
 </html>
