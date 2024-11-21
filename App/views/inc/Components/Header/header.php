@@ -53,6 +53,7 @@
                 <div class="icon" onclick="toggleNotifi()">
                 <i class="fa-solid fa-bell"></i><span class="badge"><?php echo count($notifications); ?></span>
                 </div>
+            <?php endif; ?>
             <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Conductor"])): ?>
 
                 <?php if ($userRole === "RegisteredUser"): ?>
