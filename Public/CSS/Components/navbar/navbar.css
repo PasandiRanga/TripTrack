@@ -38,7 +38,7 @@
     margin: 0 5px;
     border-radius: 50px;
     transition: background-color 0.3s ease, color 0.3s ease;
-    color: #063946;
+    color:#185a9d ;
     text-decoration: none;
     font-family: poppins;
     font-weight: bold;
@@ -51,7 +51,7 @@
 
 .navbar .navbar-item.selected {
     background-color: #f0f0f0;
-    color: #063946;
+    color: #185a9d;
     font-weight: bold;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
@@ -74,7 +74,7 @@
     display: none;
     background: none;
     border: none;
-    color: #063946;
+    color: #185a9d;
     font-size: 24px;
     cursor: pointer;
     margin-left: auto;
@@ -88,7 +88,7 @@
         position: absolute;
         top: 100%;
         left: 0;
-        background-color: #063946;
+        background-color: #185a9d;
         border-radius: 0 0 50px 50px;
     }
 
@@ -108,7 +108,7 @@
 
     .navbar .navbar-item.selected {
         background-color: #f0f0f0;
-        color: #063946;
+        color: #185a9d;
         font-weight: bold;
         box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
     }
@@ -129,7 +129,7 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: #063946;
+        background-color: #185a9d;
         border-radius: 0 0 10px 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
