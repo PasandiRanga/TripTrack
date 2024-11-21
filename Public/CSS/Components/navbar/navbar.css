@@ -40,8 +40,8 @@
     transition: background-color 0.3s ease, color 0.3s ease;
     color: #063946;
     text-decoration: none;
-    font-family: Adamina, serif;
-    font-weight: 400;
+    font-family: poppins;
+    font-weight: bold;
 }
 
 .navbar .navbar-item .text {

@@ -79,8 +79,10 @@ li {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-family: poppins;
+    font-weight: bold;
+ 
 }
 
 .login-button:hover {

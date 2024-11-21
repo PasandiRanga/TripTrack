@@ -15,9 +15,9 @@
     </div>
     <div class="dark-layer"></div>
     <div class="text-slider">
-      <span class="slide">Welcome to the Future</span>
-      <span class="slide">Innovation Starts Here</span>
-      <span class="slide">Discover Limitless Opportunities</span>
+      <span class="slide">Seamless Booking</span>
+      <span class="slide">Travel Hasslefree</span>
+      <span class="slide">Book Any Time</span>
     </div>
   </div>
 

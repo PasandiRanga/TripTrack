@@ -32,11 +32,14 @@ img.name-image {
 }
 
 .body-section{
-    background-color:#F0F1F3;
+    background: linear-gradient(to bottom, #063946, #4da8d6);
+    ;
 }
 
 .bus-card-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
@@ -44,8 +47,8 @@ img.name-image {
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Drop shadow */
     padding: 20px; /* Add padding if needed */
-    margin: 20px auto; /* Center the container */
-    width: 90%; 
+    margin: 20px; /* Center the container */
+    /* width: 100%;  */
     box-sizing: border-box; /* Ensure padding and border are included in total width */
     color : black;
 }

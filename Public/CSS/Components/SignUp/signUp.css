@@ -6,7 +6,10 @@
 h3{
     color:#4CAF50;
 }
-
+.required {
+    color: red;
+    font-weight: bold;
+}
 .form-container{
     margin-left:auto;
     margin-right:auto;
