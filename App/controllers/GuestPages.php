@@ -94,13 +94,13 @@
 
                 //validate profile image and upload
 
-                if(uploadImage($data['profile_image']['tmp_name'],$data['profile_image_name'],'/images/profileImages/')){
-
-                
-                    //Done
-                }
-                else{
-                    $data['profile_image_err']='profile image uploading unsuccessful';
+                if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
+                    if (!uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
+                        $data['profile_image_err'] = 'Profile image uploading unsuccessful';
+                    }
+                } else {
+                    // Optional: you can set a default profile image or leave it null.
+                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; // Replace with your actual default image filename, if applicable
                 }
         
                 // Perform validation and check if all fields are filled
@@ -236,9 +236,14 @@
                 ];
                 //validate the email
                 if(empty($data['email'])){
+
                     $data['email_err']='Please enter the email';
-                }
-                else{
+
+                }elseif(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    //validate the email
+                    $data['email_err'] = 'Please enter a valid email address';
+
+                }else{
                     if($this->GuestpagesModel->findUserByEmail($data['email'])){
                         //user is found
                     }

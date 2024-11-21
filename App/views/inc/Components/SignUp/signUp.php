@@ -1,4 +1,5 @@
  
+
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
             <a href="#back" class="back-button" onClick="window.location.href='/GuestPages/Home'">
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
-        </div>
+      </div>
 
         <div class="right-column">
                 
