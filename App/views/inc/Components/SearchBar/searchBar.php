@@ -42,7 +42,7 @@
     </div>
     <div class="input-group">
         <div class="icon"><i class="fas fa-calendar-alt"></i></div>
-        <input type="date" class="search-input" id="travelDate">
+        <input type="date" class="search-input" id="travelDate" min="">
     </div>
     <button class="search-button" id="searchButton">Search</button>
 </div>
@@ -85,20 +85,20 @@
             }else {
                 return false;
             }
-        }).map(bus => bus.busId);
+        }).map(bus => bus.License_id);
         console.log(filteredBusIds);
 
         // Filter the scheduleData to match the selected date and bus IDs
         if(travelDate){
         const filteredSchedules = scheduleData.filter(schedule =>
-            filteredBusIds.includes(schedule.busId) && schedule.date === travelDate
+            filteredBusIds.includes(schedule.License_id) && schedule.date === travelDate
         );
 
         // Render the filtered schedules in the bus card container
         renderFilteredSchedules(filteredSchedules , busData);
     }else{
         const filteredSchedules = scheduleData.filter(schedule =>
-            filteredBusIds.includes(schedule.busId)
+            filteredBusIds.includes(schedule.License_id)
         );
 
         // Render the filtered schedules in the bus card container
@@ -127,11 +127,11 @@
 
         // Dynamically load bus cards based on filtered schedules
         filteredSchedules.forEach(schedule => {
-            // Find the corresponding bus data for each schedule by busId
-            const bus = busData.find(b => b.busId === schedule.busId);
+            // Find the corresponding bus data for each schedule by License_id
+            const bus = busData.find(b => b.License_id === schedule.License_id);
 
             if (!bus) {
-                console.warn(`No matching bus found for busId: ${schedule.busId}`);
+                console.warn(`No matching bus found for License_id: ${schedule.License_id}`);
                 return; // Skip rendering this schedule if bus data is missing
             }
 
@@ -141,7 +141,7 @@
             // Get the URL dynamically based on the user role
             const bookingUrl = `${URLROOT}/${
                 userRole === 'GuestUser' ? 'GuestPages' : 'RegisteredPages'
-            }/BusBooking?busId=${encodeURIComponent(bus.busId)}&scheduleId=${encodeURIComponent(schedule.scheduleId)}`;
+            }/BusBooking?License_id=${encodeURIComponent(bus.License_id)}&scheduleId=${encodeURIComponent(schedule.scheduleId)}`;
 
             // Create the schedule card
             const scheduleDiv = document.createElement('div');
@@ -198,6 +198,14 @@
         busCardContainer.innerHTML = storedBusData;
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    const travelDateInput = document.getElementById('travelDate');
+    travelDateInput.value = today; // Set the default value to today
+    travelDateInput.min = today;  // Set the min attribute to today
+});
+
 
 
 </script>

@@ -15,7 +15,7 @@
         <div class="left-column">
             <h2 class="zoom-in">Welcome to Our Platform!</h2>
             <p class="zoom-in">We're thrilled to have you here. Explore amazing features, connect with others, and achieve your goals effortlessly.</p>
-            <a href="#back" class="back-button" onClick="window.location.href='/GuestPages/Home'">
+            <a href="#back" class="back-button" onClick="window.location.href='<?php echo URLROOT; ?>/GuestPages/home'">
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
       </div>
@@ -50,14 +50,20 @@
                     <input type="text" name="email" id="email" value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['email_err']) ? $data['email_err'] : ''; ?></span>
 
-                    <!----Password---->
+                    <!-- Password Field -->
                     <div class="form-input-title">Password</div>
-                    <input type="text" name="password" id="password" value="<?php echo isset($data['password']) ? $data['password'] : ''; ?>">
+                    <div class="password-container">
+                        <input type="password" name="password" id="password" value="<?php echo isset($data['password']) ? $data['password'] : ''; ?>">
+                        <i class="fas fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                    </div>
                     <span class="form-invalid"><?php echo isset($data['password_err']) ? $data['password_err'] : ''; ?></span>
 
-                    <!----Confirm Password---->
+                    <!-- Confirm Password Field -->
                     <div class="form-input-title">Confirm Password</div>
-                    <input type="text" name="confirm" id="confirm" value="<?php echo isset($data['confirm']) ? $data['confirm'] : ''; ?>">
+                    <div class="password-container">
+                        <input type="password" name="confirm" id="confirm" value="<?php echo isset($data['confirm']) ? $data['confirm'] : ''; ?>">
+                        <i class="fas fa-eye" id="toggleConfirmPassword" style="cursor: pointer;"></i>
+                    </div>
                     <span class="form-invalid"><?php echo isset($data['confirm_err']) ? $data['confirm_err'] : ''; ?></span>
 
                     <!-- Profile Image Upload Section -->
@@ -92,9 +98,7 @@
 
                     <!-- Register Button Section -->
                     <div class="form-register">
-                    <center>
-                        <a href="pages/GuestUser/home.php" class="button">Register</a>
-                    </center>                    
+                    <center><input class="button" type="submit" value="Register"></center>                 
                     </div>
 
                     <script>
@@ -166,6 +170,29 @@
                                 dropArea.classList.remove("active");
                             }
                         }
+                        //Show password
+                        const togglePassword = document.querySelector("#togglePassword");
+                        const passwordField = document.querySelector("#password");
+                        const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+                        const confirmPasswordField = document.querySelector("#confirm");
+
+                        togglePassword.addEventListener("click", () => {
+                            // Toggle password visibility
+                            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+                            passwordField.setAttribute("type", type);
+
+                            // Toggle the icon
+                            togglePassword.classList.toggle("fa-eye-slash");
+                        });
+
+                        toggleConfirmPassword.addEventListener("click", () => {
+                            // Toggle confirm password visibility
+                            const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
+                            confirmPasswordField.setAttribute("type", type);
+
+                            // Toggle the icon
+                            toggleConfirmPassword.classList.toggle("fa-eye-slash");
+                        });
                     </script>
                 </form>
             

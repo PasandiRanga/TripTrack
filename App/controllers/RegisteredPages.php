@@ -99,13 +99,21 @@
             $this->view('pages/RegisteredUser/profile' , $data);
         }
 
-        public function deleteAccount(){
-            if($this->RegisteredpagesModel->deleteAccount($_SESSION['user_id'])) {
-                $this->view('pages/GuestPages/home'); 
+        public function deleteAccount() {
+            if ($this->RegisteredpagesModel->deleteAccount($_SESSION['user_id'])) {
+                // Clear the session data to log the user out
+                session_unset();
+                session_destroy();
+        
+                // Redirect to the GuestPages home
+                header('Location: ' . URLROOT . '/GuestPages/home');
+                exit();
             } else {
-                // Handle error if needed, like showing a message
+                // Handle the error (e.g., showing an error message or logging)
+                die('Error: Unable to delete account. Please try again.');
             }
-        }        
+        }
+               
 
         public function searchBus() {
             $this->view('pages/RegisteredUser/searchbus');
@@ -172,7 +180,7 @@
                     'contact_number' => trim($_POST['contact_number']),
                     'nic' => trim($_POST['nic']),
                     'address' => trim($_POST['address']),
-                    'current_email' => $_SESSION['user_email'], // Assume session stores logged-in user email
+                    'current_email' => $_SESSION['user_email'], // Assume session stores ged-in user email
                 ];
     
                 if ($this->RegisteredpagesModel->updateProfile($data)) {
@@ -181,16 +189,16 @@
                     $_SESSION['user_email'] = $data['email'];
 
                     // Redirect with success message
-                    header("Location: " . URLROOT . "/profile");
+                    header('Location: ' . URLROOT . '/RegisteredPages/profile');
                     // flash('profile_update_success', 'Profile updated successfully!');
                 } else {
                     // Redirect with error message
-                    header("Location: " . URLROOT . "/profile");
+                    header("Location: " . URLROOT . '/RegisteredPages/Profile');
                     // flash('profile_update_error', 'Something went wrong. Please try again.');
                 }
             } else {
                 // Load default view if accessed incorrectly
-                header("Location: " . URLROOT . "/profile");
+                header("Location: " . URLROOT . '/RegisteredPages/Profile');
             }
         }
 

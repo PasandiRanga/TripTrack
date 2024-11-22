@@ -47,7 +47,7 @@
     
 
         <?php
-        $busId = $_GET['busId'] ?? null;
+        $License_id = $_GET['License_id'] ?? null;
         $scheduleId = $_GET['scheduleId'] ?? null;
         $selectedBus = null;
         $selectedSchedule = null;
@@ -55,7 +55,7 @@
 
         // Find the selected bus
         foreach ($busData as $bus) {
-            if ($bus['busId'] == $busId) {
+            if ($bus['License_id'] == $License_id) {
                 $selectedBus = $bus;
                 break;
             }
@@ -73,7 +73,7 @@
         // Find the selected schedule for the bus
         if ($selectedBus) {
             foreach ($scheduleData as $schedule) {
-                if ($schedule['busId'] == $busId && $schedule['scheduleId'] == $scheduleId) {
+                if ($schedule['License_id'] == $License_id && $schedule['scheduleId'] == $scheduleId) {
                     $selectedSchedule = $schedule;
                     break;
                 }
@@ -171,7 +171,7 @@
     <div class="booking-form">
         <h2>Book Your Seat</h2>
         <form id="bookingForm" action="<?php echo URLROOT; ?>/RegisteredPages/busLayout" method="post" onsubmit="return validateForm()">
-        <input type="hidden" name="busId" value="<?php echo htmlspecialchars($selectedBus['busId']); ?>">
+        <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($selectedBus['License_id']); ?>">
         <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
             <div class="form-group">

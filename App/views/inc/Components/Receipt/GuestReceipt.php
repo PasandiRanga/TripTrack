@@ -3,7 +3,7 @@
 require_once APPROOT . '/libraries/Database.php';
 
 // Retrieve booking data from POST
-$busId = $_POST['busId'] ?? 'Unknown Bus';
+$License_id = $_POST['License_id'] ?? 'Unknown Bus';
 $scheduleId = $_POST['scheduleId'] ?? 'Unknown Schedule';
 $name = $_POST['name'] ?? '';
 $email = $_POST['email'] ?? '';
@@ -109,7 +109,7 @@ try {
             <p><strong>NIC:</strong> <?php echo htmlspecialchars($nic); ?></p>
             <p><strong>From:</strong> <?php echo htmlspecialchars($from); ?></p>
             <p><strong>To:</strong> <?php echo htmlspecialchars($to); ?></p>
-            <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($busId); ?></p>
+            <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($License_id); ?></p>
             <p><strong>Schedule ID:</strong> <?php echo htmlspecialchars($scheduleId); ?></p>
             <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($noOfSeats); ?></p>
             <p><strong>Seats:</strong> <?php echo htmlspecialchars($selectedSeats); ?></p>

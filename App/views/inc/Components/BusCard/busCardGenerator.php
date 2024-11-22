@@ -29,20 +29,30 @@
        
 <?php
 
-foreach ($busData as $bus) {
+// Sort $busData based on the 'rating' key in descending order
+usort($busData, function ($a, $b) {
+    return $b['rating'] <=> $a['rating'];
+});
+
+$topRatedBuses = array_slice($busData, 0, 16);
+
+
+$currentDate = date('Y-m-d'); // Get the current date in the format 'YYYY-MM-DD'
+
+foreach ($topRatedBuses as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
-        if ($schedule['busId'] === $bus['busId']) {
+        if ($schedule['License_id'] === $bus['License_id']  && $schedule['date'] >= $currentDate) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
                 // Check userRole and adjust the URL accordingly
                 if ($userRole === 'GuestUser') {
-                    echo URLROOT . '/GuestPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } elseif ($userRole === 'RegisteredUser') {
-                    echo URLROOT . '/RegisteredPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/RegisteredPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } else {
                     // Default case for other roles (if any)
-                    echo URLROOT . '/GuestPages/BusBooking?busId=' . urlencode($bus['busId']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
             ?>'">            
             <div class="bus-card-header">

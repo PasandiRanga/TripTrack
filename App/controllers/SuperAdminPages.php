@@ -222,11 +222,9 @@ public function addemployees() {
         // Add additional fields based on user type
         if ($userType === 'driver' || $userType === 'conductor') {
             // Driver/Conductor specific fields
-            $data['employeeId'] = trim($_POST['employeeId']);
             $data['username'] = trim($_POST['username']);
         } elseif ($userType === 'admin') {
             // Admin specific fields
-            $data['adminId'] = trim($_POST['adminId']);
             $data['email'] = trim($_POST['email']);
             $data['region'] = trim($_POST['region']);
         } else {
