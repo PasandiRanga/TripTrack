@@ -1,11 +1,11 @@
 
 /* Reset some default styles */
-/* * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 
-} */
+} 
 /* Ensure the container fits the page size and is centered */
 .signupbody {
     min-height: 100vh;
