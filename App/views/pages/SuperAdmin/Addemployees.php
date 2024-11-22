@@ -23,8 +23,6 @@
 
         <!-- Conductor/Driver Form -->
         <div id="employeeForm" class="user-section" style="display: none;">
-            <label for="employeeId">Employee ID:</label>
-            <input type="text" id="employeeId" name="employeeId" placeholder="Enter Employee ID" required>
 
             <label for="employeeName">Name:</label>
             <input type="text" id="employeeName" name="employeeName" placeholder="Enter Name" required>
@@ -47,8 +45,6 @@
 
         <!-- Regional Admin Form -->
         <div id="adminForm" class="user-section" style="display: none;">
-            <label for="adminId">Admin ID:</label>
-            <input type="text" id="adminId" name="adminId" placeholder="Enter Admin ID" required>
 
             <label for="adminName">Admin Name:</label>
             <input type="text" id="adminName" name="adminName" placeholder="Enter Admin Name" required>
@@ -91,7 +87,6 @@
 
             if (userType === "conductor" || userType === "driver") {
                 userData = {
-                    employeeId: document.getElementById("employeeId").value,
                     employeeName: document.getElementById("employeeName").value,
                     username: document.getElementById("username").value,
                     nic: document.getElementById("nic").value,
@@ -101,7 +96,6 @@
                 };
             } else if (userType === "admin") {
                 userData = {
-                    adminId: document.getElementById("adminId").value,
                     adminName: document.getElementById("adminName").value,
                     email: document.getElementById("email").value,
                     nic: document.getElementById("nic").value,
