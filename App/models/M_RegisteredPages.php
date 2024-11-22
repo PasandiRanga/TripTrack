@@ -163,20 +163,22 @@
             }
         }
 
-        public function deleteAccount($userID){
-            $this->db->query('DELETE FROM customer WHERE User_id=:userId');
-            $this->db->bind("userId",$userID);
-
-            $row = $this->db->single();
-
-            if($this->db->rowCount()>0){
-                error_log(print_r($row, true));
-                return $row;
-            }
-            else{
-                return false;  
+        public function deleteAccount($userID) {
+            // Prepare the DELETE query
+            $this->db->query('DELETE FROM customer WHERE User_id = :userId');
+            $this->db->bind(':userId', $userID);
+        
+            // Execute the query
+            $this->db->execute();
+        
+            // Check if any rows were affected
+            if ($this->db->rowCount() > 0) {
+                return true; // Account deleted successfully
+            } else {
+                return false; // No rows affected (user ID might not exist)
             }
         }
+        
 
         public function updateProfile($data) {
             // Update profile where the current email matches

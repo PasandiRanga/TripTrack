@@ -29,10 +29,20 @@
        
 <?php
 
-foreach ($busData as $bus) {
+// Sort $busData based on the 'rating' key in descending order
+usort($busData, function ($a, $b) {
+    return $b['rating'] <=> $a['rating'];
+});
+
+$topRatedBuses = array_slice($busData, 0, 16);
+
+
+$currentDate = date('Y-m-d'); // Get the current date in the format 'YYYY-MM-DD'
+
+foreach ($topRatedBuses as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
-        if ($schedule['License_id'] === $bus['License_id']) {
+        if ($schedule['License_id'] === $bus['License_id']  && $schedule['date'] >= $currentDate) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
                 // Check userRole and adjust the URL accordingly

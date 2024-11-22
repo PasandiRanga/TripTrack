@@ -42,7 +42,7 @@
     </div>
     <div class="input-group">
         <div class="icon"><i class="fas fa-calendar-alt"></i></div>
-        <input type="date" class="search-input" id="travelDate">
+        <input type="date" class="search-input" id="travelDate" min="">
     </div>
     <button class="search-button" id="searchButton">Search</button>
 </div>
@@ -198,6 +198,14 @@
         busCardContainer.innerHTML = storedBusData;
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    const travelDateInput = document.getElementById('travelDate');
+    travelDateInput.value = today; // Set the default value to today
+    travelDateInput.min = today;  // Set the min attribute to today
+});
+
 
 
 </script>
