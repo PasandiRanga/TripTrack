@@ -1,42 +1,92 @@
-#qr-reader {
-    margin: 20px auto;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-}
-
-#qr-result {
-    margin-top: 20px;
-    text-align: center;
-    font-family: 'ABeeZee', sans-serif;
-    font-size: 1.2em;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: beige !important;
     color: #333;
+    height: 100vh;
 }
 
+/* Back Button */
+.back-button {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #063946;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background-color: #052d37;
+}
+
+/* Main Title */
 h1 {
     text-align: center;
-    margin-top: 20px;
-    font-family: 'ABeeZee', sans-serif;
+    margin: 0;
+    margin-bottom: 15px;
+    font-size: 2.5rem;
+    color: #063946;
 }
 
-.qr-scanner-container {
-    display: flex;
-    justify-content: left;
-    margin-top: 20px;
-    margin-left: 50px;
+/* Container */
+.container {
+    margin-top: 40px;
 }
 
-.hero-container {
+/* QR Reader Container */
+.qr-reader-container {
+    margin: 30px auto;
     width: 100%;
-    height: 220px;
-    background: linear-gradient(to bottom, #a2d8ff, #eff9ff); 
-    position: relative;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 650px;
+    background-color: #fff;
+    padding: 60px;
+    border-radius: 10px;
 }
 
-.body-section {
-    display: flex;
-    background: linear-gradient(to bottom, #eff9ff, #ffffff); 
-    height: 100%;
+#qr-reader {
+    border: 2px dashed #063946;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #e9f5f8;
+}
+
+/* QR Result */
+#qr-result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .qr-reader-container {
+        width: 90%;
+    }
+
+    #qr-reader {
+        width: 100%;
+    }
+
+    #qr-result {
+        font-size: 1rem;
+    }
 }
