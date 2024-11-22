@@ -132,21 +132,13 @@
     <div class="signInBox hidden" id="signInBox">
         <div class="signInBoxContent">
             <div class="close-btn" onclick="closeSignInBox()">×</div>
-            <div id="content1" style="display:block;"><?php require APPROOT.'/views/inc/Components/LoginBox/loginBox.php'; ?></div>
-            <div id="content2" style="display:none;"><?php require APPROOT.'/views/inc/Components/SignUp/signUp.php'; ?></div>
+            <?php require APPROOT.'/views/inc/Components/LoginBox/loginBox.php'; ?>
         </div>
     </div>
 
 
     <script>
 
-        function fillForm() {
-            // Hide the existing content
-            document.getElementById('content1').style.display = 'none';
-
-            // Show the new content
-            document.getElementById('content2').style.display = 'block';
-        }
 
         function toggleNotifi() {
             const box = document.getElementById('box');
@@ -164,19 +156,15 @@
         //     document.getElementById('signInBox').classList.remove('hidden');
         // }
 
+        // Show the login box
         function showSignInBox() {
-            // Reset content to show the login form by default
-            document.getElementById('content1').style.display = 'block';
-            document.getElementById('content2').style.display = 'none';
-
-            // Show the sign-in box
             document.getElementById('signInBox').classList.remove('hidden');
         }
 
+        // Close the login box
         function closeSignInBox() {
             document.getElementById('signInBox').classList.add('hidden');
         }
-        
         
         //Login form
         function validateForm(event) {
