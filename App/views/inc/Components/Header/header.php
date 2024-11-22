@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
+   
 </head>
 
 <body>
@@ -53,6 +53,7 @@
                 <div class="icon" onclick="toggleNotifi()">
                 <i class="fa-solid fa-bell"></i><span class="badge"><?php echo count($notifications); ?></span>
                 </div>
+            <?php endif; ?>
             <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Conductor"])): ?>
 
                 <?php if ($userRole === "RegisteredUser"): ?>
