@@ -123,9 +123,9 @@
                 // Validate NIC
                 if (empty($data['nic'])) {
                     $data['nic_err'] = 'Please enter a NIC';
-                } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{11}V$/', $data['nic'])) {
+                } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
                     // Check if the NIC is either 12 digits or 11 digits followed by "V"
-                    $data['nic_err'] = 'NIC must be exactly 12 digits or 11 digits followed by "V" at the end';
+                    $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
                 }
 
 

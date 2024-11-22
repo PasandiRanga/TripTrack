@@ -39,7 +39,7 @@
 
 /* Styling for the left column */
 .left-column {
-    flex: 1 1 55%;
+    flex: 1 1 45%;
     background: linear-gradient(135deg, #43cea2, #185a9d);
     padding: 40px;
     display: flex;
@@ -63,7 +63,7 @@
 
 /* Styling for the right column */
 .right-column {
-    flex: 1 1 45%;
+    flex: 1 1 55%;
     padding: 40px;
     background: #f4f4f4;
     display: flex;

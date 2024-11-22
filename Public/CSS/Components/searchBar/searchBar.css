@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: #f4f4f4;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -15,10 +15,10 @@
 .input-group {
     display: flex;
     align-items: center;
-    background-color: #f0f4f8;
+    background-color: #fff;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #d1d9e6;
+    border: 1px solid #43cea2;
     flex: 1 1 200px; /* Allows flexible resizing */
     min-width: 0;
 }

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/LoginBox/loginBox.css?v=<?php echo time(); ?>">
 
 <div class="signInContent">
-    <center><h1 class="topic">LOGIN</h1></center>
+    <center><h1 style="color:#43cea2">LOGIN</h1></center>
 
     <div class="login-section">
         
