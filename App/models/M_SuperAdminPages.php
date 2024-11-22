@@ -111,7 +111,12 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------
     // Bookings (unchanged)
+
+//-----------------------------------------------------------------------------------------------------------------------------------
 
     public function getGuestBookings() {
         $this->db->query('SELECT * FROM guestbooking');
@@ -122,5 +127,53 @@ class M_SuperAdminPages {
         $this->db->query('SELECT * FROM registeredbooking');
         return $this->db->resultSet();
     }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //Employee
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+    public function addDriver($data) {
+        $this->db->query('INSERT INTO driver (Employee_id, Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:employee_id, :name, :username, :nic, :address, :contact_no, :password)');
+        $this->db->bind(':employee_id', $data['employeeId']);
+        $this->db->bind(':name', $data['employeeName']);
+        $this->db->bind(':username', $data['username']);
+        $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':contact_no', $data['contactNo']);
+        $this->db->bind(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+
+        return $this->db->execute();
+    }
+
+    public function addConductor($data) {
+        $this->db->query('INSERT INTO conductor (Employee_id, Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:employee_id, :name, :username, :nic, :address, :contact_no, :password)');
+        $this->db->bind(':employee_id', $data['employeeId']);
+        $this->db->bind(':name', $data['employeeName']);
+        $this->db->bind(':username', $data['username']);
+        $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':contact_no', $data['contactNo']);
+        $this->db->bind(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+    
+        return $this->db->execute();
+    }
+
+    public function addAdmin($data) {
+        $this->db->query('INSERT INTO system_admin (Admin_id, Admin_name, Email, Nic, Address, Contact_no, Region, Password) VALUES (:admin_id, :name, :email, :nic, :address, :contact_no, :region, :password)');
+        $this->db->bind(':admin_id', $data['adminId']);
+        $this->db->bind(':name', $data['adminName']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':contact_no', $data['contactNo']);
+        $this->db->bind(':region', $data['region']);
+        $this->db->bind(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+    
+        return $this->db->execute();
+    }
+    
+    
+
 }
 ?>

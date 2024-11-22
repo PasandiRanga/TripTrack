@@ -161,6 +161,11 @@ class SuperAdminPages extends Controller {
         }
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+                                    //bookings
+//---------------------------------------------------------------------------------------------------------------------- 
+
+
     public function bookings() {
         $guestbookings = $this->SuperAdminModel->getGuestBookings();
         $registerbookings = $this->SuperAdminModel->getRegisterBookings();
@@ -192,9 +197,76 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Notifications');
     }
 
-    public function addemployees() {
+
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Employees
+//---------------------------------------------------------------------------------------------------------------------- 
+
+public function addemployees() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Sanitize input
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        // Get the user type
+        $userType = trim($_POST['userType']);
+
+        // Initialize data array with common fields
+        $data = [
+            'name' => ($userType === 'admin') ? trim($_POST['adminName']) : trim($_POST['employeeName']),
+            'nic' => trim($_POST['nic']),
+            'address' => trim($_POST['address']),
+            'contactNo' => trim($_POST['contactNo']),
+            'password' => password_hash(trim($_POST['password']), PASSWORD_BCRYPT),
+        ];
+
+        // Add additional fields based on user type
+        if ($userType === 'driver' || $userType === 'conductor') {
+            // Driver/Conductor specific fields
+            $data['employeeId'] = trim($_POST['employeeId']);
+            $data['username'] = trim($_POST['username']);
+        } elseif ($userType === 'admin') {
+            // Admin specific fields
+            $data['adminId'] = trim($_POST['adminId']);
+            $data['email'] = trim($_POST['email']);
+            $data['region'] = trim($_POST['region']);
+        } else {
+            // Invalid user type
+            die("Error: Invalid user type.");
+        }
+
+        // Validation: Ensure all required fields are provided
+        if (empty($data['name']) || empty($data['username']) || empty($data['nic']) || empty($data['address']) || empty($data['contactNo']) || empty($data['password'])) {
+            die("Error: All fields are required.");
+        }
+
+        // Process the form based on user type
+        $result = false;
+        if ($userType === 'driver') {
+            // Driver-specific insertion
+            $result = $this->SuperAdminModel->addDriver($data);
+        } elseif ($userType === 'conductor') {
+            // Conductor-specific insertion
+            $result = $this->SuperAdminModel->addConductor($data);
+        } elseif ($userType === 'admin') {
+            // Admin-specific insertion
+            $result = $this->SuperAdminModel->addAdmin($data);
+        }
+
+        // Check if the user was added successfully
+        if ($result) {
+            header("Location: " . URLROOT . "/SuperAdminPages/employees");
+            exit();
+        } else {
+            // Log the error for debugging
+            error_log("Error: Unable to add the employee.");
+            die("Error: Unable to add the employee.");
+        }
+    } else {
+        // Load the view if not a POST request
         $this->view('pages/SuperAdmin/Addemployees');
     }
+}
+
 
     public function employees() {
         $this->view('pages/SuperAdmin/Employees');

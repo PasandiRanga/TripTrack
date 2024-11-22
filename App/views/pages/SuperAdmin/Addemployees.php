@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Addemployees.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">Back </button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">Back</button>
 
     <h2>Create Users</h2>
 
-    <form id="userForm" onsubmit="return submitUserForm()" class="user-form">
+    <form id="userForm" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/addemployees" class="user-form">
         <!-- User Type Selection -->
         <label for="userType">Select User Type:</label>
-        <select id="userType" name="userType" onchange="toggleUserForm()">
+        <select id="userType" name="userType" onchange="toggleUserForm()" required>
             <option value="">Select Type</option>
             <option value="conductor">Conductor</option>
             <option value="driver">Driver</option>
@@ -24,103 +24,111 @@
         <!-- Conductor/Driver Form -->
         <div id="employeeForm" class="user-section" style="display: none;">
             <label for="employeeId">Employee ID:</label>
-            <input type="text" id="employeeId" name="employeeId" placeholder="Enter Employee ID">
+            <input type="text" id="employeeId" name="employeeId" placeholder="Enter Employee ID" required>
 
             <label for="employeeName">Name:</label>
-            <input type="text" id="employeeName" name="employeeName" placeholder="Enter Name">
+            <input type="text" id="employeeName" name="employeeName" placeholder="Enter Name" required>
+
+            <label for="username">User Name:</label>
+            <input type="text" id="username" name="username" placeholder="Enter Username" required>
 
             <label for="nic">NIC:</label>
-            <input type="text" id="nic" name="nic" placeholder="Enter NIC">
+            <input type="text" id="nic" name="nic" placeholder="Enter NIC" required>
 
             <label for="address">Address:</label>
-            <input type="text" id="address" name="address" placeholder="Enter Address">
+            <input type="text" id="address" name="address" placeholder="Enter Address" required>
 
             <label for="contactNo">Contact No:</label>
-            <input type="text" id="contactNo" name="contactNo" placeholder="Enter Contact No">
+            <input type="text" id="contactNo" name="contactNo" placeholder="Enter Contact No" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required>
         </div>
 
         <!-- Regional Admin Form -->
         <div id="adminForm" class="user-section" style="display: none;">
             <label for="adminId">Admin ID:</label>
-            <input type="text" id="adminId" name="adminId" placeholder="Enter Admin ID">
+            <input type="text" id="adminId" name="adminId" placeholder="Enter Admin ID" required>
 
             <label for="adminName">Admin Name:</label>
-            <input type="text" id="adminName" name="adminName" placeholder="Enter Admin Name">
+            <input type="text" id="adminName" name="adminName" placeholder="Enter Admin Name" required>
 
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email" placeholder="Enter Email">
+            <input type="email" id="email" name="email" placeholder="Enter Email" required>
 
             <label for="nic">NIC:</label>
-            <input type="text" id="nic" name="nic" placeholder="Enter NIC">
+            <input type="text" id="nic" name="nic" placeholder="Enter NIC" required>
 
             <label for="address">Address:</label>
-            <input type="text" id="address" name="address" placeholder="Enter Address">
+            <input type="text" id="address" name="address" placeholder="Enter Address" required>
 
             <label for="contactNo">Contact No:</label>
-            <input type="text" id="contactNo" name="contactNo" placeholder="Enter Contact No">
+            <input type="text" id="contactNo" name="contactNo" placeholder="Enter Contact No" required>
 
             <label for="region">Region:</label>
-            <input type="text" id="region" name="region" placeholder="Enter Region">
+            <input type="text" id="region" name="region" placeholder="Enter Region" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required>
         </div>
 
         <button type="submit">Create User</button>
     </form>
 
     <script>
-                // Function to toggle between forms based on user type
+        // Toggle between forms based on user type
         function toggleUserForm() {
             const userType = document.getElementById("userType").value;
-            const employeeForm = document.getElementById("employeeForm");
-            const adminForm = document.getElementById("adminForm");
-
-            // Show or hide forms based on user selection
-            if (userType === "conductor" || userType === "driver") {
-                employeeForm.style.display = "block";
-                adminForm.style.display = "none";
-            } else if (userType === "admin") {
-                employeeForm.style.display = "none";
-                adminForm.style.display = "block";
-            } else {
-                employeeForm.style.display = "none";
-                adminForm.style.display = "none";
-            }
+            document.getElementById("employeeForm").style.display = (userType === "conductor" || userType === "driver") ? "block" : "none";
+            document.getElementById("adminForm").style.display = (userType === "admin") ? "block" : "none";
         }
+        // Handle form submission
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault();
 
-        // Function to handle form submission
-        function submitUserForm() {
             const userType = document.getElementById("userType").value;
+            let userData = {};
 
             if (userType === "conductor" || userType === "driver") {
-                const employeeId = document.getElementById("employeeId").value;
-                const employeeName = document.getElementById("employeeName").value;
-                const nic = document.getElementById("nic").value;
-                const contactNo = document.getElementById("contactNo").value;
-
-                if (!employeeId || !employeeName || !nic || !contactNo) {
-                    alert("Please fill in all fields for the Conductor/Driver.");
-                    return false;
-                }
-
-                alert(`${userType === "conductor" ? "Conductor" : "Driver"} created successfully!`);
+                userData = {
+                    employeeId: document.getElementById("employeeId").value,
+                    employeeName: document.getElementById("employeeName").value,
+                    username: document.getElementById("username").value,
+                    nic: document.getElementById("nic").value,
+                    address: document.getElementById("address").value,
+                    contactNo: document.getElementById("contactNo").value,
+                    password: document.getElementById("password").value
+                };
             } else if (userType === "admin") {
-                const adminId = document.getElementById("adminId").value;
-                const adminName = document.getElementById("adminName").value;
-                const role = document.getElementById("role").value;
-
-                if (!adminId || !adminName || !role) {
-                    alert("Please fill in all fields for the Regional Admin.");
-                    return false;
-                }
-
-                alert("Regional Admin created successfully!");
+                userData = {
+                    adminId: document.getElementById("adminId").value,
+                    adminName: document.getElementById("adminName").value,
+                    email: document.getElementById("email").value,
+                    nic: document.getElementById("nic").value,
+                    address: document.getElementById("address").value,
+                    contactNo: document.getElementById("contactNo").value,
+                    region: document.getElementById("region").value,
+                    password: document.getElementById("password").value
+                };
             } else {
                 alert("Please select a user type.");
-                return false;
+                return;
             }
 
-            return true; // Form submission proceeds
-        }
+            // Log the form data to the console
+            console.log("User data:", userData);
 
+            // Simulate successful form submission (you can replace this with actual server-side submission)
+            alert("User created successfully!");
+
+            // Optionally, clear the form fields after submission
+            clearForm();
+        });
+
+        // Clear form fields
+        function clearForm() {
+            document.getElementById("userForm").reset();
+        }
     </script>
 </body>
 </html>
