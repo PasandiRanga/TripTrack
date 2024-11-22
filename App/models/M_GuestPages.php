@@ -46,24 +46,39 @@
             }
 
             //login the user
-            public function login($email,$password){
-                $this->db->query('SELECT * FROM customer WHERE Email=:email');
-                $this->db->bind(":email",$email);
-
-                $row = $this->db->single();
-                // print_r($row);
-
-                if ($row && isset($row['Password'])) {
-                    $hashed_password = $row['Password']; // Access as an array
-                    if (password_verify($password, $hashed_password)) {
-                        return $row; // Return the user data if password matches
-                    } else {
-                        return false; // Password mismatch
+            public function login($emailOrUsername, $password) {
+                // Define tables and their respective username/email fields
+                $userTables = [
+                    'customer' => 'Email',
+                    'System_Admin' => 'Email',
+                    'Conductor' => 'Employee_username',
+                    'Driver' => 'Employee_username',
+                ];
+            
+                foreach ($userTables as $table => $field) {
+                    // Query each table for the provided email/username
+                    $this->db->query("SELECT * FROM {$table} WHERE {$field} = :identifier");
+                    $this->db->bind(':identifier', $emailOrUsername);
+            
+                    $row = $this->db->single();
+            
+                    if ($row && isset($row['Password'])) {
+                        $hashed_password = $row['Password'];
+            
+                        if (password_verify($password, $hashed_password)) {
+                            // Add the user type to the result for differentiation
+                            return [
+                                'user_data' => $row,
+                                'user_table' => $table
+                            ];
+                        }
                     }
-                } else {
-                    return false; // No user found
                 }
+            
+                // If no match is found in any table
+                return false;
             }
+            
 
 
             //we need to connect the controller with the model as well so that we can use the database 
