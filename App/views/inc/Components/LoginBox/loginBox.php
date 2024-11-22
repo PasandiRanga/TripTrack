@@ -8,13 +8,13 @@
         <form action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
 
         <label>Email</label>
-        <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($data['email'] ?? ''); ?>">
+        <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($data['email'] ?? ''); ?>" placeholder="Enter username / email">
         <span class="form-invalid">
             <?php echo !empty($data['email_err']) ? $data['email_err'] : ''; ?>
         </span>
 
         <label>Password</label>
-        <input type="password" name="password" id="password" value="<?php echo htmlspecialchars($data['password'] ?? ''); ?>">
+        <input type="password" name="password" id="password" value="<?php echo htmlspecialchars($data['password'] ?? ''); ?>" placeholder="Enter password">
         <span class="form-invalid">
             <?php echo !empty($data['password_err']) ? $data['password_err'] : ''; ?>
         </span>

@@ -49,62 +49,17 @@
         </div>
 
         <div class="user-section">
-            <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Employee"])): ?>
+            <?php if (in_array($userRole, ["RegisteredUser"])): ?>
                 <div class="icon" onclick="toggleNotifi()">
                 <i class="fa-solid fa-bell"></i><span class="badge"><?php echo count($notifications); ?></span>
                 </div>
             <?php endif; ?>
             <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Conductor"])): ?>
 
-                <?php if ($userRole === "RegisteredUser"): ?>
-                    <div class="icon" onclick="toggleNotifi()">
-                        <img src="<?php echo URLROOT; ?>/public/images/bell.png" alt="not"><span><?php echo count($notifications); ?></span>
-                    </div>
-
-                    <div class="notifi-box" id="box">
-                        <h2>Notifications <span><?php echo count($notifications); ?></span></h2>
-
-                        <?php foreach ($notifications as $notification): ?>
-                            <div class="notifi-item">
-                                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
-                                <div class="text">
-                                    <h4><?php echo $notification["title"]; ?></h4>
-                                    <p><?php echo $notification["date"]; ?></p>
-                                    <span class="dropdown-arrow">&#9660;</span>
-                                </div>
-                                <div class="notification-content">
-                                    <p><?php echo $notification["content"]; ?></p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                <?php elseif ($userRole === "Conductor"): ?>
-                    <div class="icon" onclick="toggleNotifi()">
-                        <img src="<?php echo URLROOT; ?>/public/images/bell.png" alt="not"><span><?php echo count($c_notifications); ?></span>
-                    </div>
-                    <div class="notifi-box" id="box">
-                        <h2>Notifications <span><?php echo count($c_notifications); ?></span></h2>
-
-                        <?php foreach ($c_notifications as $c_notification): ?>
-                            <div class="notifi-item">
-                                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
-                                <div class="text">
-                                    <h4><?php echo $c_notification["title"]; ?></h4>
-                                    <p><?php echo $c_notification["date"]; ?></p>
-                                    <span class="dropdown-arrow">&#9660;</span>
-                                </div>
-                                <div class="notification-content">
-                                    <p><?php echo $c_notification["content"]; ?></p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
 
             <?php endif; ?>
 
-            <?php if ($userRole === "Admin" || $userRole === "RegisteredUser"): ?>
+            <?php if ($userRole === "RegisteredUser"): ?>
                 <div class="<?php echo $userRole === "Admin" ? "admin-profile-container" : "user-profile-container"; ?>">
                 <a href="<?php echo URLROOT; ?>/RegisteredPages/profile">
                     <div class="profile">
@@ -112,12 +67,6 @@
                             <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $_SESSION['user_profile_image'];?>" alt="Profile Picture" class="profile-pic">
                         </div>
                     </div>
-                </a>
-                </div>
-            <?php elseif ($userRole === "Conductor"): ?>
-                <div class="user-profile-container">
-                <a href="<?php echo URLROOT; ?>/ConductorPages/profile">
-                    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
                 </a>
                 </div>
             <?php else: ?>
