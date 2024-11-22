@@ -390,7 +390,7 @@
     // Set common session data
     $_SESSION['user_id'] = $user['User_id'];
     $_SESSION['user_type'] = $userTable;
-    $_SESSION['user_email'] = $user['Email'] ?? $user['Employee_username'];
+    $_SESSION['user_email'] = $user['Email'];
     $_SESSION['user_name'] = $user['Name'] ?? $user['Employee_name']; // Adjust for Conductor/Driver
     $_SESSION['user_profile_image'] = $user['Profile_image'] ?? 'default.png';
 

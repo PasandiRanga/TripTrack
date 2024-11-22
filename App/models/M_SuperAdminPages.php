@@ -134,10 +134,9 @@ class M_SuperAdminPages {
 //------------------------------------------------------------------------------------------------------------------------------------
 
     public function addDriver($data) {
-        $this->db->query('INSERT INTO driver (Employee_id, Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:employee_id, :name, :username, :nic, :address, :contact_no, :password)');
-        $this->db->bind(':employee_id', $data['employeeId']);
+        $this->db->query('INSERT INTO driver (Employee_name, Email, Nic, Address, Contact_no, Password) VALUES (:name, :email, :nic, :address, :contact_no, :password)');
         $this->db->bind(':name', $data['employeeName']);
-        $this->db->bind(':username', $data['username']);
+        $this->db->bind(':email', $data['email']);
         $this->db->bind(':nic', $data['nic']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':contact_no', $data['contactNo']);
@@ -147,11 +146,9 @@ class M_SuperAdminPages {
     }
 
     public function addConductor($data) {
-        var_dump($data); 
-        error_log(print_r($data, true));
-        $this->db->query('INSERT INTO conductor (Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:employee_id, :name, :username, :nic, :address, :contact_no, :password)');
-        $this->db->bind(':name', $data['employeeName']);
-        $this->db->bind(':username', $data['username']);
+        $this->db->query('INSERT INTO conductor (Employee_name, Email , Nic, Address, Contact_no, Password) VALUES (:name, :email, :nic, :address, :contact_no, :password)');
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
         $this->db->bind(':nic', $data['nic']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':contact_no', $data['contactNo']);
@@ -161,8 +158,7 @@ class M_SuperAdminPages {
     }
 
     public function addAdmin($data) {
-        $this->db->query('INSERT INTO system_admin (Admin_id, Admin_name, Email, Nic, Address, Contact_no, Region, Password) VALUES (:admin_id, :name, :email, :nic, :address, :contact_no, :region, :password)');
-        $this->db->bind(':admin_id', $data['adminId']);
+        $this->db->query('INSERT INTO system_admin (Admin_name, Email, Nic, Address, Contact_no, Region, Password) VALUES (:name, :email, :nic, :address, :contact_no, :region, :password)');
         $this->db->bind(':name', $data['adminName']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':nic', $data['nic']);

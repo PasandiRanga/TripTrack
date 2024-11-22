@@ -27,8 +27,8 @@
             <label for="employeeName">Name:</label>
             <input type="text" id="employeeName" name="employeeName" placeholder="Enter Name" required>
 
-            <label for="username">User Name:</label>
-            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Enter email" required>
 
             <label for="nic">NIC:</label>
             <input type="text" id="nic" name="nic" placeholder="Enter NIC" required>
@@ -45,8 +45,6 @@
 
         <!-- Regional Admin Form -->
         <div id="adminForm" class="user-section" style="display: none;">
-            <label for="adminId">Admin ID:</label>
-            <input type="text" id="adminId" name="adminId" placeholder="Enter Admin ID" required>
 
             <label for="adminName">Admin Name:</label>
             <input type="text" id="adminName" name="adminName" placeholder="Enter Admin Name" required>
@@ -107,7 +105,7 @@
                 userData = {
                     userType:document.getElementById("userType").value,
                     employeeName: document.getElementById("employeeName").value,
-                    username: document.getElementById("username").value,
+                    email: document.getElementById("email").value,
                     nic: document.getElementById("nic").value,
                     address: document.getElementById("address").value,
                     contactNo: document.getElementById("contactNo").value,
@@ -116,7 +114,6 @@
             } else if (userType === "admin") {
                 userData = {
                     userType: document.getElementById("userType").value,
-                    adminId: document.getElementById("adminId").value,
                     adminName: document.getElementById("adminName").value,
                     email: document.getElementById("email").value,
                     nic: document.getElementById("nic").value,
@@ -134,7 +131,9 @@
             console.log("User data:", userData);
 
             // Simulate successful form submission (you can replace this with actual server-side submission)
-            alert("User created successfully!");
+           
+
+            this.submit(); // Submit the form
 
             // Optionally, clear the form fields after submission
             clearForm();

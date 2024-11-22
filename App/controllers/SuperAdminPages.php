@@ -213,6 +213,7 @@ public function addemployees() {
         // Initialize data array with common fields
         $data = [
             'name' => ($userType === 'admin') ? trim($_POST['adminName']) : trim($_POST['employeeName']),
+            'email' => trim($_POST['email']),
             'nic' => trim($_POST['nic']),
             'address' => trim($_POST['address']),
             'contactNo' => trim($_POST['contactNo']),
@@ -220,45 +221,53 @@ public function addemployees() {
         ];
 
         // Add additional fields based on user type
-        if ($userType === 'driver' || $userType === 'conductor') {
-            // Driver/Conductor specific fields
-            $data['username'] = trim($_POST['username']);
-        } elseif ($userType === 'admin') {
-            // Admin specific fields
-            $data['adminId'] = trim($_POST['adminId']);
-            $data['email'] = trim($_POST['email']);
+        if ($userType==='admin') {
             $data['region'] = trim($_POST['region']);
-        } else {
-            // Invalid user type
-            die("Error: Invalid user type.");
-        }
+        } 
 
         // Validation: Ensure all required fields are provided
-        if (empty($data['name']) || empty($data['username']) || empty($data['nic']) || empty($data['address']) || empty($data['contactNo']) || empty($data['password'])) {
-            die("Error: All fields are required.");
+        if (empty($data['name']) || empty($data['email']) || empty($data['nic']) || empty($data['address']) || empty($data['contactNo']) || empty($data['password'])) {
+            $_SESSION['error_message'] = "Error: All fields are required.";
+            header("Location: " . URLROOT . "/SuperAdminPages/addemployees");
+            exit();
         }
 
         // Process the form based on user type
-        $result = false;
-        if ($userType === 'driver') {
-            // Driver-specific insertion
-            $result = $this->SuperAdminModel->addDriver($data);
-        } elseif ($userType === 'conductor') {
-            // Conductor-specific insertion
-            $result = $this->SuperAdminModel->addConductor($data);
-        } elseif ($userType === 'admin') {
-            // Admin-specific insertion
-            $result = $this->SuperAdminModel->addAdmin($data);
-        }
+        try {
+            $result = false;
+            if ($userType === 'driver') {
+                // Driver-specific insertion
+                $result = $this->SuperAdminModel->addDriver($data);
+            } elseif ($userType === 'conductor') {
+                // Conductor-specific insertion
+                $result = $this->SuperAdminModel->addConductor($data);
+            } elseif ($userType === 'admin') {
+                // Admin-specific insertion
+                $result = $this->SuperAdminModel->addAdmin($data);
+            }
 
-        // Check if the user was added successfully
-        if ($result) {
-            header("Location: " . URLROOT . "/SuperAdminPages/employees");
+            // Check if the user was added successfully
+            if ($result) {
+                $_SESSION['success_message'] = "Employee added successfully";
+                header("Location: " . URLROOT . "/SuperAdminPages/employees");
+                exit();
+            } else {
+                $_SESSION['error_message'] = "Error: Unable to add the employee.";
+                header("Location: " . URLROOT . "/SuperAdminPages/addemployees");
+                exit();
+            }
+        } catch (PDOException $e) {
+            // Check for duplicate NIC error (code 23000)
+            if ($e->getCode() == 23000) {
+                $_SESSION['error_message'] = "Error: The NIC number '{$data['nic']}' already exists in the database.";
+            } else {
+                // Handle any other PDO exceptions
+                $_SESSION['error_message'] = "Database error: " . $e->getMessage();
+            }
+
+            // Redirect to the add employee page
+            header("Location: " . URLROOT . "/SuperAdminPages/addemployees");
             exit();
-        } else {
-            // Log the error for debugging
-            error_log("Error: Unable to add the employee.");
-            die("Error: Unable to add the employee.");
         }
     } else {
         // Load the view if not a POST request

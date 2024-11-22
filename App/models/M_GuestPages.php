@@ -46,19 +46,19 @@
             }
 
             //login the user
-            public function login($emailOrUsername, $password) {
+            public function login($email, $password) {
                 // Define tables and their respective username/email fields
                 $userTables = [
                     'customer' => 'Email',
                     'system_admin' => 'Email',
-                    'conductor' => 'Employee_username',
-                    'driver' => 'Employee_username',
+                    'conductor' => 'Email',
+                    'driver' => 'Email',
                 ];
             
                 foreach ($userTables as $table => $field) {
                     // Query each table for the provided email/username
                     $this->db->query("SELECT * FROM {$table} WHERE {$field} = :identifier");
-                    $this->db->bind(':identifier', $emailOrUsername);
+                    $this->db->bind(':identifier', $email);
             
                     $row = $this->db->single();
             
