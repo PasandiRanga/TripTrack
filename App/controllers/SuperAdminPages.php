@@ -206,7 +206,7 @@ public function addemployees() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Sanitize input
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
+        // echo "<script>console.log('POST Data: " . json_encode($_POST) . "');</script>";
         // Get the user type
         $userType = trim($_POST['userType']);
 
@@ -222,7 +222,6 @@ public function addemployees() {
         // Add additional fields based on user type
         if ($userType === 'driver' || $userType === 'conductor') {
             // Driver/Conductor specific fields
-            $data['employeeId'] = trim($_POST['employeeId']);
             $data['username'] = trim($_POST['username']);
         } elseif ($userType === 'admin') {
             // Admin specific fields

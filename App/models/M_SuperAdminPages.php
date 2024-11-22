@@ -147,8 +147,9 @@ class M_SuperAdminPages {
     }
 
     public function addConductor($data) {
-        $this->db->query('INSERT INTO conductor (Employee_id, Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:employee_id, :name, :username, :nic, :address, :contact_no, :password)');
-        $this->db->bind(':employee_id', $data['employeeId']);
+        var_dump($data); 
+        error_log(print_r($data, true));
+        $this->db->query('INSERT INTO conductor (Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:employee_id, :name, :username, :nic, :address, :contact_no, :password)');
         $this->db->bind(':name', $data['employeeName']);
         $this->db->bind(':username', $data['username']);
         $this->db->bind(':nic', $data['nic']);

@@ -23,8 +23,6 @@
 
         <!-- Conductor/Driver Form -->
         <div id="employeeForm" class="user-section" style="display: none;">
-            <label for="employeeId">Employee ID:</label>
-            <input type="text" id="employeeId" name="employeeId" placeholder="Enter Employee ID" required>
 
             <label for="employeeName">Name:</label>
             <input type="text" id="employeeName" name="employeeName" placeholder="Enter Name" required>
@@ -79,9 +77,25 @@
         // Toggle between forms based on user type
         function toggleUserForm() {
             const userType = document.getElementById("userType").value;
+            // Get form sections
+            const employeeForm = document.getElementById("employeeForm");
+            const adminForm = document.getElementById("adminForm");
             document.getElementById("employeeForm").style.display = (userType === "conductor" || userType === "driver") ? "block" : "none";
             document.getElementById("adminForm").style.display = (userType === "admin") ? "block" : "none";
+
+            // Disable inputs in hidden forms
+            const allInputs = document.querySelectorAll(".user-section input");
+            allInputs.forEach(input => input.disabled = true); // Disable all inputs initially
+
+            // Enable inputs in the visible form
+            const visibleInputs = (userType === "admin") 
+                ? adminForm.querySelectorAll("input") 
+                : employeeForm.querySelectorAll("input");
+
+            visibleInputs.forEach(input => input.disabled = false);
         }
+
+
         // Handle form submission
         document.getElementById("userForm").addEventListener("submit", function(event) {
             event.preventDefault();
@@ -91,7 +105,7 @@
 
             if (userType === "conductor" || userType === "driver") {
                 userData = {
-                    employeeId: document.getElementById("employeeId").value,
+                    userType:document.getElementById("userType").value,
                     employeeName: document.getElementById("employeeName").value,
                     username: document.getElementById("username").value,
                     nic: document.getElementById("nic").value,
@@ -101,6 +115,7 @@
                 };
             } else if (userType === "admin") {
                 userData = {
+                    userType: document.getElementById("userType").value,
                     adminId: document.getElementById("adminId").value,
                     adminName: document.getElementById("adminName").value,
                     email: document.getElementById("email").value,
