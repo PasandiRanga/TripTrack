@@ -33,6 +33,7 @@
                 <tr>
                     <th>Employee ID</th>
                     <th>Name</th>
+                    <th>User Name</th>
                     <th>NIC</th>
                     <th>Address</th>
                     <th>Contact No</th>
@@ -54,6 +55,7 @@
                 <tr>
                     <th>Employee ID</th>
                     <th>Name</th>
+                    <th>User Name</th>
                     <th>NIC</th>
                     <th>Address</th>
                     <th>Contact No</th>
@@ -94,12 +96,12 @@
         // Example user data for each role (can be replaced with dynamic PHP data)
         const users = {
             conductor: [
-                {employeeId: 1, name: "John Doe", nic: "123456789V", address: "Street 1, City", contact: "123-456-7890"},
-                {employeeId: 2, name: "Bob Brown", nic: "987654321V", address: "Street 2, City", contact: "456-789-0123"}
+                {employeeId: 1, name: "John Doe", username: "John001", nic: "123456789V", address: "Street 1, City", contact: "123-456-7890"},
+                {employeeId: 2, name: "Bob Brown", username: "Bob002", nic: "987654321V", address: "Street 2, City", contact: "456-789-0123"}
             ],
             driver: [
-                {employeeId: 3, name: "Jane Smith", nic: "111223344V", address: "Street 3, City", contact: "234-567-8901"},
-                {employeeId: 4, name: "Charlie White", nic: "112233445V", address: "Street 4, City", contact: "567-890-1234"}
+                {employeeId: 3, name: "Jane Smith", username: "Jane003", nic: "111223344V", address: "Street 3, City", contact: "234-567-8901"},
+                {employeeId: 4, name: "Charlie White", username: "Charlie004", nic: "112233445V", address: "Street 4, City", contact: "567-890-1234"}
             ],
             admin: [
                 {adminId: 5, adminName: "Alice Johnson", email: "alice@admin.com", nic: "556677889V", address: "Admin Office, City", contact: "345-678-9012", region: "Central"},
@@ -139,6 +141,7 @@
                         row.innerHTML = `
                             <td>${user.employeeId}</td>
                             <td>${user.name}</td>
+                            <td>${user.username}</td>
                             <td>${user.nic}</td>
                             <td>${user.address}</td>
                             <td>${user.contact}</td>
