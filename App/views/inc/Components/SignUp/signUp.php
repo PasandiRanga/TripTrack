@@ -92,9 +92,7 @@
 
                     <!-- Register Button Section -->
                     <div class="form-register">
-                    <center>
-                        <a href="pages/GuestUser/home.php" class="button">Register</a>
-                    </center>                    
+                    <center><input class="button" type="submit" value="Register"></center>                 
                     </div>
 
                     <script>

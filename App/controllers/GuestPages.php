@@ -387,44 +387,44 @@
         // }
 
         public function createUserSession($user, $userTable) {
-            // Set common session data
-            $_SESSION['user_id'] = $user['User_id'];
-            $_SESSION['user_type'] = $userTable;
-            $_SESSION['user_email'] = $user['Email'] ?? $user['Employee_username'];
-            $_SESSION['user_name'] = $user['Name'] ?? $user['Employee_name']; // Adjust for Conductor/Driver
-            $_SESSION['user_profile_image'] = $user['Profile_image'] ?? 'default.png';
-        
-            // Determine redirect path based on user type
-            switch ($userTable) {
-                case 'customer':
-                    $_SESSION['user_role'] = 'RegisteredUser';
-                    header('Location: ' . URLROOT . '/RegisteredPages/home');
-                    break;
-        
-                case 'System_Admin':
-                    $_SESSION['user_role'] = 'Admin';
-                    header('Location: ' . URLROOT . '/AdminPages/dashboard');
-                    break;
-        
-                case 'Conductor':
-                    $_SESSION['user_role'] = 'Conductor';
-                    header('Location: ' . URLROOT . '/ConductorPages/home');
-                    break;
-        
-                case 'Driver':
-                    $_SESSION['user_role'] = 'Driver';
-                    header('Location: ' . URLROOT . '/ConductorPages/home');
-                    break;
-        
-                default:
-                    // Default case if userTable is unexpected
-                    header('Location: ' . URLROOT . '/GuestPages/home');
-                    break;
-            }
-        
-            exit();
-        }
-        
+    // Set common session data
+    $_SESSION['user_id'] = $user['User_id'];
+    $_SESSION['user_type'] = $userTable;
+    $_SESSION['user_email'] = $user['Email'] ?? $user['Employee_username'];
+    $_SESSION['user_name'] = $user['Name'] ?? $user['Employee_name']; // Adjust for Conductor/Driver
+    $_SESSION['user_profile_image'] = $user['Profile_image'] ?? 'default.png';
+
+    // Determine redirect path based on user type
+    switch ($userTable) {
+        case 'customer':
+            $_SESSION['user_role'] = 'RegisteredUser';
+            header('Location: ' . URLROOT . '/RegisteredPages/home');
+            break;
+
+        case 'System_Admin':
+            $_SESSION['user_role'] = 'Admin';
+            header('Location: ' . URLROOT . '/AdminPages/dashboard');
+            break;
+
+        case 'Conductor':
+            $_SESSION['user_role'] = 'Conductor';
+            header('Location: ' . URLROOT . '/ConductorPages/home');
+            break;
+
+        case 'Driver':
+            $_SESSION['user_role'] = 'Driver';
+            header('Location: ' . URLROOT . '/DriverPages/home');
+            break;
+
+        default:
+            // Default case if userTable is unexpected
+            header('Location: ' . URLROOT . '/GuestPages/login');
+            break;
+    }
+
+    exit();
+}
+
         
         public function logout(){
             unset($_SESSION['user_id']);

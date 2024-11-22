@@ -50,9 +50,9 @@
                 // Define tables and their respective username/email fields
                 $userTables = [
                     'customer' => 'Email',
-                    'System_Admin' => 'Email',
-                    'Conductor' => 'Employee_username',
-                    'Driver' => 'Employee_username',
+                    'system_admin' => 'Email',
+                    'conductor' => 'Employee_username',
+                    'driver' => 'Employee_username',
                 ];
             
                 foreach ($userTables as $table => $field) {
