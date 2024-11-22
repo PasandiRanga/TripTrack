@@ -32,14 +32,11 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
-    <div class="hero-container">
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
 
-        <div class="background"></div>
-    </div>
+    <h1>Scan QR Code</h1>
 
-    <div class="body-section">
+    <div class="container">
 
         <div class="qr-reader-container">
             <div id="qr-reader" style="width: 500px;"></div>
@@ -84,4 +81,3 @@
 
 </body>
 </html>
-

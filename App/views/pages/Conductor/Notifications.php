@@ -33,9 +33,11 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
-    <div class="hero-container">
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
+
+    <h1>Notifications</h1>
+
+    <div class="container">
 
     <div class="notification-container">
         <!-- Notification Item -->
@@ -48,11 +50,10 @@
                 <span class="dropdown-arrow">&#9660;</span>
             </div>
             <div class="notification-content">
-                <p>Your schedule for 15th of November has been changed. Go to "View Assign" page to get the updated schedule.</p>
+                <p>Your schedule for 15th of November has been changed. View the "Dashboard" to see the updated schedule.</p>
             </div>
         </div>
     </div>
-
 
     <div class="notification-container">
         <!-- Notification Item -->
@@ -66,6 +67,22 @@
             </div>
             <div class="notification-content">
                 <p>Your leave request for following dates have been approved.<br>November 15, 2024<br>November 16, 2024<br>November 17, 2024</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification-container">
+        <!-- Notification Item -->
+        <div class="notification-item">
+            <div class="notification-header">
+                <div>
+                    <h3 class="notification-topic">Approval of leave request</h3>
+                    <h4> November 22, 2024, 4:14 AM</h4>
+                </div>
+                <span class="dropdown-arrow">&#9660;</span>
+            </div>
+            <div class="notification-content">
+                <p>Your leave request for following dates have been approved.<br>November 25, 2024<br>November 26, 2024<br>November 27, 2024</p>
             </div>
         </div>
     </div>
