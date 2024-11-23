@@ -448,5 +448,9 @@
                 return false;
             }
         }  
+
+        public function test() {
+            $this->view('pages/GuestUser/test');
+        }
     }  
 ?>
