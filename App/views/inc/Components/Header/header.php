@@ -51,14 +51,28 @@
 
         <div class="user-section">
             <?php if (in_array($userRole, ["RegisteredUser"])): ?>
-                <div class="icon" onclick="toggleNotifi()">
+                <div class="notiicon" onclick="toggleNotifi()">
                 <i class="fa-solid fa-bell"></i><span class="badge"><?php echo count($notifications); ?></span>
+
+                <div class="notifi-box" id="box">
+                        <h2>Notifications <span><?php echo count($notifications); ?></span></h2>
+                        <?php foreach ($notifications as $notification): ?>
+                            <div class="notifi-item">
+                                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
+                                <div class="text">
+                                    <h4><?php echo $notification["title"]; ?></h4>
+                                    <p><?php echo $notification["date"]; ?></p>
+                                    <span class="dropdown-arrow">&#9660;</span>
+                                </div>
+                                <div class="notification-content">
+                                    <p><?php echo $notification["content"]; ?></p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             <?php endif; ?>
-            <?php if (in_array($userRole, ["Admin", "RegisteredUser", "Conductor"])): ?>
-
-
-            <?php endif; ?>
+            
 
             <?php if ($userRole === "RegisteredUser"): ?>
                 <div class="<?php echo $userRole === "Admin" ? "admin-profile-container" : "user-profile-container"; ?>">
@@ -135,7 +149,7 @@
 
         document.addEventListener('click', function(event) {
             const box = document.getElementById('box');
-            if (box && !box.contains(event.target) && !event.target.closest('.icon')) {
+            if (box && !box.contains(event.target) && !event.target.closest('.notiicon')) {
             box.style.height = '0px';
             box.style.opacity = '0';
     }
