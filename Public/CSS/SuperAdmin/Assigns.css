@@ -1,0 +1,115 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Back Button */
+.back-button {
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}
+
+/* Page Title */
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: #444;
+}
+
+/* Add Assign Button */
+.top-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 20px;
+}
+
+.add-assign-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-assign-btn:hover {
+    background-color: #007bff;
+}
+
+/* Table Container */
+.assign-table-container {
+    max-width: 90%;
+    margin: 0 auto 20px;
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styling */
+.assign-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.assign-table thead {
+    background-color: #f1f1f1;
+}
+
+.assign-table th,
+.assign-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.assign-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.assign-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Update and Delete Buttons */
+.update-btn,
+.delete-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #007bff;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
