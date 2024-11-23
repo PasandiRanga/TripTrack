@@ -211,6 +211,7 @@ public function addemployees() {
         $userType = trim($_POST['userType']);
 
         // Initialize data array with common fields
+       /*
         $data = [
             'name' => ($userType === 'admin') ? trim($_POST['adminName']) : trim($_POST['employeeName']),
             'nic' => trim($_POST['nic']),
@@ -218,15 +219,29 @@ public function addemployees() {
             'contactNo' => trim($_POST['contactNo']),
             'password' => password_hash(trim($_POST['password']), PASSWORD_BCRYPT),
         ];
-
+        */
         // Add additional fields based on user type
         if ($userType === 'driver' || $userType === 'conductor') {
             // Driver/Conductor specific fields
-            $data['username'] = trim($_POST['username']);
+            $data = [
+                'name' => trim($_POST['employeeName']),
+                'username' => trim($_POST['username']),
+                'nic' => trim($_POST['nic']),
+                'address' => trim($_POST['address']),
+                'contactNo' => trim($_POST['contactNo']),
+                'password' => password_hash(trim($_POST['password']), PASSWORD_BCRYPT),
+            ];
         } elseif ($userType === 'admin') {
             // Admin specific fields
-            $data['email'] = trim($_POST['email']);
-            $data['region'] = trim($_POST['region']);
+            $data = [
+                'name' => trim($_POST['adminName']),
+                'email' =>  trim($_POST['email']),
+                'nic' => trim($_POST['nic']),
+                'address' => trim($_POST['address']),
+                'contactNo' => trim($_POST['contactNo']),
+                'region' => trim($_POST['region']),
+                'password' => password_hash(trim($_POST['password']), PASSWORD_BCRYPT),
+            ];
         } else {
             // Invalid user type
             die("Error: Invalid user type.");

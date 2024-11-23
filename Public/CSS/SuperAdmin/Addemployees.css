@@ -1,75 +1,96 @@
+/* General Body Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-h2 {
     color: #333;
+}
+
+/* Back Button Styling */
+.back-button {
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #007bff;
+}
+
+/* Page Title */
+h2 {
     text-align: center;
+    margin-top: 20px;
+    color: #444;
 }
 
+/* Form Container */
 .user-form {
-    background-color: #fff;
+    max-width: 600px;
+    margin: 20px auto;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: left;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Elements Styling */
 .user-form label {
     display: block;
-    margin: 10px 0 5px;
+    margin-bottom: 8px;
     font-weight: bold;
+    color: #555;
 }
 
-.user-form select,
-.user-form input {
+.user-form input,
+.user-form select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     font-size: 14px;
 }
 
+.user-form input:focus,
+.user-form select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Submit Button */
 .user-form button {
     width: 100%;
     padding: 10px;
-    color: #fff;
+    font-size: 16px;
+    color: white;
     background-color: #007bff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .user-form button:hover {
-    background-color: #0056b3;
+    background-color: #007bff;
 }
 
-.user-section {
-    margin-top: 15px;
-}
-.back-button {
-    position: absolute; /* or 'fixed' if you want it to stay fixed on scroll */
-    top: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    background-color: #007bff; /* Customize background color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .user-form {
+        padding: 15px;
+    }
 
-.back-button:hover {
-    background-color: #0056b3; /* Darken background on hover */
+    .back-button {
+        margin: 10px;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
 }
