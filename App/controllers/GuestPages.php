@@ -417,37 +417,35 @@
                 // echo '<pre>';
                 // print_r($loggedUser);
                 // print_r($userTable);
-                // echo '</pre>';
-                
+                // echo '</pre>';   
+            // Set common session data
+            $_SESSION['user_id'] = $userTable === 'customer' ? $loggedUser['User_id'] : $loggedUser['employee_id'];
+            $_SESSION['user_type'] = $userTable;
+            $_SESSION['user_email'] = $userTable === 'customer' ? $loggedUser['Email'] : $loggedUser['email'];
+            $_SESSION['user_name'] = $userTable === 'customer' ? $loggedUser['Name'] : $loggedUser['name'];
 
-                
-    // Set common session data
-    $_SESSION['user_id'] = $userTable === 'customer' ? $loggedUser['User_id'] : $loggedUser['employee_id'];
-    $_SESSION['user_type'] = $userTable;
-    $_SESSION['user_email'] = $userTable === 'customer' ? $loggedUser['Email'] : $loggedUser['email'];
-    $_SESSION['user_name'] = $userTable === 'customer' ? $loggedUser['Name'] : $loggedUser['name'];
-    $_SESSION['user_profile_image'] = $user['Profile_image'] ?? 'default.png';
 
-    // Determine redirect path based on user type
-    switch ($userTable) {
-        case 'customer':
-            $_SESSION['user_role'] = 'RegisteredUser';
-            header('Location: ' . URLROOT . '/RegisteredPages/home');
-            break;
+            // Determine redirect path based on user type
+            switch ($userTable) {
+                case 'customer':
+                    $_SESSION['user_role'] = 'RegisteredUser';
+                    $_SESSION['user_profile_image']=$loggedUser['Profile_image'];
+                    header('Location: ' . URLROOT . '/RegisteredPages/home');
+                    break;
 
-        case 'employee':
-            $_SESSION['user_role'] = 'Admin';
-            header('Location: ' . URLROOT . '/SuperAdminPages/home');
-            break;
+                case 'employee':
+                    $_SESSION['user_role'] = $loggedUser['role'];
+                    header('Location: ' . URLROOT . '/SuperAdminPages/home');
+                    break;
 
-        default:
-            // Default case if userTable is unexpected
-            header('Location: ' . URLROOT . '/GuestPages/login');
-            break;
-    }
+                default:
+                    // Default case if userTable is unexpected
+                    header('Location: ' . URLROOT . '/GuestPages/login');
+                    break;
+            }
 
-    exit();
-}
+            exit();
+        }
 
         
         public function logout(){
@@ -467,5 +465,9 @@
                 return false;
             }
         }  
+
+        public function test() {
+            $this->view('pages/GuestUser/test');
+        }
     }  
 ?>
