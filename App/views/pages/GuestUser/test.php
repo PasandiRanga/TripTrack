@@ -14,10 +14,6 @@
     <title>Contact Us</title>
 </head>
 <body>
-
-  <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-
-
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
         localStorage.setItem('userRole', userRole);
@@ -37,12 +33,13 @@
     ?> 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
 
     <div>
-      <img src="<?php echo URLROOT; ?>/public/images/contact.jpg" class="image" alt="contact image">
+      <img src="<?php echo URLROOT; ?>/public/images/contact.jpg" class="backimage" alt="contact image">
     </div>
     
-    <div class="container">
+    <div class="Contactcontainer">
       <!--<span class="big-circle"></span>-->
       <img src="<?php echo URLROOT; ?>/Public/images/shape.png" class="square" alt="" />
       <div class="form">
@@ -116,8 +113,10 @@
         </div>
       </div>
     </div>
-
-    <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+<div class="footerContainer">
+<?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+</div>
+    
 
      
 <script>
