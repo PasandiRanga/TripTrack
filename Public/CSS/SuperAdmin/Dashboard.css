@@ -2,7 +2,7 @@ body{
 
     margin: 0;
     padding: 0;
-    background-color: #063946;
+    background-color: #8B7C75;
     color: #9e9ea4;
     font-family: "Arial", sans-serif;
 }
@@ -31,25 +31,29 @@ body{
 
 .header {
     grid-area: header;
-    height: 15px;
+    height: 60px;
     background-color: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px 0 30px;
     box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
     margin-left: auto;
-    margin-top: 40px;
 }
 .header-right{
-    margin-top: 1%;
     margin-left: auto; /* Pushes this element to the right */
     display: flex; /* Make header-right a flex container for its items */
     gap: 30px;
 }
 .header-left{
-    margin-right: 100%; /* Pushes this element to the right */
+    margin-right: auto;/* Pushes this element to the right */
     display: flex; /* Make header-right a flex container for its items */
 }
+
+.logo {
+    height: 60px; /* Adjust height to fit the header */
+    object-fit: contain; /* Ensure logo fits well */
+}
+
 .header-dashboard{
     display: flex;
     justify-content: space-between;
@@ -137,8 +141,8 @@ body{
     justify-content: space-between;
     justify-items: auto;
     padding: 25px;
-    border-radius: 5px;
-    background-color: #063946;
+    border-radius: 20px;
+    background-color: #263043;
     color: white;
     gap: 30px;
 }
@@ -161,14 +165,14 @@ body{
 }
 
 .charts-card {
-    background-color: #063946;
+    background-color: #263043;
     margin-bottom: 20px;
     margin-left: 10px;
     margin-right: 10px;
     padding: 25px;
     box-sizing: border-box;
     -webkit-column-break-inside: avoid;
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
 }
 
