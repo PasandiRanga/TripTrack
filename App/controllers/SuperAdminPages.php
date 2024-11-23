@@ -375,5 +375,13 @@ class SuperAdminPages extends Controller {
     public function addschedule() {
         $this->view('pages/SuperAdmin/Addschedule');
     }
+
+    public function assigns() {
+        $this->view('pages/SuperAdmin/Assigns');
+    }
+
+    public function addassigns() {
+        $this->view('pages/SuperAdmin/Addassigns');
+    }
 }
 ?>
