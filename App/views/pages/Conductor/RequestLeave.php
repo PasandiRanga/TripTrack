@@ -66,14 +66,14 @@
                     <div class="form-group">
                         <div>
                             <label for="noOfDays">Number of Days</label>
-                            <input type="number" id="noOfDays" name="noOfDays" required>
+                            <input type="number" id="noOfDays" name="noOfDays" required min="1">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div>
                             <label for="reason">Reason</label>
-                            <input type="text" id="reason" name="reason" required>
+                            <textarea id="reason" name="reason" rows="5" required></textarea>
                         </div>
                     </div>                     
 
