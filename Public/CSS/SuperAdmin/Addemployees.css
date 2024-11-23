@@ -19,6 +19,14 @@ body {
     cursor: pointer;
 }
 
+.form-invalid {
+    color: #FF0000; /* Red color for error messages */
+    font-size: 0.875rem; /* Slightly smaller font size */
+    margin-top: 0px; /* Space between the input field and error message */
+    margin-bottom: 15px; /* Bottom margin to separate from the next form field */
+    display: block; /* Ensure error message is on its own line */
+}
+
 .back-button:hover {
     background-color: #007bff;
 }

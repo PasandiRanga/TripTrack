@@ -202,101 +202,162 @@ class SuperAdminPages extends Controller {
                                     //Employees
 //---------------------------------------------------------------------------------------------------------------------- 
 
-public function addemployees() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Sanitize input
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        // echo "<script>console.log('POST Data: " . json_encode($_POST) . "');</script>";
-        // Get the user type
-        $userType = trim($_POST['userType']);
-
-        // Initialize data array with common fields
-       /*
-        $data = [
-            'name' => ($userType === 'admin') ? trim($_POST['adminName']) : trim($_POST['employeeName']),
-            'email' => trim($_POST['email']),
-            'nic' => trim($_POST['nic']),
-            'address' => trim($_POST['address']),
-            'contactNo' => trim($_POST['contactNo']),
-            'password' => password_hash(trim($_POST['password']), PASSWORD_BCRYPT),
-        ];
-        */
-        // Add additional fields based on user type
-        if ($userType === 'driver' || $userType === 'conductor') {
-            // Driver/Conductor specific fields
-            $data = [
-                'name' => trim($_POST['employeeName']),
-                'username' => trim($_POST['username']),
-                'nic' => trim($_POST['nic']),
-                'address' => trim($_POST['address']),
-                'contactNo' => trim($_POST['contactNo']),
-                'password' => password_hash(trim($_POST['password']), PASSWORD_BCRYPT),
-            ];
-        } elseif ($userType === 'admin') {
-            // Admin specific fields
-            $data = [
-                'name' => trim($_POST['adminName']),
-                'email' =>  trim($_POST['email']),
-                'nic' => trim($_POST['nic']),
-                'address' => trim($_POST['address']),
-                'contactNo' => trim($_POST['contactNo']),
-                'region' => trim($_POST['region']),
-                'password' => password_hash(trim($_POST['password']), PASSWORD_BCRYPT),
-            ];
-        } else {
-            // Invalid user type
-            die("Error: Invalid user type.");
-        }
-
-        // Validation: Ensure all required fields are provided
-        if (empty($data['name']) || empty($data['email']) || empty($data['nic']) || empty($data['address']) || empty($data['contactNo']) || empty($data['password'])) {
-            $_SESSION['error_message'] = "Error: All fields are required.";
-            header("Location: " . URLROOT . "/SuperAdminPages/addemployees");
-            exit();
-        }
-
-        // Process the form based on user type
-        try {
-            $result = false;
-            if ($userType === 'driver') {
-                // Driver-specific insertion
-                $result = $this->SuperAdminModel->addDriver($data);
-            } elseif ($userType === 'conductor') {
-                // Conductor-specific insertion
-                $result = $this->SuperAdminModel->addConductor($data);
-            } elseif ($userType === 'admin') {
-                // Admin-specific insertion
-                $result = $this->SuperAdminModel->addAdmin($data);
-            }
-
-            // Check if the user was added successfully
-            if ($result) {
-                $_SESSION['success_message'] = "Employee added successfully";
-                header("Location: " . URLROOT . "/SuperAdminPages/employees");
-                exit();
-            } else {
-                $_SESSION['error_message'] = "Error: Unable to add the employee.";
-                header("Location: " . URLROOT . "/SuperAdminPages/addemployees");
-                exit();
-            }
-        } catch (PDOException $e) {
-            // Check for duplicate NIC error (code 23000)
-            if ($e->getCode() == 23000) {
-                $_SESSION['error_message'] = "Error: The NIC number '{$data['nic']}' already exists in the database.";
-            } else {
-                // Handle any other PDO exceptions
-                $_SESSION['error_message'] = "Database error: " . $e->getMessage();
-            }
-
-            // Redirect to the add employee page
-            header("Location: " . URLROOT . "/SuperAdminPages/addemployees");
-            exit();
-        }
-    } else {
-        // Load the view if not a POST request
-        $this->view('pages/SuperAdmin/Addemployees');
+    public function addemployees(){
+        $this->view('pages/SuperAdmin/addemployees');
     }
-}
+
+    public function addemp(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // echo "<script>console.log(" . json_encode($_POST) . ");</script>";
+            // echo '<pre>';
+            // print_r($_POST);
+            // echo '</pre>';
+        
+            $data = [
+                'name' => trim($_POST['name']),
+                'nic' => trim($_POST['nic']),
+                'address' => trim($_POST['address']),
+                'contactNo' => trim($_POST['contactNo']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'role' => trim($_POST['role']),
+
+                'name_err' => '',
+                'contactNo_err' => '',
+                'nic_err' => '',
+                'address_err' => '',
+                'email_err' => '',
+                'password_err' => '',
+                'role_err' => ''
+            ];
+
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
+         
+        
+
+            if (empty($data['name'])) {
+                $data['name_err'] = 'Please enter a name';
+            }
+    
+            // Validate contact number
+            if (empty($data['contactNo'])) {
+                $data['contactNo_err'] = 'Please enter a contact number'; // Check if the field is empty
+            } elseif (!ctype_digit($data['contactNo'])) {
+                $data['contactNo_err'] = 'The contact number must contain only numbers'; // Check if it contains only numeric characters
+            } elseif (strlen($data['contactNo']) !== 10) {
+                $data['contactNo_err'] = 'The contact number must be exactly 10 digits long'; // Check if it is exactly 10 digits
+            } elseif ($data['contactNo'][0] !== '0') {
+                $data['contactNo_err'] = 'The contact number must start with 0'; // Check if it starts with 0
+            }
+
+    
+            // Validate NIC
+            if (empty($data['nic'])) {
+                $data['nic_err'] = 'Please enter a NIC';
+            } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
+                // Check if the NIC is either 12 digits or 11 digits followed by "V"
+                $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
+            }else {
+                // Check if NIC is already registered
+                if ($this->SuperAdminModel->findUserByNIC($data['nic'])) {
+                    $data['nic_err'] = 'This NIC is already registered';
+                }
+            }
+
+
+            //Validate the Address
+            if (empty($data['address'])) {
+                $data['address_err'] = 'Please enter an address';
+            }
+    
+
+            // Validate Email
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter an email';
+            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
+            } else {
+                // Check if email is already registered
+                if ($this->SuperAdminModel->findUserByEmail($data['email'])) {
+                    $data['email_err'] = 'This email is already registered';
+                }
+            }
+
+    
+            // Validate password
+            if (empty($data['password'])) {
+                $data['password_err'] = 'Please enter a password';
+            } elseif (strlen($data['password']) < 8) {
+                // Check if the password is at least 8 characters long
+                $data['password_err'] = 'Password must be at least 8 characters long';
+            } elseif (!preg_match('/[A-Z]/', $data['password'])) {
+                // Check if the password contains at least one uppercase letter
+                $data['password_err'] = 'Password must contain at least one uppercase letter';
+            } elseif (!preg_match('/[a-z]/', $data['password'])) {
+                // Check if the password contains at least one lowercase letter
+                $data['password_err'] = 'Password must contain at least one lowercase letter';
+            } elseif (!preg_match('/\d/', $data['password'])) {
+                // Check if the password contains at least one number
+                $data['password_err'] = 'Password must contain at least one number';
+            } elseif (!preg_match('/[\W_]/', $data['password'])) {
+                // Check if the password contains at least one special character (symbol)
+                $data['password_err'] = 'Password must contain at least one special character';
+            }
+
+            // echo '<pre>';
+            // print_r($data);
+            // print_r((empty($data['name_err']) && empty($data['contactNo_err']) && empty($data['nic_err']) &&
+            // empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err'])));
+            // echo '</pre>';
+              
+
+            // Register the user if no errors are present
+            if (empty($data['name_err']) && empty($data['contactNo_err']) && empty($data['nic_err']) &&
+            empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err'])) {
+
+                // echo '<pre>';
+                // print_r($data);
+                // echo '</pre>';
+                
+                
+
+                // Hash the password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                // echo '<pre>';
+                // print_r($data);
+                // echo '</pre>';
+                
+                // Debug output
+                var_dump($data['password']); // This should display a hashed string
+
+
+                // Register the user
+                if ($this->SuperAdminModel->addemployee($data)) {
+                    // echo '<pre>';
+                    // print_r($this->SuperAdminModel->addemployee($data));
+                    // echo '</pre>';
+                    $_SESSION['success_message'] = 'Employee added successfully!';
+                    header('Location: ' . URLROOT . '/SuperAdminPages/employees' );
+                    exit();  // Make sure no further code executes after the redirect
+                } else {
+                    // echo '<pre>';
+                    // print_r($this->SuperAdminModel->addemployee($data));
+                    // echo '</pre>';
+                    // exit();
+                    die('Something went wrong');  // Handle errors in registration
+                }
+            } else {
+
+                header('Location: ' . URLROOT . '/SuperAdminPages/employees');
+            }
+
+        }
+    }
 
 
     public function employees() {
