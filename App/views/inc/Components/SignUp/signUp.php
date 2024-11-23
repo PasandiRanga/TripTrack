@@ -24,7 +24,7 @@
                 
                 <form action="<?php echo URLROOT ?>/GuestPages/GuestSignUp" method="POST" enctype="multipart/form-data">
 
-                    <center><h1 style="color:black">Sign Up</h1></center>
+                    <center><h1 style="color:#43cea2">SIGN UP</h1></center>
                     <!----Full Name---->
                     <div class="form-input-title">Full Name</div>
                     <input type="text" name="name" id="name" value="<?php echo isset($data['name']) ? $data['name'] : ''; ?>">
