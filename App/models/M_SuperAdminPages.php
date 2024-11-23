@@ -133,44 +133,52 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
-    public function addDriver($data) {
-        $this->db->query('INSERT INTO driver (Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:name, :username, :nic, :address, :contact_no, :password)');
-        $this->db->bind(':name', $data['employeeName']);
-        $this->db->bind(':username', $data['username']);
-        $this->db->bind(':nic', $data['nic']);
-        $this->db->bind(':address', $data['address']);
-        $this->db->bind(':contact_no', $data['contactNo']);
-        $this->db->bind(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+public function findUserByNIC($nic){
+    $this->db->query('SELECT * FROM employee WHERE nic=:nic');
+    $this->db->bind(":nic",$nic);
 
-        return $this->db->execute();
-    }
+    $row = $this->db->single();
 
-    public function addConductor($data) {
-        $this->db->query('INSERT INTO conductor (Employee_name, Employee_username, Nic, Address, Contact_no, Password) VALUES (:name, :username, :nic, :address, :contact_no, :password)');
-        $this->db->bind(':name', $data['employeeName']);
-        $this->db->bind(':username', $data['username']);
-        $this->db->bind(':nic', $data['nic']);
-        $this->db->bind(':address', $data['address']);
-        $this->db->bind(':contact_no', $data['contactNo']);
-        $this->db->bind(':password', password_hash($data['password'], PASSWORD_BCRYPT));
-    
-        return $this->db->execute();
+    if($this->db->rowCount()>0){
+        return true;
     }
+    else{
+        return false;  
+    }
+}
 
-    public function addAdmin($data) {
-        $this->db->query('INSERT INTO system_admin (Admin_name, Email, Nic, Address, Contact_no, Region, Password) VALUES (:name, :email, :nic, :address, :contact_no, :region, :password)');
-        $this->db->bind(':name', $data['adminName']);
-        $this->db->bind(':email', $data['email']);
-        $this->db->bind(':nic', $data['nic']);
-        $this->db->bind(':address', $data['address']);
-        $this->db->bind(':contact_no', $data['contactNo']);
-        $this->db->bind(':region', $data['region']);
-        $this->db->bind(':password', password_hash($data['password'], PASSWORD_BCRYPT));
-    
-        return $this->db->execute();
+public function findUserByEmail($email){
+    $this->db->query('SELECT * FROM employee WHERE email=:email');
+    $this->db->bind(":email",$email);
+
+    $row = $this->db->single();
+
+    if($this->db->rowCount()>0){
+        return true;
     }
-    
-    
+    else{
+        return false;  
+    }
+}
+
+public function addemployee($data){
+    $this->db->query('INSERT INTO employee(name,address,contactNo,email,password,role,nic) VALUES(:name,:address,:contactNo,:email,:password,:role,:nic)');
+    $this->db->bind(':name',$data['name']);
+    $this->db->bind(':address',$data['address']);
+    $this->db->bind(':nic',$data['nic']);
+    $this->db->bind(':contactNo',$data['contactNo']);
+    $this->db->bind(':email',$data['email']);
+    $this->db->bind(':password',$data['password']);
+    $this->db->bind(':role',$data['role']);
+    $this->db->bind(':nic',$data['nic']);
+
+    if($this->db->execute()){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 }
 ?>

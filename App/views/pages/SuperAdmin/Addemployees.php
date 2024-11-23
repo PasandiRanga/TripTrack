@@ -11,9 +11,7 @@
 
     <h2>Create Employee</h2>
 
-    <form id="userForm" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/addemployees" class="user-form">
-        <label for="employeeId">Employee ID:</label>
-        <input type="text" id="employeeId" name="employeeId" placeholder="Enter Employee ID" required>
+    <form id="userForm" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/addemp" class="user-form">
 
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" placeholder="Enter Name" required>
@@ -44,31 +42,5 @@
         <button type="submit">Create User</button>
     </form>
 
-    <script>
-        // Handle form submission
-        document.getElementById("userForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const userData = {
-                employeeId: document.getElementById("employeeId").value,
-                name: document.getElementById("name").value,
-                nic: document.getElementById("nic").value,
-                address: document.getElementById("address").value,
-                contactNo: document.getElementById("contactNo").value,
-                email: document.getElementById("email").value,
-                password: document.getElementById("password").value,
-                role: document.getElementById("role").value
-            };
-
-            // Log form data to the console (for debugging purposes)
-            console.log("User data:", userData);
-
-            // Simulate form submission success
-            alert("User created successfully!");
-
-            // Optionally, clear the form fields after submission
-            document.getElementById("userForm").reset();
-        });
-    </script>
 </body>
 </html>

@@ -232,6 +232,10 @@
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                // echo '<pre>';
+                // print_r($_POST);
+                // echo '</pre>';
         
                 $data = [
                     'email' => trim($_POST['email']),
@@ -239,6 +243,10 @@
                     'email_err' => '',
                     'password_err' => ''
                 ];
+
+                // echo '<pre>';
+                // print_r($data);
+                // echo '</pre>';
         
                 // Validate email
                 if (empty($data['email'])) {
@@ -254,14 +262,28 @@
         
                 // Check for errors
                 if (empty($data['email_err']) && empty($data['password_err'])) {
+
+                    // echo '<pre>';
+                    // print_r($data);
+                    // echo '</pre>';
+
                     // Attempt to log the user in
                     $loginResult = $this->GuestpagesModel->login($data['email'], $data['password']);
-        
-                    if ($loginResult) {
+
+                    // echo '<pre>';
+                    // print_r($loginResult);
+                    // echo '</pre>';
+         
+
+                    if (!empty($loginResult)) {
                         // Login successful
                         $loggedUser = $loginResult['user_data'];
                         $userTable = $loginResult['user_table'];
-        
+
+                        // echo '<pre>';
+                        // print_r($loggedUser);
+                        // print_r($userTable);
+                        // echo '</pre>';
                         // Create user session based on the table
                         $this->createUserSession($loggedUser, $userTable);
                     } else {
@@ -391,12 +413,19 @@
         //     exit();
         // }
 
-        public function createUserSession($user, $userTable) {
+        public function createUserSession($loggedUser, $userTable) {
+                // echo '<pre>';
+                // print_r($loggedUser);
+                // print_r($userTable);
+                // echo '</pre>';
+                
+
+                
     // Set common session data
-    $_SESSION['user_id'] = $user['User_id'];
+    $_SESSION['user_id'] = $userTable === 'customer' ? $loggedUser['User_id'] : $loggedUser['employee_id'];
     $_SESSION['user_type'] = $userTable;
-    $_SESSION['user_email'] = $user['Email'] ?? $user['Employee_username'];
-    $_SESSION['user_name'] = $user['Name'] ?? $user['Employee_name']; // Adjust for Conductor/Driver
+    $_SESSION['user_email'] = $userTable === 'customer' ? $loggedUser['Email'] : $loggedUser['email'];
+    $_SESSION['user_name'] = $userTable === 'customer' ? $loggedUser['Name'] : $loggedUser['name'];
     $_SESSION['user_profile_image'] = $user['Profile_image'] ?? 'default.png';
 
     // Determine redirect path based on user type
@@ -406,19 +435,9 @@
             header('Location: ' . URLROOT . '/RegisteredPages/home');
             break;
 
-        case 'System_Admin':
+        case 'employee':
             $_SESSION['user_role'] = 'Admin';
-            header('Location: ' . URLROOT . '/AdminPages/dashboard');
-            break;
-
-        case 'Conductor':
-            $_SESSION['user_role'] = 'Conductor';
-            header('Location: ' . URLROOT . '/ConductorPages/home');
-            break;
-
-        case 'Driver':
-            $_SESSION['user_role'] = 'Driver';
-            header('Location: ' . URLROOT . '/DriverPages/home');
+            header('Location: ' . URLROOT . '/SuperAdminPages/home');
             break;
 
         default:

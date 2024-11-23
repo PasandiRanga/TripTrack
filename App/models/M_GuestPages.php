@@ -46,25 +46,49 @@
             }
 
             //login the user
-            public function login($emailOrUsername, $password) {
+            public function login($email, $password) {
+
+                // echo '<pre>';
+                // print_r($email);
+                // print_r($password);
+                // echo '</pre>';
                 // Define tables and their respective username/email fields
                 $userTables = [
                     'customer' => 'Email',
-                    'system_admin' => 'Email',
-                    'conductor' => 'Employee_username',
-                    'driver' => 'Employee_username',
+                    'employee' => 'email',
                 ];
+
+                // echo '<pre>';
+                // print_r($userTables);
+                // echo '</pre>';
             
                 foreach ($userTables as $table => $field) {
+                    // echo '<pre>';
+                    // print_r($table);
+                    // print_r($field);
+                    // print_r($email);
+                    // echo '</pre>';
                     // Query each table for the provided email/username
                     $this->db->query("SELECT * FROM {$table} WHERE {$field} = :identifier");
-                    $this->db->bind(':identifier', $emailOrUsername);
+                    $this->db->bind(':identifier', $email);
             
                     $row = $this->db->single();
-            
-                    if ($row && isset($row['Password'])) {
-                        $hashed_password = $row['Password'];
-            
+
+                    // echo '<pre>';
+                    // print_r($row);
+                    // echo '</pre>';
+
+                    if($row){
+                        if($table==='customer'){
+                            $hashed_password = $row['Password'];
+                        }else{
+                            $hashed_password = $row['password'];
+                        }
+
+                        // echo '<pre>';
+                        // print_r($hashed_password);
+                        // echo '</pre>';
+                        
                         if (password_verify($password, $hashed_password)) {
                             // Add the user type to the result for differentiation
                             return [
@@ -72,7 +96,9 @@
                                 'user_table' => $table
                             ];
                         }
+
                     }
+            
                 }
             
                 // If no match is found in any table
