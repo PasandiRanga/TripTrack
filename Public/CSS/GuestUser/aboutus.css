@@ -4,7 +4,7 @@
     height:100%;
     /* height: 370px; */
     /* background: linear-gradient(to bottom, #a2d8ff, #ffffff);  */
-    background: #e7e7e7;
+    background: #d8f8ee;
     position: relative;
 }
 
@@ -12,8 +12,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Poppins';
-    
+    font-family: 'Poppins';    
 }
 
 .about-section, .owner-section, .vision-section {
@@ -22,8 +21,6 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: white;
-
-
 }
 
 .about-section h2, .owner-section h2, .vision-section h2 {
@@ -38,7 +35,7 @@
     color: #4a5568;
 }
 
-.owner-section {
+.owner-section,.about-section,.vision-section {
     display: flex;
     align-items: center;
 }
@@ -56,22 +53,35 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.owner-info {
+.company-logo {
+    width: 170px;
+    height: 180px;
+    margin-right: 20px;
+}
+
+.vision-image {
+    width: 170px;
+    height: 180px;
+    margin-right: 20px;
+}
+
+.owner-info,.about-info,.vision-info {
     max-width: 800px;
 }
 
-.owner-info h3 {
-    color: #1a202c;
-    font-size: 24px;
+.owner-info h2,.about-info h2,.vision-info h2 {
+    color: #43cea2;
+    font-size: 30px;
     margin-bottom: 10px;
 }
 
-.owner-info p {
+.owner-info p,.about-info p,.vision-info p {
     font-size: 16px;
     line-height: 1.6;
     color: #4a5568;
 }
 
-.vision-section p {
-    margin-top: 10px;
+.name{
+    color: #185a9d;
+    font-weight: bold;
 }

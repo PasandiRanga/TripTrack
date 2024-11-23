@@ -13,27 +13,30 @@ textarea {
 }
 
 body {
-  background: url("<?php echo URLROOT; ?>/public/images/contact.jpg") no-repeat center center/cover;
+  background: url("<?php echo URLROOT; ?>/public/images/bg1.png") no-repeat center center/cover;
 }
 
 .Contactcontainer {
   position: absolute;
   top: 50%; /* Adjust to place in the center of the image */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-70%, -30%);
   z-index: 2; /* Places it above the backimage */
-  width: 70%; /* Adjust as needed for layout */
+  width: 50%; /* Adjust as needed for layout */
   background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+
 .backimage {
   position:relative;
-  margin-top: 8%;
-  height: 50vh; /* Adjust height as needed */
+  margin-top: 0px;
+  height: 900px; /* Adjust height as needed */
+  width:100%;
   z-index: 1; /* Places it under the Contactcontainer */
+
 }
 
 .form {
@@ -49,23 +52,18 @@ body {
 }
 
 .contact-form {
-  background-color: #43cea2;
+  background: #1abc9c;
   position: relative;
   padding: 8px;
 }
 
-.circle {
-  border-radius: 50%;
-  background: linear-gradient(135deg, transparent 20%, #149279);
-  position: absolute;
-}
 
 .contact-form:before {
   content: "";
   position: absolute;
   width: 26px;
   height: 26px;
-  background-color: #43cea2;
+  background-color:#1abc9c;
   transform: rotate(45deg);
   top: 50px;
   left: -13px;
@@ -241,7 +239,7 @@ textarea.input {
   width: 35px;
   height: 35px;
   border-radius: 5px;
-  background: linear-gradient(45deg, #1abc9c, #149279);
+  background: linear-gradient(5deg, #185a9d, #43cea2);
   color: #fff;
   text-align: center;
   line-height: 35px;
@@ -251,40 +249,6 @@ textarea.input {
 
 .social-icons a:hover {
   transform: scale(1.05);
-}
-
-.contact-info:before {
-  content: "";
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  border: 22px solid #fff;
-  border-radius: 50%;
-  bottom: -77px;
-  right: 50px;
-  opacity: 0.3;
-}
-
-.big-circle {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: linear-gradient(to bottom, #1cd4af, #159b80);
-  bottom: 50%;
-  right: 50%;
-  transform: translate(-40%, 38%);
-}
-
-.big-circle:after {
-  content: "";
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  background-color: #fafafa;
-  border-radius: 50%;
-  top: calc(50% - 180px);
-  left: calc(50% - 180px);
 }
 
 .square {
@@ -302,13 +266,6 @@ textarea.input {
     padding: 2rem; /* Add some padding to the form */
   }
 
-  .contact-info:before {
-    bottom: initial;
-    top: -75px;
-    right: 65px;
-    transform: scale(0.95);
-  }
-
   .contact-form:before {
     top: -13px;
     left: initial;
@@ -320,11 +277,6 @@ textarea.input {
     height: 350px;
   }
 
-  .big-circle {
-    bottom: 75%;
-    transform: scale(0.9) translate(-40%, 30%);
-    right: 50%;
-  }
 
   .text {
     margin: 1rem 0 1.5rem 0;
@@ -344,8 +296,7 @@ textarea.input {
     display: none;
   }
 
-  .square,
-  .big-circle {
+  .square{
     display: none;
   }
 
@@ -383,9 +334,6 @@ textarea.input {
   }
 }
 
-
-
-
 .footerContainer{
-  margin-top: 400px;
+  margin-top: 0px;
 }

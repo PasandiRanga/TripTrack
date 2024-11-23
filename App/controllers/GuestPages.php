@@ -469,5 +469,9 @@
         public function test() {
             $this->view('pages/GuestUser/test');
         }
+
+        public function test1() {
+            $this->view('pages/GuestUser/test1');
+        }
     }  
 ?>
