@@ -19,11 +19,9 @@
             <?php echo !empty($data['password_err']) ? $data['password_err'] : ''; ?>
         </span>
         <div class="checkbox-group">
+            <div class="tosign"><a href="blank"> Forgot password?</a></div>
             <label>
                 <input type="checkbox"> Remember me
-            </label>
-            <label>
-                <input type="checkbox"> Forgot password?
             </label>
         </div>
 

@@ -126,6 +126,11 @@
                 } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
                     // Check if the NIC is either 12 digits or 11 digits followed by "V"
                     $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
+                }else {
+                    // Check if NIC is already registered
+                    if ($this->GuestpagesModel->findUserByNIC($data['nic'])) {
+                        $data['nic_err'] = 'This NIC is already registered';
+                    }
                 }
 
 

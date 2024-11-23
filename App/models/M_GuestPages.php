@@ -131,6 +131,20 @@
             }
         }
 
+        public function findUserByNIC($nic){
+            $this->db->query('SELECT * FROM customer WHERE NIC=:nic');
+            $this->db->bind(":nic",$nic);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                return true;
+            }
+            else{
+                return false;  
+            }
+        }
+
         
     }
 ?>
