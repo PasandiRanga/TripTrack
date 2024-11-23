@@ -75,6 +75,10 @@
                     <span class="material-icons-outlined">schedule</span> Schedule
                 </li>
 
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">
+                    <span class="material-icons-outlined">assignment</span> Assigns
+                </li>
+
                 <li class="sidebar-list-item" onclick="Openpopup()">
                     <span class="material-icons-outlined">logout</span> Logout
                 </li>
