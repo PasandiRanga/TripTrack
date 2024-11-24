@@ -89,7 +89,8 @@ label {
 
 /* Form Inputs */
 input[type="text"],
-input[type="time"] {
+input[type="time"],
+textarea[id="reason"] {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -100,19 +101,22 @@ input[type="time"] {
 }
 
 input[type="text"]:focus,
-input[type="time"]:focus {
+input[type="time"]:focus,
+textarea[id="reason"] {
     border-color: #007bff;
     outline: none;
     background-color: #ffffff;
 }
 
-#reason {
+/*#reason {
+    width: 100%;
+    font-size: 1rem;
     height: 100px;
     margin-top: 6px;
     text-align: left;
     vertical-align: top;
     resize: vertical;
-}
+}*/
 
 /* Submit Button */
 .submit-btn {

@@ -25,6 +25,28 @@
         }
 
         public function home() {
+            /*$employee_id = $_SESSION['employee_id'];
+
+            $schedules = $this->ConductorpagesModel->getScheduleByEmployeeId($employee_id);
+
+            if (!$schedules || empty($schedules)) {
+                die('No schedules found for this employee.');
+            }
+
+            $schedule_id = $schedules[0]['schedule_id'];
+
+            $scheduleDetails = $this->ConductorpagesModel->getScheduleDetailsById($schedule_id);
+
+            $data = [
+                'scheduleDetails' => $scheduleDetails
+            ];*/
+
+            /*if (!$scheduleDetails) {
+                die('No schedule found for the given ID');
+            }
+
+            $this->view('pages/Conductor/home', $scheduleDetails);*/
+
             $this->view('pages/Conductor/home');
         }
 
@@ -37,7 +59,13 @@
         }
 
         public function profile() {
-            $this->view('pages/Conductor/Profile');
+            $employee = $this->ConductorpagesModel->findEmployeeById($_SESSION['user_id']);
+
+            $data = [
+                'employee' => $employee
+            ];
+
+            $this->view('pages/Conductor/Profile', $data);
         }
 
     }
