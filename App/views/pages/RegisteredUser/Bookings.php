@@ -110,7 +110,7 @@
                     <th>To</th>
                     <th>Bus No</th>
                     <th>Price (LKR)</th>
-                    <th>Status</th>
+                    <th>Ticket</th>
                 </tr>
             </thead>
             <tbody>
@@ -148,7 +148,7 @@
                             <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
                             <td data-label="Action">
                                 <i 
-                                    class="fas fa-search search-icon" 
+                                    class="fa-solid fa-ticket" style="color:green"
                                     onclick="toggleTicketBox(
                                         <?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8'); ?>, 
                                         <?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8'); ?>,
@@ -224,10 +224,12 @@
                                     <script console.log(<?php echo $booking['id']; ?>)></script> 
                                     <script console.log(<?php echo $booking['schedule_id']; ?>)></script>
                                     <script console.log(<?php echo $booking['Seats']; ?>)></script> 
-                                    <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</button>
-                                </form><br/>
-                                <button>Update Booking</button><br/>
-                                <button>View Ticket</button><br/>
+                                    <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                         <i class="fa-solid fa-ban" style="color:red"></i>  Cancel Booking
+                                    </button>
+                                </form>
+                                <button><i class="fa-solid fa-pen-to-square" style="color:blue"></i>  Edit Booking</button>
+                                <button><i class="fa-solid fa-ticket" style="color:green"></i>  View Ticket</button>
                             </td>
 
                         </tr>
@@ -334,21 +336,21 @@ function toggleTicketBox(booking, schedule, bus , user) {
         // Show only "Upcoming Bookings" table by default
         document.getElementById('upcomingBookings').style.display = 'table';  // Change this line
         document.getElementById('pastBookings').style.display = 'none';       // Ensure Past bookings are hidden
-        document.getElementById('showUpcomingBookings').style.color = '#4CAF50'; // Highlight Upcoming
+        document.getElementById('showUpcomingBookings').style.color = '#43cea2'; // Highlight Upcoming
         document.getElementById('showPastBookings').style.color = defaultColor; // Set Past Bookings color to black
 
         // Toggle between Past and Upcoming Bookings
         document.getElementById('showPastBookings').addEventListener('click', function() {
             document.getElementById('pastBookings').style.display = 'table';
             document.getElementById('upcomingBookings').style.display = 'none';
-            document.getElementById('showPastBookings').style.color = '#4CAF50';
+            document.getElementById('showPastBookings').style.color = '#43cea2';
             document.getElementById('showUpcomingBookings').style.color = defaultColor;
         });
 
         document.getElementById('showUpcomingBookings').addEventListener('click', function() {
             document.getElementById('pastBookings').style.display = 'none';
             document.getElementById('upcomingBookings').style.display = 'table';
-            document.getElementById('showUpcomingBookings').style.color = '#4CAF50';
+            document.getElementById('showUpcomingBookings').style.color = '#43cea2';
             document.getElementById('showPastBookings').style.color = defaultColor;
         });
 
