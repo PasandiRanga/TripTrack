@@ -226,8 +226,13 @@
                                     <script console.log(<?php echo $booking['Seats']; ?>)></script> 
                                     <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</button>
                                 </form><br/>
-                                <button>Update Booking</button><br/>
-                                <button>View Ticket</button><br/>
+                                <button >Update Booking</button><br/>
+                                <button onclick="toggleTicketBox(
+                                        <?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8'); ?>, 
+                                        <?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8'); ?>,
+                                        <?php echo htmlspecialchars(json_encode($bus), ENT_QUOTES, 'UTF-8'); ?>,
+                                        <?php echo htmlspecialchars(json_encode($userData), ENT_QUOTES, 'UTF-8'); ?>
+                                    )">View Ticket</button><br/>
                             </td>
 
                         </tr>
