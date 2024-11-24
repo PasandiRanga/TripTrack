@@ -36,32 +36,32 @@
     <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
 
     <div>
-      <img src="<?php echo URLROOT; ?>/public/images/contact.jpg" class="backimage" alt="contact image">
+      <img src="<?php echo URLROOT; ?>/public/images/bg1.png" class="backimage" alt="contact image">
     </div>
     
     <div class="Contactcontainer">
       <!--<span class="big-circle"></span>-->
-      <img src="<?php echo URLROOT; ?>/Public/images/shape.png" class="square" alt="" />
       <div class="form">
         <div class="contact-info">
           <h3 class="title">Let's get in touch</h3>
           <p class="text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-            dolorum adipisci recusandae praesentium dicta!
+          "Whether it’s feedback, inquiries, or support, we value every passenger’s journey.
+           Contact us today, and let TripTrack make your travel easier and more enjoyable!"
           </p>
 
           <div class="info">
             <div class="information">
               <img src="<?php echo URLROOT; ?>/Public/images/location.png" class="icon" alt="" />
-              <p>92 Cherry Drive Uniondale, NY 11553</p>
+              <p>123 Main Street, Suite 400
+              City, State, ZIP Code</p>
             </div>
             <div class="information">
               <img src="<?php echo URLROOT; ?>/Public/images/email.png" class="icon" alt="" />
-              <p>lorem@ipsum.com</p>
+              <p>info@example.com</p>
             </div>
             <div class="information">
               <img src="<?php echo URLROOT; ?>/Public/images/phone.png" class="icon" alt="" />
-              <p>123-456-789</p>
+              <p>Phone: +1 (123) 456-7890</p>
             </div>
           </div>
 
