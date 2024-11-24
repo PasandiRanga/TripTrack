@@ -32,14 +32,13 @@
     ];
     ?>
 
-    <!-- Header and Navbar -->
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-    <?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?>
+    <script>
+        // Encode the PHP array as JSON for JavaScript
+        var employeeData = <?php echo json_encode($employee); ?>;
+        console.log("Profile Data:", employeeData);
+    </script>
 
-
-    <!-- Link the external JavaScript files -->
-    <script src="./../../Component/Header/header.js"></script>
-    <script src="./../../Component/NavBar/navbar.js"></script>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
 
     <!-- Profile Container -->
     <div class="profile-container">
@@ -48,9 +47,9 @@
             <div class="profile-pic">
                 <img src="<?php echo URLROOT; ?>/public/images/profile.png" alt="User Profile Picture"> 
             </div>
-            <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
-            <h2>Name of employee</h2>
-            <p>Employee ID</p>
+            <!--<button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>-->         
+            <h2><?php echo $employee['name']; ?></h2>
+            <p><?php echo $employee['employee_id']; ?></p>
             <div class="btn">
                 <button class="logout-button"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
                 <button class="delete-account-button"><i class="fa fa-trash fa-lg" ></i>  Delete Account</button>

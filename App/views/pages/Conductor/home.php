@@ -48,7 +48,7 @@
         </header>
 
         <aside id="sidebar">
-            <div class="sidebar-title">
+            <div class="sidebar-title" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/profile'">
 
                 <i class="fa-solid fa-user"></i>
                 <span class="text">Employee</span>
@@ -125,19 +125,19 @@
                     <tbody>
                         <?php foreach ($assignsDetails as $assign): ?>
                             <?php if ($assign['date'] >= $currentDate): // Upcoming assign ?>
-                                <tr>
-                                    <td data-label="Date"><?php echo $assign['date']; ?></td>
-                                    <td data-label="Time"><?php echo $assign['time']; ?></td>
-                                    <td data-label="Route"><?php echo $assign['route']; ?></td>
-                                    <td data-label="From"><?php echo $assign['from']; ?></td>
-                                    <td data-label="To"><?php echo $assign['to']; ?></td>
-                                    <td data-label="Bus No"><?php echo $assign['busNo']; ?></td>
-                                    <!--<i class="fas fa-search search-icon"></i>
-                                    <div class="pop-up-menu">
-                                        <a href="./SeeTicket.html"><p>See Ticket</p></a>
-                                        <a href="./CancelBooking.html"><p>Cancel Booking</p></a>
-                                    </div>-->
-                                </tr>
+                                    <tr>
+                                        <td data-label="Date"><?php echo $assign['date']; ?></td>
+                                        <td data-label="Time"><?php echo $assign['time']; ?></td>
+                                        <td data-label="Route"><?php echo $assign['route']; ?></td>
+                                        <td data-label="From"><?php echo $assign['from']; ?></td>
+                                        <td data-label="To"><?php echo $assign['to']; ?></td>
+                                        <td data-label="Bus No"><?php echo $assign['busNo']; ?></td>
+                                        <!--<i class="fas fa-search search-icon"></i>
+                                        <div class="pop-up-menu">
+                                            <a href="./SeeTicket.html"><p>See Ticket</p></a>
+                                            <a href="./CancelBooking.html"><p>Cancel Booking</p></a>
+                                        </div>-->
+                                    </tr>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </tbody>
@@ -169,6 +169,17 @@
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </tbody>
+
+                    <!--<tbody>
+                    /*
+                        /*if (isset($data['scheduleDetails']) && is_array($data['scheduleDetails'])) {
+                            foreach ($data['scheduleDetails'] as $scheduleDetails) {
+                                if ($scheduleDetails['date'] < $currentDate): //Past assign
+                                    echo "<tr>";
+                                    echo "<td>{$scheduleDetails['date']}</td>";
+                                    echo "<td>{$scheduluDetails['departureTime']}</td>";'
+                                    echo "<td>{null
+                    </tbody>-->*/
                 </table>
 
         </main>
