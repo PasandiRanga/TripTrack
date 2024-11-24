@@ -39,7 +39,8 @@
         <div class="container">
             <div class="delay-form">
                 <h2>Fill the following details</h2>
-                <form id="delayForm">
+
+                <form id="delayForm" method="POST" action="<?php echo URLROOT; ?>/ConductorPages/informDelays">
                 
             `       <div class="form-group">
                         <div>
@@ -73,15 +74,35 @@
                     <div class="form-group">
                         <div>
                             <label for="reason">Reason</label>
-                            <input type="text" id="reason" name="reason" required>
+                            <!--<input type="text" id="reason" name="reason"  required>-->
+                            <textarea id="reason" name="reason" rows="5" required></textarea>
                         </div>
                     </div>
 
-                        <br>
-                        <button type="submit" class="submit-btn">Submit</button>
+                    <br>
+                    <button type="submit" class="submit-btn">Submit</button>
 
                 </form>
             </div>
         </div>
+
+        <!--<script>
+            
+            function goBack() {
+                window.history.back();
+            }
+
+            function submitDelayForm(event) {
+                event.preventDefault();
+
+                <!--/*const delayData = {
+
+                }*/
+
+
+            }
+
+        </script>-->
+
 </body>
 </html>

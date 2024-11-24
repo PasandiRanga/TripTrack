@@ -89,7 +89,8 @@ label {
 /* Form Inputs */
 input[type="text"],
 input[type="date"],
-input[type="number"] {
+input[type="number"],
+textarea[id="reason"] {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -100,7 +101,9 @@ input[type="number"] {
 }
 
 input[type="text"]:focus,
-input[type="time"]:focus {
+input[type="date"]:focus,
+input[type="number"]:focus,
+textarea[id="reason"]:focus {
     border-color: #007bff;
     outline: none;
     background-color: #ffffff;
