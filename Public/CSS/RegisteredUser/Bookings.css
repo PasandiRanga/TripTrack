@@ -1,12 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
     position: relative;
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
+    background:#d8f8ee; 
     
 }
 
@@ -26,56 +29,59 @@ html,body{
 }
 
 /* Base Table Styling */
-/* Base Table Styling */
 table {
     width: 100%;
     border-collapse: collapse; /* Removes gaps between table cells */
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 20px 20px;
     background-color: #f9f9f9;
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for a polished look */
 }
 
 /* Table Header Styling */
 table th {
-    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
-    color: #040113; /* Dark text for contrast */
+    background-color: #62f3c5; /* Semi-transparent background */
+    color: #040113;
     font-weight: bold;
-    padding: 15px 10px;
-    text-align: left;
-    font-size: 14px;
+    padding: 14px; /* Refined padding */
+    text-align: center;
+    font-size: 20px;
+    border-bottom: 1px solid #43cea2; /* Slight separation for clarity */
+    border-top: 1px solid #43cea2;
+    border-left: 1px solid #43cea2;
+    border-right: 1px solid #43cea2;
+
 }
 
 /* Table Body Styling */
 table td {
-    padding: 10px;
-    font-size: 13px;
-    color: #333;
+    padding: 10px 10px; /* Balanced cell spacing */
+    font-size: 18px;
+    font-weight: bold;
+    color: #696868;
     border-bottom: 1px solid #ddd; /* Separator for rows */
-    text-align: left;
+    text-align: center;
+    border-bottom: 1px solid #43cea2; /* Slight separation for clarity */
+    border-top: 1px solid #43cea2;
+    border-left: 1px solid #43cea2;
+    border-right: 1px solid #43cea2;
 }
 
 /* Alternating Row Colors */
 table tbody tr:nth-child(odd) {
-    background-color: #f0f8ff; /* Light blue for odd rows */
+    background-color: white; /* Light blue for odd rows */
+}
+
+table tbody tr:nth-child(even) {
+    background-color: white; /* Slightly darker for even rows */
 }
 
 /* Hover Effect for Rows */
 table tbody tr:hover {
-    background-color: #d9eaff; /* Slightly darker blue on hover */
+    background-color: #c6f3e6; /* Subtle hover highlight */
     cursor: pointer;
-}
-
-/* Alternating Row Colors */
-table tr:nth-child(even) {
-    background-color: #dbecfa;
-}
-
-/* Hover Effect */
-table tr:hover {
-    background-color: #D1ECF1; /* Light blue background */
+    transition: background-color 0.2s ease-in-out; /* Smooth hover effect */
 }
 
 /* Highlighted Row Styling */
@@ -96,20 +102,20 @@ table td:last-child {
 
     table tr {
         display: block; /* Make rows block elements */
-        margin-bottom: 15px; /* Space between rows */
+        margin-bottom: 15px;
     }
 
     table td {
-        display: flex; /* Make cells flex containers */
+        display: flex; /* Flexbox for cells */
         justify-content: space-between;
         align-items: center;
         padding: 10px;
-        border-bottom: 1px solid #ddd; /* Separator for cells */
-        font-size: 12px; /* Smaller font for mobile */
+        border-bottom: 1px solid #ddd;
+        font-size: 12px; /* Adjust font size for mobile */
     }
 
     table td:before {
-        content: attr(data-label); /* Use `data-label` for accessibility */
+        content: attr(data-label); /* Label for accessibility */
         font-weight: bold;
         text-transform: uppercase;
         color: #555;
@@ -213,23 +219,28 @@ table td:last-child {
         width: 100%;
         border: 2px solid #a2d8ff;
     }
+
+    button {
+        width: 100%; /* Make buttons full-width on small screens */
+        font-size: 16px; /* Slightly larger font size for better readability */
+    }
 }
 
 .input-group {
     display: flex;
     align-items: center;
     margin-right: 10px;
-    background-color: #f0f4f8;
+    background-color: white;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #d1d9e6;
+    border: 1px solid #43cea2;
     margin-left: auto; /* Pushes the input group to the right */
     
 }
 
 .icon {
     margin-right: 10px;
-    color: #4a5568;
+    color: #5e5e66;
 }
 
 .search-input {
@@ -238,11 +249,11 @@ table td:last-child {
     background: transparent;
     padding: 5px;
     font-size: 16px;
-    color: #4a5568;
+    color: #5e5e66;
 }
 
 .search-input[type="date"]{
-    color: #4a5568;
+    color: #5e5e66;
 }
 
 .container {
@@ -294,41 +305,78 @@ table td:last-child {
     color: #333;
 }
 
-
+/* Base Button Styling */
 button {
-    display: inline-block;
-    padding: 8px 8px;
-    margin-bottom: 2px;
-    font-size: 12px;
-    color: #ffffff;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 6px; /* Reduced padding for a more compact button */
+    line-height: 1.4;
+    color: black;
+    background-color:transparent; /* Primary color */
+    border: 2px solid transparent; /* Border color matching the background */
+    border-radius: 4px; /* Smaller radius for more compact, sharper corners */
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width:150px;
+    transition: all 0.3s ease-in-out; /* Smooth transitions */
+    box-sizing: border-box;
+    text-align: center;
+    min-width: 80px; /* Reduced minimum width for compactness */
+    outline: none;
+    font-size: 16px;
+    color:transparent;
+    margin:4px;
 }
 
+/* Button Hover Effect */
 button:hover {
-    background-color: #45a049;
+    background-color: transparent;
+    transform: translateY(-1px); /* Slight hover effect for depth */
+    color:gray;
 }
 
-button.secondary {
-    background-color: #007BFF;
+/* Button Focus Effect */
+button:focus {
+    outline: 3px solid #43cea2;
+    outline-offset: 2px;
+    color:gray;
+
 }
 
-button.secondary:hover {
-    background-color: #0056b3;
+/* Extra Large Button - Minimized Version */
+button.extra-large {
+    padding: 8px 16px; /* Slightly larger padding but still minimized */
+    font-size: 14px;
+    min-width: 100px; /* Slightly larger minimum width for readability */
 }
 
-button.danger {
-    background-color: #cc0000;
+/* Small Button - Minimized */
+button.small {
+    padding: 4px 8px; /* Even more compact padding */
+    font-size: 10px; /* Smaller font size */
+    min-width: 60px; /* Very compact minimum width */
 }
 
-button.danger:hover {
-    background-color: #990000;
+/* Button Icon */
+button .icon {
+    margin-right: 6px; /* Compact space between icon and text */
+    font-size: 16px;
 }
+
+/* Button Alignment */
+button.center {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Button Shadow for Depth (Optional) */
+button.shadow {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for compact buttons */
+}
+
+button.shadow:hover {
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.15);
+}
+
 
 .bus-ticket {
     background-color: #004e66;
@@ -414,3 +462,5 @@ button.danger:hover {
     font-size: 100px;
     color: #ffffff;
 }
+
+
