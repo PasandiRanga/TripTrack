@@ -1,9 +1,10 @@
 body {
- 
+    font-family: 'Poppins', sans-serif;
     margin: 0; /* Remove the default margin */
     padding: 0;
     justify-content: center; 
     align-items: center;
+    background-color: #d8f8ee;
 }
 
 /* Main container spacing */
@@ -165,7 +166,6 @@ input:required {
     width: 100%;
     margin-bottom: 10px;
     /* height: 370px; */
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff);
     position: relative;
 }
 /* Bus info container */
@@ -327,7 +327,7 @@ input:required {
 
 .view-button button {
     padding: 10px 20px;
-    background-color: #064060;
+    background:linear-gradient(135deg, #43cea2, #185a9d);
     border: none;
     color: white;
     font-size: 0.9em;
@@ -336,7 +336,7 @@ input:required {
 }
 
 .view-button button:hover {
-    background-color: #074096;
+    background: linear-gradient(135deg, #185a9d, #43cea2);
 }
 
 .rating i {
@@ -363,7 +363,7 @@ input:required {
 .price-container .highlight {
     font-size: 28px; /* Adjust font size if needed */
     font-weight: bold;
-    color: #035339; /* Customize color as desired */
+    color: #38c095; /* Customize color as desired */
     margin-right: 10px;
 }
 
@@ -374,13 +374,22 @@ input:required {
     padding-left: 40px;
     padding-right: 45px;
     padding-top: 20px;
-    background-color: #a2d8ff;
+    background-color: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* margin-left: 70px; */
     margin-left: 300px;
     max-width: 600px;
 }
+
+/* Form header style */
+.booking-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color:#43cea2;
+}
+
 .booking-form label {
     display: block;
     margin-top: 10px;
@@ -407,7 +416,7 @@ input:required {
 .booking-form input[type="tel"],
 .booking-form input[type="number"] {
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #43cea2;
     border-radius: 4px;
     font-size: 14px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to each field */
@@ -417,35 +426,38 @@ input:required {
     align: center;
 } */
 
+/* Submit button style */
 .booking-form button {
-    padding: 12px;
-    background-color: #064060;
-    border: none;
-    color: white;
+    padding: 12px 20px;
     font-size: 16px;
-    border-radius: 6px;
+    background:linear-gradient(135deg, #43cea2, #185a9d);
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to button */
+    width: 100%; /* Make button full width */
+    margin-top: 20px;
 }
 
+
 .booking-form button:hover {
-    background-color: #074096;
+    background: linear-gradient(135deg, #185a9d, #43cea2);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darken shadow on hover */
 }
 
-.form-group-inline {
-    /* display: flex; */
+.form-group {
+    display: flex; 
     align-items: center;
     margin-bottom: 10px; /* Optional: to control spacing between groups */
-    gap: 10px; /* Optional: to control spacing between elements */
 }
 
-.form-group-inline label {
+.form-group label {
     margin-right: 5px; /* Reduce right margin for a closer fit */
+    margin-bottom: 5px;;
 }
 
-.form-group-inline input[type="radio"],
-.form-group-inline input[type="radio"]  {
+.form-group input[type="radio"],
+.form-groupe input[type="radio"]  {
     margin-left: 5px; /* Optional: control spacing between radio buttons */
 }
 
@@ -465,7 +477,7 @@ select {
 select:focus {
     border-color: #0000; /* Change the border color when focused */
     outline: none; /* Remove default outline */
-    background-color: #f9f9f9; /* Light background when focused */
+    background-color: white; /* Light background when focused */
 }
 
 select option {
@@ -491,34 +503,40 @@ select {
     width:280px;
 }
 
-
-
-
-
 .modal {
-    z-index: 1000;
     display: none;
     position: fixed;
+    z-index: 1000;
+    left: 0;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto; /* Center it */
+    background-color: #fff;
+    margin: auto;
     padding: 20px;
-    border: 1px solid #888;
-    border-radius: 10px;
-    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+}
+
+#from, #to {
+    border: 1px solid #43cea2; /* Example border color (green) */
+    border-radius: 4px;
+    padding: 8px;
+    background: white;
+}
+
+#from:focus, #to:focus {
+    border-color: #43cea2; /* Darker green for focus state */
+    outline: none; /* Remove default focus outline */
 }
 
 .close {
@@ -531,6 +549,7 @@ select {
     display: flex;
     flex-direction: column;
     gap: 10px; /* Space between reviews */
+
 }
 
 .review-item {
