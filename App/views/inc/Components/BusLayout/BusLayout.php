@@ -208,22 +208,22 @@
     <div>   <!-- Booking Details -->
         <div class="details-container">
             <h2>Booking Details</h2>
-            <p><strong>Name:</strong> <?php echo htmlspecialchars($name); ?></p>
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-            <p><strong>Contact:</strong> <?php echo htmlspecialchars($contact); ?></p>
-            <p><strong>NIC:</strong> <?php echo htmlspecialchars($nic); ?></p>
-            <p><strong>From:</strong> <?php echo htmlspecialchars($from); ?></p>
-            <p><strong>To:</strong> <?php echo htmlspecialchars($to); ?></p>
-            <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($noOfSeats); ?></p>
-            <p><strong>Payment Method:</strong> <?php echo htmlspecialchars($paymentMethod); ?></p>
-            <p><strong>Receive Ticket Options:</strong> <?php echo htmlspecialchars(implode(', ', $receiveTicket)); ?></p>
+            <p><strong>Name:</strong> &nbsp;&nbsp;<?php echo htmlspecialchars($name); ?></p>
+            <p><strong>Email:</strong> &nbsp; &nbsp;<?php echo htmlspecialchars($email); ?></p>
+            <p><strong>Contact:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($contact); ?></p>
+            <p><strong>NIC:</strong> &nbsp; &nbsp;<?php echo htmlspecialchars($nic); ?></p>
+            <p><strong>From:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($from); ?></p>
+            <p><strong>To:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($to); ?></p>
+            <p><strong>Number of Seats:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($noOfSeats); ?></p>
+            <p><strong>Payment Method:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($paymentMethod); ?></p>
+            <p><strong>Receive Ticket Options:</strong> &nbsp;&nbsp;<?php echo htmlspecialchars(implode(', ', $receiveTicket)); ?></p>
         </div>
 
         <!-- Selected Seats and Payment -->
         <div class="payment-container">
-            <p><strong>Selected Seats:</strong> <span id="selected-seats"></span></p>
-            <p><strong>Price per Seat:</strong> Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
-            <p><strong>Total Price:</strong> Rs. <span id="total-price">0</span></p>
+            <p><strong>Selected Seats:</strong> &nbsp;&nbsp;<span id="selected-seats"></span></p>
+            <p><strong>Price per Seat:</strong>&nbsp;&nbsp; Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
+            <p><strong>Total Price:</strong> &nbsp;&nbsp;Rs. <span id="total-price">0</span></p>
             
             <form action="" method="POST" id="checkout-form" onsubmit="console.log('Form data:', new FormData(this));">
                 <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($License_id); ?>">
