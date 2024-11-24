@@ -516,7 +516,7 @@ select {
     justify-content: center; /* Center content horizontally */
     align-items: center; /* Center content vertically */
 
-
+}
 .modal-content {
     background-color: #fff;
     margin: auto;

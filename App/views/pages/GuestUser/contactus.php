@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/test.css?v=<?php echo time(); ?>"> -->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/contactUs.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -40,11 +41,84 @@
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
       
 
-        <img class="name-image" src="<?php echo URLROOT; ?>/public/images/BlackName.png" alt="Name Image" />
-    
-        <?php require APPROOT.'/views/inc/Components/ContactForm/contactForm.php'; ?>
+        <div class="Contactcontainer">
+      <!--<span class="big-circle"></span>-->
+      <div class="form">
+        <div class="contact-info">
+          <h3 class="title">Let's get in touch</h3>
+          <p class="description">
+          "Whether it’s feedback, inquiries, or support, we value every passenger’s journey.
+           Contact us today, and let TripTrack make your travel easier and more enjoyable!"
+          </p>
+
+          <div class="info">
+            <div class="information">
+              <img src="<?php echo URLROOT; ?>/Public/images/location.png" class="icon" alt="" />
+              <p>123 Main Street, Suite 400
+              City, State, ZIP Code</p>
+            </div>
+            <div class="information">
+              <img src="<?php echo URLROOT; ?>/Public/images/email.png" class="icon" alt="" />
+              <p>info@example.com</p>
+            </div>
+            <div class="information">
+              <img src="<?php echo URLROOT; ?>/Public/images/phone.png" class="icon" alt="" />
+              <p>Phone: +1 (123) 456-7890</p>
+            </div>
+          </div>
+
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+
+          <form action="index.html" autocomplete="off">
+            <h3 class="title">Contact us</h3>
+            <div class="input-container">
+              <input type="text" name="name" class="input" />
+              <label for="">Username</label>
+              <span>Username</span>
+            </div>
+            <div class="input-container">
+              <input type="mail" name="email" class="input" />
+              <label for="">Email</label>
+              <span>Email</span>
+            </div>
+            <div class="input-container">
+              <input type="tel" name="phone" class="input" />
+              <label for="">Phone</label>
+              <span>Phone</span>
+            </div>
+            <div class="input-container textarea">
+              <textarea name="message" class="input"></textarea>
+              <label for="">Message</label>
+              <span>Message</span>
+            </div>
+            <input type="submit" value="Send" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
       
-        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+       <div class="footerContainer">
+<?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+</div>
  
     </div>
      
