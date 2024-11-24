@@ -224,6 +224,7 @@
                                     <script console.log(<?php echo $booking['id']; ?>)></script> 
                                     <script console.log(<?php echo $booking['schedule_id']; ?>)></script>
                                     <script console.log(<?php echo $booking['Seats']; ?>)></script> 
+
                                     <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">
                                          <i class="fa-solid fa-ban" style="color:red"></i>  Cancel Booking
                                     </button>
@@ -234,7 +235,11 @@
                                         <?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8'); ?>,
                                         <?php echo htmlspecialchars(json_encode($bus), ENT_QUOTES, 'UTF-8'); ?>,
                                         <?php echo htmlspecialchars(json_encode($userData), ENT_QUOTES, 'UTF-8'); ?>
+
                                 )"><i class="fa-solid fa-ticket" style="color:green"></i>  View Ticket</button>
+
+                         
+
                             </td>
 
                         </tr>

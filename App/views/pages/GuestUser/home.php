@@ -40,11 +40,22 @@
     </script>
 
 <?php
+   
+    $headerData = [
+        'showPopup' => $data['show_pop'] ?? false,
+        'email' => $data['email'] ?? '',
+        'password_err' => $data['password_err'] ?? '',
+        'email_err' => $data['email_err'] ?? ''
+    ];
+
     $data = [
         'currentController' => 'GuestPages', // Adjust this based on your controller
         'currentMethod' => 'home', // Adjust this based on the method
         'userRole' => $userRole,
     ];
+
+    // echo '<pre>' . print_r($headerData,true) . '</pre>';
+
     
     ?>
     
