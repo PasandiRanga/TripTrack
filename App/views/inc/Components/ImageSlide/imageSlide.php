@@ -22,7 +22,7 @@
 
     <div class="dark-layer"></div>
     <div class="text-slider">
-      <span class="slide"><span class="slide1">No lines, no stress</span><span class="slide2">just click and go!</span></span>
+      <span class="slide"><span class="slide1">No lines, no stress</span><span class="slide2">&nbsp;just click and go!</span></span>
       <span class="slide"><span class="slide1">Hassle-free booking,</span><span class="slide2"> smooth journeys.</span></span>
       <span class="slide"><span class="slide1">Your journey, </span><span class="slide2">our priority.</span></span>
       <span class="slide"><span class="slide1">Seamless travel solutions </span><span class="slide2">at your fingertips.</span></span>
@@ -30,7 +30,7 @@
       <span class="slide"><span class="slide1">The road to convenience </span><span class="slide2">starts here.</span></span>
       <span class="slide"><span class="slide1">Book. Track. Relax.</span></span>
       <span class="slide"><span class="slide1">No lines,</span><span class="slide2"> no stress</span></span>
-      <span class="slide"><span class="slide1">The future of bus travel,</span><span class="slide2">just click and go!</span></span>
+      <span class="slide"><span class="slide1">The future of bus travel,</span><span class="slide2">today!</span></span>
     </div>
   </div>
 
