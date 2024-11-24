@@ -238,6 +238,19 @@
         public function slide() {
             $this->view('inc/Components/ImageSlide/imageSlide');
         }
+
+        public function getReviews() {
+            $licenseId = $_GET['License_id'] ?? null;
+        
+            if ($licenseId) {
+                // Fetch reviews from the database
+                $reviews = $this->RegisteredpagesModel->getReviewsByLicenseId($licenseId);
+                echo json_encode(['success' => true, 'reviews' => $reviews]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Invalid License ID']);
+            }
+        }
+        
     
 
     }  
