@@ -98,7 +98,7 @@ li {
 
 /*-----------------------NOTIFICATION ICON-------------------------*/
 /* Notification Icon Container */
-.icon {
+.notiicon {
     cursor: pointer;
     margin-right: 20px; /* Adjust margin for better spacing */
     line-height: initial;
@@ -106,7 +106,7 @@ li {
 }
 
 /* Notification Count (Number) Styling */
-.icon span {
+.notiicon span {
     background: #f00;
     padding: 4px; /* Smaller padding to reduce size */
     border-radius: 50%;
@@ -117,7 +117,7 @@ li {
 }
 
 /* Bell Icon Styling */
-.icon img {
+.notiicon img {
     width: 26px;
     height: 26px; /* Decrease width for better alignment */
     margin-top: 5px; /* Adjust margin to align with login button */
@@ -127,8 +127,8 @@ li {
 
 
 
-.icon:hover {
-    opacity: .7;
+.notiicon:hover {
+    opacity: 1;
 }
 
 /* Ensure notification box is above other elements */

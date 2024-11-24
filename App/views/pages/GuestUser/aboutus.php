@@ -48,30 +48,36 @@
         <div class="about-container">
         
             <div class="about-section">
-                <h2>Trip Track</h2>
-                <p>We're dedicated to making your travel experience as seamless and enjoyable as possible. With our user-friendly platform, you can book bus tickets, check schedules, and plan your journeys with ease. Trip Track is your go-to solution for comfortable and convenient bus travel across Sri Lanka.</p>
-            </div>
+                <div class="about-info">
+                    <h2>Trip Track</h2>
+                    <p>We're dedicated to making your travel experience as seamless and enjoyable as possible. With our user-friendly platform, you can book bus tickets, check schedules, and plan your journeys with ease. <span class="name">Trip Track</span> is your go-to solution for comfortable and convenient bus travel across Sri Lanka.</p>
+                </div>
+                <img src="<?php echo URLROOT; ?>/Public/images/logo2.png" alt="Company Logo" class="company-logo">
+             </div>
 
             <div class="owner-section">
                 <div class="owner-details">
                 <img src="<?php echo URLROOT; ?>/Public/images/owner.jpg" alt="Owner's Picture" class="owner-image">
                 <div class="owner-info">
-                        <h3>John Doe</h3>
-                        <p>John Doe is the visionary behind Trip Track. With a passion for technology and a deep understanding of the transportation industry, John founded Trip Track to address the challenges faced by travelers in Sri Lanka. His mission is to provide a hassle-free, reliable, and modern platform for booking bus tickets and making travel planning easier for everyone.</p>
-                        <p>Under John's leadership, Trip Track has grown into a trusted name in the travel industry, known for its commitment to customer satisfaction and innovation. When he's not working on improving Trip Track, John enjoys traveling and exploring new places, always on the lookout for ways to make travel more accessible and enjoyable for everyone.</p>
+                        <h2>John Doe</h2>
+                        <p>John Doe is the visionary behind <span class="name">Trip Track</span>. With a passion for technology and a deep understanding of the transportation industry, John founded <span class="name">Trip Track</span> to address the challenges faced by travelers in Sri Lanka. His mission is to provide a hassle-free, reliable, and modern platform for booking bus tickets and making travel planning easier for everyone.</p>
+                        <p>Under John's leadership, <span class="name">Trip Track</span> has grown into a trusted name in the travel industry, known for its commitment to customer satisfaction and innovation. When he's not working on improving <span class="name">Trip Track</span>, John enjoys traveling and exploring new places, always on the lookout for ways to make travel more accessible and enjoyable for everyone.</p>
                     </div>
                 </div>
             </div>
 
             <div class="vision-section">
-                <h2>Our Vision</h2>
-                <p>At Trip Track, our vision is to revolutionize the way people travel by providing a platform that is easy to use, reliable, and offers the best options for bus travel across the country. We aim to be the leading travel companion for every traveler in Sri Lanka, ensuring that your journey is as smooth and enjoyable as possible.</p>
+                <div class="about-info">
+                    <h2>Our Vision</h2>
+                    <p>At <span class="name">Trip Track</span>, our vision is to revolutionize the way people travel by providing a platform that is easy to use, reliable, and offers the best options for bus travel across the country. We aim to be the leading travel companion for every traveler in Sri Lanka, ensuring that your journey is as smooth and enjoyable as possible.</p>
+                </div>
+                <img src="<?php echo URLROOT; ?>/Public/images/vision.png" alt="vision" class="vision-image">
             </div>
         </div>  
         <br/>
+        
     <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
-    
-   
+      
 </body>
 </html>

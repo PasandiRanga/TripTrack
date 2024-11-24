@@ -241,7 +241,8 @@
                     'email' => trim($_POST['email']),
                     'password' => trim($_POST['password']),
                     'email_err' => '',
-                    'password_err' => ''
+                    'password_err' => '',
+                    'show_pop' => true
                 ];
 
                 // echo '<pre>';
@@ -288,11 +289,14 @@
                         $this->createUserSession($loggedUser, $userTable);
                     } else {
                         $data['password_err'] = 'Invalid credentials';
-                        $this->view('inc/Components/LoginBox/loginBox', $data);
+                        // echo '<pre>';
+                        // print_r($data);
+                        // echo '<pre>';
+                        $this->view('pages/GuestUser/home', $data);
                     }
                 } else {
                     // Load view with errors
-                    $this->view('inc/Components/LoginBox/loginBox', $data);
+                    $this->view('pages/GuestUser/home', $data);
                 }
             } else {
                 // Initialize form
@@ -300,84 +304,13 @@
                     'email' => '',
                     'password' => '',
                     'email_err' => '',
-                    'password_err' => ''
+                    'password_err' => '',
+                    'show_pop' => false
                 ];
-                $this->view('inc/Components/LoginBox/loginBox', $data);
+                $this->view('pages/GuestUser/home', $data);
             }
         }
         
-
-        // public function Login(){
-        //     if($_SERVER['REQUEST_METHOD']=='POST'){
-        //         //Form is submitting
-        //         $_POST=filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        //         $data=[
-        //             'email' => trim($_POST['email']),
-        //             'password' => trim($_POST['password']),
-  
-        //             'email_err'=>'',
-        //             'password_err'=>''
-        //         ];
-        //         //validate the email
-        //         if(empty($data['email'])){
-
-        //             $data['email_err']='Please enter the email';
-
-        //         }elseif(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-        //             //validate the email
-        //             $data['email_err'] = 'Please enter a valid email address';
-
-        //         }else{
-        //             if($this->GuestpagesModel->findUserByEmail($data['email'])){
-        //                 //user is found
-        //             }
-        //             else{
-        //                 //user is not found
-        //                 $data['email_err']='User not found';
-        //             }
-        //         }
-        //         //validate the password
-        //         if(empty($data['password'])){
-        //             $data['password_err']='Please enter the password';
-        //         }
-        //         //if no error found the login the user
-        //         if(empty($data['email_err']) && empty($data['password_err'])){
-        //             //log the user
-        //             $loggedUser=$this->GuestpagesModel->login($data['email'],$data['password']);
-
-        //             if($loggedUser){
-        //                 //User the authenticated
-        //                 //Create user session
-        //                 $this->createUserSession($loggedUser);
-        //                 // die('Access granted');
-        //             }
-        //             else{
-                        
-        //                 $data['password_err']='Password incorrect';
-
-        //                 //Load view with errors
-        //                 $this->view('inc/Components/LoginBox/loginBox', $data);
-        //             }
-        //         }
-        //         else{
-        //             //Load view with errors
-        //             $this->view('inc/Components/LoginBox/loginBox', $data);
-        //         }
-        //     }
-        //     else{
-        //         //initial form
-        //         $data=[
-        //             'email'=>'',
-        //             'password'=>'',
-
-        //             'email_err'=>'',
-        //             'password_err'=>''
-        //         ];
-        //         //Load view
-        //         $this->view('inc/Components/LoginBox/loginBox', $data);
-
-        //     }
-        // }
         
 
         public function BusBooking() {
@@ -401,53 +334,41 @@
         }
 
 
-        // public function createUserSession($user , $userTable){
-        //     $_SESSION['user_id']=$user['User_id'];
-        //     $_SESSION['user_type'] = $userTable;
-        //     $_SESSION['user_email']=$user['Email'];
-        //     $_SESSION['user_name']=$user['Name'];
-        //     $_SESSION['user_role']='RegisteredUser';
-        //     $_SESSION['user_profile_image']=$user['Profile_image'];
-           
-        //     header('Location: ' . URLROOT . '/RegisteredPages/home');
-        //     exit();
-        // }
+
 
         public function createUserSession($loggedUser, $userTable) {
                 // echo '<pre>';
                 // print_r($loggedUser);
                 // print_r($userTable);
-                // echo '</pre>';
-                
+                // echo '</pre>';   
+            // Set common session data
+            $_SESSION['user_id'] = $userTable === 'customer' ? $loggedUser['User_id'] : $loggedUser['employee_id'];
+            $_SESSION['user_type'] = $userTable;
+            $_SESSION['user_email'] = $userTable === 'customer' ? $loggedUser['Email'] : $loggedUser['email'];
+            $_SESSION['user_name'] = $userTable === 'customer' ? $loggedUser['Name'] : $loggedUser['name'];
 
-                
-    // Set common session data
-    $_SESSION['user_id'] = $userTable === 'customer' ? $loggedUser['User_id'] : $loggedUser['employee_id'];
-    $_SESSION['user_type'] = $userTable;
-    $_SESSION['user_email'] = $userTable === 'customer' ? $loggedUser['Email'] : $loggedUser['email'];
-    $_SESSION['user_name'] = $userTable === 'customer' ? $loggedUser['Name'] : $loggedUser['name'];
-    $_SESSION['user_profile_image'] = $user['Profile_image'] ?? 'default.png';
 
-    // Determine redirect path based on user type
-    switch ($userTable) {
-        case 'customer':
-            $_SESSION['user_role'] = 'RegisteredUser';
-            header('Location: ' . URLROOT . '/RegisteredPages/home');
-            break;
+            // Determine redirect path based on user type
+            switch ($userTable) {
+                case 'customer':
+                    $_SESSION['user_role'] = 'RegisteredUser';
+                    $_SESSION['user_profile_image']=$loggedUser['Profile_image'];
+                    header('Location: ' . URLROOT . '/RegisteredPages/home');
+                    break;
 
-        case 'employee':
-            $_SESSION['user_role'] = 'Admin';
-            header('Location: ' . URLROOT . '/SuperAdminPages/home');
-            break;
+                case 'employee':
+                    $_SESSION['user_role'] = $loggedUser['role'];
+                    header('Location: ' . URLROOT . '/SuperAdminPages/home');
+                    break;
 
-        default:
-            // Default case if userTable is unexpected
-            header('Location: ' . URLROOT . '/GuestPages/login');
-            break;
-    }
+                default:
+                    // Default case if userTable is unexpected
+                    header('Location: ' . URLROOT . '/GuestPages/login');
+                    break;
+            }
 
-    exit();
-}
+            exit();
+        }
 
         
         public function logout(){
@@ -467,5 +388,13 @@
                 return false;
             }
         }  
+
+        public function test() {
+            $this->view('pages/GuestUser/test');
+        }
+
+        public function test1() {
+            $this->view('pages/GuestUser/test1');
+        }
     }  
 ?>
