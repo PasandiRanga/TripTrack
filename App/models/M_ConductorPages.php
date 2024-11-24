@@ -29,10 +29,10 @@
             return $this->db->single();
         }
 
-        public function findEmployeeById($employee_id){
-            $this->db->query('SELECT * FROM employee WHERE employee_id=:employee_id');
+        public function findEmployeeById($userId){
+            $this->db->query('SELECT * FROM employee WHERE employee_id=:userId');
 
-            $this->db->bind(":employee_id",$employee_id);
+            $this->db->bind(":userId",$userId);
 
             $row = $this->db->single();
 
