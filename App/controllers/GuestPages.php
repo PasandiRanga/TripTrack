@@ -357,10 +357,19 @@
                     break;
 
                 case 'employee':
-                    $_SESSION['user_role'] = $loggedUser['role'];
-                    header('Location: ' . URLROOT . '/SuperAdminPages/home');
-                    break;
-
+                    if($loggedUser['role'] === 'Conductor' ){
+                        $_SESSION['user_role'] = $loggedUser['role'];
+                        header('Location: ' . URLROOT . '/ConductorPages/home');
+                        break;
+                    }elseif($loggedUser['role'] === 'Driver'){
+                        $_SESSION['user_role'] = $loggedUser['role'];
+                        header('Location: ' . URLROOT . '/ConductorPages/home');
+                        break;
+                    }elseif($loggedUser['role'] == 'Admin'){
+                        $_SESSION['user_role'] = $loggedUser['role'];
+                        header('Location: ' . URLROOT . '/SuperAdminPages/home');
+                        break;
+                    }
                 default:
                     // Default case if userTable is unexpected
                     header('Location: ' . URLROOT . '/GuestPages/login');

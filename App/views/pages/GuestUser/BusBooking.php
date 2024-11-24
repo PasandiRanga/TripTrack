@@ -143,7 +143,7 @@
                 
                 <!--buttons-->
                 <div class="view-button">
-                    <button>View ratings and reviews</button>
+                    <button onclick="openReviewsModal('<?php echo htmlspecialchars($selectedBus['License_id']); ?>')">View reviews</button>
                 </div>
         </div>
 
@@ -152,14 +152,16 @@
        
     </div>
 
-    <!-- Modal for Bus Layout
-    <div id="busLayoutModal" class="modal" style="display: none;">
+   <!-- model for revies -->
+   <div id="reviewsModal" class="modal" style="display: none;">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="busLayoutContent"></div>  Container to load busLayout.php 
-            <input type="hidden" id="selectedSeats" name="selectedSeats">
+            <span class="close" onclick="closeReviewsModal()">&times;</span>
+            <h2>Bus Reviews</h2>
+            <div id="reviewsContainer">
+                <!-- Reviews will be dynamically loaded here -->
+            </div>
         </div>
-    </div> -->
+    </div>
 
     <div class="booking-form">
         <h2>Book Your Seat</h2>
@@ -274,7 +276,42 @@
     }
     ?>
 
-    
+<script>
+    function openReviewsModal(licenseId) {
+        const modal = document.getElementById('reviewsModal');
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        modal.style.display = 'block';
+
+        // Clear previous reviews
+        reviewsContainer.innerHTML = '<p>Loading reviews...</p>';
+
+        // Fetch reviews dynamically via AJAX
+        fetch('<?php echo URLROOT; ?>/RegisteredPages/getReviews?License_id=' + licenseId)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const reviewsHtml = data.reviews.map(review => `
+                        <div class="review-item">
+                            <div class="review-name">${review.Name}</div>
+                            <div class="review-text">${review.review}</div>
+                        </div>
+                    `).join('');
+                    reviewsContainer.innerHTML = reviewsHtml || '<p>No reviews available for this bus.</p>';
+                } else {
+                    reviewsContainer.innerHTML = '<p>Error loading reviews. Please try again later.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching reviews:', error);
+                reviewsContainer.innerHTML = '<p>Error fetching reviews. Please try again later.</p>';
+            });
+    }
+
+    function closeReviewsModal() {
+        const modal = document.getElementById('reviewsModal');
+        modal.style.display = 'none';
+    }
+</script>
     
 
 </body>

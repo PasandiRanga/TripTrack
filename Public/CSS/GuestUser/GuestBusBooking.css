@@ -491,16 +491,23 @@ select {
     width:280px;
 }
 
+
+
+
+
 .modal {
-    display: none; /* Hidden by default */
+    z-index: 1000;
+    display: none;
     position: fixed;
-    z-index: 1000; /* Ensures it’s on top */
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -508,7 +515,41 @@ select {
     margin: 10% auto; /* Center it */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be adjusted as needed */
-    max-width: 500px; /* Limits the max width */
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#reviewsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between reviews */
+}
+
+.review-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Two columns: 1 part for name, 2 parts for review text */
+    gap: 10px; /* Space between columns */
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Optional: Line between reviews */
+}
+
+.review-name {
+    font-weight: bold;
+    text-align: left; /* Align name to the left */
+}
+
+.review-text {
+    text-align: left; /* Align review text to the left */
+    font-style: italic; /* Optional: Styling for the review text */
+}
+
+
 
