@@ -229,7 +229,12 @@
                                     </button>
                                 </form>
                                 <button><i class="fa-solid fa-pen-to-square" style="color:blue"></i>  Edit Booking</button>
-                                <button><i class="fa-solid fa-ticket" style="color:green"></i>  View Ticket</button>
+                                <button onclick="toggleTicketBox(
+                                        <?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8'); ?>, 
+                                        <?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8'); ?>,
+                                        <?php echo htmlspecialchars(json_encode($bus), ENT_QUOTES, 'UTF-8'); ?>,
+                                        <?php echo htmlspecialchars(json_encode($userData), ENT_QUOTES, 'UTF-8'); ?>
+                                )"><i class="fa-solid fa-ticket" style="color:green"></i>  View Ticket</button>
                             </td>
 
                         </tr>
