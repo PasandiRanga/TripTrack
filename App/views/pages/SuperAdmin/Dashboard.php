@@ -18,15 +18,12 @@
             <div class="menu-icons" onclick="openSidebar()">
                 <span class="material-icons-outlined">menu</span>
             </div>
-            <!--
             <div class="header-left">
-                <span class="material-icons-outlined">search</span>
+                <img src="../images/logo.png" alt="Logo" class="logo">
             </div>
-            
+            <!--
             <div class="header-right">
-                <span class="material-icons-outlined">notifications</span>
-                <span class="material-icons-outlined">email</span>
-                <span class="material-icons-outlined">account_circle</span>
+                <span id="current-date"></span> 
             </div>
             -->
         </header>
@@ -87,8 +84,7 @@
 
         <main class="main-container">
             <div class="main-title">
-
-                <h2>Dashboard</h2>
+                <h2>Dashboard</h2> 
             </div>
 
             <div class="main-cards">
@@ -433,6 +429,23 @@
         function cancelLogout() {
             window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home"; // Replace with your dashboard file
         }
+
+        // Function to display the current date
+        function displayCurrentDate() {
+            const dateElement = document.getElementById("current-date");
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+            dateElement.textContent = formattedDate; // Update the date span
+        }
+
+        // Call the function on page load
+        document.addEventListener("DOMContentLoaded", displayCurrentDate);
+
     </script>
 </body>
 </html>
