@@ -197,6 +197,28 @@
             // Execute and check success
             return $this->db->execute();
         }
+
+        public function getReviewsByLicenseId($licenseId) {
+            // Join BUS_reviews with customer table to fetch user details along with reviews
+            $this->db->query("
+                SELECT 
+                    c.User_id,
+                    c.Name,  
+                    r.review 
+                FROM 
+                    bus_reviews r
+                INNER JOIN 
+                    customer c 
+                ON 
+                    r.User_id = c.User_id
+                WHERE 
+                    r.License_id = :License_id
+            ");
+            $this->db->bind(':License_id', $licenseId);
+            return $this->db->resultSet();
+        }
+        
+        
         
     }
 ?>
