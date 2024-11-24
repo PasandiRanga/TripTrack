@@ -172,6 +172,7 @@
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div>
                     <label for="email">E-mail:</label>
                     <input type="email" id="email" name="email" required>
@@ -208,7 +209,7 @@
                         ?>
                     </select>
                 </div>
-
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <!-- 'To' Dropdown (Arrival) -->
                 <div>
                     <label for="to">To:</label>
@@ -250,8 +251,10 @@
 
             <div class="form-group-inline">
                 <label>Payment method:</label>
-                <input type="radio" name="paymentMethod" value="Cash" required> Cash
-                <input type="radio" name="paymentMethod" value="Online" required> Online
+                <div class="checkbox=group">
+                    <input type="radio" name="paymentMethod" value="Cash" required> Cash
+                    <input type="radio" name="paymentMethod" value="Online" required> Online
+                </div>
             </div>
 
             <div class="form-group-inline">
