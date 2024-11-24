@@ -18,8 +18,8 @@
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  /* object-fit: contain; */
-  object-position: center; /* Center the images */
+  object-fit: cover;
+  object-position: center;
 }
 
 .dark-layer {
@@ -28,28 +28,47 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
 
-/* Style for text slider */
+/* Center text in the middle of the image slider */
 .text-slider {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
   text-align: center;
   color: #fff;
   font-family: Arial, sans-serif;
   font-size: 50px;
+  font-weight: bold;
+  font-family: cursive;
+  z-index: 2; /* Ensure it appears above images */
 }
 
 .slide {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+  position: absolute; /* Ensure slides overlap */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 1s ease, transform 1s ease; /* Smooth transitions */
+  transform: translateY(20px); /* Slightly below center initially */
 }
 
 .slide.active {
-  opacity: 1;
+  opacity: 1; /* Make visible */
+  transform: translateY(0); /* Center the text */
+}
+
+.text-slider{
+  text-align:center;
+  position: absolute;
+  top:40%;
+  left:60%;
+  transform:translate(-50%,-50%);
+  width:80%
+}
+
+.slide2{
+  font-size: 30px;
+  color: aqua;
 }
