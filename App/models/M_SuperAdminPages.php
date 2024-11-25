@@ -133,52 +133,66 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
-public function findUserByNIC($nic){
-    $this->db->query('SELECT * FROM employee WHERE nic=:nic');
-    $this->db->bind(":nic",$nic);
+    public function findUserByNIC($nic){
+        $this->db->query('SELECT * FROM employee WHERE nic=:nic');
+        $this->db->bind(":nic",$nic);
 
-    $row = $this->db->single();
+        $row = $this->db->single();
 
-    if($this->db->rowCount()>0){
-        return true;
+        if($this->db->rowCount()>0){
+            return true;
+        }
+        else{
+            return false;  
+        }
     }
-    else{
-        return false;  
-    }
-}
 
-public function findUserByEmail($email){
-    $this->db->query('SELECT * FROM employee WHERE email=:email');
-    $this->db->bind(":email",$email);
+    public function findUserByEmail($email){
+        $this->db->query('SELECT * FROM employee WHERE email=:email');
+        $this->db->bind(":email",$email);
 
-    $row = $this->db->single();
+        $row = $this->db->single();
 
-    if($this->db->rowCount()>0){
-        return true;
+        if($this->db->rowCount()>0){
+            return true;
+        }
+        else{
+            return false;  
+        }
     }
-    else{
-        return false;  
-    }
-}
 
-public function addemployee($data){
-    $this->db->query('INSERT INTO employee(name,address,contactNo,email,password,role,nic) VALUES(:name,:address,:contactNo,:email,:password,:role,:nic)');
-    $this->db->bind(':name',$data['name']);
-    $this->db->bind(':address',$data['address']);
-    $this->db->bind(':nic',$data['nic']);
-    $this->db->bind(':contactNo',$data['contactNo']);
-    $this->db->bind(':email',$data['email']);
-    $this->db->bind(':password',$data['password']);
-    $this->db->bind(':role',$data['role']);
-    $this->db->bind(':nic',$data['nic']);
+    public function addemployee($data){
+        $this->db->query('INSERT INTO employee(name,address,contactNo,email,password,role,nic) VALUES(:name,:address,:contactNo,:email,:password,:role,:nic)');
+        $this->db->bind(':name',$data['name']);
+        $this->db->bind(':address',$data['address']);
+        $this->db->bind(':nic',$data['nic']);
+        $this->db->bind(':contactNo',$data['contactNo']);
+        $this->db->bind(':email',$data['email']);
+        $this->db->bind(':password',$data['password']);
+        $this->db->bind(':role',$data['role']);
+        $this->db->bind(':nic',$data['nic']);
 
-    if($this->db->execute()){
-        return true;
+        if($this->db->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
-    else{
-        return false;
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //Schedule
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+    public function addschedule(){
+
     }
-}
+
+    public function getschedule(){
+        $this->db->query('SELECT * FROM schedule');
+        return $this->db->resultSet();
+    }
 
 }
 ?>
