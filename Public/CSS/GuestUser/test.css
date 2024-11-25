@@ -169,7 +169,7 @@ textarea.input {
   opacity: 0;
   transition: 0.3s;
   height: 5px;
-  background-color: #43cea2;
+  background-color: #1abc9c;
   top: 50%;
   transform: translateY(-50%);
 }
