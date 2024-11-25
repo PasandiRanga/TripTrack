@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
-    color: #333;
+    color: black;
 }
 
 .centered {
@@ -27,14 +27,15 @@ body {
 }
 
 .back-button:hover {
-    background-color: #5a6268;
+    background-color: #007bff;
 }
 
 /* Add Employee Button Styling */
 .top-actions {
+    margin: 20px auto; /* Centers the button horizontally */
+    width: 90%; /* Matches the table's width */
     display: flex;
     justify-content: flex-end;
-    margin: 10px 20px;
 }
 
 .add-employee-btn {
@@ -53,36 +54,34 @@ body {
 
 /* Table Styling */
 .user-table {
-    margin: 20px auto;
-    width: 90%;
-    background-color: white;
-    border-collapse: collapse;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-
-table {
     width: 100%;
     border-collapse: collapse;
-}
-
-table th, table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
     text-align: left;
-    font-size: 14px;
+}
+.user-table-container{
+    max-width: 90%;
+    margin: 0 auto 20px;
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-table tr {
+.user-table td {
+    padding: 12px;
+    text-align: center;
+}
+
+.user-table tr {
     background-color: #f9f9f9; /* Same color for all rows */
 }
 
-table th {
+.user-table th {
     background-color: #007bff;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 12px;
     color: white;
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
 }
 
 table tbody tr:hover {
