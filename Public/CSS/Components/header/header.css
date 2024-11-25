@@ -103,6 +103,7 @@ li {
     margin-right: 20px; /* Adjust margin for better spacing */
     line-height: initial;
     font-size: 1.5rem;
+    position: relative;
 }
 
 /* Notification Count (Number) Styling */
@@ -166,7 +167,7 @@ li {
     flex-direction: column;
     padding: 10px 15px;
     border-bottom: 1px solid #eee;
-    cursor: pointer;
+    /* cursor: pointer; */
     position: relative;
     transition: background-color 0.3s ease;
     border-radius: 8px; /* Soft rounded borders for each item */

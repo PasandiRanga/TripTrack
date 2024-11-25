@@ -51,10 +51,11 @@
 
         <div class="user-section">
             <?php if (in_array($userRole, ["RegisteredUser"])): ?>
-                <div class="notiicon" onclick="toggleNotifi()">
-                <i class="fa-solid fa-bell"></i><span class="badge"><?php echo count($notifications); ?></span>
-
-                <div class="notifi-box" id="box">
+                <!-- Update the notification button HTML -->
+                <div class="notiicon">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="badge"><?php echo count($notifications); ?></span>
+                    <div class="notifi-box" id="box">
                         <h2>Notifications <span><?php echo count($notifications); ?></span></h2>
                         <?php foreach ($notifications as $notification): ?>
                             <div class="notifi-item">
@@ -103,19 +104,6 @@
 
     <script>
 
-
-        function toggleNotifi() {
-            const box = document.getElementById('box');
-            box.style.height = box.style.height === '510px' ? '0px' : '510px';
-            box.style.opacity = box.style.opacity === '1' ? '0' : '1';
-        }
-
-        function toggleNotificationContent(event) {
-            const content = event.target.closest('.notifi-item').querySelector('.notification-content');
-            content.style.display = content.style.display === 'block' ? 'none' : 'block';
-            event.target.innerHTML = content.style.display === 'block' ? '&#9650;' : '&#9660;';
-        }
-
         // Show the login box
         document.addEventListener('DOMContentLoaded', function () {
             const showPopup = <?php echo isset($data['showPopup']) && $data['showPopup'] ? 'true' : 'false'; ?>;
@@ -147,32 +135,69 @@
             }
         }
 
-        document.addEventListener('click', function(event) {
-            const box = document.getElementById('box');
-            if (box && !box.contains(event.target) && !event.target.closest('.notiicon')) {
-            box.style.height = '0px';
-            box.style.opacity = '0';
-    }
+    
+    //navbar
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbarItems = document.getElementById('navbar-items');
+
+            menuToggle.addEventListener('click', function() {
+                navbarItems.classList.toggle('active');
+            });
         });
 
-        document.querySelectorAll('.dropdown-arrow').forEach(arrow => {
-            arrow.addEventListener('click', toggleNotificationContent);
-        });
+        //navbar
+        document.addEventListener('DOMContentLoaded', function() {
+    const notificationIcon = document.querySelector('.notiicon');
+    const notificationBox = document.getElementById('box');
+    let isOpen = false;
 
-        function removeNotification(element) {
-            element.closest('.notifi-item').remove();
+    notificationBox.style.pointerEvents = 'none';
+
+    // Toggle notification box when clicking the icon
+    notificationIcon.addEventListener('click', function(event) {
+        event.stopPropagation();
+        isOpen = !isOpen;
+        
+        notificationBox.style.height = isOpen ? '510px' : '0px';
+        notificationBox.style.opacity = isOpen ? '1' : '0';
+    });
+
+    // Close notification box when clicking outside
+    document.addEventListener('click', function(event) {
+        // Check if click is outside both the notification icon and box
+        if (!notificationIcon.contains(event.target) && !notificationBox.contains(event.target) && isOpen) {
+            isOpen = false;
+            notificationBox.style.height = '0px';
+            notificationBox.style.opacity = '0';
         }
+    });
 
-     
-document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarItems = document.getElementById('navbar-items');
+    // Handle notification content toggles
+    document.querySelectorAll('.dropdown-arrow').forEach(arrow => {
+        arrow.addEventListener('click', function(event) {
+            event.stopPropagation();
+            const content = this.closest('.notifi-item').querySelector('.notification-content');
+            const isContentVisible = content.style.display === 'block';
+            
+            content.style.display = isContentVisible ? 'none' : 'block';
+            this.innerHTML = isContentVisible ? '&#9660;' : '&#9650;';
+        });
+    });
 
-    menuToggle.addEventListener('click', function() {
-        navbarItems.classList.toggle('active');
+    // Handle notification removal
+    document.querySelectorAll('.close-icon').forEach(icon => {
+        icon.addEventListener('click', function(event) {
+            event.stopPropagation();
+            this.closest('.notifi-item').remove();
+            
+            // Update notification count
+            const count = document.querySelectorAll('.notifi-item').length;
+            document.querySelector('.badge').textContent = count;
+            document.querySelector('.notifi-box h2 span').textContent = count;
+        });
     });
 });
-
 
     </script>
 </body>

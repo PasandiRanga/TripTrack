@@ -226,7 +226,7 @@
                                     <script console.log(<?php echo $booking['Seats']; ?>)></script> 
 
                                     <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                         <i class="fa-solid fa-ban" style="color:red"></i>  Cancel Booking
+                                         <i class="fa-solid fa-ban" style="color:red"></i>Cancel Booking
                                     </button>
                                 </form>
                                 <button><i class="fa-solid fa-pen-to-square" style="color:blue"></i>  Edit Booking</button>
