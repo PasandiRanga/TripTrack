@@ -1,14 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Style for the back button */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #063946;
+    background-color: #007bff;
+    border-radius: 4px;
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+}
+.back-button:hover {
+    background-color: #007bff;
 }
 
 h1 {
@@ -16,34 +29,48 @@ h1 {
     margin-top: 60px;
     font-size: 24px;
 }
-
-table {
-    width: 90%;
+.report-table-container{
     margin: 20px auto;
-    border-collapse: collapse;
+    width: 90%;
+    border-radius: 10px; /* Rounds the corners */
+    overflow: hidden; /* Ensures corners stay rounded */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
+    background-color: white; /* Ensures a consistent background */
+}
+.report-table{
+    width: 100%;
+    border-collapse: separate; /* Necessary for border-radius to apply */
+    border-spacing: 0; /* Removes any gaps between cells */
 }
 
-table, th, td {
+.report-table th {
+    background-color: #007bff;
+    color: white;
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px;
     text-align: center;
 }
 
-th {
-    background-color: #063946;
-    color: white;
+.report-table td {
+    padding: 12px;
+    text-align: center;
+    color: black;
 }
 
+/* Profit styling */
 .profit {
-    color: green;
+    color: green !important; /* Ensure the color overrides defaults */
     font-weight: bold;
 }
 
+/* Loss styling */
 .loss {
-    color: red;
+    color: red !important; /* Ensure the color overrides defaults */
     font-weight: bold;
 }
 
-tbody tr:hover {
-    background-color: #f1f1f1;
+/* Row hover effect */
+.report-table tbody tr:hover {
+    background-color: #f1f1f1; /* Light grey background on hover */
+    transition: background-color 0.2s ease-in-out; /* Smooth hover transition */
 }

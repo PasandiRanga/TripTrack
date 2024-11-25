@@ -64,12 +64,13 @@
     <!-- Search and Clear -->
     <div class="search-container">
         <label for="search">Search: </label>
-        <input type="text" id="search" placeholder="Search buses...">
+        <input type="text" id="search" class="search-input" placeholder="Search buses...">
         <button class="search-button" onclick="searchFleet()">Search</button>
         <button class="search-button-clear" onclick="clearSearch()">Clear</button>
     </div>
 
     <!-- Fleet table -->
+    <div class="fleet-table-container">
     <table class="fleet-table">
         <thead>
             <tr>
@@ -114,6 +115,7 @@
             ?>
         </tbody>
     </table>
+    </div>
 
     <script>
         // Delete Bus Function

@@ -1,13 +1,9 @@
 /* CSS for Reviews Table */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    display: flex;
-    justify-content: top;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
+    background-color: #f4f7fa;
     margin: 0;
+    padding: 0;
 }
 
 /* Back Button Style */
@@ -15,49 +11,78 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 20px;
-    background-color: #063946;
+    padding: 10px 15px;
+    background-color: #007bff;
+    border-radius: 4px;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    z-index: 1000;
 }
 
 .back-button:hover {
-    background-color: #063946;
+    background-color: #007bff;
 }
 
-h2 {
-    margin: 20px;
+.title {
+    font-size: 28px;
+    color: black;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-table {
-    width: 80%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.review-table-container {
+    margin: 20px auto;
+    width: 90%;
+    border-radius: 10px; /* Rounds the corners */
+    overflow: hidden; /* Ensures corners stay rounded */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
+    background-color: white; /* Ensures a consistent background */
 }
 
-th, td {
+.review-table {
+    width: 100%;
+    border-collapse: separate; /* Necessary for border-radius to apply */
+    border-spacing: 0; /* Removes any gaps between cells */
+}
+.review-table td {
     padding: 12px;
-    text-align: left;
-    border: 1px solid white; /* White line between columns */
-    border-bottom: 1px solid #ddd;
+    text-align: center;
 }
 
-th {
-    background-color: #063946;
-    color: #fff;
+.review-table th {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
 }
 
-.new-review {
-    background-color: #e0e0e0;
+.review-table td {
+    color: black;
+}
+
+.review-table tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.review-table tr:hover {
+    background-color: #f1f1f1;
     cursor: pointer;
 }
 
-tr:hover {
-    background-color: #f1f1f1;
+/* Highlight Selected Row */
+.review-table tr.selected {
+    background-color: #d3d3d3;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .review-table {
+        font-size: 14px;
+    }
+
+    .back-button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
 }
