@@ -42,6 +42,7 @@
         public function contact() {
             $this->view('pages/GuestUser/contactus');
         }
+        
         public function busLayout() {
             $schedule = $this->GuestpagesModel->getSchedule();
             
