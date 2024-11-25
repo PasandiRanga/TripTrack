@@ -225,7 +225,7 @@
                                     <script console.log(<?php echo $booking['schedule_id']; ?>)></script>
                                     <script console.log(<?php echo $booking['Seats']; ?>)></script> 
 
-                                    <button type="submit" onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                    <button type="button" onclick="showCancelPopup(<?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8');?>)">
                                          <i class="fa-solid fa-ban" style="color:red"></i>Cancel Booking
                                     </button>
                                 </form>
@@ -250,6 +250,7 @@
         </div>
     </div>
 
+    <!--ticket box pop up-->
     <div id="ticketBox" class="ticketBox hidden">
         <div class="signInContent">
             <div class="ticket-content">
@@ -258,6 +259,21 @@
             <div class="close-btn" onclick="closeTicketBox()">×</div>
         </div>
     </div>
+
+    <!--Cancel Booking pop up -->
+    <div id="cancelPopup" class="popup hidden">
+        <div class="popup-content">
+            <h3>Cancel Booking</h3>
+            <p id="popup-details"></p>
+            <!--Content will come here -->
+            <div class="popup-actions">
+                <button id="confirmCancel" class="confirm-btn">Confirm</button>
+                <button id="closePopup" class="cancel-btn" onclick="closeCancelBox()">Close</button>
+            </div>
+            <!-- <div class="close-btn" onclick="closeCancelBox()">×</div> -->
+        </div>
+    </div>
+
 
 
 <script>
@@ -371,6 +387,53 @@ function toggleTicketBox(booking, schedule, bus , user) {
         });
 
         
+//----------------Booking cancel handling ------------------------------------------------
+      
+        // Show the popup with booking details
+        function showCancelPopup(booking) {
+            const popup = document.getElementById('cancelPopup');
+            const details = document.getElementById('popup-details');
+            const confirmBtn = document.getElementById('confirmCancel');
+
+            // Populate the popup with booking details
+            details.innerHTML = `
+                <strong>Booking ID:</strong> ${booking.id} <br>
+                <strong>Route:</strong> ${booking.from_location} to ${booking.to_location} <br>
+                <strong>Date:</strong> ${booking.date} <br>
+                <strong>Total Price:</strong> LKR ${Number(booking.total_price).toFixed(2)}
+            `;
+
+            // Add event listener to confirm button
+            confirmBtn.onclick = function () {
+                confirmCancellation(booking.id); // Call the cancellation function
+            };
+
+            popup.classList.remove('hidden');
+        }
+
+        // Close the popup
+        function closeCancelBox() {
+            console.log("closeCancelBox");
+        document.getElementById('cancelPopup').classList.add('hidden');
+    }
+
+        // Confirm cancellation (AJAX or form submission)
+        function confirmCancellation(bookingId) {
+            // Send the bookingId to the server for cancellation
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '<?php echo URLROOT; ?>/RegisteredPages/cancelBooking';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'booking_id';
+            input.value = bookingId;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
 
 
     </script>
