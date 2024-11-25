@@ -20,9 +20,9 @@
             <option value="" disabled selected>From</option>
             <?php
                 // Extract unique 'start' locations from $distanceData
-                $starts = array_unique(array_column($distanceData, 'start'));
-                foreach ($starts as $start) {
-                    echo "<option value=\"$start\">$start</option>";
+                $locations = array_unique(array_column($distanceData, 'location'));
+                foreach ($locations as $location) {
+                    echo "<option value=\"$location\">$location</option>";
                 }
             ?>
         </select>

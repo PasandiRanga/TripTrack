@@ -104,11 +104,13 @@
     <script>
 
 
-        function toggleNotifi() {
+        function toggleNotifi(event) {
+            event.stopPropagation();  // Prevent the click event from propagating to the document
             const box = document.getElementById('box');
             box.style.height = box.style.height === '510px' ? '0px' : '510px';
             box.style.opacity = box.style.opacity === '1' ? '0' : '1';
         }
+
 
         function toggleNotificationContent(event) {
             const content = event.target.closest('.notifi-item').querySelector('.notification-content');
@@ -149,7 +151,8 @@
 
         document.addEventListener('click', function(event) {
             const box = document.getElementById('box');
-            if (box && !box.contains(event.target) && !event.target.closest('.notiicon')) {
+            const notiicon = document.querySelector('.notiicon')
+            if (box && !box.contains(event.target) && !notiicon.contains(event.relatedTarget)) {
             box.style.height = '0px';
             box.style.opacity = '0';
     }
