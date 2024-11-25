@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <!--<script>
+        <script>
             
             function goBack() {
                 window.history.back();
@@ -95,14 +95,19 @@
             function submitDelayForm(event) {
                 event.preventDefault();
 
-                <!--/*const delayData = {
+                /*const delayData = {
 
                 }*/
-
-
+                console.log("Delay Form submitted:");
+                alert("Form submitted successfully");
+                
+                clearForm();
             }
 
-        </script>-->
+            function clearForm() {
+                document.getElementById("fleet-form").reset();
+            }
 
+        </script>
 </body>
 </html>

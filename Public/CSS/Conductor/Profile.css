@@ -20,6 +20,14 @@ body {
     text-decoration: none;
 }
 
+h1 {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 15px;
+    font-size: 2.5rem;
+    color: #063946;
+}
+
 .profile-container {
     display: flex;
     justify-content: center;
