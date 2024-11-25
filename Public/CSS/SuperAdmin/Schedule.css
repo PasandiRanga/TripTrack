@@ -1,20 +1,52 @@
-/* Style for the back button */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Back button */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #063946;
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 4px;
 }
 
+/* Page title */
 h1 {
     text-align: center;
     margin-top: 20px;
 }
 
+/* Add Schedule button at the top right */
+.top-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 20px;
+}
+
+.add-schedule-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.add-schedule-btn:hover {
+    background-color: #007bff;
+}
+
+/* Table container */
 .table-container {
     max-height: 70vh;
     overflow-y: auto;
@@ -22,6 +54,7 @@ h1 {
     width: 90%;
 }
 
+/* Table styles */
 .schedule-table {
     width: 100%;
     border-collapse: collapse;
@@ -34,7 +67,7 @@ h1 {
 }
 
 .schedule-table th {
-    background-color: #063946;
+    background-color: #007bff;
     color: white;
 }
 
@@ -47,16 +80,10 @@ h1 {
     background-color: #f1f1f1;
 }
 
-.button-group {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
+/* Update and Delete buttons in the table 
+.schedule-table button {
+    padding: 5px 10px;
+    font-size: 14px;
     background-color: #063946;
     color: white;
     border: none;
@@ -64,6 +91,33 @@ button {
     border-radius: 4px;
 }
 
-button:hover {
-    background-color: #063946;
+.schedule-table button:hover {
+    background-color: #085d70;
+}
+*/
+.update-btn,
+.delete-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #007bff;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
 }

@@ -9,7 +9,7 @@ body {
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #063946;
+    background-color: #007bff;
     border-radius: 4px;
     color: white;
     border: none;
@@ -27,7 +27,7 @@ h1 {
     gap: 10px;
 }
 .search-container .search-button{
-    background-color: #063946;
+    background-color: #007bff;
     border-radius: 4px;
     color: white;
     cursor: pointer;
@@ -56,7 +56,7 @@ h1 {
 }
 
 .fleet-table th {
-    background-color: #063946;
+    background-color: #007bff;
     color: white;
 }
 
@@ -78,7 +78,7 @@ h1 {
 .action-buttons button {
     padding: 10px 20px;
     border-radius: 4px;
-    background-color: #063946;
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;

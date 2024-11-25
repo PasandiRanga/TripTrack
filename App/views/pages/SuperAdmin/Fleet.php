@@ -14,7 +14,7 @@
 
         .add-button-container button {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 4px;
@@ -22,7 +22,7 @@
         }
 
         .add-button-container button:hover {
-            background-color: #45a049;
+            background-color: #007bff;
         }
 
         .fleet-table button {

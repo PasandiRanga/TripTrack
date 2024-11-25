@@ -8,9 +8,14 @@
 </head>
 <body>
     <!-- Back button -->
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back </button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
     <h1>Bus Schedules</h1>
+
+    <!-- Add Schedule Button -->
+    <div class="top-actions">
+        <button class="add-schedule-btn" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/addschedule'">Add Schedule</button>
+    </div>
 
     <!-- Schedule table -->
     <div class="table-container">
@@ -18,55 +23,53 @@
             <thead>
                 <tr>
                     <th>Schedule ID</th>
+                    <th>License ID</th>
                     <th>Date</th>
                     <th>Departure Time</th>
                     <th>Arrival Time</th>
                     <th>Duration</th>
                     <th>Price</th>
-                    <th>Bus ID</th>
-                    <th>Bus Number</th>
-                    <th>Route</th>
+                    <th>Available Seats</th>
+                    <th>Booked Seats</th>
+                    <th>Update</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 // Sample data for demonstration purposes
+                /*
                 $schedules = [
-                    ['scheduleId' => '1', 'date' => '2024-11-10', 'departureTime' => '6:00 AM', 'arrivalTime' => '3:00 PM', 'duration' => '9 hours 30 mins', 'price' => 'Rs. 700', 'busId' => '1', 'busNumber' => 'NA-1234', 'route' => 'Colombo - Ampara'],
-                    ['scheduleId' => '2', 'date' => '2024-11-11', 'departureTime' => '7:00 AM', 'arrivalTime' => '4:00 PM', 'duration' => '9 hours', 'price' => 'Rs. 750', 'busId' => '2', 'busNumber' => 'NA-5678', 'route' => 'Colombo - Galle']
-                    // Add more rows as needed
-                ];
-
-                // Loop through the schedule data and create table rows
-                foreach ($schedules as $schedule) {
-                    echo "<tr onclick='selectRow(this)'>";
-                    echo "<td>{$schedule['scheduleId']}</td>";
-                    echo "<td>{$schedule['date']}</td>";
-                    echo "<td>{$schedule['departureTime']}</td>";
-                    echo "<td>{$schedule['arrivalTime']}</td>";
-                    echo "<td>{$schedule['duration']}</td>";
-                    echo "<td>{$schedule['price']}</td>";
-                    echo "<td>{$schedule['busId']}</td>";
-                    echo "<td>{$schedule['busNumber']}</td>";
-                    echo "<td>{$schedule['route']}</td>";
-                    echo "</tr>";
+                    ['scheduleId' => '1', 'licenseId' => 'L123', 'date' => '2024-11-10', 'departureTime' => '6:00 AM', 'arrivalTime' => '3:00 PM', 'duration' => '9 hours 30 mins', 'price' => 'Rs. 700', 'availableSeats' => 50, 'bookedSeats' => 10],
+                    ['scheduleId' => '2', 'licenseId' => 'L456', 'date' => '2024-11-11', 'departureTime' => '7:00 AM', 'arrivalTime' => '4:00 PM', 'duration' => '9 hours', 'price' => 'Rs. 750', 'availableSeats' => 45, 'bookedSeats' => 15]
+                ]; */
+                if(isset($data['schedule']) && is_array($data['schedule'])){
+                    foreach ($data['schedule'] as $schedule) {
+                        echo "<tr onclick='selectRow(this)'>";
+                        echo "<td>{$schedule['scheduleId']}</td>";
+                        echo "<td>{$schedule['License_id']}</td>";
+                        echo "<td>{$schedule['date']}</td>";
+                        echo "<td>{$schedule['departureTime']}</td>";
+                        echo "<td>{$schedule['arrivalTime']}</td>";
+                        echo "<td>{$schedule['duration']}</td>";
+                        echo "<td>{$schedule['price']}</td>";
+                        echo "<td>{$schedule['availableSeats']}</td>";
+                        echo "<td>{$schedule['bookedSeats']}</td>";
+                        echo "<td><button class='update-btn' onclick='updateSchedule({$schedule['scheduleId']})'>Update</button></td>";
+                        echo "<td><button class='delete-btn' onclick='deleteSchedule({$schedule['scheduleId']})'>Delete</button></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='14'>No bus data available.</td></tr>";
                 }
+                
                 ?>
             </tbody>
         </table>
     </div>
 
-    <!-- Action buttons -->
-    <div class="button-group">
-        <button onclick="addSchedule()">Add Schedule</button>
-        <button onclick="updateSchedule()">Update</button>
-        <button onclick="deleteSchedule()">Delete</button>
-    </div>
-
     <script>
-                // Function to select a row in the table
         function selectRow(row) {
-            // Deselect any previously selected row
             const selectedRow = document.querySelector(".schedule-table tr.selected");
             if (selectedRow) {
                 selectedRow.classList.remove("selected");
@@ -74,36 +77,15 @@
             row.classList.add("selected");
         }
 
-        // Function to handle adding a schedule
-        function addSchedule() {
-            window.location.href="<?php echo URLROOT; ?>/SuperAdminPages/addschedule"
-                }
-
-        // Function to handle updating a selected schedule
-        function updateSchedule() {
-            const selectedRow = document.querySelector(".schedule-table tr.selected");
-            if (selectedRow) {
-                const scheduleId = selectedRow.cells[0].textContent;
-                window.location.href = `update_schedule.php?scheduleId=${scheduleId}`;
-            } else {
-                alert("Please select a schedule to update.");
-            }
+        function updateSchedule(scheduleId) {
+            window.location.href = `update_schedule.php?scheduleId=${scheduleId}`;
         }
 
-        // Function to handle deleting a selected schedule
-        function deleteSchedule() {
-            const selectedRow = document.querySelector(".schedule-table tr.selected");
-            if (selectedRow) {
-                const scheduleId = selectedRow.cells[0].textContent;
-                if (confirm(`Are you sure you want to delete schedule ID ${scheduleId}?`)) {
-                    // Add AJAX request or redirection to delete page
-                    alert(`Schedule ID ${scheduleId} has been deleted.`);
-                }
-            } else {
-                alert("Please select a schedule to delete.");
+        function deleteSchedule(scheduleId) {
+            if (confirm(`Are you sure you want to delete schedule ID ${scheduleId}?`)) {
+                alert(`Schedule ID ${scheduleId} has been deleted.`);
             }
         }
-
     </script>
 </body>
 </html>
