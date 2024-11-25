@@ -15,7 +15,7 @@ body {
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #063946;
+    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -25,13 +25,13 @@ body {
 }
 
 .back-button:hover {
-    background-color: #085d70;
+    background-color: #007bff;
 }
 
 /* Page Header */
 h1 {
     font-size: 28px;
-    color: #063946;
+    color: black;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -44,7 +44,7 @@ h1 {
 
 .filter-container label {
     font-size: 18px;
-    color: #063946;
+    color: black;
     margin-right: 10px;
 }
 
@@ -60,34 +60,39 @@ h1 {
 
 .filter-container select:focus {
     outline: none;
-    border-color: #063946;
+    border-color: black;
 }
 
 /* Table Styling */
-.booking-table {
+.booking-table-container{
+    margin: 20px auto;
     width: 90%;
-    max-width: 1200px;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Rounds the corners */
+    overflow: hidden; /* Ensures corners stay rounded */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
+    background-color: white; /* Ensures a consistent background */
+}
+.booking-table {
+    width: 100%;
+    border-collapse: separate; /* Necessary for border-radius to apply */
+    border-spacing: 0; /* Removes any gaps between cells */
 }
 
-.booking-table th,
 .booking-table td {
     padding: 12px;
     text-align: center;
-    border: 1px solid #ddd;
-    font-size: 16px;
 }
 
 .booking-table th {
-    background-color: #063946;
-    color: #fff;
-    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
 }
 
 .booking-table td {
-    color: #555;
+    color: black;
 }
 
 .booking-table tr:nth-child(even) {

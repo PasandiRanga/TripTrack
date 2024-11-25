@@ -22,6 +22,7 @@
     </div>
 
     <!-- Booking tables -->
+    <div class="booking-table-container">
     <table class="booking-table">
         <!-- Guest bookings table -->
         <thead id="guest-thead">
@@ -89,7 +90,8 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-
+    </div>
+    
     <script>
         function toggleBookingType() {
             const bookingType = document.getElementById('bookingType').value;
