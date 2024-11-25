@@ -45,7 +45,7 @@
 }
 
 .done {
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     color: #ffffff;
     border: none;
     padding: 10px;
@@ -59,7 +59,7 @@
 }
 
 .done:hover {
-    background-color: #268029;
+    background: linear-gradient(135deg, #185a9d , #43cea2);
 }
 
 .profileForm {
