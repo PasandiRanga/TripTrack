@@ -102,7 +102,7 @@ textarea[id="reason"] {
 
 input[type="text"]:focus,
 input[type="time"]:focus,
-textarea[id="reason"] {
+textarea[id="reason"]:focus {
     border-color: #007bff;
     outline: none;
     background-color: #ffffff;

@@ -83,9 +83,10 @@
                     <span class="text">Notifications</span>
                 </li>
 
-                <!--<li class="sidebar-list-item" onclick="Openpopup()">
-                    <span class="material-icons-outlined">logout</span> Logout
-                </li>-->
+                <li class="sidebar-list-item">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="text">LogOut</span>
+                </li>
             </ul>
         </aside>
 
@@ -99,11 +100,17 @@
             <div class="container">
                 <h3 class="clickable" id="showUpcomingAssigns">Upcoming Schedule</h3>
                 <h3 class="clickable" id="showPastAssigns">Past Schedule</h3>
+ 
+                <!--<div class="search-container">
+                <button class="search-button" onclick="searchFleet()">Search</button>-->
 
                 <div class="input-group">
                     <div class="icon"><i class="fas fa-calendar-alt"></i></div>
                     <input type="date" class="search-input">
                 </div>
+
+                
+
             </div>
 
                 <!--data file-->
@@ -179,7 +186,7 @@
                                     echo "<td>{$scheduleDetails['date']}</td>";
                                     echo "<td>{$scheduluDetails['departureTime']}</td>";'
                                     echo "<td>{null
-                    </tbody>-->*/
+                    </tbody>-->
                 </table>
 
         </main>

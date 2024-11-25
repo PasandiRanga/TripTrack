@@ -13,7 +13,34 @@
         }
 
         public function informDelays() {
-            $this->view('pages/Conductor/InformDelays');
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Sanitize POST data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                // Collect data into an array
+                $data = [
+                    'routeNo' => trim($_POST['routeNo']),
+                    'busNo' => trim($_POST['busNo']),
+                    'busRoute' => trim($_POST['busRoute']),
+                    'time' => trim($_POST['time']),
+                    'newTime' => trim($_POST['newTime']),
+                    'reason' => trim($_POST['reason']),
+                ];
+
+                $this->ConductorpagesModel->addDelays($data);
+
+                // Call the model method to add the bus
+                if ($this->ConductorpagesModel->addDelays($data)) {
+                    // Redirect to the fleet page on success
+                    header("Location: " . URLROOT . "/ConductorPages/informDelays");
+                } else {
+                    die("Error: Unable to add the bus.");
+                }
+            } else {
+                
+                $this->view('pages/Conductor/InformDelays');
+            }
+
         }
 
         public function notifications() {
@@ -65,7 +92,14 @@
                 'employee' => $employee
             ];
 
+            /*echo '<pre>';
+            print_r($_SESSION);
+            echo '</pre>';
+            exit();*/
+
             $this->view('pages/Conductor/Profile', $data);
+
+            
         }
 
     }

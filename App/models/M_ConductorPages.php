@@ -44,5 +44,20 @@
                 return false;  
             }
         }
+
+        public function addDelays($data) {
+            $this->db->query("INSERT INTO bus_delay (route_no, License_id, bus_route, dep_time, new_dep_time, reason)
+                                VALUES (:routeNo, :busNo, :busRoute, :time, :newTime, :reason)");
+
+            $this->db->bind(':routeNo', $data['routeNo']);
+            $this->db->bind(':busNo', $data['busNo']);
+            $this->db->bind(':busRoute', $data['busRoute']);
+            $this->db->bind(':time', $data['time']);
+            $this->db->bind(':newTime', $data['newTime']);
+            $this->db->bind(':reason', $data['reason']);
+
+            return $this->db->execute();
+            
+        }
     }
 ?>

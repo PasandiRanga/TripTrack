@@ -168,6 +168,7 @@ table {
     width: 95%;
     border-collapse: collapse; /* Removes gaps between table cells */
     margin-top: 20px;
+    margin-bottom: 40px;
     background-color: #f9f9f9;
     overflow: hidden;
     margin: 0 auto;
@@ -178,19 +179,19 @@ table th {
     background-color: #063946;  /* Semi-transparent background */
     color: white; /* Dark text for contrast */
     font-weight: bold;
-    padding: 12px;
+    padding: 18px;
     text-align: center;
     border: 1px solid #ddd; /* Thick border for each table header cell */
-    font-size: 18px;
+    font-size: 20px;
 }
 
 
 /* Table Cell Styling */
 table td {
-    padding: 12px;
+    padding: 18px;
     text-align: center;
     border: 1px solid #ddd;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 /* Hover Effect */
@@ -249,6 +250,10 @@ table td:last-child {
     margin-left: auto; /* Pushes the input group to the right */   
 }
 
+.search-container {
+    align-self: flex-end;
+}
+
 .search-input {
     border: none;
     outline: none;
@@ -260,6 +265,13 @@ table td:last-child {
 
 .search-input[type="date"]{
     color: #4a5568;
+}
+
+.search-container .search-button{
+    background-color: #063946;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
 }
 
 h3 {

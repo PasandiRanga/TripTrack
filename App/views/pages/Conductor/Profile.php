@@ -39,9 +39,9 @@
         console.log("Profile Data:", profileData);
     </script>
 
-    
-
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
+
+    <h1>Employee Profile</h1>
 
     <!-- Profile Container -->
     <div class="profile-container">
@@ -55,7 +55,6 @@
             <p><?php echo $profile['employee_id']; ?></p>
             <div class="btn">
                 <button class="logout-button"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
-                <button class="delete-account-button"><i class="fa fa-trash fa-lg" ></i>  Delete Account</button>
             </div>
         </div>
 
@@ -63,31 +62,32 @@
         <div class="profile-right">
             <div class="detail">
                 <label>Full Name</label>
-                <input type="text" readonly>
+                <input type="text" value="<?php echo $profile['name']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>Employee ID</label>
-                <input type="text" readonly>
+                <input type="text" value="<?php echo $profile['employee_id']; ?>" readonly>
+            </div>
+            <div class="detail">
+                <label>Occupation</label>
+                <input type="text" value="<?php echo $profile['role']; ?>"readonly>
             </div>
             <div class="detail">
                 <label>Email Address</label>
-                <input type="email" readonly>
+                <input type="email" value="<?php echo $profile['email']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>Contact Number</label>
-                <input type="text" readonly>
+                <input type="text" value="<?php echo $profile['contactNo']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>NIC</label>
-                <input type="text" readonly>
+                <input type="text" value="<?php echo $profile['nic']; ?>" readonly>
             </div>
             <div class="detail">
                 <label>Address</label>
-                <input type="text" readonly>
+                <input type="text" value="<?php echo $profile['address']; ?>"readonly>
             </div>
-
-            <button class="edit-button">Edit</button>
-
         </div>
     </div>
 
