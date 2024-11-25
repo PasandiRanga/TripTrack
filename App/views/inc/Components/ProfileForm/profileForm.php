@@ -10,7 +10,7 @@
                 </div>
                 <div class="detail">
                     <label>Email Address</label>
-                    <input type="email" name="email" value="<?php echo $profile['Email']; ?>">
+                    <input type="mail" name="email" value="<?php echo $profile['Email']; ?>">
                 </div>
                 <div class="detail">
                     <label>Contact Number</label>
