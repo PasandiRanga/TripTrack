@@ -24,7 +24,7 @@ h2 {
 }
 
 .back-button:hover {
-    background-color: #45a049;
+    background-color: #007bff;
 }
 
 .assign-form {
@@ -55,14 +55,14 @@ h2 {
 }
 
 .assign-form input:focus {
-    border-color: #4CAF50;
+    border-color: black;
     outline: none;
 }
 
 .assign-form button {
     width: 100%;
     padding: 12px;
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;

@@ -11,17 +11,21 @@
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
+
+    <!-- Page Title -->
+    <h2 class="centered">View Employees</h2>
+
+
     <!-- Top Actions -->
     <div class="top-actions">
         <button class="add-employee-btn" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/addemployees'">Add Employee</button>
     </div>
 
-    <!-- Page Title -->
-    <h2 class="centered">View Employees</h2>
+    
 
     <!-- Unified User Table -->
-    <div id="userTable" class="user-table">
-        <table>
+    <div id="userTable" class="user-table-container">
+        <table class="user-table">
             <thead>
                 <tr>
                     <th>Employee ID</th>

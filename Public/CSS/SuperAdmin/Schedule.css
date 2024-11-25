@@ -27,9 +27,10 @@ h1 {
 
 /* Add Schedule button at the top right */
 .top-actions {
+    margin: 20px auto; /* Centers the button horizontally */
+    width: 90%; /* Matches the table's width */
     display: flex;
     justify-content: flex-end;
-    margin: 10px 20px;
 }
 
 .add-schedule-btn {
@@ -48,16 +49,19 @@ h1 {
 
 /* Table container */
 .table-container {
-    max-height: 70vh;
-    overflow-y: auto;
     margin: 20px auto;
     width: 90%;
+    border-radius: 10px; /* Rounds the corners */
+    overflow: hidden; /* Ensures corners stay rounded */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
+    background-color: white; /* Ensures a consistent background */
 }
 
 /* Table styles */
 .schedule-table {
     width: 100%;
     border-collapse: collapse;
+    border-spacing: 0;
 }
 
 .schedule-table th, .schedule-table td {

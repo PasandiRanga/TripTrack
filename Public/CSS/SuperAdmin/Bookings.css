@@ -16,12 +16,10 @@ body {
     left: 20px;
     padding: 10px 15px;
     background-color: #007bff;
-    color: #fff;
+    border-radius: 4px;
+    color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .back-button:hover {

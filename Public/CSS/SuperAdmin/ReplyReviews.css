@@ -1,19 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+}
+
 /* Back button styling */
 .back-button {
     position: absolute;
-    top: 15px;
-    left: 15px;
+    top: 20px;
+    left: 20px;
     padding: 10px 15px;
-    background-color: #333;
+    background-color: #007bff;
+    border-radius: 4px;
     color: white;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
 }
 
 .back-button:hover {
-    background-color: #555;
+    background-color: #007bff;
 }
 
 /* Page title */
@@ -59,7 +65,7 @@ h2 {
 .reply-form button {
     margin-top: 15px;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -68,5 +74,5 @@ h2 {
 }
 
 .reply-form button:hover {
-    background-color: #45a049;
+    background-color: #007bff;
 }

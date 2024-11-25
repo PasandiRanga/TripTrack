@@ -10,9 +10,9 @@
 
 <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
-<h2>Reviews</h2>
-
-<table>
+<h2 class="title">Reviews</h2>
+<div class="review-table-container"> 
+<table class="review-table">
     <tr>
         <th>ReviewID</th>
         <th>UserID</th>
@@ -44,6 +44,7 @@
     }
     ?>
 </table>
+</div>
 
 <script>
     // Function to navigate to the reply page
