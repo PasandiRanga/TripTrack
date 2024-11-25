@@ -5,7 +5,7 @@
 
     <div class="login-section">
         
-        <form action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
+        <form  class="form" action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
 
         <label>Email</label>
         <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($headerData['email'] ?? ''); ?>" placeholder="Enter username / email">
