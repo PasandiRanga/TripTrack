@@ -185,9 +185,24 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Reviews');
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Schedule
+//---------------------------------------------------------------------------------------------------------------------- 
+
     public function schedule() {
-        $this->view('pages/SuperAdmin/Schedule');
+        $schedule = $this->SuperAdminModel->getschedule();
+        $data = [
+            'schedule' => $schedule
+        ];
+        $this->view('pages/SuperAdmin/Schedule',$data);
     }
+
+    public function addschedule() {
+        $this->view('pages/SuperAdmin/Addschedule');
+    }
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Leave Requests
+//---------------------------------------------------------------------------------------------------------------------- 
 
     public function leaverequests() {
         $this->view('pages/SuperAdmin/LeaveRequests');
@@ -370,10 +385,6 @@ class SuperAdminPages extends Controller {
 
     public function replyreviews() {
         $this->view('pages/SuperAdmin/ReplyReviews');
-    }
-
-    public function addschedule() {
-        $this->view('pages/SuperAdmin/Addschedule');
     }
 
     public function assigns() {

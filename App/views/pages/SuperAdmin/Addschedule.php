@@ -8,15 +8,15 @@
 </head>
 <body>
     <!-- Back button -->
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">Back </button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">Back</button>
 
     <h1>Add New Schedule</h1>
 
     <!-- Schedule form -->
     <form id="schedule-form" action="submit_schedule.php" method="POST" onsubmit="return validateForm()">
         <div class="form-group">
-            <label for="scheduleId">Schedule ID:</label>
-            <input type="text" id="scheduleId" name="scheduleId" required>
+            <label for="licenseId">License ID:</label>
+            <input type="text" id="licenseId" name="licenseId" required>
         </div>
 
         <div class="form-group">
@@ -44,21 +44,6 @@
             <input type="text" id="price" name="price" placeholder="e.g., Rs. 700" required>
         </div>
 
-        <div class="form-group">
-            <label for="busId">Bus ID:</label>
-            <input type="text" id="busId" name="busId" required>
-        </div>
-
-        <div class="form-group">
-            <label for="busNumber">Bus Number:</label>
-            <input type="text" id="busNumber" name="busNumber" required>
-        </div>
-
-        <div class="form-group">
-            <label for="route">Route:</label>
-            <input type="text" id="route" name="route" placeholder="e.g., Colombo - Ampara" required>
-        </div>
-
         <!-- Form buttons -->
         <div class="button-group">
             <button type="button" onclick="clearForm()">Clear</button>
@@ -67,28 +52,25 @@
     </form>
 
     <script>
-                // Function to clear the form fields
+        // Function to clear the form fields
         function clearForm() {
             document.getElementById("schedule-form").reset();
         }
 
         // Form validation function with validation logic
         function validateForm() {
-            const scheduleId = document.getElementById("scheduleId").value.trim();
+            const licenseId = document.getElementById("licenseId").value.trim();
             const date = document.getElementById("date").value;
             const departureTime = document.getElementById("departureTime").value;
             const arrivalTime = document.getElementById("arrivalTime").value;
             const duration = document.getElementById("duration").value.trim();
             const price = document.getElementById("price").value.trim();
-            const busId = document.getElementById("busId").value.trim();
-            const busNumber = document.getElementById("busNumber").value.trim();
-            const route = document.getElementById("route").value.trim();
 
             let errorMessage = "";
 
-            // Schedule ID validation (must be numeric)
-            if (scheduleId === "" || isNaN(scheduleId)) {
-                errorMessage += "Schedule ID must be a valid number.\n";
+            // License ID validation (must be numeric)
+            if (licenseId === "" || isNaN(licenseId)) {
+                errorMessage += "License ID must be a valid number.\n";
             }
 
             // Date validation
@@ -116,22 +98,6 @@
                 errorMessage += "Price must be in the format 'Rs. amount'.\n";
             }
 
-            // Bus ID validation (must be numeric)
-            if (busId === "" || isNaN(busId)) {
-                errorMessage += "Bus ID must be a valid number.\n";
-            }
-
-            // Bus Number validation (non-empty, alphanumeric format)
-            const busNumberPattern = /^[A-Z0-9\-]+$/;
-            if (!busNumberPattern.test(busNumber)) {
-                errorMessage += "Bus Number must be alphanumeric, e.g., 'NA-1234'.\n";
-            }
-
-            // Route validation (non-empty, must contain text)
-            if (route === "") {
-                errorMessage += "Route is required.\n";
-            }
-
             // Display error message if any validation fails
             if (errorMessage !== "") {
                 alert(errorMessage);
@@ -141,7 +107,6 @@
             // If no errors, proceed with form submission
             return true;
         }
-
     </script>
 </body>
 </html>

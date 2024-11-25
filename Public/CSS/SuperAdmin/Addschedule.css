@@ -1,10 +1,18 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
 /* Style for the back button */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #063946;
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
@@ -50,7 +58,7 @@ input[type="time"] {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #063946;
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
@@ -58,5 +66,5 @@ button {
 }
 
 button:hover {
-    background-color: #063946;
+    background-color: #007bff;
 }
