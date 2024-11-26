@@ -31,6 +31,8 @@ body {
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 
@@ -43,7 +45,7 @@ body {
 
 }
 
-.form {
+.form-form {
   width: 100%;
   max-width: 1200px;
   background-color: #fff;
@@ -73,11 +75,19 @@ body {
   left: -13px;
 }
 
-form {
+/* form {
   padding: 2.3rem 2.2rem;
   z-index: 10;
   overflow: hidden;
   position: relative;
+} */
+
+.invalid {
+  color: #FF0000; /* Red color for error messages */
+  font-size: 0.875rem; /* Slightly smaller font size */
+  margin-top: 0px; /* Space between the input field and error message */
+  margin-bottom: 15px; /* Bottom margin to separate from the next form field */
+  display: block; /* Ensure error message is on its own line */
 }
 
 .title {
@@ -265,7 +275,7 @@ textarea.input {
 }
 
 @media (max-width: 850px) {
-  .form {
+  .form-form {
     grid-template-columns: 1fr;
     padding: 2rem; /* Add some padding to the form */
   }
@@ -339,5 +349,8 @@ textarea.input {
 }
 
 .footerContainer{
-  margin-top: 615px;
+  margin-top: 643px;
 }
+
+
+

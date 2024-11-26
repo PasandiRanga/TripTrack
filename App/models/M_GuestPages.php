@@ -171,6 +171,17 @@
             }
         }
 
+        public function addSupportRequest($data) {
+            $this->db->query('INSERT INTO support_request (name, email, contactNo, message) VALUES (:name, :email, :contactNo, :message)');
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':contactNo', $data['contactNo']);
+            $this->db->bind(':message', $data['message']);
+    
+            // Execute the statement
+            return $this->db->execute();
+        }
+
         
     }
 ?>
