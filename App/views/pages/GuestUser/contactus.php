@@ -27,12 +27,29 @@
     ?>
 
     <?php
+
+    $postdata = $data;
+    
     $data = [
         'currentController' => 'GuestPages', // Adjust this based on your controller
         'currentMethod' => 'contact', // Adjust this based on the method
         'userRole' => $userRole
     ];
     ?> 
+
+    <?php
+        // Display success message if it exists
+        if (isset($_SESSION['success_message'])):
+    ?>
+        <script>
+            alert("<?php echo $_SESSION['success_message']; ?>");
+        </script>
+    <?php
+        // Clear the success message after displaying it
+        unset($_SESSION['success_message']);
+        endif;
+    ?>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
@@ -43,7 +60,7 @@
 
         <div class="Contactcontainer">
       <!--<span class="big-circle"></span>-->
-      <div class="form">
+      <div class="form-form">
         <div class="contact-info">
           <h3 class="title">Let's get in touch</h3>
           <p class="description">
@@ -88,27 +105,34 @@
 
         <div class="contact-form">
 
-          <form action="index.html" autocomplete="off">
+          <form action="<?php echo URLROOT; ?>/GuestPages/submitRequest" method="POST" enctype="multipart/form-data">
             <h3 class="title">Contact us</h3>
             <div class="input-container">
-              <input type="text" name="name" class="input" />
-              <label for="">Username</label>
-              <span>Username</span>
+              <input type="text" name="name" id="name" class="input" value="<?php echo isset($postdata['name']) ? $postdata['name'] : ''; ?>" />
+              <label for="">Name</label>
+              <span>Name</span>
+              <p class="invalid"><?php echo isset($postdata['name_err']) ? $postdata['name_err'] : ''; ?></p>
             </div>
             <div class="input-container">
-              <input type="mail" name="email" class="input" />
+              <input type="mail" name="email" id="email" class="input" value="<?php echo isset($postdata['email']) ? $postdata['email'] : ''; ?>" />
               <label for="">Email</label>
               <span>Email</span>
+              <p class="invalid"><?php echo isset($postdata['email_err']) ? $postdata['email_err'] : ''; ?></p>
+
             </div>
             <div class="input-container">
-              <input type="tel" name="phone" class="input" />
+              <input type="tel" name="phone" class="input" value="<?php echo isset($postdata['contactNo_err']) ? $postdata['contactNo_err'] : ''; ?>"  />
               <label for="">Phone</label>
               <span>Phone</span>
+              <p class="invalid"><?php echo isset($postdata['contactNo_err']) ? $postdata['contactNo_err'] : ''; ?></p>
+
             </div>
             <div class="input-container textarea">
-              <textarea name="message" class="input"></textarea>
+              <textarea name="message" class="input" value="<?php echo isset($postdata['message_err']) ? $postdata['message_err'] : ''; ?>"></textarea>
               <label for="">Message</label>
               <span>Message</span>
+              <p class="invalid"><?php echo isset($postdata['message_err']) ? $postdata['message_err'] : ''; ?></p>
+
             </div>
             <input type="submit" value="Send" class="btn" />
           </form>
@@ -142,10 +166,8 @@
     input.addEventListener("blur", blurFunc);
     });
 
-    
-</script>
 
-   
+</script>
 
     
 </body>
