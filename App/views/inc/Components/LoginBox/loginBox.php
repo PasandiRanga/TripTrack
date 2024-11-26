@@ -8,7 +8,7 @@
         <form  class="form" action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
 
         <label>Email</label>
-        <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($headerData['email'] ?? ''); ?>" placeholder="Enter username / email">
+        <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($headerData['email'] ?? ''); ?>" placeholder="Enter email">
         <span class="form-invalid">
             <?php echo !empty($headerData['email_err']) ? $headerData['email_err'] : ''; ?>
         </span>
