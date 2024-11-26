@@ -10,8 +10,8 @@
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
     <h2>Leave Requests</h2>
-
-    <table id="leaveRequestsTable">
+    <div class="leave-request-container">
+    <table id="leaveRequestsTable" class="leaveRequestsTable">
         <tr>
             <th>Request ID</th>
             <th>Employee ID</th>
@@ -45,6 +45,7 @@
         }
         ?>
     </table>
+    </div>
 
     <script>
         // Redirect to reply page

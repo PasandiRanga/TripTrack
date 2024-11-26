@@ -70,7 +70,6 @@ class M_SuperAdminPages {
             stops = :stops,
             start_location = :start_location,
             destination = :destination,
-            rating = :rating,
             passengers = :passengers,
             price = :price,
             priceperkm = :priceperkm
@@ -83,7 +82,7 @@ class M_SuperAdminPages {
         $this->db->bind(':stops', $data['stops']);
         $this->db->bind(':start_location', $data['start_location']);
         $this->db->bind(':destination', $data['destination']);
-        $this->db->bind(':rating', $data['rating']);
+        //$this->db->bind(':rating', $data['rating']);
         $this->db->bind(':passengers', $data['passengers']);
         $this->db->bind(':price', $data['price']);
         $this->db->bind(':priceperkm', $data['priceperkm']);

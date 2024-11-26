@@ -1,11 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    
+}
+
 /* Style for the back button */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
     padding: 10px 15px;
+    background-color: #007bff;
     border-radius: 4px;
-    background-color: #063946;
     color: white;
     border: none;
     cursor: pointer;
@@ -49,7 +55,7 @@ h1 {
     width: 100%;
     padding: 10px;
     margin: 10px;
-    background-color: #063946;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
@@ -58,5 +64,5 @@ h1 {
 }
 
 .button:hover {
-    background-color: #063946;
+    background-color: #007bff;
 }
