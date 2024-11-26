@@ -394,5 +394,16 @@ class SuperAdminPages extends Controller {
     public function addassigns() {
         $this->view('pages/SuperAdmin/Addassigns');
     }
+//----------------------------------------------------------------------------------------------------------------------
+                                    //support requests
+//---------------------------------------------------------------------------------------------------------------------- 
+
+    public function contacts() {
+        $contact = $this->SuperAdminModel->getcontactsrequests();
+        $data = [
+            'contact' => $contact
+        ];
+        $this->view('pages/SuperAdmin/Contacts',$data);
+    }
 }
 ?>

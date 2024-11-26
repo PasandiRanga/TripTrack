@@ -1,0 +1,103 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: black;
+}
+
+/* Back Button */
+.back-button {
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #007bff;
+}
+
+/* Page Title */
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: black;
+}
+
+/* Add Assign Button */
+.top-actions {
+    margin: 20px auto; /* Centers the button horizontally */
+    width: 90%; /* Matches the table's width */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-assign-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-assign-btn:hover {
+    background-color: #007bff;
+}
+
+/* Table Container */
+.contact-table-container {
+    max-width: 90%;
+    margin: 0 auto 20px;
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styling */
+.contact-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.contact-table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+.contact-table th,
+.contact-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.contact-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.contact-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.reply-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reply-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
