@@ -1,40 +1,55 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h2 {
     text-align: center;
     color: #333;
 }
-
-table {
+.leave-request-container{
+    margin: 20px auto;
+    width: 90%;
+    border-radius: 10px; /* Rounds the corners */
+    overflow: hidden; /* Ensures corners stay rounded */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
+    background-color: white; /* Ensures a consistent background */
+}
+.leaveRequestsTable {
     width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: #fff;
+    border-collapse: separate; /* Necessary for border-radius to apply */
+    border-spacing: 0; /* Removes any gaps between cells */
 }
 
-table, th, td {
+.leaveRequestsTable td {
+    padding: 12px;
+    text-align: center;
+    color: black;
+}
+
+.leaveRequestsTable th {
+    background-color: #007bff;
+    color: white;
     border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
 }
 
-th {
-    background-color: #333;
-    color: #fff;
-}
-
-tr:hover {
+.leaveRequestsTable tr:hover {
     background-color: #f1f1f1;
+    cursor: pointer;
 }
 
+/* Highlight Selected Row */
+.leaveRequestsTable tr.selected {
+    background-color: #d3d3d3;
+    font-weight: bold;
+}
 button {
     padding: 5px 10px;
     color: white;
@@ -45,18 +60,15 @@ button {
 }
 
 .back-button {
-    position: absolute; /* or 'fixed' if you want it to stay fixed on scroll */
+    position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 20px;
-    background-color: #007bff; /* Customize background color */
+    padding: 10px 15px;
+    background-color: #007bff;
+    border-radius: 4px;
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none;
 }
 
 .back-button:hover {

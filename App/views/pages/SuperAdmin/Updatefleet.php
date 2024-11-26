@@ -90,21 +90,21 @@
                 required
             >
         </div>
-
+        <!--
         <div class="form-group">
             <label for="rating">Ratings:</label>
             <input 
                 type="number" 
                 id="rating" 
                 name="rating" 
-                value="<?php echo isset($data['busDetails']['rating']) ? htmlspecialchars($data['busDetails']['rating']) : ''; ?>" 
+                value="<//?php echo isset($data['busDetails']['rating']) ? htmlspecialchars($data['busDetails']['rating']) : ''; ?>" 
                 min="0" 
                 max="5" 
                 step="0.1" 
                 required
             >
         </div>
-
+        -->
         <div class="form-group">
             <label for="passengers">Passengers:</label>
             <input 

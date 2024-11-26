@@ -145,6 +145,7 @@
             </div>
         </div>
     </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.52.0/apexcharts.min.js"></script>
     <script>
         var sidebarOpean = false;

@@ -249,6 +249,7 @@ body{
     background-color: #fff;
     padding: 30px;
     width: 400px;
+    color: black;
     text-align: center;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -276,7 +277,7 @@ body{
 }
 
 .btn-yes {
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: #fff;
 }
 

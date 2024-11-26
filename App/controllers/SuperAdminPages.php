@@ -88,7 +88,7 @@ class SuperAdminPages extends Controller {
                 'stops' => $_POST['stops'],
                 'start_location' => $_POST['start_location'],
                 'destination' => $_POST['destination'],
-                'rating' => $_POST['rating'],
+                //'rating' => $_POST['rating'],
                 'passengers' => $_POST['passengers'],
                 'price' => $_POST['price'],
                 'priceperkm' => $_POST['priceperkm']
