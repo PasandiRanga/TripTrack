@@ -217,6 +217,19 @@
             $this->db->bind(':License_id', $licenseId);
             return $this->db->resultSet();
         }
+
+
+        public function addSupportRequest($data) {
+            $this->db->query('INSERT INTO support_request (name, email, contactNo, message , User_id) VALUES (:name, :email, :contactNo, :message ,:User_id)');
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':contactNo', $data['contactNo']);
+            $this->db->bind(':message', $data['message']);
+            $this->db->bind(':User_id', $data['userid']);
+    
+            // Execute the statement
+            return $this->db->execute();
+        }
         
         
         

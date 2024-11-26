@@ -468,7 +468,7 @@
                         $this->view('pages/GuestUser/contactus', $data);
                     }
                 } else {
-                  
+                    
                     // Reload view with errors
                     $this->view('pages/GuestUser/contactus', $data);
                 }
