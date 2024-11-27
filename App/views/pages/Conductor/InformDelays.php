@@ -97,15 +97,15 @@
 
                 /*const delayData = {
 
-                }*/
+                }
                 console.log("Delay Form submitted:");
-                alert("Form submitted successfully");
+                alert("Form submitted successfully");*/
                 
                 clearForm();
             }
 
             function clearForm() {
-                document.getElementById("fleet-form").reset();
+                document.getElementById("delay-form").reset();
             }
 
         </script>

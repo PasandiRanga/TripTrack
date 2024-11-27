@@ -193,5 +193,14 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+    //support requests
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    public function getcontactsrequests(){
+        $this->db->query('SELECT * FROM support_request');
+        return $this->db->resultSet();
+    }
+
 }
 ?>

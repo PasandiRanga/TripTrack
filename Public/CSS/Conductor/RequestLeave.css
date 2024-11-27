@@ -6,9 +6,9 @@ body {
     color: #333;
 }
 
-.back-button {
+.back-button, .view_requests-button {
     display: inline-block;
-    margin: 20px;
+    /*margin: 20px;*/
     padding: 10px 20px;
     font-size: 16px;
     color: white;
@@ -17,10 +17,22 @@ body {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
+    position: absolute;
 }
 
-.back-button:hover {
+.back-button:hover,
+.view_requests-button:hover {
     background-color: #052d37;
+}
+
+.back-button {
+    top: 25px;
+    left: 25px;
+}
+
+.view_requests-button {
+    top: 25px;
+    right: 25px;
 }
 
 /*.page-header {
@@ -32,7 +44,8 @@ body {
 h1 {
     text-align: center;
     margin: 0;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
+    margin-top: 30px;
     font-size: 2.5rem;
     color: #063946;
 }

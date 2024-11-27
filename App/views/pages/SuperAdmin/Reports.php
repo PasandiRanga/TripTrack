@@ -52,6 +52,56 @@
                     <th>Loss/Profit</th>
                 </tr>
             </thead>
+            <?php
+        $reports = [
+            [
+                'report_id' => 1,
+                'bookings' => 120,
+                'cancellations' => 15,
+                'cancellation_fees' => 5000,
+                'month' => 'January',
+                'revenue' => 200000,
+                'profit' => 180000
+            ],
+            [
+                'report_id' => 2,
+                'bookings' => 95,
+                'cancellations' => 10,
+                'cancellation_fees' => 3000,
+                'month' => 'February',
+                'revenue' => 150000,
+                'profit' => 120000
+            ],
+            [
+                'report_id' => 3,
+                'bookings' => 110,
+                'cancellations' => 5,
+                'cancellation_fees' => 1000,
+                'month' => 'March',
+                'revenue' => 180000,
+                'profit' => 175000
+            ],
+            [
+                'report_id' => 4,
+                'bookings' => 80,
+                'cancellations' => 20,
+                'cancellation_fees' => 7000,
+                'month' => 'April',
+                'revenue' => 130000,
+                'profit' => 80000
+            ],
+            [
+                'report_id' => 5,
+                'bookings' => 150,
+                'cancellations' => 30,
+                'cancellation_fees' => 15000,
+                'month' => 'May',
+                'revenue' => 250000,
+                'profit' => 230000
+            ]
+        ];
+        ?>
+
             <tbody>
                 <?php foreach ($reports as $report): ?>
                     <tr onclick="selectRow(<?php echo $report['report_id']; ?>, this)">
@@ -70,14 +120,14 @@
         </table>
     </div>
 
-    <!-- Generate PDF Button -->
+    <!-- Generate PDF Button 
     <div style="text-align: center; margin-top: 20px;">
-        <form action="<?php echo URLROOT; ?>/SuperAdminPages/generateReportPDF" method="post">
+        <form action="<//?php echo URLROOT; ?>/SuperAdminPages/generateReportPDF" method="post">
             <input type="hidden" id="selectedReportId" name="report_id" value="">
             <button type="submit" class="generate-pdf-button" disabled id="generatePdfButton">Generate PDF</button>
         </form>
     </div>
-
+                -->
     <script>
         // Enable the Generate PDF button only when a row is selected
         document.querySelector('.generate-pdf-button').disabled = true;

@@ -32,9 +32,9 @@
                 // Call the model method to add the bus
                 if ($this->ConductorpagesModel->addDelays($data)) {
                     // Redirect to the fleet page on success
-                    header("Location: " . URLROOT . "/ConductorPages/informDelays");
+                    header("Location: " . URLROOT . "/ConductorPages/home");
                 } else {
-                    die("Error: Unable to add the bus.");
+                    die("Error: Unable to add the delay.");
                 }
             } else {
                 
@@ -48,7 +48,32 @@
         }
 
         public function requestLeave() {
-            $this->view('pages/Conductor/RequestLeave');
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Sanitize POST data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                // Collect data into an array
+                $data = [
+                    'employeeId' => trim($_POST['employeeId']),
+                    'from_date' => trim($_POST['from_date']),
+                    'to_date' => trim($_POST['to_date']),
+                    'noOfDays' => trim($_POST['noOfDays']),
+                    'reason' => trim($_POST['reason']),
+                ];
+
+                $this->ConductorpagesModel->addLeaves($data);
+
+                // Call the model method to add the bus
+                if ($this->ConductorpagesModel->addLeaves($data)) {
+                    // Redirect to the fleet page on success
+                    header("Location: " . URLROOT . "/ConductorPages/home");
+                } else {
+                    die("Error: Unable to add the leave request.");
+                }
+            } else {
+                
+                $this->view('pages/Conductor/RequestLeave');
+            }
         }
 
         public function home() {
@@ -99,8 +124,99 @@
 
             $this->view('pages/Conductor/Profile', $data);
 
-            
         }
+
+        public function viewLeaveRequests() {
+            $leaveRequest = $this->ConductorpagesModel->getLeaveRequests($_SESSION['user_id']);
+
+            $data = [
+                'leaveRequest' => $leaveRequest
+            ];
+
+            /*echo "<pre>";
+            print_r($data['leaveRequest']);
+            echo "</pre>";
+            exit();*/
+
+            $this->view('pages/Conductor/ViewLeaveRequests', $data);
+        }
+
+        public function updateLeaveRequests() {
+            // Retrieve the license ID from the GET request
+            $leave_id = isset($_GET['leave_id']) ? $_GET['leave_id'] : null;
+    
+            if ($leave_id) {
+                // Fetch the bus details using the model
+                $leaveDetails = $this->ConductorpagesModel->getLeaveRequests($_SESSION['user_id']);
+    
+                // Pass the details to the view
+                if ($leaveDetails) {
+                    $this->view('pages/Conductor/UpdateLeaveRequests', ['leaveDetails' => $leaveDetails]);
+                } else {
+                    die("Leave Request not found.");
+                }
+            } else {
+                die("Leave ID not provided.");
+            }
+        }
+
+        public function updateLeave() {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Sanitize input
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                // Collect data into an array
+                $data = [
+
+                    'from_date' => trim($_POST['from_date']),
+                    'to_date' => trim($_POST['to_date']),
+                    'noOfDays' => trim($_POST['noOfDays']),
+                    'reason' => trim($_POST['reason']),
+                ];
+
+                $this->ConductorpagesModel->updateLeaves($data);
+
+                // Call the model method to add the bus
+                if ($this->ConductorpagesModel->addLeaves($data)) {
+                    // Redirect to the fleet page on success
+                    header("Location: " . URLROOT . "/ConductorPages/viewLeaveRequests");
+                } else {
+                    die("Error: Unable to update the leave request.");
+                }
+            /*} else {
+                
+                $this->view('pages/Conductor/RequestLeave');
+            }*/
+            }
+        }
+
+        public function deleteLeaveRequest() {
+            // Ensure the request method is POST
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Decode the JSON input
+                $data = json_decode(file_get_contents('php://input'), true);
+        
+                if (!empty($data['leave_id'])) {
+                    $leave_id = $data['leave_id'];
+        
+                    // Call the model method to delete the leave request
+                    if ($this->ConductorpagesModel->deleteLeave($leave_id)) {
+                        // Respond with success
+                        echo json_encode(['status' => 'success', 'message' => 'Leave request deleted successfully']);
+                    } else {
+                        // Respond with error
+                        echo json_encode(['status' => 'error', 'message' => 'Error deleting leave request']);
+                    }
+                } else {
+                    // Missing leave_id in request
+                    echo json_encode(['status' => 'error', 'message' => 'Leave ID is required']);
+                }
+            } else {
+                // Invalid request method
+                echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+            }
+        }
+        
 
     }
 ?>
