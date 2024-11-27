@@ -1,177 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/ViewLeaveRequests.css?v=<?php echo time(); ?>">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Leave Requests</title>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/ViewLeaveRequests.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
 </head>
-
 <body>
-    <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'Conductor'); ?>;
-        localStorage.setItem('userRole', userRole);
-    </script>
-
-    <?php
-    // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'Conductor';
-    ?>
-
-    <?php
-    $data = [
-        'currentController' => 'ConductorPages', // Adjust this based on your controller
-        'currentMethod' => 'home', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
-    ?>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave'">Back</button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave';">Back</button>
 
     <h1>View Leave Requests</h1>
 
-    <main class="main-container">
+    <span class="container">
+        <h3 id="showReviewedRequests" class="clickable">Reviewed Requests</h3>
+        <h3 id="showNotReviewed" class="clickable">Not Reviewed Requests</h3>
+    </span>
 
-        <div class="container">
-            <h3 class="clickable" id="showReviewedRequests">Reviewed Requests</h3>
-            <h3 class="clickable" id="showNotReviewed">Not Reviewed Requests</h3>
-        </div>
-        
-        
+    <table id="reviewedRequests">
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Number of Days</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($data['leaveRequest'])): ?>
+                <?php $hasReviewed = false; ?>
+                <?php foreach ($data['leaveRequest'] as $request): ?>
+                    <?php if ($request['status'] != "Yet to review"): ?>
+                        <?php $hasReviewed = true; ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($request['leave_id']); ?></td>
+                            <td><?php echo htmlspecialchars($request['from_date']); ?></td>
+                            <td><?php echo htmlspecialchars($request['to_date']); ?></td>
+                            <td><?php echo htmlspecialchars($request['no_of_days']); ?></td>
+                            <td><?php echo htmlspecialchars($request['reason']); ?></td>
+                            <td><?php echo htmlspecialchars($request['status']); ?></td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if (!$hasReviewed): ?>
+                    <tr><td colspan="6">No reviewed leave requests found.</td></tr>
+                <?php endif; ?>
+            <?php else: ?>
+                <tr><td colspan="6">No leave request data available.</td></tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
-        <table id="reviewedRequests">
-            <thead>
-                <tr>
-                    <th>Request ID</th>
-                    <th>From-Date</th>
-                    <th>To-Date</th>
-                    <th>Number of Days</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <?php
-                if (isset($data['leaveRequest']) && is_array($data['leaveRequest'])) {
-                    foreach ($data['leaveRequest'] as $leaveRequest) {
-                        if ($leaveRequest['status'] != "Yet to review"){
-                            echo "<tr>";
-                            echo "<td>{$leaveRequest['leave_id']}</td>";
-                            echo "<td>{$leaveRequest['from_date']}</td>";
-                            echo "<td>{$leaveRequest['to_date']}</td>";
-                            echo "<td>{$leaveRequest['no_of_days']}</td>";
-                            echo "<td>{$leaveRequest['reason']}</td>";
-                            echo "<td>{$leaveRequest['status']}</td>";
-                            echo "</tr>";
-                        }
-                    }
-                } else {
-                    echo "<tr><td colspan='14'>No leave request data available.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-
-        <table id="notReviewedRequests">
-            <thead>
-                <tr>
-                    <th>Request ID</th>
-                    <th>From-Date</th>
-                    <th>To-Date</th>
-                    <th>Number of Days</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <?php
-                if (isset($data['leaveRequest']) && is_array($data['leaveRequest'])) {
-                    foreach ($data['leaveRequest'] as $leaveRequest) {
-                        if ($leaveRequest['status'] == "Yet to review"){
-                            echo "<tr>";
-                            echo "<td>{$leaveRequest['leave_id']}</td>";
-                            echo "<td>{$leaveRequest['from_date']}</td>";
-                            echo "<td>{$leaveRequest['to_date']}</td>";
-                            echo "<td>{$leaveRequest['no_of_days']}</td>";
-                            echo "<td>{$leaveRequest['reason']}</td>";
-                            echo "<td>{$leaveRequest['status']}</td>";
-                        }
-                    }
-                } else {
-                    echo "<tr><td colspan='14'>No leave request data available.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-
-    </main>
+    <table id="notReviewedRequests">
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Number of Days</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($data['leaveRequest'])): ?>
+                <?php $hasNotReviewed = false; ?>
+                <?php foreach ($data['leaveRequest'] as $request): ?>
+                    <?php if ($request['status'] == "Yet to review"): ?>
+                        <?php $hasNotReviewed = true; ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($request['leave_id']); ?></td>
+                            <td><?php echo htmlspecialchars($request['from_date']); ?></td>
+                            <td><?php echo htmlspecialchars($request['to_date']); ?></td>
+                            <td><?php echo htmlspecialchars($request['no_of_days']); ?></td>
+                            <td><?php echo htmlspecialchars($request['reason']); ?></td>
+                            <td><?php echo htmlspecialchars($request['status']); ?></td>
+                            <td>
+                                <button class="update-button" onclick="updateLeaveRequests('<?php echo $request['leave_id']; ?>')">Update</button>
+                            </td>
+                            <td>
+                                <button class="delete-button" onclick="deleteRequest('<?php echo $request['leave_id']; ?>')">Delete</button>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if (!$hasNotReviewed): ?>
+                    <tr><td colspan="6">No unreviewed leave requests found.</td></tr>
+                <?php endif; ?>
+            <?php else: ?>
+                <tr><td colspan="6">No leave request data available.</td></tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
     <script>
 
         const defaultColor = '#9e9ea4';
 
+        // Default display
         document.getElementById('reviewedRequests').style.display = 'none';
         document.getElementById('notReviewedRequests').style.display = 'table';
         document.getElementById('showNotReviewed').style.color = '#4CAF50';
 
-        document.getElementById('showReviewedRequests').addEventListener('click', function() {
+        // Tab click events
+        document.getElementById('showReviewedRequests').addEventListener('click', function () {
             document.getElementById('reviewedRequests').style.display = 'table';
             document.getElementById('notReviewedRequests').style.display = 'none';
 
-            // Change color of the clicked text
             document.getElementById('showReviewedRequests').style.color = '#4CAF50';
 
-            // Revert the other text to default color
             document.getElementById('showNotReviewed').style.color = defaultColor;
         });
 
-        document.getElementById('showNotReviewed').addEventListener('click', function() {
+        document.getElementById('showNotReviewed').addEventListener('click', function () {
             document.getElementById('reviewedRequests').style.display = 'none';
             document.getElementById('notReviewedRequests').style.display = 'table';
 
-            // Change color of the clicked text
             document.getElementById('showNotReviewed').style.color = '#4CAF50';
 
-            // Revert the other text to default color
             document.getElementById('showReviewedRequests').style.color = defaultColor;
         });
 
-        /*document.querySelectorAll('.search-icon').forEach(icon => {
-            const popUpMenu = icon.nextElementSibling;
+        function updateBus(leave_id) {
+            window.location.href = '<?php echo URLROOT; ?>/ConductorPages/updateLeaveRequests?License_id=' + encodeURIComponent(Lleave_id);
+        }
 
-            // Show the pop-up menu on mouseenter
-            icon.addEventListener('mouseenter', function() {
-                popUpMenu.classList.add('show');
-            });
+        // Add an event listener to your delete button
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const leaveId = this.getAttribute('data-leave-id'); // Assuming a data attribute with the leave ID
 
-            // Keep the pop-up menu visible when hovering over it
-            popUpMenu.addEventListener('mouseenter', function() {
-                popUpMenu.classList.add('show');
+                // Confirm deletion
+                if (confirm('Are you sure you want to delete this leave request?')) {
+                    fetch('your-api-endpoint/deleteLeaveRequest', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ leave_id: leaveId })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                alert(data.message);
+                                location.reload(); // Reload to update the table
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
             });
+        });
 
-            // Hide the pop-up menu when leaving the icon
-            icon.addEventListener('mouseleave', function() {
-                setTimeout(function() {
-                    if (!popUpMenu.matches(':hover')) {
-                        popUpMenu.classList.remove('show');
-                    }
-                }, 200); // Slight delay to allow moving from icon to menu
-            });
-
-            // Hide the pop-up menu when leaving the menu
-            popUpMenu.addEventListener('mouseleave', function() {
-                popUpMenu.classList.remove('show');
-            });
-        });*/
     </script>
-
+    
 </body>
 </html>

@@ -74,6 +74,24 @@
             
         }
 
+        public function updateLeaves($data) {
+            $this->db->query("UPDATE employee_leave SET
+                from_date = :from_date,
+                to_date = :to_date,
+                no_of_days = :noOfDays,
+                reason = :reason
+                where leave_id = :leave_id");
+
+            $this->db->bind(':leave_id', $data['leave_id']);
+            $this->db->bind(':from_date', $data['from_date']);
+            $this->db->bind(':to_date', $data['to_date']);
+            $this->db->bind(':noOfDays', $data['noOfDays']);
+            $this->db->bind(':reason', $data['reason']);
+
+            return $this->db->execute();
+            
+        }
+
         public function getLeaveRequests($userId) {
             $this->db->query('SELECT * FROM employee_leave WHERE employee_id=:userId');
 
@@ -81,5 +99,17 @@
 
             return $this->db->resultSet();
         }
+
+        public function deleteLeave($leave_id) {
+            // Prepare the query
+            $this->db->query('DELETE FROM employee_leave WHERE leave_id = :leave_id');
+        
+            // Bind the leave_id parameter
+            $this->db->bind(':leave_id', $leave_id);
+        
+            // Execute the query and return true if successful, false otherwise
+            return $this->db->execute();
+        }
+        
     }
 ?>
