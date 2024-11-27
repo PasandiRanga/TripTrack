@@ -77,8 +77,6 @@ try {
     $db->execute();
 
 
-    echo "Booking and seat reservation successfully saved.";
-
 } catch (Exception $e) {
     echo "An error occurred while saving the booking: " . $e->getMessage();
 }

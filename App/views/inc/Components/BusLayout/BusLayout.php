@@ -210,13 +210,13 @@
             <h2>Booking Details</h2>
             <p><strong>Name:</strong> &nbsp;&nbsp;<?php echo htmlspecialchars($name); ?></p>
             <p><strong>Email:</strong> &nbsp; &nbsp;<?php echo htmlspecialchars($email); ?></p>
-            <p><strong>Contact:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($contact); ?></p>
+            <p><strong>Contact No:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($contact); ?></p>
             <p><strong>NIC:</strong> &nbsp; &nbsp;<?php echo htmlspecialchars($nic); ?></p>
             <p><strong>From:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($from); ?></p>
             <p><strong>To:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($to); ?></p>
             <p><strong>Number of Seats:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($noOfSeats); ?></p>
             <p><strong>Payment Method:</strong> &nbsp;&nbsp; <?php echo htmlspecialchars($paymentMethod); ?></p>
-            <p><strong>Receive Ticket Options:</strong> &nbsp;&nbsp;<?php echo htmlspecialchars(implode(', ', $receiveTicket)); ?></p>
+            <p><strong>Receive ticket option:</strong> &nbsp;&nbsp;<?php echo htmlspecialchars(implode(', ', $receiveTicket)); ?></p>
         </div>
 
         <!-- Selected Seats and Payment -->
