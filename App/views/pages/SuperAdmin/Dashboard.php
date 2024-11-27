@@ -1,3 +1,8 @@
+<?php
+    require_once APPROOT.'/helpers/auth_check.php';
+    authCheck(['Admin']);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -421,14 +426,9 @@
 
         // Proceed with logout and redirect to login page
         function proceedLogout() {
-            window.location.href = "login.php"; // Replace with your login form file
+            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";// Replace with your login form file
         }
 
-
-        // Function to redirect to login page
-        function proceedLogout() {
-        window.location.href = "login.php"; // Replace with your login form file
-        }
 
         // Function to redirect back to dashboard
         function cancelLogout() {
