@@ -161,7 +161,6 @@ body{
     gap:30px;
     margin-bottom: 20px;
     margin-left: 10px;
-
 }
 
 table {
@@ -184,7 +183,6 @@ table th {
     border: 1px solid #ddd; /* Thick border for each table header cell */
     font-size: 20px;
 }
-
 
 /* Table Cell Styling */
 table td {

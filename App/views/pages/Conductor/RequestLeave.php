@@ -16,7 +16,7 @@
 <script>
     var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'Conductor'); ?>;
     localStorage.setItem('userRole', userRole);
-    </script>
+</script>
 
     <?php
     // Retrieve user role from session or set to a default value
@@ -35,6 +35,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
+
+    <button class="view_requests-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/viewLeaveRequests'">Previous Requests</button>
     
     <div class="page-header">
         <h1>Request Leaves</h1>
@@ -43,23 +45,24 @@
         <div class="container">
             <div class="leave-form">
                 <h2>Fill the following details</h2>
-                <form id="leaveForm">
+
+                <form id="leaveForm" method="POST" action="<?php echo URLROOT; ?>/ConductorPages/requestLeave">
 
                     <div class="form-group">
                         <div>
-                            <label for="employeeId">Emplyee ID</label>
+                            <label for="employeeId">Employee ID</label>
                             <input type="text" id="employeeId" name="employeeId" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div>
-                            <label for="from-date">From:</label>
-                            <input type="date" id="from-date" name="from-date" required>
+                            <label for="from_date">From:</label>
+                            <input type="date" id="from_date" name="from_date" required>
                         </div>
                         <div>
-                            <label for="to-date">To:</label>
-                            <input type="date" id="to-date" name="to-date" required>
+                            <label for="to_date">To:</label>
+                            <input type="date" id="to_date" name="to_date" required>
                         </div>
                     </div>
 
@@ -82,5 +85,29 @@
                 </form>
             </div>
         </div>
+
+        <script>
+            
+            function goBack() {
+                window.history.back();
+            }
+
+            function submitDelayForm(event) {
+                event.preventDefault();
+
+                /*const delayData = {
+
+                }
+                console.log("Delay Form submitted:");
+                alert("Form submitted successfully");*/
+                
+                clearForm();
+            }
+
+            function clearForm() {
+                document.getElementById("delay-form").reset();
+            }
+
+        </script>
 </body>
 </html>

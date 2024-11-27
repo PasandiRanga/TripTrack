@@ -59,5 +59,27 @@
             return $this->db->execute();
             
         }
+
+        public function addLeaves($data) {
+            $this->db->query("INSERT INTO employee_leave (employee_id, from_date, to_date, no_of_days, reason)
+                                VALUES (:employeeId, :from_date, :to_date, :noOfDays, :reason)");
+
+            $this->db->bind(':employeeId', $data['employeeId']);
+            $this->db->bind(':from_date', $data['from_date']);
+            $this->db->bind(':to_date', $data['to_date']);
+            $this->db->bind(':noOfDays', $data['noOfDays']);
+            $this->db->bind(':reason', $data['reason']);
+
+            return $this->db->execute();
+            
+        }
+
+        public function getLeaveRequests($userId) {
+            $this->db->query('SELECT * FROM employee_leave WHERE employee_id=:userId');
+
+            $this->db->bind(":userId",$userId);
+
+            return $this->db->resultSet();
+        }
     }
 ?>

@@ -1,0 +1,78 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: beige !important;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.back-button {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #063946;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    position: absolute;
+}
+
+.back-button:hover {
+    background-color: #052d37;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    font-size: 2.5rem;
+    color: #063946;
+}
+
+.container {
+    padding: 20px;
+    border-radius: 20px;
+    background-color:transparent;
+    display: flex;
+    gap:30px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+table th {
+    background-color: #063946;  /* Semi-transparent background */
+    color: white; /* Dark text for contrast */
+    font-weight: bold;
+    padding: 18px;
+    text-align: center;
+    border: 1px solid #ddd; /* Thick border for each table header cell */
+    font-size: 20px;
+}
+
+/* Table Cell Styling */
+table td {
+    padding: 18px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 18px;
+}
+
+/* Hover Effect */
+table tr:hover {
+    background-color: #D1ECF1; /* Light blue background */
+}
+
+/* Highlighted Row Styling */
+.highlighted-row {
+    background-color: #00bfff !important; /* Blue background */
+    color: white;
+}
+
+/* Action Column Styling */
+table td:last-child {
+    cursor: pointer;
+}

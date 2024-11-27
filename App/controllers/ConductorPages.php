@@ -32,9 +32,9 @@
                 // Call the model method to add the bus
                 if ($this->ConductorpagesModel->addDelays($data)) {
                     // Redirect to the fleet page on success
-                    header("Location: " . URLROOT . "/ConductorPages/informDelays");
+                    header("Location: " . URLROOT . "/ConductorPages/home");
                 } else {
-                    die("Error: Unable to add the bus.");
+                    die("Error: Unable to add the delay.");
                 }
             } else {
                 
@@ -48,7 +48,32 @@
         }
 
         public function requestLeave() {
-            $this->view('pages/Conductor/RequestLeave');
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Sanitize POST data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                // Collect data into an array
+                $data = [
+                    'employeeId' => trim($_POST['employeeId']),
+                    'from_date' => trim($_POST['from_date']),
+                    'to_date' => trim($_POST['to_date']),
+                    'noOfDays' => trim($_POST['noOfDays']),
+                    'reason' => trim($_POST['reason']),
+                ];
+
+                $this->ConductorpagesModel->addLeaves($data);
+
+                // Call the model method to add the bus
+                if ($this->ConductorpagesModel->addLeaves($data)) {
+                    // Redirect to the fleet page on success
+                    header("Location: " . URLROOT . "/ConductorPages/home");
+                } else {
+                    die("Error: Unable to add the leave request.");
+                }
+            } else {
+                
+                $this->view('pages/Conductor/RequestLeave');
+            }
         }
 
         public function home() {
@@ -99,7 +124,21 @@
 
             $this->view('pages/Conductor/Profile', $data);
 
-            
+        }
+
+        public function viewLeaveRequests() {
+            $leaveRequest = $this->ConductorpagesModel->getLeaveRequests($_SESSION['user_id']);
+
+            $data = [
+                'leaveRequest' => $leaveRequest
+            ];
+
+            /*echo "<pre>";
+            print_r($data['leaveRequest']);
+            echo "</pre>";
+            exit();*/
+
+            $this->view('pages/Conductor/ViewLeaveRequests', $data);
         }
 
     }
