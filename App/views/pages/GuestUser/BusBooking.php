@@ -184,12 +184,25 @@
             <div class="form-group">
                 <div>
                     <label for="contact">Contact No:</label>
-                    <input type="text" id="contact" name="contact" required>
+                    <!-- <input type="text" id="contact" name="contact" required> -->
+                    <input 
+                        type="text" 
+                        id="contact" 
+                        name="contact" 
+                        required 
+                        pattern="\d{10}" 
+                        title="Contact number must be exactly 10 digits." 
+                        maxlength="10"
+                    >
+ 
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div>
-                    <label for="nic">NIC No:</label>
-                    <input type="text" id="nic" name="nic" required>
+                    <label for="nic">NIC:</label>
+                    <!-- <input type="text" id="nic" name="nic" oninput="restrictNICInput(this)" required> -->
+                    <input type="text" id="nic" name="nic" required pattern="(?:\d{12}|\d{9}[vV])" title="NIC must be 12 digits or 9 digits followed by 'V' or 'v'.">
+
+                    <!-- <span id="nicError" style="color: red;"></span> -->
                 </div>
             </div>
 
@@ -232,6 +245,38 @@
                 </div>
             </div>
             <script>
+
+                // function validateNIC() {
+                //         const nicField = document.getElementById("nic");
+                //         const nic = nicField.value.trim();
+                //         const nicPattern = /^(?:\d{12}|\d{9}[vV])$/;
+
+                //         if (!nicPattern.test(nic)) {
+                //             alert("NIC must be either 12 numeric digits or 9 digits followed by 'V' or 'v'.");
+                //             nicField.focus();
+                //             return false; // Prevent form submission
+                //         }
+                //         return true; // Validation passed
+                // }
+
+
+                // function validateNIC() {
+                //     const nicField = document.getElementById("nic");
+                //     const nicError = document.getElementById("nicError");
+                //     const nic = nicField.value.trim();
+                //     const nicPattern = /^(?:\d{12}|\d{9}[vV])$/;
+
+                //     // Clear previous error message
+                //     nicError.textContent = "";
+
+                //     if (!nicPattern.test(nic)) {
+                //         nicError.textContent = "NIC must be either 12 numeric digits or 9 digits followed by 'V' or 'v'.";
+                //         nicField.focus();
+                //         return false; // Prevent form submission
+                //     }
+                //     return true; // Validation passed
+                // }
+
                 function validateForm() {
                     var from = document.getElementById("from").value;
                     var to = document.getElementById("to").value;
@@ -240,6 +285,12 @@
                         alert("The 'From' and 'To' locations cannot be the same.");
                         return false; // Prevent form submission
                     }
+
+                    // Validate NIC
+                    // if (!validateNIC()) {
+                    //     return false;
+                    // }
+
                     return true; // Allow form submission
                 }
             </script>

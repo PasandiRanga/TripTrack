@@ -570,5 +570,9 @@ select {
     font-style: italic; /* Optional: Styling for the review text */
 }
 
+#nicError {
+    margin: 0px 0 0;
+}
+
 
 
