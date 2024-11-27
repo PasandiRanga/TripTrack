@@ -1,3 +1,7 @@
+<?php
+    require_once APPROOT.'/helpers/auth_check.php';
+    authCheck(['Admin']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

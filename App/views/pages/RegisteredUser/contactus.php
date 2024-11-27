@@ -1,3 +1,7 @@
+<?php
+    require_once APPROOT.'/helpers/auth_check.php';
+    authCheck(['RegisteredUser']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +29,7 @@
     $userID = $_SESSION['user_id'];
     // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
-    echo ($userID);
+    // echo ($userID);
     ?>
 
     <?php

@@ -115,9 +115,9 @@
         }
                
 
-        public function searchBus() {
-            $this->view('pages/RegisteredUser/searchbus');
-        }
+        // public function searchBus() {
+        //     $this->view('pages/RegisteredUser/searchbus');
+        // }
 
         public function seeTicket() {
             $this->view('pages/RegisteredUser/seeTicket');

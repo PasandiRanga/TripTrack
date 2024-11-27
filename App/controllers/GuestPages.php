@@ -1,4 +1,4 @@
- <?php
+<?php
     class GuestPages extends Controller {
         //so that it will inherit all the functionalities of the Controller class
         private $GuestpagesModel;
@@ -385,6 +385,7 @@
             unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
+            unset($_SESSION['user_role']);
             unset($_SESSION['user_profile_image']);
             session_destroy();
             header('Location: ' . URLROOT . '/GuestPages/home');

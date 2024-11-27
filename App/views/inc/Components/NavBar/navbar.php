@@ -52,22 +52,6 @@ if (!function_exists('isCurrentPage')) {
                     <a href="' . URLROOT . '/GuestPages/contact" class="navbar-item ' . (isCurrentPage('Guestpages', 'contact', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">CONTACT US</span>
                     </a>';
-            } elseif ($userRole === "Admin") {
-                echo '<a href="' . URLROOT . '/RegionalAdminPages/home" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Home</span>
-                    </a>
-                    <a href="' . URLROOT . '/RegionalAdminPages/support" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'support', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Support</span>
-                    </a>
-                    <a href="' . URLROOT . '/RegionalAdminPages/viewbookings" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'viewbookings', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Bookings</span>
-                    </a>
-                    <a href="' . URLROOT . '/RegionalAdminPages/schedule" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'schedule', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Schedule</span>
-                    </a>
-                    <a href="' . URLROOT . '/RegionalAdminPages/notifications" class="navbar-item ' . (isCurrentPage('RegionalAdminPages', 'notifications', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Notifications</span>
-                    </a>';
             } elseif ($userRole === "RegisteredUser") {
                 echo '<a href="' . URLROOT . '/RegisteredPages/Home" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">HOME</span>
@@ -78,20 +62,21 @@ if (!function_exists('isCurrentPage')) {
                     <a href="' . URLROOT . '/RegisteredPages/contactUs" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contactUs', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">CONTACT US</span>
                     </a>';
-            } elseif ($userRole === "Conductor") {
-                echo '<a href="' . URLROOT . '/ConductorPages/home" class="navbar-item ' . (isCurrentPage('ConductorPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Home</span>
-                    </a>
-                    <a href="' . URLROOT . '/ConductorPages/viewAssigns" class="navbar-item ' . (isCurrentPage('ConductorPages', 'viewAssigns', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">View Assigns</span>
-                    </a>
-                    <a href="' . URLROOT . '/ConductorPages/scanQRcode" class="navbar-item ' . (isCurrentPage('ConductorPages', 'scanQRcode', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Scan QR Code</span>
-                    </a>
-                    <a href="' . URLROOT . '/ConductorPages/informDelays" class="navbar-item ' . (isCurrentPage('ConductorPages', 'informDelays', $currentController, $currentMethod) ? 'selected' : '') . '">
-                        <span class="text">Contact Admin</span>
-                    </a>';
-            }
+            } 
+            // elseif ($userRole === "Conductor") {
+            //     echo '<a href="' . URLROOT . '/ConductorPages/home" class="navbar-item ' . (isCurrentPage('ConductorPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
+            //             <span class="text">Home</span>
+            //         </a>
+            //         <a href="' . URLROOT . '/ConductorPages/viewAssigns" class="navbar-item ' . (isCurrentPage('ConductorPages', 'viewAssigns', $currentController, $currentMethod) ? 'selected' : '') . '">
+            //             <span class="text">View Assigns</span>
+            //         </a>
+            //         <a href="' . URLROOT . '/ConductorPages/scanQRcode" class="navbar-item ' . (isCurrentPage('ConductorPages', 'scanQRcode', $currentController, $currentMethod) ? 'selected' : '') . '">
+            //             <span class="text">Scan QR Code</span>
+            //         </a>
+            //         <a href="' . URLROOT . '/ConductorPages/informDelays" class="navbar-item ' . (isCurrentPage('ConductorPages', 'informDelays', $currentController, $currentMethod) ? 'selected' : '') . '">
+            //             <span class="text">Contact Admin</span>
+            //         </a>';
+            // }
             ?>
         </div>
         <button id="navbar-toggle" class="navbar-toggle">&#9776;</button>

@@ -1,4 +1,8 @@
 <?php
+
+require_once APPROOT.'/helpers/auth_check.php';
+authCheck(['RegisteredUser']);
+
 require_once '../../../Database.php'; // Include your database connection file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -1,3 +1,7 @@
+<?php
+    require_once APPROOT.'/helpers/auth_check.php';
+    authCheck(['RegisteredUser']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +48,7 @@
         console.log("User ID: ", userId);
     </script>
 
-    <?php require 'bookingsData.php'; ?>
+  
 
     <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
