@@ -61,7 +61,7 @@ body{
 }
 
 #sidebar {
-
+    height: 100% !important;
     grid-area: sidebar;
     height: 100%;
     background-color: #263043;
@@ -69,6 +69,7 @@ body{
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
     color: white;
+    margin-top: 0;
 }
 
 .sidebar-title{
@@ -120,6 +121,7 @@ body{
 .main-container{
     grid-area: main;
     background-color: beige;
+    padding-bottom: 40px;
 }
 
 .main-title {
@@ -276,4 +278,91 @@ h3 {
     font-size: 18px;
     cursor: pointer;
     color: #9e9ea4;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent to show the background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+.open-popup{
+    visibility: visible;
+}
+/* Modal box styling */
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    width: 400px;
+    color: black;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Heading */
+.modal-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.modal-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-yes {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-no {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between Clear button and input group */
+    margin-left: auto;
+}
+
+.clear-button {
+    padding: 8px 15px;
+    background-color: #063946;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    /*height: 40px;
+    width: 80px;*/
+    margin-right: 10px;
+}
+
+.clear-button:hover {
+    background-color: #052d37;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
 }
