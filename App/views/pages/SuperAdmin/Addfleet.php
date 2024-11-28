@@ -33,12 +33,14 @@
         <input type="text" id="route" name="route" required placeholder="e.g., Colombo - Kandy">
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label for="bus_type">Bus Type:</label>
-        <select id="bus_type" class="bus-type" name="bus_type">
+        <input type="text" id="bus_type" name="bus_type" required placeholder="e.g., Luxury, Semi-Luxury">
+    </div> -->
+        <!-- <select id="bus_type" class="bus-type" name="bus_type">
             <option value="1">1</option>
             <option value="2">2</option>
-    </div>
+    </div> -->
 
     <div class="form-group">
         <label for="stops">Stops:</label>

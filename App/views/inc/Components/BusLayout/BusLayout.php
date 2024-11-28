@@ -94,7 +94,7 @@
                 $selectedBus = $bus;
                 // echo($selectedBus['License_id']);
                 // echo '<pre>'; print_r($selectedBus); echo '</pre>';
-                $busType = $bus['busType'];
+                $busType = $bus['passengers'];
                 $leastPrice = $bus['priceperkm'];
                 // echo($leastPrice);
                 // echo($busType);

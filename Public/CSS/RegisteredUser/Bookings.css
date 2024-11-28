@@ -350,15 +350,14 @@ button {
     min-width: 80px; 
     outline: none;
     font-size: 16px;
-    color:transparent;
-    margin:4px;
+    color:black;
+    /* margin:4px; */
 }
 
 /* Button Hover Effect */
 button:hover {
-    background-color: transparent;
-    transform: translateY(-1px); /* Slight hover effect for depth */
-    color:gray;
+    background-color: lightgray; /* Optional hover background */
+    color: black; 
 }
 
 /* Button Focus Effect */
