@@ -63,7 +63,7 @@
             <h2><?php echo $profile['name']; ?></h2>
             <p><?php echo $profile['employee_id']; ?></p>
             <div class="btn">
-                <button class="logout-button"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>   LogOut</button>
+                <button class="logout-button" onclick="Openpopup()"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>  LogOut</button>
             </div>
         </div>
 
@@ -99,6 +99,46 @@
             </div>
         </div>
     </div>
+
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content">
+            <h2>Are you sure you want to logout?</h2>
+            <p>This will end your current session.</p>
+            <div class="modal-buttons">
+                <button class="modal-button btn-yes" onclick="proceedLogout()">Yes</button>
+                <button class="modal-button btn-no" onclick="cancelLogout()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function Openpopup() {
+            const popup = document.getElementById("logoutModal");
+            popup.classList.add("open-popup"); // Add the class to make modal visible
+        }
+        
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'flex';
+        }
+
+        // Hide the logout modal
+        function hideLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        // Proceed with logout and redirect to login page
+        function proceedLogout() {
+            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";// Replace with your login form file
+        }
+
+
+        // Function to redirect back to profile
+        function cancelLogout() {
+            window.location.href = "<?php echo URLROOT; ?>/ConductorPages/profile"; // Replace with your dashboard file
+        }
+
+    </script>
 
 
 </body>

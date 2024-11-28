@@ -85,7 +85,7 @@
                 <th>Stops</th>
                 <th>Starts</th>
                 <th>Destination</th>
-                <th>Ratings</th>
+                <!-- <th>Ratings</th> -->
                 <th>Passengers</th>
                 <th>Price</th>
                 <th>Price per KM</th>
@@ -105,7 +105,7 @@
                     echo "<td>{$bus['stops']}</td>";
                     echo "<td>{$bus['start_location']}</td>";
                     echo "<td>{$bus['destination']}</td>";
-                    echo "<td>{$bus['rating']}</td>";
+                    // echo "<td>{$bus['rating']}</td>";
                     echo "<td>{$bus['passengers']}</td>";
                     echo "<td>{$bus['price']}</td>";
                     echo "<td>{$bus['priceperkm']}</td>";
@@ -209,11 +209,11 @@
                     <td>${bus.License_id}</td>
                     <td>${bus.routeNumber}</td>
                     <td>${bus.route}</td>
-                    <!-- <td>${bus.busType}</td> -->
+                    <!-- <td>$//{bus.busType}</td> -->
                     <td>${bus.stops}</td>
                     <td>${bus.start_location}</td>
                     <td>${bus.destination}</td>
-                    <td>${bus.rating}</td>
+                    <!-- <td>$//{bus.rating}</td> -->
                     <td>${bus.passengers}</td>
                     <td>${bus.price}</td>
                     <td>${bus.priceperkm}</td>

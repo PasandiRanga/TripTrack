@@ -27,7 +27,7 @@
 
     
 
-    <!-- Unified User Table -->
+    <!-- User Table -->
     <div id="userTable" class="user-table-container">
         <table class="user-table">
             <thead>
@@ -47,11 +47,11 @@
                 <?php
                 // Example data - Replace this with dynamic data from the database
                 $users = [
-                    ['id' => 1, 'name' => 'John Doe', 'nic' => '123456789V', 'address' => 'Street 1, City', 'contact' => '123-456-7890', 'email' => 'john.doe@example.com', 'role' => 'Conductor'],
-                    ['id' => 2, 'name' => 'Bob Brown', 'nic' => '987654321V', 'address' => 'Street 2, City', 'contact' => '456-789-0123', 'email' => 'bob.brown@example.com', 'role' => 'Driver'],
-                    ['id' => 3, 'name' => 'Alice Johnson', 'nic' => '556677889V', 'address' => 'Admin Office, City', 'contact' => '345-678-9012', 'email' => 'alice.johnson@example.com', 'role' => 'Admin'],
-                    ['id' => 4, 'name' => 'Charlie White', 'nic' => '112233445V', 'address' => 'Street 4, City', 'contact' => '567-890-1234', 'email' => 'charlie.white@example.com', 'role' => 'Driver'],
-                    ['id' => 5, 'name' => 'Eve Green', 'nic' => '667788990V', 'address' => 'Admin Office, City', 'contact' => '678-901-2345', 'email' => 'eve.green@example.com', 'role' => 'Admin']
+                    ['id' => 'EM1', 'name' => 'rashmika dilmin', 'nic' => '200118201761', 'address' => 'Street 1, Colombo', 'contact' => '0767013421', 'email' => 'rashmikadilmin@gmail.com', 'role' => 'Conductor'],
+                    ['id' => 'EM2', 'name' => 'sandaru kaushan', 'nic' => '200198234585', 'address' => 'Street 2, Colombo', 'contact' => '0775342334', 'email' => 'sadarukushan@gmail.com', 'role' => 'Driver'],
+                    ['id' => 'EM3', 'name' => 'jaith lomitha', 'nic' => '200123948526', 'address' => 'Street 3, Colombo', 'contact' => '0723456789', 'email' => 'lomitha@gmail.com', 'role' => 'Admin'],
+                    ['id' => 'EM4', 'name' => 'romain cooray', 'nic' => '200193728078', 'address' => 'Street 4, Colombo', 'contact' => '0789076543', 'email' => 'rumaincooray@gmail.com', 'role' => 'Driver'],
+                    ['id' => 'EM5', 'name' => 'satheera jayawardana', 'nic' => '200198275541', 'address' => 'Main street, Colombo', 'contact' => '0775423566', 'email' => 'satheera@gmail.com', 'role' => 'Admin']
                 ];
 
                 foreach ($users as $user) {
