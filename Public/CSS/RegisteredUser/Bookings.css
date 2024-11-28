@@ -344,8 +344,7 @@ button {
     align-items: center;
     padding: 6px 6px; 
     line-height: 1.4;
-    color: black;
-    background-color:transparent; 
+    color: white;
     border: 2px solid transparent; 
     border-radius: 4px;
     cursor: pointer;
@@ -354,23 +353,30 @@ button {
     text-align: center;
     min-width: 80px; 
     outline: none;
-    font-size: 16px;
-    color:black;
-    /* margin:4px; */
+    font-size: 12px;
 }
 
-/* Button Hover Effect */
-button:hover {
-    background-color: lightgray; /* Optional hover background */
-    color: black; 
+/* Button Styling for Cancel and View */
+button.cancel {
+    background-color: #ff0000; /* Red color for Cancel button */
+    border: 1px solid #ff3333;
+    color: white;
 }
 
-/* Button Focus Effect */
-button:focus {
-    outline: 3px solid #43cea2;
-    outline-offset: 2px;
-    color:gray;
+button.cancel:hover {
+    background-color: #e60000; /* Darker red on hover */
+    color: #fff;
+}
 
+button.view {
+    background-color: #45a049; /* Green color for View button */
+    border: 1px solid #3e8e41;
+    color: white;
+}
+
+button.view:hover {
+    background-color: #3e8e41; /* Darker green on hover */
+    color: #fff;
 }
 
 /* Extra Large Button - Minimized Version */
@@ -385,12 +391,6 @@ button.small {
     padding: 4px 8px; /* Even more compact padding */
     font-size: 10px; /* Smaller font size */
     min-width: 60px; /* Very compact minimum width */
-}
-
-/* Button Icon */
-button .icon {
-    margin-right: 6px; /* Compact space between icon and text */
-    font-size: 16px;
 }
 
 /* Button Alignment */
