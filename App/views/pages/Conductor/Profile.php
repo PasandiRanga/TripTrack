@@ -30,6 +30,11 @@
 
     <?php
     $profile = $data['employee'] ?? [];
+    // echo '<pre>';
+    //         print_r($_SESSION['user_profile_image']);
+    //         echo '</pre>';
+    //         exit();
+
     $data = [
         'currentController' => 'ConductorPages', // Adjust this based on your controller
         'currentMethod' => 'profile', // Adjust this based on the method
@@ -52,7 +57,7 @@
         <!-- Left Side: User Info -->
         <div class="profile-left">
             <div class="profile-pic">
-                <img src="<?php echo URLROOT; ?>/public/images/profile.png" alt="User Profile Picture"> 
+            <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $profile['profile_pic'];?>" alt="Profile Picture" class="profile-pic">
             </div>
             <!--<button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>-->         
             <h2><?php echo $profile['name']; ?></h2>

@@ -359,10 +359,12 @@
 
                 case 'employee':
                     if($loggedUser['role'] === 'Conductor' ){
+                        $_SESSION['user_profile_image']=$loggedUser['Profile_pic'];
                         $_SESSION['user_role'] = $loggedUser['role'];
                         header('Location: ' . URLROOT . '/ConductorPages/home');
                         break;
                     }elseif($loggedUser['role'] === 'Driver'){
+                        $_SESSION['user_profile_image']=$loggedUser['profile_pic'];
                         $_SESSION['user_role'] = $loggedUser['role'];
                         header('Location: ' . URLROOT . '/ConductorPages/home');
                         break;
