@@ -59,7 +59,13 @@
 
     <div class="form-group">
         <label for="passengers">Passengers:</label>
-        <input type="number" id="passengers" name="passengers" required min="1">
+        <select id="passengers" name="passengers" class="passengers" required>
+            <option value="" disabled selected>Select capacity</option>
+            <option value="37">37</option>
+            <option value="45">45</option>
+            <option value="50">50</option>
+            <option value="50">51</option>
+        </select>
     </div>
 
     <div class="form-group">
