@@ -63,13 +63,15 @@
 
                 $this->ConductorpagesModel->addLeaves($data);
 
+                header("Location: " . URLROOT . "/ConductorPages/viewLeaveRequests");
+
                 // Call the model method to add the bus
-                if ($this->ConductorpagesModel->addLeaves($data)) {
+                /*if ($this->ConductorpagesModel->addLeaves($data)) {
                     // Redirect to the fleet page on success
-                    header("Location: " . URLROOT . "/ConductorPages/home");
+                    ;
                 } else {
                     die("Error: Unable to add the leave request.");
-                }
+                }*/
             } else {
                 
                 $this->view('pages/Conductor/RequestLeave');
@@ -117,10 +119,7 @@
                 'employee' => $employee
             ];
 
-            /*echo '<pre>';
-            print_r($_SESSION);
-            echo '</pre>';
-            exit();*/
+        
 
             $this->view('pages/Conductor/Profile', $data);
 
@@ -142,21 +141,29 @@
         }
 
         public function updateLeaveRequests() {
-            // Retrieve the license ID from the GET request
-            $leave_id = isset($_GET['leave_id']) ? $_GET['leave_id'] : null;
-    
-            if ($leave_id) {
-                // Fetch the bus details using the model
-                $leaveDetails = $this->ConductorpagesModel->getLeaveRequests($_SESSION['user_id']);
-    
-                // Pass the details to the view
-                if ($leaveDetails) {
-                    $this->view('pages/Conductor/UpdateLeaveRequests', ['leaveDetails' => $leaveDetails]);
-                } else {
-                    die("Leave Request not found.");
-                }
+
+            $leave_id = filter_input(INPUT_GET, 'leave_id', FILTER_SANITIZE_STRING);
+
+            if (!$leave_id) {
+                die("Invalid or missing Leave ID.");
+            }
+
+            // Fetch the leave details using the model
+            $leaveDetails = $this->ConductorpagesModel->getLeaveRequest($leave_id);
+
+            if ($leaveDetails && isset($leaveDetails[0])) {
+                // Extract the first (and only) record
+                $leaveDetails = $leaveDetails[0];
+
+                    /*echo "<pre>";
+                    print_r($leaveDetails);
+                    echo "</pre>";
+                    exit();*/
+
+                    // Pass the details to the view
+                $this->view('pages/Conductor/UpdateLeaveRequests', ['leaveDetails' => $leaveDetails]);
             } else {
-                die("Leave ID not provided.");
+                die("Leave Request not found.");
             }
         }
 
@@ -167,7 +174,8 @@
 
                 // Collect data into an array
                 $data = [
-
+                    'leave_id' => trim($_POST['leave_id']),
+                    'employeeId' => trim($_POST['employeeId']),
                     'from_date' => trim($_POST['from_date']),
                     'to_date' => trim($_POST['to_date']),
                     'noOfDays' => trim($_POST['noOfDays']),
@@ -176,21 +184,23 @@
 
                 $this->ConductorpagesModel->updateLeaves($data);
 
+                header("Location: " . URLROOT . "/ConductorPages/viewLeaveRequests");
+
                 // Call the model method to add the bus
-                if ($this->ConductorpagesModel->addLeaves($data)) {
+                /*if ($this->ConductorpagesModel->addLeaves($data)) {
                     // Redirect to the fleet page on success
                     header("Location: " . URLROOT . "/ConductorPages/viewLeaveRequests");
                 } else {
                     die("Error: Unable to update the leave request.");
-                }
+                }*/
             /*} else {
                 
-                $this->view('pages/Conductor/RequestLeave');
+                $this->view('pages/Conductor/UpdateLeave');
             }*/
             }
         }
 
-        public function deleteLeaveRequest() {
+        public function deleteRequest() {
             // Ensure the request method is POST
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Decode the JSON input

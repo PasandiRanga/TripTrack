@@ -46,12 +46,20 @@
             <div class="leave-form">
                 <h2>Fill the following details</h2>
 
-                <form id="leaveForm" method="POST" action="<?php echo URLROOT; ?>/ConductorPages/requestLeave">
+                <form id="leaveForm" method="POST" action="<?php echo URLROOT; ?>/ConductorPages/RequestLeave">
 
                     <div class="form-group">
                         <div>
                             <label for="employeeId">Employee ID</label>
-                            <input type="text" id="employeeId" name="employeeId" required>
+                            <input 
+                                type="text" 
+                                id="employeeId" 
+                                name="employeeId" 
+                                value="<?php echo htmlspecialchars($_SESSION['user_id']); ?>" 
+                                readonly
+                                required
+                            >
+                            
                         </div>
                     </div>
 
@@ -69,7 +77,7 @@
                     <div class="form-group">
                         <div>
                             <label for="noOfDays">Number of Days</label>
-                            <input type="number" id="noOfDays" name="noOfDays" required min="1">
+                            <input type="number" id="noOfDays" name="noOfDays" readonly>
                         </div>
                     </div>
 
@@ -87,6 +95,40 @@
         </div>
 
         <script>
+
+            // Set today's date as the minimum date for "From" and "To" fields
+            const today = new Date().toISOString().split('T')[0];
+            const fromDateInput = document.getElementById('from_date');
+            const toDateInput = document.getElementById('to_date');
+
+            fromDateInput.min = today;
+            toDateInput.min = today;
+
+            // Automatically set default dates to today's date
+            fromDateInput.value = today;
+            toDateInput.value = today;
+
+            // Calculate and update "Number of Days"
+            function calculateDays() {
+                const fromDate = new Date(fromDateInput.value);
+                const toDate = new Date(toDateInput.value);
+                if (fromDate && toDate) {
+                    const difference = (toDate - fromDate) / (1000 * 60 * 60 * 24) + 1; // Inclusive of both dates
+                    document.getElementById('noOfDays').value = difference > 0 ? difference : '';
+                }
+            }
+
+            // Attach event listeners to recalculate days and ensure "To" date is not before "From" date
+            fromDateInput.addEventListener('change', () => {
+                if (toDateInput.value < fromDateInput.value) {
+                    toDateInput.value = fromDateInput.value; // Reset "To" date to match "From" date
+                }
+                toDateInput.min = fromDateInput.value; // Update "To" date's minimum value
+                calculateDays();
+            });
+
+            toDateInput.addEventListener('change', calculateDays);
+
             
             function goBack() {
                 window.history.back();
