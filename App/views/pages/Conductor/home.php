@@ -1,4 +1,4 @@
-<?php
+-<?php
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Conductor' , 'Driver']);
 ?>
@@ -87,7 +87,7 @@
                     <span class="text">Notifications</span>
                 </li>
 
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item" onclick="Openpopup()">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span class="text">LogOut</span>
                 </li>
@@ -108,12 +108,14 @@
                 <!--<div class="search-container">
                 <button class="search-button" onclick="searchFleet()">Search</button>-->
 
-                <div class="input-group">
-                    <div class="icon"><i class="fas fa-calendar-alt"></i></div>
-                    <input type="date" class="search-input">
+                <div class="filter-container">
+                    <button class="clear-button" onclick="resetFilter()">Clear</button>
+                    <div class="input-group">
+                        <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                        <input type="date" class="search-input" id="filterDate" onchange="filterSchedule()">
+                    </div>
                 </div>
 
-                
 
             </div>
 
@@ -196,6 +198,17 @@
         </main>
     </div>
 
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content">
+            <h2>Are you sure you want to logout?</h2>
+            <p>This will end your current session.</p>
+            <div class="modal-buttons">
+                <button class="modal-button btn-yes" onclick="proceedLogout()">Yes</button>
+                <button class="modal-button btn-no" onclick="cancelLogout()">No</button>
+            </div>
+        </div>
+    </div>
+
    <script>
 
         // Default color for the non-clicked element
@@ -257,6 +270,61 @@
                 popUpMenu.classList.remove('show');
             });
         });
+
+        function Openpopup() {
+            const popup = document.getElementById("logoutModal");
+            popup.classList.add("open-popup"); // Add the class to make modal visible
+        }
+        
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'flex';
+        }
+
+        // Hide the logout modal
+        function hideLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        // Proceed with logout and redirect to login page
+        function proceedLogout() {
+            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";// Replace with your login form file
+        }
+
+
+        // Function to redirect back to dashboard
+        function cancelLogout() {
+            window.location.href = "<?php echo URLROOT; ?>/ConductorPages/home"; // Replace with your dashboard file
+        }
+
+        function filterSchedule() {
+            // Get the filter date value
+            const filterDate = document.getElementById("filterDate").value;
+            const table = document.getElementById("upcomingAssigns");
+            const rows = table.getElementsByTagName("tr");
+
+            // Loop through the table rows (start from index 1 to skip the header)
+            for (let i = 1; i < rows.length; i++) {
+                const dateCell = rows[i].getElementsByTagName("td")[0];
+                if (dateCell) {
+                    const rowDate = dateCell.textContent || dateCell.innerText;
+
+                    // Compare the row's date with the filter date
+                    if (filterDate && rowDate !== filterDate) {
+                        rows[i].style.display = "none"; // Hide non-matching rows
+                    } else {
+                        rows[i].style.display = ""; // Show matching rows
+                    }
+                }
+            }
+        }
+
+        function resetFilter() {
+            const rows = document.getElementById("upcomingAssigns").getElementsByTagName("tr");
+            document.getElementById("filterDate").value = ""; // Clear the date input
+            for (let i = 1; i < rows.length; i++) { // Start from index 1 to skip the header
+                rows[i].style.display = ""; // Show all rows
+            }
+        }
 
     </script>
 
