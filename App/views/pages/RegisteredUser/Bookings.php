@@ -151,15 +151,15 @@
                             <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>
                             <td data-label="Price (LKR)"><?php echo $booking['total_price']; ?></td>
                             <td data-label="Action">
-                                <i 
-                                    class="fa-solid fa-ticket" style="color:green"
+                                <button
+                                    class="view" 
                                     onclick="toggleTicketBox(
                                         <?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8'); ?>, 
                                         <?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8'); ?>,
                                         <?php echo htmlspecialchars(json_encode($bus), ENT_QUOTES, 'UTF-8'); ?>,
                                         <?php echo htmlspecialchars(json_encode($userData), ENT_QUOTES, 'UTF-8'); ?>
                                     )"
-                                ></i>
+                                >View Ticket</button>
                             </td>
 
                         </tr>
@@ -229,18 +229,18 @@
                                     <script console.log(<?php echo $booking['schedule_id']; ?>)></script>
                                     <script console.log(<?php echo $booking['Seats']; ?>)></script> 
 
-                                    <button type="button" onclick="showCancelPopup(<?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8');?>)">
-                                         <i class="fa-solid fa-ban" style="color:red"></i>Cancel Booking
+                                    <button type="button" class="cancel" onclick="showCancelPopup(<?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8');?>)">
+                                        Cancel Booking
                                     </button>
                                 </form>
                                 <!-- <button><i class="fa-solid fa-pen-to-square" style="color:blue"></i>  Edit Booking</button> -->
-                                <button onclick="toggleTicketBox(
+                                <button class="view" onclick="toggleTicketBox(
                                         <?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8'); ?>, 
                                         <?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8'); ?>,
                                         <?php echo htmlspecialchars(json_encode($bus), ENT_QUOTES, 'UTF-8'); ?>,
                                         <?php echo htmlspecialchars(json_encode($userData), ENT_QUOTES, 'UTF-8'); ?>
 
-                                )"><i class="fa-solid fa-ticket" style="color:green"></i>  View Ticket</button>
+                                )">View Ticket</button>
 
                          
 
