@@ -233,7 +233,7 @@
                                          <i class="fa-solid fa-ban" style="color:red"></i>Cancel Booking
                                     </button>
                                 </form>
-                                <button><i class="fa-solid fa-pen-to-square" style="color:blue"></i>  Edit Booking</button>
+                                <!-- <button><i class="fa-solid fa-pen-to-square" style="color:blue"></i>  Edit Booking</button> -->
                                 <button onclick="toggleTicketBox(
                                         <?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8'); ?>, 
                                         <?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8'); ?>,

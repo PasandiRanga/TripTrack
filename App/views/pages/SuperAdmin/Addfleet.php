@@ -33,10 +33,10 @@
         <input type="text" id="route" name="route" required placeholder="e.g., Colombo - Kandy">
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label for="bus_type">Bus Type:</label>
         <input type="text" id="bus_type" name="bus_type" required placeholder="e.g., Luxury, Semi-Luxury">
-    </div>
+    </div> -->
 
     <div class="form-group">
         <label for="stops">Stops:</label>

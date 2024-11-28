@@ -20,10 +20,23 @@
             <option value="" disabled selected>From</option>
             <?php
                 // Extract unique 'start' locations from $distanceData
-                $locations = array_unique(array_column($distanceData, 'location'));
-                foreach ($locations as $location) {
+                // Combine 'start' and 'location' columns into a single array
+                $combinedLocations = array_merge(
+                    array_column($distanceData, 'start'), 
+                    array_column($distanceData, 'location')
+                );
+
+                // Get unique values from the combined array
+                $uniqueLocations = array_unique($combinedLocations);
+
+                // Sort the unique locations (optional, for better readability)
+                sort($uniqueLocations);
+
+                // Loop through the unique locations and generate the options
+                foreach ($uniqueLocations as $location) {
                     echo "<option value=\"$location\">$location</option>";
                 }
+
             ?>
         </select>
     </div>
@@ -33,8 +46,20 @@
             <option value="" disabled selected>To</option>
             <?php
                 // Extract unique 'location' from $distanceData
-                $locations = array_unique(array_column($distanceData, 'location'));
-                foreach ($locations as $location) {
+                // Combine 'start' and 'location' columns into a single array
+                $combinedLocations = array_merge(
+                    array_column($distanceData, 'start'), 
+                    array_column($distanceData, 'location')
+                );
+
+                // Get unique values from the combined array
+                $uniqueLocations = array_unique($combinedLocations);
+
+                // Sort the unique locations (optional, for better readability)
+                sort($uniqueLocations);
+
+                // Loop through the unique locations and generate the options
+                foreach ($uniqueLocations as $location) {
                     echo "<option value=\"$location\">$location</option>";
                 }
             ?>

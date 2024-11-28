@@ -74,7 +74,21 @@ foreach ($topRatedBuses as $bus) {
                         </div>
                     </div>
                     <div class="duration">
-                        <span><?php echo $schedule['duration']; ?></span>
+                    <?php
+                        $duration = $schedule['duration'];
+                        list($hours, $minutes, $seconds) = explode(':', $duration);
+
+                        // Prepare the human-readable duration
+                        $humanReadableDuration = '';
+                        if ($hours > 0) {
+                            $humanReadableDuration .= $hours . ' hour' . ($hours > 1 ? 's' : '');
+                        }
+                        if ($minutes > 0) {
+                            $humanReadableDuration .= ($hours > 0 ? ' ' : '') . $minutes . ' minute' . ($minutes > 1 ? 's' : '');
+                        }
+                        ?>
+                        <span><?php echo $humanReadableDuration; ?></span>
+
                     </div>
                     <div class="route-stops">
                         <?php 
