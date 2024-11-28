@@ -83,3 +83,27 @@ h1 {
 .download:hover {
     background: linear-gradient(135deg, #185a9d, #43cea2);
 }
+
+/* Position the back button at the top-left corner */
+.back-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #fff;  /* Optional: Background color */
+    padding: 10px 15px;       /* Optional: Adjust button padding */
+    border-radius: 5px;       /* Optional: Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Optional: Box shadow */
+    font-size: 16px;           /* Optional: Font size */
+    text-decoration: none;     /* Remove underline */
+    color: #333;               /* Text color */
+}
+
+.back-button i {
+    margin-right: 5px;  /* Space between icon and text */
+}
+
+/* Optional: Style for hover effect */
+.back-button:hover {
+    background-color: #f0f0f0;  /* Light gray background on hover */
+}
+

@@ -190,7 +190,7 @@
                     </div>
                     <div class="duration"><span>${schedule.duration}</span></div>
                     <div class="route-stops">
-                        ${stopsArray.join(' <span class="route-line"></span> ')}
+                         ${formatStops(stopsArray)}
                     </div>
                 </div>
                 <div class="bus-card-footer">
@@ -230,6 +230,29 @@ document.addEventListener('DOMContentLoaded', function () {
     travelDateInput.value = today; // Set the default value to today
     travelDateInput.min = today;  // Set the min attribute to today
 });
+
+
+function formatStops(stopsArray) {
+    const length = stopsArray.length;
+
+    if (length === 1) {
+        // If there is only one stop, just return it
+        return stopsArray[0];
+    } else if (length === 2) {
+        // If there are two stops, return both with a line
+        return stopsArray[0] + ' <span class="route-line"></span> ' + stopsArray[1];
+    } else {
+        // Otherwise, return first, middle, and last stops
+        const middleIndex = Math.floor(length / 2);
+        return (
+            stopsArray[0] +
+            ' <span class="route-line"></span> ' +
+            stopsArray[middleIndex] +
+            ' <span class="route-line"></span> ' +
+            stopsArray[length - 1]
+        );
+    }
+}
 
 
 
