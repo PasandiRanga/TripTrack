@@ -56,14 +56,14 @@
                     <i class="fa-solid fa-bell"></i>
                     <span class="badge"><?php echo count($notifications); ?></span>
                     <div class="notifi-box" id="box">
-                        <h2>Notifications <span><?php echo count($notifications); ?></span></h2>
+                        <h2>Notifications </h2>
                         <?php foreach ($notifications as $notification): ?>
                             <div class="notifi-item">
                                 <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
                                 <div class="text">
                                     <h4><?php echo $notification["title"]; ?></h4>
                                     <p><?php echo $notification["date"]; ?></p>
-                                    <span class="dropdown-arrow">&#9660;</span>
+                                    <div class="dropdown-arrow">&#9660;</div>
                                 </div>
                                 <div class="notification-content">
                                     <p><?php echo $notification["content"]; ?></p>
