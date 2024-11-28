@@ -36,14 +36,14 @@
         <aside id="sidebar">
             <div class="sidebar-title">
                 <div class="sidebar-brand">
-                    <span class="material-icons-outlined">man</span> Admin
+                    <span class="material-icons-outlined">admin_panel_settings</span> Admin
                 </div>
                 <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
             </div>
 
             <ul class="sidebar-list">
                 <li class="sidebar-list-item">
-                    <span class="material-icons-outlined">dashboard</span> Dashboard
+                    <span class="material-icons-outlined">dashboard_customize</span> Dashboard
                 </li>
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/fleet'">
                     <span class="material-icons-outlined">queue</span> Fleet
@@ -54,7 +54,7 @@
                 </li>
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">
-                    <span class="material-icons-outlined">groups</span> Employees
+                    <span class="material-icons-outlined">group_add</span> Employees
                 </li>
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reviews'">
@@ -78,11 +78,11 @@
                 </li>
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">
-                    <span class="material-icons-outlined">assignment</span> Assigns
+                    <span class="material-icons-outlined">assignment_ind</span> Assigns
                 </li>
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/contacts'">
-                    <span class="material-icons-outlined">contacts</span> Contacts
+                    <span class="material-icons-outlined">contact_page</span> Contacts
                 </li>
 
                 <li class="sidebar-list-item" onclick="Openpopup()">
@@ -100,7 +100,7 @@
                 <div class="card">
                     <div class="card-inner">
                         <h3>Total Monthly Income</h3>
-                        <span class="material-icons-outlined">money</span>
+                        <span class="material-icons-outlined">local_atm</span>
                     </div>
                     <h1><?php echo '345,890 LKR'; ?></h1>
                 </div>
@@ -123,8 +123,8 @@
 
                 <div class="card">
                     <div class="card-inner">
-                        <h3>Alerts</h3>
-                        <span class="material-icons-outlined">notification_important</span>
+                        <h3>Completed Schedules</h3>
+                        <span class="material-icons-outlined">beenhere</span>
                     </div>
                     <h1><?php echo '56'; // Example PHP dynamic content ?></h1>
                 </div>

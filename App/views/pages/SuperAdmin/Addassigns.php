@@ -15,7 +15,7 @@
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">Back</button>
 
     <!-- Page Title -->
-    <h2>Add New Assignment</h2>
+    <h2>Add New Assing</h2>
 
     <!-- Add Assignment Form -->
     <form id="assignForm" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/addassigns" class="assign-form">
