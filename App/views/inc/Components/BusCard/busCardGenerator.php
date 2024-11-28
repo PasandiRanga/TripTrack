@@ -61,7 +61,7 @@ foreach ($topRatedBuses as $bus) {
             <div class="bus-card-header">
                     <div class="route-info">
                         <h2><?php echo $bus['route']; ?></h2>
-                        <span class="bus-type"><?php echo $bus['routeNumber']; ?></span>
+                        <span class="bus-type">Route :<?php echo $bus['routeNumber']; ?></span>
                     </div>
                 </div>
                 <div class="bus-card-timing">
