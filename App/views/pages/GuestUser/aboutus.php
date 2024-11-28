@@ -59,8 +59,8 @@
                 <div class="owner-details">
                 <img src="<?php echo URLROOT; ?>/Public/images/owner.jpg" alt="Owner's Picture" class="owner-image">
                 <div class="owner-info">
-                        <h2>John Doe</h2>
-                        <p>John Doe is the visionary behind <span class="name">Trip Track</span>. With a passion for technology and a deep understanding of the transportation industry, John founded <span class="name">Trip Track</span> to address the challenges faced by travelers in Sri Lanka. His mission is to provide a hassle-free, reliable, and modern platform for booking bus tickets and making travel planning easier for everyone.</p>
+                        <h2>Nadika Perera</h2>
+                        <p>Nadika Pererais the visionary behind <span class="name">Trip Track</span>. With a passion for technology and a deep understanding of the transportation industry, John founded <span class="name">Trip Track</span> to address the challenges faced by travelers in Sri Lanka. His mission is to provide a hassle-free, reliable, and modern platform for booking bus tickets and making travel planning easier for everyone.</p>
                         <p>Under John's leadership, <span class="name">Trip Track</span> has grown into a trusted name in the travel industry, known for its commitment to customer satisfaction and innovation. When he's not working on improving <span class="name">Trip Track</span>, John enjoys traveling and exploring new places, always on the lookout for ways to make travel more accessible and enjoyable for everyone.</p>
                     </div>
                 </div>
