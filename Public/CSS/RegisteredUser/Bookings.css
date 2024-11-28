@@ -309,15 +309,20 @@ table td:last-child button {
 
 /* Overlay for the ticket box */
 .ticketBox {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Full screen height */
+    background: rgba(0, 0, 0, 0.7);  /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1000;
+    transition: opacity 0.3s ease;
+    overflow: hidden; /* Prevent overflow outside the overlay */
 }
+
 
 .ticketBox.hidden {
     display: none;
@@ -328,8 +333,8 @@ table td:last-child button {
     top: 10px;
     right: 10px;
     cursor: pointer;
-    font-size: 18px;
-    color: #333;
+    font-size: 30px;
+    color: red;
 }
 
 /* Base Button Styling */
@@ -405,27 +410,41 @@ button.shadow:hover {
 
 
 .bus-ticket {
-    background-color: #004e66;
+    background-color: #023047;
     color: #ffffff;
     padding: 20px;
     border-radius: 15px;
     width: 500px;
-    font-family: 'Arial', sans-serif;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    margin: auto;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .ticket-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .location h2 {
-    font-size: 1.2em;
+    font-size: 20px;
     margin: 0;
     font-weight: bold;
-    color: #ffffff;
+    color: #43cea2;
 }
 
 .location p {
@@ -435,7 +454,7 @@ button.shadow:hover {
 }
 
 .icon i {
-    font-size: 1.5em;
+    font-size: 2em;
     color: #ffffff;
     
 }
@@ -443,14 +462,14 @@ button.shadow:hover {
 /* Dotted line style */
 .dotted-line {
     border: none;
-    border-top: 1px dotted #ffffff; /* Dotted line with blue color */
+    border-top: 2px dotted #ffffff; /* Dotted line with blue color */
     width: 100%; /* Ensure the line stretches */
     margin: 0; /* Remove any margins */
 }
 
 .dotted-separator {
     border: none;
-    border-top: 1px dashed #ffffff;
+    border-top: 2px dashed #ffffff;
     margin: 15px 0;
 }
 
@@ -460,33 +479,48 @@ button.shadow:hover {
     align-items: center;
 }
 
+.info {
+    text-align: left;
+    line-height: 1.8;
+    font-size: 0.9em;
+}
+
 .info p {
     margin: 5px 0;
-    font-size: 0.9em;
-    color: #ffffff;
+    color: #e0fbfc;
 }
 
 .price h3 {
     font-size: 1.4em;
     font-weight: bold;
-    color: #4CAF50; /* Gold color for price */
+    color: #43cea2; /* Gold color for price */
 }
 
 .ticket-footer {
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
+    line-height: 1.8;
     align-items: center;
+    padding-top: 10px;
+}
+
+.passenger-info {
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: #e0fbfc;
 }
 
 .passenger-info p {
-    margin: 3px 0;
-    font-size: 0.85em;
-    color: #ffffff;
+    margin: 5px 0;
 }
 
 .qr-code i {
-    font-size: 100px;
-    color: #ffffff;
+    font-size: 2.5em;
+    color: #8ecae6;
+    padding: 10px;
+    border: 2px dashed #8ecae6;
+    border-radius: 10px;
 }
 
 

@@ -255,13 +255,12 @@
     </div>
 
     <!--ticket box pop up-->
+    <div id="overlay" class="overlay hidden"></div>
     <div id="ticketBox" class="ticketBox hidden">
-        <div class="signInContent">
             <div class="ticket-content">
                 <!-- Dynamic content will be injected here -->
             </div>
             <div class="close-btn" onclick="closeTicketBox()">×</div>
-        </div>
     </div>
 
     <!--Cancel Booking pop up -->
@@ -315,9 +314,9 @@ function toggleTicketBox(booking, schedule, bus , user) {
 
             <div class="ticket-body">
                 <div class="info">
-                    <p><strong>Route no:</strong> ${bus.route}</p>
-                    <p><strong>Bus number:</strong> ${bus.License_id}</p>
-                    <p><strong>Ticket Reference No:</strong> ${booking.id}</p>
+                    <p><strong>Route No:</strong>&nbsp;&nbsp; ${bus.route}</p>
+                    <p><strong>Bus Number:</strong>&nbsp;&nbsp; ${bus.License_id}</p>
+                    <p><strong>Ticket Reference No:</strong>&nbsp;&nbsp; ${booking.id}</p>
                 </div>
                 <div class="price">
                     <h3>LKR ${booking.total_price ? Number(booking.total_price).toFixed(2) : "0.00"}</h3>
@@ -329,10 +328,10 @@ function toggleTicketBox(booking, schedule, bus , user) {
 
             <div class="ticket-footer">
                 <div class="passenger-info">
-                    <p><strong>Name:</strong> ${user.Name}</p>
-                    <p><strong>NIC No:</strong> ${user.NIC}</p>
-                    <p><strong>Seat numbers:</strong> ${booking['Seats']}</p>
-                    <p><strong>No of seats:</strong> ${booking.No_of_seats}</p>
+                    <p><strong>Name:</strong>&nbsp;&nbsp; ${user.Name}</p>
+                    <p><strong>NIC No:</strong>&nbsp;&nbsp; ${user.NIC}</p>
+                    <p><strong>Seat Numbers:</strong>&nbsp;&nbsp; ${booking['Seats']}</p>
+                    <p><strong>No of Seats:</strong>&nbsp;&nbsp; ${booking.No_of_seats}</p>
                 </div>
                 <div class="qr-code">
                     <!-- QR code placeholder -->
@@ -438,9 +437,18 @@ function toggleTicketBox(booking, schedule, bus , user) {
             form.submit();
         }
 
+        function openTicketBox() {
+            document.getElementById('ticketBox').classList.remove('hidden');
+            document.getElementById('overlay').classList.remove('hidden');
+        }
 
-
+        function closeTicketBox() {
+            document.getElementById('ticketBox').classList.add('hidden');
+            document.getElementById('overlay').classList.add('hidden');
+        }
     </script>
+
+    
 
 </body>
 </html>
