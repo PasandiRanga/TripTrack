@@ -53,6 +53,7 @@
             >
         </div>
 
+        <!--
         <div class="form-group">
             <label for="busType">Bus Type:</label>
             <select 
@@ -61,11 +62,11 @@
                 name="busType" 
                 required
             >
-                <option value="1" <?php echo (isset($data['busDetails']['busType']) && $data['busDetails']['busType'] == '1') ? 'selected' : ''; ?>>1</option>
-                <option value="2" <?php echo (isset($data['busDetails']['busType']) && $data['busDetails']['busType'] == '2') ? 'selected' : ''; ?>>2</option>
+                <option value="1" <//?php echo (isset($data['busDetails']['busType']) && $data['busDetails']['busType'] == '1') ? 'selected' : ''; ?>>1</option>
+                <option value="2" <//?php echo (isset($data['busDetails']['busType']) && $data['busDetails']['busType'] == '2') ? 'selected' : ''; ?>>2</option>
             </select>
         </div>
-
+        -->
         <div class="form-group">
             <label for="stops">Stops:</label>
             <textarea 

@@ -12,18 +12,18 @@ class M_SuperAdminPages {
 
     // Add a new bus
     public function addBus($data) {
-        $this->db->query("INSERT INTO bus (License_id, routeNumber, route, busType, stops, start_location, destination, rating, passengers, price, priceperkm) 
-                           VALUES (:licence_id, :route_no, :route, :bus_type, :stops, :starts, :destination, :ratings, :passengers, :price, :price_per_km)");
+        $this->db->query("INSERT INTO bus (License_id, routeNumber, route, stops, start_location, destination, passengers, price, priceperkm) 
+                           VALUES (:licence_id, :route_no, :route, :stops, :starts, :destination, :passengers, :price, :price_per_km)");
 
         // Bind parameters
         $this->db->bind(':licence_id', $data['licence_id']);
         $this->db->bind(':route_no', $data['route_no']);
         $this->db->bind(':route', $data['route']);
-        $this->db->bind(':bus_type', $data['bus_type']);
+        //$this->db->bind(':bus_type', $data['bus_type']);
         $this->db->bind(':stops', $data['stops']);
         $this->db->bind(':starts', $data['starts']);
         $this->db->bind(':destination', $data['destination']);
-        $this->db->bind(':ratings', $data['ratings']);
+        //$this->db->bind(':ratings', $data['ratings']);
         $this->db->bind(':passengers', $data['passengers']);
         $this->db->bind(':price', $data['price']);
         $this->db->bind(':price_per_km', $data['price_per_km']);
@@ -66,7 +66,6 @@ class M_SuperAdminPages {
         $this->db->query('UPDATE bus SET 
             routeNumber = :routeNumber,
             route = :route,
-            busType = :busType,
             stops = :stops,
             start_location = :start_location,
             destination = :destination,
@@ -78,7 +77,7 @@ class M_SuperAdminPages {
         // Bind parameters
         $this->db->bind(':routeNumber', $data['routeNumber']);
         $this->db->bind(':route', $data['route']);
-        $this->db->bind(':busType', $data['busType']);
+        //$this->db->bind(':busType', $data['busType']);
         $this->db->bind(':stops', $data['stops']);
         $this->db->bind(':start_location', $data['start_location']);
         $this->db->bind(':destination', $data['destination']);
