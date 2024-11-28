@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    background-color: #063946;
+    background-color: #263043;
     font-family: "Arial", sans-serif;
 }
 
@@ -30,17 +30,15 @@ body{
 
 .header {
     grid-area: header;
-    height: 5px;
+    height: 65px;
     background-color: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px 0 30px;
     box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
     margin-left: auto;
-    margin-top: 40px;
 }
 .header-right{
-    margin-top: 1%;
     margin-left: auto; /* Pushes this element to the right */
     display: flex; /* Make header-right a flex container for its items */
     gap: 30px;
@@ -49,6 +47,12 @@ body{
     margin-right: 100%; /* Pushes this element to the right */
     display: flex; /* Make header-right a flex container for its items */
 }
+
+.logo {
+    height: 67px; /* Adjust height to fit the header */
+    object-fit: contain; /* Ensure logo fits well */
+}
+
 .header-dashboard{
     display: flex;
     justify-content: space-between;
@@ -112,6 +116,7 @@ body{
     background-color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
 }
+
 .sidebar-responsive {
     display: inline !important;
     position: absolute;
@@ -121,6 +126,8 @@ body{
 .main-container{
     grid-area: main;
     background-color: beige;
+    padding-left: 20px;
+    padding-right: 20px;
     padding-bottom: 40px;
 }
 
@@ -131,6 +138,8 @@ body{
     color: black;
     font-size: 20px;
     margin-left: 28px;
+    padding-top: 17px;
+    padding-bottom: 0;
 }
 
 @media screen and (max-width: 992px) {
@@ -162,7 +171,15 @@ body{
     display: flex;
     gap:30px;
     margin-bottom: 20px;
-    margin-left: 10px;
+    margin-left: 12px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.h3:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    width: 100%;
 }
 
 table {
