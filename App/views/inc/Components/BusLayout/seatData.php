@@ -21,7 +21,7 @@ $seatData = [
     ],
     // Bus with 36 seats layout (seatType 2)
     [
-        'seatType' => '2',
+        'seatType' => '45',
         'seats' => [
             [1, '', '', '', '', ''],      // Row with gaps
             [2, 3, '', 4, 5, 6],

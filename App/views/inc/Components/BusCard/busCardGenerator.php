@@ -34,8 +34,10 @@ usort($busData, function ($a, $b) {
     return $b['rating'] <=> $a['rating'];
 });
 
-$topRatedBuses = array_slice($busData, 0, 16);
+$topRatedBuses = array_slice($busData, 0, 12);
 
+
+$displayedCards = 0;
 
 $currentDate = date('Y-m-d'); // Get the current date in the format 'YYYY-MM-DD'
 
@@ -54,7 +56,8 @@ foreach ($topRatedBuses as $bus) {
                     // Default case for other roles (if any)
                     echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
-            ?>'">            
+            ?>'">   
+                     
             <div class="bus-card-header">
                     <div class="route-info">
                         <h2><?php echo $bus['route']; ?></h2>
@@ -147,7 +150,13 @@ foreach ($topRatedBuses as $bus) {
                 </div>
             </div>
             <?php
+             $displayedCards++;
+             break; 
+
         }
+    }
+     if ($displayedCards >= 12) {
+        break;
     }
 }
 ?>
