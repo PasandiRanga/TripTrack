@@ -37,10 +37,10 @@
         <label for="bus_type">Bus Type:</label>
         <input type="text" id="bus_type" name="bus_type" required placeholder="e.g., Luxury, Semi-Luxury">
     </div> -->
-        <select id="bus_type" class="bus-type" name="bus_type">
+        <!-- <select id="bus_type" class="bus-type" name="bus_type">
             <option value="1">1</option>
             <option value="2">2</option>
-    </div>
+    </div> -->
 
     <div class="form-group">
         <label for="stops">Stops:</label>
