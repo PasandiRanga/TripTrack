@@ -38,6 +38,8 @@
 
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
 
+    <button class="view_delays-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/viewDelays'">Previous Delays</button>
+
     <h1>Inform Delays</h1>
 
         <div class="container">

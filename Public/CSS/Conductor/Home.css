@@ -187,9 +187,10 @@ table {
     border-collapse: collapse; /* Removes gaps between table cells */
     margin-top: 20px;
     margin-bottom: 40px;
-    background-color: #f9f9f9;
+    background-color: white;
     overflow: hidden;
     margin: 0 auto;
+    border-radius: 10px;
 }
 
 /* Table Header Styling */
@@ -207,7 +208,7 @@ table th {
 table td {
     padding: 18px;
     text-align: center;
-    border: 1px solid #ddd;
+    /*border: 1px solid #ddd;*/
     font-size: 18px;
 }
 
