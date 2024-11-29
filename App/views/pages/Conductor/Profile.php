@@ -50,7 +50,9 @@
 
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
 
-    <h1>Employee Profile</h1>
+    <div class="page-header">
+        <h1>Employee Profile</h1>
+    </div>
 
     <!-- Profile Container -->
     <div class="profile-container">
@@ -62,9 +64,8 @@
             <!--<button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>-->         
             <h2><?php echo $profile['name']; ?></h2>
             <p><?php echo $profile['employee_id']; ?></p>
-            <div class="btn">
-                <button class="logout-button" onclick="Openpopup()"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>  LogOut</button>
-            </div>
+
+            <button class="logout-button" onclick="Openpopup()"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>  LogOut</button>
         </div>
 
         <!-- Right Side: User Details -->
