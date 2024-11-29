@@ -69,7 +69,7 @@
             $this->db->bind(':to_date', $data['to_date']);
             $this->db->bind(':noOfDays', $data['noOfDays']);
             $this->db->bind(':reason', $data['reason']);
-            $this->db->bind(':status', 'Yet to approve');
+            /*$this->db->bind(':status', 'Yet to approve');*/
 
             return $this->db->execute();
             
