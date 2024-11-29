@@ -61,7 +61,11 @@
                     'to_date' => trim($_POST['to_date']),
                     'noOfDays' => trim($_POST['noOfDays']),
                     'reason' => trim($_POST['reason']),
+                    'status' => trim($_POST['status']),
                 ];
+
+                // print_r($data);
+                // exit();
 
                 $this->ConductorpagesModel->addLeaves($data);
 

@@ -61,14 +61,16 @@
         }
 
         public function addLeaves($data) {
-            $this->db->query("INSERT INTO employee_leave (employee_id, from_date, to_date, no_of_days, reason)
-                                VALUES (:employeeId, :from_date, :to_date, :noOfDays, :reason)");
+            
+            $this->db->query("INSERT INTO employee_leave (employee_id, from_date, to_date, no_of_days, reason , status)
+                                VALUES (:employeeId, :from_date, :to_date, :noOfDays, :reason , :status)");
 
             $this->db->bind(':employeeId', $data['employeeId']);
             $this->db->bind(':from_date', $data['from_date']);
             $this->db->bind(':to_date', $data['to_date']);
             $this->db->bind(':noOfDays', $data['noOfDays']);
             $this->db->bind(':reason', $data['reason']);
+            $this->db->bind(':status', $data['status']);
             /*$this->db->bind(':status', 'Yet to approve');*/
 
             return $this->db->execute();
