@@ -29,13 +29,15 @@
 
                 $this->ConductorpagesModel->addDelays($data);
 
+                header("Location: " . URLROOT . "/ConductorPages/viewDelays");
+
                 // Call the model method to add the bus
-                if ($this->ConductorpagesModel->addDelays($data)) {
+                /*if ($this->ConductorpagesModel->addDelays($data)) {
                     // Redirect to the fleet page on success
-                    header("Location: " . URLROOT . "/ConductorPages/home");
+                    header("Location: " . URLROOT . "/ConductorPages/viewDelays");
                 } else {
                     die("Error: Unable to add the delay.");
-                }
+                }*/
             } else {
                 
                 $this->view('pages/Conductor/InformDelays');
@@ -138,6 +140,18 @@
             exit();*/
 
             $this->view('pages/Conductor/ViewLeaveRequests', $data);
+        }
+
+        public function viewDelays() {
+            $delays = $this->ConductorpagesModel->getDelays($_SESSION['user_id']);
+
+            $data = [
+                'delay' => $delays
+            ];
+
+            
+
+            $this->view('pages/Conductor/ViewDelays', $data);
         }
 
         public function updateLeaveRequests() {

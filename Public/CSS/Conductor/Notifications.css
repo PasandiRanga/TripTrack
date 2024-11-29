@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background-color: beige !important;
+    background-color: #f4f7fa !important;
 }
 
 .back-button {
@@ -17,6 +17,8 @@ body {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
+    top: 15px;
+    left: 15px;
 }
 
 .back-button:hover {
@@ -27,6 +29,7 @@ h1 {
     text-align: center;
     margin: 0;
     margin-bottom: 15px;
+    margin-top: -50px;
     font-size: 2.5rem;
     color: #063946;
 }

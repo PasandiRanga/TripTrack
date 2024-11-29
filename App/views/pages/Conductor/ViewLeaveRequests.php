@@ -107,9 +107,9 @@
         const defaultColor = '#9e9ea4';
 
         // Default display
-        document.getElementById('notReviewedRequests').style.display = 'none';
-        document.getElementById('reviewedRequests').style.display = 'table';
-        document.getElementById('showReviewedRequests').style.color = '#4CAF50';
+        document.getElementById('reviewedRequests').style.display = 'none';
+        document.getElementById('notReviewedRequests').style.display = 'table';
+        document.getElementById('showNotReviewed').style.color = '#4CAF50';
 
         // Tab click events
         document.getElementById('showReviewedRequests').addEventListener('click', function () {

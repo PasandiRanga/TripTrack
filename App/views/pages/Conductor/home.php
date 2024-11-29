@@ -1,4 +1,4 @@
--<?php
+<?php
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Conductor' , 'Driver']);
 ?>
@@ -38,11 +38,12 @@
             <div class="menu-icons" onclick="openSidebar()">
                 <span class="material-icons-outlined">menu</span>
             </div>
-            <!--
+
             <div class="header-left">
-                <span class="material-icons-outlined">search</span>
+                
+                <img src="../Public/images/logo.png" alt="Logo" class="logo">
             </div>
-            
+            <!--
             <div class="header-right">
                 <span class="material-icons-outlined">notifications</span>
                 <span class="material-icons-outlined">email</span>
@@ -72,14 +73,14 @@
                     <span class="text">Scan QR Code</span>
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/informDelays'">
-                    <i class="fa-solid fa-clock"></i>
-                    <span class="text">Inform Delays</span>
-                </li>
-
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave'">
                     <i class="fa-solid fa-upload"></i>
                     <span class="text">Request Leaves</span>
+                </li>
+
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/informDelays'">
+                    <i class="fa-solid fa-clock"></i>
+                    <span class="text">Inform Delays</span>
                 </li>
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/notifications'">
@@ -100,13 +101,9 @@
                 <h2>Dashboard</h2>
             </div>
 
-            <br>
             <div class="container">
                 <h3 class="clickable" id="showUpcomingAssigns">Upcoming Schedule</h3>
                 <h3 class="clickable" id="showPastAssigns">Past Schedule</h3>
- 
-                <!--<div class="search-container">
-                <button class="search-button" onclick="searchFleet()">Search</button>-->
 
                 <div class="filter-container">
                     <button class="clear-button" onclick="resetFilter()">Clear</button>

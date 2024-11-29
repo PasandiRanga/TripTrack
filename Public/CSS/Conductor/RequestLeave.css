@@ -1,9 +1,8 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: beige !important;
+    background-color: #f4f7fa !important;
     margin: 0;
     padding: 0;
-    color: #333;
 }
 
 .back-button, .view_requests-button {
