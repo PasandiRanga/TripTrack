@@ -50,12 +50,14 @@ h1 {
 table {
     width: 95%;
     border-collapse: collapse; /* Removes gaps between table cells */
-    margin-top: 20px;
+    margin-top: 50px;
     margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
     background-color: white;
     overflow: hidden;
-    margin: 0 auto;
     border-radius: 10px;
+    /*margin: 0 auto;*/
 }
 
 table th {

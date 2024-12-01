@@ -69,6 +69,7 @@
             $this->db->bind(':to_date', $data['to_date']);
             $this->db->bind(':noOfDays', $data['noOfDays']);
             $this->db->bind(':reason', $data['reason']);
+            /*$this->db->bind(':status', 'Yet to approve');*/
 
             return $this->db->execute();
             
@@ -98,6 +99,12 @@
             $this->db->query('SELECT * FROM employee_leave WHERE employee_id=:userId');
 
             $this->db->bind(":userId",$userId);
+
+            return $this->db->resultSet();
+        }
+
+        public function getDelays() {
+            $this->db->query('SELECT * FROM bus_delay');
 
             return $this->db->resultSet();
         }
