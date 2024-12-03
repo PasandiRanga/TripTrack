@@ -76,6 +76,8 @@ h1 {
 .fleet-table td {
     padding: 12px;
     text-align: center;
+    height: auto;
+    max-width: 300px;
 }
 
 .fleet-table th {
@@ -85,7 +87,9 @@ h1 {
     padding: 12px;
     text-align: center;
 }
-
+.fleet-table tr.expand{
+    height: auto;
+}
 .fleet-table tr.selected {
     background-color: #d3d3d3; /* Light grey color */
 }
