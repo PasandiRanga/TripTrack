@@ -28,7 +28,7 @@
     $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
     echo("<script>console.log('User Role: $formUserRole');</script>");
 
-    // Set `userRole` and `currentController` based on the form data or session
+    // Set zuserRole and currentController based on the form data or session
     if ($formUserRole === 'GuestUser') {
         $userRole = 'GuestUser';
         $currentController = 'GuestPages';
