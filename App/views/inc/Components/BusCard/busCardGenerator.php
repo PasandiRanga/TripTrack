@@ -49,12 +49,12 @@ foreach ($topRatedBuses as $bus) {
             <div class="bus-card" onclick="window.location.href = '<?php 
                 // Check userRole and adjust the URL accordingly
                 if ($userRole === 'GuestUser') {
-                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } elseif ($userRole === 'RegisteredUser') {
-                    echo URLROOT . '/RegisteredPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/RegisteredPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } else {
                     // Default case for other roles (if any)
-                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
             ?>'">   
                      
