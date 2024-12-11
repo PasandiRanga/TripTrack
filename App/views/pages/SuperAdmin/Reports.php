@@ -40,7 +40,7 @@
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
-    <h1>Monthly Report</h1>
+    <h1>Daily Report</h1>
 
     <!-- Report Table -->
     <div class="report-table-container">
