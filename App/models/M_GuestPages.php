@@ -45,6 +45,14 @@
                 }
             }
 
+            public function getScheduleByDate($date){
+                $this->db->query('SELECT * FROM schedule WHERE date = :date');
+                $this->db->bind(':date', $date);
+                return $this->db->resultSet();
+            }
+
+            
+
             //login the user
             public function login($email, $password) {
 
