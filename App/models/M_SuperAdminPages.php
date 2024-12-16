@@ -200,6 +200,25 @@ class M_SuperAdminPages {
         $this->db->query('SELECT * FROM support_request');
         return $this->db->resultSet();
     }
+//------------------------------------------------------------------------------------------------------------------------------------
+    //boxex in the dashboard 
 
+//------------------------------------------------------------------------------------------------------------------------------------
+    public function getTotalIncome() {
+        $this->db->query("
+            SELECT 
+                (SELECT IFNULL(SUM(total_price), 0) FROM registeredbooking) AS registered_income,
+                (SELECT IFNULL(SUM(total_price), 0) FROM guestbooking) AS guest_income
+        ");
+
+        $result = $this->db->single(); // Fetch the single row
+        return $result; // Returns ['registered_income' => X, 'guest_income' => Y]
+    }
+
+    public function getTotalCustomers() {
+        $this->db->query("SELECT COUNT(User_id) AS total_customers FROM customer");
+        $result = $this->db->single();
+        return $result['total_customers'] ?? 0;
+    }
 }
 ?>

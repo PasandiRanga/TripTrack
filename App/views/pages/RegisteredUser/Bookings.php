@@ -241,9 +241,6 @@
                                         <?php echo htmlspecialchars(json_encode($userData), ENT_QUOTES, 'UTF-8'); ?>
 
                                 )">View Ticket</button>
-
-                         
-
                             </td>
 
                         </tr>
