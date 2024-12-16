@@ -481,6 +481,24 @@
                 exit();
             }
         }
+
+        public function filterBusByDate() {
+            if (!isset($_GET['date'])) {
+                return;
+            }
+
+            $scheduleData = $this->GuestpagesModel->getScheduleByDate($_GET['date']);
+            $busData = $this->GuestpagesModel->getBusDetails();
+            
+            $data = [
+                'schedule' => $scheduleData,
+                'bus' => $busData,
+                'currentController' => 'GuestPages',
+                'currentMethod' => 'home',
+            ];
+
+            require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
+        }
     }  
 
 ?>

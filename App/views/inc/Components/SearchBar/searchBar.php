@@ -99,6 +99,9 @@
         const travelDate = document.getElementById('travelDate').value;
         console.log(from, to, travelDate);
 
+        // Update date bar selection when searching
+        updateDateBarSelection(travelDate);
+
         // Filter the busData for buses that have the 'from' and 'to' in their 'stops' field
         const filteredBusIds = busData.filter(bus => {
             if (bus.stops) {
@@ -254,6 +257,19 @@ function formatStops(stopsArray) {
     }
 }
 
-
+function updateDateBarSelection(selectedDate) {
+    const dateItems = document.querySelectorAll('.date-item');
+    dateItems.forEach(item => {
+        const itemDate = item.dataset.date;
+        if (itemDate === selectedDate) {
+            // Remove active class from all items
+            dateItems.forEach(di => di.classList.remove('active'));
+            // Add active class to matching date
+            item.classList.add('active');
+            // Scroll the date into view
+            item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    });
+}
 
 </script>
