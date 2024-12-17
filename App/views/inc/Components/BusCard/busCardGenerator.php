@@ -32,15 +32,11 @@
 // Get the selected date from the query parameter, default to current date if none selected
 $selectedDate = $_GET['date'] ?? date('Y-m-d');
 
-// Sort $busData based on the 'rating' key in descending order
-usort($busData, function ($a, $b) {
-    return $b['rating'] <=> $a['rating'];
-});
-
-$topRatedBuses = array_slice($busData, 0, 12);
+// Initialize the counter before the loop
 $displayedCards = 0;
 
-foreach ($topRatedBuses as $bus) {
+// Instead, iterate through all buses
+foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
         // Check if the schedule matches the selected date
@@ -147,12 +143,8 @@ foreach ($topRatedBuses as $bus) {
                 </div>
             </div>
             <?php
-            $displayedCards++;
-            break;
+            $displayedCards++; // Increment counter when a bus card is displayed
         }
-    }
-    if ($displayedCards >= 12) {
-        break;
     }
 }
 

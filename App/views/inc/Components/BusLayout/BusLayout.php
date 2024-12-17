@@ -59,7 +59,8 @@
     <br/>
     <?php require APPROOT . '/views/inc/Components/Header/header.php'; ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
+    <!-- Add this after the seat layout div -->
+   
     <div class="layout-container">
         <!-- Seat Layout -->
         <?php
@@ -147,6 +148,65 @@
                 }
             }
         ?>
+    
+    <!-- Add this after the seat layout div -->
+<div class="map-container">
+    <h3>Bus Route Map</h3>
+    <iframe
+        id="googleMap"
+        width="100%"
+        height="450"
+        style="border:0"
+        loading="lazy"
+        allowfullscreen>
+    </iframe>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const busStops = <?php echo json_encode(array_map('trim', $busStops)); ?>;
+    
+    // Get first (origin) and last (destination) stops
+    const origin = encodeURIComponent(busStops[0] + ', Sri Lanka');
+    const destination = encodeURIComponent(busStops[busStops.length - 1] + ', Sri Lanka');
+    
+    // Create waypoints string for intermediate stops
+    const waypoints = busStops.slice(1, -1).map(stop => 
+        encodeURIComponent(stop + ', Sri Lanka')
+    ).join('|');
+    
+    // Create the Google Maps embed URL with transit mode
+    const mapUrl = `https://www.google.com/maps/embed/v1/directions`
+        + `?key=YOUR_API_KEY`
+        + `&origin=${origin}`
+        + `&destination=${destination}`
+        + (waypoints ? `&waypoints=${waypoints}` : '')
+        + `&mode=transit`; // Just use transit mode without specifying bus
+
+    // Alternative simpler URL that works without API key
+    const simpleTransitUrl = `https://www.google.com/maps?`
+        + `saddr=${origin}`
+        + `&daddr=${destination}`
+        + `&dirflg=r` // 'r' specifies transit/public transport mode
+        + `&output=embed`;
+
+    // Use the simpler URL if you don't have an API key
+    document.getElementById('googleMap').src = simpleTransitUrl;
+});
+</script>
+
+<style>
+.map-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#googleMap {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+</style>
 
     <div class="all-container"> 
         <div class="bus-info">
@@ -245,7 +305,6 @@
         // Fetch reviews dynamically via AJAX
         fetch('<?php echo URLROOT; ?>/RegisteredPages/getReviews?License_id=' + licenseId)
         // console.log (licenseId)
-            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     console.log(data.reviews);
@@ -399,76 +458,6 @@
     </div>
 </div>
 
-
-
-
-<style>
-    /* Base seat styling */
-    .number-button {
-        background-image: url('<?php echo URLROOT; ?>/public/images/seat.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        width: 50px;
-        height: 50px;
-        color: transparent;
-        font-size: 0;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
-    }
-
-    /* Selected seat styling */
-    .number-button.selected {
-        background-color: #28a745; /* Green tint for selected seats */
-        border: 2px solid #1e7e34;
-        box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
-        position: relative;
-    }
-
-    /* Booked/disabled seat styling */
-    .number-button.booked {
-        background-color: #dc3545; /* Red tint for booked seats */
-        opacity: 0.7;
-        cursor: not-allowed;
-        position: relative;
-    }
-
-    /* Empty space styling */
-    .disable {
-        background: transparent;
-        border: none;
-        cursor: default;
-        width: 50px;
-        height: 50px;
-    }
-
-    /* Optional: Add tooltips for seat status */
-    .number-button.booked::after {
-        content: 'Booked';
-        position: absolute;
-        top: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #000;
-        color: white;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-size: 12px;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .number-button.booked:hover::after {
-        opacity: 1;
-    }
-
-    /* Hover effects for available seats */
-    .number-button:not(.booked):hover {
-        transform: scale(1.1);
-        border: 2px solid #007bff;
-    }
-</style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const numberButtons = document.querySelectorAll('.number-button:not(.booked)');
@@ -552,6 +541,7 @@
         return true;
     }
 </script>
+
 
 
 </body>
