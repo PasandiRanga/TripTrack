@@ -39,22 +39,28 @@ $displayedCards = 0;
 foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
+        //find the matching route data for the bus
+        foreach ($routeData as $route) {
+            if ($route['route_no'] === $bus['route_no'] && $route['from_location'] === $bus['from_location'] && $route['to_location'] === $bus['to_location'] && $route['type'] === $bus['type']) {
+                $busRoute = $route;
+            }
+        }
         // Check if the schedule matches the selected date
-        if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
+        if ($schedule['license_number'] === $bus['license_number'] && $schedule['date'] === $selectedDate) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
                 if ($userRole === 'GuestUser') {
-                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?license_number=' . urlencode($bus['license_number']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } elseif ($userRole === 'RegisteredUser') {
-                    echo URLROOT . '/RegisteredPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/RegisteredPages/busLayout?license_number=' . urlencode($bus['license_number']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } else {
-                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?license_number=' . urlencode($bus['license_number']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
             ?>'">
                 <div class="bus-card-header">
                     <div class="route-info">
-                        <h2><?php echo $bus['route']; ?></h2>
-                        <span class="bus-type">Route :<?php echo $bus['routeNumber']; ?></span>
+                        <h2><?php echo $busRoute['from_location'] . ' - ' . $busRoute['to_location']; ?></h2>
+                        <span class="bus-type">Route :<?php echo $busRoute['route_no']; ?></span>
                     </div>
                 </div>
                 <div class="bus-card-timing">
@@ -89,9 +95,9 @@ foreach ($busData as $bus) {
                     <div class="route-stops">
                         <?php 
                         // Ensure that 'stops' is not empty and is a string before processing
-                            if (!empty($bus['stops']) && is_string($bus['stops'])) {
+                            if (!empty($busRoute['stops']) && is_string($busRoute['stops'])) {
                                 // Convert the string of stops into an array
-                                $stopsArray = explode(',', $bus['stops']);
+                                $stopsArray = explode(',', $busRoute['stops']);
 
                                 // Count the number of stops
                                 $totalStops = count($stopsArray);
@@ -138,7 +144,7 @@ foreach ($busData as $bus) {
                 </div>
 
                     <div class="price">
-                        <span><?php echo $schedule['price']; ?></span>
+                        <span><?php echo $busRoute['price']; ?></span>
                     </div>
                 </div>
             </div>

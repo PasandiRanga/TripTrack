@@ -24,13 +24,9 @@
 
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
-    $distanceData = $data['distance'] ?? [];
-    // Console log the distanceData array
-    if (is_array($distanceData)) {
-        echo "<script>console.log('Distance Data:', " . json_encode($distanceData) . ");</script>";
-    } else {
-        echo "<script>console.log('Distance Data is not an array');</script>";
-    }
+    $routeData = $data['route'] ?? [];
+
+    
     // Retrieve the user role from the form submission or session
     $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
     echo("<script>console.log('User Role: $formUserRole');</script>");
@@ -67,7 +63,7 @@
             include 'seatData.php';
         
             // Retrieve data from POST
-            $License_id = $_GET['License_id'] ?? null;
+            $license_number = $_GET['license_number'] ?? null;
             $scheduleId = $_GET['scheduleId'] ?? null;
            
             // Find the selected bus and schedule to get booked seats
@@ -75,7 +71,7 @@
             $bookedSeats = [];
             $pricePerSeat = 0;
             $busLayout = [];
-            $leastPrice = 0;
+        
 
             // Find the selected bus and schedule to get booked seats
             foreach ($scheduleData as $schedule) {
@@ -87,16 +83,24 @@
 
             // Find the respective bus and see the bus type
             foreach($busData as $bus) {
-                if ($bus['License_id'] === $License_id) {
+                if ($bus['license_number'] === $license_number) {
                     $selectedBus = $bus;
                     echo "<script>console.log('Selected bus:', " . json_encode($selectedBus) . ");</script>";
-                    $busType = $bus['passengers'];
-                    $leastPrice = $bus['priceperkm'];
-                    // echo($leastPrice);
+                    $busType = $bus['no_of_seats'];
+                    
                     break;
                 }
             }
 
+            foreach($routeData as $route){
+                if ($route['route_no'] === $selectedBus['route_no'] && $route['from_location'] === $selectedBus['from_location'] && $route['type'] === $selectedBus['type'] ) {
+                    $selectedRoute = $route;
+                    $pricePerSeat = $route['price'];
+                    // echo ''. json_encode($selectedRoute) . 'no routes';
+                    
+                }
+            }
+           
             // Calculate the price per seat based on the distance
             
 
@@ -132,22 +136,25 @@
 
         <?php
             $busStops = [];
-            if (isset($selectedBus['stops']) && !empty($selectedBus['stops'])) {
+            if (isset($selectedRoute['stops']) && !empty($selectedRoute['stops'])) {
                 // Convert the stops text into an array by splitting it at commas
-                $busStops = explode(',', $selectedBus['stops']);
+                $busStops = explode(',', $selectedRoute['stops']);
+                
             } else {
                 $busStops = ["No stops available"];
             }
             // Find the selected schedule for the bus
             if ($selectedBus) {
                 foreach ($scheduleData as $schedule) {
-                    if ($schedule['License_id'] == $License_id && $schedule['scheduleId'] == $scheduleId) {
+                    if ($schedule['license_number'] == $license_number && $schedule['scheduleId'] == $scheduleId) {
                             $selectedSchedule = $schedule;
                             break;
                     }
                 }
             }
         ?>
+
+       
     
     <!-- Add this after the seat layout div -->
 <div class="map-container">
@@ -211,11 +218,11 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="all-container"> 
         <div class="bus-info">
             <div class="route-container">
-                <h2><?php echo htmlspecialchars($selectedBus['route']); ?></h2>
+                <h2><?php echo $selectedRoute['from_location'] . ' - ' . $selectedRoute['to_location']; ?></h2>
                 <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
             </div>
-            <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['License_id']); ?></p>
-            <p><strong>Route Number:</strong> <?php echo htmlspecialchars($selectedBus['routeNumber']); ?></p>
+            <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['license_number']); ?></p>
+            <p><strong>Route Number:</strong> <?php echo htmlspecialchars($selectedBus['route_no']); ?></p>
             <p><strong>Available Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['availableSeats']); ?></p>
             <div class="rating">
                 <?php
@@ -269,12 +276,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <!--Price-->
                 <div class="price-container">
-                    <p class="highlight"><?php echo htmlspecialchars($selectedSchedule['price']); ?></p>
+                    <p class="highlight">Rs. <?php echo htmlspecialchars($selectedRoute['price']); ?></p>
                 </div>
                 
                 <!--buttons-->
                 <div class="view-button">
-                    <button onclick="openReviewsModal('<?php echo htmlspecialchars($selectedBus['License_id']); ?>')">View reviews</button>
+                    <button onclick="openReviewsModal('<?php echo htmlspecialchars($selectedBus['license_number']); ?>')">View reviews</button>
                 </div>
         </div>
 
@@ -293,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Script loading...');
 
-    function openReviewsModal(licenseId) {
+     function openReviewsModal(licenseId) {
         console.log(licenseId);
         const modal = document.getElementById('reviewsModal');
         const reviewsContainer = document.getElementById('reviewsContainer');
@@ -305,6 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fetch reviews dynamically via AJAX
         fetch('<?php echo URLROOT; ?>/RegisteredPages/getReviews?License_id=' + licenseId)
         // console.log (licenseId)
+            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     console.log(data.reviews);
@@ -334,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="booking-form">
         <h2>Book Your Seat</h2>
         <form id="bookingForm" action="<?php echo URLROOT; ?>/<?php echo $userRole === 'RegisteredUser' ? 'RegisteredPages/registeredReceipt' : 'GuestPages/guestReceipt'; ?>" method="post" onsubmit="return validateBookingForm()">
-        <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($selectedBus['License_id']); ?>">
+        <input type="hidden" name="license_number" value="<?php echo htmlspecialchars($selectedBus['license_number']); ?>">
         <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
             <div class="form-group">

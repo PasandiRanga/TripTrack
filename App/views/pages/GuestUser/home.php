@@ -31,7 +31,8 @@
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
-    
+    $routeData = $data['route'] ?? [];
+
     ?>
 
     <script>

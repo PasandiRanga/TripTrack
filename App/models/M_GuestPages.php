@@ -46,7 +46,7 @@
             }
 
             public function getScheduleByDate($date){
-                $this->db->query('SELECT * FROM schedule WHERE date = :date');
+                $this->db->query('SELECT * FROM schedules WHERE date = :date');
                 $this->db->bind(':date', $date);
                 return $this->db->resultSet();
             }
@@ -126,7 +126,7 @@
         public function getSchedule(){
             try {
                 // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM schedule');
+                $this->db->query('SELECT * FROM schedules');
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 // Log or handle error
@@ -140,7 +140,7 @@
         public function getBusDetails(){
             try {
                 // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM bus');
+                $this->db->query('SELECT * FROM buses');
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 // Log or handle error
@@ -159,6 +159,20 @@
             } catch (Exception $e) {
                 // Log or handle error
                 error_log("Error fetching bus details: " . $e->getMessage());
+                // Log to console
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return []; // Return an empty array on error
+            }
+        }
+
+        public function getRoute(){
+            try {
+                // If you need all columns, this is fine
+                $this->db->query('SELECT * FROM route');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                // Log or handle error
+                error_log("Error fetching route details: " . $e->getMessage());
                 // Log to console
                 echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return []; // Return an empty array on error
