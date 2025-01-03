@@ -27,6 +27,8 @@
     $routeData = $data['route'] ?? [];
 
     
+
+    
     // Retrieve the user role from the form submission or session
     $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
     echo("<script>console.log('User Role: $formUserRole');</script>");
@@ -76,7 +78,10 @@
             // Find the selected bus and schedule to get booked seats
             foreach ($scheduleData as $schedule) {
                 if ($schedule['scheduleId'] === $scheduleId) {
-                    $bookedSeats = array_map('trim', explode(',', $schedule['bookedSeats']));
+                    $bookedSeatsString = trim($schedule['bookedSeats']);
+                    $bookedSeats = !empty($bookedSeatsString) ? 
+                        array_map('trim', explode(',', $bookedSeatsString)) : 
+                        [];
                     break;
                 }
             }
@@ -120,7 +125,7 @@
                 foreach ($row as $seat) {
                     if ($seat === '') {
                         echo '<button class="disable"></button>'; // Disabled seat (empty spaces)
-                    } elseif (in_array($seat, $bookedSeats)) {
+                    } elseif (in_array(trim($seat), $bookedSeats)) {
                         // Booked seat: non-clickable and styled differently
                         echo '<button class="number-button booked" disabled>' . htmlspecialchars($seat) . '</button>';
                     } else {
@@ -158,13 +163,14 @@
     
     <!-- Add this after the seat layout div -->
 <div class="map-container">
-    <h3>Bus Route Map</h3>
+    <h3>Bus Route Map - Route <?php echo htmlspecialchars($selectedBus['route_no']); ?></h3>
     <iframe
         id="googleMap"
         width="100%"
         height="450"
         style="border:0"
         loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
         allowfullscreen>
     </iframe>
 </div>
@@ -172,33 +178,35 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const busStops = <?php echo json_encode(array_map('trim', $busStops)); ?>;
+    const routeNo = <?php echo json_encode($selectedBus['route_no']); ?>;
     
-    // Get first (origin) and last (destination) stops
-    const origin = encodeURIComponent(busStops[0] + ', Sri Lanka');
-    const destination = encodeURIComponent(busStops[busStops.length - 1] + ', Sri Lanka');
-    
-    // Create waypoints string for intermediate stops
-    const waypoints = busStops.slice(1, -1).map(stop => 
-        encodeURIComponent(stop + ', Sri Lanka')
-    ).join('|');
-    
-    // Create the Google Maps embed URL with transit mode
-    const mapUrl = `https://www.google.com/maps/embed/v1/directions`
-        + `?key=YOUR_API_KEY`
-        + `&origin=${origin}`
-        + `&destination=${destination}`
-        + (waypoints ? `&waypoints=${waypoints}` : '')
-        + `&mode=transit`; // Just use transit mode without specifying bus
+    try {
+        // Create a more specific search query focusing on Sri Lanka
+        const fromLocation = encodeURIComponent(busStops[0] + ', Sri Lanka');
+        const toLocation = encodeURIComponent(busStops[busStops.length - 1] + ', Sri Lanka');
+        
+        // Use directions instead of search to show the route
+        const simpleRouteUrl = `https://maps.google.com/maps?`
+            + `saddr=${fromLocation}`
+            + `&daddr=${toLocation}`
+            + `&t=m` // Map type: m = normal map
+            + `&z=9` // Higher zoom level (closer view)
+            + `&output=embed`
+            + `&ie=UTF8`
+            + `&ll=7.8731,80.7718` // Coordinates for Sri Lanka's center
+            + `&spn=3.0,3.0`; // Viewport span
 
-    // Alternative simpler URL that works without API key
-    const simpleTransitUrl = `https://www.google.com/maps?`
-        + `saddr=${origin}`
-        + `&daddr=${destination}`
-        + `&dirflg=r` // 'r' specifies transit/public transport mode
-        + `&output=embed`;
-
-    // Use the simpler URL if you don't have an API key
-    document.getElementById('googleMap').src = simpleTransitUrl;
+        // Set the iframe src with error handling
+        const mapFrame = document.getElementById('googleMap');
+        mapFrame.onerror = function() {
+            mapFrame.parentElement.innerHTML = '<p>Unable to load map. Please try again later.</p>';
+        };
+        mapFrame.src = simpleRouteUrl;
+    } catch (error) {
+        console.error('Error loading map:', error);
+        document.getElementById('googleMap').parentElement.innerHTML = 
+            '<p>Unable to load map. Please try again later.</p>';
+    }
 });
 </script>
 
@@ -206,7 +214,8 @@ document.addEventListener('DOMContentLoaded', function() {
 .map-container {
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 20px auto;
+    padding: 10px;
 }
 
 #googleMap {
@@ -218,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="all-container"> 
         <div class="bus-info">
             <div class="route-container">
-                <h2><?php echo $selectedRoute['from_location'] . ' - ' . $selectedRoute['to_location']; ?></h2>
+                <h2><?php echo $selectedBus['from_location'] . ' - ' . $selectedBus['to_location']; ?></h2>
                 <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
             </div>
             <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['license_number']); ?></p>
@@ -451,11 +460,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="checkbox" name="receiveTicket[]" value="Email"> Email
                 <input type="checkbox" name="receiveTicket[]" value="SMS"> SMS
             </div>
-            <p><strong>Price per Seat:</strong>&nbsp;&nbsp; Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
+
+            <!-- Add hidden input fields for price information -->
+            <input type="hidden" name="pricePerSeat" value="<?php echo htmlspecialchars($pricePerSeat); ?>">
+            <input type="hidden" name="totalPrice" id="totalPriceInput" value="0" >
+            
+            <p><strong>Price per Seat:</strong>&nbsp;&nbsp; Rs.<span id="pricePerSeat" ><?php echo htmlspecialchars($pricePerSeat); ?></span></p>
             <p><strong>Total Price:</strong> &nbsp;&nbsp;Rs. <span id="total-price">0</span></p>
             
                 
-                <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>
+            <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>
             
             <!-- <button type="submit">Proceed</button> -->
         </form>
@@ -493,7 +507,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update form inputs and displays
                 selectedSeatsInput.value = selectedSeats.join(', ');
                 noOfSeatsInput.value = selectedSeats.length;
-                totalPriceDisplay.textContent = (selectedSeats.length * pricePerSeat).toFixed(2);
+                const totalPrice = selectedSeats.length * pricePerSeat;
+                totalPriceDisplay.textContent = totalPrice.toFixed(2);
+                
+                // Update hidden total price input
+                document.getElementById('totalPriceInput').setAttribute('value', totalPrice.toFixed(2));
 
                 // Enable/disable checkout button based on seat selection and form validation
                 validateFormFields();
