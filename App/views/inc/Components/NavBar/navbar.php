@@ -79,7 +79,7 @@ if (!function_exists('isCurrentPage')) {
             // }
             ?>
         </div>
-        <button id="navbar-toggle" class="navbar-toggle">&#9776;</button>
+        <button id="navbar-toggle" class="navbar-toggle" aria-label="Toggle navigation">&#9776;</button>
     </div>
 </nav>
 
@@ -87,12 +87,32 @@ if (!function_exists('isCurrentPage')) {
 document.addEventListener('DOMContentLoaded', function() {
     const navbarToggle = document.getElementById('navbar-toggle');
     const navbarItems = document.getElementById('navbar-items');
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'navbar-overlay';
+    document.body.appendChild(overlay);
 
-    navbarToggle.addEventListener('click', function() {
+    navbarToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
         navbarItems.classList.toggle('active');
+        overlay.classList.toggle('active');
+    });
+
+    // Close menu when clicking overlay
+    overlay.addEventListener('click', function() {
+        navbarItems.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!navbarItems.contains(e.target) && !navbarToggle.contains(e.target)) {
+            navbarItems.classList.remove('active');
+            overlay.classList.remove('active');
+        }
     });
 });
-
 </script>
 
 </body>
