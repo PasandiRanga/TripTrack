@@ -142,6 +142,24 @@ class SuperAdminPages extends Controller {
         }
     }
 
+    public function getTotalBuses() {
+        if ($_SERVER['ReQUEST_METHOD'] == 'POST') {
+            $searchTerm = trim($_POST['searchTerm']);
+
+            //load the Model
+            $result = $this->SuperAdminModel->getBusCount($searchTerm);
+
+            $data = [
+                'searchTerm' => $searchTerm,
+                'total_buses' => $result['total_buses'] 
+            ];
+
+            $this->view('pages/SperAdmin/Fleet', $data);
+        }
+        else {
+            $this->view('pages/SuperAdmin/Fleet');
+        }
+    }
     public function getAllFleet() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // Fetch all fleet data from the model

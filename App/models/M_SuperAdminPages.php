@@ -101,6 +101,13 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    //Get the total count of buses
+    public function getBusCount($searchTerm){
+        $this->db->query("SELECT COUNT(*) AS total_buses FROM buses WHERE license_id = :searchTerm OR route_number = :searchTerm");
+        $this->db->bind(':searchTerm', $searchTerm);
+        return $this->db->single();
+    }
+
     // Retrieve all fleet data
     public function getAllFleet() {
         $sql = "SELECT * FROM bus";
