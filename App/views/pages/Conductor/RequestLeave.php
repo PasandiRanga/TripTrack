@@ -51,6 +51,7 @@
                 <h2>Fill the following details</h2>
 
                 <form id="leaveForm" method="POST" action="<?php echo URLROOT; ?>/ConductorPages/RequestLeave">
+                <input type="hidden" name="status" value="Yet to review">
 
                     <div class="form-group">
                         <div>

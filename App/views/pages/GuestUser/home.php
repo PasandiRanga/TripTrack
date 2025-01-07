@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/home.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/DateBar/dateBar.css?v=<?php echo time(); ?>">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,6 +83,26 @@
         <div class="searchbar-container">
             <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
         </div>
+
+        <div class="date-bar-container">
+    <div class="date-scroll">
+        <?php
+        // Get current date and create dates for next 7 days
+        $dates = [];
+        for ($i = 0; $i < 20; $i++) {
+            $date = date('Y-m-d', strtotime("+$i days"));
+            $formattedDate = date('M d', strtotime($date));
+            $dayName = date('D', strtotime($date));
+            $isToday = $i === 0;
+            
+            echo "<div class='date-item" . ($isToday ? " active" : "") . "' data-date='$date'>
+                    <span class='day-name'>$dayName</span>
+                    <span class='date-number'>$formattedDate</span>
+                  </div>";
+        }
+        ?>
+    </div>
+</div>
         
         <div id="bus-card-container" class="bus-card-container">
             <?php 
@@ -94,7 +114,36 @@
         
         <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dateItems = document.querySelectorAll('.date-item');
+    const travelDateInput = document.getElementById('travelDate');
     
+    dateItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all items
+            dateItems.forEach(di => di.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Get the selected date
+            const selectedDate = this.dataset.date;
+            
+            // Update the search bar date input
+            travelDateInput.value = selectedDate;
+            
+            fetch(`${URLROOT}/GuestPages/filterBusByDate?date=${selectedDate}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('bus-card-container').innerHTML = html;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+});
+</script>
+    
+
 </body>
 </html>

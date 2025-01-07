@@ -129,7 +129,7 @@ try {
         <br/><br/>
         <!-- Download Button -->
         <button class="download no-print" onclick="downloadPDF()">Download PDF</button>
-        <a href="#back" class="back-button" onClick="window.location.href='<?php echo URLROOT; ?>/GuestPages/home'">
+        <a href="#back" class="back-button" onClick="window.location.href='<?php echo URLROOT; ?>/RegisteredPages/home'">
             <i class="fa-solid fa-arrow-left"></i> Back
         </a>
 

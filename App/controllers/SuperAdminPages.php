@@ -9,7 +9,22 @@ class SuperAdminPages extends Controller {
     }
 
     public function home() {
-        $this->view('pages/SuperAdmin/Dashboard');
+            $income = $this->SuperAdminModel->getTotalIncome();
+            $totalcustomers = $this->SuperAdminModel->getTotalCustomers();
+            // Calculate the total income
+            $totalIncome = $income['registered_income'] + $income['guest_income'];
+
+            // Pass the data to the view or return as JSON (API)
+            $data = [
+                'registered_income' => $income['registered_income'],
+                'guest_income' => $income['guest_income'],
+                'total_income' => $totalIncome,
+                'total_customers' => $totalcustomers
+            ];
+
+
+
+        $this->view('pages/SuperAdmin/Dashboard',$data);
     }
 
     public function fleet() {
@@ -405,5 +420,11 @@ class SuperAdminPages extends Controller {
         ];
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //boxex in the dashboard 
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    
 }
 ?>

@@ -29,36 +29,33 @@
        
 <?php
 
+// Get the selected date from the query parameter, default to current date if none selected
+$selectedDate = $_GET['date'] ?? date('Y-m-d');
+
 // Sort $busData based on the 'rating' key in descending order
 usort($busData, function ($a, $b) {
     return $b['rating'] <=> $a['rating'];
 });
 
 $topRatedBuses = array_slice($busData, 0, 12);
-
-
 $displayedCards = 0;
-
-$currentDate = date('Y-m-d'); // Get the current date in the format 'YYYY-MM-DD'
 
 foreach ($topRatedBuses as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
-        if ($schedule['License_id'] === $bus['License_id']  && $schedule['date'] >= $currentDate) {
+        // Check if the schedule matches the selected date
+        if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
-                // Check userRole and adjust the URL accordingly
                 if ($userRole === 'GuestUser') {
-                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } elseif ($userRole === 'RegisteredUser') {
-                    echo URLROOT . '/RegisteredPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/RegisteredPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } else {
-                    // Default case for other roles (if any)
-                    echo URLROOT . '/GuestPages/BusBooking?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
-            ?>'">   
-                     
-            <div class="bus-card-header">
+            ?>'">
+                <div class="bus-card-header">
                     <div class="route-info">
                         <h2><?php echo $bus['route']; ?></h2>
                         <span class="bus-type">Route :<?php echo $bus['routeNumber']; ?></span>
@@ -150,14 +147,18 @@ foreach ($topRatedBuses as $bus) {
                 </div>
             </div>
             <?php
-             $displayedCards++;
-             break; 
-
+            $displayedCards++;
+            break;
         }
     }
-     if ($displayedCards >= 12) {
+    if ($displayedCards >= 12) {
         break;
     }
+}
+
+// If no buses found for the selected date
+if ($displayedCards === 0) {
+    echo '<div class="no-buses-message">No buses available for the selected date.</div>';
 }
 ?>
 
