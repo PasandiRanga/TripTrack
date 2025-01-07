@@ -69,13 +69,13 @@
     <div class="search-container">
         <label for="search">Search: </label>
         <input type="text" id="search" class="search-input" placeholder="Search buses...">
-        <?php if (isset($data['total_buses'])): ?>
-            <h3>Total Buses Found for "<?php echo $data['searchTerm']; ?>": <?php echo $data['total_buses']; ?></h3>
-        <?php endif; ?>
+        
         <button class="search-button" onclick="searchFleet()">Search</button>
         <button class="search-button-clear" onclick="clearSearch()">Clear</button>
     </div>
-    
+    <?php if (isset($data['total_buses'])): ?>
+            <h3>Total Buses Found for "<?php echo $data['searchTerm']; ?>": <?php echo $data['total_buses']; ?></h3>
+    <?php endif; ?>
     
 
     <!-- Fleet table -->
