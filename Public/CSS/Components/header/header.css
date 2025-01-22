@@ -10,8 +10,9 @@ html, body {
     display: flex;
     padding: 15px;
     width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
     box-sizing: border-box;
-    display: flex;
     justify-content: space-between;
     align-items: center;
     height: 60px;
@@ -21,19 +22,21 @@ html, body {
     margin-left:50px;
     margin-right:50px;
     background-color: #FFF;
+    align-content: center;
 }
 
-.navbar-container{
-    display: flex;
-    align-items: center;
-    margin-left: 600px;
-   
+.navbarContainer {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    position: relative;
+    width: auto;
 }
 
 /* Inner container for logo and topic */
 .abc {
     display: flex;
     align-items: center;
+    flex: 1;
 }
 
 /* Logo styling */
@@ -93,7 +96,8 @@ li {
 .user-section {
     display: flex;
     align-items: center;
-    gap: 20px; /* Space between the icon and login button */
+    gap: 20px;
+    margin-left: 20px;
 }
 
 /*-----------------------NOTIFICATION ICON-------------------------*/
@@ -315,5 +319,138 @@ li {
     overflow: hidden;
     border: 1px solid #002b38;
 
+}
+
+/* Add media queries for mobile responsiveness */
+@media (max-width: 1290px) {
+    .header {
+        flex-wrap: wrap;
+        height: 60px;
+        padding: 10px;
+    }
+
+    .abc {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .navbarContainer {
+        margin-right: 30px;
+        justify-content: flex-end; /* Maintain right alignment */
+    }
+
+    .topic {
+        font-size: 18px;  /* Smaller font for mobile */
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .user-section {
+        margin-left: auto;
+    }
+
+    /* Adjust notification box position for mobile */
+    .notifi-box {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+    }
+}
+
+@media (max-width: 992px) {
+    .header {
+        width: 98%;
+    }
+    
+    .navbar-container {
+        margin-right: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap;
+        height: 60px;
+        padding: 10px;
+    }
+
+    .abc {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .navbarContainer {
+        width: auto;
+        order: unset;
+        margin: 0;
+    }
+
+    .navbar-toggle {
+        display: block !important;
+        /* margin-left: auto !important; */
+        /* justify-content: flex-end; */
+    }
+}
+
+/* Update the xyz class to better handle flex layout */
+.xyz {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+/* Update the xyz ul styling */
+.xyz ul {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+/* Add styles for the navbar toggle button */
+.navbar-toggle {
+    margin-left: auto !important; /* Force right alignment */
+    padding-right: 0 !important; /* Remove right padding */
+}
+
+/* Ensure the navbar container in the navbar.php file is properly positioned */
+#navbar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+/* Style the toggle button specifically */
+#navbar-toggle {
+    margin-left: auto !important;
+    padding: 10px;
+    display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+    .abc {
+        width: 100%;
+        position: relative;
+    }
+
+    #navbar-toggle {
+        display: block !important;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #navbar-items {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 200px; /* or your preferred width */
+    }
 }
 

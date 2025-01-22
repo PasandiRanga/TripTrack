@@ -19,13 +19,16 @@
             // Retrieve bus details
             $bus = $this->RegisteredpagesModel->getBusDetails();
 
-            $distance = $this->RegisteredpagesModel->getDistance();
+            $route = $this->RegisteredpagesModel->getRoute();
+
+            // $distance = $this->RegisteredpagesModel->getDistance();
             
             // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
-                'distance' => $distance
+                // 'distance' => $distance
+                'route' => $route
             ];
             $this->view('pages/RegisteredUser/home' , $data);
         }
@@ -327,6 +330,26 @@
                 header('Location: ' . URLROOT . '/RegisteredPages/contactUs');
                 exit();
             }
+        }
+
+        public function filterBusByDate() {
+            if (!isset($_GET['date'])) {
+                return;
+            }
+
+            $scheduleData = $this->RegisteredpagesModel->getScheduleByDate($_GET['date']);
+            $busData = $this->RegisteredpagesModel->getBusDetails();
+            $routeData = $this->RegisteredpagesModel->getRoute();
+            
+            $data = [
+                'schedule' => $scheduleData,
+                'bus' => $busData,
+                'route' => $routeData,
+                'currentController' => 'RegisteredPages',
+                'currentMethod' => 'home',
+            ];
+
+            require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
         }
 
 

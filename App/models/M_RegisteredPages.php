@@ -31,13 +31,17 @@
                 $this->db->query("SELECT Seats FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
-                var_dump($seats);
+                if (!$seats) {
+                    throw new Exception("Booking not found");
+                }
 
                 //Get the booked seats for schedule
                 $this->db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
                 $this->db->bind(':scheduleId', $scheduleId);
                 $bookedSeats = $this->db->single();
-                var_dump($bookedSeats);
+                if (!$bookedSeats) {
+                    throw new Exception("Schedule not found");
+                }
 
                  // Convert the comma-separated strings into arrays
                 $seatsArray = explode(',', $seats['Seats']); // Convert booked seats into an array
@@ -212,7 +216,7 @@
                 ON 
                     r.User_id = c.User_id
                 WHERE 
-                    r.License_id = :License_id
+                    r.license_number = :License_id
             ");
             $this->db->bind(':License_id', $licenseId);
             return $this->db->resultSet();
@@ -230,8 +234,26 @@
             // Execute the statement
             return $this->db->execute();
         }
+
+        public function getRoute(){
+            try {
+                // If you need all columns, this is fine
+                $this->db->query('SELECT * FROM route');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                // Log or handle error
+                error_log("Error fetching route details: " . $e->getMessage());
+                // Log to console
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return []; // Return an empty array on error
+            }
+        }
         
-        
+        public function getScheduleByDate($date){
+                $this->db->query('SELECT * FROM schedule WHERE date = :date');
+                $this->db->bind(':date', $date);
+                return $this->db->resultSet();
+            }
         
     }
 ?>

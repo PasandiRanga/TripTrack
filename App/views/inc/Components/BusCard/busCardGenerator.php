@@ -32,27 +32,29 @@
 // Get the selected date from the query parameter, default to current date if none selected
 $selectedDate = $_GET['date'] ?? date('Y-m-d');
 
-// Sort $busData based on the 'rating' key in descending order
-usort($busData, function ($a, $b) {
-    return $b['rating'] <=> $a['rating'];
-});
-
-$topRatedBuses = array_slice($busData, 0, 12);
+// Initialize the counter before the loop
 $displayedCards = 0;
 
-foreach ($topRatedBuses as $bus) {
+// Instead, iterate through all buses
+foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
+        //find the matching route data for the bus
+        foreach ($routeData as $route) {
+            if ($route['route_no'] === $bus['route_no'] && $route['from_location'] === $bus['from_location'] && $route['to_location'] === $bus['to_location'] && $route['type'] === $bus['type']) {
+                $busRoute = $route;
+            }
+        }
         // Check if the schedule matches the selected date
         if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
                 if ($userRole === 'GuestUser') {
-                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?Licenseid=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } elseif ($userRole === 'RegisteredUser') {
-                    echo URLROOT . '/RegisteredPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/RegisteredPages/busLayout?Licenseid=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } else {
-                    echo URLROOT . '/GuestPages/busLayout?License_id=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
+                    echo URLROOT . '/GuestPages/busLayout?Licenseid=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 }
             ?>'">
                 <div class="bus-card-header">
@@ -142,17 +144,13 @@ foreach ($topRatedBuses as $bus) {
                 </div>
 
                     <div class="price">
-                        <span><?php echo $schedule['price']; ?></span>
+                        <span><?php echo $bus['price']; ?></span>
                     </div>
                 </div>
             </div>
             <?php
-            $displayedCards++;
-            break;
+            $displayedCards++; // Increment counter when a bus card is displayed
         }
-    }
-    if ($displayedCards >= 12) {
-        break;
     }
 }
 

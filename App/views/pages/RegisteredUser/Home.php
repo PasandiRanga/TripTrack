@@ -1,7 +1,3 @@
-<?php
-    require_once APPROOT.'/helpers/auth_check.php';
-    authCheck(['RegisteredUser']);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +11,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/home.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/DateBar/dateBar.css?v=<?php echo time(); ?>">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,42 +20,51 @@
 <body>
 
     <script>
-        var userRole = <?php echo json_encode($_SESSION['user_role'] ?? 'RegisteredUser'); ?>;
-        localStorage.setItem('user_role', userRole);
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
+        localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
-    // 
-    if(isset($_SESSION['user_id'])){
-        $userID = $_SESSION['user_id'];
-    }
-    else{
-        header('Location: ' . URLROOT . '/GuestPages/home');
-        exit();
-    }
+    $userId = $_SESSION['user_id'] ?? '';
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
-    echo "<script>console.log('User Role: $userRole');</script>";
+    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
+    $routeData = $data['route'] ?? [];
+
     ?>
 
     <script>
         var scheduleData = <?php echo json_encode($scheduleData); ?>;
         var busData = <?php echo json_encode($busData); ?>;
-        var userID = <?php echo json_encode($userID); ?>;
+        var userId = <?php echo json_encode($userId); ?>;
+        var userRole = <?php echo json_encode($userRole); ?>;
+        var routeData = <?php echo json_encode($routeData); ?>;
         console.log("Schedule Data: ", scheduleData);
-        console.log("Bus Data: ", busData); 
-        console.log("User ID: ", userID); 
+        console.log("Bus Data: ", busData);
+        console.log("User ID: ", userId);
+        console.log("User Role: ", userRole);  
+        console.log("Route Data: ", routeData);
     </script>
 
 <?php
+   
+    // $headerData = [
+    //     'showPopup' => $data['show_pop'] ?? false,
+    //     'email' => $data['email'] ?? '',
+    //     'password_err' => $data['password_err'] ?? '',
+    //     'email_err' => $data['email_err'] ?? ''
+    // ];
+
     $data = [
         'currentController' => 'RegisteredPages', // Adjust this based on your controller
         'currentMethod' => 'home', // Adjust this based on the method
         'userRole' => $userRole,
     ];
+
+    // echo '<pre>' . print_r($headerData,true) . '</pre>';
+
     
     ?>
     
@@ -74,12 +79,33 @@
   
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     </div>
+
     
     <div class="body-section">
-    <br>
+        <br>
         <div class="searchbar-container">
-        <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
+            <?php require APPROOT.'/views/inc/Components/SearchBar/searchBar.php'; ?>
         </div>
+
+        <div class="date-bar-container">
+    <div class="date-scroll">
+        <?php
+        // Get current date and create dates for next 7 days
+        $dates = [];
+        for ($i = 0; $i < 20; $i++) {
+            $date = date('Y-m-d', strtotime("+$i days"));
+            $formattedDate = date('M d', strtotime($date));
+            $dayName = date('D', strtotime($date));
+            $isToday = $i === 0;
+            
+            echo "<div class='date-item" . ($isToday ? " active" : "") . "' data-date='$date'>
+                    <span class='day-name'>$dayName</span>
+                    <span class='date-number'>$formattedDate</span>
+                  </div>";
+        }
+        ?>
+    </div>
+</div>
         
         <div id="bus-card-container" class="bus-card-container">
             <?php 
@@ -91,7 +117,36 @@
         
         <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dateItems = document.querySelectorAll('.date-item');
+    const travelDateInput = document.getElementById('travelDate');
     
+    dateItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all items
+            dateItems.forEach(di => di.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Get the selected date
+            const selectedDate = this.dataset.date;
+            
+            // Update the search bar date input
+            travelDateInput.value = selectedDate;
+            
+            fetch(`${URLROOT}/RegisteredPages/filterBusByDate?date=${selectedDate}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('bus-card-container').innerHTML = html;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+});
+</script>
+    
+
 </body>
 </html>

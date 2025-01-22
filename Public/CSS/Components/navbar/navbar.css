@@ -25,9 +25,9 @@
 .navbar #navbar-items {
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
-    width: fit-content; 
-    flex-direction: row;
+    white-space: nowrap;
+    width: auto;
+    flex-shrink: 0;
 }
 
 .navbar .navbar-item {
@@ -42,6 +42,7 @@
     text-decoration: none;
     font-family: poppins;
     font-weight: bold;
+    flex-shrink: 0;
 }
 
 .navbar .navbar-item .text {
@@ -81,70 +82,58 @@
 }
 
 @media (max-width: 768px) {
-    .navbar #navbar-items {
-        /* display: none */
-        flex-direction: column;
+    .navbar {
         width: auto;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #185a9d;
-        border-radius: 0 0 50px 50px;
+        padding: 0;
     }
 
-    .navbar .navbar-toggle {
-        display: block;
+    #navbar-container {
+        width: auto;
+        position: relative;
     }
 
-    .navbar #navbar-items.active {
-        display: flex;
-    }
-
-    .navbar .navbar-item {
-        padding: 15px;
-        text-align: center;
-        border-top: 1px solid #ddd;
-    }
-
-    .navbar .navbar-item.selected {
-        background-color: #f0f0f0;
-        color: #185a9d;
-        font-weight: bold;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .navbar .navbar-item .text {
-        display: inline-block !important; /* Always show text */
-        margin-left: 5px;
-    }
-    
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
     #navbar-items {
-        display: none;
-        flex-direction: column;
+        display: none !important;
         position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: #185a9d;
-        border-radius: 0 0 10px 10px;
+        top: calc(100% + 10px); /* Position it below the header with some spacing */
+        right: 0;
+        width: 200px; /* Fixed width for the dropdown */
+        background-color: white;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 10px 0;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(-10px);
+        z-index: 1000;
     }
 
     #navbar-items.active {
-        display: flex;
+        display: block !important;
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .navbar-item {
-        padding: 15px;
-        text-align: center;
-        border-bottom: 1px solid #ddd;
+        display: block;
+        width: 100%;
+        padding: 12px 20px;
+        margin: 0;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        box-sizing: border-box;
     }
 
     .navbar-item:last-child {
         border-bottom: none;
+    }
+
+    .navbar-toggle {
+        display: block !important;
+        padding: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
     }
 }
