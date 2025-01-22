@@ -36,7 +36,7 @@
                 }
 
                 //Get the booked seats for schedule
-                $this->db->query("SELECT bookedSeats FROM schedules WHERE scheduleId = :scheduleId");
+                $this->db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
                 $this->db->bind(':scheduleId', $scheduleId);
                 $bookedSeats = $this->db->single();
                 if (!$bookedSeats) {
@@ -54,7 +54,7 @@
                 $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
 
                 //Update the booked seat
-                $this->db->query("UPDATE schedules SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
+                $this->db->query("UPDATE schedule SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
                 $this->db->bind(':bookedSeats', $bookedSeats);
                 $this->db->bind(':scheduleId', $scheduleId);
                 $this->db->execute();
@@ -85,7 +85,7 @@
         public function getSchedule(){
             try {
                 // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM schedules');
+                $this->db->query('SELECT * FROM schedule');
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 // Log or handle error
@@ -98,7 +98,7 @@
         public function getBusDetails(){
             try {
                 // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM buses');
+                $this->db->query('SELECT * FROM bus');
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 // Log or handle error
@@ -250,7 +250,7 @@
         }
         
         public function getScheduleByDate($date){
-                $this->db->query('SELECT * FROM schedules WHERE date = :date');
+                $this->db->query('SELECT * FROM schedule WHERE date = :date');
                 $this->db->bind(':date', $date);
                 return $this->db->resultSet();
             }

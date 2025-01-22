@@ -25,6 +25,7 @@
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $routeData = $data['route'] ?? [];
+    $distanceData = $data['distance'] ?? [];
 
     
 
@@ -65,8 +66,11 @@
             include 'seatData.php';
         
             // Retrieve data from POST
-            $license_number = $_GET['license_number'] ?? null;
+            $License_id = $_GET['Licenseid'] ?? null;
             $scheduleId = $_GET['scheduleId'] ?? null;
+            echo "<script>console.log('Licenseid :', " . json_encode($License_id) . ");</script>";
+            echo "<script>console.log('Scheduleid :', " . json_encode($scheduleId) . ");</script>";
+
            
             // Find the selected bus and schedule to get booked seats
             $selectedBus = null;
@@ -78,35 +82,32 @@
             // Find the selected bus and schedule to get booked seats
             foreach ($scheduleData as $schedule) {
                 if ($schedule['scheduleId'] === $scheduleId) {
+                    echo "<script>console.log('Selected schedule:', " . json_encode($schedule) . ");</script>";
                     $bookedSeatsString = trim($schedule['bookedSeats']);
                     $bookedSeats = !empty($bookedSeatsString) ? 
                         array_map('trim', explode(',', $bookedSeatsString)) : 
                         [];
+                    $pricePerSeat = $schedule['price'];
                     break;
                 }
             }
 
             // Find the respective bus and see the bus type
             foreach($busData as $bus) {
-                if ($bus['license_number'] === $license_number) {
+                if ($bus['License_id'] === $License_id) {
                     $selectedBus = $bus;
                     echo "<script>console.log('Selected bus:', " . json_encode($selectedBus) . ");</script>";
-                    $busType = $bus['no_of_seats'];
-                    
+                    $busType = $bus['passengers'];
+                    $leastPrice = $bus['priceperkm'];
                     break;
                 }
             }
 
-            foreach($routeData as $route){
-                if ($route['route_no'] === $selectedBus['route_no'] && $route['from_location'] === $selectedBus['from_location'] && $route['type'] === $selectedBus['type'] ) {
-                    $selectedRoute = $route;
-                    $pricePerSeat = $route['price'];
-                    // echo ''. json_encode($selectedRoute) . 'no routes';
-                    
-                }
-            }
+            
            
-            // Calculate the price per seat based on the distance
+            
+    
+
             
 
             // egt the respective seat layout
@@ -141,9 +142,9 @@
 
         <?php
             $busStops = [];
-            if (isset($selectedRoute['stops']) && !empty($selectedRoute['stops'])) {
+            if (isset($selectedBus['stops']) && !empty($selectedBus['stops'])) {
                 // Convert the stops text into an array by splitting it at commas
-                $busStops = explode(',', $selectedRoute['stops']);
+                $busStops = explode(',', $selectedBus['stops']);
                 
             } else {
                 $busStops = ["No stops available"];
@@ -151,7 +152,7 @@
             // Find the selected schedule for the bus
             if ($selectedBus) {
                 foreach ($scheduleData as $schedule) {
-                    if ($schedule['license_number'] == $license_number && $schedule['scheduleId'] == $scheduleId) {
+                    if ($schedule['License_id'] == $License_id && $schedule['scheduleId'] == $scheduleId) {
                             $selectedSchedule = $schedule;
                             break;
                     }
@@ -163,7 +164,7 @@
     
     <!-- Add this after the seat layout div -->
 <div class="map-container">
-    <h3>Bus Route Map - Route <?php echo htmlspecialchars($selectedBus['route_no']); ?></h3>
+    <h3>Bus Route Map - Route <?php echo htmlspecialchars($selectedBus['routeNumber']); ?></h3>
     <iframe
         id="googleMap"
         width="100%"
@@ -227,11 +228,11 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="all-container"> 
         <div class="bus-info">
             <div class="route-container">
-                <h2><?php echo $selectedBus['from_location'] . ' - ' . $selectedBus['to_location']; ?></h2>
+                <h2><?php echo $selectedBus['route']; ?></h2>
                 <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
             </div>
-            <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['license_number']); ?></p>
-            <p><strong>Route Number:</strong> <?php echo htmlspecialchars($selectedBus['route_no']); ?></p>
+            <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['License_id']); ?></p>
+            <p><strong>Route Number:</strong> <?php echo htmlspecialchars($selectedBus['routeNumber']); ?></p>
             <p><strong>Available Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['availableSeats']); ?></p>
             <div class="rating">
                 <?php
@@ -285,12 +286,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <!--Price-->
                 <div class="price-container">
-                    <p class="highlight">Rs. <?php echo htmlspecialchars($selectedRoute['price']); ?></p>
+                    <p class="highlight">Rs. <?php echo htmlspecialchars($selectedBus['price']); ?></p>
                 </div>
                 
                 <!--buttons-->
                 <div class="view-button">
-                    <button onclick="openReviewsModal('<?php echo htmlspecialchars($selectedBus['license_number']); ?>')">View reviews</button>
+                    <button onclick="openReviewsModal('<?php echo htmlspecialchars($selectedBus['License_id']); ?>')">View reviews</button>
                 </div>
         </div>
 
@@ -351,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="booking-form">
         <h2>Book Your Seat</h2>
         <form id="bookingForm" action="<?php echo URLROOT; ?>/<?php echo $userRole === 'RegisteredUser' ? 'RegisteredPages/registeredReceipt' : 'GuestPages/guestReceipt'; ?>" method="post" onsubmit="return validateBookingForm()">
-        <input type="hidden" name="license_number" value="<?php echo htmlspecialchars($selectedBus['license_number']); ?>">
+        <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($selectedBus['License_id']); ?>">
         <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
             <div class="form-group">
@@ -402,6 +403,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         ?>
                     </select>
                 </div>
+                <?php
+                // Assign the selected value to $from when the form is submitted
+                $from = $_POST['from'] ?? null; // Ensure to handle the case where 'from' is not set
+                ?>
 
                 <!-- 'To' Dropdown (Arrival) -->
                 <div>
@@ -424,6 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 </div>
             </div>
+            
             <script>
                 function validateForm() {
                     var from = document.getElementById("from").value;
@@ -480,8 +486,62 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </div>
 
+<?php $selectedBusJSON = json_encode($selectedBus);
+$distanceDataJSON = json_encode($distanceData);
+echo "<script>
+    const selectedBus = $selectedBusJSON;
+    const distanceData = $distanceDataJSON;
+    const leastPrice = $leastPrice;
+</script>";
+?>
+
 <script>
+
+    // Update event listeners for dropdowns
+    document.getElementById('from').addEventListener('change', function() {
+        from = this.value;
+        updatePrice();
+    });
+
+    document.getElementById('to').addEventListener('change', function() {
+        to = this.value;
+        updatePrice();
+    });
+
+    function updatePrice() {
+        if (!from || !to) return;
+        
+        fetch('calculatePrice.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from: from,
+                to: to,
+                selectedBus: selectedBus,
+                distanceData: distanceData,
+                leastPrice: leastPrice
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const pricePerSeatElement = document.getElementById('pricePerSeat');
+            const totalPriceElement = document.getElementById('total-price');
+            const noOfSeats = parseInt(document.getElementById('noOfseats').value) || 0;
+            
+            pricePerSeatElement.textContent = data.price.toFixed(2);
+            totalPriceElement.textContent = (data.price * noOfSeats).toFixed(2);
+            
+            // Update hidden input
+            document.getElementById('totalPriceInput').value = (data.price * noOfSeats).toFixed(2);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+
+        
         const numberButtons = document.querySelectorAll('.number-button:not(.booked)');
         const selectedSeatsInput = document.getElementById('selectedSeats');
         const noOfSeatsInput = document.getElementById('noOfseats');

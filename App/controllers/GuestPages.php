@@ -55,6 +55,8 @@
             $distance = $this->GuestpagesModel->getDistance();
 
             $route = $this->GuestpagesModel->getRoute();
+
+            $distance = $this->GuestpagesModel->getDistance();
             
             // Combine the schedule and bus details into a single data array
             $data = [
