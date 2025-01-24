@@ -44,7 +44,7 @@
                         }
                         ?>
                     </li>
-                    <li class="navbar-container"><?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?></li>
+                    <li class="navbarContainer"><?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?></li>
                 </ul>
             </div>
         </div>

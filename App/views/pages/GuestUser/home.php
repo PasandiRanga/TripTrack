@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/home.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/DateBar/dateBar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/DateBar/dateBar.css?v=<?php echo time(); ?>">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +31,8 @@
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
-    
+    $routeData = $data['route'] ?? [];
+
     ?>
 
     <script>
@@ -39,10 +40,12 @@
         var busData = <?php echo json_encode($busData); ?>;
         var userId = <?php echo json_encode($userId); ?>;
         var userRole = <?php echo json_encode($userRole); ?>;
+        var routeData = <?php echo json_encode($routeData); ?>;
         console.log("Schedule Data: ", scheduleData);
         console.log("Bus Data: ", busData);
         console.log("User ID: ", userId);
         console.log("User Role: ", userRole);  
+        console.log("Route Data: ", routeData);
     </script>
 
 <?php

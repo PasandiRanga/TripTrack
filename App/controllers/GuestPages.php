@@ -26,12 +26,15 @@
             $bus = $this->GuestpagesModel->getBusDetails();
 
             $distance = $this->GuestpagesModel->getDistance();
+
+            $route = $this->GuestpagesModel->getRoute();
             
             // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
-                'distance' => $distance
+                'distance' => $distance,
+                'route' => $route
             ];
 
             // Call the home view with schedule data
@@ -50,12 +53,17 @@
             $bus = $this->GuestpagesModel->getBusDetails();
 
             $distance = $this->GuestpagesModel->getDistance();
+
+            $route = $this->GuestpagesModel->getRoute();
+
+            $distance = $this->GuestpagesModel->getDistance();
             
             // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
-                'distance' => $distance
+                'distance' => $distance,
+                'route' => $route
             ];
             // var_dump($schedule); // To check if schedule data is loaded
             // var_dump($bus);
@@ -489,10 +497,12 @@
 
             $scheduleData = $this->GuestpagesModel->getScheduleByDate($_GET['date']);
             $busData = $this->GuestpagesModel->getBusDetails();
+            $routeData = $this->GuestpagesModel->getRoute();
             
             $data = [
                 'schedule' => $scheduleData,
                 'bus' => $busData,
+                'route' => $routeData,
                 'currentController' => 'GuestPages',
                 'currentMethod' => 'home',
             ];
