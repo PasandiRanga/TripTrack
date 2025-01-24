@@ -1,27 +1,34 @@
+/* General Body Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
     background-color: #f4f4f4;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-start; /* Align items from left to right */
+    align-items: flex-start;
+    flex-direction: row; /* Keep form and tables side by side */
 }
 
+/* Styling for the Heading */
 h2 {
     color: #333;
     text-align: center;
+    width: 100%; /* Make sure the header spans the entire width */
+    margin-bottom: 20px; /* Add space below the header */
 }
 
+/* Notification Form Styling */
 .notification-form {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 300px; /* Fixed width for form */
     text-align: left;
 }
 
+/* Form Field Styling */
 .notification-form label {
     display: block;
     margin: 10px 0 5px;
@@ -39,6 +46,7 @@ h2 {
     font-size: 14px;
 }
 
+/* Submit Button Styling */
 .notification-form button {
     width: 100%;
     padding: 10px;
@@ -53,10 +61,12 @@ h2 {
     background-color: #218838;
 }
 
+/* Notification Section Styling */
 .notification-section {
     margin-top: 15px;
 }
 
+/* Back Button Styling */
 .back-button {
     position: absolute; /* or 'fixed' if you want it to stay fixed on scroll */
     top: 20px;
@@ -74,4 +84,69 @@ h2 {
 
 .back-button:hover {
     background-color: #0056b3; /* Darken background on hover */
+}
+
+/* Left Section (Notification Form) */
+.left-side {
+    width: 60%; /* Set width for the form */
+    margin-left: 50px;
+    margin-top: 70px; /* Space between the form and the tables */
+}
+
+/* Right Section (Tables) */
+.right-side {
+    width: 60%; /* Set width for the tables */
+    margin-left: 20px;
+    margin-top: 70px; /* Space between the tables and form */
+}
+
+/* Form Header Styling */
+.form_header {
+    text-align: center;
+    width: 100%; /* Ensure it takes up the full width */
+    margin-top: 10px; /* Space below the header */
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+td, th {
+    padding: 12px;
+    text-align: center;
+    height: auto;
+    max-width: 400px; /* Increased max-width for the table cells */
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* Stack content vertically on smaller screens */
+        align-items: center;
+    }
+
+    .left-side,
+    .right-side {
+        width: 100%; /* Take up full width on small screens */
+        margin-bottom: 20px;
+    }
+
+    .notification-form {
+        width: 100%; /* Adjust form width on smaller screens */
+    }
+
+    table {
+        width: 100%; /* Ensure table takes up the full width */
+    }
 }
