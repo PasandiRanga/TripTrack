@@ -72,10 +72,14 @@
         
         <button class="search-button" onclick="searchFleet()">Search</button>
         <button class="search-button-clear" onclick="clearSearch()">Clear</button>
+
+        
     </div>
+    
     <?php if (isset($data['total_buses'])): ?>
             <h3>Total Buses Found for "<?php echo $data['searchTerm']; ?>": <?php echo $data['total_buses']; ?></h3>
     <?php endif; ?>
+    
     
 
     <!-- Fleet table -->
@@ -171,6 +175,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
+                    const count = data.total_buses;
+                    alert(`Total Buses found: ${count}`);
                     updateTable(data.data);
                 } else {
                     alert('No matching buses found.');

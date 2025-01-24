@@ -154,7 +154,7 @@ class SuperAdminPages extends Controller {
                 'total_buses' => $result['total_buses'] 
             ];
 
-            $this->view('pages/SperAdmin/Fleet', $data);
+            $this->view('pages/SuperAdmin/Fleet', $data);
         }
         else {
             $this->view('pages/SuperAdmin/Fleet');
