@@ -104,7 +104,7 @@ h2 {
 .form_header {
     text-align: center;
     width: 100%; /* Ensure it takes up the full width */
-    margin-top: 10px; /* Space below the header */
+    margin-top: 15px; /* Space below the header */
 }
 
 /* Table Styling */
