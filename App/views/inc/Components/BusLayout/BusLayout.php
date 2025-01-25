@@ -499,55 +499,111 @@ echo "<script>
 
     // Update event listeners for dropdowns
     document.getElementById('from').addEventListener('change', function() {
-        from = this.value;
-        updatePrice();
+        const from = this.value;
+        const to = document.getElementById('to').value;
+        updatePrice(from, to);
     });
 
     document.getElementById('to').addEventListener('change', function() {
-        to = this.value;
-        updatePrice();
+        const from = document.getElementById('from').value;
+        const to = this.value;
+        updatePrice(from, to);
     });
 
-    function updatePrice() {
+    function updatePrice(from, to) {
         if (!from || !to) return;
         
-        fetch('calculatePrice.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                from: from,
-                to: to,
-                selectedBus: selectedBus,
-                distanceData: distanceData,
-                leastPrice: leastPrice
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const pricePerSeatElement = document.getElementById('pricePerSeat');
-            const totalPriceElement = document.getElementById('total-price');
-            const noOfSeats = parseInt(document.getElementById('noOfseats').value) || 0;
+        // Get the start location and destination from the selected bus
+        const startLocation = selectedBus.start_location;
+        const destination = selectedBus.destination;
+        let pricePerSeat = 0;
+        
+        if (destination === to.trim() && startLocation !== from.trim()) {
+            // Full journey minus distance from start to boarding point
+            let totalDistance = 0;
+            let boardingDistance = 0;
             
-            pricePerSeatElement.textContent = data.price.toFixed(2);
-            totalPriceElement.textContent = (data.price * noOfSeats).toFixed(2);
+            // Find total route distance
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === destination) {
+                    totalDistance = parseFloat(route.distance);
+                    break;
+                }
+            }
             
-            // Update hidden input
-            document.getElementById('totalPriceInput').value = (data.price * noOfSeats).toFixed(2);
-        })
-        .catch(error => console.error('Error:', error));
+            // Find boarding point distance
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === from.trim()) {
+                    boardingDistance = parseFloat(route.distance);
+                    break;
+                }
+            }
+            
+            const finalDistance = totalDistance - boardingDistance;
+            pricePerSeat = leastPrice * finalDistance;
+            
+        } else if (destination === to.trim() && startLocation === from.trim()) {
+            // Full journey price
+            pricePerSeat = parseFloat(selectedBus.price);
+            
+        } else if (destination !== to.trim() && startLocation !== from.trim()) {
+            // Partial journey between two intermediate stops
+            let toDistance = 0;
+            let fromDistance = 0;
+            
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === to.trim()) {
+                    toDistance = parseFloat(route.distance);
+                }
+                if (route.start === startLocation && route.location.trim() === from.trim()) {
+                    fromDistance = parseFloat(route.distance);
+                }
+            }
+            
+            const finalDistance = toDistance - fromDistance;
+            pricePerSeat = leastPrice * finalDistance;
+            
+        } else if (startLocation === from.trim() && destination !== to.trim()) {
+            // Journey from start to intermediate stop
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === to.trim()) {
+                    const finalDistance = parseFloat(route.distance);
+                    pricePerSeat = leastPrice * finalDistance;
+                    break;
+                }
+            }
+        }
+
+        // Ensure price is not negative
+        pricePerSeat = Math.max(0, pricePerSeat);
+        
+        // Update the display elements
+        const pricePerSeatElement = document.getElementById('pricePerSeat');
+        const totalPriceElement = document.getElementById('total-price');
+        const noOfSeats = parseInt(document.getElementById('noOfseats').value) || 0;
+        
+        pricePerSeatElement.textContent = pricePerSeat.toFixed(2);
+        totalPriceElement.textContent = (pricePerSeat * noOfSeats).toFixed(2);
+        
+        // Update hidden input
+        document.getElementById('totalPriceInput').value = (pricePerSeat * noOfSeats).toFixed(2);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-
+        // Initialize price displays to zero
+        const pricePerSeatElement = document.getElementById('pricePerSeat');
+        const totalPriceElement = document.getElementById('total-price');
+        const totalPriceInput = document.getElementById('totalPriceInput');
         
+        // Set initial values to zero
+        pricePerSeatElement.textContent = '0.00';
+        totalPriceElement.textContent = '0.00';
+        totalPriceInput.value = '0.00';
+
         const numberButtons = document.querySelectorAll('.number-button:not(.booked)');
         const selectedSeatsInput = document.getElementById('selectedSeats');
         const noOfSeatsInput = document.getElementById('noOfseats');
-        const totalPriceDisplay = document.getElementById('total-price');
         const checkoutButton = document.getElementById('checkoutButton');
-        const pricePerSeat = <?php echo $pricePerSeat; ?>;
         const bookingForm = document.getElementById('bookingForm');
         
         let selectedSeats = [];
@@ -564,14 +620,18 @@ echo "<script>
                     selectedSeats.push(seatNumber);
                 }
 
-                // Update form inputs and displays
+                // Update form inputs
                 selectedSeatsInput.value = selectedSeats.join(', ');
                 noOfSeatsInput.value = selectedSeats.length;
-                const totalPrice = selectedSeats.length * pricePerSeat;
-                totalPriceDisplay.textContent = totalPrice.toFixed(2);
+
+                // Get current 'from' and 'to' values and recalculate price
+                const from = document.getElementById('from').value;
+                const to = document.getElementById('to').value;
                 
-                // Update hidden total price input
-                document.getElementById('totalPriceInput').setAttribute('value', totalPrice.toFixed(2));
+                // Only update price if both from and to are selected
+                if (from && to) {
+                    updatePrice(from, to);
+                }
 
                 // Enable/disable checkout button based on seat selection and form validation
                 validateFormFields();

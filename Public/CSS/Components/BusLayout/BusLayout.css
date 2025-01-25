@@ -793,7 +793,9 @@ select {
     margin-bottom: 20px;
 }
 
-/* Adjust layout container to accommodate map */
 
 
-
+#googleMap {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
