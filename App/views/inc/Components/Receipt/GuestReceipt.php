@@ -2,6 +2,9 @@
 
 require_once APPROOT . '/libraries/Database.php';
 
+// var_dump($_POST['totalPrice']);
+
+
 // Retrieve booking data from POST
 $License_id = $_POST['License_id'] ?? 'Unknown Bus';
 $scheduleId = $_POST['scheduleId'] ?? 'Unknown Schedule';
@@ -70,7 +73,7 @@ try {
     $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
 
     // Step 4: Update the bookedSeats field in the schedule table
-    $db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats WHERE scheduleId = :scheduleId");
+    $db->query("UPDATE schedules SET bookedSeats = :updatedBookedSeats WHERE scheduleId = :scheduleId");
     $db->bind(':updatedBookedSeats', $updatedBookedSeats);
     $db->bind(':scheduleId', $scheduleId);
 

@@ -18,8 +18,8 @@
     border-radius: 8px; /* Slightly smaller rounded corners */
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Slightly softer shadow */
     padding: 15px; /* Reduced padding */
-    width: 350px; /* Smaller width */
-    height: 190px; /* Smaller height */
+    width: 380px; /* Smaller width */
+    height: 200px; /* Smaller height */
     box-sizing: border-box;
     transition: transform 0.3s ease; /* Transition effect for hover */
     font-family: 'Poppins';

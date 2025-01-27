@@ -6,11 +6,14 @@
     include APPROOT . '/views/inc/Components/Button/button.php';
 ?>
 
-<!-- <script>
+<script>
     // Populate scheduleData and busData from PHP variables, assuming these are passed from the server.
+    /*
     const scheduleData = <?php echo json_encode($scheduleData); ?>;
     const busData = <?php echo json_encode($busData); ?>;
-</script> -->
+    const routeData = <?php echo json_encode($routeData); ?>;
+    */
+</script>
 
 
 <div class="search-bar-container">
@@ -19,24 +22,23 @@
         <select class="search-input" id="from">
             <option value="" disabled selected>From</option>
             <?php
-                // Extract unique 'start' locations from $distanceData
-                // Combine 'start' and 'location' columns into a single array
-                $combinedLocations = array_merge(
-                    array_column($distanceData, 'start'), 
-                    array_column($distanceData, 'location')
-                );
+                // Extract unique locations from routeData stops
+                $allStops = [];
+                foreach ($routeData as $route) {
+                    if (!empty($route['stops'])) {
+                        $stops = array_map('trim', explode(',', $route['stops']));
+                        $allStops = array_merge($allStops, $stops);
+                    }
+                }
 
-                // Get unique values from the combined array
-                $uniqueLocations = array_unique($combinedLocations);
-
-                // Sort the unique locations (optional, for better readability)
+                // Get unique values and sort them
+                $uniqueLocations = array_unique($allStops);
                 sort($uniqueLocations);
 
-                // Loop through the unique locations and generate the options
+                // Generate options
                 foreach ($uniqueLocations as $location) {
                     echo "<option value=\"$location\">$location</option>";
                 }
-
             ?>
         </select>
     </div>
@@ -45,20 +47,7 @@
         <select class="search-input" id="to">
             <option value="" disabled selected>To</option>
             <?php
-                // Extract unique 'location' from $distanceData
-                // Combine 'start' and 'location' columns into a single array
-                $combinedLocations = array_merge(
-                    array_column($distanceData, 'start'), 
-                    array_column($distanceData, 'location')
-                );
-
-                // Get unique values from the combined array
-                $uniqueLocations = array_unique($combinedLocations);
-
-                // Sort the unique locations (optional, for better readability)
-                sort($uniqueLocations);
-
-                // Loop through the unique locations and generate the options
+                // Reuse the same unique locations for the "To" dropdown
                 foreach ($uniqueLocations as $location) {
                     echo "<option value=\"$location\">$location</option>";
                 }
@@ -86,7 +75,7 @@
 
 <script>
     let storedBusData = ''; // Declare and initialize the variable to store bus card data
-                const URLROOT = "<?php echo URLROOT; ?>";
+    const URLROOT = "<?php echo URLROOT; ?>";
     // Set the date input field to today's date on page load
     document.addEventListener('DOMContentLoaded', function() {
         const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
@@ -102,36 +91,59 @@
         // Update date bar selection when searching
         updateDateBarSelection(travelDate);
 
-        // Filter the busData for buses that have the 'from' and 'to' in their 'stops' field
-        const filteredBusIds = busData.filter(bus => {
-            if (bus.stops) {
-                // console.log(bus.stops);
-                const stopsArray = bus.stops.split(',').map(stop => stop.trim());
-                console.log(stopsArray);
-                console.log(stopsArray.includes(from) && stopsArray.includes(to))
-                return stopsArray.includes(from) && stopsArray.includes(to);
-            }else {
-                return false;
+        // First filter routes that contain both 'from' and 'to' stops
+        const filteredRoutes = routeData.filter(route => {
+            if (route.stops) {
+                // Combine stops array with from_location and to_location
+                const stopsArray = route.stops.split(',').map(stop => stop.trim());
+                const allStops = [...stopsArray];
+                
+                // Add from_location and to_location if they exist and aren't already in the array
+                if (route.from_location && !allStops.includes(route.from_location.trim())) {
+                    allStops.push(route.from_location.trim());
+                }
+                if (route.to_location && !allStops.includes(route.to_location.trim())) {
+                    allStops.push(route.to_location.trim());
+                }
+                
+                return allStops.includes(from) && allStops.includes(to);
             }
-        }).map(bus => bus.License_id);
-        console.log(filteredBusIds);
+            return false;
+        });
+
+        // Get the route numbers from filtered routes
+        const matchingRouteNumbers = filteredRoutes.map(route => route.route_no);
+
+        // Then filter buses that operate on these routes
+        const filteredBusIds = busData
+            .filter(bus => matchingRouteNumbers.includes(bus.route_no))
+            .map(bus => bus.license_number);
+
+        console.log(scheduleData);
+
+        console.log('Filtered Routes:', filteredRoutes);
+        console.log('Matching Route Numbers:', matchingRouteNumbers);
+        console.log('Filtered Bus IDs:', filteredBusIds);
 
         // Filter the scheduleData to match the selected date and bus IDs
         if(travelDate){
-        const filteredSchedules = scheduleData.filter(schedule =>
-            filteredBusIds.includes(schedule.License_id) && schedule.date === travelDate
-        );
+            const filteredSchedules = scheduleData.filter(schedule =>
+                filteredBusIds.includes(schedule.license_number) && schedule.date === travelDate
+            );
 
-        // Render the filtered schedules in the bus card container
-        renderFilteredSchedules(filteredSchedules , busData);
-    }else{
-        const filteredSchedules = scheduleData.filter(schedule =>
-            filteredBusIds.includes(schedule.License_id)
-        );
+            console.log('Filtered schedules: ', filteredSchedules)
 
-        // Render the filtered schedules in the bus card container
-        renderFilteredSchedules(filteredSchedules , busData);
-    }
+            // Render the filtered schedules in the bus card container
+            renderFilteredSchedules(filteredSchedules , busData);
+        }else{
+            const filteredSchedules = scheduleData.filter(schedule =>
+                filteredBusIds.includes(schedule.license_number)
+            );
+
+            console.log('Filtered Routes:', filteredSchedules);
+            // Render the filtered schedules in the bus card container
+            renderFilteredSchedules(filteredSchedules , busData);
+        }
     });
 
     function renderFilteredSchedules(filteredSchedules, busData) {
@@ -156,20 +168,22 @@
         // Dynamically load bus cards based on filtered schedules
         filteredSchedules.forEach(schedule => {
             // Find the corresponding bus data for each schedule by License_id
-            const bus = busData.find(b => b.License_id === schedule.License_id);
+            const bus = busData.find(b => b.license_number === schedule.license_number);
+
+            const route = routeData.find(r=>r.route_no === bus.route_no && r.from_location === bus.from_location && r.to_location === bus.to_location && r.type === bus.type);
 
             if (!bus) {
-                console.warn(`No matching bus found for License_id: ${schedule.License_id}`);
+                console.warn(`No matching bus found for License_number: ${schedule.license_number}`);
                 return; // Skip rendering this schedule if bus data is missing
             }
 
             // Process the stops array to remove extra spaces
-            const stopsArray = bus.stops.split(',').map(stop => stop.trim());
+            const stopsArray = route.stops.split(',').map(stop => stop.trim());
 
             // Get the URL dynamically based on the user role
             const bookingUrl = `${URLROOT}/${
                 userRole === 'GuestUser' ? 'GuestPages' : 'RegisteredPages'
-            }/BusBooking?License_id=${encodeURIComponent(bus.License_id)}&scheduleId=${encodeURIComponent(schedule.scheduleId)}`;
+            }/busLayout?license_number=${encodeURIComponent(bus.license_number)}&scheduleId=${encodeURIComponent(schedule.scheduleId)}`;
 
             // Create the schedule card
             const scheduleDiv = document.createElement('div');
@@ -181,8 +195,8 @@
             scheduleDiv.innerHTML = `
                 <div class="bus-card-header">
                     <div class="route-info">
-                        <h2>${bus.route}</h2>
-                        <span class="bus-type">${bus.routeNumber}</span>
+                        <h2>${bus.from_location} - ${bus.to_location}</h2>
+                        <span class="bus-type">${bus.route_no}</span>
                     </div>
                 </div>
                 <div class="bus-card-timing">
@@ -203,7 +217,7 @@
                         ).join('')}
                         <span>${bus.rating}</span>
                     </div>
-                    <div class="price"><span>${schedule.price}</span></div>
+                    <div class="price"><span>${route.price}</span></div>
                 </div>
             `;
 

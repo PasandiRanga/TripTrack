@@ -24,13 +24,12 @@
 
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
+    $routeData = $data['route'] ?? [];
     $distanceData = $data['distance'] ?? [];
-    // Console log the distanceData array
-    if (is_array($distanceData)) {
-        echo "<script>console.log('Distance Data:', " . json_encode($distanceData) . ");</script>";
-    } else {
-        echo "<script>console.log('Distance Data is not an array');</script>";
-    }
+
+    
+
+    
     // Retrieve the user role from the form submission or session
     $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
     echo("<script>console.log('User Role: $formUserRole');</script>");
@@ -59,27 +58,36 @@
     <br/>
     <?php require APPROOT . '/views/inc/Components/Header/header.php'; ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
+    <!-- Add this after the seat layout div -->
+   
     <div class="layout-container">
         <!-- Seat Layout -->
         <?php
             include 'seatData.php';
         
             // Retrieve data from POST
-            $License_id = $_GET['License_id'] ?? null;
+            $License_id = $_GET['Licenseid'] ?? null;
             $scheduleId = $_GET['scheduleId'] ?? null;
+            echo "<script>console.log('Licenseid :', " . json_encode($License_id) . ");</script>";
+            echo "<script>console.log('Scheduleid :', " . json_encode($scheduleId) . ");</script>";
+
            
             // Find the selected bus and schedule to get booked seats
             $selectedBus = null;
             $bookedSeats = [];
             $pricePerSeat = 0;
             $busLayout = [];
-            $leastPrice = 0;
+        
 
             // Find the selected bus and schedule to get booked seats
             foreach ($scheduleData as $schedule) {
                 if ($schedule['scheduleId'] === $scheduleId) {
-                    $bookedSeats = array_map('trim', explode(',', $schedule['bookedSeats']));
+                    echo "<script>console.log('Selected schedule:', " . json_encode($schedule) . ");</script>";
+                    $bookedSeatsString = trim($schedule['bookedSeats']);
+                    $bookedSeats = !empty($bookedSeatsString) ? 
+                        array_map('trim', explode(',', $bookedSeatsString)) : 
+                        [];
+                    $pricePerSeat = $schedule['price'];
                     break;
                 }
             }
@@ -91,12 +99,15 @@
                     echo "<script>console.log('Selected bus:', " . json_encode($selectedBus) . ");</script>";
                     $busType = $bus['passengers'];
                     $leastPrice = $bus['priceperkm'];
-                    // echo($leastPrice);
                     break;
                 }
             }
 
-            // Calculate the price per seat based on the distance
+            
+           
+            
+    
+
             
 
             // egt the respective seat layout
@@ -115,7 +126,7 @@
                 foreach ($row as $seat) {
                     if ($seat === '') {
                         echo '<button class="disable"></button>'; // Disabled seat (empty spaces)
-                    } elseif (in_array($seat, $bookedSeats)) {
+                    } elseif (in_array(trim($seat), $bookedSeats)) {
                         // Booked seat: non-clickable and styled differently
                         echo '<button class="number-button booked" disabled>' . htmlspecialchars($seat) . '</button>';
                     } else {
@@ -134,6 +145,7 @@
             if (isset($selectedBus['stops']) && !empty($selectedBus['stops'])) {
                 // Convert the stops text into an array by splitting it at commas
                 $busStops = explode(',', $selectedBus['stops']);
+                
             } else {
                 $busStops = ["No stops available"];
             }
@@ -148,10 +160,75 @@
             }
         ?>
 
+       
+    
+    <!-- Add this after the seat layout div -->
+<div class="map-container">
+    <h3>Bus Route Map - Route <?php echo htmlspecialchars($selectedBus['routeNumber']); ?></h3>
+    <iframe
+        id="googleMap"
+        width="100%"
+        height="450"
+        style="border:0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+    </iframe>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const busStops = <?php echo json_encode(array_map('trim', $busStops)); ?>;
+    const routeNo = <?php echo json_encode($selectedBus['route_no']); ?>;
+    
+    try {
+        // Create a more specific search query focusing on Sri Lanka
+        const fromLocation = encodeURIComponent(busStops[0] + ', Sri Lanka');
+        const toLocation = encodeURIComponent(busStops[busStops.length - 1] + ', Sri Lanka');
+        
+        // Use directions instead of search to show the route
+        const simpleRouteUrl = `https://maps.google.com/maps?`
+            + `saddr=${fromLocation}`
+            + `&daddr=${toLocation}`
+            + `&t=m` // Map type: m = normal map
+            + `&z=9` // Higher zoom level (closer view)
+            + `&output=embed`
+            + `&ie=UTF8`
+            + `&ll=7.8731,80.7718` // Coordinates for Sri Lanka's center
+            + `&spn=3.0,3.0`; // Viewport span
+
+        // Set the iframe src with error handling
+        const mapFrame = document.getElementById('googleMap');
+        mapFrame.onerror = function() {
+            mapFrame.parentElement.innerHTML = '<p>Unable to load map. Please try again later.</p>';
+        };
+        mapFrame.src = simpleRouteUrl;
+    } catch (error) {
+        console.error('Error loading map:', error);
+        document.getElementById('googleMap').parentElement.innerHTML = 
+            '<p>Unable to load map. Please try again later.</p>';
+    }
+});
+</script>
+
+<style>
+.map-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+#googleMap {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+</style>
+
     <div class="all-container"> 
         <div class="bus-info">
             <div class="route-container">
-                <h2><?php echo htmlspecialchars($selectedBus['route']); ?></h2>
+                <h2><?php echo $selectedBus['route']; ?></h2>
                 <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
             </div>
             <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['License_id']); ?></p>
@@ -209,7 +286,7 @@
 
                 <!--Price-->
                 <div class="price-container">
-                    <p class="highlight"><?php echo htmlspecialchars($selectedSchedule['price']); ?></p>
+                    <p class="highlight">Rs. <?php echo htmlspecialchars($selectedBus['price']); ?></p>
                 </div>
                 
                 <!--buttons-->
@@ -233,7 +310,7 @@
 
     console.log('Script loading...');
 
-    function openReviewsModal(licenseId) {
+     function openReviewsModal(licenseId) {
         console.log(licenseId);
         const modal = document.getElementById('reviewsModal');
         const reviewsContainer = document.getElementById('reviewsContainer');
@@ -326,6 +403,10 @@
                         ?>
                     </select>
                 </div>
+                <?php
+                // Assign the selected value to $from when the form is submitted
+                $from = $_POST['from'] ?? null; // Ensure to handle the case where 'from' is not set
+                ?>
 
                 <!-- 'To' Dropdown (Arrival) -->
                 <div>
@@ -348,6 +429,7 @@
                 
                 </div>
             </div>
+            
             <script>
                 function validateForm() {
                     var from = document.getElementById("from").value;
@@ -384,11 +466,16 @@
                 <input type="checkbox" name="receiveTicket[]" value="Email"> Email
                 <input type="checkbox" name="receiveTicket[]" value="SMS"> SMS
             </div>
-            <p><strong>Price per Seat:</strong>&nbsp;&nbsp; Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
+
+            <!-- Add hidden input fields for price information -->
+            <input type="hidden" name="pricePerSeat" value="<?php echo htmlspecialchars($pricePerSeat); ?>">
+            <input type="hidden" name="totalPrice" id="totalPriceInput" value="0" >
+            
+            <p><strong>Price per Seat:</strong>&nbsp;&nbsp; Rs.<span id="pricePerSeat" ><?php echo htmlspecialchars($pricePerSeat); ?></span></p>
             <p><strong>Total Price:</strong> &nbsp;&nbsp;Rs. <span id="total-price">0</span></p>
             
                 
-                <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>
+            <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>
             
             <!-- <button type="submit">Proceed</button> -->
         </form>
@@ -399,84 +486,124 @@
     </div>
 </div>
 
-
-
-
-<style>
-    /* Base seat styling */
-    .number-button {
-        background-image: url('<?php echo URLROOT; ?>/public/images/seat.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        width: 50px;
-        height: 50px;
-        color: transparent;
-        font-size: 0;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
-    }
-
-    /* Selected seat styling */
-    .number-button.selected {
-        background-color: #28a745; /* Green tint for selected seats */
-        border: 2px solid #1e7e34;
-        box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
-        position: relative;
-    }
-
-    /* Booked/disabled seat styling */
-    .number-button.booked {
-        background-color: #dc3545; /* Red tint for booked seats */
-        opacity: 0.7;
-        cursor: not-allowed;
-        position: relative;
-    }
-
-    /* Empty space styling */
-    .disable {
-        background: transparent;
-        border: none;
-        cursor: default;
-        width: 50px;
-        height: 50px;
-    }
-
-    /* Optional: Add tooltips for seat status */
-    .number-button.booked::after {
-        content: 'Booked';
-        position: absolute;
-        top: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #000;
-        color: white;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-size: 12px;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .number-button.booked:hover::after {
-        opacity: 1;
-    }
-
-    /* Hover effects for available seats */
-    .number-button:not(.booked):hover {
-        transform: scale(1.1);
-        border: 2px solid #007bff;
-    }
-</style>
+<?php $selectedBusJSON = json_encode($selectedBus);
+$distanceDataJSON = json_encode($distanceData);
+echo "<script>
+    const selectedBus = $selectedBusJSON;
+    const distanceData = $distanceDataJSON;
+    const leastPrice = $leastPrice;
+</script>";
+?>
 
 <script>
+
+    // Update event listeners for dropdowns
+    document.getElementById('from').addEventListener('change', function() {
+        const from = this.value;
+        const to = document.getElementById('to').value;
+        updatePrice(from, to);
+    });
+
+    document.getElementById('to').addEventListener('change', function() {
+        const from = document.getElementById('from').value;
+        const to = this.value;
+        updatePrice(from, to);
+    });
+
+    function updatePrice(from, to) {
+        if (!from || !to) return;
+        
+        // Get the start location and destination from the selected bus
+        const startLocation = selectedBus.start_location;
+        const destination = selectedBus.destination;
+        let pricePerSeat = 0;
+        
+        if (destination === to.trim() && startLocation !== from.trim()) {
+            // Full journey minus distance from start to boarding point
+            let totalDistance = 0;
+            let boardingDistance = 0;
+            
+            // Find total route distance
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === destination) {
+                    totalDistance = parseFloat(route.distance);
+                    break;
+                }
+            }
+            
+            // Find boarding point distance
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === from.trim()) {
+                    boardingDistance = parseFloat(route.distance);
+                    break;
+                }
+            }
+            
+            const finalDistance = totalDistance - boardingDistance;
+            pricePerSeat = leastPrice * finalDistance;
+            
+        } else if (destination === to.trim() && startLocation === from.trim()) {
+            // Full journey price
+            pricePerSeat = parseFloat(selectedBus.price);
+            
+        } else if (destination !== to.trim() && startLocation !== from.trim()) {
+            // Partial journey between two intermediate stops
+            let toDistance = 0;
+            let fromDistance = 0;
+            
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === to.trim()) {
+                    toDistance = parseFloat(route.distance);
+                }
+                if (route.start === startLocation && route.location.trim() === from.trim()) {
+                    fromDistance = parseFloat(route.distance);
+                }
+            }
+            
+            const finalDistance = toDistance - fromDistance;
+            pricePerSeat = leastPrice * finalDistance;
+            
+        } else if (startLocation === from.trim() && destination !== to.trim()) {
+            // Journey from start to intermediate stop
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === to.trim()) {
+                    const finalDistance = parseFloat(route.distance);
+                    pricePerSeat = leastPrice * finalDistance;
+                    break;
+                }
+            }
+        }
+
+        // Ensure price is not negative
+        pricePerSeat = Math.max(0, pricePerSeat);
+        
+        // Update the display elements
+        const pricePerSeatElement = document.getElementById('pricePerSeat');
+        const totalPriceElement = document.getElementById('total-price');
+        const noOfSeats = parseInt(document.getElementById('noOfseats').value) || 0;
+        
+        pricePerSeatElement.textContent = pricePerSeat.toFixed(2);
+        totalPriceElement.textContent = (pricePerSeat * noOfSeats).toFixed(2);
+        
+        // Update hidden input
+        document.getElementById('totalPriceInput').value = (pricePerSeat * noOfSeats).toFixed(2);
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize price displays to zero
+        const pricePerSeatElement = document.getElementById('pricePerSeat');
+        const totalPriceElement = document.getElementById('total-price');
+        const totalPriceInput = document.getElementById('totalPriceInput');
+        
+        // Set initial values to zero
+        pricePerSeatElement.textContent = '0.00';
+        totalPriceElement.textContent = '0.00';
+        totalPriceInput.value = '0.00';
+
         const numberButtons = document.querySelectorAll('.number-button:not(.booked)');
         const selectedSeatsInput = document.getElementById('selectedSeats');
         const noOfSeatsInput = document.getElementById('noOfseats');
-        const totalPriceDisplay = document.getElementById('total-price');
         const checkoutButton = document.getElementById('checkoutButton');
-        const pricePerSeat = <?php echo $pricePerSeat; ?>;
         const bookingForm = document.getElementById('bookingForm');
         
         let selectedSeats = [];
@@ -493,10 +620,18 @@
                     selectedSeats.push(seatNumber);
                 }
 
-                // Update form inputs and displays
+                // Update form inputs
                 selectedSeatsInput.value = selectedSeats.join(', ');
                 noOfSeatsInput.value = selectedSeats.length;
-                totalPriceDisplay.textContent = (selectedSeats.length * pricePerSeat).toFixed(2);
+
+                // Get current 'from' and 'to' values and recalculate price
+                const from = document.getElementById('from').value;
+                const to = document.getElementById('to').value;
+                
+                // Only update price if both from and to are selected
+                if (from && to) {
+                    updatePrice(from, to);
+                }
 
                 // Enable/disable checkout button based on seat selection and form validation
                 validateFormFields();
@@ -552,6 +687,7 @@
         return true;
     }
 </script>
+
 
 
 </body>

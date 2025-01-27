@@ -79,7 +79,7 @@ if (!function_exists('isCurrentPage')) {
             // }
             ?>
         </div>
-        <button id="navbar-toggle" class="navbar-toggle">&#9776;</button>
+        <button id="navbar-toggle" class="navbar-toggle" aria-label="Toggle navigation">&#9776;</button>
     </div>
 </nav>
 
@@ -87,12 +87,25 @@ if (!function_exists('isCurrentPage')) {
 document.addEventListener('DOMContentLoaded', function() {
     const navbarToggle = document.getElementById('navbar-toggle');
     const navbarItems = document.getElementById('navbar-items');
-
-    navbarToggle.addEventListener('click', function() {
+    
+    // Toggle menu
+    navbarToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
         navbarItems.classList.toggle('active');
     });
-});
 
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!navbarItems.contains(e.target) && !navbarToggle.contains(e.target)) {
+            navbarItems.classList.remove('active');
+        }
+    });
+
+    // Prevent clicks inside the menu from closing it
+    navbarItems.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+});
 </script>
 
 </body>
