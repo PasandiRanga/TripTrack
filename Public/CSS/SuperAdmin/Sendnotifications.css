@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 40px 20px 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center elements vertically */
+    min-height: 100vh; /* Ensure full height */
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue for hover effect */
+}
+
+h2 {
+    color: #333;
+    font-size: 24px; /* Slightly larger font */
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase; /* Make heading uppercase */
+}
+
+.notification-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Add spacing between elements */
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-form label {
+    font-size: 16px;
+    color: #555;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+.notification-form select,
+.notification-form input,
+.notification-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease; /* Smooth transition */
+}
+
+.notification-form select:focus,
+.notification-form input:focus,
+.notification-form textarea:focus {
+    border-color: #007bff; /* Highlighted border on focus */
+    outline: none;
+}
+
+.notification-form textarea {
+    resize: none; /* Prevent resizing */
+    height: 80px; /* Default height for text areas */
+}
+
+.notification-form button {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.notification-form button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.notification-form button:active {
+    background-color: #1e7e34; /* Even darker green on click */
+    transform: scale(0.98); /* Slight press effect */
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+    }
+
+    .notification-form {
+        width: 90%; /* Full width on smaller screens */
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 22px; /* Smaller heading on mobile */
+    }
+}

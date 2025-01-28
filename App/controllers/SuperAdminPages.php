@@ -245,6 +245,10 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Notifications');
     }
 
+    public function sendnotifications() {
+        $this->view('pages/SuperAdmin/Sendnotifications');
+    }
+
 
 //----------------------------------------------------------------------------------------------------------------------
                                     //Employees
@@ -438,6 +442,7 @@ class SuperAdminPages extends Controller {
         ];
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
+
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
