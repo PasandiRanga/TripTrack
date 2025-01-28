@@ -490,6 +490,20 @@
             }
         }
 
+        public function calculatePrice(){
+            $distance = $this->GuestpagesModel->getDistance();
+
+            $bus = $this->GuestpagesModel->getBusDetails();
+
+
+            $data = [
+                'distance' => $distance,
+                'bus' => $bus
+            ];
+            
+            $this->view('inc/Components/BusLayout/calculatePrice');
+        }
+
         public function filterBusByDate() {
             if (!isset($_GET['date'])) {
                 return;
