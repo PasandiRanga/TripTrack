@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Sendnotifications.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/notifications'">Back</button>
 
     <div class="left-side">
         <!-- Notification Form -->

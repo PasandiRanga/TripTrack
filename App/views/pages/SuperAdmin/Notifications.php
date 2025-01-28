@@ -20,7 +20,7 @@
         <div class="button-container">
             <button 
                 class="send-notification-button" 
-                onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/newNotification';">
+                onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/sendnotifications';">
                 Send Notification
             </button>
         </div>
