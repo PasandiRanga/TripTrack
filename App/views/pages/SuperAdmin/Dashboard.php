@@ -80,7 +80,9 @@
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">
                     <span class="material-icons-outlined">assignment_ind</span> Assigns
                 </li>
-
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/routes'">
+                    <span class="material-icons-outlined">route</span> Routes
+                </li>
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/contacts'">
                     <span class="material-icons-outlined">contact_page</span> Contacts
                 </li>

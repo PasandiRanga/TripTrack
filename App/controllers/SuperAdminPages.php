@@ -431,6 +431,10 @@ class SuperAdminPages extends Controller {
     public function addassigns() {
         $this->view('pages/SuperAdmin/Addassigns');
     }
+
+    public function routes() {
+        $this->view('pages/SuperAdmin/Routes');
+    }
 //----------------------------------------------------------------------------------------------------------------------
                                     //support requests
 //---------------------------------------------------------------------------------------------------------------------- 
