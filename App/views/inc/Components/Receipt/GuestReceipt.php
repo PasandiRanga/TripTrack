@@ -73,7 +73,7 @@ try {
     $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
 
     // Step 4: Update the bookedSeats field in the schedule table
-    $db->query("UPDATE schedules SET bookedSeats = :updatedBookedSeats WHERE scheduleId = :scheduleId");
+    $db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats WHERE scheduleId = :scheduleId");
     $db->bind(':updatedBookedSeats', $updatedBookedSeats);
     $db->bind(':scheduleId', $scheduleId);
 

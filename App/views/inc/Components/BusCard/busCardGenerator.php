@@ -41,8 +41,9 @@ foreach ($busData as $bus) {
     foreach ($scheduleData as $schedule) {
         //find the matching route data for the bus
         foreach ($routeData as $route) {
-            if ($route['route_no'] === $bus['route_no'] && $route['from_location'] === $bus['from_location'] && $route['to_location'] === $bus['to_location'] && $route['type'] === $bus['type']) {
+            if ($route['routeNumber'] === $bus['routeNumber'] ) {
                 $busRoute = $route;
+                $stops = $busRoute['stops'];
             }
         }
         // Check if the schedule matches the selected date
@@ -59,7 +60,7 @@ foreach ($busData as $bus) {
             ?>'">
                 <div class="bus-card-header">
                     <div class="route-info">
-                        <h2><?php echo $bus['route']; ?></h2>
+                        <h2><?php echo $bus['start_location']; ?> - <?php echo $bus['destination']; ?> </h2>
                         <span class="bus-type">Route :<?php echo $bus['routeNumber']; ?></span>
                     </div>
                 </div>
@@ -95,9 +96,9 @@ foreach ($busData as $bus) {
                     <div class="route-stops">
                         <?php 
                         // Ensure that 'stops' is not empty and is a string before processing
-                            if (!empty($bus['stops']) && is_string($bus['stops'])) {
+                            if (!empty($stops) && is_string($stops)) {
                                 // Convert the string of stops into an array
-                                $stopsArray = explode(',', $bus['stops']);
+                                $stopsArray = explode(',', $stops);
 
                                 // Count the number of stops
                                 $totalStops = count($stopsArray);
@@ -129,7 +130,7 @@ foreach ($busData as $bus) {
                 <div class="bus-card-footer">
                 <div class="rating">
                     <?php
-                    $rating = $bus['rating']; // Assume $bus['rating'] is an integer (e.g., 4 for 4 stars)
+                    $rating = 0.0; // Default rating value
                     for ($i = 1; $i <= 5; $i++) {
                         if ($i <= $rating) {
                             // Display a yellow star for each rating point
