@@ -238,7 +238,7 @@
         public function getRoute(){
             try {
                 // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM route');
+                $this->db->query('SELECT * FROM routes');
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 // Log or handle error

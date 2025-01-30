@@ -70,6 +70,8 @@
 
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
 
+            $route = $this->RegisteredpagesModel->getRoute();
+
             
             
             // Combine the schedule and bus details into a single data array
@@ -77,7 +79,8 @@
                 'schedule' => $schedule,
                 'bus' => $bus,
                 'distance' => $distance,
-                'user'=> $user
+                'user'=> $user,
+                'route' => $route
             ];
             // var_dump($schedule); // To check if schedule data is loaded
             // var_dump($bus);
