@@ -216,7 +216,7 @@
                 ON 
                     r.User_id = c.User_id
                 WHERE 
-                    r.license_number = :License_id
+                    r.License_id = :License_id
             ");
             $this->db->bind(':License_id', $licenseId);
             return $this->db->resultSet();
