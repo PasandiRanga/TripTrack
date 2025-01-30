@@ -62,6 +62,19 @@ if (!function_exists('isCurrentPage')) {
                     <a href="' . URLROOT . '/RegisteredPages/contactUs" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contactUs', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">CONTACT US</span>
                     </a>';
+
+                // Add notifications and profile for mobile view
+                echo '<div class="mobile-only">
+                        <a href="#" class="navbar-item notifications-item">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="text">NOTIFICATIONS</span>
+                            <span class="badge">' . count($notifications) . '</span>
+                        </a>
+                        <a href="' . URLROOT . '/RegisteredPages/profile" class="navbar-item profile-item">
+                            <img src="' . URLROOT . '/images/profileImages/' . $_SESSION['user_profile_image'] . '" alt="Profile" class="mobile-profile-pic">
+                            <span class="text">PROFILE</span>
+                        </a>
+                    </div>';
             } 
             // elseif ($userRole === "Conductor") {
             //     echo '<a href="' . URLROOT . '/ConductorPages/home" class="navbar-item ' . (isCurrentPage('ConductorPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
@@ -87,17 +100,20 @@ if (!function_exists('isCurrentPage')) {
 document.addEventListener('DOMContentLoaded', function() {
     const navbarToggle = document.getElementById('navbar-toggle');
     const navbarItems = document.getElementById('navbar-items');
+    const header = document.querySelector('.header');
     
-    // Toggle menu
+    // Toggle menu and header expansion
     navbarToggle.addEventListener('click', function(e) {
         e.stopPropagation();
         navbarItems.classList.toggle('active');
+        header.classList.toggle('expanded');
     });
 
     // Close menu when clicking outside
     document.addEventListener('click', function(e) {
         if (!navbarItems.contains(e.target) && !navbarToggle.contains(e.target)) {
             navbarItems.classList.remove('active');
+            header.classList.remove('expanded');
         }
     });
 

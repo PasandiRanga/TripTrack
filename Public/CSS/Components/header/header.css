@@ -23,6 +23,7 @@ html, body {
     margin-right:50px;
     background-color: #FFF;
     align-content: center;
+    transition: all 0.3s ease;
 }
 
 .navbarContainer {
@@ -37,12 +38,16 @@ html, body {
     display: flex;
     align-items: center;
     flex: 1;
+    flex-shrink: 0; /* Prevent container from shrinking */
+    position: relative; /* Ensure stable positioning */
 }
 
 /* Logo styling */
 .logo {
     width: 90px;
     height: 90px;
+    flex-shrink: 0;
+    position: relative; /* Ensure stable positioning */
 }
 
 /* Unordered list reset */
@@ -65,7 +70,11 @@ li {
     color: #063946;
     margin-left: 10px;
     font-weight: bold;
-    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+    position: relative; /* Ensure stable positioning */
 }
 
 .login-container {
@@ -330,8 +339,9 @@ li {
     }
 
     .abc {
-        width: 100%;
-        justify-content: space-between;
+        width: auto; /* Changed from 100% to auto */
+        justify-content: flex-start; /* Keep items aligned to start */
+        flex-shrink: 0;
     }
 
     .navbarContainer {
@@ -340,12 +350,12 @@ li {
     }
 
     .topic {
-        font-size: 18px;  /* Smaller font for mobile */
+        font-size: 23px; /* Keep consistent font size */
     }
 
     .logo {
-        width: 60px;
-        height: 60px;
+        width: 90px; /* Keep consistent size */
+        height: 90px;
     }
 
     .user-section {
@@ -372,26 +382,103 @@ li {
 
 @media (max-width: 768px) {
     .header {
-        flex-wrap: wrap;
         height: 60px;
-        padding: 10px;
+        min-height: 60px;
+        transition: all 0.3s ease;
+    }
+
+    .header.expanded {
+        height: auto;
+        min-height: 60px;
     }
 
     .abc {
-        width: 100%;
-        justify-content: space-between;
+        width: auto; /* Changed from 100% to auto */
+        justify-content: flex-start;
+        margin-bottom: 0; /* Remove margin that could cause shifting */
+        min-width: 0;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+    }
+
+    .topic {
+        font-size: 23px;
+        max-width: none;
     }
 
     .navbarContainer {
-        width: auto;
-        order: unset;
+        width: 100%;
         margin: 0;
     }
 
-    .navbar-toggle {
-        display: block !important;
-        /* margin-left: auto !important; */
-        /* justify-content: flex-end; */
+    .user-section {
+        order: 1;
+        width: auto;
+    }
+
+    /* Hide desktop notifications and profile on mobile */
+    .user-section .notiicon,
+    .user-section .profile {
+        display: none;
+    }
+
+    /* Keep login button visible if user is not logged in */
+    .user-section .login-container {
+        display: flex;
+    }
+
+    .logo {
+        width: 90px; /* Keep consistent size */
+        height: 90px;
+    }
+
+    .notiicon {
+        margin-right: 10px;
+    }
+
+    .notiicon img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .profile .pic img {
+        height: 35px;
+        width: 35px;
+    }
+
+    .login-button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    /* Adjust notification box for mobile */
+    .notifi-box {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        top: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        width: 92%;
+        margin: 8px;
+    }
+
+    .abc {
+        width: auto;
+        flex-shrink: 0;
+    }
+
+    .topic {
+        font-size: 23px;
+        max-width: none;
+    }
+
+    .logo {
+        width: 90px; /* Keep consistent size */
+        height: 90px;
     }
 }
 
