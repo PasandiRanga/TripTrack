@@ -143,23 +143,34 @@ class SuperAdminPages extends Controller {
     }
 
     public function getTotalBuses() {
-        if ($_SERVER['ReQUEST_METHOD'] == 'POST') {
-            $searchTerm = trim($_POST['searchTerm']);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Get search term from request
+        $searchTerm = trim($_POST['searchTerm']);
 
-            //load the Model
-            $result = $this->SuperAdminModel->getBusCount($searchTerm);
+        // Load the Model
+        $result = $this->SuperAdminModel->getBusCount($searchTerm);
 
-            $data = [
-                'searchTerm' => $searchTerm,
-                'total_buses' => $result['total_buses'] 
-            ];
-
-            $this->view('pages/SuperAdmin/Fleet', $data);
+        // Ensure $result contains the expected data
+        if (!isset($result['total_buses'])) {
+            echo json_encode(['status' => 'error', 'message' => 'No result found']);
+            exit;
         }
-        else {
-            $this->view('pages/SuperAdmin/Fleet');
-        }
+
+        // Send JSON response
+        echo json_encode([
+            'status' => 'success',
+            'searchTerm' => $searchTerm,
+            'total_buses' => (int) $result['total_buses'] // Ensure it's a number
+        ]);
+        exit;
+    } else {
+        // If not a POST request, return an error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        exit;
     }
+}
+
+
     public function getAllFleet() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // Fetch all fleet data from the model
