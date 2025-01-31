@@ -103,6 +103,15 @@
                 }
             }
 
+            //Find the respective route and stops
+            $busStops = [];
+            foreach ($routeData as $route) {
+                if ($route['routeNumber'] === $selectedBus['routeNumber']) {
+                    $busStops = explode(',', $route['stops']);
+                    break;
+                }
+            }
+
             
            
             
@@ -141,14 +150,6 @@
         ?>
 
         <?php
-            $busStops = [];
-            if (isset($selectedBus['stops']) && !empty($selectedBus['stops'])) {
-                // Convert the stops text into an array by splitting it at commas
-                $busStops = explode(',', $selectedBus['stops']);
-                
-            } else {
-                $busStops = ["No stops available"];
-            }
             // Find the selected schedule for the bus
             if ($selectedBus) {
                 foreach ($scheduleData as $schedule) {
@@ -228,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="all-container"> 
         <div class="bus-info">
             <div class="route-container">
-                <h2><?php echo $selectedBus['route']; ?></h2>
+                <h2><?php echo $selectedBus['start_location']; ?> - <?php echo $selectedBus['destination']; ?></h2>
                 <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
             </div>
             <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['License_id']); ?></p>
@@ -236,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p><strong>Available Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['availableSeats']); ?></p>
             <div class="rating">
                 <?php
-                    $rating = $selectedBus['rating']; // Assuming `rating` is a number like 4, 4.5, etc.
+                    $rating = 0.0;
                     $fullStars = floor($rating); // Full stars based on integer part of rating
                     $halfStar = $rating - $fullStars >= 0.5; // Check if there's a half star
                     $maxStars = 5; // Total number of stars
@@ -461,11 +462,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="radio" name="paymentMethod" value="Online" required> Online
             </div>
 
-            <div class="form-group-inline">
+            <!-- <div class="form-group-inline">
                 <label>Receive ticket via:</label>
                 <input type="checkbox" name="receiveTicket[]" value="Email"> Email
                 <input type="checkbox" name="receiveTicket[]" value="SMS"> SMS
-            </div>
+            </div> -->
 
             <!-- Add hidden input fields for price information -->
             <input type="hidden" name="pricePerSeat" value="<?php echo htmlspecialchars($pricePerSeat); ?>">
