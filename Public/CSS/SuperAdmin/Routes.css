@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Back button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Page title */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Add Route button at the top right */
+.add-button-container {
+    margin: 20px auto; /* Centers the button horizontally */
+    width: 90%; /* Matches the table's width */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.add-button:hover {
+    background-color: #007bff;
+}
+
+/* Table container */
+.routes-container {
+    margin: 20px auto;
+    width: 90%;
+    border-radius: 10px; /* Rounds the corners */
+    overflow: hidden; /* Ensures corners stay rounded */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
+    background-color: white; /* Ensures a consistent background */
+}
+
+/* Table styles */
+.routes-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.routes-table th, .routes-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.routes-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.routes-table tr.selected {
+    background-color: #d3d3d3;
+}
+
+.routes-table tr:hover {
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
+
+/* Update and Delete buttons in the table (for potential use) */
+.update-btn,
+.delete-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #007bff;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
