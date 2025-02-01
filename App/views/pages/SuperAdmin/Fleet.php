@@ -76,11 +76,6 @@
         
     </div>
     
-    <?php if (isset($data['total_buses'])): ?>
-            <h3>Total Buses Found for "<?php echo $data['searchTerm']; ?>": <?php echo $data['total_buses']; ?></h3>
-    <?php endif; ?>
-    
-    
 
     <!-- Fleet table -->
     <div class="fleet-table-container">
@@ -174,8 +169,9 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 'success') {
-                    const count = data.total_buses;
+
+                if (data.status === 'success' && data.data) {
+                    const count = data.data.total_buses;
                     alert(`Total Buses found: ${count}`);
                     updateTable(data.data);
                 } else {
