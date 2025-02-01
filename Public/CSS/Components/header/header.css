@@ -83,23 +83,22 @@ li {
     align-items: center;
 }
 
-/* Login button styling (for GuestUser role) */
+/* Login button styling - updating to match navbar styles */
 .login-button {
-    background-color: #fff;
-    color:#185a9d;
+    background-color: transparent; /* Changed from #fff */
+    color: #185a9d;
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px; /* Changed from 5px to match navbar */
     cursor: pointer;
     font-size: 18px;
     font-family: poppins;
     font-weight: bold;
- 
 }
 
 .login-button:hover {
-    background-color: #acd1db;
-    color: #063946;
+    background-color: #acd1db; /* Updated to match navbar hover */
+    color: #185a9d; /* Keep color consistent on hover */
 }
 
 .user-section {
@@ -146,13 +145,14 @@ li {
     opacity: 1;
 }
 
-/* Ensure notification box is above other elements */
+/* Update notification box styling to match theme */
 .notifi-box {
     position: absolute;
     top: 63px;
     right: 35px;
-    background: linear-gradient(145deg, #ffffff, #f7f7f7); /* Light gradient for depth */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Match navbar shadow */
     width: 500px;
     max-height: 400px; /* Set a maximum height for the box */
     opacity: 0;
@@ -188,7 +188,7 @@ li {
 }
 
 .notifi-item:hover {
-    background-color: #f1f1f1; /* Subtle hover effect */
+    background-color: #f0f0f0; /* Match navbar hover */
 }
 
 .notifi-item .text h4 {
@@ -370,7 +370,7 @@ li {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 950px) {
     .header {
         width: 98%;
     }
@@ -380,7 +380,7 @@ li {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 950px) {
     .header {
         height: 60px;
         min-height: 60px;
@@ -501,7 +501,7 @@ li {
 /* Add styles for the navbar toggle button */
 .navbar-toggle {
     margin-left: auto !important; /* Force right alignment */
-    padding-right: 0 !important; /* Remove right padding */
+    padding-right: 5px !important; /* Remove right padding */
 }
 
 /* Ensure the navbar container in the navbar.php file is properly positioned */
@@ -519,7 +519,7 @@ li {
     display: none; /* Hidden by default */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 950px) {
     .abc {
         width: 100%;
         position: relative;

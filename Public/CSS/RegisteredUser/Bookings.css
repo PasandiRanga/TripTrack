@@ -247,10 +247,7 @@ table td:last-child button {
         border: 2px solid #a2d8ff;
     }
 
-    button {
-        width: 100%; /* Make buttons full-width on small screens */
-        font-size: 16px; /* Slightly larger font size for better readability */
-    }
+    
 }
 
 .input-group {
@@ -354,6 +351,19 @@ button {
     min-width: 80px; 
     outline: none;
     font-size: 12px;
+}
+
+.header-container {
+    position: relative;
+    z-index: 999;   /* Higher than the image slider */
+    position: fixed;
+    top: 0;    
+    width:98%;
+    display: flex;  
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin-top: 20px;
+    
 }
 
 /* Button Styling for Cancel and View */

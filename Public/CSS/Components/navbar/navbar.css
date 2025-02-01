@@ -34,13 +34,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 10px 15px;
     margin: 0 5px;
     border-radius: 50px;
     transition: background-color 0.3s ease, color 0.3s ease;
-    color:#185a9d ;
+    color: #185a9d;
     text-decoration: none;
     font-family: poppins;
+    font-size: 18px;
     font-weight: bold;
     flex-shrink: 0;
 }
@@ -63,6 +64,7 @@
 
 .navbar .navbar-item:hover {
     background-color: #acd1db;
+    color: #185a9d;
 }
 
 .navbar .navbar-item i {
@@ -93,7 +95,7 @@
     margin-right: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 950px) {
     .navbar {
         width: 100%;
         padding: 0;
@@ -106,11 +108,13 @@
     #navbar-items {
         display: none !important;
         width: 100%;
-        background: transparent;
+        background: #ffffff;
         padding: 10px 0;
-        box-shadow: none;
-        position: relative;
-        top: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 100%;
+        right: 0;
+        z-index: 1000;
     }
 
     #navbar-items.active {
@@ -119,19 +123,38 @@
         animation: slideDown 0.3s ease;
     }
 
-    .navbar-item {
-        width: 100%;
+    /* Override desktop navbar-item styles for mobile */
+    .navbar .navbar-item {
+        width: 80%;
         padding: 12px 20px;
         margin: 0;
-        text-align: left;
-        border-bottom: 1px solid #eee;
         border-radius: 0;
+        text-align: left;
+        justify-content: flex-start;
+        color: #185a9d;
+        background: none;
+        box-shadow: none;
     }
 
-    .navbar-item:last-child {
-        border-bottom: none;
+    .navbar .navbar-item:hover {
+        background-color: #f0f0f0;
     }
 
+    .navbar .navbar-item.selected {
+        background-color: #f0f0f0;
+        box-shadow: none;
+    }
+
+    .navbar .navbar-item .text {
+        display: inline-block !important;
+        margin-left: 10px;
+    }
+
+    .navbar-toggle {
+        display: block !important;
+    }
+
+    /* Mobile-specific notification and profile styles */
     .mobile-only {
         display: block;
         border-top: 1px solid #eee;
@@ -139,55 +162,11 @@
         padding-top: 10px;
     }
 
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
     .notifications-item .badge {
         background: #f00;
         padding: 2px 6px;
-        border-radius: 50%;
         color: white;
         font-size: 12px;
         margin-left: 5px;
-    }
-
-    .navbar-item.notifications-item,
-    .navbar-item.profile-item {
-        display: flex;
-        align-items: center;
-    }
-
-    #navbar-items {
-        display: none !important;
-        width: 100%;
-        background-color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        padding: 10px 0;
-    }
-
-    #navbar-items.active {
-        display: flex !important;
-        flex-direction: column;
-    }
-
-    .navbar-item {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 0;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-
-    .navbar-toggle {
-        display: block !important;
     }
 }

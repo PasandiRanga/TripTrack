@@ -91,7 +91,7 @@
         
 
         public function contactUs() {
-            $this->view('pages/RegisteredUser/contactus');
+            $this->view('pages/GuestUser/contactus');
         }
 
         public function notification() {

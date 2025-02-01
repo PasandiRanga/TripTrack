@@ -54,7 +54,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <div class="hero-container">
         <br/>
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <div class="header-container">
+            <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        </div>
+        <br/>
     </div>
     
 
