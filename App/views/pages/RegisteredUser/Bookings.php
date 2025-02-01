@@ -54,7 +54,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <div class="hero-container">
         <br/>
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <div class="header-container">
+            <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        </div>
+        <br/>
     </div>
     
 
@@ -145,7 +148,7 @@
                         <tr>
                             <td data-label="Date"><?php echo $schedule['date']; ?></td>
                             <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
-                            <td data-label="Route"><?php echo $bus['route']; ?></td>
+                            <td data-label="Route"><?php echo $bus['start_location']; ?> - <?php echo $bus['destination']; ?></td>
                             <td data-label="From"><?php echo $booking['from_location']; ?></td>
                             <td data-label="To"><?php echo $booking['to_location']; ?></td>
                             <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>
@@ -210,7 +213,7 @@
                         <tr>
                             <td data-label="Date"><?php echo $schedule['date']; ?></td>
                             <td data-label="Time"><?php echo $booking['Booking_time']; ?></td>
-                            <td data-label="Route"><?php echo $bus['route']; ?></td>
+                            <td data-label="Route"><?php echo $bus['start_location']; ?> - <?php echo $bus['destination']; ?></td>
                             <td data-label="From"><?php echo $booking['from_location']; ?></td>
                             <td data-label="To"><?php echo $booking['to_location']; ?></td>
                             <td data-label="Bus No"><?php echo $bus['License_id']; ?></td>

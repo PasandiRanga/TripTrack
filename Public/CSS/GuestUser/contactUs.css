@@ -20,6 +20,19 @@ body {
     background: #d8f8ee;
 }
 
+.header-container {
+    position: relative;
+    z-index: 999;   /* Higher than the image slider */
+    position: fixed;
+    top: 0;    
+    width:98%;
+    display: flex;  
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin-top: 20px;
+    
+}
+
 .Contactcontainer {
   position: absolute;
   top: 35%; /* Adjust to place in the center of the image */

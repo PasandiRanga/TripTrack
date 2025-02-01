@@ -25,9 +25,16 @@
                 // Extract unique locations from routeData stops
                 $allStops = [];
                 foreach ($routeData as $route) {
+                    // Handle stops
                     if (!empty($route['stops'])) {
                         $stops = array_map('trim', explode(',', $route['stops']));
                         $allStops = array_merge($allStops, $stops);
+                    }
+                    
+                    // Handle from-to locations
+                    if (!empty($route['route'])) {
+                        $routeEndpoints = array_map('trim', explode('-', $route['route']));
+                        $allStops = array_merge($allStops, $routeEndpoints);
                     }
                 }
 
@@ -94,17 +101,14 @@
         // First filter routes that contain both 'from' and 'to' stops
         const filteredRoutes = routeData.filter(route => {
             if (route.stops) {
-                // Combine stops array with from_location and to_location
+                // Get stops from the stops field
                 const stopsArray = route.stops.split(',').map(stop => stop.trim());
-                const allStops = [...stopsArray];
                 
-                // Add from_location and to_location if they exist and aren't already in the array
-                if (route.from_location && !allStops.includes(route.from_location.trim())) {
-                    allStops.push(route.from_location.trim());
-                }
-                if (route.to_location && !allStops.includes(route.to_location.trim())) {
-                    allStops.push(route.to_location.trim());
-                }
+                // Get endpoints from the route field
+                const routeEndpoints = route.route ? route.route.split('-').map(stop => stop.trim()) : [];
+                
+                // Combine all possible stops
+                const allStops = [...stopsArray, ...routeEndpoints];
                 
                 return allStops.includes(from) && allStops.includes(to);
             }
@@ -112,12 +116,12 @@
         });
 
         // Get the route numbers from filtered routes
-        const matchingRouteNumbers = filteredRoutes.map(route => route.route_no);
+        const matchingRouteNumbers = filteredRoutes.map(route => route.routeNumber);
 
         // Then filter buses that operate on these routes
         const filteredBusIds = busData
-            .filter(bus => matchingRouteNumbers.includes(bus.route_no))
-            .map(bus => bus.license_number);
+            .filter(bus => matchingRouteNumbers.includes(bus.routeNumber))
+            .map(bus => bus.License_id);
 
         console.log(scheduleData);
 
@@ -128,7 +132,7 @@
         // Filter the scheduleData to match the selected date and bus IDs
         if(travelDate){
             const filteredSchedules = scheduleData.filter(schedule =>
-                filteredBusIds.includes(schedule.license_number) && schedule.date === travelDate
+                filteredBusIds.includes(schedule.License_id) && schedule.date === travelDate
             );
 
             console.log('Filtered schedules: ', filteredSchedules)
@@ -137,7 +141,7 @@
             renderFilteredSchedules(filteredSchedules , busData);
         }else{
             const filteredSchedules = scheduleData.filter(schedule =>
-                filteredBusIds.includes(schedule.license_number)
+                filteredBusIds.includes(schedule.License_id)
             );
 
             console.log('Filtered Routes:', filteredSchedules);
@@ -168,12 +172,12 @@
         // Dynamically load bus cards based on filtered schedules
         filteredSchedules.forEach(schedule => {
             // Find the corresponding bus data for each schedule by License_id
-            const bus = busData.find(b => b.license_number === schedule.license_number);
+            const bus = busData.find(b => b.License_id === schedule.License_id);
 
-            const route = routeData.find(r=>r.route_no === bus.route_no && r.from_location === bus.from_location && r.to_location === bus.to_location && r.type === bus.type);
+            const route = routeData.find(r=>r.routeNumber === bus.routeNumber );
 
             if (!bus) {
-                console.warn(`No matching bus found for License_number: ${schedule.license_number}`);
+                console.warn(`No matching bus found for License_number: ${schedule.License_id}`);
                 return; // Skip rendering this schedule if bus data is missing
             }
 
@@ -195,8 +199,8 @@
             scheduleDiv.innerHTML = `
                 <div class="bus-card-header">
                     <div class="route-info">
-                        <h2>${bus.from_location} - ${bus.to_location}</h2>
-                        <span class="bus-type">${bus.route_no}</span>
+                        <h2>${bus.start_location} - ${bus.destination}</h2>
+                        <span class="bus-type">${bus.routeNumber}</span>
                     </div>
                 </div>
                 <div class="bus-card-timing">
@@ -217,7 +221,7 @@
                         ).join('')}
                         <span>${bus.rating}</span>
                     </div>
-                    <div class="price"><span>${route.price}</span></div>
+                    <div class="price"><span>${bus.price}</span></div>
                 </div>
             `;
 
