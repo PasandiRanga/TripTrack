@@ -23,12 +23,6 @@
         </a>
     </div>
 
-    <?php 
-        $data['routes'] = [
-            (object) ['route_no' => '101', 'route_name' => 'Downtown Express', 'stops' => 'Stop A, Stop B, Stop C'],
-            (object) ['route_no' => '202', 'route_name' => 'City Loop', 'stops' => 'Stop X, Stop Y, Stop Z'],
-        ];
-    ?>
 
     <!-- Routes Table -->
     <div class="routes-container">
@@ -43,15 +37,22 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['routes'] as $route): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($route->route_no); ?></td>
-                        <td><?php echo htmlspecialchars($route->route_name); ?></td>
-                        <td><?php echo htmlspecialchars($route->stops); ?></td>
-                        <td><button class="update-btn" onclick="updateRoute('<?php echo $route->route_no; ?>')">Update</button></td>
-                        <td><button class="delete-btn" onclick="deleteRoute('<?php echo $route->route_no; ?>')">Delete</button></td>
-                    </tr>
-                <?php endforeach; ?>
+                <?php 
+                if(isset($data['routes']) && is_array($data['routes'])){
+                    foreach ($data['routes'] as $routes) {
+                        echo "<tr>";
+                        echo "<td>{$routes['routeNumber']}</td>";
+                        echo "<td>{$routes['route']}</td>";
+                        echo "<td>{$routes['stops']}</td>";
+                        echo "<td><button class='update-btn' onclick='updateRoute(\"{$routes['routeNumber']}\")'>Update</button></td>";
+                        echo "<td><button class='delete-btn' onclick='deleteRoute(\"{$routes['routeNumber']}\")'>Delete</button></td>";
+                        echo "</tr>";
+                    }
+                }
+                else {
+                echo "<tr><td colspan='14'>No bus data available.</td></tr>";
+                }
+                ?>
             </tbody>
         </table>
     </div>

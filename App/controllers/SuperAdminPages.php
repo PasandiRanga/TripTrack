@@ -451,8 +451,16 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Addassigns');
     }
 
-    public function routes() {
-        $this->view('pages/SuperAdmin/Routes');
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Routes
+//---------------------------------------------------------------------------------------------------------------------- 
+
+    public function routes(){
+        $routes = $this->SuperAdminModel->getRoutes();
+        $data = [
+            'routes' => $routes
+        ];
+        $this->view('pages/SuperAdmin/Routes',$data);
     }
 //----------------------------------------------------------------------------------------------------------------------
                                     //support requests
@@ -465,7 +473,6 @@ class SuperAdminPages extends Controller {
         ];
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
-
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 

@@ -84,9 +84,9 @@
             <tr>
                 <th>Licence ID</th>
                 <th>Route No</th>
-                <th>Route</th>
+                <!-- <th>Route</th> -->
                 <!-- <th>Bus Type</th> -->
-                <th>Stops</th>
+                <!-- <th>Stops</th> -->
                 <th>Starts</th>
                 <th>Destination</th>
                 <!-- <th>Ratings</th> -->
@@ -104,9 +104,9 @@
                     echo "<tr>";
                     echo "<td>{$bus['License_id']}</td>";
                     echo "<td>{$bus['routeNumber']}</td>";
-                    echo "<td>{$bus['route']}</td>";
+                    //echo "<td>{$bus['route']}</td>";
                     // echo "<td>{$bus['busType']}</td>";
-                    echo "<td>{$bus['stops']}</td>";
+                    //echo "<td>{$bus['stops']}</td>";
                     echo "<td>{$bus['start_location']}</td>";
                     echo "<td>{$bus['destination']}</td>";
                     // echo "<td>{$bus['rating']}</td>";
@@ -215,9 +215,9 @@
                 row.innerHTML = `
                     <td>${bus.License_id}</td>
                     <td>${bus.routeNumber}</td>
-                    <td>${bus.route}</td>
+                    <!-- <td>${bus.route}</td> -->
                     <!-- <td>$//{bus.busType}</td> -->
-                    <td>${bus.stops}</td>
+                    <!-- <td>${bus.stops}</td> -->
                     <td>${bus.start_location}</td>
                     <td>${bus.destination}</td>
                     <!-- <td>$//{bus.rating}</td> -->
