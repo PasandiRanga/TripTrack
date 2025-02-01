@@ -202,7 +202,7 @@
         
                     // Register the user
                     if ($this->GuestpagesModel->register($data)) {
-                        header('Location: ' . URLROOT . '/GuestPages/home' );
+                        header('Location: ' . URLROOT . '/GuestPages/otp' );
                         exit();  // Make sure no further code executes after the redirect
                     } else {
                         die('Something went wrong');  // Handle errors in registration
@@ -235,6 +235,10 @@
                 // Load the sign-up form view
                 $this->view('inc/Components/SignUp/signUp', $data);
             }
+        }
+
+        public function otp() {
+            $this->view('inc/Components/SignUp/otpverify');
         }
 
         public function Login() {

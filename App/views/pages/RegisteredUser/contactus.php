@@ -1,7 +1,3 @@
-<?php
-    require_once APPROOT.'/helpers/auth_check.php';
-    authCheck(['RegisteredUser']);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,15 +17,13 @@
 <body>
 
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
-    $userID = $_SESSION['user_id'];
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
-    // echo ($userID);
+    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     ?>
 
     <?php
@@ -37,7 +31,7 @@
     $postdata = $data;
     
     $data = [
-        'currentController' => 'GuestPages', // Adjust this based on your controller
+        'currentController' => 'RegisteredPages', // Adjust this based on your controller
         'currentMethod' => 'contact', // Adjust this based on the method
         'userRole' => $userRole
     ];
@@ -61,7 +55,9 @@
 
     <div class="hero-container">
         <br/>
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <div class="header-container">
+            <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        </div>
       
 
         <div class="Contactcontainer">
@@ -113,8 +109,6 @@
 
           <form action="<?php echo URLROOT; ?>/RegisteredPages/submitRequest" method="POST" enctype="multipart/form-data">
             <h3 class="title">Contact us</h3>
-            <!-- Hidden input for user_id -->
-            <input type="hidden" name="user_id" value="<?php echo $userID; ?>" />
             <div class="input-container">
               <input type="text" name="name" id="name" class="input" value="<?php echo isset($postdata['name']) ? $postdata['name'] : ''; ?>" />
               <label for="">Name</label>
