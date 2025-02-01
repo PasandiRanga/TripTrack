@@ -161,6 +161,7 @@
         // Search Function
         function searchFleet() {
             const searchQuery = document.getElementById("search").value.trim();
+            console.log(searchQuery);
 
             fetch('<?php echo URLROOT; ?>/SuperAdminPages/searchFleet', {
                 method: 'POST',
@@ -171,7 +172,8 @@
             .then(data => {
 
                 if (data.status === 'success' && data.data) {
-                    const count = data.data.total_buses;
+                    const count = data.data.length;
+
                     alert(`Total Buses found: ${count}`);
                     updateTable(data.data);
                 } else {
