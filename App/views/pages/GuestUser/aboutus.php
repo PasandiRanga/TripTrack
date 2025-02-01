@@ -46,7 +46,7 @@
         <div class="header-container">
             <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
         </div>
-    
+        
         <div class="about-container">
         
             <div class="about-section">
