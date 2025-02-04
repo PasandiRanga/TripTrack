@@ -447,8 +447,16 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/ReplyReviews');
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Routes
+//---------------------------------------------------------------------------------------------------------------------- 
+
     public function assigns() {
-        $this->view('pages/SuperAdmin/Assigns');
+        $assign = $this->SuperAdminModel->getAssigns();
+        $data =  [
+            'assign' => $assign
+        ];
+        $this->view('pages/SuperAdmin/Assigns',$data);
     }
 
     public function addassigns() {

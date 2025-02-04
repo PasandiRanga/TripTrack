@@ -30,8 +30,8 @@
                     <th>Schedule ID</th>
                     <th>Conductor ID</th>
                     <th>Driver ID</th>
-                    <th>Assignment Time</th>
-                    <th>Assignment Date</th>
+                    <th>Assign Time</th>
+                    <th>Assign Date</th>
                     <th>Update</th>
                     <th>Delete</th>
                 </tr>
@@ -39,22 +39,27 @@
             <tbody>
                 <?php
                 // Example data for assignments (Replace with dynamic data from the database)
-                $assignments = [
+                /*
+                $assigns = [
                     ['schedule_id' => 101, 'conductor_id' => 1, 'driver_id' => 5, 'time' => '10:00 AM', 'date' => '2024-11-23'],
                     ['schedule_id' => 102, 'conductor_id' => 2, 'driver_id' => 6, 'time' => '11:30 AM', 'date' => '2024-11-23'],
                     ['schedule_id' => 103, 'conductor_id' => 3, 'driver_id' => 7, 'time' => '01:00 PM', 'date' => '2024-11-23']
-                ];
-
-                foreach ($assignments as $assignment) {
-                    echo "<tr>
-                            <td>{$assignment['schedule_id']}</td>
-                            <td>{$assignment['conductor_id']}</td>
-                            <td>{$assignment['driver_id']}</td>
-                            <td>{$assignment['time']}</td>
-                            <td>{$assignment['date']}</td>
-                            <td><button class='update-btn' onclick=\"window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/updateassign/{$assignment['schedule_id']}'\">Update</button></td>
-                            <td><button class='delete-btn' onclick=\"deleteAssignment({$assignment['schedule_id']})\">Delete</button></td>
-                          </tr>";
+                ]; 
+                */
+                if(isset($data['assign']) && is_array($data['assign'])){
+                    foreach ($data['assign'] as $assign) {
+                        echo "<tr>
+                                <td>{$assign['scheduleId']}</td>
+                                <td>{$assign['conductor_id']}</td>
+                                <td>{$assign['driver_id']}</td>
+                                <td>{$assign['assign_time']}</td>
+                                <td>{$assign['assign_date']}</td>
+                                <td><button class='update-btn' onclick=\"window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/updateassign/{$assign['scheduleId']}'\">Update</button></td>
+                                <td><button class='delete-btn' onclick=\"deleteAssigns({$assign['scheduleId']})\">Delete</button></td>
+                            </tr>";
+                    }
+                } else {
+                        echo "<tr><td colspan='14'>No Assigns data available.</td></tr>";
                 }
                 ?>
             </tbody>
@@ -63,7 +68,7 @@
 
     <script>
         // Function to handle the Delete button click
-        function deleteAssignment(scheduleId) {
+        function deleteAssigns(scheduleId) {
             if (confirm("Are you sure you want to delete this assignment?")) {
                 alert(`Assignment with Schedule ID ${scheduleId} has been deleted.`);
                 // Implement actual deletion logic with an AJAX request or form submission

@@ -55,18 +55,18 @@
                     ['id' => 'EM5', 'name' => 'satheera jayawardana', 'nic' => '200198275541', 'address' => 'Main street, Colombo', 'contact' => '0775423566', 'email' => 'satheera@gmail.com', 'role' => 'Admin']
                 ]; */
                 if(isset($data['emp']) && is_array($data['emp'])) {
-                foreach ($data['emp'] as $user) {
-                    echo "<tr>";
-                    echo "<td>{$user['employee_id']}</td>";
-                    echo "<td>{$user['name']}</td>";
-                    echo "<td>{$user['nic']}</td>";
-                    echo "<td>{$user['address']}</td>";
-                    echo "<td>{$user['contactNo']}</td>";
-                    echo "<td>" . (!empty($user['email']) ? $user['email'] : '-') . "</td>";
-                    echo "<td>{$user['role']}</td>";
-                    echo "<td><button class='update' onclick=\"editUser({$user['employee_id']})\">Update</button></td>";
-                    echo "<td><button class='delete' onclick=\"deleteUser({$user['employee_id']})\">Delete</button></td>";
-                    echo "</tr>";
+                    foreach ($data['emp'] as $user) {
+                        echo "<tr>";
+                        echo "<td>{$user['employee_id']}</td>";
+                        echo "<td>{$user['name']}</td>";
+                        echo "<td>{$user['nic']}</td>";
+                        echo "<td>{$user['address']}</td>";
+                        echo "<td>{$user['contactNo']}</td>";
+                        echo "<td>" . (!empty($user['email']) ? $user['email'] : '-') . "</td>";
+                        echo "<td>{$user['role']}</td>";
+                        echo "<td><button class='update' onclick=\"editUser({$user['employee_id']})\">Update</button></td>";
+                        echo "<td><button class='delete' onclick=\"deleteUser({$user['employee_id']})\">Delete</button></td>";
+                        echo "</tr>";
                     }
                 } else {
                         echo "<tr><td colspan='14'>No Employee data available.</td></tr>";
