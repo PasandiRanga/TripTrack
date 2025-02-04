@@ -457,4 +457,60 @@ p {
     margin-right: 10px;
 }
 
+.confirmBoxContent h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
 
+        .confirmBoxContent p {
+            font-size: 1.2rem;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .otpverify input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #43cea2;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .verify-button {
+            width: 50%;
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        .verify-button:hover {
+            background: linear-gradient(135deg, #185a9d, #43cea2);
+        }
+
+        .resend-otp p {
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .resend-otp a {
+            color: #185a9d;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .resend-otp a:hover {
+            text-decoration: underline;
+        }
+
+        .form-invalid {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: block;
+        }

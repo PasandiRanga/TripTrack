@@ -50,7 +50,7 @@
                     <input type="text" name="email" id="email" value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['email_err']) ? $data['email_err'] : ''; ?></span>
 
-                    <button class="otp" type="button" onclick="showConfirmBox()">Send OTP</button>
+                    <button class="otp" id="sendOTP" type="button">Send OTP</button>
 
                     <!-- Password Field -->
                     <div class="form-input-title">Password <span class="required">*</span></div>
@@ -100,155 +100,158 @@
 
                     <!-- Register Button Section -->
                     <div class="form-register">
-                    <center><input class="button" type="submit" value="Register"></center>                 
+                    <center><input class="button" type="submit" value="Register"  onclick="showConfirmBox()"></center>                 
                     </div>
 
                     <div class="confirmBox hidden" id="confirmBox">
                         <div class="confirmBoxContent">
-                            <h2>Verify your email 📩</h2>
-                            <p>Enter the code you received on your email.</p>
+                            <h2>Verify Your Email</h2>
+                            <p>A 6-digit OTP has been sent to your email. Please enter it below to verify your account.</p>
                             
-                            <div class="otp-inputs">
-                                <input type="text" maxlength="1">
-                                <input type="text" maxlength="1">
-                                <input type="text" maxlength="1">
-                                <input type="text" maxlength="1">
+                            <div class="otpverify">
+                                <input type="text" name="otp" id="otp" maxlength="6" placeholder="Enter OTP" required>
+                                <span class="form-invalid"><?php echo isset($data['otp_err']) ? $data['otp_err'] : ''; ?></span>
+                            </div>
+                            <button type="button" class="verify-button" id="verify">Verify</button>
+                            
+                            <div class="resend-otp">
+                                <p>Didn't receive an OTP? <a href="">Resend OTP</a></p>
                             </div>
 
-                            <p class="resend">Resend code</p>
-
-                            <button class="next-btn" onclick="showSuccessBox()">Verify</button>
                             <div class="close-btn" onclick="closeConfirmBox()">×</div>
                         </div>
                     </div>
 
-                    <div class="success-box hidden" id="successBox">
-                        <div class="success-icon">✔</div>
-                        <h2>Verified</h2>
-                        <p>Welcome! 🎉</p>
-                    </div>
-
                     <script>
-                        // Profile image drag-and-drop
-                        const dropArea = document.querySelector(".form-drag-area");
-                        const dropText = document.querySelector(".description");
-                        const browseButton = document.querySelector(".form_upload");
-                        const inputPath = document.querySelector("#profile_image");
-                        const placeholder = document.querySelector("#placeholder");
-                        const validate = document.querySelector(".profile_image_validation");
-                        let file;
+                    // Profile image drag-and-drop
+                    const dropArea = document.querySelector(".form-drag-area");
+                    const dropText = document.querySelector(".description");
+                    const browseButton = document.querySelector(".form_upload");
+                    const inputPath = document.querySelector("#profile_image");
+                    const placeholder = document.querySelector("#placeholder");
+                    const validate = document.querySelector(".profile_image_validation");
+                    let file;
 
-                        // Browse option and upload functionality
-                        browseButton.onclick = () => {
-                            inputPath.click();
-                        };
+                    // Browse option and upload functionality
+                    browseButton.onclick = () => {
+                        inputPath.click();
+                    };
 
-                        inputPath.addEventListener("change", function () {
-                            file = this.files[0];
-                            showImage();
-                        });
+                    inputPath.addEventListener("change", function () {
+                        file = this.files[0];
+                        showImage();
+                    });
 
-                        dropArea.addEventListener("dragover", (event) => {
-                            event.preventDefault();
-                            dropArea.classList.add("active");
-                            dropText.textContent = "Release to Upload the Image";
-                        });
+                    dropArea.addEventListener("dragover", (event) => {
+                        event.preventDefault();
+                        dropArea.classList.add("active");
+                        dropText.textContent = "Release to Upload the Image";
+                    });
 
-                        dropArea.addEventListener("dragleave", () => {
+                    dropArea.addEventListener("dragleave", () => {
+                        dropArea.classList.remove("active");
+                        dropText.textContent = "Drag & Drop to Upload Image";
+                    });
+
+                    dropArea.addEventListener("drop", (event) => {
+                        event.preventDefault();
+                        file = event.dataTransfer.files[0];
+
+                        // Adding the file to the input element programmatically
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        inputPath.files = dataTransfer.files;
+
+                        showImage();
+                        dropArea.classList.remove("active");
+                    });
+
+                    function showImage() {
+                        const fileType = file.type;
+
+                        // Valid image extensions
+                        const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
+
+                        if (validExtensions.includes(fileType)) {
+                            const fileReader = new FileReader();
+
+                            fileReader.onload = () => {
+                                const fileURL = fileReader.result;
+
+                                // Set image preview
+                                placeholder.setAttribute("src", fileURL);
+                            };
+
+                            fileReader.readAsDataURL(file);
+
+                            // Show validation tick
+                            validate.classList.add("active");
+                        } else {
+                            alert("This is not a valid image file. Please upload a JPEG, JPG, or PNG file.");
                             dropArea.classList.remove("active");
-                            dropText.textContent = "Drag & Drop to Upload Image";
-                        });
-
-                        dropArea.addEventListener("drop", (event) => {
-                            event.preventDefault();
-                            file = event.dataTransfer.files[0];
-
-                            // Adding the file to the input element programmatically
-                            const dataTransfer = new DataTransfer();
-                            dataTransfer.items.add(file);
-                            inputPath.files = dataTransfer.files;
-
-                            showImage();
-                            dropArea.classList.remove("active");
-                        });
-
-                        function showImage() {
-                            const fileType = file.type;
-
-                            // Valid image extensions
-                            const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
-
-                            if (validExtensions.includes(fileType)) {
-                                const fileReader = new FileReader();
-
-                                fileReader.onload = () => {
-                                    const fileURL = fileReader.result;
-
-                                    // Set image preview
-                                    placeholder.setAttribute("src", fileURL);
-                                };
-
-                                fileReader.readAsDataURL(file);
-
-                                // Show validation tick
-                                validate.classList.add("active");
-                            } else {
-                                alert("This is not a valid image file. Please upload a JPEG, JPG, or PNG file.");
-                                dropArea.classList.remove("active");
-                            }
                         }
-                        //Show password
-                        const togglePassword = document.querySelector("#togglePassword");
-                        const passwordField = document.querySelector("#password");
-                        const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
-                        const confirmPasswordField = document.querySelector("#confirm");
+                    }
 
-                        togglePassword.addEventListener("click", () => {
-                            // Toggle password visibility
-                            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
-                            passwordField.setAttribute("type", type);
+                    // Show password
+                    const togglePassword = document.querySelector("#togglePassword");
+                    const passwordField = document.querySelector("#password");
+                    const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+                    const confirmPasswordField = document.querySelector("#confirm");
 
-                            // Toggle the icon
-                            togglePassword.classList.toggle("fa-eye-slash");
-                        });
+                    togglePassword.addEventListener("click", () => {
+                        // Toggle password visibility
+                        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+                        passwordField.setAttribute("type", type);
 
-                        toggleConfirmPassword.addEventListener("click", () => {
-                            // Toggle confirm password visibility
-                            const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
-                            confirmPasswordField.setAttribute("type", type);
+                        // Toggle the icon
+                        togglePassword.classList.toggle("fa-eye-slash");
+                    });
 
-                            // Toggle the icon
-                            toggleConfirmPassword.classList.toggle("fa-eye-slash");
-                        });
+                    toggleConfirmPassword.addEventListener("click", () => {
+                        // Toggle confirm password visibility
+                        const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
+                        confirmPasswordField.setAttribute("type", type);
 
-                        function showConfirmBox() {
-                            document.getElementById("confirmBox").classList.remove("hidden");
+                        // Toggle the icon
+                        toggleConfirmPassword.classList.toggle("fa-eye-slash");
+                    });
+
+                    function showConfirmBox() {
+                        document.getElementById("confirmBox").classList.remove("hidden");
+                    }
+
+                    function closeConfirmBox() {
+                        document.getElementById("confirmBox").classList.add("hidden");
+                    }
+
+                    let generatedOTP = "";
+
+                    // Function to generate a 6-digit OTP
+                    function generateOTP() {
+                        return Math.floor(100000 + Math.random() * 900000);
+                    }
+
+                    // Send OTP Button Click (Generate OTP)
+                    document.getElementById("sendOTP").addEventListener("click", function () {
+                        generatedOTP = generateOTP();
+                        alert("Your OTP is: " + generatedOTP); // Display OTP alert
+                    });
+
+                    // Verify OTP Button Click
+                    document.getElementById("verify").addEventListener("click", function (event) {
+                        event.preventDefault(); // Prevent form submission
+                        let enteredOTP = document.getElementById("otp").value;
+
+                        if (enteredOTP === generatedOTP.toString()) {
+                            alert("OTP Verified Successfully!");
+                            // You can proceed with form submission or other actions here
+                            document.querySelector("form").submit(); // Submit the form
+                        } else {
+                            alert("Incorrect OTP. Please try again.");
                         }
-
-                        function closeConfirmBox() {
-                            document.getElementById("confirmBox").classList.add("hidden");
-                        }
-
-                        // Show Success Box
-                        function showSuccessBox() {
-                            const successBox = document.getElementById("successBox");
-                            successBox.classList.remove("hidden");
-                            successBox.classList.add("show");
-                        }
-
-                        // Hide Success Box after 10 seconds
-                        setTimeout(() => {
-                            document.getElementById("successBox").classList.add("hidden");
-                            document.getElementById("successBox").classList.remove("show");
-                        }, 10000);  // 10 seconds
-
-                    
-
-                        
-                    </script>
-                </form>
-            
-
+                    });
+                </script>
+            </form>
         </div>
     </div>
     </div>
