@@ -517,8 +517,10 @@ echo "<script>
         // Get the start location and destination from the selected bus
         const startLocation = selectedBus.start_location;
         const destination = selectedBus.destination;
+        const price =selectedBus.price;
         let pricePerSeat = 0;
-        
+
+        //From middle to destination
         if (destination === to.trim() && startLocation !== from.trim()) {
             // Full journey minus distance from start to boarding point
             let totalDistance = 0;
@@ -543,10 +545,13 @@ echo "<script>
             const finalDistance = totalDistance - boardingDistance;
             pricePerSeat = leastPrice * finalDistance;
             
+        //From start to destination
         } else if (destination === to.trim() && startLocation === from.trim()) {
+
             // Full journey price
-            pricePerSeat = parseFloat(selectedBus.price);
-            
+            pricePerSeat = price;
+        
+        //From middle to middle 
         } else if (destination !== to.trim() && startLocation !== from.trim()) {
             // Partial journey between two intermediate stops
             let toDistance = 0;
@@ -563,7 +568,8 @@ echo "<script>
             
             const finalDistance = toDistance - fromDistance;
             pricePerSeat = leastPrice * finalDistance;
-            
+        
+        //From start to middle
         } else if (startLocation === from.trim() && destination !== to.trim()) {
             // Journey from start to intermediate stop
             for (const route of distanceData) {
