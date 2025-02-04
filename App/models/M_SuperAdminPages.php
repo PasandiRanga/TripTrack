@@ -103,9 +103,16 @@ class M_SuperAdminPages {
 
     //Get the total count of buses
     public function getBusCount($searchTerm){
-        $this->db->query("SELECT COUNT(*) AS total_buses FROM bus WHERE license_id = :searchTerm OR route_number = :searchTerm");
-        $this->db->bind(':searchTerm', $searchTerm);
-        return $this->db->single();
+        
+        if (empty($searchTerm)) {
+            return ['total_buses' => 0]; // Ensure return value is always valid
+        }
+        
+        $this->db->query("SELECT COUNT(*) AS total_buses FROM bus WHERE License_id LIKE :searchTerm OR routeNumber LIKE :searchTerm");
+        $this->db->bind(':searchTerm', "%{$searchTerm}%");
+        $result = $this->db->single();
+
+        return $result ? $result : ['total_buses' => 0];
 
     }
 
@@ -208,6 +215,16 @@ class M_SuperAdminPages {
         $this->db->query('SELECT * FROM support_request');
         return $this->db->resultSet();
     }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //Routes
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    public function getRoutes(){
+        $this->db->query('SELECT * FROM routes');
+        return $this->db->resultSet();
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
 

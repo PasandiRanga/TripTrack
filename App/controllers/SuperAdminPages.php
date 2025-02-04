@@ -143,23 +143,42 @@ class SuperAdminPages extends Controller {
     }
 
     public function getTotalBuses() {
-        if ($_SERVER['ReQUEST_METHOD'] == 'POST') {
-            $searchTerm = trim($_POST['searchTerm']);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Get search term from request
+            $data = json_decode(file_get_contents('php://input'), true);
+            $searchTerm = $data['searchTerm'] ?? '';
+            //$searchTerm = trim($_POST['searchTerm']);
 
-            //load the Model
+            error_log("Search Query Received: " . $searchTerm);
+            // Load the Model
             $result = $this->SuperAdminModel->getBusCount($searchTerm);
 
-            $data = [
-                'searchTerm' => $searchTerm,
-                'total_buses' => $result['total_buses'] 
-            ];
+            // Ensure the result is not null
+            //$totalBuses = isset($result['total_buses']) ? $result['total_buses'] : 0;
 
-            $this->view('pages/SuperAdmin/Fleet', $data);
-        }
-        else {
-            $this->view('pages/SuperAdmin/Fleet');
+
+            if ($result) {
+                echo json_encode(['status' => 'success', 'data' => $result]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No results found.']);
+            }
+            // Send JSON response instead of loading a view
+            /*
+            echo json_encode([
+                'status' => 'success',
+                'searchTerm' => $searchTerm,
+                'total_buses' => $totalBuses
+            ]);
+            exit; */
+        } else {
+            // If not a POST request, return an error
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+            exit;
         }
     }
+
+
+
     public function getAllFleet() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // Fetch all fleet data from the model
@@ -431,6 +450,18 @@ class SuperAdminPages extends Controller {
     public function addassigns() {
         $this->view('pages/SuperAdmin/Addassigns');
     }
+
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Routes
+//---------------------------------------------------------------------------------------------------------------------- 
+
+    public function routes(){
+        $routes = $this->SuperAdminModel->getRoutes();
+        $data = [
+            'routes' => $routes
+        ];
+        $this->view('pages/SuperAdmin/Routes',$data);
+    }
 //----------------------------------------------------------------------------------------------------------------------
                                     //support requests
 //---------------------------------------------------------------------------------------------------------------------- 
@@ -442,7 +473,6 @@ class SuperAdminPages extends Controller {
         ];
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
-
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 

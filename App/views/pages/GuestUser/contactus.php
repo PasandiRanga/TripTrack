@@ -55,7 +55,9 @@
 
     <div class="hero-container">
         <br/>
-        <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        <div class="header-container">
+            <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+        </div>
       
 
         <div class="Contactcontainer">

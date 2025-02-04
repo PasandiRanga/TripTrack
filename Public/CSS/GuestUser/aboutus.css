@@ -8,14 +8,30 @@
     position: relative;
 }
 
+.header-container {
+    position: relative;
+    z-index: 999;   /* Higher than the image slider */
+    position: fixed;
+    top: 0;    
+    width:98%;
+    display: flex;  
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+}
+
 .about-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     font-family: 'Poppins';    
+    margin-top: 60px;
 }
 
 .about-section, .owner-section, .vision-section {
+
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 10px;

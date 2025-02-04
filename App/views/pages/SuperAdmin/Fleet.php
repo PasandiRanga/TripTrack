@@ -76,11 +76,6 @@
         
     </div>
     
-    <?php if (isset($data['total_buses'])): ?>
-            <h3>Total Buses Found for "<?php echo $data['searchTerm']; ?>": <?php echo $data['total_buses']; ?></h3>
-    <?php endif; ?>
-    
-    
 
     <!-- Fleet table -->
     <div class="fleet-table-container">
@@ -89,9 +84,9 @@
             <tr>
                 <th>Licence ID</th>
                 <th>Route No</th>
-                <th>Route</th>
+                <!-- <th>Route</th> -->
                 <!-- <th>Bus Type</th> -->
-                <th>Stops</th>
+                <!-- <th>Stops</th> -->
                 <th>Starts</th>
                 <th>Destination</th>
                 <!-- <th>Ratings</th> -->
@@ -109,9 +104,9 @@
                     echo "<tr>";
                     echo "<td>{$bus['License_id']}</td>";
                     echo "<td>{$bus['routeNumber']}</td>";
-                    echo "<td>{$bus['route']}</td>";
+                    //echo "<td>{$bus['route']}</td>";
                     // echo "<td>{$bus['busType']}</td>";
-                    echo "<td>{$bus['stops']}</td>";
+                    //echo "<td>{$bus['stops']}</td>";
                     echo "<td>{$bus['start_location']}</td>";
                     echo "<td>{$bus['destination']}</td>";
                     // echo "<td>{$bus['rating']}</td>";
@@ -166,6 +161,7 @@
         // Search Function
         function searchFleet() {
             const searchQuery = document.getElementById("search").value.trim();
+            console.log(searchQuery);
 
             fetch('<?php echo URLROOT; ?>/SuperAdminPages/searchFleet', {
                 method: 'POST',
@@ -174,8 +170,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 'success') {
-                    const count = data.total_buses;
+
+                if (data.status === 'success' && data.data) {
+                    const count = data.data.length;
+
                     alert(`Total Buses found: ${count}`);
                     updateTable(data.data);
                 } else {
@@ -219,9 +217,9 @@
                 row.innerHTML = `
                     <td>${bus.License_id}</td>
                     <td>${bus.routeNumber}</td>
-                    <td>${bus.route}</td>
+                    <!-- <td>${bus.route}</td> -->
                     <!-- <td>$//{bus.busType}</td> -->
-                    <td>${bus.stops}</td>
+                    <!-- <td>${bus.stops}</td> -->
                     <td>${bus.start_location}</td>
                     <td>${bus.destination}</td>
                     <!-- <td>$//{bus.rating}</td> -->

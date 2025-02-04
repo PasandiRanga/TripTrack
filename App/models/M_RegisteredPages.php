@@ -216,7 +216,7 @@
                 ON 
                     r.User_id = c.User_id
                 WHERE 
-                    r.license_number = :License_id
+                    r.License_id = :License_id
             ");
             $this->db->bind(':License_id', $licenseId);
             return $this->db->resultSet();
@@ -238,7 +238,7 @@
         public function getRoute(){
             try {
                 // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM route');
+                $this->db->query('SELECT * FROM routes');
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 // Log or handle error
