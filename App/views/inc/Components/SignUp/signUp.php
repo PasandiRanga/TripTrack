@@ -50,6 +50,8 @@
                     <input type="text" name="email" id="email" value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['email_err']) ? $data['email_err'] : ''; ?></span>
 
+                    <button class="otp" type="button" onclick="showConfirmBox()">Send OTP</button>
+
                     <!-- Password Field -->
                     <div class="form-input-title">Password <span class="required">*</span></div>
                     <div class="password-container">
@@ -99,6 +101,31 @@
                     <!-- Register Button Section -->
                     <div class="form-register">
                     <center><input class="button" type="submit" value="Register"></center>                 
+                    </div>
+
+                    <div class="confirmBox hidden" id="confirmBox">
+                        <div class="confirmBoxContent">
+                            <h2>Verify your email 📩</h2>
+                            <p>Enter the code you received on your email.</p>
+                            
+                            <div class="otp-inputs">
+                                <input type="text" maxlength="1">
+                                <input type="text" maxlength="1">
+                                <input type="text" maxlength="1">
+                                <input type="text" maxlength="1">
+                            </div>
+
+                            <p class="resend">Resend code</p>
+
+                            <button class="next-btn" onclick="showSuccessBox()">Verify</button>
+                            <div class="close-btn" onclick="closeConfirmBox()">×</div>
+                        </div>
+                    </div>
+
+                    <div class="success-box hidden" id="successBox">
+                        <div class="success-icon">✔</div>
+                        <h2>Verified</h2>
+                        <p>Welcome! 🎉</p>
                     </div>
 
                     <script>
@@ -193,6 +220,31 @@
                             // Toggle the icon
                             toggleConfirmPassword.classList.toggle("fa-eye-slash");
                         });
+
+                        function showConfirmBox() {
+                            document.getElementById("confirmBox").classList.remove("hidden");
+                        }
+
+                        function closeConfirmBox() {
+                            document.getElementById("confirmBox").classList.add("hidden");
+                        }
+
+                        // Show Success Box
+                        function showSuccessBox() {
+                            const successBox = document.getElementById("successBox");
+                            successBox.classList.remove("hidden");
+                            successBox.classList.add("show");
+                        }
+
+                        // Hide Success Box after 10 seconds
+                        setTimeout(() => {
+                            document.getElementById("successBox").classList.add("hidden");
+                            document.getElementById("successBox").classList.remove("show");
+                        }, 10000);  // 10 seconds
+
+                    
+
+                        
                     </script>
                 </form>
             

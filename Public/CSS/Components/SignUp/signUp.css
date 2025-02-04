@@ -308,4 +308,153 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     color:#28a745;
   }
 
-  
+/*OTP button*/
+button.otp{
+    margin-top: 0px;
+    margin-bottom: 20px;
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    background-color: #43cea2;
+}
+
+/* Overlay for the sign-in box */
+.confirmBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Full screen height */
+    background: rgba(0, 0, 0, 0.7);  /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    overflow: hidden; /* Prevent overflow outside the overlay */
+}
+
+
+.confirmBoxContent {
+    background-color: #fff;
+    width: 400px;
+    height: auto; 
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    position: relative;  
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-style: sans-serif;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px; /* Adjust for desired distance from the top */
+    right: 10px; /* Adjust for desired distance from the right */
+    font-size: 30px;
+    cursor: pointer;
+    color: #cc0000;
+}
+
+h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.otp-inputs input {
+    width: 40px;
+    height: 50px;
+    margin: 0 5px;
+    font-size: 20px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.otp-inputs input:focus {
+    border-color: #4a90e2;
+}
+
+.resend {
+    color: #4a90e2;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.resend:hover {
+    text-decoration: underline;
+}
+
+.next-btn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.next-btn:hover {
+    background: #357abd;
+}
+
+/* Hide elements with the hidden class */
+.hidden {
+    display: none;
+}
+
+/* Success box styling */
+.success-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    opacity: 0;
+    visibility: hidden; /* Ensure it’s hidden initially */
+    transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; /* Delay visibility change */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Show success box with fade-in effect */
+.success-box.show {
+    opacity: 1;
+    visibility: visible; /* Make it visible when it should be shown */
+    transition: opacity 0.5s ease-in-out, visibility 0s 0s; /* No delay for visibility */
+}
+
+/* Success icon styling */
+.success-icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+
