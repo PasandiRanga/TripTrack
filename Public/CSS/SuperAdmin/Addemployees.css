@@ -75,6 +75,7 @@ h2 {
 
 /* Submit Button */
 .user-form button {
+    display: block;
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -90,6 +91,12 @@ h2 {
     background-color: #007bff;
 }
 
+.button-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .user-form {

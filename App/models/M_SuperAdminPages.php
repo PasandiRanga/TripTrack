@@ -193,13 +193,18 @@ class M_SuperAdminPages {
         }
     }
 
+    public function getEmployee(){
+        $this->db->query('SELECT * FROM employee');
+        return $this->db->resultSet();
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //Schedule
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
     public function addschedule(){
-
+        //add schedules
     }
 
     public function getschedule(){

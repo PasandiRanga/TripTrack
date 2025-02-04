@@ -432,7 +432,11 @@ class SuperAdminPages extends Controller {
 
 
     public function employees() {
-        $this->view('pages/SuperAdmin/Employees');
+        $emps = $this->SuperAdminModel->getemployee();
+        $data = [
+            'emp' => $emps
+        ];
+        $this->view('pages/SuperAdmin/Employees',$data);
     }
 
     public function replyleaves() {

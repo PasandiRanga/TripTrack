@@ -43,8 +43,18 @@
             <option value="Admin">Admin</option>
         </select>
 
-        <button type="submit">Create User</button>
+        <div class="button-group">
+            <button type="submit">Create User</button>
+            <button type="button" onClick="clearForm()">Clear</button>
+        </div>
+        
     </form>
+<script>
+    function clearForm(){
+        document.getElementById("userForm").reset();
+    }
 
+</script>
 </body>
 </html>
+
