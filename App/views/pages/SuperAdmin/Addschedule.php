@@ -24,6 +24,13 @@
         </div>
 
         <div class="form-group">
+            <label for="direction">Derection:</label>
+            <select type="text" id="direction" name="direction" required>
+                <option>Onward</option>
+                <option>Backward</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required>
         </div>
