@@ -773,8 +773,8 @@ select {
 .map-container {
     width: 100%;
     max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 20px auto;
+    padding: 10px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
