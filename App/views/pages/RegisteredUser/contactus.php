@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
-    <!-- <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/test.css?v=<?php echo time(); ?>"> -->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/contactUs.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -21,13 +20,13 @@
 <body>
 
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredtUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
     ?>
 
     <?php

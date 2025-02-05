@@ -74,6 +74,10 @@
             $this->view('inc/Components/Receipt/GuestReceipt');
         }
 
+        public function PaymentPortal(){
+            $this->view('inc/Components/PaymentPortal/paymentPortal');
+        }
+
         public function GuestSignUp() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Sanitize POST data

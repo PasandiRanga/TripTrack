@@ -50,7 +50,7 @@
                     <input type="text" name="email" id="email" value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['email_err']) ? $data['email_err'] : ''; ?></span>
 
-                    <button class="otp" id="sendOTP" type="button">Send OTP</button>
+                    <!-- <button class="otp" id="sendOTP" type="button">Send OTP</button> -->
 
                     <!-- Password Field -->
                     <div class="form-input-title">Password <span class="required">*</span></div>
@@ -100,7 +100,7 @@
 
                     <!-- Register Button Section -->
                     <div class="form-register">
-                    <center><input class="button" type="submit" value="Register"  onclick="showConfirmBox()"></center>                 
+                    <center><input id="Register" class="button" type="submit" value="Register"  onclick="showConfirmBox()"></center>                 
                     </div>
 
                     <div class="confirmBox hidden" id="confirmBox">
@@ -232,7 +232,7 @@
                     }
 
                     // Send OTP Button Click (Generate OTP)
-                    document.getElementById("sendOTP").addEventListener("click", function () {
+                    document.getElementById("Register").addEventListener("click", function () {
                         generatedOTP = generateOTP();
                         alert("Your OTP is: " + generatedOTP); // Display OTP alert
                     });
