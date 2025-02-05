@@ -494,6 +494,10 @@ class SuperAdminPages extends Controller {
         ];
         $this->view('pages/SuperAdmin/Routes',$data);
     }
+
+    public function addroute(){
+        $this->view('pages/SuperAdmin/Addroutes');
+    }
 //----------------------------------------------------------------------------------------------------------------------
                                     //support requests
 //---------------------------------------------------------------------------------------------------------------------- 
