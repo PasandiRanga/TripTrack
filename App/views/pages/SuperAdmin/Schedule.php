@@ -28,6 +28,7 @@
                 <tr>
                     <th>Schedule ID</th>
                     <th>License ID</th>
+                    <th>Direction</th>
                     <th>Date</th>
                     <th>Departure Time</th>
                     <th>Arrival Time</th>
@@ -52,6 +53,7 @@
                         echo "<tr onclick='selectRow(this)'>";
                         echo "<td>{$schedule['scheduleId']}</td>";
                         echo "<td>{$schedule['License_id']}</td>";
+                        echo "<td>{$schedule['direction']}</td>";
                         echo "<td>{$schedule['date']}</td>";
                         echo "<td>{$schedule['departureTime']}</td>";
                         echo "<td>{$schedule['arrivalTime']}</td>";

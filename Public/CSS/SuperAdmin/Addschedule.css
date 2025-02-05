@@ -32,11 +32,21 @@ h1 {
     background-color: #f9f9f9;
 }
 
+.schedule-form, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
 
 label {
+    width: 100%;
     display: block;
     margin-bottom: 5px;
 }
