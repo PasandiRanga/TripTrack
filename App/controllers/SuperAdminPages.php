@@ -448,7 +448,7 @@ class SuperAdminPages extends Controller {
     }
 
 //----------------------------------------------------------------------------------------------------------------------
-                                    //Routes
+                                    //Assigns
 //---------------------------------------------------------------------------------------------------------------------- 
 
     public function assigns() {
@@ -460,7 +460,27 @@ class SuperAdminPages extends Controller {
     }
 
     public function addassigns() {
-        $this->view('pages/SuperAdmin/Addassigns');
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'schedule_id' => trim($_POST['schedule_id']),
+                'driver_id' => trim($_POST['driver_id']),
+                'conductor_id' => trim($_POST['conductor_id']),
+                'assign_time' => trim($_POST['assign_time']),
+                'assign_date' => trim($_POST['assign_date'])
+            ];
+
+            if($this->SuperAdminModel->addAssigns($data)){
+                header("Location: " . URLROOT . "/SuperAdminPages/assigns");
+                exit();
+            }else {
+                die("Error: Unable to assing to the schedule.");
+            }
+        } else {
+            $this->view('pages/SuperAdmin/Addassigns');
+        }   
     }
 
 //----------------------------------------------------------------------------------------------------------------------
