@@ -238,6 +238,18 @@ class M_SuperAdminPages {
         $this->db->query('SELECT * FROM assign');
         return $this->db->resultSet();
     }
+
+    public function addAssigns($data){
+        $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date)
+                        VALUES (:schedule_id, :driver_id, :conductor_id, NOW(), CURDATE())');
+
+        $this->db->bind(':schedule_id', $data['schedule_id']);
+        $this->db->bind(':schedule_id', $data['driver_id']);
+        $this->db->bind(':schedule_id', $data['conductor_id']);
+
+        return $this->db->execute();
+
+    }
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
 
