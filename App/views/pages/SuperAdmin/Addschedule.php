@@ -30,6 +30,15 @@
                 <option>Backward</option>
             </select>
         </div>
+
+        <div>
+            <label for="type">Type:</label>
+            <select type="text" id="type" name="type">
+                <option>Daily</option>
+                <option>Weekend</option>
+                <option>Special</option>
+            </select>
+        </div>
         <div class="form-group">
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required>
@@ -47,7 +56,7 @@
 
         <div class="form-group">
             <label for="duration">Duration:</label>
-            <input type="text" id="duration" name="duration" placeholder="e.g., 9 hours 30 mins" required>
+            <input type="text" id="duration" name="duration" placeholder="e.g., 09:30:00" required>
         </div>
 
         <div class="form-group">
