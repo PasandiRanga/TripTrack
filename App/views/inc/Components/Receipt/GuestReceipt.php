@@ -15,7 +15,6 @@ $nic = $_POST['nic'] ?? '';
 $from = $_POST['from'] ?? '';
 $to = $_POST['to'] ?? '';
 $noOfSeats = $_POST['noOfseats'] ?? '0';
-$pricePerSeat = $_POST['pricePerSeat'] ?? '0';
 $totalPrice = $_POST['totalPrice'] ?? '0';
 $selectedSeats = $_POST['selectedSeats'] ?? [];
 
@@ -114,7 +113,6 @@ try {
             <p><strong>Schedule ID:</strong> <?php echo htmlspecialchars($scheduleId); ?></p>
             <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($noOfSeats); ?></p>
             <p><strong>Seats:</strong> <?php echo htmlspecialchars($selectedSeats); ?></p>
-            <p><strong>Price per Seat:</strong> Rs. <?php echo htmlspecialchars($pricePerSeat); ?></p>
             <p><strong>Total Price:</strong> Rs. <?php echo htmlspecialchars($totalPrice); ?></p>
         </div>
         

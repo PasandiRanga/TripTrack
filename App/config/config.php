@@ -18,5 +18,7 @@
     //PUBROOT
     define('PUBROOT',dirname(dirname(dirname(__FILE__))).'\public');
 
-
-?>
+    define('SMTP_HOST', 'smtp.gmail.com');
+    define('SMTP_PORT', 587);
+    define('SMTP_EMAIL', 'pasandiranganth@gmail.com');
+    define('SMTP_PASSWORD', 'pvub sixj jekj hivm');

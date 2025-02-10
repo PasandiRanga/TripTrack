@@ -172,6 +172,10 @@
         public function RegisteredReceipt() {
             $this->view('inc/Components/Receipt/RegisteredReceipt');
         }
+
+        public function PaymentPortal(){
+            $this->view('inc/Components/PaymentPortal/paymentPortal');
+        }
         
         public function viewPopUp(){
             $this->view('inc/Components/ProfileForm/profileForm');
