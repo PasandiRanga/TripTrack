@@ -465,7 +465,7 @@ class SuperAdminPages extends Controller {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'schedule_id' => trim($_POST['schedule_id']),
+                'scheduleId' => trim($_POST['scheduleId']),
                 'driver_id' => trim($_POST['driver_id']),
                 'conductor_id' => trim($_POST['conductor_id']),
                 'assign_time' => trim($_POST['assign_time']),
@@ -474,14 +474,19 @@ class SuperAdminPages extends Controller {
 
             if($this->SuperAdminModel->addAssigns($data)){
                 header("Location: " . URLROOT . "/SuperAdminPages/assigns");
+                echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
                 exit();
             }else {
                 die("Error: Unable to assing to the schedule.");
+                echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
+                http_response_code(500);
+                exit();
             }
         } else {
             $this->view('pages/SuperAdmin/Addassigns');
         }   
     }
+
 
 //----------------------------------------------------------------------------------------------------------------------
                                     //Routes
