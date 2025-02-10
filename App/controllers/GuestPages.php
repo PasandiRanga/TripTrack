@@ -1,4 +1,10 @@
 <?php
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+    require 'C:\xampp\htdocs\TripTrack\vendor\autoload.php';
+
     class GuestPages extends Controller {
         //so that it will inherit all the functionalities of the Controller class
         private $GuestpagesModel;
@@ -78,8 +84,79 @@
             $this->view('inc/Components/PaymentPortal/paymentPortal');
         }
 
+        public function sendOTP() {
+            // Set JSON response header
+            header('Content-Type: application/json');
+
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+                return;
+            }
+
+            try {
+                // Get email from POST request
+                $email = isset($_POST['email']) ? $_POST['email'] : '';
+
+                if (empty($email)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Email is required']);
+                    return;
+                }
+
+                // Generate OTP
+                $otp = sprintf("%06d", mt_rand(100000, 999999));
+
+                // Store OTP in session
+                $_SESSION['email_otp'] = $otp;
+                $_SESSION['email_otp_time'] = time();
+
+                // Send OTP email using PHPMailer
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = SMTP_HOST; // From config.php
+                $mail->SMTPAuth = true;
+                $mail->Username = SMTP_EMAIL; // From config.php
+                $mail->Password = SMTP_PASSWORD; // From config.php
+                $mail->SMTPSecure = 'tls'; 
+                $mail->Port = SMTP_PORT; // From config.php
+
+                // Set email metadata
+                $mail->setFrom(SMTP_EMAIL, 'TripTrack OTP');
+                $mail->addAddress($email);
+                $mail->isHTML(true);
+                $mail->Subject = 'Your OTP Code';
+                $mail->Body = "Your OTP code is: <strong>$otp</strong>. It will expire in 5 minutes.";
+
+                // Send email
+                if ($mail->send()) {
+                    echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Failed to send OTP']);
+                }
+
+            } catch (Exception $e) {
+                echo json_encode(['status' => 'error', 'message' => 'Mail error: ' . $mail->ErrorInfo]);
+            }
+            exit;
+        }
+
         public function GuestSignUp() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                 // Verify OTP
+                $enteredOTP = $_POST['entered_otp'] ?? '';
+                $storedOTP = $_SESSION['email_otp'] ?? '';
+                $otpTime = $_SESSION['email_otp_time'] ?? 0;
+                
+                // Check if OTP is valid and not expired (15 minutes validity)
+                if ($enteredOTP !== $storedOTP || (time() - $otpTime) > 900) {
+                    // Handle invalid OTP
+                    $data['otp_err'] = 'Invalid or expired OTP';
+                    return $this->view('GuestPages/home', $data);
+                }
+                
+                // Clear OTP session data
+                unset($_SESSION['email_otp']);
+                unset($_SESSION['email_otp_time']);
                 // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         

@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/SignUp/signUp.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
+    <script>
+        const URLROOT = '<?php echo URLROOT; ?>';
+        console.log('URLROOT is:', URLROOT); 
+    </script>
 </head>
 <body>
     <div class="signupbody">
@@ -100,7 +103,7 @@
 
                     <!-- Register Button Section -->
                     <div class="form-register">
-                    <center><input id="Register" class="button" type="submit" value="Register"  onclick="showConfirmBox()"></center>                 
+                    <center><input id="Register" class="button" type="submit" value="Register"  ></center>                 
                     </div>
 
                     <div class="confirmBox hidden" id="confirmBox">
@@ -122,7 +125,7 @@
                         </div>
                     </div>
 
-                    <script>
+                    <!-- <script>
                     // Profile image drag-and-drop
                     const dropArea = document.querySelector(".form-drag-area");
                     const dropText = document.querySelector(".description");
@@ -250,10 +253,12 @@
                             alert("Incorrect OTP. Please try again.");
                         }
                     });
-                </script>
+                </script> -->
             </form>
         </div>
     </div>
     </div>
+    <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
+
 </body>
 </html>
