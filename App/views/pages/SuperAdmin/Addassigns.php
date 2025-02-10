@@ -19,14 +19,14 @@
 
     <!-- Add Assignment Form -->
     <form id="assignForm" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/addassigns" class="assign-form">
-        <label for="schedule_id">Schedule ID:</label>
-        <input type="text" id="schedule_id" name="schedule_id" placeholder="Enter Schedule ID" required>
-
-        <label for="conductor_id">Conductor ID:</label>
-        <input type="text" id="conductor_id" name="conductor_id" placeholder="Enter Conductor ID" required>
+        <label for="scheduleId">Schedule ID:</label>
+        <input type="text" id="scheduleId" name="scheduleId" placeholder="Enter Schedule ID" required>
 
         <label for="driver_id">Driver ID:</label>
         <input type="text" id="driver_id" name="driver_id" placeholder="Enter Driver ID" required>
+
+        <label for="conductor_id">Conductor ID:</label>
+        <input type="text" id="conductor_id" name="conductor_id" placeholder="Enter Conductor ID" required>
 
         <label for="assign_time">Assign Time:</label>
         <input type="time" id="assign_time" name="assign_time" required>
@@ -41,13 +41,13 @@
          document.getElementById("assignForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            let schedule_id = document.getElementById("schedule_id").value.trim();
+            let scheduleId = document.getElementById("scheduleId").value.trim();
             let conductor_id = document.getElementById("conductor_id").value.trim();
             let driver_id = document.getElementById("driver_id").value.trim();
             let assign_time = document.getElementById("assign_time").value.trim();
             let assign_date = document.getElementById("assign_date").value.trim();
 
-            if (!schedule_id || !conductor_id || !driver_id || !assign_time || !assign_date) {
+            if (!scheduleId || !conductor_id || !driver_id || !assign_time || !assign_date) {
                 alert("All fields are required!");
                 return;
             }
@@ -55,12 +55,12 @@
             fetch('<?php echo URLROOT; ?>/SuperAdminPages/addassigns', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ schedule_id, conductor_id, driver_id, assign_time, assign_date })
+                body: JSON.stringify({ scheduleId, driver_id, conductor_id, assign_time, assign_date })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    alert("Assignment added successfully!");
+                    alert("Assign added successfully!");
                     window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/assigns';
                 } else {
                     alert("Error: " + data.message);

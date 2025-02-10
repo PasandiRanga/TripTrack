@@ -240,12 +240,14 @@ class M_SuperAdminPages {
     }
 
     public function addAssigns($data){
-        $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date)
-                        VALUES (:schedule_id, :driver_id, :conductor_id, NOW(), CURDATE())');
+        $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
 
-        $this->db->bind(':schedule_id', $data['schedule_id']);
-        $this->db->bind(':schedule_id', $data['driver_id']);
-        $this->db->bind(':schedule_id', $data['conductor_id']);
+        $this->db->bind(':scheduleId', $data['scheduleId']);
+        $this->db->bind(':driver_id', $data['driver_id']);
+        $this->db->bind(':conductor_id', $data['conductor_id']);
+        $this->db->bind(':assign_time', $data['assign_time']);
+        $this->db->bind(':assign_date', $data['assign_date']);
+
 
         return $this->db->execute();
 
