@@ -255,5 +255,15 @@
                 return $this->db->resultSet();
             }
         
+        public function getNotifications() {
+            try {
+                $this->db->query('SELECT Title, Time, Content FROM notification');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching notification details: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
     }
 ?>
