@@ -6,12 +6,9 @@
     require 'C:\xampp\htdocs\TripTrack\vendor\autoload.php';
 
     class GuestPages extends Controller {
-        //so that it will inherit all the functionalities of the Controller class
         private $GuestpagesModel;
         
         public function __construct() {
-            //Call the model method and assign it to the pagesModel variable
-            //Instantiated model inside the controller so that we can use the database
             $this->GuestpagesModel = $this->model('M_GuestPages');
         }
 
@@ -20,30 +17,21 @@
         }
 
         public function about() {
-            //call a view
             $this->view('pages/GuestUser/aboutus');
             
         }
 
         public function home() {
             $schedule = $this->GuestpagesModel->getSchedule();
-            
-            // Retrieve bus details
             $bus = $this->GuestpagesModel->getBusDetails();
-
             $distance = $this->GuestpagesModel->getDistance();
-
             $route = $this->GuestpagesModel->getRoute();
-            
-            // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
                 'distance' => $distance,
                 'route' => $route
             ];
-
-            // Call the home view with schedule data
             $this->view('pages/GuestUser/home', $data);
         }
 
@@ -54,79 +42,201 @@
         
         public function busLayout() {
             $schedule = $this->GuestpagesModel->getSchedule();
-            
-            // Retrieve bus details
             $bus = $this->GuestpagesModel->getBusDetails();
-
             $distance = $this->GuestpagesModel->getDistance();
-
             $route = $this->GuestpagesModel->getRoute();
-
             $distance = $this->GuestpagesModel->getDistance();
-            
-            // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
                 'distance' => $distance,
                 'route' => $route
             ];
-            // var_dump($schedule); // To check if schedule data is loaded
-            // var_dump($bus);
-
             $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
+
+        //Receipt for booking 
         public function GuestReceipt() {
-            $this->view('inc/Components/Receipt/GuestReceipt');
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $bookingData = [
+                    'License_id' => $_POST['License_id'] ?? 'Unknown Bus',
+                    'scheduleId' => $_POST['scheduleId'] ?? 'Unknown Schedule',
+                    'name' => $_POST['name'] ?? '',
+                    'email' => $_POST['email'] ?? '',
+                    'contact' => $_POST['contact'] ?? '',
+                    'nic' => $_POST['nic'] ?? '',
+                    'from' => $_POST['from'] ?? '',
+                    'to' => $_POST['to'] ?? '',
+                    'noOfSeats' => $_POST['noOfseats'] ?? '0',
+                    'totalPrice' => $_POST['totalPrice'] ?? '0',
+                     'selectedSeats' => $_POST['selectedSeats'] ?? [],
+                    'selectedSeatsJSON' => json_encode($_POST['selectedSeats'] ?? []),
+                    'qrCodeUrl' => ''
+                ];
+            
+
+                try {
+                    // Save booking details
+                    $this->GuestpagesModel->createBooking($bookingData);
+                    
+                    // Update schedule seat availability
+                    $this->GuestpagesModel->updateScheduleSeats($bookingData['scheduleId'], explode(', ', $bookingData['selectedSeats']));
+
+                    // Generate QR Code text
+                    $qrText = "Booking Receipt\n";
+                    $qrText .= "Schedule ID: {$bookingData['scheduleId']}\n";
+                    $qrText .= "Seats: {$bookingData['selectedSeats']}\n";
+                    $qrText .= "Total Price: Rs. {$bookingData['totalPrice']}\n";
+
+                    // Generate QR Code and get its URL
+
+                    $qrData = $this->generateQRCode("Booking Receipt\nSchedule ID: {$bookingData['scheduleId']}\nSeats: {$bookingData['selectedSeats']}\nTotal Price: Rs. {$bookingData['totalPrice']}");
+            
+                    // Add the QR code data to booking data
+                    $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];
+                    $bookingData['qrCodeFilename'] = $qrData['qrCodeFilename'];
+
+                    // Send booking confirmation email
+                    $this->sendBookingEmail($bookingData);
+
+                    // Load Receipt View
+                    $this->view('inc/Components/Receipt/GuestReceipt', [
+                        'bookingData' => $bookingData,
+                        'qrText' => $qrText
+                    ]);
+
+                } catch (Exception $e) {
+                    error_log("Booking error: " . $e->getMessage());
+                    header('Location: ' . URLROOT . '/GuestPages/home?error=booking_failed');
+                    exit();
+                }
+            } else {
+                header('Location: ' . URLROOT . '/GuestPages/home');
+                exit();
+            }
         }
+
+        private function generateQRCode($qrText) {
+            require_once APPROOT . '/libraries/phpqrcode/qrlib.php'; // Adjust path as needed
+
+            $qrDir = APPROOT . "/public/qrcodes/";
+            
+            // Ensure QR code directory exists
+            if (!file_exists($qrDir)) {
+                mkdir($qrDir, 0777, true);
+            }
+
+            $filename = "qr_" . time() . ".png"; // Unique filename
+            $filePath = $qrDir . $filename;
+
+            // Generate QR Code
+            QRcode::png($qrText, $filePath, QR_ECLEVEL_L, 10);
+
+            // Return QR Code URL
+            return [
+                'qrCodeUrl' => URLROOT . "/public/qrcodes/" . $filename,
+                'qrCodeFilename' => $filename // Pass the filename as well
+            ];
+        }
+
+
+
+        private function sendBookingEmail($bookingData) {
+            $mail = new PHPMailer(true);
+
+            try {
+                // SMTP Configuration using defined constants
+                $mail->isSMTP();
+                $mail->Host       = SMTP_HOST;
+                $mail->SMTPAuth   = true;
+                $mail->Username   = SMTP_EMAIL;
+                $mail->Password   = SMTP_PASSWORD;
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = SMTP_PORT;
+
+                // Email Headers
+                $mail->setFrom(SMTP_EMAIL, 'TripTrack');
+                $mail->addAddress($bookingData['email'], $bookingData['name']);
+
+                // Attach the QR code image as inline image
+                $qrCodePath = APPROOT . "/public/qrcodes/" . $bookingData['qrCodeFilename']; // Ensure you pass the filename too
+                $mail->addEmbeddedImage($qrCodePath, 'qr_code_image', 'qr_code.png', 'base64', 'image/png');
+
+                // Email content
+                $mail->isHTML(true);
+                $mail->Subject = 'Your Booking Confirmation - TripTrack';
+                $mail->Body = '
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <h2>Booking Confirmation</h2>
+                    <p>Dear ' . htmlspecialchars($bookingData['name']) . ',</p>
+                    <p>Thank you for booking with TripTrack. Here are your booking details:</p>
+                    
+                    <table style="border-collapse: collapse; width: 100%;">
+                        <tr><td><strong>Name:</strong></td><td>' . htmlspecialchars($bookingData['name']) . '</td></tr>
+                        <tr><td><strong>Email:</strong></td><td>' . htmlspecialchars($bookingData['email']) . '</td></tr>
+                        <tr><td><strong>Contact:</strong></td><td>' . htmlspecialchars($bookingData['contact']) . '</td></tr>
+                        <tr><td><strong>NIC:</strong></td><td>' . htmlspecialchars($bookingData['nic']) . '</td></tr>
+                        <tr><td><strong>From:</strong></td><td>' . htmlspecialchars($bookingData['from']) . '</td></tr>
+                        <tr><td><strong>To:</strong></td><td>' . htmlspecialchars($bookingData['to']) . '</td></tr>
+                        <tr><td><strong>Bus ID:</strong></td><td>' . htmlspecialchars($bookingData['License_id']) . '</td></tr>
+                        <tr><td><strong>Schedule ID:</strong></td><td>' . htmlspecialchars($bookingData['scheduleId']) . '</td></tr>
+                        <tr><td><strong>Number of Seats:</strong></td><td>' . htmlspecialchars($bookingData['noOfSeats']) . '</td></tr>
+                        <tr><td><strong>Seats:</strong></td><td>' . htmlspecialchars($bookingData['selectedSeats']) . '</td></tr>
+                        <tr><td><strong>Total Price:</strong></td><td>Rs. ' . htmlspecialchars($bookingData['totalPrice']) . '</td></tr>
+                    </table>
+
+                    <h3>Your QR Code</h3>
+                    <p>Scan the QR code below for your booking details:</p>
+                    <img src="cid:qr_code_image" alt="QR Code" style="width: 200px; height: 200px;"/>
+
+
+                    <p>We look forward to serving you.</p>
+                    <p>Best regards,<br>TripTrack Team</p>
+                </div>';
+
+                $mail->send();
+            } catch (Exception $e) {
+                error_log("Email could not be sent. Error: {$mail->ErrorInfo}");
+            }
+        }
+
 
         public function PaymentPortal(){
             $this->view('inc/Components/PaymentPortal/paymentPortal');
         }
 
         public function sendOTP() {
-            // Set JSON response header
             header('Content-Type: application/json');
-
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
                 return;
             }
-
             try {
-                // Get email from POST request
                 $email = isset($_POST['email']) ? $_POST['email'] : '';
-
                 if (empty($email)) {
                     echo json_encode(['status' => 'error', 'message' => 'Email is required']);
                     return;
                 }
-
-                // Generate OTP
                 $otp = sprintf("%06d", mt_rand(100000, 999999));
 
-                // Store OTP in session
                 $_SESSION['email_otp'] = $otp;
                 $_SESSION['email_otp_time'] = time();
 
-                // Send OTP email using PHPMailer
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
-                $mail->Host = SMTP_HOST; // From config.php
+                $mail->Host = SMTP_HOST; 
                 $mail->SMTPAuth = true;
-                $mail->Username = SMTP_EMAIL; // From config.php
-                $mail->Password = SMTP_PASSWORD; // From config.php
+                $mail->Username = SMTP_EMAIL; 
+                $mail->Password = SMTP_PASSWORD; 
                 $mail->SMTPSecure = 'tls'; 
-                $mail->Port = SMTP_PORT; // From config.php
+                $mail->Port = SMTP_PORT;
 
-                // Set email metadata
                 $mail->setFrom(SMTP_EMAIL, 'TripTrack OTP');
                 $mail->addAddress($email);
                 $mail->isHTML(true);
                 $mail->Subject = 'Your OTP Code';
                 $mail->Body = "Your OTP code is: <strong>$otp</strong>. It will expire in 5 minutes.";
 
-                // Send email
                 if ($mail->send()) {
                     echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully']);
                 } else {
@@ -142,25 +252,19 @@
         public function GuestSignUp() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                 // Verify OTP
                 $enteredOTP = $_POST['entered_otp'] ?? '';
                 $storedOTP = $_SESSION['email_otp'] ?? '';
                 $otpTime = $_SESSION['email_otp_time'] ?? 0;
                 
-                // Check if OTP is valid and not expired (15 minutes validity)
                 if ($enteredOTP !== $storedOTP || (time() - $otpTime) > 900) {
-                    // Handle invalid OTP
                     $data['otp_err'] = 'Invalid or expired OTP';
                     return $this->view('GuestPages/home', $data);
                 }
                 
-                // Clear OTP session data
                 unset($_SESSION['email_otp']);
                 unset($_SESSION['email_otp_time']);
-                // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
-                // Initialize form data with user input and error placeholders
                 $data = [
                     'profile_image'=>$_FILES['profile_image'],
                     'profile_image_name'=>time().'_'.$_FILES['profile_image']['name'],
@@ -181,24 +285,19 @@
                     'password_err' => '',
                     'confirm_err' => ''
                 ];
-
-                //validate profile image and upload
-
+                // Validate the profile image
                 if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
                     if (!uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
                         $data['profile_image_err'] = 'Profile image uploading unsuccessful';
                     }
                 } else {
-                    // Optional: you can set a default profile image or leave it null.
                     $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; // Replace with your actual default image filename, if applicable
                 }
-        
-                // Perform validation and check if all fields are filled
+                // Validate the name
                 if (empty($data['name'])) {
                     $data['name_err'] = 'Please enter a name';
                 }
-        
-                // Validate contact number
+                // Validate the contact number
                 if (empty($data['number'])) {
                     $data['number_err'] = 'Please enter a contact number'; // Check if the field is empty
                 } elseif (!ctype_digit($data['number'])) {
@@ -208,41 +307,32 @@
                 } elseif ($data['number'][0] !== '0') {
                     $data['number_err'] = 'The contact number must start with 0'; // Check if it starts with 0
                 }
-
-        
-                // Validate NIC
+                // Validate the NIC
                 if (empty($data['nic'])) {
                     $data['nic_err'] = 'Please enter a NIC';
                 } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
                     // Check if the NIC is either 12 digits or 11 digits followed by "V"
                     $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
                 }else {
-                    // Check if NIC is already registered
                     if ($this->GuestpagesModel->findUserByNIC($data['nic'])) {
                         $data['nic_err'] = 'This NIC is already registered';
                     }
                 }
-
-
                 //Validate the Address
                 if (empty($data['address'])) {
                     $data['address_err'] = 'Please enter an address';
                 }
-        
-
                 // Validate Email
                 if (empty($data['email'])) {
                     $data['email_err'] = 'Please enter an email';
                 } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                     $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
                 } else {
-                    // Check if email is already registered
                     if ($this->GuestpagesModel->findUserByEmail($data['email'])) {
                         $data['email_err'] = 'This email is already registered';
                     }
                 }
 
-        
                 // Validate password
                 if (empty($data['password'])) {
                     $data['password_err'] = 'Please enter a password';
@@ -269,31 +359,21 @@
                     $data['confirm_err'] = 'Passwords do not match';
                 }
 
-        
                 // Register the user if no errors are present
-                if (empty($data['name_err']) && empty($data['number_err']) && empty($data['nic_err']) &&
-                    empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_err']) && empty($data['profile_image_err'])) {
-        
+                if (empty($data['name_err']) && empty($data['number_err']) && empty($data['nic_err']) && empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_err']) && empty($data['profile_image_err'])) {
                     // Hash the password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-                    // Debug output
-                    var_dump($data['password']); // This should display a hashed string
-
-        
                     // Register the user
                     if ($this->GuestpagesModel->register($data)) {
                         header('Location: ' . URLROOT . '/GuestPages/home' );
-                        exit();  // Make sure no further code executes after the redirect
+                        exit();  
                     } else {
-                        die('Something went wrong');  // Handle errors in registration
+                        die('Something went wrong'); 
                     }
                 } else {
-                    // Reload view with errors
                     $this->view('inc/Components/SignUp/signUp', $data);
                 }
             } else {
-                // Initialize empty form data for GET request
                 $data = [
                     'profile_image'=>'',
                     'profile_image_name'=>'',
@@ -313,20 +393,13 @@
                     'password_err' => '',
                     'confirm_err' => '',
                 ];
-                // Load the sign-up form view
                 $this->view('inc/Components/SignUp/signUp', $data);
             }
         }
 
         public function Login() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-                // echo '<pre>';
-                // print_r($_POST);
-                // echo '</pre>';
-        
                 $data = [
                     'email' => trim($_POST['email']),
                     'password' => trim($_POST['password']),
@@ -334,62 +407,31 @@
                     'password_err' => '',
                     'show_pop' => true
                 ];
-
-                // echo '<pre>';
-                // print_r($data);
-                // echo '</pre>';
-        
                 // Validate email
                 if (empty($data['email'])) {
                     $data['email_err'] = 'Please enter the email';
                 } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                     $data['email_err'] = 'Please enter a valid email address';
                 }
-        
                 // Validate password
                 if (empty($data['password'])) {
                     $data['password_err'] = 'Please enter the password';
                 }
-        
                 // Check for errors
                 if (empty($data['email_err']) && empty($data['password_err'])) {
-
-                    // echo '<pre>';
-                    // print_r($data);
-                    // echo '</pre>';
-
-                    // Attempt to log the user in
                     $loginResult = $this->GuestpagesModel->login($data['email'], $data['password']);
-
-                    // echo '<pre>';
-                    // print_r($loginResult);
-                    // echo '</pre>';
-         
-
                     if (!empty($loginResult)) {
-                        // Login successful
                         $loggedUser = $loginResult['user_data'];
                         $userTable = $loginResult['user_table'];
-
-                        // echo '<pre>';
-                        // print_r($loggedUser);
-                        // print_r($userTable);
-                        // echo '</pre>';
-                        // Create user session based on the table
                         $this->createUserSession($loggedUser, $userTable);
                     } else {
                         $data['password_err'] = 'Invalid credentials';
-                        // echo '<pre>';
-                        // print_r($data);
-                        // echo '<pre>';
                         $this->view('pages/GuestUser/home', $data);
                     }
                 } else {
-                    // Load view with errors
                     $this->view('pages/GuestUser/home', $data);
                 }
             } else {
-                // Initialize form
                 $data = [
                     'email' => '',
                     'password' => '',
@@ -401,25 +443,15 @@
             }
         }
         
-        
-
         public function BusBooking() {
-            // Retrieve the schedule from the model
             $schedule = $this->GuestpagesModel->getSchedule();
-            
-            // Retrieve bus details
             $bus = $this->GuestpagesModel->getBusDetails();
-
             $distance = $this->GuestpagesModel->getDistance();
-            
-            // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
                 'distance' => $distance
             ];
-            
-            // Pass the combined data array to the view
             $this->view('pages/GuestUser/BusBooking', $data);
         }
 
@@ -427,17 +459,10 @@
 
 
         public function createUserSession($loggedUser, $userTable) {
-                // echo '<pre>';
-                // print_r($loggedUser);
-                // print_r($userTable);
-                // echo '</pre>';   
-            // Set common session data
             $_SESSION['user_id'] = $userTable === 'customer' ? $loggedUser['User_id'] : $loggedUser['employee_id'];
             $_SESSION['user_type'] = $userTable;
             $_SESSION['user_email'] = $userTable === 'customer' ? $loggedUser['Email'] : $loggedUser['email'];
             $_SESSION['user_name'] = $userTable === 'customer' ? $loggedUser['Name'] : $loggedUser['name'];
-
-
             // Determine redirect path based on user type
             switch ($userTable) {
                 case 'customer':
@@ -491,20 +516,9 @@
             }
         }  
 
-        public function test() {
-            $this->view('pages/GuestUser/test');
-        }
-
-        public function test1() {
-            $this->view('pages/GuestUser/test1');
-        }
-
         public function submitRequest() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
-                // Collect form data
                 $data = [
                     'name' => trim($_POST['name']),
                     'email' => trim($_POST['email']),
@@ -515,19 +529,16 @@
                     'contactNo_err' => '',
                     'message_err' => ''     
                 ];
-
                 // Validate name
                 if (empty($data['name'])) {
                     $data['name_err'] = 'Please enter your name';
                 }
-
                 // Validate email
                 if (empty($data['email'])) {
                     $data['email_err'] = 'Please enter your email';
                 } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                     $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
                 }
-
                 // Validate contact number
                 if (empty($data['contactNo'])) {
                     $data['contactNo_err'] = 'Please enter your contact number';
@@ -538,14 +549,10 @@
                 } elseif ($data['contactNo'][0] !== '0') {
                     $data['contactNo_err'] = 'The contact number must start with 0';
                 }
-
-                 // Validate message
+                // Validate message
                 if (empty($data['message'])) {
                     $data['message_err'] = 'Please enter a message';
                 }
-
-                
-    
                 // Validate inputs
                 if (empty($data['name_err']) && empty($data['email_err']) && empty($data['contactNo_err']) && empty($data['message_err'])) {
                     // Save to database using model
@@ -560,7 +567,6 @@
                         $this->view('pages/GuestUser/contactus', $data);
                     }
                 } else {
-                    
                     // Reload view with errors
                     $this->view('pages/GuestUser/contactus', $data);
                 }
@@ -573,15 +579,11 @@
 
         public function calculatePrice(){
             $distance = $this->GuestpagesModel->getDistance();
-
             $bus = $this->GuestpagesModel->getBusDetails();
-
-
             $data = [
                 'distance' => $distance,
                 'bus' => $bus
             ];
-            
             $this->view('inc/Components/BusLayout/calculatePrice');
         }
 
@@ -589,11 +591,10 @@
             if (!isset($_GET['date'])) {
                 return;
             }
-
             $scheduleData = $this->GuestpagesModel->getScheduleByDate($_GET['date']);
             $busData = $this->GuestpagesModel->getBusDetails();
             $routeData = $this->GuestpagesModel->getRoute();
-            
+
             $data = [
                 'schedule' => $scheduleData,
                 'bus' => $busData,

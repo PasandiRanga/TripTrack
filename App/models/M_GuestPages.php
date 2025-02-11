@@ -10,178 +10,30 @@
             $this->db = new Database();
         }
 
-            //We should connect this model with the corressponding controller
+          
+        //Register the user
+        public function register($data){
+            $this->db->query('INSERT INTO customer(Name,Email,NIC,Address,Contact_number,Password,Profile_image) VALUES(:name,:email,:nic,:address,:number,:password,:profile_image)');
+            $this->db->bind(':name',$data['name']);
+            $this->db->bind(':email',$data['email']);
+            $this->db->bind(':nic',$data['nic']);
+            $this->db->bind(':address',$data['address']);
+            $this->db->bind(':number',$data['number']);
+            $this->db->bind(':password',$data['password']);
+            $this->db->bind(':profile_image',$data['profile_image_name']);
 
-            //Register the user
-            public function register($data){
-                $this->db->query('INSERT INTO customer(Name,Email,NIC,Address,Contact_number,Password,Profile_image) VALUES(:name,:email,:nic,:address,:number,:password,:profile_image)');
-                $this->db->bind(':name',$data['name']);
-                $this->db->bind(':email',$data['email']);
-                $this->db->bind(':nic',$data['nic']);
-                $this->db->bind(':address',$data['address']);
-                $this->db->bind(':number',$data['number']);
-                $this->db->bind(':password',$data['password']);
-                $this->db->bind(':profile_image',$data['profile_image_name']);
-
-                if($this->db->execute()){
-                    return true;
-                }
-                else{
-                    return false;
-                }
+            if($this->db->execute()){
+                return true;
             }
-
-            public function findUserByEmail($email){
-                $this->db->query('SELECT * FROM customer WHERE Email=:email');
-                $this->db->bind(":email",$email);
-
-                $row = $this->db->single();
-
-                if($this->db->rowCount()>0){
-                    return true;
-                }
-                else{
-                    return false;  
-                }
-            }
-
-            public function getScheduleByDate($date){
-                $this->db->query('SELECT * FROM schedule WHERE date = :date');
-                $this->db->bind(':date', $date);
-                return $this->db->resultSet();
-            }
-
-            
-
-            //login the user
-            public function login($email, $password) {
-
-                // echo '<pre>';
-                // print_r($email);
-                // print_r($password);
-                // echo '</pre>';
-                // Define tables and their respective username/email fields
-                $userTables = [
-                    'customer' => 'Email',
-                    'employee' => 'email',
-                ];
-
-                // echo '<pre>';
-                // print_r($userTables);
-                // echo '</pre>';
-            
-                foreach ($userTables as $table => $field) {
-                    // echo '<pre>';
-                    // print_r($table);
-                    // print_r($field);
-                    // print_r($email);
-                    // echo '</pre>';
-                    // Query each table for the provided email/username
-                    $this->db->query("SELECT * FROM {$table} WHERE {$field} = :identifier");
-                    $this->db->bind(':identifier', $email);
-            
-                    $row = $this->db->single();
-
-                    // echo '<pre>';
-                    // print_r($row);
-                    // echo '</pre>';
-
-                    if($row){
-                        if($table==='customer'){
-                            $hashed_password = $row['Password'];
-                        }else{
-                            $hashed_password = $row['password'];
-                        }
-
-                        // echo '<pre>';
-                        // print_r($hashed_password);
-                        // echo '</pre>';
-                        
-                        if (password_verify($password, $hashed_password)) {
-                            // Add the user type to the result for differentiation
-                            return [
-                                'user_data' => $row,
-                                'user_table' => $table
-                            ];
-                        }
-
-                    }
-            
-                }
-            
-                // If no match is found in any table
+            else{
                 return false;
             }
-            
-
-
-            //we need to connect the controller with the model as well so that we can use the database 
-            //In this case controller is GuestPages.php so whenever GuestPages.php is constructed M_GuestPages.php will also be constructed
-            //You can do this in controller class statement model
-            //We should connect this model with the corressponding controller
-
-        
-
-        //Get the schedule from the database
-        public function getSchedule(){
-            try {
-                // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM schedule');
-                return $this->db->resultSet();
-            } catch (Exception $e) {
-                // Log or handle error
-                error_log("Error fetching schedule: " . $e->getMessage());
-                // Log to console
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
-            }
-        }
-      
-        public function getBusDetails(){
-            try {
-                // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM bus');
-                return $this->db->resultSet();
-            } catch (Exception $e) {
-                // Log or handle error
-                error_log("Error fetching bus details: " . $e->getMessage());
-                // Log to console
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
-            }
-        }
-      
-        public function getDistance(){
-            try {
-                // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM distancefromstart');
-                return $this->db->resultSet();
-            } catch (Exception $e) {
-                // Log or handle error
-                error_log("Error fetching bus details: " . $e->getMessage());
-                // Log to console
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
-            }
         }
 
-        public function getRoute(){
-            try {
-                // If you need all columns, this is fine
-                $this->db->query('SELECT * FROM routes');
-                return $this->db->resultSet();
-            } catch (Exception $e) {
-                // Log or handle error
-                error_log("Error fetching route details: " . $e->getMessage());
-                // Log to console
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
-            }
-        }
-
-        public function findUserByNIC($nic){
-            $this->db->query('SELECT * FROM customer WHERE NIC=:nic');
-            $this->db->bind(":nic",$nic);
+        //Find user by email
+        public function findUserByEmail($email){
+            $this->db->query('SELECT * FROM customer WHERE Email=:email');
+            $this->db->bind(":email",$email);
 
             $row = $this->db->single();
 
@@ -193,6 +45,107 @@
             }
         }
 
+        //Get schedule by date
+        public function getScheduleByDate($date){
+            $this->db->query('SELECT * FROM schedule WHERE date = :date');
+            $this->db->bind(':date', $date);
+            return $this->db->resultSet();
+        }
+
+        //Get the schedule from the database
+        public function getSchedule(){
+            try {
+                $this->db->query('SELECT * FROM schedule');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching schedule: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return []; 
+            }
+        }
+
+            
+        //login the user
+        public function login($email, $password) {
+            $userTables = [
+                'customer' => 'Email',
+                'employee' => 'email',
+            ];
+
+            foreach ($userTables as $table => $field) {
+                $this->db->query("SELECT * FROM {$table} WHERE {$field} = :identifier");
+                $this->db->bind(':identifier', $email);
+                $row = $this->db->single();
+
+                if($row){
+                    if($table==='customer'){
+                        $hashed_password = $row['Password'];
+                    }else{
+                        $hashed_password = $row['password'];
+                    }
+
+                        
+                    if (password_verify($password, $hashed_password)) {
+                        return [
+                            'user_data' => $row,
+                            'user_table' => $table
+                        ];
+                    }
+                }
+            }
+            return false;
+        }
+        
+        //Get the bus details from the database
+        public function getBusDetails(){
+            try {
+                $this->db->query('SELECT * FROM bus');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching bus details: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return []; 
+            }
+        }
+      
+        //Get the bus details from the database
+        public function getDistance(){
+            try {
+                $this->db->query('SELECT * FROM distancefromstart');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching bus details: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return []; 
+            }
+        }
+
+        //Get the route details from the database
+        public function getRoute(){
+            try {
+                $this->db->query('SELECT * FROM routes');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching route details: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
+
+        //Find the user by nic
+        public function findUserByNIC($nic){
+            $this->db->query('SELECT * FROM customer WHERE NIC=:nic');
+            $this->db->bind(":nic",$nic);
+            $row = $this->db->single();
+            if($this->db->rowCount()>0){
+                return true;
+            }
+            else{
+                return false;  
+            }
+        }
+
+        //Add support request
         public function addSupportRequest($data) {
             $this->db->query('INSERT INTO support_request (name, email, contactNo, message) VALUES (:name, :email, :contactNo, :message)');
             $this->db->bind(':name', $data['name']);
@@ -200,10 +153,46 @@
             $this->db->bind(':contactNo', $data['contactNo']);
             $this->db->bind(':message', $data['message']);
     
-            // Execute the statement
             return $this->db->execute();
         }
 
+        //Insert guest booking data
+        public function createBooking($bookingData) {
+            $this->db->query("INSERT INTO GuestBooking (name, email, contact, nic, from_location, to_location, 
+                            number_of_seats, selected_seats, total_price, schedule_id)
+                            VALUES (:name, :email, :contact, :nic, :fromLocation, :toLocation, 
+                            :noOfSeats, :selectedSeats, :totalPrice, :scheduleId)");
+
+            $this->db->bind(':name', $bookingData['name']);
+            $this->db->bind(':email', $bookingData['email']);
+            $this->db->bind(':contact', $bookingData['contact']);
+            $this->db->bind(':nic', $bookingData['nic']);
+            $this->db->bind(':fromLocation', $bookingData['from']);
+            $this->db->bind(':toLocation', $bookingData['to']);
+            $this->db->bind(':noOfSeats', $bookingData['noOfSeats']);
+            $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
+            $this->db->bind(':totalPrice', $bookingData['totalPrice']);
+            $this->db->bind(':scheduleId', $bookingData['scheduleId']);
+            return $this->db->execute();
+        }
+
+        //Update the booked seats in the schedule
+        public function updateScheduleSeats($scheduleId, $selectedSeats) {
+            $this->db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
+            $this->db->bind(':scheduleId', $scheduleId);
+            $currentBookedSeats = $this->db->single()['bookedSeats'];
+
+            $currentBookedSeatsArray = $currentBookedSeats ? explode(',', $currentBookedSeats) : [];
+            $selectedSeatsArray = is_array($selectedSeats) ? $selectedSeats : explode(',', $selectedSeats);
+            $updatedBookedSeatsArray = array_unique(array_merge($currentBookedSeatsArray, $selectedSeatsArray));
+            $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
+
+            $this->db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats WHERE scheduleId = :scheduleId");
+            $this->db->bind(':updatedBookedSeats', $updatedBookedSeats);
+            $this->db->bind(':scheduleId', $scheduleId);
+
+            return $this->db->execute();
+        }
         
     }
 ?>

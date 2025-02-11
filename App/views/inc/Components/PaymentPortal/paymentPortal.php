@@ -46,7 +46,7 @@
         ?>
 
     <div class="payment-container">
-    <form id="paymentForm" action="<?php echo URLROOT; ?>/<?php echo $userRole === 'RegisteredUser' ? 'RegisteredPages/registeredReceipt' : 'GuestPages/guestReceipt'; ?>" method="post" onsubmit="return validateBookingForm()">
+    <form id="paymentForm" action="<?php echo URLROOT; ?>/<?php echo $userRole === 'RegisteredUser' ? 'RegisteredPages/registeredReceipt' : 'GuestPages/GuestReceipt'; ?>" method="post" onsubmit="return validateBookingForm()">
             <h2>Payment Details</h2>
             
             <!-- Hidden inputs from previous form -->
