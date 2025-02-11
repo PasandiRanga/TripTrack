@@ -56,7 +56,6 @@
                     <i class="fa-solid fa-bell"></i>
                     <span class="badge"><?php echo count($notifications); ?></span>
                     <div class="notifi-box" id="box">
-                        <h2>Notifications </h2>
                         <?php foreach ($notifications as $notification): ?>
                             <div class="notifi-item">
                                 <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
@@ -146,13 +145,10 @@
             });
         });
 
-        //navbar
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const notificationIcon = document.querySelector('.notiicon');
     const notificationBox = document.getElementById('box');
     let isOpen = false;
-
-    notificationBox.style.pointerEvents = 'none';
 
     // Toggle notification box when clicking the icon
     notificationIcon.addEventListener('click', function(event) {
@@ -165,7 +161,6 @@
 
     // Close notification box when clicking outside
     document.addEventListener('click', function(event) {
-        // Check if click is outside both the notification icon and box
         if (!notificationIcon.contains(event.target) && !notificationBox.contains(event.target) && isOpen) {
             isOpen = false;
             notificationBox.style.height = '0px';
@@ -185,18 +180,26 @@
         });
     });
 
+    
     // Handle notification removal
     document.querySelectorAll('.close-icon').forEach(icon => {
         icon.addEventListener('click', function(event) {
             event.stopPropagation();
+
+            // Remove the notification item
             this.closest('.notifi-item').remove();
-            
+
             // Update notification count
             const count = document.querySelectorAll('.notifi-item').length;
-            document.querySelector('.badge').textContent = count;
-            document.querySelector('.notifi-box h2 span').textContent = count;
+            
+            // Update the notification count inside the bell icon and notifi-box
+            document.querySelectorAll('.badge').forEach(badge => {
+                badge.textContent = count;
+            });
+Z
         });
     });
+
 });
 
     </script>
