@@ -21,8 +21,10 @@
     // echo "Current method is: " . $currentMethod;
     $userRole = $_SESSION['user_role'] ?? 'GuestUser';
 
-    include_once 'notificationData.php';
-    include_once 'c_notificationData.php';
+    $notifications = $data['notifications'] ?? []; // Ensure the variable exists
+
+    //include_once 'notificationData.php';
+    //include_once 'c_notificationData.php';
 
     $profileImage = !empty($_SESSION['user_profile_image']) ? $_SESSION['user_profile_image'] : 'default.jpg';
 
@@ -54,22 +56,26 @@
                 <!-- Update the notification button HTML -->
                 <div class="notiicon">
                     <i class="fa-solid fa-bell"></i>
-                    <span class="badge"><?php echo count($notifications); ?></span>
+                    <span class="badge"><?php echo !empty($notifications) ? count($notifications) : '0'; ?></span>
                     <div class="notifi-box" id="box">
+                    <?php if (!empty($notifications)): ?>
                         <?php foreach ($notifications as $notification): ?>
                             <div class="notifi-item">
                                 <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
                                 <div class="text">
-                                    <h4><?php echo $notification["title"]; ?></h4>
-                                    <p><?php echo $notification["date"]; ?></p>
+                                    <h4><?php echo htmlspecialchars($notification['Title']); ?></h4>
+                                    <p><?php echo htmlspecialchars($notification['Time']); ?></p>
                                     <div class="dropdown-arrow">&#9660;</div>
                                 </div>
                                 <div class="notification-content">
-                                    <p><?php echo $notification["content"]; ?></p>
+                                    <p><?php echo htmlspecialchars($notification['Content']); ?></p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
-                    </div>
+                    <?php else: ?>
+                        <p>No notifications available.</p>
+                    <?php endif; ?>
+                </div>
                 </div>
             <?php endif; ?>
             

@@ -360,11 +360,14 @@
         }
 
         public function getAllNotifications() {
-            $data['notifications'] = $this->RegisteredpagesModel->getNotifications(); // Example, replace with your actual logic
+            $notifications = $this->RegisteredpagesModel->getNotifications(); 
+            $data = [
+                'notifications' => $notifications
+            ];
             $this->view('inc/Components/Header/header', $data);
-            $this->view('inc/Components/navbar', $data); // Pass the $data array to the view
-
+            $this->view('inc/Components/navbar', $data); // Ensure $data is passed
         }
+
 
 
     }  
