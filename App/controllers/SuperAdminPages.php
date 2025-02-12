@@ -498,8 +498,19 @@ class SuperAdminPages extends Controller {
                 exit();
             }
         } else {
-            // Handle GET request (show page)
-            $this->view('pages/SuperAdmin/Addassigns');
+            // Fetch schedule, driver, and conductor data
+            $schedules = $this->SuperAdminModel->getScheduleID();
+            $drivers = $this->SuperAdminModel->getDriverID();
+            $conductors = $this->SuperAdminModel->getConductorID();
+
+            $data = [
+                'schedules' => $schedules,
+                'drivers' => $drivers,
+                'conductors' => $conductors
+            ];
+
+            $this->view('pages/SuperAdmin/Addassigns', $data);
+            
         }
     }
 

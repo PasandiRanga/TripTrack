@@ -242,6 +242,7 @@ class M_SuperAdminPages {
     public function addAssigns($data) {
         try {
 
+            date_default_timezone_set('Asia/Colombo');
             $currentDate = date("Y-m-d");  // Get current date
             $currentTime = date("H:i:s");  // Get current time
 
@@ -266,6 +267,20 @@ class M_SuperAdminPages {
         }
     }
 
+    public function getScheduleID(){
+        $this->db->query("SELECT scheduleId FROM schedule");
+        return $this->db->resultSet();
+    }
+
+    public function getDriverID(){
+        $this->db->query("SELECT employee_id FROM employee WHERE role='Driver'");
+        return $this->db->resultSet();
+    }
+
+    public function getConductorID(){
+        $this->db->query("SELECT employee_id FROM employee WHERE role='Conductor'");
+        return $this->db->resultSet();
+    }
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 

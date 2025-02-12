@@ -44,7 +44,7 @@ h2 {
     color: black;
 }
 
-.assign-form input {
+.assign-form input, select {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
