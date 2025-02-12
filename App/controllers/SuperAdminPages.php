@@ -460,32 +460,49 @@ class SuperAdminPages extends Controller {
     }
 
     public function addassigns() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Set header to return JSON response
+            header('Content-Type: application/json');
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // Get raw POST data and decode JSON
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
 
             $data = [
-                'scheduleId' => trim($_POST['scheduleId']),
-                'driver_id' => trim($_POST['driver_id']),
-                'conductor_id' => trim($_POST['conductor_id']),
-                'assign_time' => trim($_POST['assign_time']),
-                'assign_date' => trim($_POST['assign_date'])
+                'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
+                'driver_id'    => trim($inputData['driver_id'] ?? ''),
+                'conductor_id' => trim($inputData['conductor_id'] ?? ''),
+                'assign_time'  => trim($inputData['assign_time'] ?? ''),
+                'assign_date'  => trim($inputData['assign_date'] ?? '')
             ];
 
-            if($this->SuperAdminModel->addAssigns($data)){
-                header("Location: " . URLROOT . "/SuperAdminPages/assigns");
+            // Validate required fields
+            if (empty($data['scheduleId']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            // Insert into DB
+            if ($this->SuperAdminModel->addAssigns($data)) {
                 echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
                 exit();
-            }else {
-                die("Error: Unable to assing to the schedule.");
+            } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
                 http_response_code(500);
                 exit();
             }
         } else {
+            // Handle GET request (show page)
             $this->view('pages/SuperAdmin/Addassigns');
-        }   
+        }
     }
+
 
 
 //----------------------------------------------------------------------------------------------------------------------

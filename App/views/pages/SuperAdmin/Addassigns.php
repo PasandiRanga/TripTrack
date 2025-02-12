@@ -28,36 +28,44 @@
         <label for="conductor_id">Conductor ID:</label>
         <input type="text" id="conductor_id" name="conductor_id" placeholder="Enter Conductor ID" required>
 
+        <!--
+
         <label for="assign_time">Assign Time:</label>
         <input type="time" id="assign_time" name="assign_time" required>
 
         <label for="assign_date">Assign Date:</label>
         <input type="date" id="assign_date" name="assign_date" required>
 
+        -->
+
         <button type="submit">Add Assign</button>
     </form>
 
     <script>
-         document.getElementById("assignForm").addEventListener("submit", function(event) {
+       document.getElementById("assignForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            let scheduleId = document.getElementById("scheduleId").value.trim();
-            let conductor_id = document.getElementById("conductor_id").value.trim();
-            let driver_id = document.getElementById("driver_id").value.trim();
-            let assign_time = document.getElementById("assign_time").value.trim();
-            let assign_date = document.getElementById("assign_date").value.trim();
-
-            if (!scheduleId || !conductor_id || !driver_id || !assign_time || !assign_date) {
-                alert("All fields are required!");
-                return;
-            }
+            let formData = {
+                scheduleId: document.getElementById("scheduleId").value.trim(),
+                driver_id: document.getElementById("driver_id").value.trim(),
+                conductor_id: document.getElementById("conductor_id").value.trim(),
+                //assign_time: document.getElementById("assign_time").value.trim(),
+                //assign_date: document.getElementById("assign_date").value.trim()
+            };
 
             fetch('<?php echo URLROOT; ?>/SuperAdminPages/addassigns', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ scheduleId, driver_id, conductor_id, assign_time, assign_date })
+                body: JSON.stringify(formData)
             })
-            .then(response => response.json())
+            .then(response => response.text())  // Get text response first
+            .then(text => {
+                try {
+                    return JSON.parse(text);  // Try parsing JSON
+                } catch (error) {
+                    throw new Error("Invalid JSON response: " + text);  // Handle non-JSON errors
+                }
+            })
             .then(data => {
                 if (data.status === "success") {
                     alert("Assign added successfully!");
@@ -66,8 +74,9 @@
                     alert("Error: " + data.message);
                 }
             })
-            .catch(error => alert("An error occurred."));
+            .catch(error => alert("An error occurred: " + error.message));
         });
+
     </script>
 </body>
 </html>

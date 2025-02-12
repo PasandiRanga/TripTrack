@@ -239,19 +239,34 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    public function addAssigns($data){
-        $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
+    public function addAssigns($data) {
+        try {
 
-        $this->db->bind(':scheduleId', $data['scheduleId']);
-        $this->db->bind(':driver_id', $data['driver_id']);
-        $this->db->bind(':conductor_id', $data['conductor_id']);
-        $this->db->bind(':assign_time', $data['assign_time']);
-        $this->db->bind(':assign_date', $data['assign_date']);
+            $currentDate = date("Y-m-d");  // Get current date
+            $currentTime = date("H:i:s");  // Get current time
 
+            $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) 
+                            VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
 
-        return $this->db->execute();
+            $this->db->bind(':scheduleId', $data['scheduleId']);
+            $this->db->bind(':driver_id', $data['driver_id']);
+            $this->db->bind(':conductor_id', $data['conductor_id']);
+            $this->db->bind(':assign_time', $currentTime);
+            $this->db->bind(':assign_date', $currentDate);
 
+            if ($this->db->execute()) {
+                return true; // Success
+            } else {
+                error_log("Database error: Failed to insert assignment"); // Log error
+                return false; // Failure
+            }
+        } catch (Exception $e) {
+            error_log("Exception in addAssigns: " . $e->getMessage()); // Log exception
+            return false;
+        }
     }
+
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
 
