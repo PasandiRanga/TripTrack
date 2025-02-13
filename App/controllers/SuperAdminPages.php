@@ -250,6 +250,30 @@ class SuperAdminPages extends Controller {
     }
 
     public function addschedule() {
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            header('Content-Type: application/json');
+
+            $inputData = json_decode(file_get_contents("php//input"), true);
+
+            if(!$inputData){
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'scheduleId' => trim($inputData['scheduleId'] ?? ''),
+                'License_id' => trim($inputData['License_id'] ?? ''),
+                'date' => trim($inputData['date'] ?? ''),
+                'departureTime' => trim($inputData['departureTime'] ?? ''),
+                'arrivalTime' => trim($inputData['arrivalTime'] ?? ''),
+                'duration' => trim($inputData['duration'] ?? ''),
+                'availableSeats' => trim($inputData['availableSeats'] ?? ''),
+                'bookedSeats' => trim($inputData['bookedSeats'] ?? ''),
+                'direction' => trim($inputData['direction'] ?? ''),
+                'type' => trim($inputData['type'] ?? '')
+            ];
+        }
         $this->view('pages/SuperAdmin/Addschedule');
     }
 //----------------------------------------------------------------------------------------------------------------------
