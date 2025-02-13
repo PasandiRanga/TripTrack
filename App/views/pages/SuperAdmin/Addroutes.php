@@ -29,6 +29,12 @@
         <label for="stops">Stops:</label>
         <input type="text" id="stops" name="stops" placeholder="Enter Stops" required>
 
+        <label for="stops">price:</label>
+        <input type="text" id="price" name="price" placeholder="Enter price" required>
+
+        <label for="stops">Price/km:</label>
+        <input type="text" id="price per km" name="price per km" placeholder="Enter price per km" required>
+
         <button type="submit">Add Route</button>
     </form>
 
