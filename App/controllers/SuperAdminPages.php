@@ -262,7 +262,6 @@ class SuperAdminPages extends Controller {
             }
 
             $data = [
-                'scheduleId' => trim($inputData['scheduleId'] ?? ''),
                 'License_id' => trim($inputData['License_id'] ?? ''),
                 'date' => trim($inputData['date'] ?? ''),
                 'departureTime' => trim($inputData['departureTime'] ?? ''),
@@ -273,8 +272,31 @@ class SuperAdminPages extends Controller {
                 'direction' => trim($inputData['direction'] ?? ''),
                 'type' => trim($inputData['type'] ?? '')
             ];
+
+            if (empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['duration']) || empty($data['availableSeats']) || empty($data['direction']) || empty($data['type'])){
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            if($this->SuperAdminModel->addSchedule($data)){
+                echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
+                exit();
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Database Error cannot add schedule']);
+                http_response_code(500);
+                exit();
+            }
+        } else {
+            $bus = $this->SuperAdminModel->getBusID();
+
+            $data = [
+                'bus' => $bus
+            ];
+
+            $this->view('pages/SuperAdmin/Addschedule',$data);
         }
-        $this->view('pages/SuperAdmin/Addschedule');
+        
     }
 //----------------------------------------------------------------------------------------------------------------------
                                     //Leave Requests
