@@ -230,6 +230,24 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function addRoute($data){
+        $this->db->query('INSERT INTO routes (routeNumber, route, stops, price, priceperkm) VALUES (:routeNumber, :route, :stops, :price, :priceperkm)');
+
+        $this->db->bind(':routeNumber', $data['routeNumber']);
+        $this->db->bind(':route', $data['route']);
+        $this->db->bind(':stops', $data['stops']);
+        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':priceperkm', $data['priceperkm']);
+
+        if($this->db->execute()){
+            return true;
+        }
+        else{
+            error_log("Error: Failed to insert assignment"); // Log error
+            return false; // Failure
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //Assigns
 

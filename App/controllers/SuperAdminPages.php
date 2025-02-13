@@ -529,7 +529,42 @@ class SuperAdminPages extends Controller {
     }
 
     public function addroute(){
-        $this->view('pages/SuperAdmin/Addroutes');
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            header('Content-Type: application/json');
+
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            if(!$inputData){
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'routeNumber' => trim($inputData['routeNumber'] ?? ''),
+                'route' => trim($inputData['route'] ?? ''),
+                'stops' => trim($inputData['stops'] ?? ''),
+                'price' => trim($inputData['price'] ?? ''),
+                'priceperkm' => trim($inputData['priceperkm'] ?? ''),
+            ];
+
+            if(empty($data['routeNumber']) || empty($data['route']) || empty($data['stops']) || empty($data['price']) || empty($data['priceperkm'])){
+
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            if($this->SuperAdminModel->addRoute($data)){
+                echo json_encode(['status' => 'success', 'message' => 'Route Added sccessfully']);
+                exit();
+            } else {
+                echo json_encode(['status' => 'success', 'message' => 'Error Occured adding new Route']);
+                exit();
+            }
+        } else {
+            $this->view('pages/SuperAdmin/Addroutes');
+        }
     }
 //----------------------------------------------------------------------------------------------------------------------
                                     //support requests
