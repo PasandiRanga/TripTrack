@@ -119,7 +119,10 @@
                 let hours = Math.floor(diffMs/ (1000 * 60 * 60));
                 let minutes = Math.floor((diffMs % (1000*60*60)) / (1000 *60));
 
-                durationTime.value = `${hours} hours ${minutes} mins`;
+                let durationFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+
+                durationTime.value = durationFormatted;
+                
             } else {
                 durationTime.value = "";
             }
