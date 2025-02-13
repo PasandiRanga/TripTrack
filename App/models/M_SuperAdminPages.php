@@ -203,12 +203,36 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
-    public function addschedule(){
-        //add schedules
+    public function addschedule($data){
+        $this->db->query('INSERT INTO schedule (scheduleId, License_id, date, departureTime, arrivalTime, duration, availableSeats, bookedSeats, direction, type) VALUES (:scheduleId, :License_id, :date, :departureTime, :arrivalTime, :duration, :availableSeats, :bookedSeats, :direction, :type)');
+
+        $this->db->bind(':scheduleId', $data['scheduleId']);
+        $this->db->bind(':License_id', $data['License_id']);
+        $this->db->bind(':date', $data['date']);
+        $this->db->bind(':departureTime', $data['departureTime']);
+        $this->db->bind(':arrivalTime', $data['arrivalTime']);
+        $this->db->bind(':availableSeats', $data['availableSeats']);
+        $this->db->bind(':bookedSeats', $data['bookedSeats']);
+        $this->db->bind(':direction', $data['direction']);
+        $this->db->bind(':type', $data['type']);
+
+        if($this->db->execute()){
+            return true;
+        }
+
+        else {
+            error_log("Error: Failed to insert Schedule");
+            return false;
+        }
     }
 
     public function getschedule(){
         $this->db->query('SELECT * FROM schedule');
+        return $this->db->resultSet();
+    }
+
+    public function getBusID(){
+        $this->db->query('SELECT License_id FROM bus');
         return $this->db->resultSet();
     }
 

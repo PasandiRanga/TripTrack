@@ -59,10 +59,6 @@
             <input type="text" id="duration" name="duration" placeholder="e.g., 09:30:00" required>
         </div>
 
-        <div class="form-group">
-            <label for="price">Price:</label>
-            <input type="text" id="price" name="price" placeholder="e.g., Rs. 700" required>
-        </div>
 
         <!-- Form buttons -->
         <div class="button-group">
@@ -84,7 +80,6 @@
             const departureTime = document.getElementById("departureTime").value;
             const arrivalTime = document.getElementById("arrivalTime").value;
             const duration = document.getElementById("duration").value.trim();
-            const price = document.getElementById("price").value.trim();
 
             let errorMessage = "";
 
@@ -110,12 +105,6 @@
             const durationPattern = /^[0-9]+ hours [0-9]+ mins$/;
             if (!durationPattern.test(duration)) {
                 errorMessage += "Duration must be in the format 'X hours Y mins'.\n";
-            }
-
-            // Price validation (must start with 'Rs.' followed by a number)
-            const pricePattern = /^Rs\.?\s?\d+$/;
-            if (!pricePattern.test(price)) {
-                errorMessage += "Price must be in the format 'Rs. amount'.\n";
             }
 
             // Display error message if any validation fails
