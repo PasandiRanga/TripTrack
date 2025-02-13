@@ -158,10 +158,27 @@
 
         //Insert guest booking data
         public function createBooking($bookingData) {
+            $this->db->query("SELECT * FROM GuestBooking WHERE schedule_id = :scheduleId AND selectedSeats = :selectedSeats");
+            $this->db->bind(':userId', $bookingData['User_id']);
+            $this->db->bind(':scheduleId', $bookingData['scheduleId']);
+            $this->db->bind(':selectedSeats', implode(',', $bookingData['selectedSeats']));
+
+            $existingBooking = $this->db->single();
+
+            if ($existingBooking) {
+                return; // Do not insert duplicate booking
+            }
+
+            date_default_timezone_set('Asia/Colombo');
+            $currentDate = date('Y-m-d'); 
+            $currentTime = date('H:i:s'); 
+
+
+
             $this->db->query("INSERT INTO GuestBooking (name, email, contact, nic, from_location, to_location, 
-                            number_of_seats, selected_seats, total_price, schedule_id)
+                                number_of_seats, selected_seats, total_price, paymentMethod, schedule_id, booking_date, booking_time)
                             VALUES (:name, :email, :contact, :nic, :fromLocation, :toLocation, 
-                            :noOfSeats, :selectedSeats, :totalPrice, :scheduleId)");
+                                :noOfSeats, :selectedSeats, :totalPrice, :paymentMethod, :scheduleId, :bookingDate, :bookingTime)");
 
             $this->db->bind(':name', $bookingData['name']);
             $this->db->bind(':email', $bookingData['email']);
@@ -172,27 +189,45 @@
             $this->db->bind(':noOfSeats', $bookingData['noOfSeats']);
             $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
             $this->db->bind(':totalPrice', $bookingData['totalPrice']);
+            $this->db->bind(':paymentMethod', $bookingData['paymentMethod']);
             $this->db->bind(':scheduleId', $bookingData['scheduleId']);
+            $this->db->bind(':bookingDate', $currentDate); 
+            $this->db->bind(':bookingTime', $currentTime); 
+
             return $this->db->execute();
         }
+
 
         //Update the booked seats in the schedule
         public function updateScheduleSeats($scheduleId, $selectedSeats) {
-            $this->db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
+            // Fetch current booked seats and available seats
+            $this->db->query("SELECT bookedSeats, availableSeats FROM schedule WHERE scheduleId = :scheduleId");
             $this->db->bind(':scheduleId', $scheduleId);
-            $currentBookedSeats = $this->db->single()['bookedSeats'];
+            $scheduleData = $this->db->single();
 
+            $currentBookedSeats = $scheduleData['bookedSeats'];
+            $availableSeats = (int)$scheduleData['availableSeats'];
+
+            // Convert booked seats to array
             $currentBookedSeatsArray = $currentBookedSeats ? explode(',', $currentBookedSeats) : [];
             $selectedSeatsArray = is_array($selectedSeats) ? $selectedSeats : explode(',', $selectedSeats);
+
+            // Merge and get unique booked seats
             $updatedBookedSeatsArray = array_unique(array_merge($currentBookedSeatsArray, $selectedSeatsArray));
             $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
 
-            $this->db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats WHERE scheduleId = :scheduleId");
+            // Calculate new available seats count
+            $newAvailableSeats = max(0, $availableSeats - count($selectedSeatsArray));
+
+            // Update schedule table
+            $this->db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats, availableSeats = :newAvailableSeats WHERE scheduleId = :scheduleId");
             $this->db->bind(':updatedBookedSeats', $updatedBookedSeats);
+            $this->db->bind(':newAvailableSeats', $newAvailableSeats);
             $this->db->bind(':scheduleId', $scheduleId);
 
             return $this->db->execute();
         }
+
         
     }
 ?>

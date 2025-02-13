@@ -1,18 +1,8 @@
 <?php
-    //Class name should be the same as the file name of the model
     class M_RegisteredPages {
-        //Declare a variable to grant access to the database
         private $db;
-
-        //whenever the script is called we need to instantiate the data base class in Database.php
         public function __construct(){
-            //Instantiate the database class
             $this->db = new Database();
-            //we need to connect the controller with the model as well so that we can use the database 
-            //In this case controller is GuestPages.php so whenever GuestPages.php is constructed M_GuestPages.php will also be constructed
-            //You can do this in controller class statement model
-            //We should connect this model with the corressponding controller
-
         }
 
         public function validateBooking($bookingId, $userId) {
@@ -24,10 +14,8 @@
 
         public function cancelBooking($bookingId, $scheduleId) {
             try {
-                // Start a transaction
                 $this->db->beginTransaction();
                 
-                //Get the seats in the booking
                 $this->db->query("SELECT Seats FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
@@ -35,7 +23,6 @@
                     throw new Exception("Booking not found");
                 }
 
-                //Get the booked seats for schedule
                 $this->db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
                 $this->db->bind(':scheduleId', $scheduleId);
                 $bookedSeats = $this->db->single();
@@ -43,33 +30,26 @@
                     throw new Exception("Schedule not found");
                 }
 
-                 // Convert the comma-separated strings into arrays
                 $seatsArray = explode(',', $seats['Seats']); // Convert booked seats into an array
                 $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); // Convert bookedSeats into an array
 
-                // Remove the seats to be removed from the booked seats array
                 $bookedSeatsArray = array_diff($bookedSeatsArray, $seatsArray);               
 
-                // Convert the arrays back to comma-separated strings
                 $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
 
-                //Update the booked seat
                 $this->db->query("UPDATE schedule SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
                 $this->db->bind(':bookedSeats', $bookedSeats);
                 $this->db->bind(':scheduleId', $scheduleId);
                 $this->db->execute();
 
-                //Delete the booking
                 $this->db->query("DELETE FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $this->db->execute();
 
-                // Commit the transaction
                 $this->db->endTransaction();
                 return true;
         
             } catch (Exception $e) {
-                // Rollback the transaction in case of an error
                 $this->db->rollBack();
                 $_SESSION['error'] = $e->getMessage();
                 error_log($e->getMessage());
@@ -78,62 +58,46 @@
             }
         }
         
-        
-        
-
-        //Get the schedule from the database
         public function getSchedule(){
             try {
-                // If you need all columns, this is fine
                 $this->db->query('SELECT * FROM schedule');
                 return $this->db->resultSet();
             } catch (Exception $e) {
-                // Log or handle error
                 error_log("Error fetching schedule: " . $e->getMessage());
-                // Log to console
                 echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
+                return [];
             }
         }
         public function getBusDetails(){
             try {
-                // If you need all columns, this is fine
                 $this->db->query('SELECT * FROM bus');
                 return $this->db->resultSet();
             } catch (Exception $e) {
-                // Log or handle error
                 error_log("Error fetching bus details: " . $e->getMessage());
-                // Log to console
                 echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
+                return []; 
             }
         }
         public function getDistance(){
             try {
-                // If you need all columns, this is fine
                 $this->db->query('SELECT * FROM distancefromstart');
                 return $this->db->resultSet();
             } catch (Exception $e) {
-                // Log or handle error
                 error_log("Error fetching bus details: " . $e->getMessage());
-                // Log to console
                 echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
+                return []; 
             }
         }
 
         public function getBookings($userId){
             try {
-                // If you need all columns, this is fine
                 $this->db->query('SELECT * FROM registeredbooking WHERE User_id = :userId');
                 $this->db->bind(':userId', $userId);
                 return $this->db->resultSet();
             } catch (Exception $e) {
-                // Log or handle error
                 error_log("Error fetching bus details: " . $e->getMessage());
-                // Log to console
                 echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
+                return [];
             }
 
         }
@@ -141,9 +105,7 @@
         public function findUserByEmail($email){
             $this->db->query('SELECT * FROM customer WHERE Email=:email');
             $this->db->bind(":email",$email);
-
             $row = $this->db->single();
-
             if($this->db->rowCount()>0){
                 return true;
             }
@@ -155,9 +117,7 @@
         public function findUserById($userId){
             $this->db->query('SELECT * FROM customer WHERE User_id=:userId');
             $this->db->bind(":userId",$userId);
-
             $row = $this->db->single();
-
             if($this->db->rowCount()>0){
                 error_log(print_r($row, true));
                 return $row;
@@ -168,29 +128,24 @@
         }
 
         public function deleteAccount($userID) {
-            // Prepare the DELETE query
             $this->db->query('DELETE FROM customer WHERE User_id = :userId');
             $this->db->bind(':userId', $userID);
         
-            // Execute the query
             $this->db->execute();
         
-            // Check if any rows were affected
             if ($this->db->rowCount() > 0) {
-                return true; // Account deleted successfully
+                return true; 
             } else {
-                return false; // No rows affected (user ID might not exist)
+                return false; 
             }
         }
         
 
         public function updateProfile($data) {
-            // Update profile where the current email matches
             $this->db->query("UPDATE customer 
                               SET Name = :name, Email = :email, Contact_number = :contact_number, NIC = :nic, Address = :address 
                               WHERE Email = :current_email");
         
-            // Bind parameters
             $this->db->bind(':name', $data['name']);
             $this->db->bind(':email', $data['email']);
             $this->db->bind(':contact_number', $data['contact_number']);
@@ -198,12 +153,10 @@
             $this->db->bind(':address', $data['address']);
             $this->db->bind(':current_email', $data['current_email']); // Use the current email for the condition
         
-            // Execute and check success
             return $this->db->execute();
         }
 
         public function getReviewsByLicenseId($licenseId) {
-            // Join BUS_reviews with customer table to fetch user details along with reviews
             $this->db->query("
                 SELECT 
                     c.User_id,
@@ -231,21 +184,17 @@
             $this->db->bind(':message', $data['message']);
             $this->db->bind(':User_id', $data['userid']);
     
-            // Execute the statement
             return $this->db->execute();
         }
 
         public function getRoute(){
             try {
-                // If you need all columns, this is fine
                 $this->db->query('SELECT * FROM routes');
                 return $this->db->resultSet();
             } catch (Exception $e) {
-                // Log or handle error
                 error_log("Error fetching route details: " . $e->getMessage());
-                // Log to console
                 echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
-                return []; // Return an empty array on error
+                return []; 
             }
         }
         
@@ -253,7 +202,67 @@
                 $this->db->query('SELECT * FROM schedule WHERE date = :date');
                 $this->db->bind(':date', $date);
                 return $this->db->resultSet();
+        }
+
+        public function createBooking($bookingData) {
+            $this->db->query("SELECT * FROM RegisteredBooking WHERE User_id = :userId AND schedule_id = :scheduleId AND Seats = :selectedSeats");
+            $this->db->bind(':userId', $bookingData['User_id']);
+            $this->db->bind(':scheduleId', $bookingData['scheduleId']);
+            $selectedSeats = is_array($bookingData['selectedSeats']) ? $bookingData['selectedSeats'] : explode(',', $bookingData['selectedSeats']);
+            $this->db->bind(':selectedSeats', implode(',', $selectedSeats));
+
+            $existingBooking = $this->db->resultSet();
+            
+            if ($existingBooking) {
+                exit(); 
+            }else{
+                date_default_timezone_set('Asia/Colombo');
+                $currentDate = date('Y-m-d'); 
+                $currentTime = date('H:i:s'); 
+
+                $this->db->query("INSERT INTO RegisteredBooking (Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
+                                        VALUES (:bookingDate, :bookingTime, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod);");
+                $this->db->bind(':bookingDate', $currentDate); 
+                $this->db->bind(':bookingTime', $currentTime); 
+                $this->db->bind(':noOfSeats', $bookingData['noOfSeats']);
+                $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
+                $this->db->bind(':userId', $bookingData['User_id']);                      
+                $this->db->bind(':scheduleId', $bookingData['scheduleId']);
+                $this->db->bind(':fromLocation', $bookingData['from']);
+                $this->db->bind(':toLocation', $bookingData['to']);
+                $this->db->bind(':totalPrice', $bookingData['totalPrice']);
+                $this->db->bind(':paymentMethod' , $bookingData['paymentMethod']);
+                return $this->db->execute();
             }
+        }
         
+        public function updateScheduleSeats($scheduleId, $selectedSeats) {
+            // Fetch current booked seats and available seats
+            $this->db->query("SELECT bookedSeats, availableSeats FROM schedule WHERE scheduleId = :scheduleId");
+            $this->db->bind(':scheduleId', $scheduleId);
+            $scheduleData = $this->db->single();
+
+            $currentBookedSeats = $scheduleData['bookedSeats'];
+            $availableSeats = (int)$scheduleData['availableSeats'];
+
+            // Convert booked seats to array
+            $currentBookedSeatsArray = $currentBookedSeats ? explode(',', $currentBookedSeats) : [];
+            $selectedSeatsArray = is_array($selectedSeats) ? $selectedSeats : explode(',', $selectedSeats);
+
+            // Merge and get unique booked seats
+            $updatedBookedSeatsArray = array_unique(array_merge($currentBookedSeatsArray, $selectedSeatsArray));
+            $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
+
+            // Calculate new available seats count
+            $newAvailableSeats = max(0, $availableSeats - count($selectedSeatsArray));
+
+            // Update schedule table
+            $this->db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats, availableSeats = :newAvailableSeats WHERE scheduleId = :scheduleId");
+            $this->db->bind(':updatedBookedSeats', $updatedBookedSeats);
+            $this->db->bind(':newAvailableSeats', $newAvailableSeats);
+            $this->db->bind(':scheduleId', $scheduleId);
+
+            return $this->db->execute();
+        }
     }
 ?>

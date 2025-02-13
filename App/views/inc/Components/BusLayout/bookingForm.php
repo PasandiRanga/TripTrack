@@ -141,34 +141,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update validateBookingForm to include form action check
     window.validateBookingForm = function() {
-        // Get form values
         const from = document.getElementById("from").value;
         const to = document.getElementById("to").value;
         const selectedSeats = document.getElementById("selectedSeats").value;
         const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-        
-        // Validate locations
+
         if (from === to) {
             alert("The 'From' and 'To' locations cannot be the same.");
             return false;
         }
 
-        // Validate seat selection
         if (!selectedSeats) {
             alert("Please select at least one seat.");
             return false;
         }
 
-        // Validate payment method
         if (!paymentMethod) {
             alert("Please select a payment method.");
             return false;
         }
 
-        // Update form action one final time before submission
+        // Add the payment method as a hidden field
+        let paymentInput = document.createElement("input");
+        paymentInput.type = "hidden";
+        paymentInput.name = "paymentMethod";
+        paymentInput.value = paymentMethod.value;
+        document.getElementById("bookingForm").appendChild(paymentInput);
+
         updateFormAction(paymentMethod.value);
         return true;
     };
+
 });
 </script>
     

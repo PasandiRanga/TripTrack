@@ -67,7 +67,6 @@
                     $bookedSeatsString = trim($schedule['bookedSeats']);
                     $bookedSeats = !empty($bookedSeatsString) ? 
                     array_map('trim', explode(',', $bookedSeatsString)) : [];
-                    $pricePerSeat = $schedule['price'];
                     break;
                 }
             }
@@ -88,6 +87,8 @@
             foreach ($routeData as $route) {
                 if ($route['routeNumber'] === $selectedBus['routeNumber']) {
                     $busStops = explode(',', $route['stops']);
+                    $pricePerSeat = $route['price'];
+
                         break;
                 }
             }
