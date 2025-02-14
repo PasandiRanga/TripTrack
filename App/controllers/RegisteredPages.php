@@ -433,13 +433,17 @@
         }
 
         public function getAllNotifications() {
-            $notifications = $this->RegisteredpagesModel->getNotifications(); 
-            $data = [
+            header('Content-Type: application/json'); // Ensure JSON response
+
+            $notifications = $this->RegisteredpagesModel->getNotifications();
+            
+            echo json_encode([
+                'success' => true,
                 'notifications' => $notifications
-            ];
-            $this->view('inc/Components/Header/header', $data);
-            $this->view('inc/Components/navbar', $data); // Ensure $data is passed
+            ]);
+            exit;
         }
+
 
 
 
