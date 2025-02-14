@@ -74,31 +74,20 @@
             </div>
         </div>
             
-        <script>
-            function validateForm() {
-                var from = document.getElementById("from").value;
-                var to = document.getElementById("to").value;
 
-                if (from === to) {
-                    alert("The 'From' and 'To' locations cannot be the same.");
-                    return false; // Prevent form submission
-                }
-                    return true; // Allow form submission
-                }
-        </script>
-            <!-- Number of seats and selected seats  -->
-            <div class="form-group">
-                <!-- Number of seats input  -->
-                <div>
-                    <label for="noOfseats">Number of seats:</label>
-                    <input type="number" id="noOfseats" name="noOfseats" min="1" step="1" value="0" readonly required>
-                </div>
-                <!-- Selected seats input  -->
-                <div>
-                    <label for="selectedSeats">Selected seats:</label>
-                    <input type="text" id="selectedSeats" name="selectedSeats" required>
-                </div>
+        <!-- Number of seats and selected seats  -->
+        <div class="form-group">
+            <!-- Number of seats input  -->
+            <div>
+                <label for="noOfseats">Number of seats:</label>
+                <input type="number" id="noOfseats" name="noOfseats" min="1" step="1" value="0" readonly required>
             </div>
+            <!-- Selected seats input  -->
+            <div>
+                <label for="selectedSeats">Selected seats:</label>
+                <input type="text" id="selectedSeats" name="selectedSeats" required>
+            </div>
+        </div>
             
             <!-- Payment method  -->
             <div class="form-group-inline">
@@ -119,7 +108,39 @@
     <br>
 
     <script>
-        function validateBookingForm() {
+document.addEventListener('DOMContentLoaded', function() {
+    const bookingForm = document.getElementById('bookingForm');
+    const userRole = '<?php echo $userRole; ?>'; // Get user role from PHP
+    
+    // Function to update form action based on payment method
+    function updateFormAction(paymentMethod) {
+        if (paymentMethod === 'Cash') {
+            // For cash payments, route to receipt pages
+            if (userRole === 'RegisteredUser') {
+                bookingForm.action = '<?php echo URLROOT; ?>/RegisteredPages/RegisteredReceipt';
+            } else {
+                bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/GuestReceipt';
+            }
+        } else if (paymentMethod === 'Online') {
+            // For online payments, route to payment portal
+            if (userRole === 'RegisteredUser') {
+                bookingForm.action = '<?php echo URLROOT; ?>/RegisteredPages/paymentPortal';
+            } else {
+                bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/paymentPortal';
+            }
+        }
+    }
+
+    // Add event listeners to payment method radio buttons
+    const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
+    paymentMethodInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            updateFormAction(this.value);
+        });
+    });
+
+    // Update validateBookingForm to include form action check
+    window.validateBookingForm = function() {
         // Get form values
         const from = document.getElementById("from").value;
         const to = document.getElementById("to").value;
@@ -144,7 +165,10 @@
             return false;
         }
 
+        // Update form action one final time before submission
+        updateFormAction(paymentMethod.value);
         return true;
-    }
-    </script>
+    };
+});
+</script>
     
