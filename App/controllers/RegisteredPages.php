@@ -1,10 +1,13 @@
 <?php
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+    require 'C:\xampp\htdocs\TripTrack\vendor\autoload.php';
     class RegisteredPages extends Controller {
-        //so that it will inherit all the functionalities of the Controller class
         private $RegisteredpagesModel;
         
         public function __construct() {
-            //Call the model method and assign it to the pagesModel variable
             $this->RegisteredpagesModel = $this->model('M_RegisteredPages');
         }
 
@@ -12,18 +15,10 @@
             echo "This is the index method";
         }
 
-        
         public function home() {
             $schedule = $this->RegisteredpagesModel->getSchedule();
-            
-            // Retrieve bus details
             $bus = $this->RegisteredpagesModel->getBusDetails();
-
             $route = $this->RegisteredpagesModel->getRoute();
-
-            // $distance = $this->RegisteredpagesModel->getDistance();
-            
-            // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
@@ -35,46 +30,26 @@
 
         public function bookings() {
             $bookingsDetails = $this->RegisteredpagesModel->getBookings($_SESSION['user_id']);
-            // echo "<pre>";
-            // var_dump($bookingsDetails);
-            // echo "</pre>";
-
-            // var_dump($bookingsDetails);
             $schedule = $this->RegisteredpagesModel->getSchedule();
-
             $bus = $this->RegisteredpagesModel->getBusDetails();
-
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-        //     var_dump($user);
-            // var_dump($schedule);
             $data =[
                 'bookingsDetails' => $bookingsDetails,
                 'schedule' => $schedule,
                 'bus' => $bus,
                 'user' => $user
             ];
-            // var_dump($data);
-
-            //call a view
             $this->view('pages/RegisteredUser/Bookings' , $data);
             
         }
 
         public function busLayout() {
             $schedule = $this->RegisteredpagesModel->getSchedule();
-            
-            // Retrieve bus details
             $bus = $this->RegisteredpagesModel->getBusDetails();
-
             $distance = $this->RegisteredpagesModel->getDistance();
-
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-
             $route = $this->RegisteredpagesModel->getRoute();
 
-            
-            
-            // Combine the schedule and bus details into a single data array
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
@@ -82,14 +57,11 @@
                 'user'=> $user,
                 'route' => $route
             ];
-            // var_dump($schedule); // To check if schedule data is loaded
-            // var_dump($bus);
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
 
         
-
         public function contactUs() {
             $this->view('pages/RegisteredUser/contactus');
         }
@@ -100,33 +72,22 @@
 
         public function profile() {
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-
             $data =[
                 'user' => $user
-            ];
-            
+            ]; 
             $this->view('pages/RegisteredUser/profile' , $data);
         }
 
         public function deleteAccount() {
             if ($this->RegisteredpagesModel->deleteAccount($_SESSION['user_id'])) {
-                // Clear the session data to log the user out
                 session_unset();
                 session_destroy();
-        
-                // Redirect to the GuestPages home
                 header('Location: ' . URLROOT . '/GuestPages/home');
                 exit();
             } else {
-                // Handle the error (e.g., showing an error message or logging)
                 die('Error: Unable to delete account. Please try again.');
             }
         }
-               
-
-        // public function searchBus() {
-        //     $this->view('pages/RegisteredUser/searchbus');
-        // }
 
         public function seeTicket() {
             $this->view('pages/RegisteredUser/seeTicket');
@@ -144,34 +105,24 @@
             $this->view('inc/Components/LoginBox/loginBox');
         }
 
-        public function BusBooking() {
-            $schedule = $this->RegisteredpagesModel->getSchedule();
-            
-            // Retrieve bus details
-            $bus = $this->RegisteredpagesModel->getBusDetails();
-
-            $distance = $this->RegisteredpagesModel->getDistance();
-
-            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-            // var_dump($user);
-
+        // public function BusBooking() {
+        //     $schedule = $this->RegisteredpagesModel->getSchedule();
+        //     $bus = $this->RegisteredpagesModel->getBusDetails();
+        //     $distance = $this->RegisteredpagesModel->getDistance();
+        //     $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+        //     $data = [
+        //         'schedule' => $schedule,
+        //         'bus' => $bus,
+        //         'distance' => $distance,
+        //         'user' => $user,
      
-            
-            // Combine the schedule and bus details into a single data array
-            $data = [
-                'schedule' => $schedule,
-                'bus' => $bus,
-                'distance' => $distance,
-                'user' => $user,
-     
-            ];
-            
-            $this->view('pages/RegisteredUser/BusBooking', $data);
-        }
+        //     ];
+        //     $this->view('pages/RegisteredUser/BusBooking', $data);
+        // }
 
-        public function RegisteredReceipt() {
-            $this->view('inc/Components/Receipt/RegisteredReceipt');
-        }
+        // public function RegisteredReceipt() {
+        //     $this->view('inc/Components/Receipt/RegisteredReceipt');
+        // }
 
         public function PaymentPortal(){
             $this->view('inc/Components/PaymentPortal/paymentPortal');
@@ -184,9 +135,7 @@
 
         public function profileUpdate() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
                 $data = [
                     'name' => trim($_POST['name']),
                     'email' => trim($_POST['email']),
@@ -197,52 +146,36 @@
                 ];
     
                 if ($this->RegisteredpagesModel->updateProfile($data)) {
-
-                    // Update session email after a successful update
                     $_SESSION['user_email'] = $data['email'];
-
-                    // Redirect with success message
                     header('Location: ' . URLROOT . '/RegisteredPages/profile');
-                    // flash('profile_update_success', 'Profile updated successfully!');
                 } else {
-                    // Redirect with error message
                     header("Location: " . URLROOT . '/RegisteredPages/Profile');
-                    // flash('profile_update_error', 'Something went wrong. Please try again.');
                 }
             } else {
-                // Load default view if accessed incorrectly
                 header("Location: " . URLROOT . '/RegisteredPages/Profile');
             }
         }
 
         public function cancelBooking() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Ensure the booking ID is provided
                 $scheduleId = $_POST['schedule_id']?? null;
                 $bookingId = $_POST['booking_id'] ?? null;
-                // $seats = $_POST['seats'] ?? null;
                 var_dump($scheduleId);
                 var_dump($bookingId);
-                
         
                 if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
-                    // Attempt to cancel the booking
                     if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId)) {
-                        // Redirect or show success message
                         header("Location: " . URLROOT . "/RegisteredPages/bookings");
                         exit;
                     } else {
-                        // Redirect with error message
                         header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Unable to cancel booking");
                         exit;
                     }
                 } else {
-                    // Redirect with validation error
                     header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Invalid booking ID");
                     exit;
                 }
             } else {
-                // Redirect if accessed without POST
                 header("Location: " . URLROOT . "/RegisteredPages/bookings");
                 exit;
             }
@@ -254,9 +187,7 @@
 
         public function getReviews() {
             $licenseId = $_GET['License_id'] ?? null;
-        
             if ($licenseId) {
-                // Fetch reviews from the database
                 $reviews = $this->RegisteredpagesModel->getReviewsByLicenseId($licenseId);
                 echo json_encode(['success' => true, 'reviews' => $reviews]);
             } else {
@@ -266,11 +197,8 @@
 
         public function submitRequest() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
-                // Collect form data
-                $data = [
+                    $data = [
                     'name' => trim($_POST['name']),
                     'email' => trim($_POST['email']),
                     'contactNo' => trim($_POST['phone']),
@@ -333,7 +261,6 @@
                     $this->view('pages/RegisteredUser/contactus', $data);
                 }
             } else {
-                // Redirect if accessed directly
                 header('Location: ' . URLROOT . '/RegisteredPages/contactUs');
                 exit();
             }
@@ -343,11 +270,9 @@
             if (!isset($_GET['date'])) {
                 return;
             }
-
             $scheduleData = $this->RegisteredpagesModel->getScheduleByDate($_GET['date']);
             $busData = $this->RegisteredpagesModel->getBusDetails();
             $routeData = $this->RegisteredpagesModel->getRoute();
-            
             $data = [
                 'schedule' => $scheduleData,
                 'bus' => $busData,
@@ -357,6 +282,154 @@
             ];
 
             require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
+        }
+
+        public function RegisteredReceipt() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $bookingData = [
+                    'User_id' => $_SESSION['user_id'],
+                    'License_id' => $_POST['License_id'] ?? 'Unknown Bus',
+                    'scheduleId' => $_POST['scheduleId'] ?? 'Unknown Schedule',
+                    'name' => $_POST['name'] ?? '',
+                    'email' => $_POST['email'] ?? '',
+                    'contact' => $_POST['contact'] ?? '',
+                    'nic' => $_POST['nic'] ?? '',
+                    'from' => $_POST['from'] ?? '',
+                    'to' => $_POST['to'] ?? '',
+                    'noOfSeats' => $_POST['noOfseats'] ?? '0',
+                    'totalPrice' => $_POST['totalPrice'] ?? '0',
+                    'selectedSeats' => $_POST['selectedSeats'] ?? [],
+                    'paymentMethod' => $_POST['paymentMethod'] ?? [],
+                    'selectedSeatsJSON' => json_encode($_POST['selectedSeats'] ?? []),
+                    'qrCodeUrl' => ''
+                ];
+            
+
+                try {
+                    // Save booking details
+                    $this->RegisteredpagesModel->createBooking($bookingData);
+                    
+                    // Update schedule seat availability
+                    $this->RegisteredpagesModel->updateScheduleSeats($bookingData['scheduleId'], explode(', ', $bookingData['selectedSeats']));
+
+                    // Generate QR Code text
+                    $qrText = "Booking Receipt\n";
+                    $qrText .= "UserID: {$bookingData['User_id']}\n";
+                    $qrText .= "Schedule ID: {$bookingData['scheduleId']}\n";
+                    $qrText .= "Seats: {$bookingData['selectedSeats']}\n";
+                    $qrText .= "Total Price: Rs. {$bookingData['totalPrice']}\n";
+                    $qrText .= "Payment method: {$bookingData['paymentMethod']}\n";
+
+                    // Generate QR Code and get its URL
+
+                    $qrData = $this->generateQRCode("Booking Receipt\nUserID: {$bookingData['User_id']}\nSchedule ID: {$bookingData['scheduleId']}\nSeats: {$bookingData['selectedSeats']}\nTotal Price: Rs. {$bookingData['totalPrice']}\nPayment method: {$bookingData['paymentMethod']}");
+            
+                    // Add the QR code data to booking data
+                    $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];
+                    $bookingData['qrCodeFilename'] = $qrData['qrCodeFilename'];
+
+                    // Send booking confirmation email
+                    $this->sendBookingEmail($bookingData);
+
+                    // Load Receipt View
+                    $this->view('inc/Components/Receipt/RegisteredReceipt', [
+                        'bookingData' => $bookingData,
+                        'qrText' => $qrText
+                    ]);
+
+                } catch (Exception $e) {
+                    error_log("Booking error: " . $e->getMessage());
+                    header('Location: ' . URLROOT . '/RegisteredPages/home?error=booking_failed');
+                    exit();
+                }
+            } else {
+                header('Location: ' . URLROOT . '/RegisteredPages/home');
+                exit();
+            }
+        }
+
+        private function generateQRCode($qrText) {
+            require_once APPROOT . '/libraries/phpqrcode/qrlib.php'; // Adjust path as needed
+
+            $qrDir = APPROOT . "/public/qrcodes/";
+            
+            // Ensure QR code directory exists
+            if (!file_exists($qrDir)) {
+                mkdir($qrDir, 0777, true);
+            }
+
+            $filename = "REGqr_" . time() . ".png"; // Unique filename
+            $filePath = $qrDir . $filename;
+
+            // Generate QR Code
+            QRcode::png($qrText, $filePath, QR_ECLEVEL_L, 10);
+
+            // Return QR Code URL
+            return [
+                'qrCodeUrl' => URLROOT . "/public/qrcodes/" . $filename,
+                'qrCodeFilename' => $filename // Pass the filename as well
+            ];
+        }
+
+
+
+        private function sendBookingEmail($bookingData) {
+            $mail = new PHPMailer(true);
+
+            try {
+                // SMTP Configuration using defined constants
+                $mail->isSMTP();
+                $mail->Host       = SMTP_HOST;
+                $mail->SMTPAuth   = true;
+                $mail->Username   = SMTP_EMAIL;
+                $mail->Password   = SMTP_PASSWORD;
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = SMTP_PORT;
+
+                // Email Headers
+                $mail->setFrom(SMTP_EMAIL, 'TripTrack');
+                $mail->addAddress($bookingData['email'], $bookingData['name']);
+
+                // Attach the QR code image as inline image
+                $qrCodePath = APPROOT . "/public/qrcodes/" . $bookingData['qrCodeFilename']; // Ensure you pass the filename too
+                $mail->addEmbeddedImage($qrCodePath, 'qr_code_image', 'qr_code.png', 'base64', 'image/png');
+
+                // Email content
+                $mail->isHTML(true);
+                $mail->Subject = 'Your Booking Confirmation - TripTrack';
+                $mail->Body = '
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <h2>Booking Confirmation</h2>
+                    <p>Dear ' . htmlspecialchars($bookingData['name']) . ',</p>
+                    <p>Thank you for booking with TripTrack. Here are your booking details:</p>
+                    
+                    <table style="border-collapse: collapse; width: 100%;">
+                        <tr><td><strong>Name:</strong></td><td>' . htmlspecialchars($bookingData['name']) . '</td></tr>
+                        <tr><td><strong>Email:</strong></td><td>' . htmlspecialchars($bookingData['email']) . '</td></tr>
+                        <tr><td><strong>Contact:</strong></td><td>' . htmlspecialchars($bookingData['contact']) . '</td></tr>
+                        <tr><td><strong>NIC:</strong></td><td>' . htmlspecialchars($bookingData['nic']) . '</td></tr>
+                        <tr><td><strong>From:</strong></td><td>' . htmlspecialchars($bookingData['from']) . '</td></tr>
+                        <tr><td><strong>To:</strong></td><td>' . htmlspecialchars($bookingData['to']) . '</td></tr>
+                        <tr><td><strong>Bus ID:</strong></td><td>' . htmlspecialchars($bookingData['License_id']) . '</td></tr>
+                        <tr><td><strong>Schedule ID:</strong></td><td>' . htmlspecialchars($bookingData['scheduleId']) . '</td></tr>
+                        <tr><td><strong>Number of Seats:</strong></td><td>' . htmlspecialchars($bookingData['noOfSeats']) . '</td></tr>
+                        <tr><td><strong>Seats:</strong></td><td>' . htmlspecialchars($bookingData['selectedSeats']) . '</td></tr>
+                        <tr><td><strong>Total Price:</strong></td><td>Rs. ' . htmlspecialchars($bookingData['totalPrice']) . '</td></tr>
+                    </table>
+
+                    <h3>Your QR Code</h3>
+                    <p>Scan the QR code below for your booking details:</p>
+                    <img src="cid:qr_code_image" alt="QR Code" style="width: 200px; height: 200px;"/>
+
+
+                    <p>We look forward to serving you.</p>
+                    <p>Best regards,<br>TripTrack Team</p>
+                </div>';
+
+                $mail->send();
+            } catch (Exception $e) {
+                error_log("Email could not be sent. Error: {$mail->ErrorInfo}");
+            }
         }
 
         public function getAllNotifications() {

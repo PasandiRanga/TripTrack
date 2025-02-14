@@ -69,7 +69,8 @@
                     'to' => $_POST['to'] ?? '',
                     'noOfSeats' => $_POST['noOfseats'] ?? '0',
                     'totalPrice' => $_POST['totalPrice'] ?? '0',
-                     'selectedSeats' => $_POST['selectedSeats'] ?? [],
+                    'selectedSeats' => $_POST['selectedSeats'] ?? [],
+                    'paymentMethod' => $_POST['paymentMethod'] ?? [],
                     'selectedSeatsJSON' => json_encode($_POST['selectedSeats'] ?? []),
                     'qrCodeUrl' => ''
                 ];
@@ -87,10 +88,11 @@
                     $qrText .= "Schedule ID: {$bookingData['scheduleId']}\n";
                     $qrText .= "Seats: {$bookingData['selectedSeats']}\n";
                     $qrText .= "Total Price: Rs. {$bookingData['totalPrice']}\n";
+                    $qrText .= "Payment method: {$bookingData['paymentMethod']}\n";
 
                     // Generate QR Code and get its URL
 
-                    $qrData = $this->generateQRCode("Booking Receipt\nSchedule ID: {$bookingData['scheduleId']}\nSeats: {$bookingData['selectedSeats']}\nTotal Price: Rs. {$bookingData['totalPrice']}");
+                    $qrData = $this->generateQRCode("Booking Receipt\nSchedule ID: {$bookingData['scheduleId']}\nSeats: {$bookingData['selectedSeats']}\nTotal Price: Rs. {$bookingData['totalPrice']}\nPayment method: {$bookingData['paymentMethod']}");
             
                     // Add the QR code data to booking data
                     $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];

@@ -23,6 +23,7 @@
             <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($data['bookingData']['noOfSeats']); ?></p>
             <p><strong>Seats:</strong> <?php echo htmlspecialchars(implode(', ', (array)$data['bookingData']['selectedSeats'])); ?></p>
             <p><strong>Total Price:</strong> Rs. <?php echo htmlspecialchars($data['bookingData']['totalPrice']); ?></p>
+            <p><strong>Payment method :</strong><?php echo htmlspecialchars($data['bookingData']['paymentMethod']);?></p>
         </div>
         
         <div class="qr-code">
