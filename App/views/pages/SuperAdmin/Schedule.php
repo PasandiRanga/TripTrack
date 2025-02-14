@@ -34,7 +34,6 @@
                     <th>Departure Time</th>
                     <th>Arrival Time</th>
                     <th>Duration</th>
-                    <th>Price</th>
                     <th>Available Seats</th>
                     <th>Booked Seats</th>
                     <th>Update</th>
@@ -60,7 +59,6 @@
                         echo "<td>{$schedule['departureTime']}</td>";
                         echo "<td>{$schedule['arrivalTime']}</td>";
                         echo "<td>{$schedule['duration']}</td>";
-                        echo "<td>{$schedule['price']}</td>";
                         echo "<td>{$schedule['availableSeats']}</td>";
                         echo "<td>{$schedule['bookedSeats']}</td>";
                         echo "<td><button class='update-btn' onclick='updateSchedule({$schedule['scheduleId']})'>Update</button></td>";

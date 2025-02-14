@@ -203,12 +203,35 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
-    public function addschedule(){
-        //add schedules
+    public function addschedule($data){
+        $this->db->query('INSERT INTO schedule (License_id, date, departureTime, arrivalTime, duration, availableSeats, bookedSeats, direction, type) VALUES (:scheduleId, :License_id, :date, :departureTime, :arrivalTime, :duration, :availableSeats, :bookedSeats, :direction, :type)');
+
+        $this->db->bind(':License_id', $data['License_id']);
+        $this->db->bind(':date', $data['date']);
+        $this->db->bind(':departureTime', $data['departureTime']);
+        $this->db->bind(':arrivalTime', $data['arrivalTime']);
+        $this->db->bind(':availableSeats', $data['availableSeats']);
+        $this->db->bind(':bookedSeats', $data['bookedSeats']);
+        $this->db->bind(':direction', $data['direction']);
+        $this->db->bind(':type', $data['type']);
+
+        if($this->db->execute()){
+            return true;
+        }
+
+        else {
+            error_log("Error: Failed to insert Schedule");
+            return false;
+        }
     }
 
     public function getschedule(){
         $this->db->query('SELECT * FROM schedule');
+        return $this->db->resultSet();
+    }
+
+    public function getBusID(){
+        $this->db->query("SELECT License_id, passengers FROM bus");
         return $this->db->resultSet();
     }
 
@@ -230,6 +253,24 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function addRoute($data){
+        $this->db->query('INSERT INTO routes (routeNumber, route, stops, price, priceperkm) VALUES (:routeNumber, :route, :stops, :price, :priceperkm)');
+
+        $this->db->bind(':routeNumber', $data['routeNumber']);
+        $this->db->bind(':route', $data['route']);
+        $this->db->bind(':stops', $data['stops']);
+        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':priceperkm', $data['priceperkm']);
+
+        if($this->db->execute()){
+            return true;
+        }
+        else{
+            error_log("Error: Failed to insert assignment"); // Log error
+            return false; // Failure
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //Assigns
 
@@ -239,19 +280,49 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    public function addAssigns($data){
-        $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
+    public function addAssigns($data) {
+        try {
 
-        $this->db->bind(':scheduleId', $data['scheduleId']);
-        $this->db->bind(':driver_id', $data['driver_id']);
-        $this->db->bind(':conductor_id', $data['conductor_id']);
-        $this->db->bind(':assign_time', $data['assign_time']);
-        $this->db->bind(':assign_date', $data['assign_date']);
+            date_default_timezone_set('Asia/Colombo');
+            $currentDate = date("Y-m-d");  // Get current date
+            $currentTime = date("H:i:s");  // Get current time
 
+            $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) 
+                            VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
 
-        return $this->db->execute();
+            $this->db->bind(':scheduleId', $data['scheduleId']);
+            $this->db->bind(':driver_id', $data['driver_id']);
+            $this->db->bind(':conductor_id', $data['conductor_id']);
+            $this->db->bind(':assign_time', $currentTime);
+            $this->db->bind(':assign_date', $currentDate);
 
+            if ($this->db->execute()) {
+                return true; // Success
+            } else {
+                error_log("Database error: Failed to insert assignment"); // Log error
+                return false; // Failure
+            }
+        } catch (Exception $e) {
+            error_log("Exception in addAssigns: " . $e->getMessage()); // Log exception
+            return false;
+        }
     }
+
+    public function getScheduleID(){
+        $this->db->query("SELECT scheduleId FROM schedule");
+        return $this->db->resultSet();
+    }
+
+    public function getDriverID(){
+        $this->db->query("SELECT employee_id FROM employee WHERE role='Driver'");
+        return $this->db->resultSet();
+    }
+
+    public function getConductorID(){
+        $this->db->query("SELECT employee_id FROM employee WHERE role='Conductor'");
+        return $this->db->resultSet();
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
 

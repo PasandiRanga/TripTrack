@@ -21,8 +21,10 @@
     // echo "Current method is: " . $currentMethod;
     $userRole = $_SESSION['user_role'] ?? 'GuestUser';
 
-    include_once 'notificationData.php';
-    include_once 'c_notificationData.php';
+    $notifications = $data['notifications'] ?? []; // Ensure the variable exists
+
+    //include_once 'notificationData.php';
+    //include_once 'c_notificationData.php';
 
     $profileImage = !empty($_SESSION['user_profile_image']) ? $_SESSION['user_profile_image'] : 'default.jpg';
 
@@ -54,23 +56,26 @@
                 <!-- Update the notification button HTML -->
                 <div class="notiicon">
                     <i class="fa-solid fa-bell"></i>
-                    <span class="badge"><?php echo count($notifications); ?></span>
+                    <span class="badge"><?php echo !empty($notifications) ? count($notifications) : '0'; ?></span>
                     <div class="notifi-box" id="box">
-                        <h2>Notifications </h2>
+                    <?php if (!empty($notifications)): ?>
                         <?php foreach ($notifications as $notification): ?>
                             <div class="notifi-item">
                                 <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
                                 <div class="text">
-                                    <h4><?php echo $notification["title"]; ?></h4>
-                                    <p><?php echo $notification["date"]; ?></p>
+                                    <h4><?php echo htmlspecialchars($notification['Title']); ?></h4>
+                                    <p><?php echo htmlspecialchars($notification['Time']); ?></p>
                                     <div class="dropdown-arrow">&#9660;</div>
                                 </div>
                                 <div class="notification-content">
-                                    <p><?php echo $notification["content"]; ?></p>
+                                    <p><?php echo htmlspecialchars($notification['Content']); ?></p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
-                    </div>
+                    <?php else: ?>
+                        <p>No notifications available.</p>
+                    <?php endif; ?>
+                </div>
                 </div>
             <?php endif; ?>
             
@@ -146,13 +151,10 @@
             });
         });
 
-        //navbar
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const notificationIcon = document.querySelector('.notiicon');
     const notificationBox = document.getElementById('box');
     let isOpen = false;
-
-    notificationBox.style.pointerEvents = 'none';
 
     // Toggle notification box when clicking the icon
     notificationIcon.addEventListener('click', function(event) {
@@ -165,7 +167,6 @@
 
     // Close notification box when clicking outside
     document.addEventListener('click', function(event) {
-        // Check if click is outside both the notification icon and box
         if (!notificationIcon.contains(event.target) && !notificationBox.contains(event.target) && isOpen) {
             isOpen = false;
             notificationBox.style.height = '0px';
@@ -185,20 +186,33 @@
         });
     });
 
+    <?php if (!empty($notifications)): ?>
+        console.log("Notifications array: ", <?php echo json_encode($notifications); ?>);
+    <?php else: ?>
+        console.log("Empty");
+    <?php endif; ?>
+
     // Handle notification removal
     document.querySelectorAll('.close-icon').forEach(icon => {
         icon.addEventListener('click', function(event) {
             event.stopPropagation();
+
+            // Remove the notification item
             this.closest('.notifi-item').remove();
-            
+
             // Update notification count
             const count = document.querySelectorAll('.notifi-item').length;
-            document.querySelector('.badge').textContent = count;
-            document.querySelector('.notifi-box h2 span').textContent = count;
+            
+            // Update the notification count inside the bell icon and notifi-box
+            document.querySelectorAll('.badge').forEach(badge => {
+                badge.textContent = count;
+            });
+Z
         });
     });
-});
 
+});
+    
     </script>
 </body>
 

@@ -264,5 +264,23 @@
 
             return $this->db->execute();
         }
+        public function getNotifications() {
+            try {
+                $this->db->query('SELECT * FROM notification');
+                $result = $this->db->resultSet();
+                
+                if (empty($result)) {
+                    error_log("Query executed but returned no results.");
+                } else {
+                    error_log("Query executed successfully. Data: " . print_r($result, true));
+                }
+
+                return $result;
+            } catch (Exception $e) {
+                error_log("Error fetching notification details: " . $e->getMessage());
+                return [];
+            }
+        }
+
     }
 ?>

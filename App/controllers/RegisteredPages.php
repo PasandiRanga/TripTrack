@@ -432,10 +432,16 @@
             }
         }
 
+        public function getAllNotifications() {
+            $notifications = $this->RegisteredpagesModel->getNotifications(); 
+            $data = [
+                'notifications' => $notifications
+            ];
+            $this->view('inc/Components/Header/header', $data);
+            $this->view('inc/Components/navbar', $data); // Ensure $data is passed
+        }
 
-        
-        
-    
+
 
     }  
 ?>

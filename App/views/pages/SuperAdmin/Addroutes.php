@@ -29,8 +29,50 @@
         <label for="stops">Stops:</label>
         <input type="text" id="stops" name="stops" placeholder="Enter Stops" required>
 
+        <label for="stops">price:</label>
+        <input type="text" id="price" name="price" placeholder="Enter price" required>
+
+        <label for="stops">Price/km:</label>
+        <input type="text" id="priceperkm" name="priceperkm" placeholder="Enter price per km" required>
+
         <button type="submit">Add Route</button>
     </form>
+<script>
+    document.getElementById("routeForm").addEventListener("submit", function(event) {
+        event.preventDefault();
 
+        let formData = {
+            routeNumber: document.getElementById("routeNumber").value.trim(),
+            route: document.getElementById("route").value.trim(),
+            stops: document.getElementById("stops").value.trim(),
+            price: document.getElementById("price").value.trim(),
+            priceperkm: document.getElementById("priceperkm").value.trim()
+        };
+
+        fetch('<?php echo URLROOT; ?>/SuperAdminPages/addroute', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.text())  // Get text response first
+        .then(text => {
+            try {
+                return JSON.parse(text);  // Try parsing JSON
+            } catch (error) {
+                throw new Error("Invalid JSON response: " + text);  // Handle non-JSON errors
+            }
+        })
+        .then(data => {
+            if (data.status === "success") {
+                alert("Route added successfully!");
+                window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/routes';
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => alert("An error occurred: " + error.message));
+
+    });
+</script>
 </body>
 </html>

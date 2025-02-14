@@ -129,7 +129,6 @@ li {
     margin-left: -15px; /* Adjust position as per icon size */
 }
 
-
 /* Bell Icon Styling */
 .notiicon img {
     width: 26px;
@@ -137,9 +136,6 @@ li {
     margin-top: 5px; /* Adjust margin to align with login button */
     display: inline-block;
 }
-
-
-
 
 .notiicon:hover {
     opacity: 1;
@@ -181,7 +177,6 @@ li {
     flex-direction: column;
     padding: 10px 15px;
     border-bottom: 1px solid #eee;
-    /* cursor: pointer; */
     position: relative;
     transition: background-color 0.3s ease;
     border-radius: 8px; /* Soft rounded borders for each item */
@@ -266,8 +261,19 @@ li {
     cursor: pointer;
     font-weight: bold;
 }
+
 .close-icon:hover {
     color: #cc0000; /* Darker shade on hover */
+}
+
+/* Adjust notification box position for mobile */
+@media (max-width: 950px) {
+    .notifi-box {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        top: 55px;
+    }
 }
 
 
@@ -541,3 +547,6 @@ li {
     }
 }
 
+.hidden {
+    display: none;
+}
