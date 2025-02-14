@@ -266,7 +266,7 @@
         }
         public function getNotifications() {
             try {
-                $this->db->query('SELECT * FROM notification');
+                $this->db->query('SELECT * FROM notification ORDER BY time DESC');
                 $result = $this->db->resultSet();
                 
                 if (empty($result)) {

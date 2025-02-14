@@ -13,7 +13,7 @@
 
 <body>
     <?php
-
+    
     // Assuming $data['currentController'] and $data['currentMethod'] are passed to this view
     $currentController = $data['currentController'] ?? '';
     // echo "Current controller is: " . $currentController;
@@ -21,7 +21,6 @@
     // echo "Current method is: " . $currentMethod;
     $userRole = $_SESSION['user_role'] ?? 'GuestUser';
 
-    $notifications = $data['notifications'] ?? []; // Ensure the variable exists
 
     //include_once 'notificationData.php';
     //include_once 'c_notificationData.php';
@@ -152,18 +151,64 @@
         });
 
     document.addEventListener('DOMContentLoaded', function() {
-    const notificationIcon = document.querySelector('.notiicon');
-    const notificationBox = document.getElementById('box');
-    let isOpen = false;
+        const notificationIcon = document.querySelector('.notiicon');
+        const notificationBox = document.getElementById('box');
+        let isOpen = false;
 
-    // Toggle notification box when clicking the icon
-    notificationIcon.addEventListener('click', function(event) {
-        event.stopPropagation();
-        isOpen = !isOpen;
-        
-        notificationBox.style.height = isOpen ? '510px' : '0px';
-        notificationBox.style.opacity = isOpen ? '1' : '0';
+        notificationIcon.addEventListener('click', function(event) {
+            event.stopPropagation();
+            isOpen = !isOpen;
+
+            if (isOpen) {
+                // Fetch notifications when clicking the bell icon
+                fetchNotifications();
+            }
+
+            notificationBox.style.height = isOpen ? '510px' : '0px';
+            notificationBox.style.opacity = isOpen ? '1' : '0';
+        });
+
+        function fetchNotifications() {
+            fetch('<?php echo URLROOT; ?>/RegisteredPages/getAllNotifications')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateNotificationsUI(data.notifications);
+                        console.log(data.notifications);
+                    } else {
+                        console.error("Failed to fetch notifications.");
+                    }
+                })
+                .catch(error => console.error('Error fetching notifications:', error));
+        }
+
+        function updateNotificationsUI(notifications) {
+            const notificationContainer = document.getElementById('box');
+            notificationContainer.innerHTML = '';
+
+            if (notifications.length === 0) {
+                notificationContainer.innerHTML = '<p>No notifications available.</p>';
+            } else {
+                notifications.forEach(notification => {
+                    const notificationItem = document.createElement('div');
+                    notificationItem.classList.add('notifi-item');
+                    notificationItem.innerHTML = `
+                        <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
+                        <div class="text">
+                            <h4>${notification.title}</h4>
+                            <p>${notification.time}</p>
+                            <div class="dropdown-arrow">&#9660;</div>
+                        </div>
+                        <div class="notification-content" style="display: none;">
+                            <p>${notification.notification}</p>
+                        </div>
+                    `;
+                    notificationContainer.appendChild(notificationItem);
+                });
+            }
+        }
     });
+
 
     // Close notification box when clicking outside
     document.addEventListener('click', function(event) {
@@ -211,7 +256,7 @@ Z
         });
     });
 
-});
+
     
     </script>
 </body>
