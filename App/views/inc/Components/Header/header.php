@@ -186,7 +186,12 @@
         });
     });
 
-    
+    <?php if (!empty($notifications)): ?>
+        console.log("Notifications array: ", <?php echo json_encode($notifications); ?>);
+    <?php else: ?>
+        console.log("Empty");
+    <?php endif; ?>
+
     // Handle notification removal
     document.querySelectorAll('.close-icon').forEach(icon => {
         icon.addEventListener('click', function(event) {
@@ -207,7 +212,7 @@ Z
     });
 
 });
-
+    
     </script>
 </body>
 
