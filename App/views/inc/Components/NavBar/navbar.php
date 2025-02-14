@@ -19,6 +19,9 @@ $currentMethod = $data['currentMethod'] ?? '';
 // echo "Current method is: " . $currentMethod;
 $userRole = $data['userRole'] ?? '';
 
+$notifications = $data['notifications'] ?? []; // Ensure the variable exists
+
+
 // Helper function to check if the current page matches
 
 // Check if the function is already defined before declaring it

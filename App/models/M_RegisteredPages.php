@@ -257,13 +257,21 @@
         
         public function getNotifications() {
             try {
-                $this->db->query('SELECT Title, Time, Content FROM notification');
-                return $this->db->resultSet();
+                $this->db->query('SELECT * FROM notification');
+                $result = $this->db->resultSet();
+                
+                if (empty($result)) {
+                    error_log("Query executed but returned no results.");
+                } else {
+                    error_log("Query executed successfully. Data: " . print_r($result, true));
+                }
+
+                return $result;
             } catch (Exception $e) {
                 error_log("Error fetching notification details: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return [];
             }
         }
+
     }
 ?>
