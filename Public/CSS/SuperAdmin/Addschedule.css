@@ -53,11 +53,13 @@ label {
 
 input[type="text"],
 input[type="date"],
-input[type="time"] {
+input[type="time"],
+input[type="number"] {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .button-group {

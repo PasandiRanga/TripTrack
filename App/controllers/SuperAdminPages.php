@@ -250,7 +250,53 @@ class SuperAdminPages extends Controller {
     }
 
     public function addschedule() {
-        $this->view('pages/SuperAdmin/Addschedule');
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            header('Content-Type: application/json');
+
+            $inputData = json_decode(file_get_contents("php//input"), true);
+
+            if(!$inputData){
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'License_id' => trim($inputData['License_id'] ?? ''),
+                'date' => trim($inputData['date'] ?? ''),
+                'departureTime' => trim($inputData['departureTime'] ?? ''),
+                'arrivalTime' => trim($inputData['arrivalTime'] ?? ''),
+                'duration' => trim($inputData['duration'] ?? ''),
+                'availableSeats' => trim($inputData['availableSeats'] ?? ''),
+                'bookedSeats' => trim($inputData['bookedSeats'] ?? ''),
+                'direction' => trim($inputData['direction'] ?? ''),
+                'type' => trim($inputData['type'] ?? '')
+            ];
+
+            if (empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['duration']) || empty($data['availableSeats']) || empty($data['direction']) || empty($data['type'])){
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            if($this->SuperAdminModel->addSchedule($data)){
+                echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
+                exit();
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Database Error cannot add schedule']);
+                http_response_code(500);
+                exit();
+            }
+        } else {
+            $bus = $this->SuperAdminModel->getBusID();
+
+            $data = [
+                'bus' => $bus
+            ];
+
+            $this->view('pages/SuperAdmin/Addschedule',$data);
+        }
+        
     }
 //----------------------------------------------------------------------------------------------------------------------
                                     //Leave Requests
@@ -460,32 +506,60 @@ class SuperAdminPages extends Controller {
     }
 
     public function addassigns() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Set header to return JSON response
+            header('Content-Type: application/json');
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // Get raw POST data and decode JSON
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
 
             $data = [
-                'scheduleId' => trim($_POST['scheduleId']),
-                'driver_id' => trim($_POST['driver_id']),
-                'conductor_id' => trim($_POST['conductor_id']),
-                'assign_time' => trim($_POST['assign_time']),
-                'assign_date' => trim($_POST['assign_date'])
+                'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
+                'driver_id'    => trim($inputData['driver_id'] ?? ''),
+                'conductor_id' => trim($inputData['conductor_id'] ?? ''),
+                'assign_time'  => trim($inputData['assign_time'] ?? ''),
+                'assign_date'  => trim($inputData['assign_date'] ?? '')
             ];
 
-            if($this->SuperAdminModel->addAssigns($data)){
-                header("Location: " . URLROOT . "/SuperAdminPages/assigns");
+            // Validate required fields
+            if (empty($data['scheduleId']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            // Insert into DB
+            if ($this->SuperAdminModel->addAssigns($data)) {
                 echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
                 exit();
-            }else {
-                die("Error: Unable to assing to the schedule.");
+            } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
                 http_response_code(500);
                 exit();
             }
         } else {
-            $this->view('pages/SuperAdmin/Addassigns');
-        }   
+            // Fetch schedule, driver, and conductor data
+            $schedules = $this->SuperAdminModel->getScheduleID();
+            $drivers = $this->SuperAdminModel->getDriverID();
+            $conductors = $this->SuperAdminModel->getConductorID();
+
+            $data = [
+                'schedules' => $schedules,
+                'drivers' => $drivers,
+                'conductors' => $conductors
+            ];
+
+            $this->view('pages/SuperAdmin/Addassigns', $data);
+            
+        }
     }
+
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -501,7 +575,42 @@ class SuperAdminPages extends Controller {
     }
 
     public function addroute(){
-        $this->view('pages/SuperAdmin/Addroutes');
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            header('Content-Type: application/json');
+
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            if(!$inputData){
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'routeNumber' => trim($inputData['routeNumber'] ?? ''),
+                'route' => trim($inputData['route'] ?? ''),
+                'stops' => trim($inputData['stops'] ?? ''),
+                'price' => trim($inputData['price'] ?? ''),
+                'priceperkm' => trim($inputData['priceperkm'] ?? ''),
+            ];
+
+            if(empty($data['routeNumber']) || empty($data['route']) || empty($data['stops']) || empty($data['price']) || empty($data['priceperkm'])){
+
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            if($this->SuperAdminModel->addRoute($data)){
+                echo json_encode(['status' => 'success', 'message' => 'Route Added sccessfully']);
+                exit();
+            } else {
+                echo json_encode(['status' => 'success', 'message' => 'Error Occured adding new Route']);
+                exit();
+            }
+        } else {
+            $this->view('pages/SuperAdmin/Addroutes');
+        }
     }
 //----------------------------------------------------------------------------------------------------------------------
                                     //support requests

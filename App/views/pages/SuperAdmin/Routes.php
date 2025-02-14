@@ -32,6 +32,8 @@
                     <th>Route No.</th>
                     <th>Route</th>
                     <th>Stops</th>
+                    <th>Price</th>
+                    <th>Price per km</th>
                     <th>Update</th>
                     <th>Delete</th>
                 </tr>
@@ -44,6 +46,8 @@
                         echo "<td>{$routes['routeNumber']}</td>";
                         echo "<td>{$routes['route']}</td>";
                         echo "<td>{$routes['stops']}</td>";
+                        echo "<td>{$routes['price']}</td>";
+                        echo "<td>{$routes['priceperkm']}</td>";
                         echo "<td><button class='update-btn' onclick='updateRoute(\"{$routes['routeNumber']}\")'>Update</button></td>";
                         echo "<td><button class='delete-btn' onclick='deleteRoute(\"{$routes['routeNumber']}\")'>Delete</button></td>";
                         echo "</tr>";
