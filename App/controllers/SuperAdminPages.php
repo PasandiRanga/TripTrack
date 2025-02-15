@@ -251,7 +251,7 @@ class SuperAdminPages extends Controller {
 
     public function addschedule() {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            header('Content-Type: application/json');
+            header('Content-Type: application/json; charset=UTF-8');
 
             $inputData = json_decode(file_get_contents("php//input"), true);
 
@@ -273,7 +273,7 @@ class SuperAdminPages extends Controller {
                 'type' => trim($inputData['type'] ?? '')
             ];
 
-            if (empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['duration']) || empty($data['availableSeats']) || empty($data['direction']) || empty($data['type'])){
+            if (empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['availableSeats']) || empty($data['direction']) || empty($data['type'])){
                 echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
                 http_response_code(400);
                 exit();
