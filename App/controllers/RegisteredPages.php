@@ -444,6 +444,9 @@
             exit;
         }
 
+        public function newBookings() {
+            $this->view('pages/RegisteredUser/newBookings');
+        }
 
 
 
