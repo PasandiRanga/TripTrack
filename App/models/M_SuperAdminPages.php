@@ -216,8 +216,8 @@ class M_SuperAdminPages {
         $this->db->bind(':direction', $data['direction']);
         $this->db->bind(':type', $data['type']);
 
-        $bookedSeats = empty($data['bookedSeats']) ? null : $data['bookedSeats'];
-        $this->db->bind(':bookedSeats', $bookedSeats, $bookedSeats === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+        $bookedSeats = null; // Always NULL
+        $this->db->bind(':bookedSeats', $bookedSeats, PDO::PARAM_NULL);
 
 
         if($this->db->execute()){
