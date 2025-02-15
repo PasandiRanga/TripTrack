@@ -457,9 +457,6 @@
             $this->view('pages/GuestUser/BusBooking', $data);
         }
 
-
-
-
         public function createUserSession($loggedUser, $userTable) {
             $_SESSION['user_id'] = $userTable === 'customer' ? $loggedUser['User_id'] : $loggedUser['employee_id'];
             $_SESSION['user_type'] = $userTable;
