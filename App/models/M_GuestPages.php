@@ -158,10 +158,11 @@
 
         //Insert guest booking data
         public function createBooking($bookingData) {
-            $this->db->query("SELECT * FROM GuestBooking WHERE schedule_id = :scheduleId AND selectedSeats = :selectedSeats");
-            $this->db->bind(':userId', $bookingData['User_id']);
+            $this->db->query("SELECT * FROM GuestBooking WHERE schedule_id = :scheduleId AND selected_seats = :selectedSeats");
             $this->db->bind(':scheduleId', $bookingData['scheduleId']);
-            $this->db->bind(':selectedSeats', implode(',', $bookingData['selectedSeats']));
+            $this->db->bind(':selectedSeats', is_array($bookingData['selectedSeats']) 
+                ? implode(',', $bookingData['selectedSeats']) 
+                : $bookingData['selectedSeats']);
 
             $existingBooking = $this->db->single();
 
