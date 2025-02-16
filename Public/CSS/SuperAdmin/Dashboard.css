@@ -107,11 +107,32 @@ body{
     background-color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
 }
+
 .sidebar-responsive {
     display: inline !important;
     position: absolute;
     z-index: 12 !important;
+} 
+
+/*
+.sidebar-responsive {
+    display: block !important; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 300px; 
+    height: 100vh; 
+    background-color: #1b1b1b; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000 !important; 
+    transform: translateX(-100%); 
+    transition: transform 0.3s ease-in-out; 
 }
+
+.sidebar.sidebar-responsive {
+    transform: translateX(0);
+} */
+
 .main-container{
     grid-area: main;
     background-color: beige;
