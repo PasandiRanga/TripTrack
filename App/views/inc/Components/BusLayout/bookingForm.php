@@ -1,5 +1,5 @@
 <h2>Book Your Seat</h2>
-    <form id="bookingForm" action="<?php echo URLROOT; ?>/<?php echo $userRole === 'RegisteredUser' ? 'RegisteredPages/paymentPortal' : 'GuestPages/paymentPortal'; ?>" method="post" onsubmit="return validateBookingForm()">
+    <form id="bookingForm"  method="post" >
         <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($selectedBus['License_id']); ?>">
         <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
 
@@ -107,40 +107,89 @@
     </form>
     <br>
 
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
+    <div class="confirmBox hidden" id="confirmBox">
+        <div class="confirmBoxContent">
+            <h1>Are You Sure?</h1>
+            <h4>You won't be able to cancel the booking later!</h4>
+            <p>
+                <button id="yes" onclick="confirmAction()">Proceed Without Login</button>
+                <button id="no" onclick="closeConfirmBox()">Log In</button>
+            </p>
+            <div class="close-btn" onclick="confirmAction()">×</div>
+        </div>
+    </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
     const bookingForm = document.getElementById('bookingForm');
-    const userRole = '<?php echo $userRole; ?>'; // Get user role from PHP
-    
-    // Function to update form action based on payment method
+    const userRole = '<?php echo $userRole; ?>';
+    let selectedPaymentMethod = ''; // Store selected payment method
+
+    // Show the login box on page load if required
+    const showPopup = <?php echo isset($data['showPopup']) && $data['showPopup'] ? 'true' : 'false'; ?>;
+    if (showPopup) {
+        document.getElementById('signInBox').classList.remove('hidden');
+    }
+
+    // Function to show sign-in box
+    function showSignInBox() {
+        document.getElementById('signInBox').classList.remove('hidden');
+    }
+
+    // Function to close sign-in box
+    function closeSignInBox() {
+        document.getElementById('signInBox').classList.add('hidden');
+    }
+
+    // Function to confirm action when proceeding without login or closing the box
+    window.confirmAction = function() {
+        document.getElementById("confirmBox").classList.add("hidden");
+        processBooking(selectedPaymentMethod);
+    };
+
+    // Function to close confirm box and show login box
+    window.closeConfirmBox = function() {
+        document.getElementById("confirmBox").classList.add("hidden");
+        document.getElementById("signInBox").classList.remove("hidden");
+    };
+
     function updateFormAction(paymentMethod) {
         if (paymentMethod === 'Cash') {
-            // For cash payments, route to receipt pages
             if (userRole === 'RegisteredUser') {
                 bookingForm.action = '<?php echo URLROOT; ?>/RegisteredPages/RegisteredReceipt';
+                return true;
             } else {
-                bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/GuestReceipt';
+                selectedPaymentMethod = paymentMethod;
+                document.getElementById("confirmBox").classList.remove("hidden");
+                return false;
             }
         } else if (paymentMethod === 'Online') {
-            // For online payments, route to payment portal
             if (userRole === 'RegisteredUser') {
                 bookingForm.action = '<?php echo URLROOT; ?>/RegisteredPages/paymentPortal';
+                return true;
             } else {
-                bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/paymentPortal';
+                selectedPaymentMethod = paymentMethod;
+                document.getElementById("confirmBox").classList.remove("hidden");
+                return false;
             }
         }
     }
 
-    // Add event listeners to payment method radio buttons
-    const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
-    paymentMethodInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            updateFormAction(this.value);
-        });
-    });
+    function processBooking(paymentMethod) {
+        if(paymentMethod === 'Cash'){
+            bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/GuestReceipt';
+            bookingForm.submit();
+        }else if (paymentMethod === 'Online'){
+            bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/paymentPortal';
+            bookingForm.submit();
+        }
+    }
 
-    // Update validateBookingForm to include form action check
-    window.validateBookingForm = function() {
+    // Update form submission handling
+    bookingForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+        
         const from = document.getElementById("from").value;
         const to = document.getElementById("to").value;
         const selectedSeats = document.getElementById("selectedSeats").value;
@@ -166,12 +215,15 @@ document.addEventListener('DOMContentLoaded', function() {
         paymentInput.type = "hidden";
         paymentInput.name = "paymentMethod";
         paymentInput.value = paymentMethod.value;
-        document.getElementById("bookingForm").appendChild(paymentInput);
+        bookingForm.appendChild(paymentInput);
 
-        updateFormAction(paymentMethod.value);
-        return true;
-    };
-
+        // If updateFormAction returns true, submit the form directly
+        // Otherwise, the confirmBox will be shown
+        if (updateFormAction(paymentMethod.value)) {
+            bookingForm.submit();
+        }
+    });
 });
+
 </script>
     
