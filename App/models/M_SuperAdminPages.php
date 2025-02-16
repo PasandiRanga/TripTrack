@@ -204,16 +204,21 @@ class M_SuperAdminPages {
 //------------------------------------------------------------------------------------------------------------------------------------
 
     public function addschedule($data){
-        $this->db->query('INSERT INTO schedule (License_id, date, departureTime, arrivalTime, duration, availableSeats, bookedSeats, direction, type) VALUES (:scheduleId, :License_id, :date, :departureTime, :arrivalTime, :duration, :availableSeats, :bookedSeats, :direction, :type)');
+        $this->db->query('INSERT INTO schedule (License_id, date, departureTime, arrivalTime, duration, availableSeats, bookedSeats, direction, type) VALUES (:License_id, :date, :departureTime, :arrivalTime, :duration, :availableSeats, :bookedSeats, :direction, :type)');
 
         $this->db->bind(':License_id', $data['License_id']);
         $this->db->bind(':date', $data['date']);
         $this->db->bind(':departureTime', $data['departureTime']);
         $this->db->bind(':arrivalTime', $data['arrivalTime']);
         $this->db->bind(':availableSeats', $data['availableSeats']);
-        $this->db->bind(':bookedSeats', $data['bookedSeats']);
+        //$this->db->bind(':bookedSeats', $data['bookedSeats']);
+        $this->db->bind(':duration', $data['duration']);
         $this->db->bind(':direction', $data['direction']);
         $this->db->bind(':type', $data['type']);
+
+        $bookedSeats = null; // Always NULL
+        $this->db->bind(':bookedSeats', $bookedSeats, PDO::PARAM_NULL);
+
 
         if($this->db->execute()){
             return true;
