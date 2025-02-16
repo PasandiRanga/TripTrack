@@ -84,31 +84,7 @@
             }
         }
 
-        public function home() {
-            /*$employee_id = $_SESSION['employee_id'];
-
-            $schedules = $this->ConductorpagesModel->getScheduleByEmployeeId($employee_id);
-
-            if (!$schedules || empty($schedules)) {
-                die('No schedules found for this employee.');
-            }
-
-            $schedule_id = $schedules[0]['schedule_id'];
-
-            $scheduleDetails = $this->ConductorpagesModel->getScheduleDetailsById($schedule_id);
-
-            $data = [
-                'scheduleDetails' => $scheduleDetails
-            ];*/
-
-            /*if (!$scheduleDetails) {
-                die('No schedule found for the given ID');
-            }
-
-            $this->view('pages/Conductor/home', $scheduleDetails);*/
-
-            $this->view('pages/Conductor/home');
-        }
+        
 
         public function viewAssigns() {
             $this->view('pages/Conductor/ViewAssigns');
@@ -144,6 +120,55 @@
             exit();*/
 
             $this->view('pages/Conductor/ViewLeaveRequests', $data);
+        }
+
+        public function home() {
+            $assignDetails = $this->ConductorpagesModel->getAssignDetailsByEmployeeId($_SESSION['user_id']);
+
+            if (empty($assignDetails)) {
+                return [];
+            }
+
+            $scheduleId = array_column($assignDetails, 'scheduleId');
+
+            $scheduleData = $this->ConductorpagesModel->getLicenseIdByScheduleId($scheduleId);
+            if (empty($scheduleData)) {
+                return [];
+            }
+
+            $licenseId = array_column($scheduleData, 'License_id');
+
+            $busDetails = $this->ConductorpagesModel->getBusDetailsByLicenseId($licenseId);
+            if (empty($busDetails)) {
+                return []; // No bus details found
+            }
+
+            $schedule = [];
+            foreach ($assignDetails as $assign) {
+                foreach ($scheduleData as $scheduleItem) {
+                    if ($assign['scheduleId'] == $scheduleItem['scheduleId']) {
+                        foreach ($busDetails as $bus) {
+                            if ($scheduleItem['License_id'] == $bus['License_id']) {
+                                $schedule[] = [
+                                    'assign_time' => $assign['assign_time'],
+                                    'date' => $assign['date'],
+                                    'routeNumber' => $bus['routeNumber'],
+                                    'start_location' => $bus['start_location'],
+                                    'destination' => $bus['destination'],
+                                    'License_id' => $bus['License_id']
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+            /*echo '<pre>';
+            print_r($schedule); // Check the final processed schedule data
+            echo '</pre>';
+            exit; // Stop execution to only see this output*/
+
+            $data = ['schedule' => $schedule];
+            $this->view('pages/Conductor/home', $data);
         }
 
         public function viewDelays() {
