@@ -66,10 +66,10 @@
                     <span class="text">Scan QR Code</span>
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave'">
+                <!-- <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave'">
                     <i class="fa-solid fa-upload"></i>
                     <span class="text">Request Leaves</span>
-                </li>
+                </li> -->
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/informDelays'">
                     <i class="fa-solid fa-clock"></i>
