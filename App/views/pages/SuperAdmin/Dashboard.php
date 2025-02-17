@@ -20,12 +20,16 @@
 
     <div class="grid-container">
         <header class="header">
-            <div class="menu-icons" onclick="openSidebar()">
+
+            <div onclick="openSidebar()">
                 <span class="material-icons-outlined">menu</span>
             </div>
+            
             <div class="header-left">
                 <img src="../images/logo.png" alt="Logo" class="logo">
             </div>
+
+            
             <!--
             <div class="header-right">
                 <span id="current-date"></span> 
@@ -159,20 +163,22 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.52.0/apexcharts.min.js"></script>
     <script>
-        var sidebarOpean = false;
+        var sidebarOpen = false; // Fixed typo from 'sidebarOpean'
         var sidebar = document.getElementById("sidebar");
 
-        function openSidebar(){
-            if (!sidebarOpean){
+        function openSidebar() {
+            if (!sidebarOpen) {
                 sidebar.classList.add("sidebar-responsive");
-                sidebarOpean = true;
+                //sidebar.style.transform = "translateX(0)";
+                sidebarOpen = true;
             }
         }
 
-        function closeSidebar(){
-            if (sidebarOpean){
+        function closeSidebar() {
+            if (sidebarOpen) {
                 sidebar.classList.remove("sidebar-responsive");
-                sidebarOpean = false;
+                //sidebar.style.transform = "translateX(-100%)";
+                sidebarOpen = false;
             }
         }
 
