@@ -103,7 +103,7 @@
             </div>
 
             <div class="main-cards">
-                <div class="card">
+                <div class="card" onclick="showPopup('Total Monthly Income: LKR <?php echo $data['total_income']; ?>')">
                     <div class="card-inner">
                         <h3>Total Monthly Income</h3>
                         <span class="material-icons-outlined">local_atm</span>
@@ -111,7 +111,7 @@
                     <h1><?php echo 'LKR ', $data['total_income']; ?></h1>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPopup('Total Customers: <?php echo $data['total_customers']; ?>')">
                     <div class="card-inner">
                         <h3>Customers</h3>
                         <span class="material-icons-outlined">groups</span>
@@ -119,7 +119,7 @@
                     <h1><?php echo $data['total_customers']; ?></h1>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPopup('Monthly Bookings: 1234')">
                     <div class="card-inner">
                         <h3>Monthly Bookings</h3>
                         <span class="material-icons-outlined">book</span>
@@ -127,7 +127,7 @@
                     <h1><?php echo '1234'; // Example PHP dynamic content ?></h1>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPopup('Completed Schedules: 56')">
                     <div class="card-inner">
                         <h3>Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
@@ -148,6 +148,14 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <div class="card-popup" id="cardpopup">
+        <div class="card-content">
+            <h2>Deatails</h2>
+            <p id="card-text">Popup Content</p>
+            <button class="close-btn" onclick="closePopup()">Close</button>
+        </div>
     </div>
 
     <div class="modal-overlay" id="logoutModal">
@@ -434,13 +442,13 @@
 
         // Proceed with logout and redirect to login page
         function proceedLogout() {
-            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";// Replace with your login form file
+            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
         }
 
 
         // Function to redirect back to dashboard
         function cancelLogout() {
-            window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home"; // Replace with your dashboard file
+            window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home";
         }
 
         // Function to display the current date
@@ -458,6 +466,16 @@
 
         // Call the function on page load
         document.addEventListener("DOMContentLoaded", displayCurrentDate);
+
+        //Card popups
+        function showPopup(content){
+            document.getElementById("card-text").innerHTML = content;
+            document.getElementById("cardpopup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("cardpopup").style.display = "none";
+        }
 
     </script>
 </body>
