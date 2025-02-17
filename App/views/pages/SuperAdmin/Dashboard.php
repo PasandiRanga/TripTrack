@@ -21,14 +21,12 @@
     <div class="grid-container">
         <header class="header">
 
-            <div onclick="openSidebar()">
-                <span class="material-icons-outlined">menu</span>
+            <div class="header-left" onclick="openSidebar()">
+                <div class="sidebar-menu-icon">
+                    <span class="material-icons-outlined">menu</span>
+                </div>
+                
             </div>
-            
-            <div class="header-left">
-                <img src="../images/logo.png" alt="Logo" class="logo">
-            </div>
-
             
             <!--
             <div class="header-right">
@@ -100,6 +98,8 @@
         <main class="main-container">
             <div class="main-title">
                 <h2>Dashboard</h2> 
+                <img class="logo-right" src="../images/logo2.png" alt="Logo" class="logo">
+
             </div>
 
             <div class="main-cards">
