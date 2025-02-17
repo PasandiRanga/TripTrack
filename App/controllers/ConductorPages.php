@@ -37,6 +37,14 @@
                     header("Location: " . URLROOT . "/ConductorPages/viewDelays");
                 } else {
                     die("Error: Unable to add the delay.");
+
+                <?php
+                echo '<pre>';
+                var_dump($data);
+                echo '</pre>';
+                exit();
+                ?>
+
                 }*/
             } else {
                 
@@ -150,12 +158,18 @@
                         foreach ($busDetails as $bus) {
                             if ($scheduleItem['License_id'] == $bus['License_id']) {
                                 $schedule[] = [
-                                    'assign_time' => $assign['assign_time'],
-                                    'date' => $assign['date'],
+                                    'departureTime' => $scheduleItem['departureTime'],
+                                    'date' => $scheduleItem['date'],
+                                    'arrivalTime' => $scheduleItem['arrivalTime'],
+                                    'availableSeats' => $scheduleItem['availableSeats'],
+                                    'bookedSeats' => $scheduleItem['bookedSeats'],
+                                    'type' => $scheduleItem['type'],
                                     'routeNumber' => $bus['routeNumber'],
                                     'start_location' => $bus['start_location'],
                                     'destination' => $bus['destination'],
-                                    'License_id' => $bus['License_id']
+                                    'License_id' => $bus['License_id'],
+                                    'price' => $bus['price'],
+                                    'priceperkm' => $bus['priceperkm']
                                 ];
                             }
                         }
