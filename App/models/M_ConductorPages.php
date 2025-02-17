@@ -14,24 +14,28 @@
         }
 
         public function getAssignDetailsByEmployeeId($userId) {
-            $this->db->query("SELECT scheduleId, assign_time, assign_date AS date 
-                            FROM assign WHERE conductor_id = :userId OR driver_id = :userId");
+            $this->db->query("SELECT scheduleId FROM assign WHERE conductor_id = :userId OR driver_id = :userId");
             
             $this->db->bind(':userId', $userId);
+            
             return $this->db->resultSet();
         }
 
         public function getLicenseIdByScheduleId($scheduleId) {
+            if (!is_array($scheduleId)) {
+                $scheduleId = [$scheduleId]; // Convert single value to an array
+            }
+
             if (empty($scheduleId)) {
                 return [];
             }
 
             $placeholders = implode(',', array_fill(0, count($scheduleId), '?'));
 
-            $this->db->query("SELECT scheduleId, License_id FROM schedule WHERE scheduleId IN ($placeholders)");
+            $this->db->query("SELECT scheduleId, License_id, date, departureTime, arrivalTime, availableSeats, bookedSeats, type FROM schedule WHERE scheduleId IN ($placeholders)");
             
             foreach ($scheduleId as $index => $id) {
-                $this->db->bind(($index + 1), $id); // Bind each scheduleId dynamically
+                $this->db->bind(($index + 1), $id, PDO::PARAM_INT); // Bind each scheduleId dynamically
             }
 
             return $this->db->resultSet();
@@ -44,7 +48,7 @@
 
             $placeholders = implode(',', array_fill(0, count($License_id), '?'));
 
-            $this->db->query("SELECT License_id, routeNumber, start_location, destination FROM bus WHERE License_id IN ($placeholders)");
+            $this->db->query("SELECT License_id, routeNumber, start_location, destination, price, priceperkm FROM bus WHERE License_id IN ($placeholders)");
             
             foreach ($License_id as $index => $id) {
                 $this->db->bind(($index + 1), $id); // Bind each License_id dynamically
