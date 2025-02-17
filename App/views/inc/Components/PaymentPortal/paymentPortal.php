@@ -40,15 +40,30 @@
             // Pass data to the template
             $data = [
                 'currentController' => $currentController,
-                'currentMethod' => 'home', // Adjust as needed
+                'currentMethod' => 'PaymentProtal', 
                 'userRole' => $userRole
             ];
         ?>
+        <?php
+            $isCancellation = isset($_GET['bookingId']) && isset($_GET['cancellationFee']);
+
+            if ($isCancellation) {
+                $bookingId = htmlspecialchars($_GET['bookingId']);
+                $cancellationFee = htmlspecialchars($_GET['cancellationFee']);
+                $formAction = URLROOT . "/RegisteredPages/cancellationReceipt";
+            } else {
+                $formAction = URLROOT . "/" . ($userRole === 'RegisteredUser' ? 'RegisteredPages/registeredReceipt' : 'GuestPages/GuestReceipt');
+            }
+        ?>
+
 
     <div class="payment-container">
-    <form id="paymentForm" action="<?php echo URLROOT; ?>/<?php echo $userRole === 'RegisteredUser' ? 'RegisteredPages/registeredReceipt' : 'GuestPages/GuestReceipt'; ?>" method="post" onsubmit="return validateBookingForm()">
+    <form id="paymentForm" action="<?php echo $formAction; ?>" method="post" onsubmit="return validateBookingForm()">
             <h2>Payment Details</h2>
-            
+            <?php if ($isCancellation): ?>
+                <input type="hidden" name="bookingId" value="<?php echo $bookingId; ?>">
+                <input type="hidden" name="cancellationFee" value="<?php echo $cancellationFee; ?>">
+            <?php else: ?>
             <!-- Hidden inputs from previous form -->
             <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($_POST['License_id']); ?>">
             <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($_POST['scheduleId']); ?>">
@@ -62,6 +77,8 @@
             <input type="hidden" name="selectedSeats" value="<?php echo htmlspecialchars($_POST['selectedSeats']); ?>">
             <input type="hidden" name="paymentMethod" value="<?php echo htmlspecialchars($_POST['paymentMethod']); ?>">
             <input type="hidden" name="totalPrice" value="<?php echo htmlspecialchars($_POST['totalPrice']); ?>">
+            <?php endif; ?>
+            
             
             <div class="form-group">
                 <label for="cardName">Cardholder Name</label>
@@ -88,9 +105,10 @@
             <div class="form-group">
                 <label for="amount">Payment Amount ($)</label>
                 <input type="number" id="amount" name="amount" 
-                       value="<?php echo htmlspecialchars($_POST['totalPrice']); ?>" 
-                       readonly required>
+                    value="<?php echo $isCancellation ? $cancellationFee : htmlspecialchars($_POST['totalPrice']); ?>" 
+                    readonly required>
             </div>
+
             
             <button type="submit" class="btn-submit">Confirm Payment</button>
         </form>
