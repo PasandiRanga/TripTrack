@@ -109,16 +109,18 @@ body{
     justify-content: space-between;
     align-items: center;
     padding: 30px 30px 30px 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .sidebar-title > span {
     display: none;
 }
 .sidebar-brand {
-    margin-top: 15px;
+    /* margin-top: 20px; */
     font-size: 20px;
     font-weight: 700;
+    display: inline-block;
     color: white;
+    gap: 20px;
 }
 .sidebar-list{
     padding: 0;
@@ -254,6 +256,7 @@ body{
     .sidebar-title > span {
       display: inline;
     }
+
   }
   
   /* Small <= 768px */

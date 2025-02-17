@@ -40,7 +40,7 @@
                 <div class="sidebar-brand">
                     <span class="material-icons-outlined">admin_panel_settings</span> Admin
                 </div>
-                <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+                    <span class="material-icons-outlined" onclick="closeSidebar()">arrow_back</span>
             </div>
 
             <ul class="sidebar-list">
