@@ -616,6 +616,28 @@ class SuperAdminPages extends Controller {
             $this->view('pages/SuperAdmin/Addroutes');
         }
     }
+
+    public function deleteRoute() {
+        header('Content-Type: application/json');
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = json_decode(file_get_contents('php://input'),true);
+
+            if(!empty($data['routeNumber'])){
+                $routeNumber = $data['routeNumber'];
+
+                if($this->SuperAdminModel->deleteRoute($routeNumber)){
+                    echo json_encode(['status' => 'success', 'message' => 'Route deleted successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error deleting the Route']);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Route Number is required']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
 //----------------------------------------------------------------------------------------------------------------------
                                     //support requests
 //---------------------------------------------------------------------------------------------------------------------- 

@@ -65,8 +65,29 @@
             //update query
         }
 
-        function deleteRoute(routeNo){
-            //update query
+        function deleteRoute(routeNumber){
+            if (confirm("Are you sure you want to delete this Route?")) {
+                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteRoute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ routeNumber })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Find the row with the matching License_id and remove it
+                        const rows = Array.from(document.querySelectorAll("table.routes-table tbody tr"));
+                        const row = rows.find(row => row.cells[0].innerText === routeNumber);
+                        if (row) {
+                            row.remove(); // Remove the row if it matches the License_id
+                        }
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(() => alert('Error deleting the route.'));
+            }
         }
 
     </script>

@@ -276,6 +276,18 @@ class M_SuperAdminPages {
         }
     }
 
+    public function deleteRoute($routeNumber){
+        $this->db->query('DELETE FROM routes WHERE routeNumber = :routeNumber');
+        $this->db->bind(':routeNumber', $routeNumber);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete bus model error");
+            return false;
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //Assigns
 
