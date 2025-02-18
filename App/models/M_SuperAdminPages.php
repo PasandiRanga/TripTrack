@@ -348,5 +348,17 @@ class M_SuperAdminPages {
         $result = $this->db->single();
         return $result['total_customers'] ?? 0;
     }
+
+    public function getTotalGuestBookings() {
+        $this->db->query("SELECT COUNT(id) AS total_guests FROM guestbooking");
+        $result = $this->db->single();
+        return $result['total_guests'] ?? 0;
+    }
+
+    public function getTotalRegisteredBookings() {
+        $this->db->query("SELECT COUNT(id) AS total_registered FROM registeredbooking");
+        $result = $this->db->single();
+        return $result['total_registered'] ?? 0;
+    }
 }
 ?>

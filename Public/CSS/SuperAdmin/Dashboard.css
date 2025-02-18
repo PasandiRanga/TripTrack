@@ -356,7 +356,8 @@ body{
 .card-content{
     background-color: #fff;
     padding: 30px;
-    width: 400px;
+    width: 600px;
+    height: 500px;
     color: black;
     text-align: center;
     border-radius: 12px;

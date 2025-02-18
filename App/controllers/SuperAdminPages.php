@@ -11,6 +11,8 @@ class SuperAdminPages extends Controller {
     public function home() {
             $income = $this->SuperAdminModel->getTotalIncome();
             $totalcustomers = $this->SuperAdminModel->getTotalCustomers();
+            $total_guests = $this->SuperAdminModel->getTotalGuestBookings();
+            $total_registered = $this->SuperAdminModel->getTotalRegisteredBookings();
             // Calculate the total income
             $totalIncome = $income['registered_income'] + $income['guest_income'];
 
@@ -19,7 +21,9 @@ class SuperAdminPages extends Controller {
                 'registered_income' => $income['registered_income'],
                 'guest_income' => $income['guest_income'],
                 'total_income' => $totalIncome,
-                'total_customers' => $totalcustomers
+                'total_customers' => $totalcustomers,
+                'total_guests' => $total_guests,
+                'total_registered' => $total_registered
             ];
 
 
@@ -628,6 +632,6 @@ class SuperAdminPages extends Controller {
     //boxex in the dashboard 
 
 //------------------------------------------------------------------------------------------------------------------------------------
-    
+
 }
 ?>
