@@ -50,7 +50,7 @@ class SuperAdminPages extends Controller {
                 'route_no' => trim($_POST['route_no']),
                 'route' => trim($_POST['route']),
                 //'bus_type' => trim($_POST['bus_type']),
-                'stops' => trim($_POST['stops']),
+                //'stops' => trim($_POST['stops']),
                 'starts' => trim($_POST['starts']),
                 'destination' => trim($_POST['destination']),
                 'passengers' => trim($_POST['passengers']),
@@ -66,8 +66,13 @@ class SuperAdminPages extends Controller {
                 die("Error: Unable to add the bus.");
             }
         } else {
+            $route = $this->SuperAdminModel->getRouteDetails();
+
+            $data = [
+                'route' => $route
+            ];
             // Load the view if not a POST request
-            $this->view('pages/SuperAdmin/Addfleet');
+            $this->view('pages/SuperAdmin/Addfleet',$data);
         }
     }
 

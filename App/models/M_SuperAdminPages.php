@@ -124,6 +124,11 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function getRouteDetails(){
+        $this->db->query("SELECT routeNumber, route, price, priceperkm FROM routes");
+        return $this->db->resultSet();
+    }
+
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------
