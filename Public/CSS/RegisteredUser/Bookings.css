@@ -535,7 +535,7 @@ button.shadow:hover {
 
 
 /*cancel booking popup */
-.popup {
+.popup , .policypopup{
     position: fixed;
     top: 0;
     left: 0;
@@ -548,26 +548,28 @@ button.shadow:hover {
     z-index: 9999;
 }
 
-.popup.hidden {
+
+
+.popup.hidden , .policypopup.hidden {
     display: none;
 }
 
-.popup-content {
+.popup-content , .policypopup-content {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    width: 300px;
+    width: 400px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.popup-actions {
+.popup-actions , .policypopup-actions {
     display: flex;
     justify-content: center; /* Centers the buttons horizontally */
     gap: 10px; /* Adds spacing between buttons */
 }
 
-.confirm-btn {
+.confirm-btn , .uderstant-btn {
     background-color: red;
     color: white;
     padding: 10px 20px;
@@ -600,6 +602,9 @@ button.shadow:hover {
     font-size: 18px;
     color: #333;
 }
+
+
+
 
 
 

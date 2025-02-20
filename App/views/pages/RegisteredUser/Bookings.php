@@ -232,7 +232,7 @@
                                     <script console.log(<?php echo $booking['schedule_id']; ?>)></script>
                                     <script console.log(<?php echo $booking['Seats']; ?>)></script> 
 
-                                    <button type="button" class="cancel" onclick="showCancelPopup(<?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8');?>)">
+                                    <button type="button" class="cancel" onclick="showCancelPolicy(<?php echo htmlspecialchars(json_encode($booking), ENT_QUOTES, 'UTF-8');?>,<?php echo htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8');?>)">
                                         Cancel Booking
                                     </button>
                                 </form>
@@ -276,6 +276,20 @@
             <!-- <div class="close-btn" onclick="closeCancelBox()">×</div> -->
         </div>
     </div>
+
+    <!--Cancel Policy pop up -->
+    <div id="cancelPolicyPopup" class="policypopup hidden">
+        <div class="policypopup-content">
+            <h3>Cancel Booking</h3>
+            <p id="policypopup-details"></p>
+            <!--Content will come here -->
+            <div class="policypopup-actions">
+                <button id="understand" class="uderstant-btn">I understand</button>
+                <button id="closePopup" class="cancel-btn" onclick="closePolicyBox()">Close</button>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -391,25 +405,292 @@ function toggleTicketBox(booking, schedule, bus , user) {
 
         
 //----------------Booking cancel handling ------------------------------------------------
+
+        function calculateCancellationFee(bookingDate) {
+            const today = new Date();
+            const scheduleDate = new Date(bookingDate);
+            const diffTime = scheduleDate.getTime() - today.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays >= 1) {
+                return 0.10; // 10% fee
+            } else {
+                return 0.50; // 50% fee
+            }
+        }
+
+        function showCancelPolicy(booking , schedule){
+            const policypopup = document.getElementById('cancelPolicyPopup');
+            const policydetails = document.getElementById('policypopup-details');
+            const understandBtn = document.getElementById('understand');
+
+            policydetails.innerHTML = `
+                <div class="p-4">
+                    <h3 class="text-lg font-bold mb-4">Cancellation Policy</h3>
+                    <p>Please review our cancellation policy:</p>
+                    <ul class="my-4">
+                        <li>• Cancellation 1 or more days before departure: 10% cancellation fee</li>
+                        <li>• Cancellation within 24 hours of departure: 50% cancellation fee</li>
+                    </ul>
+                </div>
+            `;
+            understandBtn.onclick = function(){
+                showCancelPopup(booking, schedule);
+                policypopup.classList.add('hidden'); 
+
+            };
+
+            policypopup.classList.remove('hidden');
+
+        }
       
         // Show the popup with booking details
-        function showCancelPopup(booking) {
+        function showCancelPopup(booking , schedule) {
             const popup = document.getElementById('cancelPopup');
             const details = document.getElementById('popup-details');
             const confirmBtn = document.getElementById('confirmCancel');
 
-            // Populate the popup with booking details
-            details.innerHTML = `
-                <strong>Booking ID:</strong> ${booking.id} <br>
-                <strong>Route:</strong> ${booking.from_location} to ${booking.to_location} <br>
-                <strong>Date:</strong> ${booking.date} <br>
-                <strong>Total Price:</strong> LKR ${Number(booking.total_price).toFixed(2)}
-            `;
+            const cancellationFee = calculateCancellationFee(schedule.date);
+            const feeAmount = booking.total_price * cancellationFee;
+            const refundAmount = booking.total_price - feeAmount;
 
-            // Add event listener to confirm button
-            confirmBtn.onclick = function () {
-                confirmCancellation(booking.id); // Call the cancellation function
-            };
+            if(booking.paymentMethod ==='Online'){
+                // Populate the popup with booking details
+                details.innerHTML = `
+                    <style>
+                        .cancellation-form {
+                            background-color: #ffffff;
+                            padding: 1rem;
+                            border-radius: 6px;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                            font-size: 0.9rem;
+                            max-width: 500px;
+                        }
+
+                        .booking-details {
+                            margin-bottom: 1rem;
+                            line-height: 1.5;
+                        }
+
+                        .detail-row {
+                            display: flex;
+                            margin-bottom: 0.25rem;
+                            align-items: baseline;
+                        }
+
+                        .detail-label {
+                            font-weight: 600;
+                            color: #374151;
+                            min-width: 140px;
+                            font-size: 0.9rem;
+                        }
+
+                        .detail-value {
+                            color: #4B5563;
+                            font-size: 0.9rem;
+                        }
+
+                        .bank-details-section {
+                            background-color: #F9FAFB;
+                            padding: 0.75rem;
+                            border-radius: 4px;
+                            margin-top: 0.75rem;
+                        }
+
+                        .section-title {
+                            color: #1F2937;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            margin-bottom: 0.75rem;
+                            padding-bottom: 0.25rem;
+                            border-bottom: 1px solid #E5E7EB;
+                        }
+
+                        .form-group {
+                            margin-bottom: 0.5rem;
+                        }
+
+                        .form-label {
+                            display: block;
+                            font-weight: 500;
+                            color: #4B5563;
+                            margin-bottom: 0.25rem;
+                            font-size: 0.85rem;
+                        }
+
+                        .form-input {
+                            width: 80%;
+                            padding: 0.375rem 0.5rem;
+                            border: 1px solid #D1D5DB;
+                            border-radius: 4px;
+                            font-size: 0.85rem;
+                            transition: border-color 0.15s ease-in-out;
+                        }
+
+                        .form-input:focus {
+                            outline: none;
+                            border-color: #60A5FA;
+                            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+                        }
+
+                        .amount-highlight {
+                            font-weight: 600;
+                            padding: 0.125rem 0.375rem;
+                            border-radius: 3px;
+                            font-size: 0.85rem;
+                        }
+
+                        .fee-amount {
+                            background-color: #FEE2E2;
+                            color: #991B1B;
+                        }
+
+                        .refund-amount {
+                            background-color: #D1FAE5;
+                            color: #065F46;
+                        }
+                        </style>
+
+                        <div class="cancellation-form">
+                            <div class="booking-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Booking ID:</span>
+                                    <span class="detail-value">${booking.id}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Route:</span>
+                                    <span class="detail-value">${booking.from_location} to ${booking.to_location}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Date:</span>
+                                    <span class="detail-value">${schedule.date}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Total Price:</span>
+                                    <span class="detail-value">LKR ${Number(booking.total_price).toFixed(2)}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Cancellation Fee:</span>
+                                    <span class="detail-value amount-highlight fee-amount">LKR ${feeAmount.toFixed(2)}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Refund Amount:</span>
+                                    <span class="detail-value amount-highlight refund-amount">LKR ${refundAmount.toFixed(2)}</span>
+                                </div>
+                            </div>
+
+                            <div class="bank-details-section">
+                                <h4 class="section-title">Bank Details for Refund</h4>
+                                <div class="form-group">
+                                    <label class="form-label">Account Holder Name</label>
+                                    <input type="text" id="accountName" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Bank Name</label>
+                                    <input type="text" id="bankName" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Account Number</label>
+                                    <input type="text" id="accountNumber" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Branch</label>
+                                    <input type="text" id="branch" class="form-input" required>
+                                </div>
+                            </div>
+                        </div>
+
+                `;
+
+                // Add event listener to confirm button
+                confirmBtn.onclick = function() {
+                    const bankDetails = {
+                        accountName: document.getElementById('accountName').value,
+                        bankName: document.getElementById('bankName').value,
+                        accountNumber: document.getElementById('accountNumber').value,
+                        branch: document.getElementById('branch').value
+                    };
+                    
+                    if (!bankDetails.accountName || !bankDetails.bankName || 
+                        !bankDetails.accountNumber || !bankDetails.branch) {
+                        alert('Please fill in all bank details');
+                        return;
+                    }
+                    
+                    confirmCancellation(booking.id, cancellationFee, refundAmount, bankDetails);
+                };
+            }else if(booking.paymentMethod === "Cash"){
+                details.innerHTML = `
+                    <style>
+                        <style>
+                        .cancellation-form {
+                            background-color: #ffffff;
+                            padding: 1rem;
+                            border-radius: 6px;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                            font-size: 0.9rem;
+                            max-width: 500px;
+                        }
+
+                        .booking-details {
+                            margin-bottom: 1rem;
+                            line-height: 1.5;
+                        }
+
+                        .detail-row {
+                            display: flex;
+                            margin-bottom: 0.25rem;
+                            align-items: baseline;
+                        }
+
+                        .detail-label {
+                            font-weight: 600;
+                            color: #374151;
+                            min-width: 140px;
+                            font-size: 0.9rem;
+                        }
+
+                        .detail-value {
+                            color: #4B5563;
+                            font-size: 0.9rem;
+                        }
+                    </style>
+                    <div class="cancellation-form">
+                        <div class="booking-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Booking ID:</span>
+                                <span class="detail-value">${booking.id}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Route:</span>
+                                <span class="detail-value">${booking.from_location} to ${booking.to_location}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Date:</span>
+                                <span class="detail-value">${schedule.date}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Total Price:</span>
+                                <span class="detail-value">LKR ${Number(booking.total_price).toFixed(2)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Cancellation Fee:</span>
+                                <span class="detail-value amount-highlight fee-amount">LKR ${feeAmount.toFixed(2)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Refund Amount:</span>
+                                <span class="detail-value amount-highlight refund-amount">LKR ${refundAmount.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <p> Confirm will take you to the payment portal to collect the cancellation fee</p>
+                `;
+
+                // Add event listener to confirm button
+                confirmBtn.onclick = function() {
+                        window.location.href = `paymentPortal.php?bookingId=${booking.id}&cancellationFee=${feeAmount}`;
+                };
+
+            }
 
             popup.classList.remove('hidden');
         }
@@ -417,26 +698,39 @@ function toggleTicketBox(booking, schedule, bus , user) {
         // Close the popup
         function closeCancelBox() {
             console.log("closeCancelBox");
-        document.getElementById('cancelPopup').classList.add('hidden');
-    }
+            document.getElementById('cancelPopup').classList.add('hidden');
+        }
+
+        function closePolicyBox() {
+            console.log("closeCancelBox");
+            document.getElementById('cancelPolicyPopup').classList.add('hidden');
+        }
 
         // Confirm cancellation (AJAX or form submission)
-        function confirmCancellation(bookingId) {
-            // Send the bookingId to the server for cancellation
+        function confirmCancellation(bookingId, cancellationFee, refundAmount, bankDetails) {
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '<?php echo URLROOT; ?>/RegisteredPages/cancelBooking';
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'booking_id';
-            input.value = bookingId;
-
-            form.appendChild(input);
+            
+            const data = {
+                booking_id: bookingId,
+                cancellation_fee: cancellationFee,
+                refund_amount: refundAmount,
+                ...bankDetails
+            };
+            
+            // Create hidden inputs for all data
+            Object.entries(data).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            });
+            
             document.body.appendChild(form);
             form.submit();
         }
-
         function openTicketBox() {
             document.getElementById('ticketBox').classList.remove('hidden');
             document.getElementById('overlay').classList.remove('hidden');

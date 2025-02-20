@@ -1,6 +1,11 @@
+
 <?php
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Conductor' , 'Driver']);
+
+    // Get current date
+    $currentDate = date('Y-m-d');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,18 +24,7 @@
         localStorage.setItem('userRole', userRole);
     </script>
 
-    <?php
-    // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'Conductor';
-    ?>
-
-    <?php
-    $data = [
-        'currentController' => 'ConductorPages', // Adjust this based on your controller
-        'currentMethod' => 'home', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
-    ?>
+    
 
     <div class="grid-container">
         <header class="header">
@@ -72,10 +66,10 @@
                     <span class="text">Scan QR Code</span>
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave'">
+                <!-- <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave'">
                     <i class="fa-solid fa-upload"></i>
                     <span class="text">Request Leaves</span>
-                </li>
+                </li> -->
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/informDelays'">
                     <i class="fa-solid fa-clock"></i>
@@ -111,42 +105,138 @@
                         <input type="date" class="search-input" id="filterDate" onchange="filterSchedule()">
                     </div>
                 </div>
-
-
             </div>
+            
+            <table id="upcomingAssigns" border="1">
 
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Departure Time</th>
+                            <th>Arrival Time</th>
+                            <th>Route Number</th>
+                            <th>Start Location</th>
+                            <th>Destination</th>
+                            <th>License ID</th>
+                            <th>Available Seats</th>
+                            <th>Booked Seats</th>
+                            <th>Price</th>
+                            <th>Price Per KM</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
 
-            <table id="upcomingAssigns">
-
-                <?php if (!empty($data['schedule'])): ?>
-                    <table border="1">
-                        <thead>
-                            <tr>
-                                <th>Assign Time</th>
-                                <th>Date</th>
-                                <th>Route Number</th>
-                                <th>Start Location</th>
-                                <th>Destination</th>
-                                <th>License ID</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <tbody>
+                        <?php if(!empty($data['schedule'])): ?>
+                            <?php $upcomingSchedule = false; ?>
                             <?php foreach ($data['schedule'] as $item): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($item['assign_time']) ?></td>
-                                    <td><?= htmlspecialchars($item['date']) ?></td>
-                                    <td><?= htmlspecialchars($item['routeNumber']) ?></td>
-                                    <td><?= htmlspecialchars($item['start_location']) ?></td>
-                                    <td><?= htmlspecialchars($item['destination']) ?></td>
-                                    <td><?= htmlspecialchars($item['License_id']) ?></td>
-                                </tr>
+                                <?php if ($item['date'] >= $currentDate): ?>
+                                    <?php $upcomingSchedule = true; ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($item['date']) ?></td>
+                                        <td><?= htmlspecialchars($item['departureTime']) ?></td>
+                                        <td><?= htmlspecialchars($item['arrivalTime']) ?></td>
+                                        <td><?= htmlspecialchars($item['routeNumber']) ?></td>
+                                        <td><?= htmlspecialchars($item['start_location']) ?></td>
+                                        <td><?= htmlspecialchars($item['destination']) ?></td>
+                                        <td><?= htmlspecialchars($item['License_id']) ?></td>
+                                        <td><?= htmlspecialchars($item['availableSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['price']) ?></td>
+                                        <td><?= htmlspecialchars($item['priceperkm']) ?></td>
+                                        <td><?= htmlspecialchars($item['type']) ?></td>
+                                    </tr>
+                                <?php endif; ?>
                             <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php else: ?>
-                    <p>No schedule data available.</p>
-                <?php endif; ?>
+
+                            <?php if (!$upcomingSchedule): ?>
+                                <tr><td colspan="6">No upcoming schedule data available.</td></tr>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <tr><td colspan="6">No schedule data available.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
             </table>
+
+            <table id="pastAssigns" border="1">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Departure Time</th>
+                            <th>Arrival Time</th>
+                            <th>Route Number</th>
+                            <th>Start Location</th>
+                            <th>Destination</th>
+                            <th>License ID</th>
+                            <th>Available Seats</th>
+                            <th>Booked Seats</th>
+                            <th>Price</th>
+                            <th>Price Per KM</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php if(!empty($data['schedule'])): ?>
+                            <?php $pastSchedule = false; ?>
+                            <?php foreach ($data['schedule'] as $item): ?>
+                                <?php if ($item['date'] < $currentDate): ?>
+                                    <?php $pastSchedule = true; ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($item['date']) ?></td>
+                                        <td><?= htmlspecialchars($item['departureTime']) ?></td>
+                                        <td><?= htmlspecialchars($item['arrivalTime']) ?></td>
+                                        <td><?= htmlspecialchars($item['routeNumber']) ?></td>
+                                        <td><?= htmlspecialchars($item['start_location']) ?></td>
+                                        <td><?= htmlspecialchars($item['destination']) ?></td>
+                                        <td><?= htmlspecialchars($item['License_id']) ?></td>
+                                        <td><?= htmlspecialchars($item['availableSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['price']) ?></td>
+                                        <td><?= htmlspecialchars($item['priceperkm']) ?></td>
+                                        <td><?= htmlspecialchars($item['type']) ?></td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+                            <?php if (!$pastSchedule): ?>
+                                <tr><td colspan="6">No past schedule data available.</td></tr>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <tr><td colspan="6">No schedule data available.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+            </table>
+
+            <script>
+                const defaultColor = '#9e9ea4';
+
+                // Default display
+                document.getElementById('pastAssigns').style.display = 'none';
+                document.getElementById('upcomingAssigns').style.display = 'table';
+                document.getElementById('showUpcomingAssigns').style.color = '#4CAF50';
+
+                // Tab click events
+                document.getElementById('showUpcomingAssigns').addEventListener('click', function () {
+                    document.getElementById('upcomingAssigns').style.display = 'table';
+                    document.getElementById('pastAssigns').style.display = 'none';
+
+                    document.getElementById('showUpcomingAssigns').style.color = '#4CAF50';
+
+                    document.getElementById('showPastAssigns').style.color = defaultColor;
+                });
+
+                document.getElementById('showPastAssigns').addEventListener('click', function () {
+                    document.getElementById('pastAssigns').style.display = 'table';
+                    document.getElementById('upcomingAssigns').style.display = 'none';
+
+                    document.getElementById('showPastAssigns').style.color = '#4CAF50';
+
+                    document.getElementById('showUpcomingAssigns').style.color = defaultColor;
+                });
+            </script>
+
         </main>
     </div>
 </body>
