@@ -196,12 +196,14 @@
                 arrivalTime: document.getElementById("arrivalTime").value.trim(),
                 duration: document.getElementById("duration").value.trim(),
                 type: document.getElementById("type").value.trim(),
-                direction: document.getElementById("direction").value.trim()
+                direction: document.getElementById("direction").value.trim(),
+                bookedSeats: null // Set bookedSeats to NULL by default
+
             };
 
             console.log("Form Data:", formData); // Debugging output
 
-            fetch('<?php echo URLROOT; ?>/SuperAdminPages/addschedules', {
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/addschedule', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)

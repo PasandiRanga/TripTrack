@@ -18,7 +18,7 @@
             z-index: 10;
         } 
         /* Maintain consistent styling for both input types */
-        input[type="password"] , input[type="text"] {
+        /* input[type="password"] , input[type="text"] {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #43cea2;
@@ -27,8 +27,7 @@
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
             outline: none;
             transition: all 0.3s ease;
-            /* box-sizing: border-box; Ensure padding doesn't affect width */
-        }
+        } */
         
     </style>
 </head>

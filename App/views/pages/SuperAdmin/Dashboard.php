@@ -20,12 +20,14 @@
 
     <div class="grid-container">
         <header class="header">
-            <div class="menu-icons" onclick="openSidebar()">
-                <span class="material-icons-outlined">menu</span>
+
+            <div class="header-left" onclick="openSidebar()">
+                <div class="sidebar-menu-icon">
+                    <span class="material-icons-outlined">menu</span>
+                </div>
+                
             </div>
-            <div class="header-left">
-                <img src="../images/logo.png" alt="Logo" class="logo">
-            </div>
+            
             <!--
             <div class="header-right">
                 <span id="current-date"></span> 
@@ -38,7 +40,7 @@
                 <div class="sidebar-brand">
                     <span class="material-icons-outlined">admin_panel_settings</span> Admin
                 </div>
-                <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+                    <span class="material-icons-outlined" onclick="closeSidebar()">arrow_back</span>
             </div>
 
             <ul class="sidebar-list">
@@ -96,10 +98,12 @@
         <main class="main-container">
             <div class="main-title">
                 <h2>Dashboard</h2> 
+                <img class="logo-right" src="../images/logo2.png" alt="Logo" class="logo">
+
             </div>
 
             <div class="main-cards">
-                <div class="card">
+                <div class="card" onclick="showPopup('Total Monthly Income: LKR <?php echo $data['total_income']; ?>')">
                     <div class="card-inner">
                         <h3>Total Monthly Income</h3>
                         <span class="material-icons-outlined">local_atm</span>
@@ -107,7 +111,7 @@
                     <h1><?php echo 'LKR ', $data['total_income']; ?></h1>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPopup('Total Customers: <?php echo $data['total_customers']; ?>')">
                     <div class="card-inner">
                         <h3>Customers</h3>
                         <span class="material-icons-outlined">groups</span>
@@ -115,7 +119,7 @@
                     <h1><?php echo $data['total_customers']; ?></h1>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPopup('Monthly Bookings: 1234')">
                     <div class="card-inner">
                         <h3>Monthly Bookings</h3>
                         <span class="material-icons-outlined">book</span>
@@ -123,7 +127,7 @@
                     <h1><?php echo '1234'; // Example PHP dynamic content ?></h1>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPopup('Completed Schedules: 56')">
                     <div class="card-inner">
                         <h3>Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
@@ -146,6 +150,14 @@
         </main>
     </div>
 
+    <div class="card-popup" id="cardpopup">
+        <div class="card-content">
+            <h2>Deatails</h2>
+            <p id="card-text">Popup Content</p>
+            <button class="close-btn" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="logoutModal">
         <div class="modal-content">
             <h2>Are you sure you want to logout?</h2>
@@ -159,20 +171,22 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.52.0/apexcharts.min.js"></script>
     <script>
-        var sidebarOpean = false;
+        var sidebarOpen = false; // Fixed typo from 'sidebarOpean'
         var sidebar = document.getElementById("sidebar");
 
-        function openSidebar(){
-            if (!sidebarOpean){
+        function openSidebar() {
+            if (!sidebarOpen) {
                 sidebar.classList.add("sidebar-responsive");
-                sidebarOpean = true;
+                //sidebar.style.transform = "translateX(0)";
+                sidebarOpen = true;
             }
         }
 
-        function closeSidebar(){
-            if (sidebarOpean){
+        function closeSidebar() {
+            if (sidebarOpen) {
                 sidebar.classList.remove("sidebar-responsive");
-                sidebarOpean = false;
+                //sidebar.style.transform = "translateX(-100%)";
+                sidebarOpen = false;
             }
         }
 
@@ -428,13 +442,13 @@
 
         // Proceed with logout and redirect to login page
         function proceedLogout() {
-            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";// Replace with your login form file
+            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
         }
 
 
         // Function to redirect back to dashboard
         function cancelLogout() {
-            window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home"; // Replace with your dashboard file
+            window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home";
         }
 
         // Function to display the current date
@@ -452,6 +466,16 @@
 
         // Call the function on page load
         document.addEventListener("DOMContentLoaded", displayCurrentDate);
+
+        //Card popups
+        function showPopup(content){
+            document.getElementById("card-text").innerHTML = content;
+            document.getElementById("cardpopup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("cardpopup").style.display = "none";
+        }
 
     </script>
 </body>

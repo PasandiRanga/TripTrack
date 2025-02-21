@@ -31,23 +31,52 @@ body{
 
 .header {
     grid-area: header;
+    display: flex;
+    margin-left: auto;
     height: 60px;
     background-color: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px 0 30px;
     box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
-    margin-left: auto;
 }
-.header-right{
-    margin-left: auto; /* Pushes this element to the right */
-    display: flex; /* Make header-right a flex container for its items */
-    gap: 30px;
+
+.header-left {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between logo and menu icon */
 }
-.header-left{
-    margin-right: auto;/* Pushes this element to the right */
-    display: flex; /* Make header-right a flex container for its items */
+.header-right {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between logo and menu icon */
 }
+.sidebar-menu-icon{
+    margin-top: 1px;
+}
+
+.logo-right {
+    margin-left: auto; /* Pushes the logo to the right */
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 100px; /* Aligns vertically */
+}
+
+/*
+.header-left {
+    margin-right: auto; 
+    display: flex; 
+    align-items: center; 
+}
+
+.header-right {
+    margin-left: auto; 
+    display: flex; 
+    align-items: center; 
+    gap: 30px; 
+}
+*/
 
 .logo {
     height: 60px; /* Adjust height to fit the header */
@@ -80,16 +109,18 @@ body{
     justify-content: space-between;
     align-items: center;
     padding: 30px 30px 30px 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .sidebar-title > span {
     display: none;
 }
 .sidebar-brand {
-    margin-top: 15px;
+    /* margin-top: 20px; */
     font-size: 20px;
     font-weight: 700;
+    display: inline-block;
     color: white;
+    gap: 20px;
 }
 .sidebar-list{
     padding: 0;
@@ -107,11 +138,32 @@ body{
     background-color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
 }
+
 .sidebar-responsive {
     display: inline !important;
     position: absolute;
     z-index: 12 !important;
+} 
+
+/*
+.sidebar-responsive {
+    display: block !important; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 300px; 
+    height: 100vh; 
+    background-color: #1b1b1b; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000 !important; 
+    transform: translateX(-100%); 
+    transition: transform 0.3s ease-in-out; 
 }
+
+.sidebar.sidebar-responsive {
+    transform: translateX(0);
+} */
+
 .main-container{
     grid-area: main;
     background-color: beige;
@@ -196,13 +248,15 @@ body{
       display: none;
     }
   
-    .menu-icon {
-      display: inline;
+    .menu-icons {
+      display: block;
+      cursor: pointer;
     }
   
     .sidebar-title > span {
       display: inline;
     }
+
   }
   
   /* Small <= 768px */
@@ -284,4 +338,37 @@ body{
 .btn-no {
     background-color: #f44336;
     color: #fff;
+}
+
+.card-popup{
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.card-content{
+    background-color: #fff;
+    padding: 30px;
+    width: 400px;
+    color: black;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
