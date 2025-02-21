@@ -89,13 +89,26 @@
             }
         }
 
-        public function getBookings($userId){
+        public function getUpcomingBookings($userId){
             try {
                 $this->db->query('SELECT * FROM registeredbooking WHERE User_id = :userId');
                 $this->db->bind(':userId', $userId);
                 return $this->db->resultSet();
             } catch (Exception $e) {
-                error_log("Error fetching bus details: " . $e->getMessage());
+                error_log("Error fetching booking details: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+
+        }
+
+        public function getPastBookings($userId){
+            try {
+                $this->db->query('SELECT * FROM pastregbooking WHERE User_id = :userId');
+                $this->db->bind(':userId', $userId);
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching booking details: " . $e->getMessage());
                 echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return [];
             }

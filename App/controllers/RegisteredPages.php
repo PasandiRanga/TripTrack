@@ -445,7 +445,22 @@
         }
 
         public function newBookings() {
-            $this->view('pages/RegisteredUser/newBookings');
+            $upcomingbookings = $this->RegisteredpagesModel->getUpcomingBookings($_SESSION['user_id']);  
+            $pastbookings = $this->RegisteredpagesModel->getPastBookings($_SESSION['user_id']); 
+            // echo '<script> console.log("Upcoming Bookings: ", ' . json_encode($upcomingbookings) . '); </script>';
+            // echo '<script> console.log("Past Bookings: ", ' . json_encode($pastbookings) . '); </script>';
+            $schedule = $this->RegisteredpagesModel->getSchedule();
+            $bus = $this->RegisteredpagesModel->getBusDetails();
+
+            $data = [
+                'upcomingbookings' => $upcomingbookings,
+                'pastbookings' => $pastbookings,
+                'schedule' => $schedule,
+                'bus' => $bus
+            ];
+            echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
+
+            $this->view('pages/RegisteredUser/newBookings' , $data);
         }
 
 
