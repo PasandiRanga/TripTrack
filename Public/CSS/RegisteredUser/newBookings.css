@@ -186,3 +186,109 @@ header .current-date {
     }
 }
 
+
+/*Adding new css */
+/* Existing code remains the same until the "Adding new css" section */
+
+/*Adding new css */
+.upcoming-booking::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e3f2fd !important;
+    border: 2px solid #2196f3;
+}
+
+.past-booking::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff3e0 !important;
+    border: 2px solid #ff9800;
+}
+
+.booking-list {
+    margin-top: 20px;
+    padding: 15px;
+}
+
+.booking-item {
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.booking-item.upcoming {
+    background-color: #e3f2fd;
+    border: 2px solid #2196f3;
+    box-shadow: 0 2px 5px rgba(33, 150, 243, 0.1);
+}
+
+.booking-item.past {
+    background-color: #fff3e0;
+    border: 2px solid #ff9800;
+    box-shadow: 0 2px 5px rgba(255, 152, 0, 0.1);
+}
+
+.booking-item p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+/* Date details section styles */
+.date-details {
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    height: 100%;
+}
+
+.date-details h3 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.date-details h4 {
+    color: #666;
+    font-size: 1.4rem;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+/* Responsive adjustments for booking details */
+@media screen and (max-width: 768px) {
+    .booking-item {
+        padding: 15px;
+        font-size: 1rem;
+    }
+    
+    .booking-item p {
+        font-size: 1rem;
+    }
+    
+    .date-details h3 {
+        font-size: 1.5rem;
+    }
+    
+    .date-details h4 {
+        font-size: 1.2rem;
+    }
+}
