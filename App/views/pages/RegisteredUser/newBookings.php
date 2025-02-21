@@ -217,7 +217,7 @@ function showDateDetails(date) {
 
     if (bookingsForDate.length > 0) {
         bookingsForDate.forEach(schedule => {
-            dateInfo += `<li>Bus: ${schedule.bus_name} | Time: ${schedule.departure_time}</li>`;
+            dateInfo += `<li>Bus: ${schedule.date} | Time: ${booking.from_location}</li>`;
         });
     } else {
         dateInfo += "<li>No bookings available for this date.</li>";
