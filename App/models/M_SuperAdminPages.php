@@ -12,21 +12,18 @@ class M_SuperAdminPages {
 
     // Add a new bus
     public function addBus($data) {
-        $this->db->query("INSERT INTO bus (License_id, routeNumber, route, stops, start_location, destination, passengers, price, priceperkm) 
-                           VALUES (:licence_id, :route_no, :route, :stops, :starts, :destination, :passengers, :price, :price_per_km)");
+        //echo var_dump($data);
+        $this->db->query("INSERT INTO bus (License_id, routeNumber, start_location, destination, passengers, price, priceperkm) 
+                           VALUES (:License_id, :routeNumber, :start_location, :destination, :passengers, :price, :priceperkm)");
 
         // Bind parameters
-        $this->db->bind(':licence_id', $data['licence_id']);
-        $this->db->bind(':route_no', $data['route_no']);
-        $this->db->bind(':route', $data['route']);
-        //$this->db->bind(':bus_type', $data['bus_type']);
-        $this->db->bind(':stops', $data['stops']);
-        $this->db->bind(':starts', $data['starts']);
+        $this->db->bind(':License_id', $data['License_id']);
+        $this->db->bind(':routeNumber', $data['routeNumber']);
+        $this->db->bind(':start_location', $data['start_location']);
         $this->db->bind(':destination', $data['destination']);
-        //$this->db->bind(':ratings', $data['ratings']);
         $this->db->bind(':passengers', $data['passengers']);
         $this->db->bind(':price', $data['price']);
-        $this->db->bind(':price_per_km', $data['price_per_km']);
+        $this->db->bind(':priceperkm', $data['priceperkm']);
 
         // Execute the query and return the result
         return $this->db->execute();
@@ -66,7 +63,6 @@ class M_SuperAdminPages {
         $this->db->query('UPDATE bus SET 
             routeNumber = :routeNumber,
             route = :route,
-            stops = :stops,
             start_location = :start_location,
             destination = :destination,
             passengers = :passengers,
@@ -121,6 +117,11 @@ class M_SuperAdminPages {
         $sql = "SELECT * FROM bus";
         $this->db->query($sql);
 
+        return $this->db->resultSet();
+    }
+
+    public function getRouteDetails(){
+        $this->db->query("SELECT routeNumber, route, price, priceperkm FROM routes");
         return $this->db->resultSet();
     }
 
@@ -276,6 +277,18 @@ class M_SuperAdminPages {
         }
     }
 
+    public function deleteRoute($routeNumber){
+        $this->db->query('DELETE FROM routes WHERE routeNumber = :routeNumber');
+        $this->db->bind(':routeNumber', $routeNumber);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete bus model error");
+            return false;
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //Assigns
 
@@ -347,6 +360,18 @@ class M_SuperAdminPages {
         $this->db->query("SELECT COUNT(User_id) AS total_customers FROM customer");
         $result = $this->db->single();
         return $result['total_customers'] ?? 0;
+    }
+
+    public function getTotalGuestBookings() {
+        $this->db->query("SELECT COUNT(id) AS total_guests FROM guestbooking");
+        $result = $this->db->single();
+        return $result['total_guests'] ?? 0;
+    }
+
+    public function getTotalRegisteredBookings() {
+        $this->db->query("SELECT COUNT(id) AS total_registered FROM registeredbooking");
+        $result = $this->db->single();
+        return $result['total_registered'] ?? 0;
     }
 }
 ?>

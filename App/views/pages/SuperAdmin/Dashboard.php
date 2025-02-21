@@ -103,7 +103,11 @@
             </div>
 
             <div class="main-cards">
-                <div class="card" onclick="showPopup('Total Monthly Income: LKR <?php echo $data['total_income']; ?>')">
+                <div class="card" onclick="showPopupBox1(
+                            'Total Monthly Income Details',
+                            'Total Monthly Income: LKR <?php echo $data['total_income']; ?>',
+                            'Total Guest Bookings: <?php echo $data['total_guests']; ?>',
+                            'Total Registered Bookings: <?php echo $data['total_registered']; ?>' )">
                     <div class="card-inner">
                         <h3>Total Monthly Income</h3>
                         <span class="material-icons-outlined">local_atm</span>
@@ -152,7 +156,7 @@
 
     <div class="card-popup" id="cardpopup">
         <div class="card-content">
-            <h2>Deatails</h2>
+            <h2>Bus Card</h2>
             <p id="card-text">Popup Content</p>
             <button class="close-btn" onclick="closePopup()">Close</button>
         </div>
@@ -468,8 +472,13 @@
         document.addEventListener("DOMContentLoaded", displayCurrentDate);
 
         //Card popups
-        function showPopup(content){
-            document.getElementById("card-text").innerHTML = content;
+        function showPopupBox1(title, income, guest, registered){
+            document.getElementById("card-text").innerHTML = `
+                <h2>${title}</h2>
+                <strong>${income}</strong><br><br>
+                <strong>${guest}</strong><br><br>
+                <strong>${registered}</strong>
+                `;
             document.getElementById("cardpopup").style.display = "flex";
         }
 

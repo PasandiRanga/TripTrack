@@ -17,21 +17,26 @@
     <h1>Add New Bus</h1>
 
     <!-- Fleet form -->
-    <form id="fleet-form" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet">
-    <div class="form-group">
-        <label for="licence_id">Licence ID:</label>
-        <input type="text" id="licence_id" name="licence_id" required>
-    </div>
+    <form id="fleet-form" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet" class="form-group">
 
-    <div class="form-group">
-        <label for="route_no">Route No:</label>
-        <input type="text" id="route_no" name="route_no" required>
-    </div>
+    
+    <label for="License_id">Licence ID:</label>
+    <input type="text" id="License_id" name="License_id" required>
 
-    <div class="form-group">
-        <label for="route">Route:</label>
-        <input type="text" id="route" name="route" required placeholder="e.g., Colombo - Kandy">
-    </div>
+    
+    <label for="routeNumber">Route No:</label>
+    <select id="routeNumber" name="routeNumber" required>
+        <option value="">Select Route Number</option>
+        <?php foreach ($data['route'] as $route): ?>
+            <option value="<?php echo $route['routeNumber']; ?>"
+                    data-price="<?php echo htmlspecialchars($route['price']); ?>"
+                    data-priceperkm="<?php echo htmlspecialchars($route['priceperkm']); ?>"> 
+                <?php echo $route['routeNumber']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>    
+    <!--check on the last " in the option values don't put the spaceses between double queotes-->
+    
 
     <!-- <div class="form-group">
         <label for="bus_type">Bus Type:</label>
@@ -42,77 +47,111 @@
             <option value="2">2</option>
     </div> -->
 
+    <!--
     <div class="form-group">
         <label for="stops">Stops:</label>
         <textarea id="stops" name="stops" rows="3" required placeholder="e.g., Colombo, Kegalle, Kandy"></textarea>
-    </div>
+    </div>  -->
 
-    <div class="form-group">
-        <label for="starts">Starts:</label>
-        <input type="text" id="starts" name="starts" required placeholder="e.g., Colombo">
-    </div>
+    <label for="start_location">Starts:</label>
+    <input type="text" id="start_location" name="start_location" required placeholder="e.g., Colombo">
 
-    <div class="form-group">
-        <label for="destination">Destination:</label>
-        <input type="text" id="destination" name="destination" required placeholder="e.g., Kandy">
-    </div>
 
-    <div class="form-group">
-        <label for="passengers">Passengers:</label>
-        <select id="passengers" name="passengers" class="passengers" required>
-            <option value="" disabled selected>Select capacity</option>
-            <option value="37">37</option>
-            <option value="45">45</option>
-            <option value="50">50</option>
-            <option value="50">51</option>
-        </select>
-    </div>
+    <label for="destination">Destination:</label>
+    <input type="text" id="destination" name="destination" required placeholder="e.g., Kandy">
 
-    <div class="form-group">
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" required min="0" step="0.01" placeholder="e.g., 1200.00">
-    </div>
 
-    <div class="form-group">
-        <label for="price_per_km">Price per KM:</label>
-        <input type="number" id="price_per_km" name="price_per_km" required min="0" step="0.01" placeholder="e.g., 10.00">
-    </div>
+    <label for="passengers">Passengers:</label>
+    <select id="passengers" name="passengers" class="passengers" required>
+        <option value="" disabled selected>Select capacity</option>
+        <option value="37">37</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        <option value="50">51</option>
+    </select>
+
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required readonly>
+
+
+    <label for="priceperkm">Price per KM:</label>
+    <input type="number" id="priceperkm" name="priceperkm" required readonly>
+
 
     <!-- Submit and Clear buttons -->
     <button class="button" type="submit">Add Bus</button>
     <button class="button" onclick="clearForm()">Clear</button>
+
 </form>
 
 
-    <script>
-                // Go back to the previous page
+<script>
+
+    document.addEventListener("DOMContentLoaded", function(){
         function goBack() {
             window.history.back();
         }
 
-        // Handle form submission
-        function submitFleetForm(event) {
+        document.getElementById("routeNumber").addEventListener("change", function () {
+            let selectedOption = this.options[this.selectedIndex];
+
+            if (selectedOption) {  // Ensure an option is selected
+                let price = selectedOption.getAttribute("data-price") || ""; 
+                let priceperkm = selectedOption.getAttribute("data-priceperkm") || "";
+
+                document.getElementById("price").value = price;
+                document.getElementById("priceperkm").value = priceperkm;
+            }
+        });
+
+
+        document.getElementById("fleet-form").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            const fleetData = {
-                licence_id: document.getElementById("licence_id").value,
-                driver_id: document.getElementById("driver_id").value,
-                conductor_id: document.getElementById("conductor_id").value,
-                no_of_seats: document.getElementById("no_of_seats").value,
-                bus_route_no: document.getElementById("bus_route_no").value
+            let formData = {
+                License_id: document.getElementById("License_id").value.trim(),
+                routeNumber: document.getElementById("routeNumber").value.trim(),
+                start_location: document.getElementById("start_location").value.trim(),
+                destination: document.getElementById("destination").value.trim(),
+                passengers: document.getElementById("passengers").value.trim(),
+                price: document.getElementById("price").value.trim(),
+                priceperkm: document.getElementById("priceperkm").value.trim()
+
             };
 
-            console.log("Fleet added:", fleetData);
-            alert("Fleet added successfully!");
+            console.log("Form Data:", formData);
 
-            // Optionally, clear the form fields after submission
-            clearForm();
-        }
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/addfleet', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+
+                .then(response => response.text()) // Get text response first
+                .then(text => {
+                    try {
+                        return JSON.parse(text); // Try parsing JSON
+                    } catch (error) {
+                        throw new Error("Invalid JSON response: " + text); // Handle non-JSON errors
+                    }
+                })
+                .then(data => {
+                    if (data.status === "success") {
+                        alert("Fleet added successfully!");
+                        window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => alert("An error occurred: " + error.message));
+        });
 
         // Clear form fields
         function clearForm() {
             document.getElementById("fleet-form").reset();
         }
+    });
+        
 
     </script>
 </body>
