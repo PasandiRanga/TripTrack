@@ -98,64 +98,133 @@
     ?>
 
 
-<body onload="randerDate()">
-    
-    <div class="container">
-
-        <div class="calendar">
-
-            <div class="digital_clock">
-
-                <div class="time">
-                    <span class="hours">00</span>:
-                    <span class="minutes">00</span>:
-                    <span class="seconds">00</span>
-                    <span class="format">AM</span>
-                </div>
-
+    <body>
+        <center>
+        <div class="container">
+            <div class="column">
+                <div class="wrapper">
+                    <header>
+                        <p class="current-date"></p>
+                        <div class="icons">
+                            <span id="prev" class="prev">&#10094;</span>
+                            <span id="next" class="next">&#10095;</span>
+                        </div>
+                    </header>
+                    <div class="calendar">
+                        <ul class="weeks">
+                            <li>Sun</li>
+                            <li>Mon</li>
+                            <li>Tue</li>
+                            <li>Wed</li>
+                            <li>Thu</li>
+                            <li>Fri</li>
+                            <li>Sat</li>
+                        </ul>
+                        <ul class="days"></ul>
+                    </div>
+                </div> 
             </div>
-
-            <div class="month">
-
-                <div class="prev" onclick="moveDate('prev')">
-                    <span class="arrow">&#10094</span>
+            <div class="column">
+                <div class="date-details">
+                        <h2>Details for the selected date will appear here</h2>
+                        <div id="date-info"></div>
                 </div>
-
-                <div>
-                    <h2 id="month">April-2023</h2>
-                    <p id="date">Tue April 20 2023</p>
-                </div>
-
-                <div class="next" onclick="moveDate('next')">
-                    <span class="arrow">&#10095</span>
-                </div>
-
             </div>
-
-            <div class="week">
-                <div>Sun</div>
-                <div>Mon</div>
-                <div>Tue</div>
-                <div>Wed</div>
-                <div>Thu</div>
-                <div>Fri</div>
-                <div>Sat</div>
-            </div>
-
-            <div class="dates">
-                
-            </div>
-
         </div>
+    </center>
 
-        <div class="date-details">
-            <h2>Details for the selected date will appear here</h2>
-            <div id="date-info"></div>
-        </div>
+    </body>
+    </html>
 
-    </div>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const currentDate = document.querySelector(".current-date");
+    const daysTag = document.querySelector(".days");
+    const prevNextIcons = document.querySelectorAll(".icons span");
+    const column2 = document.querySelector(".column:nth-child(2)"); // Second column (details view)
 
+    let date = new Date(),
+        currYear = date.getFullYear(),
+        currMonth = date.getMonth();
 
-   <script src="<?php echo URLROOT; ?>/public/js/newBookings.js"></script>
-</body>
-</html>
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    function renderCalendar() {
+        let firstDayofMonth = new Date(currYear, currMonth, 1).getDay();
+        let lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate();
+        let lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay();
+        let lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
+        let liTag = "";
+
+        // Adjust the calendar size dynamically based on the screen size
+        const wrapperWidth = document.querySelector(".wrapper").offsetWidth;
+        if (wrapperWidth < 600) {
+            document.querySelector(".calendar").style.width = "100%";
+        } else {
+            document.querySelector(".calendar").style.width = "calc(100% - 50px)";
+        }
+
+        for (let i = firstDayofMonth; i > 0; i--) {
+            liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
+        }
+        for (let i = 1; i <= lastDateofMonth; i++) {
+            let isToday =
+                i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear()
+                    ? "active"
+                    : "";
+            liTag += `<li class="${isToday}" data-date="${currYear}-${currMonth + 1}-${i}">${i}</li>`;
+        }
+        for (let i = lastDayofMonth; i < 6; i++) {
+            liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`;
+        }
+        currentDate.innerText = `${months[currMonth]} ${currYear}`;
+        daysTag.innerHTML = liTag;
+
+        // Attach event listeners to dates
+        document.querySelectorAll(".days li").forEach(day => {
+            day.addEventListener("click", function () {
+                if (!this.classList.contains("inactive")) {
+                    showDateDetails(this.getAttribute("data-date"));
+                    column2.style.display = "block"; // Show the second column with details
+                }
+            });
+        });
+    }
+
+    renderCalendar();
+
+    prevNextIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+            if (currMonth < 0 || currMonth > 11) {
+                date = new Date(currYear, currMonth);
+                currYear = date.getFullYear();
+                currMonth = date.getMonth();
+            } else {
+                date = new Date();
+            }
+            renderCalendar();
+        });
+    });
+});
+
+function showDateDetails(date) {
+    let dateInfo = `<h3>Details for ${date}</h3><ul>`;
+    let bookingsForDate = scheduleData.filter(schedule => schedule.date === date);
+
+    if (bookingsForDate.length > 0) {
+        bookingsForDate.forEach(schedule => {
+            dateInfo += `<li>Bus: ${schedule.bus_name} | Time: ${schedule.departure_time}</li>`;
+        });
+    } else {
+        dateInfo += "<li>No bookings available for this date.</li>";
+    }
+
+    dateInfo += "</ul>";
+    document.getElementById("date-info").innerHTML = dateInfo;
+}
+
+</script>
