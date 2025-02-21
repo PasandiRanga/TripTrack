@@ -41,29 +41,36 @@ class SuperAdminPages extends Controller {
 
     public function AddFleet() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            header('Content-Type: application/json; charset=UTF-8');
 
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            //echo var_dump($inputData); //check the data check the correct id
+
+            if(!$inputData){
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+           
             // Collect data into an array
             $data = [
-                'licence_id' => trim($_POST['licence_id']),
-                'route_no' => trim($_POST['route_no']),
-                'route' => trim($_POST['route']),
-                //'bus_type' => trim($_POST['bus_type']),
-                //'stops' => trim($_POST['stops']),
-                'starts' => trim($_POST['starts']),
-                'destination' => trim($_POST['destination']),
-                'passengers' => trim($_POST['passengers']),
-                'price' => trim($_POST['price']),
-                'price_per_km' => trim($_POST['price_per_km'])
+                'License_id' => trim($inputData['License_id'] ?? ''),
+                'routeNumber' => trim($inputData['routeNumber'] ?? ''),
+                'start_location' => trim($inputData['start_location'] ?? ''),
+                'destination' => trim($inputData['destination'] ?? ''),
+                'passengers' => trim($inputData['passengers'] ?? ''),
+                'price' => trim($inputData['price'] ?? ''),
+                'priceperkm' => trim($inputData['priceperkm'] ?? '')
             ];
-
             // Call the model method to add the bus
-            if ($this->SuperAdminModel->addBus($data)) {
-                // Redirect to the fleet page on success
-                header("Location: " . URLROOT . "/SuperAdminPages/fleet");
+            if($this->SuperAdminModel->addBus($data)){
+                echo json_encode(['status' => 'success', 'message' => 'Bus added successfully.']);
+                exit();
             } else {
-                die("Error: Unable to add the bus.");
+                echo json_encode(['status' => 'error', 'message' => 'Database Error cannot add schedule']);
+                http_response_code(500);
+                exit();
             }
         } else {
             $route = $this->SuperAdminModel->getRouteDetails();

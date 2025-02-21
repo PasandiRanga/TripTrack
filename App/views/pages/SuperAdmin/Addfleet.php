@@ -20,8 +20,8 @@
     <form id="fleet-form" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet" class="form-group">
 
     
-    <label for="licence_id">Licence ID:</label>
-    <input type="text" id="licence_id" name="licence_id" required>
+    <label for="License_id">Licence ID:</label>
+    <input type="text" id="License_id" name="License_id" required>
 
     
     <label for="routeNumber">Route No:</label>
@@ -29,7 +29,6 @@
         <option value="">Select Route Number</option>
         <?php foreach ($data['route'] as $route): ?>
             <option value="<?php echo $route['routeNumber']; ?>"
-                    data-route="<?php echo htmlspecialchars($route['route']); ?>"
                     data-price="<?php echo htmlspecialchars($route['price']); ?>"
                     data-priceperkm="<?php echo htmlspecialchars($route['priceperkm']); ?>"> 
                 <?php echo $route['routeNumber']; ?>
@@ -37,9 +36,6 @@
         <?php endforeach; ?>
     </select>    
     <!--check on the last " in the option values don't put the spaceses between double queotes-->
-    
-    <label for="route">Route:</label>
-    <input type="text" id="route" name="route" required readonly>
     
 
     <!-- <div class="form-group">
@@ -57,8 +53,8 @@
         <textarea id="stops" name="stops" rows="3" required placeholder="e.g., Colombo, Kegalle, Kandy"></textarea>
     </div>  -->
 
-    <label for="starts">Starts:</label>
-    <input type="text" id="starts" name="starts" required placeholder="e.g., Colombo">
+    <label for="start_location">Starts:</label>
+    <input type="text" id="start_location" name="start_location" required placeholder="e.g., Colombo">
 
 
     <label for="destination">Destination:</label>
@@ -89,8 +85,9 @@
 </form>
 
 
-    <script>
-                // Go back to the previous page
+<script>
+
+    document.addEventListener("DOMContentLoaded", function(){
         function goBack() {
             window.history.back();
         }
@@ -99,40 +96,62 @@
             let selectedOption = this.options[this.selectedIndex];
 
             if (selectedOption) {  // Ensure an option is selected
-                let route = selectedOption.getAttribute("data-route") || ""; 
                 let price = selectedOption.getAttribute("data-price") || ""; 
                 let priceperkm = selectedOption.getAttribute("data-priceperkm") || "";
 
-                document.getElementById("route").value = route;
                 document.getElementById("price").value = price;
                 document.getElementById("priceperkm").value = priceperkm;
             }
         });
 
 
-        // Handle form submission
-        function submitFleetForm(event) {
+        document.getElementById("fleet-form").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            const fleetData = {
-                licence_id: document.getElementById("licence_id").value,
-                driver_id: document.getElementById("driver_id").value,
-                conductor_id: document.getElementById("conductor_id").value,
-                no_of_seats: document.getElementById("no_of_seats").value,
-                bus_route_no: document.getElementById("bus_route_no").value
+            let formData = {
+                License_id: document.getElementById("License_id").value.trim(),
+                routeNumber: document.getElementById("routeNumber").value.trim(),
+                start_location: document.getElementById("start_location").value.trim(),
+                destination: document.getElementById("destination").value.trim(),
+                passengers: document.getElementById("passengers").value.trim(),
+                price: document.getElementById("price").value.trim(),
+                priceperkm: document.getElementById("priceperkm").value.trim()
+
             };
 
-            console.log("Fleet added:", fleetData);
-            alert("Fleet added successfully!");
+            console.log("Form Data:", formData);
 
-            // Optionally, clear the form fields after submission
-            clearForm();
-        }
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/addfleet', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+
+                .then(response => response.text()) // Get text response first
+                .then(text => {
+                    try {
+                        return JSON.parse(text); // Try parsing JSON
+                    } catch (error) {
+                        throw new Error("Invalid JSON response: " + text); // Handle non-JSON errors
+                    }
+                })
+                .then(data => {
+                    if (data.status === "success") {
+                        alert("Fleet added successfully!");
+                        window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => alert("An error occurred: " + error.message));
+        });
 
         // Clear form fields
         function clearForm() {
             document.getElementById("fleet-form").reset();
         }
+    });
+        
 
     </script>
 </body>
