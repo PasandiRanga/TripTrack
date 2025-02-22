@@ -62,7 +62,7 @@
                         echo "<td>{$schedule['availableSeats']}</td>";
                         echo "<td>{$schedule['bookedSeats']}</td>";
                         echo "<td><button class='update-btn' onclick='updateSchedule({$schedule['scheduleId']})'>Update</button></td>";
-                        echo "<td><button class='delete-btn' onclick='deleteSchedule({$schedule['scheduleId']})'>Delete</button></td>";
+                        echo "<td><button class='delete-btn' onclick='\"deleteSchedule({$schedule['scheduleId']})\"'>Delete</button></td>";
                         echo "</tr>";
                     }
                 } else {
@@ -88,8 +88,26 @@
         }
 
         function deleteSchedule(scheduleId) {
-            if (confirm(`Are you sure you want to delete schedule ID ${scheduleId}?`)) {
-                alert(`Schedule ID ${scheduleId} has been deleted.`);
+            if (confirm("Are you sure you want to delete this schedule?")) {
+                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteSchedule', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify({scheduleId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success'){
+                        const rows = Array.from(document.querySelectorAll("table.schedule-table tbody tr"));
+                        const row = rows.find(row => row.cells[0].innerText.trim() === String(scheduleId));
+                        if(row){
+                            row.remove();
+                        }
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(() => alert('Error deleting the schedule.'));
             }
         }
     </script>
