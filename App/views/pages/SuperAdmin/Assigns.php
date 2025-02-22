@@ -54,8 +54,8 @@
                                 <td>{$assign['driver_id']}</td>
                                 <td>{$assign['assign_time']}</td>
                                 <td>{$assign['assign_date']}</td>
-                                <td><button class='update-btn' onclick=\"window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/updateassign/{$assign['scheduleId']}'\">Update</button></td>
-                                <td><button class='delete-btn' onclick=\"deleteAssigns({$assign['scheduleId']})\">Delete</button></td>
+                                <td><button class='update-btn' onclick=\"window.location.href='" . URLROOT . "/SuperAdminPages/updateassign/{$assign['scheduleId']}'\">Update</button></td>
+                                <td><button class='delete-btn' onclick='deleteAssigns(\"{$assign['scheduleId']}\")'>Delete</button></td>
                             </tr>";
                     }
                 } else {
@@ -69,9 +69,26 @@
     <script>
         // Function to handle the Delete button click
         function deleteAssigns(scheduleId) {
-            if (confirm("Are you sure you want to delete this assignment?")) {
-                alert(`Assignment with Schedule ID ${scheduleId} has been deleted.`);
-                // Implement actual deletion logic with an AJAX request or form submission
+            if (confirm("Are you sure you want to delete this assign?")) {
+                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteAssign', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify({scheduleId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success'){
+                        const rows = Array.from(document.querySelectorAll("table.assign-table tbody tr"));
+                        const row = rows.find(row => row.cells[0].innerText.trim() === String(scheduleId));
+                        if(row){
+                            row.remove();
+                        }
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(() => alert('Error deleting the assign.'));
             }
         }
     </script>

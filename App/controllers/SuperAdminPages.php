@@ -576,6 +576,28 @@ class SuperAdminPages extends Controller {
         }
     }
 
+    public function deleteAssign() {
+        header('Content-Type: application/json');
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = json_decode(file_get_contents('php://input'),true);
+
+            if(!empty($data['scheduleId'])){
+                $scheduleId = $data['scheduleId'];
+
+                if($this->SuperAdminModel->deleteAssign($scheduleId)){
+                    echo json_encode(['status' => 'success', 'message' => 'Assign deleted successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error deleting the Assign']);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'ScheduleId is required']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
+
 
 
 //----------------------------------------------------------------------------------------------------------------------

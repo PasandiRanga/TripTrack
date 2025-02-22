@@ -341,6 +341,18 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function deleteAssign($scheduleId){
+        $this->db->query('DELETE FROM assign WHERE scheduleId = :scheduleId');
+        $this->db->bind(':scheduleId', $scheduleId);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete assign");
+            return false;
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
 
