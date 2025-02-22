@@ -62,7 +62,7 @@
                         echo "<td>{$schedule['availableSeats']}</td>";
                         echo "<td>{$schedule['bookedSeats']}</td>";
                         echo "<td><button class='update-btn' onclick='updateSchedule({$schedule['scheduleId']})'>Update</button></td>";
-                        echo "<td><button class='delete-btn' onclick='\"deleteSchedule({$schedule['scheduleId']})\"'>Delete</button></td>";
+                        echo "<td><button class='delete-btn' onclick='deleteSchedule(\"{$schedule['scheduleId']}\")'>Delete</button></td>";
                         echo "</tr>";
                     }
                 } else {

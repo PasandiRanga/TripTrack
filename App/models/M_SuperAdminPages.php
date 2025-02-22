@@ -241,6 +241,18 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function deleteSchedule($scheduleId){
+        $this->db->query('DELETE FROM schedule WHERE scheduleId = :scheduleId');
+        $this->db->bind(':scheduleId', $scheduleId);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete schedule");
+            return false;
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //support requests
 

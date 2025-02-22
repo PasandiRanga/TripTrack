@@ -314,6 +314,28 @@ class SuperAdminPages extends Controller {
         }
         
     }
+
+    public function deleteSchedule() {
+        header('Content-Type: application/json');
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = json_decode(file_get_contents('php://input'),true);
+
+            if(!empty($data['scheduleId'])){
+                $scheduleId = $data['scheduleId'];
+
+                if($this->SuperAdminModel->deleteSchedule($scheduleId)){
+                    echo json_encode(['status' => 'success', 'message' => 'Schedule deleted successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error deleting the Schedule']);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'ScheduleId is required']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
 //----------------------------------------------------------------------------------------------------------------------
                                     //Leave Requests
 //---------------------------------------------------------------------------------------------------------------------- 
