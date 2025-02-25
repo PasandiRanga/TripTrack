@@ -164,8 +164,9 @@
             </div>
             <div class="column">
                 <div class="date-details">
-                        <h2>Details for the selected date will appear here</h2>
-                        <div id="date-info"></div>
+                        <div id="date-info">
+            
+                        </div>
                 </div>
             </div>
         </div>
@@ -287,11 +288,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         const bus = busData.find(b => b.busId === schedule.busId);
                         dateInfo += `
                             <div class="booking-item upcoming">
-                                <p>From: ${booking.from_location}</p>
-                                <p>To: ${booking.to_location}</p>
-                                <p>Time: ${schedule.departureTime}</p>
-                                <p>Bus: ${bus ? bus.License_id : 'N/A'}</p>
-                                <p>Booking ID: ${booking.id}</p>
+                                <div class="three-dots" onclick="toggleMenu(event)">
+                                    &#x22EE; <!-- Three dots icon -->
+                                </div>
+                                <div class="menu">
+                                    <ul>
+                                        <li>Option 1</li>
+                                        <li>Option 2</li>
+                                        <li>Option 3</li>
+                                    </ul>
+                                </div>
+                                <div class="booking-content">
+                                    <p>From: ${booking.from_location}</p>
+                                    <p>To: ${booking.to_location}</p>
+                                    <p>Time: ${schedule.departureTime}</p>
+                                    <p>Bus: ${bus ? bus.License_id : 'N/A'}</p>
+                                    <p>Booking ID: ${booking.id}</p>
+                                </div>
                             </div>
                         `;
                     }
@@ -307,11 +320,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         const bus = busData.find(b => b.busId === schedule.busId);
                         dateInfo += `
                             <div class="booking-item past">
-                                <p>From: ${booking.from_location}</p>
-                                <p>To: ${booking.to_location}</p>
-                                <p>Time: ${schedule.departureTime}</p>
-                                <p>Bus: ${bus ? bus.License_id : 'N/A'}</p>
-                                <p>Booking ID: ${booking.id}</p>
+                                <div class="three-dots" onclick="toggleMenu(event)">
+                                    &#x22EE; <!-- Three dots icon -->
+                                </div>
+                                <div class="menu">
+                                    <ul>
+                                        <li>Option 1</li>
+                                        <li>Option 2</li>
+                                        <li>Option 3</li>
+                                    </ul>
+                                </div>
+                                <div class="booking-content">
+                                    <p>From: ${booking.from_location}</p>
+                                    <p>To: ${booking.to_location}</p>
+                                    <p>Time: ${schedule.departureTime}</p>
+                                    <p>Bus: ${bus ? bus.License_id : 'N/A'}</p>
+                                    <p>Booking ID: ${booking.id}</p>
+                                </div>
                             </div>
                         `;
                     }
@@ -341,5 +366,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+function toggleMenu(event) {
+    const menu = event.target.nextElementSibling;
+    menu.classList.toggle('show');
+}
+
+// Add event listener to detect clicks outside the menu
+document.addEventListener("click", function(event) {
+    const menu = document.querySelector('.menu');
+    const threeDots = document.querySelector('.three-dots');
+    
+    // If the click is outside the menu and the three dots
+    if (!menu.contains(event.target) && event.target !== threeDots) {
+        menu.classList.remove('show');
+    }
+});
 
 </script>

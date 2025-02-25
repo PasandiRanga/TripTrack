@@ -18,6 +18,7 @@ body {
     border: 2px solid #333;
     background: white;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    height: 84vh;
 }
 
 .column {
@@ -27,12 +28,15 @@ body {
     border-right: 1px solid #fffcfc;
     transition: all 0.3s ease; /* Smooth transition for resizing */
     box-sizing: border-box; /* Ensure padding doesn't break layout */
+    height: 100%;
 }
 
 .column:last-child {
     flex: 1; /* This controls the second column’s width */
     border-right: none;
     display: none; /* Initially hide the second column */
+    height: 100%;
+    margin-bottom: 20px;
 }
 
 
@@ -225,6 +229,7 @@ header .current-date {
 }
 
 .booking-item {
+    position: relative; /* Ensure the three dots are positioned relative to the booking item */
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -257,6 +262,7 @@ header .current-date {
     border-radius: 10px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     height: 100%;
+    overflow-y: auto;
 }
 
 .date-details h3 {
@@ -291,4 +297,95 @@ header .current-date {
     .date-details h4 {
         font-size: 1.2rem;
     }
+}
+
+.three-dots {
+    position: absolute; /* Position the three dots absolutely within the booking-item */
+    top: 10px; /* Adjust for desired distance from the top */
+    right: 10px; /* Adjust for desired distance from the right */
+    font-size: 30px;
+    cursor: pointer;
+    color: #333;
+}
+
+
+/* Menu container */
+.menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    width: 180px; /* Increased width for better readability */
+    opacity: 0; /* Make the menu initially invisible */
+    transform: translateY(-20px); /* Start from above */
+    transition: opacity 0.3s, transform 0.3s ease; /* Smooth transition */
+}
+
+/* Show the menu with an animation */
+.menu.show {
+    display: block;
+    opacity: 1; /* Make it visible */
+    transform: translateY(0); /* Slide into place */
+}
+
+/* Menu items list */
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Ensure vertical layout */
+    flex-direction: column; /* Items are displayed in a vertical column */
+}
+
+/* Style for each menu item */
+.menu ul li {
+    padding: 12px 20px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for each menu item */
+.menu ul li:hover {
+    background-color: #f4f4f4;
+    color: #2196f3; /* Highlight the text */
+}
+
+/* Added border on hover to give the items a more defined look */
+.menu ul li:hover {
+    border-left: 4px solid #2196f3;
+    padding-left: 16px;
+}
+
+/* Make the menu items more readable and visually pleasing */
+.menu ul li:first-child {
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+}
+
+.menu ul li:last-child {
+    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+}
+
+.menu ul li:active {
+    background-color: #e1f5fe; /* Active state for items */
+}
+
+/* Close menu when clicking outside */
+body {
+    cursor: pointer; /* Change cursor to pointer for clarity */
+}
+
+/* To make sure the menu box is hidden when clicking anywhere else */
+body.menu-open .menu {
+    display: block;
+}
+
+body.menu-open .menu.show {
+    opacity: 1;
+    transform: translateY(0);
 }
