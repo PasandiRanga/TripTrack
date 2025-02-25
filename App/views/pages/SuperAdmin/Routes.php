@@ -79,7 +79,7 @@
                         const rows = Array.from(document.querySelectorAll("table.routes-table tbody tr"));
                         const row = rows.find(row => row.cells[0].innerText === routeNumber);
                         if (row) {
-                            row.remove(); // Remove the row if it matches the License_id
+                            row.remove(); // Remove the row if it matches the routeNumber
                         }
                         alert(data.message);
                     } else {
