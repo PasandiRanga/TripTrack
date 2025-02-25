@@ -241,6 +241,18 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function deleteSchedule($scheduleId){
+        $this->db->query('DELETE FROM schedule WHERE scheduleId = :scheduleId');
+        $this->db->bind(':scheduleId', $scheduleId);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete schedule");
+            return false;
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //support requests
 
@@ -339,6 +351,18 @@ class M_SuperAdminPages {
     public function getConductorID(){
         $this->db->query("SELECT employee_id FROM employee WHERE role='Conductor'");
         return $this->db->resultSet();
+    }
+
+    public function deleteAssign($scheduleId){
+        $this->db->query('DELETE FROM assign WHERE scheduleId = :scheduleId');
+        $this->db->bind(':scheduleId', $scheduleId);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete assign");
+            return false;
+        }
     }
 
 //------------------------------------------------------------------------------------------------------------------------------------
