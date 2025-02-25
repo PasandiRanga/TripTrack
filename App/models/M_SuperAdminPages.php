@@ -199,6 +199,18 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function deleteEmployee($employee_id){
+        $this->db->query('DELETE FROM employee WHERE employee_id = :employee_id');
+        $this->db->bind(':employee_id', $employee_id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete employee");
+            return false;
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //Schedule
 

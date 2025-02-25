@@ -514,6 +514,28 @@ class SuperAdminPages extends Controller {
         }
     }
 
+    public function deleteEmployee(){
+        header('Content-Type: application/json');
+        
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = json_decode(file_get_contents('php://input'),true);
+
+            if(!empty($data['employee_id'])){
+                $employee = $data['employee_id'];
+
+                if($this->SuperAdminModel->deleteEmployee($employee)){
+                    echo json_encode(['status' => 'success', 'message' => 'Employee deleted Successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error Deleting the Employee']);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'EmployeeId is required']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
+
 
     public function employees() {
         $emps = $this->SuperAdminModel->getemployee();
