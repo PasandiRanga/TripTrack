@@ -391,6 +391,17 @@ class M_SuperAdminPages {
         $result = $this->db->single(); // Fetch the single row
         return $result; // Returns ['registered_income' => X, 'guest_income' => Y]
     }
+    
+    public function getTotalBookings() {
+        $this->db->query("
+            SELECT 
+                (SELECT COUNT(*) FROM registeredbooking) AS registered_bookings,
+                (SELECT COUNT(*) FROM guestbooking) AS guest_bookings
+        ");
+
+        $result = $this->db->single(); // Fetch the single row
+        return $result; // Returns ['registered_bookings' => X, 'guest_bookings' => Y]
+    }
 
     public function getTotalCustomers() {
         $this->db->query("SELECT COUNT(User_id) AS total_customers FROM customer");
