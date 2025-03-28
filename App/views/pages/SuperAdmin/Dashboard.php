@@ -123,12 +123,16 @@
                     <h1><?php echo $data['total_customers']; ?></h1>
                 </div>
 
-                <div class="card" onclick="showPopup('Monthly Bookings: 1234')">
+                <div class="card" onclick="showPopupBox3(
+                            'Monthly Bookings Details',
+                            'Total Monthly Bookings: <?php echo $data['total_bookings']; ?>',
+                            'Total Guest Bookings: <?php echo $data['total_guests']; ?>',
+                            'Total Registered Bookings: <?php echo $data['total_registered']; ?>' )">
                     <div class="card-inner">
                         <h3>Monthly Bookings</h3>
                         <span class="material-icons-outlined">book</span>
                     </div>
-                    <h1><?php echo '1234'; // Example PHP dynamic content ?></h1>
+                    <h1><?php echo $data['total_bookings']; ?></h1>
                 </div>
 
                 <div class="card" onclick="showPopup('Completed Schedules: 56')">
@@ -193,6 +197,73 @@
                 sidebarOpen = false;
             }
         }
+
+        //logout
+        let popup = document.getElementById("logoutModal");
+        function Openpopup(){
+        popup.classList.add("open-popup");
+        }
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'flex';
+        }
+
+        // Hide the logout modal
+        function hideLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        // Proceed with logout and redirect to login page
+        function proceedLogout() {
+            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
+        }
+
+
+        // Function to redirect back to dashboard
+        function cancelLogout() {
+            window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home";
+        }
+
+        // Function to display the current date
+        function displayCurrentDate() {
+            const dateElement = document.getElementById("current-date");
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+            dateElement.textContent = formattedDate; // Update the date span
+        }
+
+        // Call the function on page load
+        document.addEventListener("DOMContentLoaded", displayCurrentDate);
+
+        //Card popups
+        function showPopupBox1(title, income, guest, registered){
+            document.getElementById("card-text").innerHTML = `
+                <h2>${title}</h2>
+                <strong>${income}</strong><br><br>
+                <strong>${guest}</strong><br><br>
+                <strong>${registered}</strong>
+                `;
+            document.getElementById("cardpopup").style.display = "flex";
+        }
+
+        function showPopupBox3(title, totalbooking, guest, registered){
+            document.getElementById("card-text").innerHTML = `
+                <h2>${title}</h2>
+                <strong>${totalbooking}</strong><br><br>
+                <strong>${guest}</strong><br><br>
+                <strong>${registered}</strong>
+            `;
+            document.getElementById("cardpopup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("cardpopup").style.display = "none";
+        }
+
 
         const barChartOptions = {
             series: [
@@ -430,62 +501,7 @@
         areaChart.render();
 
 
-        //logout
-        let popup = document.getElementById("logoutModal");
-        function Openpopup(){
-        popup.classList.add("open-popup");
-        }
-        function showLogoutModal() {
-            document.getElementById('logoutModal').style.display = 'flex';
-        }
-
-        // Hide the logout modal
-        function hideLogoutModal() {
-            document.getElementById('logoutModal').style.display = 'none';
-        }
-
-        // Proceed with logout and redirect to login page
-        function proceedLogout() {
-            window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
-        }
-
-
-        // Function to redirect back to dashboard
-        function cancelLogout() {
-            window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home";
-        }
-
-        // Function to display the current date
-        function displayCurrentDate() {
-            const dateElement = document.getElementById("current-date");
-            const currentDate = new Date();
-            const formattedDate = currentDate.toLocaleDateString("en-US", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            });
-            dateElement.textContent = formattedDate; // Update the date span
-        }
-
-        // Call the function on page load
-        document.addEventListener("DOMContentLoaded", displayCurrentDate);
-
-        //Card popups
-        function showPopupBox1(title, income, guest, registered){
-            document.getElementById("card-text").innerHTML = `
-                <h2>${title}</h2>
-                <strong>${income}</strong><br><br>
-                <strong>${guest}</strong><br><br>
-                <strong>${registered}</strong>
-                `;
-            document.getElementById("cardpopup").style.display = "flex";
-        }
-
-        function closePopup() {
-            document.getElementById("cardpopup").style.display = "none";
-        }
-
+        
     </script>
 </body>
 </html>

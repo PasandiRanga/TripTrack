@@ -13,6 +13,7 @@ class SuperAdminPages extends Controller {
             $totalcustomers = $this->SuperAdminModel->getTotalCustomers();
             $total_guests = $this->SuperAdminModel->getTotalGuestBookings();
             $total_registered = $this->SuperAdminModel->getTotalRegisteredBookings();
+            $total_bookings = $total_guests + $total_registered;
             // Calculate the total income
             $totalIncome = $income['registered_income'] + $income['guest_income'];
 
@@ -23,7 +24,8 @@ class SuperAdminPages extends Controller {
                 'total_income' => $totalIncome,
                 'total_customers' => $totalcustomers,
                 'total_guests' => $total_guests,
-                'total_registered' => $total_registered
+                'total_registered' => $total_registered,
+                'total_bookings' => $total_bookings
             ];
 
 
@@ -511,6 +513,28 @@ class SuperAdminPages extends Controller {
                 header('Location: ' . URLROOT . '/SuperAdminPages/employees');
             }
 
+        }
+    }
+
+    public function deleteEmployee(){
+        header('Content-Type: application/json');
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = json_decode(file_get_contents('php://input'),true);
+
+            if(!empty($data['employee_id'])){
+                $employee = $data['employee_id'];
+
+                if($this->SuperAdminModel->deleteEmployee($employee)){
+                    echo json_encode(['status' => 'success', 'message' => 'Employee deleted Successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error Deleting the Employee']);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'EmployeeId is required']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }
     }
 

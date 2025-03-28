@@ -65,7 +65,7 @@
                         echo "<td>" . (!empty($user['email']) ? $user['email'] : '-') . "</td>";
                         echo "<td>{$user['role']}</td>";
                         echo "<td><button class='update' onclick=\"editUser({$user['employee_id']})\">Update</button></td>";
-                        echo "<td><button class='delete' onclick=\"deleteUser({$user['employee_id']})\">Delete</button></td>";
+                        echo "<td><button class='delete' onclick=deleteUser(\"{$user['employee_id']}\")>Delete</button></td>";
                         echo "</tr>";
                     }
                 } else {
@@ -85,10 +85,30 @@
         }
 
         // Function to handle the Delete action
-        function deleteUser(userId) {
-            alert(`Deleting user with ID: ${userId}`);
-            // Implement the delete functionality as needed
+        function deleteUser(employee_id) {
+            if(confirm('Are you sure you want to delete this Employee?')){
+                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteEmployee',{
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify({employee_id})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success'){
+                        const rows = Array.from(document.querySelectorAll("table.employee-table tbody tr"));
+                        const row = rows.find(row => row.cells[0].innerText.trim() === String(employee_id));
+                        if(row){
+                            row.remove();
+                        }
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(() => alert('Error deleting the employee.'));
+            }
         }
+
     </script>
 </body>
 </html>
