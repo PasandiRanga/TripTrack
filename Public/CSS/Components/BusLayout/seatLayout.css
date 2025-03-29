@@ -1,0 +1,128 @@
+@media screen and (max-width: 1000px) {
+    .box.right-box {
+        width: 100% !important;
+        max-width: 80% !important;
+        margin: 10px 0 !important;
+        order: 2;
+    }
+}
+
+.box {
+    border: 1px solid #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 100px;
+}
+
+.box.right-box {
+    padding: 40px;
+    align-self: flex-start;
+    margin-top: 70px;
+    grid-area: seats;
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+
+.button-container {
+    display: flex;
+    column-gap: 20px;
+    max-height: 60px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.disable {
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: default;
+    width: 50px;
+    height: 50px;
+}
+
+.number-button {
+    width: 50px;
+    height: 50px;
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    /* border: 2px solid #002b38;  */
+    border-radius: 8px;
+    /* font-size: 18px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    /* transition: transform 0.2s; */
+    padding: 0;
+    box-sizing: border-box;
+    background-image: url('./../../../../public/images/seat.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: transparent;
+    font-size: 0;
+    border: 2px solid transparent;
+     transition: all 0.3s ease;
+}
+
+.number-button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    background-color: rgba(0, 85, 105, 0.5);
+}
+
+.number-button.booked {
+    /* background-color: #ccc; */
+    color: #fff;
+    background-color: #dc3545; /* Red tint for booked seats */
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.number-button.booked::after {
+        content: 'Booked';
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #000;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 12px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .number-button.booked:hover::after {
+        opacity: 1;
+    }
+
+    /* Hover effects for available seats */
+    .number-button:not(.booked):hover {
+        transform: scale(1.1);
+        border: 2px solid #007bff;
+    }
+
+
+.number-button.selected {
+    /* background-color: rgba(0, 85, 105, 0.7); */
+    color: #fff;
+    background-color: #28a745; /* Green tint for selected seats */
+    border: 2px solid #1e7e34;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    position: relative;
+}
