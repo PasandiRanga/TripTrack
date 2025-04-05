@@ -59,7 +59,7 @@ if (!function_exists('isCurrentPage')) {
                 echo '<a href="' . URLROOT . '/RegisteredPages/Home" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'home', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">HOME</span>
                     </a>
-                    <a href="' . URLROOT . '/RegisteredPages/bookings" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'bookings', $currentController, $currentMethod) ? 'selected' : '') . '">
+                    <a href="' . URLROOT . '/RegisteredPages/newBookings" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'bookings', $currentController, $currentMethod) ? 'selected' : '') . '">
                         <span class="text">BOOKINGS</span>
                     </a>
                     <a href="' . URLROOT . '/RegisteredPages/contactUs" class="navbar-item ' . (isCurrentPage('RegisteredPages', 'contactUs', $currentController, $currentMethod) ? 'selected' : '') . '">

@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Bus Layout</title>
         <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusLayout/BusLayout.css?v=<?php echo time(); ?>">
+        <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusLayout/busInfo.css?v=<?php echo time(); ?>">
+        <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusLayout/bookingForm.css?v=<?php echo time(); ?>">
+        <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusLayout/seatLayout.css?v=<?php echo time(); ?>">
         <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
         <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     </head>
@@ -118,15 +121,19 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
    
             <div class="layout-container">
-                 <?php require APPROOT . '/views/inc/Components/busLayout/seatLayout.php'; ?>
-    
+                <div class="seat-layout">
+                    <?php require APPROOT . '/views/inc/Components/busLayout/seatLayout.php'; ?>
+                </div>
+                
                 <div class="map-container">
                     <?php require APPROOT . '/views/inc/Components/busLayout/map.php'; ?>
                 </div>
 
                 <div class="all-container"> 
                     <!-- Bus info and review -->
-                    <?php require APPROOT . '/views/inc/Components/busLayout/busInforAndReviews.php'; ?>
+                    <div class="businfocontainer">
+                        <?php require APPROOT . '/views/inc/Components/busLayout/busInforAndReviews.php'; ?>
+                    </div>
                     <!-- Booking form -->
                     <div class="booking-form">
                         <?php require APPROOT . '/views/inc/Components/busLayout/bookingForm.php'; ?>

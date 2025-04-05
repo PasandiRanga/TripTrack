@@ -295,5 +295,50 @@
             }
         }
 
+        public function updatePastBookings() {
+            $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id IN (SELECT scheduleId FROM schedule WHERE date < CURDATE())");
+            $pastBookings = $this->db->resultSet();
+            $successCount = 0;
+
+            // if(!empty($pastBookings)) {
+            //     echo '<pre>';
+            //     print_r($pastBookings[0]);
+            //     echo '</pre>';
+            //     exit;
+            // }
+            
+            if($pastBookings){
+                foreach($pastBookings as $pastBooking){
+                    //Inserting it to regPastBooking table
+                    $this->db->query("INSERT INTO pastregbooking(id, Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
+                                    VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod);");
+                    
+                    $this->db->bind(':id', $pastBooking['id']);
+                    $this->db->bind(':Booking_date', $pastBooking['Booking_date']);
+                    $this->db->bind(':Booking_time', $pastBooking['Booking_time']);
+                    $this->db->bind(':No_of_seats', $pastBooking['No_of_seats']);
+                    $this->db->bind(':Seats', $pastBooking['Seats']);
+                    $this->db->bind(':User_id', $pastBooking['User_id']);
+                    $this->db->bind(':schedule_id', $pastBooking['schedule_id']);
+                    $this->db->bind(':from_location', $pastBooking['from_location']);
+                    $this->db->bind(':to_location', $pastBooking['to_location']);
+                    $this->db->bind(':total_price', $pastBooking['total_price']);
+                    $this->db->bind(':paymentMethod', $pastBooking['paymentMethod']);
+                    
+                    if($this->db->execute()) {
+                        // Successfully inserted, now delete from registeredbooking
+                        $this->db->query("DELETE FROM registeredbooking WHERE id = :id");
+                        $this->db->bind(':id', $pastBooking['id']);
+                        $this->db->execute();
+                        $successCount++;
+                    }
+                }
+            }
+
+            
+            
+            return $successCount; // Return the number of successfully processed bookings
+        }
+
     }
 ?>

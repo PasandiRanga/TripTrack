@@ -93,18 +93,20 @@
             $matchedSchedules = array_filter($scheduleData, function ($s) use ($upcoming) {
                 return $s['scheduleId'] == $upcoming['schedule_id']; // Match schedule by ID
             });
-
             // Merge results to ensure all schedules are collected
             $upcomingSchedules = array_merge($upcomingSchedules, $matchedSchedules);
+            echo '<script> console.log(' . json_encode(value: $upcomingSchedules) . ') </script>';
+
         }
 
         foreach($pastBookingData as $past) {
             $matchedSchedules = array_filter($scheduleData, function ($s) use ($past) {
                 return $s['scheduleId'] == $past['schedule_id']; // Match schedule by ID
             });
-
             // Merge results to ensure all schedules are collected
             $pastSchedules = array_merge($pastSchedules, $matchedSchedules);
+            echo '<script> console.log(' . json_encode(value: $pastSchedules) . ') </script>';
+
         }
 
         
