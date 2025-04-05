@@ -199,6 +199,18 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function deleteEmployee($employee_id){
+        $this->db->query('DELETE FROM employee WHERE employee_id = :employee_id');
+        $this->db->bind(':employee_id', $employee_id);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to delete employee");
+            return false;
+        }
+    }
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //Schedule
 
@@ -378,6 +390,17 @@ class M_SuperAdminPages {
 
         $result = $this->db->single(); // Fetch the single row
         return $result; // Returns ['registered_income' => X, 'guest_income' => Y]
+    }
+    
+    public function getTotalBookings() {
+        $this->db->query("
+            SELECT 
+                (SELECT COUNT(*) FROM registeredbooking) AS registered_bookings,
+                (SELECT COUNT(*) FROM guestbooking) AS guest_bookings
+        ");
+
+        $result = $this->db->single(); // Fetch the single row
+        return $result; // Returns ['registered_bookings' => X, 'guest_bookings' => Y]
     }
 
     public function getTotalCustomers() {
