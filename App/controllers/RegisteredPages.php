@@ -16,6 +16,9 @@
         }
 
         public function home() {
+
+            $this->RegisteredpagesModel->updatePastBookings();
+            
             $schedule = $this->RegisteredpagesModel->getSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $route = $this->RegisteredpagesModel->getRoute();

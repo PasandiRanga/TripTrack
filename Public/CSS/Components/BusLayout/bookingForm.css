@@ -1,18 +1,17 @@
 @media screen and (max-width: 1000px) {
     .form-group {
         flex-direction: column !important;
-        padding-left: 40px;
     }
 
     .booking-form input[type="text"],
     .booking-form input[type="email"] {
-        width: 90% !important;
+        width: 80% !important;
         margin-bottom: 10px !important;
     }
 }
 
 .form-group {
-    /* display: flex;  */
+    display: flex; 
     align-items: center;
     margin-bottom: 10px;
     justify-content: space-between;
