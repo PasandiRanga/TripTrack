@@ -341,6 +341,13 @@
             return $successCount; // Return the number of successfully processed bookings
         }
         */
+        public function updateProfileImage($userId, $imagePath) {
+            $this->db->query('UPDATE customer SET Profile_image = :image WHERE User_id = :id');
+            $this->db->bind(':image', $imagePath);
+            $this->db->bind(':id', $userId);
+
+            return $this->db->execute();
+        }
 
     }
 

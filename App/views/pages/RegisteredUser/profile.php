@@ -110,7 +110,7 @@
                     <span class="form-invalid"><?php echo isset($data['profile_image_err']) ? $data['profile_image_err'] : ''; ?></span>
                 <div class="close-btn" onclick="closeImageUpdateBox()">×</div>
 
-                <button class="Done" onclick="confirmImage()">Done</button>
+                <center><button class="Done" onclick="confirmImage()">Done</button></center>
             </form>
             </div>
         </div>
@@ -145,49 +145,49 @@
 
     <!-- UPDATION FORM-->
     <?php require APPROOT.'/views/inc/Components/ProfileForm/profileForm.php'; ?>
+<script>
+let actionType = "";
 
-    <script>
-        let actionType = "";
+function showConfirmBox(type) {
+    actionType = type;
+    console.log("Action Type Set:", actionType);
+    document.getElementById("confirmBox").classList.remove("hidden");
+}
 
-        function showConfirmBox(type) {
-            actionType = type;
-            document.getElementById("confirmBox").classList.remove("hidden");
-        }
+function showImageUpdateBox() {
+    document.getElementById("imageUpdateBox").classList.remove("hidden");
+}
 
-        function showImageUpdateBox() {
-            document.getElementById("imageUpdateBox").classList.remove("hidden");
-        }
+function closeConfirmBox() {
+    document.getElementById("confirmBox").classList.add("hidden");
+}
 
-        function closeConfirmBox() {
-            document.getElementById("confirmBox").classList.add("hidden");
-        }
+function closeImageUpdateBox() {
+    document.getElementById("imageUpdateBox").classList.add("hidden");
+}
 
-        function closeImageUpdateBox() {
-            document.getElementById("imageUpdateBox").classList.add("hidden");
-        }
+function confirmAction() {
+    console.log("Action Type:", actionType);
+    if (actionType === 'logout') {
+        window.location.href = '<?php echo URLROOT; ?>/GuestPages/logout'; // Ensure correct logout URL
+    } else if (actionType === 'delete') {
+        window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount'; // Ensure correct delete URL
+    }
+    closeConfirmBox(); // Close the confirmation box after action is confirmed
+}
 
-        function confirmAction() {
-            if (actionType === 'logout') {
-                window.location.href = '<?php echo URLROOT; ?>/GuestPages/logout';
-            } else if (actionType === 'delete') {
-                window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount';
-            }
-            closeConfirmBox();
-        }
+function confirmImage(){
+    window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/updateProfileImage'; // Ensure correct update URL
+}
 
-        function confirmImage(){
-            window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/updateProfileImage';
-        }
+function showUpdateBox() {
+    document.getElementById('updateBox').classList.remove('hidden');
+}
 
-        function showUpdateBox() {
-             document.getElementById('updateBox').classList.remove('hidden');
-         }
-
-        function closeUpdateBox() {
-            document.getElementById('updateBox').classList.add('hidden');
-        }
-
-    </script>
+function closeUpdateBox() {
+    document.getElementById('updateBox').classList.add('hidden');
+}
+</script>
     <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
 
 
