@@ -13,6 +13,7 @@
         }
 
         public function cancelBooking($bookingId, $scheduleId) {
+            echo '<script> console.log("scheduleId2: ", ' . json_encode($scheduleId) . '); </script>';
             try {
                 $this->db->beginTransaction();
                 

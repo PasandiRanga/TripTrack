@@ -160,27 +160,30 @@
             }
         }
 
-        public function cancelBooking() {
+        public function cancelOnlineBooking() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                echo '<script> console.log("scheduleId: ", ' . json_encode($_POST['schedule_id']) . '); </script>';
                 $scheduleId = $_POST['schedule_id']?? null;
+                echo '<script> console.log("scheduleId: ", ' . json_encode($scheduleId) . '); </script>';
                 $bookingId = $_POST['booking_id'] ?? null;
                 var_dump($scheduleId);
                 var_dump($bookingId);
         
                 if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
                     if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId)) {
-                        header("Location: " . URLROOT . "/RegisteredPages/bookings");
+                        
+                        header("Location: " . URLROOT . "/RegisteredPages/newbookings");
                         exit;
                     } else {
-                        header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Unable to cancel booking");
+                        header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Unable to cancel booking");
                         exit;
                     }
                 } else {
-                    header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Invalid booking ID");
+                    header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
                     exit;
                 }
             } else {
-                header("Location: " . URLROOT . "/RegisteredPages/bookings");
+                header("Location: " . URLROOT . "/RegisteredPages/newbookings");
                 exit;
             }
         }

@@ -136,7 +136,7 @@
     <!--Cancel Policy pop up -->
     <div id="cancelPolicyPopup" class="policypopup hidden">
         <div class="policypopup-content">
-            <h3>Cancel Booking</h3>
+            <h3 align="center"c>Cancel Booking</h3>
             <p id="policypopup-details"></p>
             <!--Content will come here -->
             <div class="policypopup-actions">
@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <div class="menu">
                                     <ul>
                                         <li>Option 1</li>
-                                        <li onclick="showCancelPolicy(booking, schedule)">Cancel</li>
+                                        <li class="cancel-booking" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Cancel</li>
                                         <li>Option 3</li>
                                     </ul>
                                 </div>
@@ -292,6 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <p>Time: ${schedule.departureTime}</p>
                                     <p>Bus: ${bus ? bus.License_id : 'N/A'}</p>
                                     <p>Booking ID: ${booking.id}</p>
+                                    <p>Payment Method : ${booking.paymentMethod}</p>
                                 </div>
                             </div>
                         `;
@@ -335,6 +336,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         document.getElementById("date-info").innerHTML = dateInfo;
+
+        // Add this after the dateInfo is inserted into the DOM
+        document.querySelectorAll('.cancel-booking').forEach(item => {
+            item.addEventListener('click', function() {
+                const bookingId = this.getAttribute('data-booking-id');
+                const scheduleId = this.getAttribute('data-schedule-id');
+                
+                // Find the booking and schedule objects
+                const bookingObj = [...upcomingBookings, ...pastBookings].find(b => b.id == bookingId);
+                const scheduleObj = scheduleData.find(s => s.scheduleId == scheduleId);
+                
+                if (bookingObj && scheduleObj) {
+                    showCancelPolicy(bookingObj, scheduleObj);
+                }
+            });
+        });
     }
 
     renderCalendar();
@@ -375,22 +392,41 @@ function showCancelPolicy(booking , schedule){
     const policydetails = document.getElementById('policypopup-details');
     const understandBtn = document.getElementById('understand');
 
+    const containerDiv = document.createElement('div');
+    containerDiv.className = 'cancellation-form';
+
     policydetails.innerHTML = `
         <div class="p-4">
-            <h3 class="text-lg font-bold mb-4">Cancellation Policy</h3>
-            <p>Please review our cancellation policy:</p>
+            <h3 class="text-lg font-bold mb-4" align="center">Cancellation Policy</h3>
             <ul class="my-4">
-                <li>• Cancellation 1 or more days before departure: 10% cancellation fee </li>
-                <li>• Cancellation within 24 hours of departure: 50% cancellation fee</li>
+                <li>Cancellation 1 or more days before departure: 10% cancellation fee </li>
+                <li>Cancellation within 24 hours of departure: 50% cancellation fee</li>
             </ul>
         </div>
     `;
+
+    // policydetails.innerHTML = '';
+    // policydetails.appendChild(containerDiv);
+
     understandBtn.onclick = function(){
         showCancelPopup(booking , schedule);
         policypopup.classList.add('hidden');
     };
 
     policypopup.classList.remove('hidden');
+}
+
+function calculateCancellationFee(bookingDate) {
+    const today = new Date();
+    const scheduleDate = new Date(bookingDate);
+    const diffTime = scheduleDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+    if (diffDays >= 1) {
+        return 0.10; // 10% fee
+    } else {
+        return 0.50; // 50% fee
+    }
 }
 
 function showCancelPopup(booking , schedule){
@@ -402,7 +438,10 @@ function showCancelPopup(booking , schedule){
     const feeAmount = booking.total_price * cancellationFee;
     const refundAmount = booking.total_price - feeAmount;
 
-    if(booking.paymentMethid == 'Online'){
+    // const containerDiv = document.createElement('div');
+    // containerDiv.className = 'cancellation-form';
+
+    if(booking.paymentMethod == 'Online'){
         details.innerHTML = `
         <div class ="cancellation-form">
             <div class="booking-details">
@@ -424,7 +463,7 @@ function showCancelPopup(booking , schedule){
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">Refund Amount : </span>
-                    <span class="detail-value amount-highlight fee-amount">LKR ${refundAmount.toFixed(2)}</span>
+                    <span class="detail-value amount-highlight refund-amount">LKR ${refundAmount.toFixed(2)}</span>
                 </div>
             </div>
 
@@ -451,9 +490,122 @@ function showCancelPopup(booking , schedule){
                 
     `;
 
-    
+        // details.innerHTML = '';
+        // details.appendChild(containerDiv);
+        
+        // Add event listener to confirm button
+        confirmBtn.onclick = function() {
+            const bankDetails = {
+                accountName: document.getElementById('accountName').value,
+                bankName: document.getElementById('bankName').value,
+                accountNumber: document.getElementById('accountNumber').value,
+                branch: document.getElementById('branch').value
+            };
+                        
+            if (!bankDetails.accountName || !bankDetails.bankName || 
+                !bankDetails.accountNumber || !bankDetails.branch) {
+                alert('Please fill in all bank details');
+                return;
+            }
+                    
+        confirmOnlineCancellation(booking.id, cancellationFee, refundAmount, bankDetails,schedule.scheduleId);
+
+        };
+
+    } else if(booking.paymentMethod === "Cash"){
+        details.innerHTML = `
+            <div class="cancellation-form">
+                <div class="booking-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Booking ID:</span>
+                        <span class="detail-value">${booking.id}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Route:</span>
+                        <span class="detail-value">${booking.from_location} to ${booking.to_location}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value">${schedule.date}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Total Price:</span>
+                        <span class="detail-value">LKR ${Number(booking.total_price).toFixed(2)}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Cancellation Fee:</span>
+                        <span class="detail-value amount-highlight fee-amount">LKR ${feeAmount.toFixed(2)}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Refund Amount:</span>
+                        <span class="detail-value amount-highlight refund-amount">LKR ${refundAmount.toFixed(2)}</span>
+                    </div>
+                </div>
+                <p> Confirm will take you to the payment portal to collect the cancellation fee</p>
+        `;
+
+        // Clear previous content and append the new container
+        // details.innerHTML = '';
+        // details.appendChild(containerDiv);
+
+        confirmBtn.onclick = function() {
+            window.location.href = `paymentPortal.php?bookingId=${booking.id}&cancellationFee=${feeAmount}`;
+        };
+
+    }
+    popup.classList.remove('hidden');
+}
+
+// Close the popup
+function closeCancelBox() {
+    console.log("closeCancelBox");
+    document.getElementById('cancelPopup').classList.add('hidden');
+}
+
+function closePolicyBox() {
+    console.log("closeCancelBox");
+    document.getElementById('cancelPolicyPopup').classList.add('hidden');
+}
+
+// Confirm cancellation (AJAX or form submission)
+function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, bankDetails, scheduleId) {
+    console.log(scheduleId);
+    console.log("inside confirmOnlineCancellation");
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '<?php echo URLROOT; ?>/RegisteredPages/cancelOnlineBooking';
+            
+    const data = {
+        schedule_id:scheduleId, 
+        booking_id: bookingId,
+        cancellation_fee: cancellationFee,
+        refund_amount: refundAmount,
+        ...bankDetails
+    };
+
+    console.log(data);
+            
+    // Create hidden inputs for all data
+    Object.entries(data).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+    });
+            
+    document.body.appendChild(form);
+        form.submit();
+}
+
+    function openTicketBox() {
+        document.getElementById('ticketBox').classList.remove('hidden');
+        document.getElementById('overlay').classList.remove('hidden');
     }
 
-}
+    function closeTicketBox() {
+        document.getElementById('ticketBox').classList.add('hidden');
+        document.getElementById('overlay').classList.add('hidden');
+    }
 
 </script>
