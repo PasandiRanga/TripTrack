@@ -62,6 +62,7 @@
             $bookedSeats = [];
             $pricePerSeat = 0;
             $busLayout = [];
+            $busType = null;
                 
             // Find the selected bus and schedule to get booked seats
             foreach ($scheduleData as $schedule) {
@@ -80,6 +81,7 @@
                     $selectedBus = $bus;
                     echo "<script>console.log('Selected bus:', " . json_encode($selectedBus) . ");</script>";
                     $busType = $bus['passengers'];
+                    echo "<script>console.log('BusType:', " . json_encode($busType) . ");</script>";
                     $leastPrice = $bus['priceperkm'];
                     break;
                 }
@@ -91,15 +93,18 @@
                 if ($route['routeNumber'] === $selectedBus['routeNumber']) {
                     $busStops = explode(',', $route['stops']);
                     $pricePerSeat = $route['price'];
-
-                        break;
+                    break;
                 }
             }
 
             // egt the respective seat layout
+            echo "<script>console.log('SeatData:', " . json_encode($seatData) . ");</script>";
             foreach ($seatData as $layout) {
+                echo "<script>console.log('SeatType:', " . json_encode($layout) . ");</script>";
                 if($layout['seatType'] === $busType) {
+                    echo "<script>console.log('Seat Type 2:', " . json_encode($layout['seatType']) . ");</script>";
                     $busLayout = $layout['seats'];
+                    echo "<script>console.log('BusLayout:', " . json_encode($busLayout) . ");</script>";
                     break;
                 }
             }
