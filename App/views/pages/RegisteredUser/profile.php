@@ -57,7 +57,7 @@
             <div class="profile-pic">
                 <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $_SESSION['user_profile_image'];?>" alt="Profile Picture" class="profile-pic">
             </div>
-            <button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
+            <button class="edit-image-button" onclick="showImageUpdateBox()"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
             <h2><?php echo $profile['Name']; ?></h2>
             <p><?php echo $profile['User_id']; ?></p>
 
@@ -82,6 +82,36 @@
                 <button id="no" onclick="closeConfirmBox()">No</button>
                 </p>
                 <div class="close-btn" onclick="closeConfirmBox()">×</div>
+            </div>
+        </div>
+
+        <!--Pop Up the image update box-->
+        <div class="imageUpdateBox hidden" id="imageUpdateBox">
+            <div class="imageUpdateBoxContent">
+            <form action="<?php echo URLROOT ?>/RegisteredPages/updateProfileImage" method="POST" enctype="multipart/form-data">
+                <!-- Profile Image Upload Section -->
+                    <div class="form-drag-area">
+                        <div class="icon">
+                            <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
+                        </div>
+                        <div class="right_content">
+                            <div class="form_upload">
+                                <input type="file" name="profile_image" id="profile_image" style="display:none" >
+                                Browse File
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-validation">
+                        <div class="profile_image_validation">
+                            <img src="<?php echo URLROOT; ?>/public/images/tick1.png" alt="tick" width="35px" height="35px">
+                            Selected a profile image
+                        </div>
+                    </div>
+                    <span class="form-invalid"><?php echo isset($data['profile_image_err']) ? $data['profile_image_err'] : ''; ?></span>
+                <div class="close-btn" onclick="closeImageUpdateBox()">×</div>
+
+                <button class="Done" onclick="confirmImage()">Done</button>
+            </form>
             </div>
         </div>
 
@@ -124,8 +154,16 @@
             document.getElementById("confirmBox").classList.remove("hidden");
         }
 
+        function showImageUpdateBox() {
+            document.getElementById("imageUpdateBox").classList.remove("hidden");
+        }
+
         function closeConfirmBox() {
             document.getElementById("confirmBox").classList.add("hidden");
+        }
+
+        function closeImageUpdateBox() {
+            document.getElementById("imageUpdateBox").classList.add("hidden");
         }
 
         function confirmAction() {
@@ -137,6 +175,10 @@
             closeConfirmBox();
         }
 
+        function confirmImage(){
+            window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/updateProfileImage';
+        }
+
         function showUpdateBox() {
              document.getElementById('updateBox').classList.remove('hidden');
          }
@@ -144,7 +186,10 @@
         function closeUpdateBox() {
             document.getElementById('updateBox').classList.add('hidden');
         }
+
     </script>
+    <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
+
 
 </body>
 </html>
