@@ -43,29 +43,7 @@
             'userRole' => $userRole
         ];
 
-        // echo '<script> console.log(' . json_encode($upcomingBookingData) . ') </script>';
-        // echo '<script> console.log(' . json_encode($pastBookingData) . ') </script>';
-        // echo '<script> console.log(' . json_encode($userId) . ') </script>';
-        // echo '<script> console.log(' . json_encode($scheduleData) . ') </script>';
-        // echo '<script> console.log(' . json_encode($bookingData) . ') </script>';   
-        // echo '<script> console.log(' . json_encode($busData) . ') </script>';
-        
     ?>
-
-    <!-- <script>
-        var scheduleData = <?php echo json_encode($scheduleData); ?>;
-        console.log("Schedule Data: ", scheduleData);
-        var upcomingBookingData = <?php echo json_encode($upcomingBookingData); ?>;
-        console.log("Upcoming Booking Data: ", upcomingBookingData);
-        var pastBookingData = <?php echo json_encode($pastBookingData); ?>;
-        console.log("Past Booking Data: ", pastBookingData);
-        var bookingData = <?php echo json_encode($bookingData); ?>;
-        console.log("Booking Data: ", bookingData);
-        var userId = <?php echo json_encode($userId); ?>;
-        console.log("User ID: ", userId);
-    </script> -->
-
-  
 
     <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -109,25 +87,6 @@
 
         }
 
-        
-        // foreach ($bookingData as $booking) {
-        //     // Assuming each booking has a `schedule_id` to match the scheduleData
-        //     $schedule = array_filter($scheduleData, function($s) use ($booking) {
-        //         return $s['scheduleId'] == $booking['schedule_id']; // Match schedule by ID
-        //     });
-
-        //     $schedule = reset($schedule); // Get the first matching schedule entry
-        //     echo($schedule);
-
-        //     if ($schedule) {
-        //         // Compare booking date with schedule date
-        //         if ($currentDate <= $schedule['date']) {
-        //             $upcomingBookings[] = $booking; // Upcoming booking
-        //         } else {
-        //             $pastBookings[] = $booking; // Past booking
-        //         }
-        //     }
-        // }
     ?>
 
     <?php
@@ -173,6 +132,33 @@
             </div>
         </div>
     </center>
+
+    <!--Cancel Policy pop up -->
+    <div id="cancelPolicyPopup" class="policypopup hidden">
+        <div class="policypopup-content">
+            <h3>Cancel Booking</h3>
+            <p id="policypopup-details"></p>
+            <!--Content will come here -->
+            <div class="policypopup-actions">
+                <button id="understand" class="uderstant-btn">I understand</button>
+                <button id="closePopup" class="cancel-btn" onclick="closePolicyBox()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Cancel Booking pop up -->
+    <div id="cancelPopup" class="popup hidden">
+        <div class="popup-content">
+            <h3>Cancel Booking</h3>
+            <p id="popup-details"></p>
+            <!--Content will come here -->
+            <div class="popup-actions">
+                <button id="confirmCancel" class="confirm-btn">Confirm</button>
+                <button id="closePopup" class="cancel-btn" onclick="closeCancelBox()">Close</button>
+            </div>
+            <!-- <div class="close-btn" onclick="closeCancelBox()">×</div> -->
+        </div>
+    </div>
 
     </body>
     </html>
@@ -296,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <div class="menu">
                                     <ul>
                                         <li>Option 1</li>
-                                        <li>Option 2</li>
+                                        <li onclick="showCancelPolicy(booking, schedule)">Cancel</li>
                                         <li>Option 3</li>
                                     </ul>
                                 </div>
@@ -383,5 +369,91 @@ document.addEventListener("click", function(event) {
         menu.classList.remove('show');
     }
 });
+
+function showCancelPolicy(booking , schedule){
+    const policypopup = document.getElementById('cancelPolicyPopup');
+    const policydetails = document.getElementById('policypopup-details');
+    const understandBtn = document.getElementById('understand');
+
+    policydetails.innerHTML = `
+        <div class="p-4">
+            <h3 class="text-lg font-bold mb-4">Cancellation Policy</h3>
+            <p>Please review our cancellation policy:</p>
+            <ul class="my-4">
+                <li>• Cancellation 1 or more days before departure: 10% cancellation fee </li>
+                <li>• Cancellation within 24 hours of departure: 50% cancellation fee</li>
+            </ul>
+        </div>
+    `;
+    understandBtn.onclick = function(){
+        showCancelPopup(booking , schedule);
+        policypopup.classList.add('hidden');
+    };
+
+    policypopup.classList.remove('hidden');
+}
+
+function showCancelPopup(booking , schedule){
+    const popup = document.getElementById('cancelPopup');
+    const details = document.getElementById('popup-details');
+    const confirmBtn = document.getElementById('confirmCancel');
+
+    const cancellationFee = calculateCancellationFee(schedule.date);
+    const feeAmount = booking.total_price * cancellationFee;
+    const refundAmount = booking.total_price - feeAmount;
+
+    if(booking.paymentMethid == 'Online'){
+        details.innerHTML = `
+        <div class ="cancellation-form">
+            <div class="booking-details">
+                <div class="detail-row">
+                    <span class="detail-label">Booking ID:</span>
+                    <span class="detail-value">${booking.id}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date : </span>
+                    <span class="detail-value">${schedule.date}</span>
+                </div>
+                <div class="detail-row">
+                    <span classs="detail-label">Total Price : </span>
+                    <span class="detail-value">LKR ${Number(booking.total_price).toFixed(2)}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Cancellation Fee : </span>
+                    <span class="detail-value amount-highlight fee-amount">LKR ${feeAmount.toFixed(2)}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Refund Amount : </span>
+                    <span class="detail-value amount-highlight fee-amount">LKR ${refundAmount.toFixed(2)}</span>
+                </div>
+            </div>
+
+            <div class="bank-details-section">
+                <h4 class="section-title">Bank Details for Refund</h4>
+                <div class="form-group">
+                    <label class="form-label">Account Holder Name</label>
+                    <input type="text" id="accountName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Bank Name</label>
+                    <input type="text" id="bankName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Account Number</label>
+                    <input type="text" id="accountNumber" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Branch</label>
+                    <input type="text" id="branch" class="form-input" required>
+                </div>
+            </div>
+        </div>
+                
+    `;
+
+    
+    }
+
+}
 
 </script>

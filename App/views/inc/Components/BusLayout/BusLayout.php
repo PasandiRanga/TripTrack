@@ -122,7 +122,7 @@
    
             <div class="layout-container">
                 <div class="seat-layout">
-                    <?php require APPROOT . '/views/inc/Components/busLayout/seatLayout.php'; ?>
+                    <?php require APPROOT . '/views/inc/Components/BusLayout/seatLayout.php'; ?>
                 </div>
                 
                 <div class="map-container">
