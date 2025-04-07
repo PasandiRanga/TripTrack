@@ -550,7 +550,7 @@ function showCancelPopup(booking , schedule){
         // details.appendChild(containerDiv);
 
         confirmBtn.onclick = function() {
-            window.location.href = `paymentPortal.php?bookingId=${booking.id}&cancellationFee=${feeAmount}`;
+            window.location.href = `<?php echo URLROOT; ?>/RegisteredPages/paymentPortal?bookingId=${booking.id}&cancellationFee=${feeAmount}`;
         };
 
     }
