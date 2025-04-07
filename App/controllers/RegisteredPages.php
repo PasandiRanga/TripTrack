@@ -166,11 +166,17 @@
                 $scheduleId = $_POST['schedule_id']?? null;
                 echo '<script> console.log("scheduleId: ", ' . json_encode($scheduleId) . '); </script>';
                 $bookingId = $_POST['booking_id'] ?? null;
-                var_dump($scheduleId);
-                var_dump($bookingId);
+                $cancellation_fee = $_POST['cancellation_fee'] ?? null;
+                echo '<script> console.log("cancellation_fee: ", ' . json_encode($cancellation_fee) . '); </script>';
+                $refund_amount = $_POST['refund_amount'] ?? null;
+                echo '<script> console.log("refund_amount: ", ' . json_encode($refund_amount) . '); </script>';
+                
+                $bankDetails = json_decode($_POST['bank_details_json'], true);
+                echo '<script> console.log("bankDetails: ", ' . json_encode($bankDetails) . '); </script>';
+             
         
                 if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
-                    if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId)) {
+                    if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId, $cancellation_fee, $refund_amount, $bankDetails)) {
                         
                         header("Location: " . URLROOT . "/RegisteredPages/newbookings");
                         exit;

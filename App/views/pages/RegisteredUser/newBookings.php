@@ -501,6 +501,7 @@ function showCancelPopup(booking , schedule){
                 accountNumber: document.getElementById('accountNumber').value,
                 branch: document.getElementById('branch').value
             };
+            console.log(bankDetails);
                         
             if (!bankDetails.accountName || !bankDetails.bankName || 
                 !bankDetails.accountNumber || !bankDetails.branch) {
@@ -569,6 +570,7 @@ function closePolicyBox() {
 
 // Confirm cancellation (AJAX or form submission)
 function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, bankDetails, scheduleId) {
+    console.log(bankDetails);
     console.log(scheduleId);
     console.log("inside confirmOnlineCancellation");
     const form = document.createElement('form');
@@ -580,10 +582,11 @@ function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, ban
         booking_id: bookingId,
         cancellation_fee: cancellationFee,
         refund_amount: refundAmount,
-        ...bankDetails
+        bank_details_json: JSON.stringify(bankDetails)
     };
 
     console.log(data);
+
             
     // Create hidden inputs for all data
     Object.entries(data).forEach(([key, value]) => {
