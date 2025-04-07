@@ -295,6 +295,7 @@
             }
         }
 
+        /*
         public function updatePastBookings() {
             $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id IN (SELECT scheduleId FROM schedule WHERE date < CURDATE())");
             $pastBookings = $this->db->resultSet();
@@ -339,6 +340,8 @@
             
             return $successCount; // Return the number of successfully processed bookings
         }
+        */
 
     }
+
 ?>
