@@ -63,6 +63,7 @@
             $pricePerSeat = 0;
             $busLayout = [];
             $busType = null;
+            $busType = null;
                 
             // Find the selected bus and schedule to get booked seats
             foreach ($scheduleData as $schedule) {
@@ -82,6 +83,7 @@
                     echo "<script>console.log('Selected bus:', " . json_encode($selectedBus) . ");</script>";
                     $busType = $bus['passengers'];
                     echo "<script>console.log('bus type:', " . json_encode($busType) . ");</script>";
+                    echo "<script>console.log('BusType:', " . json_encode($busType) . ");</script>";
                     $leastPrice = $bus['priceperkm'];
                     break;
                 }
@@ -93,8 +95,7 @@
                 if ($route['routeNumber'] === $selectedBus['routeNumber']) {
                     $busStops = explode(',', $route['stops']);
                     $pricePerSeat = $route['price'];
-
-                        break;
+                    break;
                 }
             }
 
@@ -107,8 +108,10 @@
                 if($layout['seatType'] === $busType) {
                     //echo "<script>console.log('bus type 2:', " . json_encode($busType) . ");</script>";
                     //echo "<script>console.log('Seat type 3:', " . json_encode($layout['seats']) . ");</script>";
+                    echo "<script>console.log('Seat Type 2:', " . json_encode($layout['seatType']) . ");</script>";
                     $busLayout = $layout['seats'];
                     //echo "<script>console.log('Bus layout:', " . json_encode($busLayout) . ");</script>";
+                    echo "<script>console.log('BusLayout:', " . json_encode($busLayout) . ");</script>";
                     break;
                 }
             }
@@ -131,7 +134,7 @@
    
             <div class="layout-container">
                 <div class="seat-layout">
-                    <?php require APPROOT . '/views/inc/Components/busLayout/seatLayout.php'; ?>
+                    <?php require APPROOT . '/views/inc/Components/BusLayout/seatLayout.php'; ?>
                 </div>
                 
                 <div class="map-container">

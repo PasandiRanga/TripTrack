@@ -151,7 +151,7 @@
         });
 
     document.addEventListener('DOMContentLoaded', function() {
-        const notificationIcon = document.querySelector('.notiicon');
+        const notificationIcon = document.querySelector('notiicon');
         const notificationBox = document.getElementById('box');
         let isOpen = false;
 
@@ -210,14 +210,15 @@
     });
 
 
-    // Close notification box when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!notificationIcon.contains(event.target) && !notificationBox.contains(event.target) && isOpen) {
-            isOpen = false;
-            notificationBox.style.height = '0px';
-            notificationBox.style.opacity = '0';
-        }
-    });
+    if($userRole == 'RegisteredUser'){
+        document.addEventListener('click', function(event) {
+            if (!notificationIcon.contains(event.target) && !notificationBox.contains(event.target) && isOpen) {
+                isOpen = false;
+                notificationBox.style.height = '0px';
+                notificationBox.style.opacity = '0';
+            }
+        });
+    }
 
     // Handle notification content toggles
     document.querySelectorAll('.dropdown-arrow').forEach(arrow => {
