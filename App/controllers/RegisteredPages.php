@@ -467,7 +467,33 @@
             $this->view('pages/RegisteredUser/newBookings' , $data);
         }
 
+        public function updateProfileImage() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                $data = [
+                    'profile_image'=>$_FILES['profile_image'],
+                    'profile_image_name'=>time().'_'.$_FILES['profile_image']['name'],
 
+
+                    'profile_image_err'=>'',
+                    'name_err' => ''
+                ];
+
+                // Validate the profile image
+                if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
+                    if (!uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
+                        $data['profile_image_err'] = 'Profile image uploading unsuccessful';
+                    }
+                } else {
+                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; // Replace with your actual default image filename, if applicable
+                }
+            }else {
+                $data = [
+                    'profile_image'=>'',
+                    'profile_image_name'=>'',
+                ];
+            }
+        }
 
     }  
 ?>

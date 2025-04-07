@@ -245,3 +245,109 @@ p{
     color: #43cea2;
     margin-bottom: 50px;
 }
+
+.imageUpdateBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Full screen height */
+    background: rgba(0, 0, 0, 0.7);  /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    overflow: hidden; /* Prevent overflow outside the overlay */
+}
+
+.imageUpdateBoxContent {
+    background-color: #fff;
+    width: 400px;
+    height: auto; 
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    position: relative;  
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-style: sans-serif;
+}
+
+/* Profile picture */
+.form-drag-area {
+    background: #e9ecef;
+    padding: 15px;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 15px;
+    color:#0d0e0e;
+}
+
+.form-drag-area.active {
+    border-color: #43cea2;
+    background: #f8f9fa;
+}
+
+.form-drag-area .icon {
+    margin-bottom: 10px;
+}
+
+.form-drag-area .description {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.form-drag-area .form_upload {
+    display: inline-block;
+    background: #43cea2;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Checkbox Section */
+.form-agreement {
+    margin: 20px 0;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Placeholder for Profile Image */
+#placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    margin-bottom: 10px;
+}
+
+  .profile_image_validation{
+    display: flex;
+    align-items: center;
+    color: #777a7a;
+    opacity: 0; /* Make it invisible initially */
+  }
+
+  .profile_image_validation.active {
+    opacity: 1; /* Make it visible when the image is selected */
+  }
+
+    .form_validation > div{
+    opacity:0.5;
+  }
+
+  .form-validation>div.active{
+    opacity:1;
+    font-weight: 600;
+    color:#28a745;
+  }
