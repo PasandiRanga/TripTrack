@@ -3,7 +3,7 @@
 $seatData = [
     // Bus with 56 seats layout (seatType 1)
     [
-        'seatType' => 37,
+        'seatType' => '37',
         'seats' => [
             [1, 2, '', 3, 4],      // Row with a gap in the middle
             [5, 6, '', 7, 8],
@@ -18,7 +18,7 @@ $seatData = [
     ],
     // Bus with 36 seats layout (seatType 2)
     [
-        'seatType' => 50,
+        'seatType' => '50',
         'seats' => [
             [1, 2, '', 3, 4],     
             [5, 6, '', 7, 8],
@@ -36,7 +36,7 @@ $seatData = [
         ]
         ],
         [
-            'seatType' => 45,
+            'seatType' => '45',
             'seats' => [
                 [1, 2, '', 3, 4],      // Row with a gap in the middle
                 [5, 6, '', 7, 8],
@@ -53,7 +53,7 @@ $seatData = [
             ]
             ],
             [
-                'seatType' => 50,
+                'seatType' => '50',
                 'seats' => [
                     [1, 2, '', 3, 4],     
                     [5, 6, '', 7, 8],

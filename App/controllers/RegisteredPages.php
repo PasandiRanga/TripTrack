@@ -160,27 +160,36 @@
             }
         }
 
-        public function cancelBooking() {
+        public function cancelOnlineBooking() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                echo '<script> console.log("scheduleId: ", ' . json_encode($_POST['schedule_id']) . '); </script>';
                 $scheduleId = $_POST['schedule_id']?? null;
+                echo '<script> console.log("scheduleId: ", ' . json_encode($scheduleId) . '); </script>';
                 $bookingId = $_POST['booking_id'] ?? null;
-                var_dump($scheduleId);
-                var_dump($bookingId);
+                $cancellation_fee = $_POST['cancellation_fee'] ?? null;
+                echo '<script> console.log("cancellation_fee: ", ' . json_encode($cancellation_fee) . '); </script>';
+                $refund_amount = $_POST['refund_amount'] ?? null;
+                echo '<script> console.log("refund_amount: ", ' . json_encode($refund_amount) . '); </script>';
+                
+                $bankDetails = json_decode($_POST['bank_details_json'], true);
+                echo '<script> console.log("bankDetails: ", ' . json_encode($bankDetails) . '); </script>';
+             
         
                 if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
-                    if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId)) {
-                        header("Location: " . URLROOT . "/RegisteredPages/bookings");
+                    if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId, $cancellation_fee, $refund_amount, $bankDetails)) {
+                        
+                        header("Location: " . URLROOT . "/RegisteredPages/newbookings");
                         exit;
                     } else {
-                        header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Unable to cancel booking");
+                        header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Unable to cancel booking");
                         exit;
                     }
                 } else {
-                    header("Location: " . URLROOT . "/RegisteredPages/bookings?error=Invalid booking ID");
+                    header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
                     exit;
                 }
             } else {
-                header("Location: " . URLROOT . "/RegisteredPages/bookings");
+                header("Location: " . URLROOT . "/RegisteredPages/newbookings");
                 exit;
             }
         }
