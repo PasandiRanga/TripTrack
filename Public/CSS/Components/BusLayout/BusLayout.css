@@ -37,7 +37,7 @@ body {
     margin-bottom: 20px;
 }
 
-@media screen and (max-width:1500) {
+@media screen and (max-width:1500px) {
     .all-container{
         width: auto !important;
     }

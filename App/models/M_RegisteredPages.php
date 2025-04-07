@@ -299,6 +299,11 @@
         //     $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id IN (SELECT scheduleId FROM schedule WHERE date < CURDATE())");
         //     $pastBookings = $this->db->resultSet();
         //     $successCount = 0;
+        /*
+        public function updatePastBookings() {
+            $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id IN (SELECT scheduleId FROM schedule WHERE date < CURDATE())");
+            $pastBookings = $this->db->resultSet();
+            $successCount = 0;
 
         //     // if(!empty($pastBookings)) {
         //     //     echo '<pre>';
@@ -341,4 +346,5 @@
         // }
 
     }
+
 ?>

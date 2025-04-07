@@ -17,6 +17,7 @@
 
         public function home() {
 
+            //$this->RegisteredpagesModel->updatePastBookings();
             // $this->RegisteredpagesModel->updatePastBookings();
             
             $schedule = $this->RegisteredpagesModel->getSchedule();
