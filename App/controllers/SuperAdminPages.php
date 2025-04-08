@@ -697,6 +697,44 @@ class SuperAdminPages extends Controller {
         }
     }
 
+    public function updateRoute(){
+        header('Content-Type: application/json');
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $inputData = json_decode(file_get_contents('php://input'), true);
+
+            if(!$inputData){
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'routeNumber' => trim($inputData['routeNumber'] ?? ''),
+                'route' => trim($inputData['route'] ?? ''),
+                'stops' => trim($inputData['stops'] ?? ''),
+                'price' => trim($inputData['price'] ?? ''),
+                'priceperkm' => trim($inputData['priceperkm' ?? ''])
+            ];
+
+                    // Validate required fields
+            if (empty($data['routeNumber']) || empty($data['route']) || empty($data['stops']) || empty($data['price']) || empty($data['priceperkm'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+        // Call the model method to update the route
+                if ($this->SuperAdminModel->updateRoute($data)) {
+                    echo json_encode(['status' => 'success', 'message' => 'Route updated successfully.']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error updating the route.']);
+                    http_response_code(500);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+                http_response_code(405);
+            }
+        }
+
     public function deleteRoute() {
         header('Content-Type: application/json');
 

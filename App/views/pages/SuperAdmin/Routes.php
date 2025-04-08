@@ -61,8 +61,30 @@
         </table>
     </div>
     <script>
-        function updateRoute(routeNo){
-            //update query
+        function updateRoute(routeNumber) {
+            // Find the row with the matching route number
+            const rows = Array.from(document.querySelectorAll("table.routes-table tbody tr"));
+            const row = rows.find(row => row.cells[0].innerText === routeNumber);
+
+            if (row) {
+                // Extract data from the row
+                const route = row.cells[1].innerText;
+                const stops = row.cells[2].innerText;
+                const price = row.cells[3].innerText;
+                const pricePerKm = row.cells[4].innerText;
+
+                // Redirect to the AddRoute page with pre-filled data
+                const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/AddRoute');
+                url.searchParams.append('routeNumber', routeNumber);
+                url.searchParams.append('route', route);
+                url.searchParams.append('stops', stops);
+                url.searchParams.append('price', price);
+                url.searchParams.append('priceperkm', pricePerKm);
+
+                window.location.href = url.toString();
+            } else {
+                alert("Route not found.");
+            }
         }
 
         function deleteRoute(routeNumber){
