@@ -97,7 +97,7 @@
 
         <main class="main-container">
             <div class="main-title">
-                <h2>Dashboard</h2> 
+                <h2>Admin Dashboard</h2> 
                 <img class="logo-right" src="../images/logo2.png" alt="Logo" class="logo">
 
             </div>
@@ -106,8 +106,8 @@
                 <div class="card" onclick="showPopupBox1(
                             'Total Monthly Income Details',
                             'Total Monthly Income: LKR <?php echo $data['total_income']; ?>',
-                            'Total Guest Bookings: <?php echo $data['total_guests']; ?>',
-                            'Total Registered Bookings: <?php echo $data['total_registered']; ?>' )">
+                            'Total Guest Bookings Income: <?php echo $data['guest_income']; ?>',
+                            'Total Registered Bookings Income: <?php echo $data['registered_income']; ?>' )">
                     <div class="card-inner">
                         <h3>Total Monthly Income</h3>
                         <span class="material-icons-outlined">local_atm</span>

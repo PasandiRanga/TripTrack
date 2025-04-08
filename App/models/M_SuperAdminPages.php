@@ -301,6 +301,26 @@ class M_SuperAdminPages {
         }
     }
 
+    public function updateRoute($data){
+        $this->db->query('UPDATE routes SET routeNumber = :routeNumber, route = :route, stops = :stops, price = :price, priceperkm = :priceperkm WHERE routeNumber = :routeNumber');
+
+        //bind parameters for the update route
+        $this->db->bind(':routeNumber', $data['routeNumber']);
+        $this->db->bind(':route', $data['route']);
+        $this->db->bind(':stops', $data['stops']);
+        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':priceperkm', $data['priceperkm']);
+
+        if($this->db->execute()){
+            return true;
+        }
+        else {
+            error_log("Error: Failed to update the route");
+            return false;
+        }
+
+    }
+
     public function deleteRoute($routeNumber){
         $this->db->query('DELETE FROM routes WHERE routeNumber = :routeNumber');
         $this->db->bind(':routeNumber', $routeNumber);
@@ -381,6 +401,13 @@ class M_SuperAdminPages {
     //boxex in the dashboard 
 
 //------------------------------------------------------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //box 01
+
+//------------------------------------------------------------------------------------------------------------------------------------
+  
     public function getTotalIncome() {
         $this->db->query("
             SELECT 
@@ -392,22 +419,34 @@ class M_SuperAdminPages {
         return $result; // Returns ['registered_income' => X, 'guest_income' => Y]
     }
     
-    public function getTotalBookings() {
-        $this->db->query("
-            SELECT 
-                (SELECT COUNT(*) FROM registeredbooking) AS registered_bookings,
-                (SELECT COUNT(*) FROM guestbooking) AS guest_bookings
-        ");
-
-        $result = $this->db->single(); // Fetch the single row
-        return $result; // Returns ['registered_bookings' => X, 'guest_bookings' => Y]
+    public function getRegisteredIncome() {
+        $this->db->query("SELECT SUM(total_price) AS registered_income FROM registeredbooking");
+        $result = $this->db->single();  
+        return $result['registered_income'] ?? 0; // Return 0 if no income found
     }
 
+    public function getGuestIncome(){
+        $this->db->query("SELECT SUM(total_price) AS guest_income FROM guestbooking");
+        $result = $this->db->single();
+        return $result['guest_income'] ?? 0; // Return 0 if no income found
+    }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //box 02
+
+//------------------------------------------------------------------------------------------------------------------------------------
+ 
     public function getTotalCustomers() {
         $this->db->query("SELECT COUNT(User_id) AS total_customers FROM customer");
         $result = $this->db->single();
         return $result['total_customers'] ?? 0;
     }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //box 03
+
+//------------------------------------------------------------------------------------------------------------------------------------
+ 
 
     public function getTotalGuestBookings() {
         $this->db->query("SELECT COUNT(id) AS total_guests FROM guestbooking");
@@ -420,5 +459,22 @@ class M_SuperAdminPages {
         $result = $this->db->single();
         return $result['total_registered'] ?? 0;
     }
+
+    public function getTotalBookings() {
+        $this->db->query("
+            SELECT 
+                (SELECT COUNT(*) FROM registeredbooking) AS registered_bookings,
+                (SELECT COUNT(*) FROM guestbooking) AS guest_bookings
+        ");
+
+        $result = $this->db->single(); // Fetch the single row
+        return $result; // Returns ['registered_bookings' => X, 'guest_bookings' => Y]
+    }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //box 03
+
+//------------------------------------------------------------------------------------------------------------------------------------
+ 
 }
 ?>
