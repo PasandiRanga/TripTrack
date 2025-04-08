@@ -145,51 +145,117 @@
 
     <!-- UPDATION FORM-->
     <?php require APPROOT.'/views/inc/Components/ProfileForm/profileForm.php'; ?>
-<script>
-let actionType = "";
+    
+    <script>
+    let actionType = "";
 
-function showConfirmBox(type) {
-    actionType = type;
-    console.log("Action Type Set:", actionType);
-    document.getElementById("confirmBox").classList.remove("hidden");
-}
-
-function showImageUpdateBox() {
-    document.getElementById("imageUpdateBox").classList.remove("hidden");
-}
-
-function closeConfirmBox() {
-    document.getElementById("confirmBox").classList.add("hidden");
-}
-
-function closeImageUpdateBox() {
-    document.getElementById("imageUpdateBox").classList.add("hidden");
-}
-
-function confirmAction() {
-    console.log("Action Type:", actionType);
-    if (actionType === 'logout') {
-        window.location.href = '<?php echo URLROOT; ?>/GuestPages/logout'; // Ensure correct logout URL
-    } else if (actionType === 'delete') {
-        window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount'; // Ensure correct delete URL
+    function showConfirmBox(type) {
+        actionType = type;
+        console.log("Action Type Set:", actionType);
+        document.getElementById("confirmBox").classList.remove("hidden");
     }
-    closeConfirmBox(); // Close the confirmation box after action is confirmed
-}
 
-function confirmImage(){
-    window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/updateProfileImage'; // Ensure correct update URL
-}
+    function showImageUpdateBox() {
+        document.getElementById("imageUpdateBox").classList.remove("hidden");
+    }
 
-function showUpdateBox() {
-    document.getElementById('updateBox').classList.remove('hidden');
-}
+    function closeConfirmBox() {
+        document.getElementById("confirmBox").classList.add("hidden");
+    }
 
-function closeUpdateBox() {
-    document.getElementById('updateBox').classList.add('hidden');
-}
-</script>
-    <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
+    function closeImageUpdateBox() {
+        document.getElementById("imageUpdateBox").classList.add("hidden");
+    }
 
+    function confirmAction() {
+        console.log("Action Type:", actionType);
+        if (actionType === 'logout') {
+            window.location.href = '<?php echo URLROOT; ?>/GuestPages/logout'; // Ensure correct logout URL
+        } else if (actionType === 'delete') {
+            window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount'; // Ensure correct delete URL
+        }
+        closeConfirmBox(); // Close the confirmation box after action is confirmed
+    }
+
+    function confirmImage(){
+        window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/updateProfileImage'; // Ensure correct update URL
+    }
+
+    function showUpdateBox() {
+        document.getElementById('updateBox').classList.remove('hidden');
+    }
+
+    function closeUpdateBox() {
+        document.getElementById('updateBox').classList.add('hidden');
+    }
+
+    // Profile image drag-and-drop
+    const dropArea = document.querySelector(".form-drag-area");
+    const dropText = document.querySelector(".description");
+    const browseButton = document.querySelector(".form_upload");
+    const inputPath = document.querySelector("#profile_image");
+    const placeholder = document.querySelector("#placeholder");
+    const validate = document.querySelector(".profile_image_validation");
+    let file;
+
+    // Browse option and upload functionality
+    browseButton.onclick = () => {
+        inputPath.click();
+    };
+
+    inputPath.addEventListener("change", function () {
+        file = this.files[0];
+        showImage();
+    });
+
+    dropArea.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        dropArea.classList.add("active");
+        dropText.textContent = "Release to Upload the Image";
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+        dropArea.classList.remove("active");
+        dropText.textContent = "Drag & Drop to Upload Image";
+    });
+
+    dropArea.addEventListener("drop", (event) => {
+        event.preventDefault();
+        file = event.dataTransfer.files[0];
+
+        // Adding the file to the input element programmatically
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        inputPath.files = dataTransfer.files;
+        showImage();
+        dropArea.classList.remove("active");
+    });
+
+    function showImage() {
+        const fileType = file.type;
+
+        // Valid image extensions
+        const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
+
+        if (validExtensions.includes(fileType)) {
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                const fileURL = fileReader.result;
+
+                // Set image preview
+                placeholder.setAttribute("src", fileURL);
+            };
+
+            fileReader.readAsDataURL(file);
+
+            // Show validation tick
+            validate.classList.add("active");
+        } else {
+                alert("This is not a valid image file. Please upload a JPEG, JPG, or PNG file.");
+                dropArea.classList.remove("active");
+        }
+    }
+    </script>
 
 </body>
 </html>
