@@ -416,9 +416,9 @@ function showCancelPolicy(booking , schedule){
     policypopup.classList.remove('hidden');
 }
 
-function calculateCancellationFee(bookingDate) {
+function calculateCancellationFeePercentage(scheduledate) {
     const today = new Date();
-    const scheduleDate = new Date(bookingDate);
+    const scheduleDate = new Date(scheduledate);
     const diffTime = scheduleDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
@@ -434,8 +434,8 @@ function showCancelPopup(booking , schedule){
     const details = document.getElementById('popup-details');
     const confirmBtn = document.getElementById('confirmCancel');
 
-    const cancellationFee = calculateCancellationFee(schedule.date);
-    const feeAmount = booking.total_price * cancellationFee;
+    const cancellationFeePercentage = calculateCancellationFeePercentage(schedule.date);
+    const feeAmount = booking.total_price * cancellationFeePercentage;
     const refundAmount = booking.total_price - feeAmount;
 
     // const containerDiv = document.createElement('div');
@@ -509,7 +509,7 @@ function showCancelPopup(booking , schedule){
                 return;
             }
                     
-        confirmOnlineCancellation(booking.id, cancellationFee, refundAmount, bankDetails,schedule.scheduleId);
+        confirmOnlineCancellation(booking.id, feeAmount, refundAmount, bankDetails,schedule.scheduleId);
 
         };
 
@@ -572,6 +572,8 @@ function closePolicyBox() {
 function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, bankDetails, scheduleId) {
     console.log(bankDetails);
     console.log(scheduleId);
+    console.log(refundAmount);
+    console.log(cancellationFee);
     console.log("inside confirmOnlineCancellation");
     const form = document.createElement('form');
     form.method = 'POST';

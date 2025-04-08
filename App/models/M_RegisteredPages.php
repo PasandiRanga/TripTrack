@@ -89,6 +89,13 @@
                 return false;
             }
         }
+
+        public function getCancellationDetails($bookingId, $userId) {
+            $this->db->query("SELECT * FROM cancelled_bookings WHERE id = :bookingId AND User_id = :userId");
+            $this->db->bind(':bookingId', $bookingId);
+            $this->db->bind(':userId', $userId);
+            return $this->db->single();
+        }
         
         public function getSchedule(){
             try {
