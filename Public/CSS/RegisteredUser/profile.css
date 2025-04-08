@@ -351,3 +351,16 @@ p{
     font-weight: 600;
     color:#28a745;
   }
+
+.Done{
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 120px;
+    margin-top: 0px;
+    transition: background-color 0.3s;
+}

@@ -477,32 +477,49 @@
         }
 
         public function updateProfileImage() {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                
                 $data = [
-                    'profile_image'=>$_FILES['profile_image'],
-                    'profile_image_name'=>time().'_'.$_FILES['profile_image']['name'],
-
-
-                    'profile_image_err'=>'',
-                    'name_err' => ''
+                    'profile_image' => $_FILES['profile_image'],
+                    'profile_image_name' => time() . '_' . $_FILES['profile_image']['name'],
+                    'profile_image_err' => ''
                 ];
 
-                // Validate the profile image
+                $userId = $_SESSION['user_id']; // Assuming you store this in session
+
+                // Check and upload image
                 if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
-                    if (!uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
-                        $data['profile_image_err'] = 'Profile image uploading unsuccessful';
+                    if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
+                        $imagePath = $data['profile_image_name']; // Save only the filename or relative path
+
+                        // Call the model to update image path in DB
+                        if ($this->RegisteredpagesModel->updateProfileImage($userId, $imagePath)) {
+                            // Update session profile image
+                            $_SESSION['user_profile_image'] = $imagePath;
+
+                            // Redirect to profile with success message
+                            redirect('RegisteredPages/profile');
+                        } else {
+                            $data['profile_image_err'] = 'Failed to update image in database';
+                        }
+
+                    } else {
+                        $data['profile_image_err'] = 'Profile image upload failed';
                     }
                 } else {
-                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; // Replace with your actual default image filename, if applicable
+                    $data['profile_image_err'] = 'No image selected';
                 }
-            }else {
-                $data = [
-                    'profile_image'=>'',
-                    'profile_image_name'=>'',
-                ];
+
+                // Reload profile with error if any
+                $data['user'] = $this->RegisteredpagesModel->findUserById($userId);
+                $this->view('RegisteredUser/profile', $data);
+
+            } else {
+                redirect('RegisteredPages/profile');
             }
         }
+
 
     }  
 ?>
