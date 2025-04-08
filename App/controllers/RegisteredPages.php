@@ -178,12 +178,40 @@
                 if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
                     if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId, $cancellation_fee, $refund_amount, $bankDetails)) {
                         
-                        header("Location: " . URLROOT . "/RegisteredPages/newbookings");
+                        header("Location: " . URLROOT . "/RegisteredPages/cancellationReceipt?booking_id=$bookingId&cancellation_fee=$cancellation_fee&refund_amount=$refund_amount&bank_details_json=" . urlencode(json_encode($bankDetails)));
                         exit;
                     } else {
                         header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Unable to cancel booking");
                         exit;
                     }
+                } else {
+                    header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
+                    exit;
+                }
+            } else {
+                header("Location: " . URLROOT . "/RegisteredPages/newbookings");
+                exit;
+            }
+        }
+
+        public function cancellationReceipt() {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $bookingId = $_GET['booking_id'] ?? null;
+                $cancellation_fee = $_GET['cancellation_fee'] ?? null;
+                $refund_amount = $_GET['refund_amount'] ?? null;
+                $bankDetails = json_decode($_GET['bank_details_json'], true);
+
+                $cancellationData = $this->RegisteredpagesModel->getCancellationDetails($bookingId, $_SESSION['user_id']);
+                
+                if ($bookingId) {
+                    $data = [
+                        'booking_id' => $bookingId,
+                        'cancellation_fee' => $cancellation_fee,
+                        'refund_amount' => $refund_amount,
+                        'bankDetails' => $bankDetails,
+                        'cancellationData' => $cancellationData,
+                    ];
+                    $this->view('inc/Components/CancellationReceipt/cancellationReceipt', $data);
                 } else {
                     header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
                     exit;
