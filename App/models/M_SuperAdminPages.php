@@ -375,6 +375,11 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function getAssignedSchedules(){
+        $this->db->query("SELECT scheduleId FROM assign");
+        return $this->db->resultSet();
+    }
+
     public function getDriverID(){
         $this->db->query("SELECT employee_id FROM employee WHERE role='Driver'");
         return $this->db->resultSet();
@@ -383,6 +388,20 @@ class M_SuperAdminPages {
     public function getConductorID(){
         $this->db->query("SELECT employee_id FROM employee WHERE role='Conductor'");
         return $this->db->resultSet();
+    }
+
+    public function updateAssign($data){
+        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_id = :driver_id, conductor_id = :conductor_id WHERE scheduleId = :scheduleId');
+        $this->db->bind(':scheduleId', $data['scheduleId']);
+        $this->db->bind(':driver_id', $data['driver_id']);
+        $this->db->bind(':conductor_id', $data['conductor_id']);
+
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to update assign"); // Log error
+            return false; // Failure
+        }
     }
 
     public function deleteAssign($scheduleId){

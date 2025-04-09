@@ -606,19 +606,73 @@ class SuperAdminPages extends Controller {
                 exit();
             }
         } else {
+                $scheduleId = $_GET['scheduleId'] ?? '';
+                $driverId = $_GET['driver_id'] ?? '';
+                $conductorId = $_GET['conductor_id'] ?? '';
+            //Fetch all schedules
+            $allSchedules = $this->SuperAdminModel->getScheduleID();
+
+            //fetch assigned schedules
+            $assignedSchedules = $this->SuperAdminModel->getAssignedSchedules();
+
+            //filter schedlues to execute already assigned ones
+            $availableSchedules = array_filter($allSchedules, function($schedule) use ($assignedSchedules) {
+                return !in_array($schedule['scheduleId'], array_column($assignedSchedules, 'scheduleId'));
+            });
             // Fetch schedule, driver, and conductor data
-            $schedules = $this->SuperAdminModel->getScheduleID();
+            $schedules = $availableSchedules;
             $drivers = $this->SuperAdminModel->getDriverID();
             $conductors = $this->SuperAdminModel->getConductorID();
 
             $data = [
                 'schedules' => $schedules,
                 'drivers' => $drivers,
-                'conductors' => $conductors
+                'conductors' => $conductors,
+                'scheduleId' => $scheduleId,
+                'driverId' => $driverId,
+                'conductorId' => $conductorId,
             ];
 
             $this->view('pages/SuperAdmin/Addassigns', $data);
             
+        }
+    }
+
+    public function updateAssign(){
+        header('Content-Type: application/json');
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $inputData = json_decode(file_get_contents('php://input'), true);
+
+            if(!$inputData){
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
+                'driver_id'    => trim($inputData['driver_id'] ?? ''),
+                'conductor_id' => trim($inputData['conductor_id'] ?? '')
+            ];
+
+            // Validate required fields
+            if (empty($data['scheduleId']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            // Call the model method to update the assign
+            if ($this->SuperAdminModel->updateAssign($data)) {
+                echo json_encode(['status' => 'success', 'message' => 'Assign updated successfully.']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Error updating the assign.']);
+                http_response_code(500);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
         }
     }
 
