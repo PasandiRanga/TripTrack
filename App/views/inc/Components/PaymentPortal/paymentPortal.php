@@ -50,7 +50,14 @@
             if ($isCancellation) {
                 $bookingId = htmlspecialchars($_GET['bookingId']);
                 $cancellationFee = htmlspecialchars($_GET['cancellationFee']);
-                $formAction = URLROOT . "/RegisteredPages/cancellationReceipt";
+                $refundAmount = htmlspecialchars($_GET['refundAmount'] ?? '');
+                $scheduleId = htmlspecialchars($_GET['scheduleId'] ?? '');
+                echo("<script>console.log('Booking id: $bookingId');</script>");
+                echo("<script>console.log('CancellationFee: $cancellationFee');</script>");
+                echo("<script>console.log('Refund amount: $refundAmount');</script>");
+                echo("<script>console.log('Schedule id: $scheduleId');</script>");
+
+                $formAction = URLROOT . "/RegisteredPages/cancelBooking";
             } else {
                 $formAction = URLROOT . "/" . ($userRole === 'RegisteredUser' ? 'RegisteredPages/registeredReceipt' : 'GuestPages/GuestReceipt');
             }
@@ -58,13 +65,17 @@
 
 
     <div class="payment-container">
-    <form id="paymentForm" action="<?php echo $formAction; ?>" method="post" onsubmit="return validateBookingForm()">
-            <h2>Payment Details</h2>
-            <?php if ($isCancellation): ?>
-                <input type="hidden" name="bookingId" value="<?php echo $bookingId; ?>">
-                <input type="hidden" name="cancellationFee" value="<?php echo $cancellationFee; ?>">
-            <?php else: ?>
-            <!-- Hidden inputs from previous form -->
+    <form id="paymentForm" action="<?php echo $formAction; ?>" method="POST">
+        <h2>Payment Details</h2>
+
+        <?php if ($isCancellation): ?>
+            <!-- Cancellation Hidden Inputs -->
+            <input type="hidden" name="booking_id" value="<?php echo htmlspecialchars($bookingId); ?>">
+            <input type="hidden" name="cancellation_fee" value="<?php echo htmlspecialchars($cancellationFee); ?>">
+            <input type="hidden" name="refund_amount" value="<?php echo htmlspecialchars($refundAmount); ?>">
+            <input type="hidden" name="schedule_id" value="<?php echo htmlspecialchars($scheduleId); ?>">
+        <?php else: ?>
+            <!-- Regular Booking Hidden Inputs -->
             <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($_POST['License_id']); ?>">
             <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($_POST['scheduleId']); ?>">
             <input type="hidden" name="name" value="<?php echo htmlspecialchars($_POST['name']); ?>">
@@ -77,9 +88,8 @@
             <input type="hidden" name="selectedSeats" value="<?php echo htmlspecialchars($_POST['selectedSeats']); ?>">
             <input type="hidden" name="paymentMethod" value="<?php echo htmlspecialchars($_POST['paymentMethod']); ?>">
             <input type="hidden" name="totalPrice" value="<?php echo htmlspecialchars($_POST['totalPrice']); ?>">
-            <?php endif; ?>
-            
-            
+        <?php endif; ?>
+
             <div class="form-group">
                 <label for="cardName">Cardholder Name</label>
                 <input type="text" id="cardName" name="cardName" required>

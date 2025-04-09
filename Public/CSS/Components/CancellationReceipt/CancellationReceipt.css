@@ -88,3 +88,49 @@ body {
     font-size: 0.9em;
     color: #718096;
 }
+
+.download-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 12px 20px;
+            background-color: #4299e1;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .download-btn:hover {
+            background-color: #3182ce;
+        }
+        @media print {
+            .download-btn {
+                display: none;
+            }
+        }
+
+.back-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #fff;  /* Optional: Background color */
+    padding: 10px 15px;       /* Optional: Adjust button padding */
+    border-radius: 5px;       /* Optional: Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Optional: Box shadow */
+    font-size: 16px;           /* Optional: Font size */
+    text-decoration: none;     /* Remove underline */
+    color: #333;               /* Text color */
+}
+
+.back-button i {
+    margin-right: 5px;  /* Space between icon and text */
+}
+
+/* Optional: Style for hover effect */
+.back-button:hover {
+    background-color: #f0f0f0;  /* Light gray background on hover */
+}
