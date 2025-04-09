@@ -584,9 +584,7 @@ class SuperAdminPages extends Controller {
             $data = [
                 'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
                 'driver_id'    => trim($inputData['driver_id'] ?? ''),
-                'conductor_id' => trim($inputData['conductor_id'] ?? ''),
-                'assign_time'  => trim($inputData['assign_time'] ?? ''),
-                'assign_date'  => trim($inputData['assign_date'] ?? '')
+                'conductor_id' => trim($inputData['conductor_id'] ?? '')
             ];
 
             // Validate required fields

@@ -73,9 +73,9 @@
         // Collect form data
         let scheduleId;
         <?php if ($isUpdate): ?>
-            scheduleId = "<?php echo $scheduleId; ?>"; // Use PHP to set the scheduleId directly
+            scheduleId = "<?php echo $scheduleId; ?>"; 
         <?php else: ?>
-            scheduleId = document.getElementById("scheduleId").value.trim(); // Use JavaScript to get the value from the dropdown
+            scheduleId = document.getElementById("scheduleId").value.trim(); 
         <?php endif; ?>        
         const driverId = document.getElementById("driver_id").value.trim();
         const conductorId = document.getElementById("conductor_id").value.trim();
@@ -86,11 +86,11 @@
             return;
         }
 
+        console.log("Form Data:", { scheduleId, driverId, conductorId });
+
         // Determine the correct endpoint
-        const isUpdate = <?php echo json_encode($isUpdate); ?>;
-        const endpoint = isUpdate 
-            ? '<?php echo URLROOT; ?>/SuperAdminPages/updateassign' 
-            : '<?php echo URLROOT; ?>/SuperAdminPages/addassigns';
+        const isUpdate = <?php echo $isUpdate ? 'true' : 'false'; ?>; // Pass PHP boolean as JavaScript boolean
+        const endpoint = isUpdate ? '<?php echo URLROOT; ?>/SuperAdminPages/updateassign' : '<?php echo URLROOT; ?>/SuperAdminPages/addassigns';
 
         // Prepare form data
         const formData = {
@@ -98,7 +98,8 @@
             driver_id: driverId,
             conductor_id: conductorId
         };
-
+        console.log("Form Data to Send:", formData);
+        console.log("Endpoint:", endpoint);
         // Send the request to the appropriate endpoint
         fetch(endpoint, {
             method: "POST",
@@ -107,6 +108,7 @@
         })
         .then(response => response.json())
         .then(data => {
+            console.log("Server Response:", data);
             if (data.status === "success") {
                 alert(isUpdate ? "Assign updated successfully!" : "Assign added successfully!");
                 window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/assigns';
