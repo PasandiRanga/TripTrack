@@ -105,7 +105,7 @@
                 echo "<script>console.log('Seat type:', " . json_encode($layout) . ");</script>";
                 //echo "<script>console.log('Seat type 2:', " . json_encode($layout['seats']) . ");</script>";
                 echo "<script>console.log('bus type 1:', " . json_encode($busType) . ");</script>";
-                if($layout['seatType'] === $busType) {
+                if($layout['seatType'] == $busType) {
                     //echo "<script>console.log('bus type 2:', " . json_encode($busType) . ");</script>";
                     //echo "<script>console.log('Seat type 3:', " . json_encode($layout['seats']) . ");</script>";
                     echo "<script>console.log('Seat Type 2:', " . json_encode($layout['seatType']) . ");</script>";
