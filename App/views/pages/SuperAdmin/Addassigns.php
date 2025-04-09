@@ -71,7 +71,12 @@
         event.preventDefault();
 
         // Collect form data
-        const scheduleId = <?php echo $isUpdate ? '"<?php echo $scheduleId; ?>"' : 'document.getElementById("scheduleId").value.trim()'; ?>;
+        let scheduleId;
+        <?php if ($isUpdate): ?>
+            scheduleId = "<?php echo $scheduleId; ?>"; // Use PHP to set the scheduleId directly
+        <?php else: ?>
+            scheduleId = document.getElementById("scheduleId").value.trim(); // Use JavaScript to get the value from the dropdown
+        <?php endif; ?>        
         const driverId = document.getElementById("driver_id").value.trim();
         const conductorId = document.getElementById("conductor_id").value.trim();
 

@@ -390,17 +390,30 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    public function updateAssign($data){
-        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_id = :driver_id, conductor_id = :conductor_id WHERE scheduleId = :scheduleId');
+    public function updateAssign($data) {
+        date_default_timezone_set('Asia/Colombo'); // Set the timezone
+        $currentDate = date("Y-m-d");  // Get current date
+        $currentTime = date("H:i:s");  // Get current time
+
+        // Debug log to verify data
+        error_log("Model updateAssign Data: " . json_encode($data));
+
+        // Update query
+        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_id = :driver_id, conductor_id = :conductor_id, assign_time = :assign_time, assign_date = :assign_date WHERE scheduleId = :scheduleId');
+
+        // Bind parameters
         $this->db->bind(':scheduleId', $data['scheduleId']);
         $this->db->bind(':driver_id', $data['driver_id']);
         $this->db->bind(':conductor_id', $data['conductor_id']);
+        $this->db->bind(':assign_time', $currentTime);
+        $this->db->bind(':assign_date', $currentDate);
 
-        if($this->db->execute()){
+        // Execute the query and return the result
+        if ($this->db->execute()) {
             return true;
         } else {
-            error_log("Failed to update assign"); // Log error
-            return false; // Failure
+            error_log("Failed to update assign");
+            return false;
         }
     }
 
