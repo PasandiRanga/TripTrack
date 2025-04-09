@@ -12,9 +12,9 @@
             return $this->db->single() ? true : false;
         }
 
-        public function cancelBooking($bookingId, $scheduleId , $cancellation_fee, $refund_amount, $bankDetails) {
-            echo '<script> console.log("scheduleId2: ", ' . json_encode($scheduleId) . '); </script>';
-            echo '<script> console.log("Bank Details: ", ' . json_encode($bankDetails) . '); </script>';  
+        public function cancelOnlineBooking($bookingId, $scheduleId , $cancellation_fee, $refund_amount, $bankDetails) {
+            // echo '<script> console.log("scheduleId2: ", ' . json_encode($scheduleId) . '); </script>';
+            // echo '<script> console.log("Bank Details: ", ' . json_encode($bankDetails) . '); </script>';  
                  
             try {
                 $this->db->beginTransaction();
@@ -22,6 +22,8 @@
                 $this->db->query("SELECT Seats FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
+                echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
+               
                 if (!$seats) {
                     throw new Exception("Booking not found");
                 }
@@ -32,13 +34,21 @@
                 if (!$bookedSeats) {
                     throw new Exception("Schedule not found");
                 }
+                echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
 
-                $seatsArray = explode(',', $seats['Seats']); // Convert booked seats into an array
+
+                $seatsString = $seats['Seats'];
+                $seatsString = str_replace('"', '', $seatsString); // Remove any quote characters
+                $seatsArray = array_map('trim', explode(',', $seatsString));
+                echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
+
                 $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); // Convert bookedSeats into an array
 
-                $bookedSeatsArray = array_diff($bookedSeatsArray, $seatsArray);               
+                $bookedSeatsArray = array_values(array_diff($bookedSeatsArray, $seatsArray));
 
                 $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
+                echo '<script> console.log("Booked seats of the schedule after cancellation: ", ' . json_encode($bookedSeats) . '); </script>';
+
 
                 $this->db->query("UPDATE schedule SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
                 $this->db->bind(':bookedSeats', $bookedSeats);
@@ -53,7 +63,7 @@
                 }
 
 
-                $this->db->query("INSERT INTO cancelled_bookings (id,Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , time_date , cancellation_fee , refund_amount, account_name , account_number , bank_name , branch_name)
+                $this->db->query("INSERT INTO cancelled_online_bookings (id,Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , time_date , cancellation_fee , refund_amount, account_name , account_number , bank_name , branch_name)
                 VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod , 'Cancelled', NOW(), :cancellation_fee , :refund_amount , :account_name , :account_number , :bank_name , :branch_name);");
                 $this->db->bind(':id', $booking['id']);
                 $this->db->bind(':Booking_date', $booking['Booking_date']);
@@ -90,11 +100,108 @@
             }
         }
 
+        public function cancelCashBooking($bookingId, $scheduleId , $cancellation_fee, $refund_amount){
+            try {
+                $this->db->beginTransaction();
+                
+                $this->db->query("SELECT Seats FROM registeredbooking WHERE id = :bookingId");
+                $this->db->bind(':bookingId', $bookingId);
+                $seats = $this->db->single();
+                echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
+               
+                if (!$seats) {
+                    throw new Exception("Booking not found");
+                }
+
+                $this->db->query("SELECT bookedSeats FROM schedule WHERE scheduleId = :scheduleId");
+                $this->db->bind(':scheduleId', $scheduleId);
+                $bookedSeats = $this->db->single();
+                if (!$bookedSeats) {
+                    throw new Exception("Schedule not found");
+                }
+                echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
+
+
+                $seatsString = $seats['Seats'];
+                $seatsString = str_replace('"', '', $seatsString); // Remove any quote characters
+                $seatsArray = array_map('trim', explode(',', $seatsString));
+                echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
+
+                $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); // Convert bookedSeats into an array
+
+                $bookedSeatsArray = array_values(array_diff($bookedSeatsArray, $seatsArray));
+
+                $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
+                echo '<script> console.log("Booked seats of the schedule after cancellation: ", ' . json_encode($bookedSeats) . '); </script>';
+
+
+                $this->db->query("UPDATE schedule SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
+                $this->db->bind(':bookedSeats', $bookedSeats);
+                $this->db->bind(':scheduleId', $scheduleId);
+                $this->db->execute();
+
+                $this->db->query("SELECT * FROM registeredbooking WHERE id = :bookingId");
+                $this->db->bind(':bookingId', $bookingId);
+                $booking = $this->db->single();
+                if (!$booking) {
+                    throw new Exception("Booking not found");
+                }
+
+                 $this->db->query("INSERT INTO cancelled_cash_bookings (id,Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , time_date , cancellation_fee , refund_amount)
+                VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod , 'Cancelled', NOW(), :cancellation_fee , :refund_amount );");
+                $this->db->bind(':id', $booking['id']);
+                $this->db->bind(':Booking_date', $booking['Booking_date']);
+                $this->db->bind(':Booking_time', $booking['Booking_time']);
+                $this->db->bind(':No_of_seats', $booking['No_of_seats']);
+                $this->db->bind(':Seats', $booking['Seats']);
+                $this->db->bind(':User_id', $booking['User_id']);
+                $this->db->bind(':schedule_id', $booking['schedule_id']);
+                $this->db->bind(':from_location', $booking['from_location']);
+                $this->db->bind(':to_location', $booking['to_location']);
+                $this->db->bind(':total_price', $booking['total_price']);
+                $this->db->bind(':paymentMethod', $booking['paymentMethod']);
+                $this->db->bind(':cancellation_fee', $cancellation_fee);
+                $this->db->bind(':refund_amount', $refund_amount);
+                $this->db->execute();
+
+                $this->db->query("DELETE FROM registeredbooking WHERE id = :bookingId");
+                $this->db->bind(':bookingId', $bookingId);
+                $this->db->execute();
+
+                $this->db->endTransaction();
+                
+                return true;
+
+            }catch (Exception $e) {
+                $this->db->rollBack();
+                $_SESSION['error'] = $e->getMessage();
+                error_log($e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return false;
+            }
+        }
+
         public function getCancellationDetails($bookingId, $userId) {
-            $this->db->query("SELECT * FROM cancelled_bookings WHERE id = :bookingId AND User_id = :userId");
+            $this->db->query("SELECT * FROM cancelled_online_bookings WHERE id = :bookingId AND User_id = :userId");
             $this->db->bind(':bookingId', $bookingId);
             $this->db->bind(':userId', $userId);
-            return $this->db->single();
+            $onlineBooking = $this->db->single();
+            
+            // echo '<script> console.log("Cancellation Online data from Db", ' . json_encode($onlineBooking) . '); </script>';
+            
+
+            if ($onlineBooking) {
+                return $onlineBooking;
+            }
+
+            $this->db->query("SELECT * FROM cancelled_cash_bookings WHERE id = :bookingId AND User_id = :userId");
+            $this->db->bind(':bookingId', $bookingId);
+            $this->db->bind(':userId', $userId);
+            $cashBooking = $this->db->single();
+
+            echo '<script> console.log("Cancellation cash data from Db", ' . json_encode($cashBooking) . '); </script>';
+            return $cashBooking;
+            
         }
         
         public function getSchedule(){
