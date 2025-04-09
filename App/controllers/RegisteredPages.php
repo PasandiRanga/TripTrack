@@ -160,33 +160,53 @@
             }
         }
 
-        public function cancelOnlineBooking() {
+        public function cancelBooking() {
+                echo '<script>console.log("POST data received:", ' . json_encode($_POST) . ');</script>';
+
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                echo '<script> console.log("scheduleId: ", ' . json_encode($_POST['schedule_id']) . '); </script>';
-                $scheduleId = $_POST['schedule_id']?? null;
+                echo '<script> console.log("Method is post"); </script>';
+                $scheduleId = $_POST['schedule_id'];
                 echo '<script> console.log("scheduleId: ", ' . json_encode($scheduleId) . '); </script>';
                 $bookingId = $_POST['booking_id'] ?? null;
                 $cancellation_fee = $_POST['cancellation_fee'] ?? null;
                 echo '<script> console.log("cancellation_fee: ", ' . json_encode($cancellation_fee) . '); </script>';
                 $refund_amount = $_POST['refund_amount'] ?? null;
                 echo '<script> console.log("refund_amount: ", ' . json_encode($refund_amount) . '); </script>';
+
+                $bankDetails =[];
                 
-                $bankDetails = json_decode($_POST['bank_details_json'], true);
-                echo '<script> console.log("bankDetails: ", ' . json_encode($bankDetails) . '); </script>';
-             
-        
-                if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
-                    if ($this->RegisteredpagesModel->cancelBooking($bookingId,$scheduleId, $cancellation_fee, $refund_amount, $bankDetails)) {
-                        
-                        header("Location: " . URLROOT . "/RegisteredPages/cancellationReceipt?booking_id=$bookingId&cancellation_fee=$cancellation_fee&refund_amount=$refund_amount&bank_details_json=" . urlencode(json_encode($bankDetails)));
-                        exit;
+                $bankDetails = json_decode($_POST['bank_details_json'], true) ?? [];
+                
+                if($bankDetails){
+                    if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])) {
+                        if ($this->RegisteredpagesModel->cancelOnlineBooking($bookingId,$scheduleId, $cancellation_fee, $refund_amount, $bankDetails)) {
+                            
+                            header("Location: " . URLROOT . "/RegisteredPages/cancellationReceipt?booking_id=$bookingId&cancellation_fee=$cancellation_fee&refund_amount=$refund_amount&bank_details_json=" . urlencode(json_encode($bankDetails)));
+                            exit;
+                        } else {
+                            header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Unable to cancel booking");
+                            exit;
+                        }
                     } else {
-                        header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Unable to cancel booking");
+                        header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
                         exit;
                     }
-                } else {
-                    header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
-                    exit;
+                }else{
+                    if ($bookingId && $this->RegisteredpagesModel->validateBooking($bookingId, $_SESSION['user_id'])){
+                        echo '<script> console.log("Booking is valid"); </script>';
+
+                        if ($this->RegisteredpagesModel->cancelCashBooking($bookingId,$scheduleId, $cancellation_fee, $refund_amount, $bankDetails)) {
+                            header("Location: " . URLROOT . "/RegisteredPages/cancellationReceipt?booking_id=$bookingId&cancellation_fee=$cancellation_fee&refund_amount=$refund_amount&bank_details_json=" . urlencode(json_encode($bankDetails)));
+                            exit;
+                        } else {
+                            header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Unable to cancel booking");
+                            exit;
+                        }
+                    }else {
+                        header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
+                        exit;
+                    }
+
                 }
             } else {
                 header("Location: " . URLROOT . "/RegisteredPages/newbookings");
@@ -200,6 +220,9 @@
                 $cancellation_fee = $_GET['cancellation_fee'] ?? null;
                 $refund_amount = $_GET['refund_amount'] ?? null;
                 $bankDetails = json_decode($_GET['bank_details_json'], true);
+                echo("<script>console.log('Booking id2: $bookingId');</script>");
+                echo("<script>console.log('CancellationFee2: $cancellation_fee');</script>");
+                echo("<script>console.log('Refund amount2: $refund_amount');</script>");          
 
                 $cancellationData = $this->RegisteredpagesModel->getCancellationDetails($bookingId, $_SESSION['user_id']);
                 

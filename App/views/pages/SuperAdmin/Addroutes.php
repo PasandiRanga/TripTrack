@@ -2,13 +2,20 @@
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 ?>
-
+<?php
+    $routeNumber = $_GET['routeNumber'] ?? '';
+    $route = $_GET['route'] ?? '';
+    $stops = $_GET['stops'] ?? '';
+    $price = $_GET['price'] ?? '';
+    $pricePerKm = $_GET['priceperkm'] ?? '';
+    $isUpdate = !empty($routeNumber); // Check if it's an update operation
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Assigns</title>
+    <title><?php echo $isUpdate ? 'Update Route' : 'Add Route'; ?></title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/AddRoutes.css?v=<?php echo time(); ?>">
 </head>
 <body>
@@ -19,28 +26,35 @@
     <h2>Add New Route</h2>
 
     <!-- Add Assignment Form -->
-    <form id="routeForm" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/addroutes" class="route-form">
+    <form id="routeForm" method="POST" action="<?php echo $isUpdate ? URLROOT . '/SuperAdminPages/updateRoute' : URLROOT . '/SuperAdminPages/addRoute'; ?>" class="route-form">
         <label for="routeNumber">Route No:</label>
-        <input type="text" id="routeNumber" name="routeNumber" placeholder="Enter Route Number" required>
+        <input type="text" id="routeNumber" name="routeNumber" placeholder="Enter Route Number" value="<?php echo htmlspecialchars($routeNumber); ?>" <?php echo $isUpdate ? 'readonly' : ''; ?> required>
 
         <label for="route">Route:</label>
-        <input type="text" id="route" name="route" placeholder="Enter Route" required>
+        <input type="text" id="route" name="route" placeholder="Enter Route" value="<?php echo htmlspecialchars($route); ?>" required>
 
         <label for="stops">Stops:</label>
-        <input type="text" id="stops" name="stops" placeholder="Enter Stops" required>
+        <input type="text" id="stops" name="stops" placeholder="Enter Stops" value="<?php echo htmlspecialchars($stops); ?>" required>
 
-        <label for="stops">price:</label>
-        <input type="text" id="price" name="price" placeholder="Enter price" required>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" placeholder="Enter Price" value="<?php echo htmlspecialchars($price); ?>" required>
 
-        <label for="stops">Price/km:</label>
-        <input type="text" id="priceperkm" name="priceperkm" placeholder="Enter price per km" required>
+        <label for="priceperkm">Price/km:</label>
+        <input type="text" id="priceperkm" name="priceperkm" placeholder="Enter Price per km" value="<?php echo htmlspecialchars($pricePerKm); ?>" required>
 
-        <button type="submit">Add Route</button>
+        <button type="submit"><?php echo $isUpdate ? 'Update Route' : 'Add Route'; ?></button>
     </form>
 <script>
     document.getElementById("routeForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
+        // Determine the correct endpoint based on whether it's an update or add operation
+        const isUpdate = <?php echo json_encode($isUpdate); ?>;
+        const endpoint = isUpdate 
+            ? '<?php echo URLROOT; ?>/SuperAdminPages/updateRoute' 
+            : '<?php echo URLROOT; ?>/SuperAdminPages/addRoute';
+
+        // Collect form data
         let formData = {
             routeNumber: document.getElementById("routeNumber").value.trim(),
             route: document.getElementById("route").value.trim(),
@@ -49,7 +63,8 @@
             priceperkm: document.getElementById("priceperkm").value.trim()
         };
 
-        fetch('<?php echo URLROOT; ?>/SuperAdminPages/addroute', {
+        // Send the request to the appropriate endpoint
+        fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
@@ -64,14 +79,13 @@
         })
         .then(data => {
             if (data.status === "success") {
-                alert("Route added successfully!");
+                alert(isUpdate ? "Route updated successfully!" : "Route added successfully!");
                 window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/routes';
             } else {
                 alert("Error: " + data.message);
             }
         })
         .catch(error => alert("An error occurred: " + error.message));
-
     });
 </script>
 </body>

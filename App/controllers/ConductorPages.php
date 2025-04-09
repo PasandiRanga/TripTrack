@@ -283,6 +283,10 @@
                 echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
             }
         }
+
+        public function busLayOut() {
+            $this->view('pages/Conductor/busLayout');
+        }
         
 
     }

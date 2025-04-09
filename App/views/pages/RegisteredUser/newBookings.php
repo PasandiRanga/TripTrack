@@ -468,7 +468,7 @@ function showCancelPopup(booking , schedule){
                     <span class="detail-value">${schedule.date}</span>
                 </div>
                 <div class="detail-row">
-                    <span classs="detail-label">Total Price : </span>
+                    <span class="detail-label">Total Price : </span>
                     <span class="detail-value">LKR ${Number(booking.total_price).toFixed(2)}</span>
                 </div>
                 <div class="detail-row">
@@ -564,7 +564,14 @@ function showCancelPopup(booking , schedule){
         // details.appendChild(containerDiv);
 
         confirmBtn.onclick = function() {
-            window.location.href = `<?php echo URLROOT; ?>/RegisteredPages/paymentPortal?bookingId=${booking.id}&cancellationFee=${feeAmount}`;
+            const queryParams = new URLSearchParams({
+                bookingId: booking.id,
+                cancellationFee: feeAmount,
+                refundAmount: refundAmount,
+                scheduleId: schedule.scheduleId
+            }).toString();
+
+            window.location.href = `<?php echo URLROOT; ?>/RegisteredPages/paymentPortal?${queryParams}`;
         };
 
     }
@@ -591,7 +598,7 @@ function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, ban
     console.log("inside confirmOnlineCancellation");
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '<?php echo URLROOT; ?>/RegisteredPages/cancelOnlineBooking';
+    form.action = '<?php echo URLROOT; ?>/RegisteredPages/cancelBooking';
             
     const data = {
         schedule_id:scheduleId, 
