@@ -867,6 +867,34 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Profile
+//---------------------------------------------------------------------------------------------------------------------- 
+
+    public function profile() {
+        // Start the session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Assuming you have a session variable storing the current employee ID
+        $currentEmpId = $_SESSION['emp_id'] ?? null;
+
+        if ($currentEmpId) {
+            $profile = $this->SuperAdminModel->getEmpDetailsById($currentEmpId);
+            $data = [
+                'profile' => $profile
+            ];
+
+            $this->view('pages/SuperAdmin/Profile', $data);
+        } else {
+            // Handle the case where the employee ID is not available in the session
+            //die("Employee ID not found in session.");
+            $this->view('pages/SuperAdmin/Profile');
+        }
+    }
+
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
 
