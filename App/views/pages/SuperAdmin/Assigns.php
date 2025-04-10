@@ -54,7 +54,7 @@
                                 <td>{$assign['driver_id']}</td>
                                 <td>{$assign['assign_time']}</td>
                                 <td>{$assign['assign_date']}</td>
-                                <td><button class='update-btn' onclick=\"window.location.href='" . URLROOT . "/SuperAdminPages/updateassign/{$assign['scheduleId']}'\">Update</button></td>
+                                <td><button class='update-btn' onclick='updateAssign(\"{$assign['scheduleId']}\")'>Update</button></td>
                                 <td><button class='delete-btn' onclick='deleteAssigns(\"{$assign['scheduleId']}\")'>Delete</button></td>
                             </tr>";
                     }
@@ -89,6 +89,29 @@
                     }
                 })
                 .catch(() => alert('Error deleting the assign.'));
+            }
+        }
+
+        function updateAssign(scheduleId) {
+            // Find the row with the matching schedule ID
+            const rows = Array.from(document.querySelectorAll("table.assign-table tbody tr"));
+            const row = rows.find(row => row.cells[0].innerText.trim() === String(scheduleId));
+
+            if (row) {
+                // Extract data from the row
+                const scheduleId = row.cells[0].innerText.trim();
+                const conductorId = row.cells[1].innerText.trim();
+                const driverId = row.cells[2].innerText.trim();
+
+                // Redirect to the updateassign page with pre-filled data
+                const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/Addassigns');
+                url.searchParams.append('scheduleId', scheduleId);
+                url.searchParams.append('conductorId', conductorId);
+                url.searchParams.append('driverId', driverId);
+
+                window.location.href = url.toString();
+            } else {
+                alert("Assignment not found.");
             }
         }
     </script>

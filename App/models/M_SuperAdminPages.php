@@ -345,9 +345,11 @@ class M_SuperAdminPages {
     public function addAssigns($data) {
         try {
 
+            error_log("Inserting Assign: " . print_r($data, true));
+
             date_default_timezone_set('Asia/Colombo');
-            $currentDate = date("Y-m-d");  // Get current date
-            $currentTime = date("H:i:s");  // Get current time
+            $currentDate = date("Y-m-d");
+            $currentTime = date("H:i:s");
 
             $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) 
                             VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
@@ -359,19 +361,26 @@ class M_SuperAdminPages {
             $this->db->bind(':assign_date', $currentDate);
 
             if ($this->db->execute()) {
-                return true; // Success
+                return true;
             } else {
-                error_log("Database error: Failed to insert assignment"); // Log error
-                return false; // Failure
+                // Log error details
+                error_log("Database error: Failed to execute query in addAssigns method.");
+                return false;
             }
         } catch (Exception $e) {
-            error_log("Exception in addAssigns: " . $e->getMessage()); // Log exception
+            error_log("Exception in addAssigns: " . $e->getMessage());
             return false;
         }
     }
 
+
     public function getScheduleID(){
         $this->db->query("SELECT scheduleId FROM schedule");
+        return $this->db->resultSet();
+    }
+
+    public function getAssignedSchedules(){
+        $this->db->query("SELECT scheduleId FROM assign");
         return $this->db->resultSet();
     }
 
@@ -383,6 +392,33 @@ class M_SuperAdminPages {
     public function getConductorID(){
         $this->db->query("SELECT employee_id FROM employee WHERE role='Conductor'");
         return $this->db->resultSet();
+    }
+
+    public function updateAssign($data) {
+        date_default_timezone_set('Asia/Colombo'); // Set the timezone
+        $currentDate = date("Y-m-d");  // Get current date
+        $currentTime = date("H:i:s");  // Get current time
+
+        // Debug log to verify data
+        error_log("Model updateAssign Data: " . json_encode($data));
+
+        // Update query
+        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_id = :driver_id, conductor_id = :conductor_id, assign_time = :assign_time, assign_date = :assign_date WHERE scheduleId = :scheduleId');
+
+        // Bind parameters
+        $this->db->bind(':scheduleId', $data['scheduleId']);
+        $this->db->bind(':driver_id', $data['driver_id']);
+        $this->db->bind(':conductor_id', $data['conductor_id']);
+        $this->db->bind(':assign_time', $currentTime);
+        $this->db->bind(':assign_date', $currentDate);
+
+        // Execute the query and return the result
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            error_log("Failed to update assign");
+            return false;
+        }
     }
 
     public function deleteAssign($scheduleId){

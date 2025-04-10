@@ -584,9 +584,7 @@ class SuperAdminPages extends Controller {
             $data = [
                 'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
                 'driver_id'    => trim($inputData['driver_id'] ?? ''),
-                'conductor_id' => trim($inputData['conductor_id'] ?? ''),
-                'assign_time'  => trim($inputData['assign_time'] ?? ''),
-                'assign_date'  => trim($inputData['assign_date'] ?? '')
+                'conductor_id' => trim($inputData['conductor_id'] ?? '')
             ];
 
             // Validate required fields
@@ -601,20 +599,38 @@ class SuperAdminPages extends Controller {
                 echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
                 exit();
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
+                //echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
                 http_response_code(500);
                 exit();
             }
         } else {
+                $scheduleId = $_GET['scheduleId'] ?? '';
+                $driverId = $_GET['driver_id'] ?? '';
+                $conductorId = $_GET['conductor_id'] ?? '';
+                $isUpdate = !empty($scheduleId);
+            //Fetch all schedules
+            $allSchedules = $this->SuperAdminModel->getScheduleID();
+
+            //fetch assigned schedules
+            $assignedSchedules = $this->SuperAdminModel->getAssignedSchedules();
+
+            //filter schedlues to execute already assigned ones
+            $availableSchedules = array_filter($allSchedules, function($schedule) use ($assignedSchedules) {
+                return !in_array($schedule['scheduleId'], array_column($assignedSchedules, 'scheduleId'));
+            });
             // Fetch schedule, driver, and conductor data
-            $schedules = $this->SuperAdminModel->getScheduleID();
+            $schedules = $availableSchedules;
             $drivers = $this->SuperAdminModel->getDriverID();
             $conductors = $this->SuperAdminModel->getConductorID();
 
             $data = [
-                'schedules' => $schedules,
+                'schedules' => $assignedSchedules,
                 'drivers' => $drivers,
-                'conductors' => $conductors
+                'conductors' => $conductors,
+                'scheduleId' => $scheduleId,
+                'driverId' => $driverId,
+                'conductorId' => $conductorId,
+                'isUpdate' => $isUpdate
             ];
 
             $this->view('pages/SuperAdmin/Addassigns', $data);
@@ -622,6 +638,46 @@ class SuperAdminPages extends Controller {
         }
     }
 
+    public function updateAssign() {
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $inputData = json_decode(file_get_contents('php://input'), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
+                'driver_id'    => trim($inputData['driver_id'] ?? ''),
+                'conductor_id' => trim($inputData['conductor_id'] ?? '')
+            ];
+
+            // Debug log to verify data
+            error_log("Controller updateAssign Data: " . json_encode($data));
+
+            // Validate required fields
+            if (empty($data['scheduleId']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            // Call the model method to update the assign
+            if ($this->SuperAdminModel->updateAssign($data)) {
+                echo json_encode(['status' => 'success', 'message' => 'Assign updated successfully.']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Error updating the assign.']);
+                http_response_code(500);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
+        }
+    }
     public function deleteAssign() {
         header('Content-Type: application/json');
 
