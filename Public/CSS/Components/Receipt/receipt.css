@@ -1,5 +1,4 @@
-/* receipt.css */
-
+/* Combined Receipt CSS Styles */
 body {
     font-family: "Poppins", sans-serif;
     background-color: #f5f5f5;
@@ -8,58 +7,74 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    color: #333;
+    line-height: 1.5;
 }
 
 .receipt-container {
     background-color: #ffffff;
-    /* width: 500px; */
-    padding: 20px;
+    width: 550px; /* Reduced from original size */
+    padding: 25px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 24px; /* Reduced from 30px */
     color: #43cea2;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border-bottom: 2px solid #e0e0e0;
     padding-bottom: 10px;
     font-weight: bold;
+    text-align: center;
 }
-
-
 
 .details {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .details p {
-    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px; /* Reduced from 14px */
     color: #333333;
-    margin: 10px 0;
+    margin: 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .details strong {
+    font-weight: bold;
     color: #052d55;
 }
 
 .qr-code {
-    margin-top: 20px;
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #eee;
 }
 
 .qr-code h2 {
-    font-size: 1.2em;
+    font-size: 1.1em; /* Reduced from 1.2em */
     color: #333333;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+}
+
+.qr-box {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 #qrcode {
-    width: 140px;
-    height: 140px;
+    width: 120px; /* Reduced from 140px */
+    height: 120px; /* Reduced from 140px */
     margin: 0 auto;
-    padding: 10px;
+    padding: 8px;
     border: 2px solid #005569;
     border-radius: 5px;
     background-color: #ffffff;
@@ -70,40 +85,64 @@ h1 {
     height: 100%;
 }
 
+/* Download button styling */
 .download {
-    padding: 10px;
+    display: block;
+    width: 180px; /* Reduced from 200px */
+    margin: 20px auto 15px;
+    padding: 10px 15px;
     background: linear-gradient(135deg, #43cea2, #185a9d);
     color: white;
-    border: none;
+    text-align: center;
     border-radius: 4px;
+    border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px; /* Reduced from 16px */
+    font-weight: bold;
+    transition: background 0.3s;
 }
 
 .download:hover {
     background: linear-gradient(135deg, #185a9d, #43cea2);
 }
 
-/* Position the back button at the top-left corner */
 .back-button {
     position: fixed;
     top: 10px;
     left: 10px;
-    background-color: #fff;  /* Optional: Background color */
-    padding: 10px 15px;       /* Optional: Adjust button padding */
-    border-radius: 5px;       /* Optional: Rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Optional: Box shadow */
-    font-size: 16px;           /* Optional: Font size */
-    text-decoration: none;     /* Remove underline */
-    color: #333;               /* Text color */
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    text-decoration: none;
+    color: #333;
 }
 
 .back-button i {
-    margin-right: 5px;  /* Space between icon and text */
+    margin-right: 5px;
 }
 
-/* Optional: Style for hover effect */
 .back-button:hover {
-    background-color: #f0f0f0;  /* Light gray background on hover */
+    background-color: #f0f0f0;
 }
 
+/* Hide elements when printing */
+@media print {
+    .no-print, .back-button {
+        display: none !important;
+    }
+    
+    body {
+        background-color: #fff;
+        height: auto;
+        display: block;
+    }
+    
+    .receipt-container {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+        padding: 0;
+    }
+}
