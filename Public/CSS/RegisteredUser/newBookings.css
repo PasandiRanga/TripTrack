@@ -577,3 +577,32 @@ body.menu-open .menu.show {
     border-radius: 4px;
     cursor: pointer;
 }
+
+.booking-item {
+    position: relative; /* Ensure positioning context */
+    z-index: 1; /* Optional: set a lower z-index to make menu appear above */
+}
+
+
+.booking-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.arrow-icon {
+    font-size: 18px;
+    user-select: none;
+}
+
+.booking-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 0 5px;
+}
+
+.booking-details.show {
+    max-height: 500px; /* large enough for your content */
+    padding-top: 10px;
+}

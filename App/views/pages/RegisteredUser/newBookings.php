@@ -275,10 +275,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (schedule && schedule.date === dateStr) {
                         const bus = busData.find(b => b.busId === schedule.busId);
                         dateInfo += `
-                            <div class="booking-item upcoming">
-                                <div class="three-dots" onclick="toggleMenu(event)">
-                                    &#x22EE; <!-- Three dots icon -->
-                                </div>
+                            <div class="booking-item upcoming" onclick="toggleDetails(event, this)">
+                                <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
                                         <li>Option 1</li>
@@ -286,13 +284,18 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <li>Option 3</li>
                                     </ul>
                                 </div>
-                                <div class="booking-content">
-                                    <p>From: ${booking.from_location}</p>
-                                    <p>To: ${booking.to_location}</p>
-                                    <p>Time: ${schedule.departureTime}</p>
-                                    <p>Bus: ${bus ? bus.License_id : 'N/A'}</p>
-                                    <p>Booking ID: ${booking.id}</p>
-                                    <p>Payment Method : ${booking.paymentMethod}</p>
+                                <div class="booking-summary">
+                                    <span class="arrow-icon">▼</span>
+                                    <p><strong>${booking.from_location} - </strong></p>
+                                    <p><strong>${booking.to_location}</strong></p>
+                                </div>
+                                <div class="booking-details">
+                                    <p><strong>From:</strong> ${booking.from_location}</p>
+                                    <p><strong>To:</strong> ${booking.to_location}</p>
+                                    <p><strong>Time:</strong> ${schedule.departureTime}</p>
+                                    <p><strong>Bus:</strong> ${bus ? bus.License_id : 'N/A'}</p>
+                                    <p><strong>Booking ID:</strong> ${booking.id}</p>
+                                    <p><strong>Payment Method:</strong> ${booking.paymentMethod}</p>
                                 </div>
                             </div>
                         `;
@@ -308,10 +311,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (schedule && schedule.date === dateStr) {
                         const bus = busData.find(b => b.busId === schedule.busId);
                         dateInfo += `
-                            <div class="booking-item past">
-                                <div class="three-dots" onclick="toggleMenu(event)">
-                                    &#x22EE; <!-- Three dots icon -->
-                                </div>
+                            <div class="booking-item past" onclick="toggleDetails(event, this)">
+                                <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
                                         <li>Option 1</li>
@@ -319,18 +320,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <li>Option 3</li>
                                     </ul>
                                 </div>
-                                <div class="booking-content">
-                                    <p>From: ${booking.from_location}</p>
-                                    <p>To: ${booking.to_location}</p>
-                                    <p>Time: ${schedule.departureTime}</p>
-                                    <p>Bus: ${bus ? bus.License_id : 'N/A'}</p>
-                                    <p>Booking ID: ${booking.id}</p>
+                                <div class="booking-summary">
+                                    <span class="arrow-icon">▼</span>
+                                    <p><strong>From:</strong> ${booking.from_location}</p>
+                                    <p><strong>To:</strong> ${booking.to_location}</p>
+                                </div>
+                                <div class="booking-details">
+                                    <p><strong>Time:</strong> ${schedule.departureTime}</p>
+                                    <p><strong>Bus:</strong> ${bus ? bus.License_id : 'N/A'}</p>
+                                    <p><strong>Booking ID:</strong> ${booking.id}</p>
                                 </div>
                             </div>
                         `;
                     }
                 });
             }
+
             
             dateInfo += `</div>`;
         }
@@ -372,9 +377,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function toggleMenu(event) {
+    event.stopPropagation(); // Prevent bubbling
     const menu = event.target.nextElementSibling;
-    menu.classList.toggle('show');
+    console.log("Clicked menu:", menu); // Debug log
+
+    if (menu && menu.classList.contains('menu')) {
+        document.querySelectorAll('.menu').forEach(m => {
+            if (m !== menu) m.classList.remove('show');
+        });
+        menu.classList.toggle('show');
+    }
 }
+
 
 // Add event listener to detect clicks outside the menu
 document.addEventListener("click", function(event) {
@@ -619,5 +633,25 @@ function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, ban
         document.getElementById('ticketBox').classList.add('hidden');
         document.getElementById('overlay').classList.add('hidden');
     }
+
+function toggleDetails(event, element) {
+    // Don't toggle details if click is on the three-dots or menu
+    if (event.target.closest('.three-dots') || event.target.closest('.menu')) {
+        return;
+    }
+
+    const details = element.querySelector('.booking-details');
+    const arrow = element.querySelector('.arrow-icon');
+
+    if (details.classList.contains('show')) {
+        details.classList.remove('show');
+        arrow.textContent = '▼';
+    } else {
+        details.classList.add('show');
+        arrow.textContent = '▲';
+    }
+}
+
+
 
 </script>
