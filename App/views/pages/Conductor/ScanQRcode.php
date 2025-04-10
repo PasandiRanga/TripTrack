@@ -34,6 +34,8 @@ authCheck(['Conductor', 'Driver']);
 
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
 
+    <!--<button id="viewLayout1" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/busLayout'">View Bus Layout</button>-->
+
     <h1>Scan QR Code</h1>
 
     <div class="container">
@@ -44,31 +46,69 @@ authCheck(['Conductor', 'Driver']);
         <!-- Modal for QR code result -->
         <div class="modal-overlay" id="qrModal">
             <div class="modal-content">
-                <h2>QR Code Result</h2>
+                
                 <p id="qrResultText"></p>
                 <button onclick="closeModal()">Close</button>
+                <button id="viewLayout" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/busLayout'">View Bus Layout</button>
             </div>
         </div>
 
         <script src="https://unpkg.com/html5-qrcode"></script>
         <script>
-            function domReady(fn) {
-                if (document.readyState === "complete" || document.readyState === "interactive") {
-                    setTimeout(fn, 1);
-                } else {
-                    document.addEventListener("DOMContentLoaded", fn);
-                }
+            // Function to parse QR code text into key-value pairs
+            function parseQrText(decodedText) {
+                const lines = decodedText.split('\n');
+                const data = {};
+
+                lines.forEach(line => {
+                    const [key, value] = line.split(':');
+                    if (value) {
+                        data[key.trim()] = value.trim();
+                    }
+                });
+
+                return data;
             }
 
-            // Function to show modal with QR result
-            function showModal(message) {
-                document.getElementById('qrResultText').innerText = message;
+            // Function to show modal with parsed data
+            function showModal(decodedText) {
+                const data = parseQrText(decodedText);
+
+                if (data["Seats"]) {
+                    let acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
+                    const newSeats = data["Seats"].split(',').map(seat => seat.trim());
+                    
+                    // Add new seats to accepted list if not already there
+                    newSeats.forEach(seat => {
+                        if (!acceptedSeats.includes(seat)) {
+                            acceptedSeats.push(seat);
+                        }
+                    });
+
+                    localStorage.setItem("acceptedSeats", JSON.stringify(acceptedSeats));
+                }
+
+                document.getElementById('qrResultText').innerHTML =
+                    `<h2 class="qr-title">Booking is Accepted!!</h2>
+                    <strong>Booking Receipt</strong><br>
+                    Schedule ID: ${data["Schedule ID"]}<br>
+                    Seats: ${data["Seats"]}<br>
+                    Total Price: ${data["Total Price"]}`;
+
                 document.getElementById('qrModal').style.display = 'flex';
             }
 
             // Function to close modal
             function closeModal() {
                 document.getElementById('qrModal').style.display = 'none';
+            }
+
+            function domReady(fn) {
+                if (document.readyState === "complete" || document.readyState === "interactive") {
+                    setTimeout(fn, 1);
+                } else {
+                    document.addEventListener("DOMContentLoaded", fn);
+                }
             }
 
             domReady(function () {
@@ -81,7 +121,7 @@ authCheck(['Conductor', 'Driver']);
                         lastResult = decodedText;
 
                         // Show QR result in the modal
-                        showModal(`You scanned: ${decodedText}`);
+                        showModal(decodedText);
                     }
                 }
 
