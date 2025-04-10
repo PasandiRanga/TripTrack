@@ -34,14 +34,13 @@
         $upcomingBookingData = $data['upcomingbookings'] ?? [];
         $pastBookingData = $data['pastbookings'] ?? [];
         $scheduleData = $data['schedule'] ?? [];
+        $notifications = $data['notifications'] ?? [];
         // $bookingData = $data['bookingsDetails'] ?? [];
         $busData = $data['bus'] ?? [];
         // $userData = $data['user'] ?? [];
-        $data = [
-            'currentController' => 'RegisteredPages', // Adjust this based on your controller
-            'currentMethod' => 'bookings', // Adjust this based on the method
-            'userRole' => $userRole
-        ];
+        $data['currentController'] = 'RegisteredPages';
+        $data['currentMethod'] = 'allNotifications';
+        $data['userRole'] = $userRole;
 
     ?>
 

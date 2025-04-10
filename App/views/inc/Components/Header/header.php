@@ -23,7 +23,8 @@
 
 
     //include_once 'notificationData.php';
-    //include_once 'c_notificationData.php';
+    // include_once 'c_notificationData.php';
+
 
     $profileImage = !empty($_SESSION['user_profile_image']) ? $_SESSION['user_profile_image'] : 'default.jpg';
 
@@ -54,27 +55,45 @@
             <?php if (in_array($userRole, ["RegisteredUser"])): ?>
                 <!-- Update the notification button HTML -->
                 <div class="notiicon">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="badge"><?php echo !empty($notifications) ? count($notifications) : '0'; ?></span>
-                    <div class="notifi-box" id="box">
-                    <?php if (!empty($notifications)): ?>
-                        <?php foreach ($notifications as $notification): ?>
-                            <div class="notifi-item">
-                                <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
-                                <div class="text">
-                                    <h4><?php echo htmlspecialchars($notification['Title']); ?></h4>
-                                    <p><?php echo htmlspecialchars($notification['Time']); ?></p>
-                                    <div class="dropdown-arrow">&#9660;</div>
-                                </div>
-                                <div class="notification-content">
-                                    <p><?php echo htmlspecialchars($notification['Content']); ?></p>
-                                </div>
+                <div class="notification-container">
+                        <div class="bell-icon" id="bell-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge" id="notification-count"><?php echo count($notifications); ?></span>
+                        </div>
+                        <div class="notification-box" id="notification-box">
+                            <h3>Notifications</h3>
+                            <div class="notification-list" id="notification-list">
+                                <?php if (!empty($notifications)): ?>
+                                    <?php foreach ($notifications as $notification): ?>
+                                        <div class="notifi-item" data-notification-id="<?php echo $notification['id']; ?>">
+                                            <div class="notification-header">
+                                                <div class="notification-title"><?php echo $notification['title']; ?></div>
+                                                <div class="notification-time"><?php echo $notification['created_at']; ?></div>
+                                                <div class="notification-controls">
+                                                    <span class="dropdown-arrow">&#9660;</span>
+                                                    <br/>
+                                                    <span class="close-icon">&#10005;</span>
+                                                </div>
+                                            </div>
+                                            <div class="notification-content">
+                                                <p><?php echo $notification['message']; ?></p>
+                                                <div class="notification-actions">
+                                                    <button class="mark-read-btn" data-id="<?php echo $notification['id']; ?>">
+                                                        Mark as <?php echo $notification['is_read'] ? 'unread' : 'read'; ?>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="no-notifications">No notifications available.</div>
+                                <?php endif; ?>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No notifications available.</p>
-                    <?php endif; ?>
-                </div>
+                            <div class="view-all-container">
+                                <a href="<?php echo URLROOT; ?>/RegisteredPages/allNotifications" class="view-all-btn">View All Notifications</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             <?php endif; ?>
             
@@ -104,7 +123,7 @@
             <?php require APPROOT.'/views/inc/Components/LoginBox/loginBox.php'; ?>
         </div>
     </div>
-
+    <script src="<?php echo URLROOT; ?>/public/js/notification.js"></script>
 
     <script>
 
@@ -150,112 +169,112 @@
             });
         });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const notificationIcon = document.querySelector('notiicon');
-        const notificationBox = document.getElementById('box');
-        let isOpen = false;
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const notificationIcon = document.querySelector('notiicon');
+    //     const notificationBox = document.getElementById('box');
+    //     let isOpen = false;
 
-        notificationIcon.addEventListener('click', function(event) {
-            event.stopPropagation();
-            isOpen = !isOpen;
+    //     notificationIcon.addEventListener('click', function(event) {
+    //         event.stopPropagation();
+    //         isOpen = !isOpen;
 
-            if (isOpen) {
-                // Fetch notifications when clicking the bell icon
-                fetchNotifications();
-            }
+    //         if (isOpen) {
+    //             // Fetch notifications when clicking the bell icon
+    //             fetchNotifications();
+    //         }
 
-            notificationBox.style.height = isOpen ? '510px' : '0px';
-            notificationBox.style.opacity = isOpen ? '1' : '0';
-        });
+    //         notificationBox.style.height = isOpen ? '510px' : '0px';
+    //         notificationBox.style.opacity = isOpen ? '1' : '0';
+    //     });
 
-        function fetchNotifications() {
-            fetch('<?php echo URLROOT; ?>/RegisteredPages/getAllNotifications')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        updateNotificationsUI(data.notifications);
-                        console.log(data.notifications);
-                    } else {
-                        console.error("Failed to fetch notifications.");
-                    }
-                })
-                .catch(error => console.error('Error fetching notifications:', error));
-        }
+    //     function fetchNotifications() {
+    //         fetch('<?php echo URLROOT; ?>/RegisteredPages/getAllNotifications')
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success) {
+    //                     updateNotificationsUI(data.notifications);
+    //                     console.log(data.notifications);
+    //                 } else {
+    //                     console.error("Failed to fetch notifications.");
+    //                 }
+    //             })
+    //             .catch(error => console.error('Error fetching notifications:', error));
+    //     }
 
-        function updateNotificationsUI(notifications) {
-            const notificationContainer = document.getElementById('box');
-            notificationContainer.innerHTML = '';
+    //     function updateNotificationsUI(notifications) {
+    //         const notificationContainer = document.getElementById('box');
+    //         notificationContainer.innerHTML = '';
 
-            if (notifications.length === 0) {
-                notificationContainer.innerHTML = '<p>No notifications available.</p>';
-            } else {
-                notifications.forEach(notification => {
-                    const notificationItem = document.createElement('div');
-                    notificationItem.classList.add('notifi-item');
-                    notificationItem.innerHTML = `
-                        <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
-                        <div class="text">
-                            <h4>${notification.title}</h4>
-                            <p>${notification.time}</p>
-                            <div class="dropdown-arrow">&#9660;</div>
-                        </div>
-                        <div class="notification-content" style="display: none;">
-                            <p>${notification.notification}</p>
-                        </div>
-                    `;
-                    notificationContainer.appendChild(notificationItem);
-                });
-            }
-        }
-    });
+    //         if (notifications.length === 0) {
+    //             notificationContainer.innerHTML = '<p>No notifications available.</p>';
+    //         } else {
+    //             notifications.forEach(notification => {
+    //                 const notificationItem = document.createElement('div');
+    //                 notificationItem.classList.add('notifi-item');
+    //                 notificationItem.innerHTML = `
+    //                     <div class="close-icon" onclick="removeNotification(this)">&#10005;</div>
+    //                     <div class="text">
+    //                         <h4>${notification.title}</h4>
+    //                         <p>${notification.time}</p>
+    //                         <div class="dropdown-arrow">&#9660;</div>
+    //                     </div>
+    //                     <div class="notification-content" style="display: none;">
+    //                         <p>${notification.notification}</p>
+    //                     </div>
+    //                 `;
+    //                 notificationContainer.appendChild(notificationItem);
+    //             });
+    //         }
+    //     }
+    // });
 
 
-    if($userRole == 'RegisteredUser'){
-        document.addEventListener('click', function(event) {
-            if (!notificationIcon.contains(event.target) && !notificationBox.contains(event.target) && isOpen) {
-                isOpen = false;
-                notificationBox.style.height = '0px';
-                notificationBox.style.opacity = '0';
-            }
-        });
-    }
+//     if($userRole == 'RegisteredUser'){
+//         document.addEventListener('click', function(event) {
+//             if (!notificationIcon.contains(event.target) && !notificationBox.contains(event.target) && isOpen) {
+//                 isOpen = false;
+//                 notificationBox.style.height = '0px';
+//                 notificationBox.style.opacity = '0';
+//             }
+//         });
+//     }
 
-    // Handle notification content toggles
-    document.querySelectorAll('.dropdown-arrow').forEach(arrow => {
-        arrow.addEventListener('click', function(event) {
-            event.stopPropagation();
-            const content = this.closest('.notifi-item').querySelector('.notification-content');
-            const isContentVisible = content.style.display === 'block';
+//     // Handle notification content toggles
+//     document.querySelectorAll('.dropdown-arrow').forEach(arrow => {
+//         arrow.addEventListener('click', function(event) {
+//             event.stopPropagation();
+//             const content = this.closest('.notifi-item').querySelector('.notification-content');
+//             const isContentVisible = content.style.display === 'block';
             
-            content.style.display = isContentVisible ? 'none' : 'block';
-            this.innerHTML = isContentVisible ? '&#9660;' : '&#9650;';
-        });
-    });
+//             content.style.display = isContentVisible ? 'none' : 'block';
+//             this.innerHTML = isContentVisible ? '&#9660;' : '&#9650;';
+//         });
+//     });
 
-    <?php if (!empty($notifications)): ?>
-        console.log("Notifications array: ", <?php echo json_encode($notifications); ?>);
-    <?php else: ?>
-        console.log("Empty");
-    <?php endif; ?>
+//     <?php if (!empty($notifications)): ?>
+//         console.log("Notifications array: ", <?php echo json_encode($notifications); ?>);
+//     <?php else: ?>
+//         console.log("Empty");
+//     <?php endif; ?>
 
-    // Handle notification removal
-    document.querySelectorAll('.close-icon').forEach(icon => {
-        icon.addEventListener('click', function(event) {
-            event.stopPropagation();
+//     // Handle notification removal
+//     document.querySelectorAll('.close-icon').forEach(icon => {
+//         icon.addEventListener('click', function(event) {
+//             event.stopPropagation();
 
-            // Remove the notification item
-            this.closest('.notifi-item').remove();
+//             // Remove the notification item
+//             this.closest('.notifi-item').remove();
 
-            // Update notification count
-            const count = document.querySelectorAll('.notifi-item').length;
+//             // Update notification count
+//             const count = document.querySelectorAll('.notifi-item').length;
             
-            // Update the notification count inside the bell icon and notifi-box
-            document.querySelectorAll('.badge').forEach(badge => {
-                badge.textContent = count;
-            });
-Z
-        });
-    });
+//             // Update the notification count inside the bell icon and notifi-box
+//             document.querySelectorAll('.badge').forEach(badge => {
+//                 badge.textContent = count;
+//             });
+// Z
+//         });
+//     });
 
 
     

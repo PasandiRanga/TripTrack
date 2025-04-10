@@ -1,0 +1,368 @@
+/* Notifications Page Styles */
+body{
+      background:#d8f8ee; 
+}
+.all-notifications-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.all-notifications-heading {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.all-notifications-heading h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 16px;
+    margin-top: 0;
+}
+
+.notification-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.notification-search {
+    position: relative;
+    width: 300px;
+}
+
+.notification-search .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.notification-search input {
+    width: 100%;
+    padding: 50px 50px 12px 40px;
+    left:16px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.notification-search input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-buttons button {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    background: white;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-buttons button:hover {
+    background-color: #f0f0f0;
+}
+
+.filter-buttons button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+#mark-all-read {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+#mark-all-read:hover {
+    background-color: #218838;
+}
+
+.notification-list {
+    margin-bottom: 30px;
+}
+
+.notifi-item {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    overflow: hidden;
+    position: relative;
+}
+
+.notifi-item.unread {
+    border-left: 4px solid #007bff;
+    background-color: #f8f9ff;
+}
+
+.notifi-item.read {
+    border-left: 4px solid #ddd;
+    background-color: #fff;
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.notification-header:hover {
+    background-color: #f5f5f5;
+}
+
+.unread-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: #007bff;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9f5ff;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+.notification-info {
+    flex-grow: 1;
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #888;
+}
+
+.notification-controls {
+    margin-left: 10px;
+    color: #aaa;
+}
+
+.dropdown-arrow {
+    font-size: 12px;
+    transition: transform 0.3s;
+}
+
+.notification-content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    border-top: 1px solid #f0f0f0;
+}
+
+.notification-content.active {
+    padding: 15px;
+    max-height: 500px;
+}
+
+.notification-content p {
+    margin: 0 0 15px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.notification-actions button,
+.notification-actions a {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+}
+
+.mark-read-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+.mark-read-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.notification-action-btn {
+    background-color: #e9f5ff;
+    color: #007bff;
+    border: 1px solid #cce5ff;
+}
+
+.notification-action-btn:hover {
+    background-color: #d8efff;
+}
+
+.delete-notification-btn {
+    background-color: #fff0f0;
+    color: #dc3545;
+    border: 1px solid #f8d7da;
+}
+
+.delete-notification-btn:hover {
+    background-color: #ffe0e0;
+}
+
+.no-notifications {
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-icon {
+    font-size: 50px;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: #888;
+    font-size: 16px;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination a {
+    padding: 8px 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #007bff;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination-arrow {
+    font-weight: bold;
+}
+
+/* Animation for deleting notifications */
+.notifi-item.deleting {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+/* Highlight effect */
+.notifi-item.highlight {
+    animation: highlight 2s ease;
+}
+
+@keyframes highlight {
+    0% { background-color: #fffde7; }
+    100% { background-color: inherit; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .notification-filters {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .notification-search {
+        width: 100%;
+    }
+    
+    .filter-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .notification-header {
+        flex-wrap: wrap;
+    }
+    
+    .notification-icon {
+        margin-bottom: 10px;
+    }
+    
+    .notification-info {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .notification-actions {
+        justify-content: center;
+    }
+}
