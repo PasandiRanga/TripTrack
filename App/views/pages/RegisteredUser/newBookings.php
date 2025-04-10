@@ -34,9 +34,9 @@
         $upcomingBookingData = $data['upcomingbookings'] ?? [];
         $pastBookingData = $data['pastbookings'] ?? [];
         $scheduleData = $data['schedule'] ?? [];
-        $bookingData = $data['bookingsDetails'] ?? [];
+        // $bookingData = $data['bookingsDetails'] ?? [];
         $busData = $data['bus'] ?? [];
-        $userData = $data['user'] ?? [];
+        // $userData = $data['user'] ?? [];
         $data = [
             'currentController' => 'RegisteredPages', // Adjust this based on your controller
             'currentMethod' => 'bookings', // Adjust this based on the method

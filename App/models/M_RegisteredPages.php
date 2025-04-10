@@ -235,18 +235,27 @@
             }
         }
 
-        public function getUpcomingBookings($userId){
+        public function getUpcomingBookings($userId) {
             try {
-                $this->db->query('SELECT * FROM registeredbooking WHERE User_id = :userId');
+                $this->db->query(
+                    'SELECT * FROM registeredbooking 
+                    WHERE User_id = :userId 
+                    AND schedule_id IN (
+                        SELECT schedule_id 
+                        FROM schedule 
+                        WHERE CONCAT(date, " ", departureTime) > NOW()
+                    )
+                    ORDER BY id ASC'
+                );
                 $this->db->bind(':userId', $userId);
                 return $this->db->resultSet();
             } catch (Exception $e) {
-                error_log("Error fetching booking details: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                error_log("Error fetching upcoming booking details: " . $e->getMessage());
+                echo "<script>console.error(" . json_encode($e->getMessage()) . ");</script>";
                 return [];
             }
-
         }
+
 
         public function getPastBookings($userId){
             try {
@@ -364,13 +373,16 @@
         }
 
         public function createBooking($bookingData) {
-            $this->db->query("SELECT * FROM RegisteredBooking WHERE User_id = :userId AND schedule_id = :scheduleId AND Seats = :selectedSeats");
+            $this->db->query("SELECT * FROM RegisteredBooking WHERE User_id = :userId AND Seats = :selectedSeats");
             $this->db->bind(':userId', $bookingData['User_id']);
-            $this->db->bind(':scheduleId', $bookingData['scheduleId']);
             $selectedSeats = is_array($bookingData['selectedSeats']) ? $bookingData['selectedSeats'] : explode(',', $bookingData['selectedSeats']);
             $this->db->bind(':selectedSeats', implode(',', $selectedSeats));
-
             $existingBooking = $this->db->resultSet();
+
+
+            $this->db->query("SELECT * FROM schedule WHERE scheduleId = :scheduleId");
+            $this->db->bind(':scheduleId', $bookingData['scheduleId']);
+            $schedule = $this->db->single();
             
             if ($existingBooking) {
                 exit(); 
@@ -379,10 +391,11 @@
                 $currentDate = date('Y-m-d'); 
                 $currentTime = date('H:i:s'); 
 
-                $this->db->query("INSERT INTO RegisteredBooking (Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
-                                        VALUES (:bookingDate, :bookingTime, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod);");
+                $this->db->query("INSERT INTO RegisteredBooking (Booking_date, Booking_time,scheduleDate, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
+                                        VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod);");
                 $this->db->bind(':bookingDate', $currentDate); 
                 $this->db->bind(':bookingTime', $currentTime); 
+                $this->db->bind(':scheduleDate', $schedule['date']);
                 $this->db->bind(':noOfSeats', $bookingData['noOfSeats']);
                 $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
                 $this->db->bind(':userId', $bookingData['User_id']);                      
