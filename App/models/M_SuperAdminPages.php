@@ -253,6 +253,28 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function updateSchedule($data) {
+        $this->db->query('UPDATE schedule SET License_id = :License_id, date = :date, departureTime = :departureTime, arrivalTime = :arrivalTime, duration = :duration, direction = :direction, type = :type WHERE scheduleId = :scheduleId');
+
+        // Bind parameters
+        $this->db->bind(':License_id', $data['License_id']);
+        $this->db->bind(':date', $data['date']);
+        $this->db->bind(':departureTime', $data['departureTime']);
+        $this->db->bind(':arrivalTime', $data['arrivalTime']);
+        $this->db->bind(':duration', $data['duration']);
+        $this->db->bind(':direction', $data['direction']);
+        $this->db->bind(':type', $data['type']);
+        //$this->db->bind(':scheduleId', $data['scheduleId']);
+
+        // Execute and return result
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to update schedule");
+            return false;
+        }
+    }
+
     public function deleteSchedule($scheduleId){
         $this->db->query('DELETE FROM schedule WHERE scheduleId = :scheduleId');
         $this->db->bind(':scheduleId', $scheduleId);

@@ -317,6 +317,33 @@ class SuperAdminPages extends Controller {
         
     }
 
+    public function updateSchedule() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Sanitize input
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Prepare the data array
+            $data = [
+                'scheduleId' => $_POST['scheduleId'],
+                'License_id' => $_POST['License_id'],
+                'date' => $_POST['date'],
+                'departureTime' => $_POST['departureTime'],
+                'arrivalTime' => $_POST['arrivalTime'],
+                'duration' => $_POST['duration'],
+                'direction' => $_POST['direction'],
+                'type' => $_POST['type']
+            ];
+
+            // Call the model method to update the schedule
+            if ($this->SuperAdminModel->updateSchedule($data)) {
+                header("Location: " . URLROOT . "/SuperAdminPages/schedule");
+                exit;
+            } else {
+                die("Error: Unable to update the schedule.");
+            }
+        }
+    }
+
     public function deleteSchedule() {
         header('Content-Type: application/json');
 
@@ -599,7 +626,7 @@ class SuperAdminPages extends Controller {
                 echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
                 exit();
             } else {
-                //echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
+                echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
                 http_response_code(500);
                 exit();
             }
@@ -624,7 +651,7 @@ class SuperAdminPages extends Controller {
             $conductors = $this->SuperAdminModel->getConductorID();
 
             $data = [
-                'schedules' => $assignedSchedules,
+                'schedules' => $schedules,
                 'drivers' => $drivers,
                 'conductors' => $conductors,
                 'scheduleId' => $scheduleId,
