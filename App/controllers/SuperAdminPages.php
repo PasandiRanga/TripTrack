@@ -280,6 +280,7 @@ class SuperAdminPages extends Controller {
             }
 
             $data = [
+                //'scheduleId' => trim($inputData['scheduleId'] ?? ''),
                 'License_id' => trim($inputData['License_id'] ?? ''),
                 'date' => trim($inputData['date'] ?? ''),
                 'departureTime' => trim($inputData['departureTime'] ?? ''),
@@ -318,29 +319,44 @@ class SuperAdminPages extends Controller {
     }
 
     public function updateSchedule() {
+        header('Content-Type: application/json');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Sanitize input
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $inputData = json_decode(file_get_contents('php://input'), true);
 
-            // Prepare the data array
+            if (!$inputData) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+            http_response_code(400);
+            exit();
+            }
+
             $data = [
-                'scheduleId' => $_POST['scheduleId'],
-                'License_id' => $_POST['License_id'],
-                'date' => $_POST['date'],
-                'departureTime' => $_POST['departureTime'],
-                'arrivalTime' => $_POST['arrivalTime'],
-                'duration' => $_POST['duration'],
-                'direction' => $_POST['direction'],
-                'type' => $_POST['type']
+                'scheduleId' => trim($inputData['scheduleId'] ?? ''),
+                'License_id' => trim($inputData['License_id'] ?? ''),
+                'date' => trim($inputData['date'] ?? ''),
+                'departureTime' => trim($inputData['departureTime'] ?? ''),
+                'arrivalTime' => trim($inputData['arrivalTime'] ?? ''),
+                'duration' => trim($inputData['duration'] ?? ''),
+                'direction' => trim($inputData['direction'] ?? ''),
+                'type' => trim($inputData['type'] ?? '')
             ];
+
+            // Validate required fields
+            if (empty($data['scheduleId']) || empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['direction']) || empty($data['type'])) {
+            echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+            http_response_code(400);
+            exit();
+            }
 
             // Call the model method to update the schedule
             if ($this->SuperAdminModel->updateSchedule($data)) {
-                header("Location: " . URLROOT . "/SuperAdminPages/schedule");
-                exit;
+            echo json_encode(['status' => 'success', 'message' => 'Schedule updated successfully.']);
             } else {
-                die("Error: Unable to update the schedule.");
+            echo json_encode(['status' => 'error', 'message' => 'Error updating the schedule.']);
+            http_response_code(500);
             }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
         }
     }
 

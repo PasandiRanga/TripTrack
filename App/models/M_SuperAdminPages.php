@@ -254,7 +254,7 @@ class M_SuperAdminPages {
     }
 
     public function updateSchedule($data) {
-        $this->db->query('UPDATE schedule SET License_id = :License_id, date = :date, departureTime = :departureTime, arrivalTime = :arrivalTime, duration = :duration, direction = :direction, type = :type WHERE scheduleId = :scheduleId');
+        $this->db->query('UPDATE schedule SET scheduleId = :scheduleId, License_id = :License_id, date = :date, departureTime = :departureTime, arrivalTime = :arrivalTime, duration = :duration, direction = :direction, type = :type WHERE scheduleId = :scheduleId');
 
         // Bind parameters
         $this->db->bind(':License_id', $data['License_id']);
@@ -264,7 +264,7 @@ class M_SuperAdminPages {
         $this->db->bind(':duration', $data['duration']);
         $this->db->bind(':direction', $data['direction']);
         $this->db->bind(':type', $data['type']);
-        //$this->db->bind(':scheduleId', $data['scheduleId']);
+        $this->db->bind(':scheduleId', $data['scheduleId']);
 
         // Execute and return result
         if($this->db->execute()){
