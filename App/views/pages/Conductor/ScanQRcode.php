@@ -94,8 +94,11 @@ authCheck(['Conductor', 'Driver']);
                     Schedule ID: ${data["Schedule ID"]}<br>
                     Seats: ${data["Seats"]}<br>
                     Total Price: ${data["Total Price"]}`;
+                    
 
                 document.getElementById('qrModal').style.display = 'flex';
+
+                sendToServer(data["Schedule ID"], data["Seats"]);
             }
 
             // Function to close modal
@@ -130,6 +133,23 @@ authCheck(['Conductor', 'Driver']);
 
                 htmlscanner.render(onScanSuccess);
             });
+
+            function sendToServer(scheduleId, seats) {
+                fetch('<?php echo URLROOT; ?>/ConductorPages/scanQRcode', {
+                    method: 'POST',
+                    
+                    body: new URLSearchParams({
+                        schedule_id: scheduleId,
+                        seats: seats
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.message);
+                })
+                .catch(err => console.error('Error:', err));
+            }
+
         </script>
     </div>
 </body>

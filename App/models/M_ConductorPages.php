@@ -166,6 +166,36 @@
             // Execute the query and return true if successful, false otherwise
             return $this->db->execute();
         }
+
+        public function getRegisteredBooking($scheduleId, $seats) {
+            $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id = :schedule_id AND selected_seats = :seats");
+            $this->db->bind(':schedule_id', $scheduleId);
+            $this->db->bind(':selected_seats', $seats);
+            return $this->db->single();
+        }
         
+        public function getGuestBooking($scheduleId, $seats) {
+            $this->db->query("SELECT * FROM guestbooking WHERE schedule_id = :schedule_id AND seats = :seats");
+            $this->db->bind(':schedule_id', $scheduleId);
+            $this->db->bind(':seats', $seats);
+            return $this->db->single();
+        }
+
+        public function insertPastBooking($bookingData) {
+             $this->db->query("INSERT INTO pastbookings (id, Booking_date, Booking_time, No_of_seats, seats, schedule_id, from_location, to_location, total_price, paymentMethod) VALUES (:id, :booking_date, :booking_time, :number_of_seats, :selected_seats, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod)");
+
+             $this->db->bind(':id', $bookingData->id);
+             $this->db->bind(':Booking_date', $bookingData->Booking_date);
+             $this->db->bind(':Booking_time', $bookingData->Booking_time);
+             $this->db->bind(':No_of_seats', $bookingData->No_of_seats);
+             $this->db->bind(':seats', $bookingData->seats);
+             $this->db->bind(':schedule_id', $bookingData->schedule_id);
+             $this->db->bind(':from_location', $bookingData->from_location);
+             $this->db->bind(':to_location', $bookingData->to_location);
+             $this->db->bind(':total_price', $bookingData->total_price);
+             $this->db->bind(':paymentMethod', $bookingData->paymentMethod);
+
+            return $this->db->execute();
+        }
     }
 ?>

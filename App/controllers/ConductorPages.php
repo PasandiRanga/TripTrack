@@ -99,6 +99,29 @@
         }
 
         public function scanQRcode() {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $scheduleId = $_POST['schedule_id'];
+                $seats = $_POST['seats'];
+
+                //$bookingModel = $this->model('M_ConductorPages');
+
+                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
+
+                if (!$booking) {
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
+                }
+
+                if ($booking) {
+                    $this->ConductorpagesModel->insertPastBooking($booking);
+                    echo json_encode(['success' => true, 'message' => 'Booking logged to past bookings.']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Booking not found.']);
+                }
+            } else {
+                http_response_code(405);
+                echo 'Method Not Allowed';
+            }
+
             $this->view('pages/Conductor/ScanQRcode');
         }
 
