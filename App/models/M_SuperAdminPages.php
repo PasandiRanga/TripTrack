@@ -345,9 +345,11 @@ class M_SuperAdminPages {
     public function addAssigns($data) {
         try {
 
+            error_log("Inserting Assign: " . print_r($data, true));
+
             date_default_timezone_set('Asia/Colombo');
-            $currentDate = date("Y-m-d");  // Get current date
-            $currentTime = date("H:i:s");  // Get current time
+            $currentDate = date("Y-m-d");
+            $currentTime = date("H:i:s");
 
             $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) 
                             VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
@@ -359,16 +361,18 @@ class M_SuperAdminPages {
             $this->db->bind(':assign_date', $currentDate);
 
             if ($this->db->execute()) {
-                return true; // Success
+                return true;
             } else {
-                error_log("Database error: Failed to insert assignment"); // Log error
-                return false; // Failure
+                // Log error details
+                error_log("Database error: Failed to execute query in addAssigns method.");
+                return false;
             }
         } catch (Exception $e) {
-            error_log("Exception in addAssigns: " . $e->getMessage()); // Log exception
+            error_log("Exception in addAssigns: " . $e->getMessage());
             return false;
         }
     }
+
 
     public function getScheduleID(){
         $this->db->query("SELECT scheduleId FROM schedule");

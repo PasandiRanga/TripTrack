@@ -77,28 +77,29 @@
         <?php else: ?>
             scheduleId = document.getElementById("scheduleId").value.trim(); 
         <?php endif; ?>        
-        const driverId = document.getElementById("driver_id").value.trim();
-        const conductorId = document.getElementById("conductor_id").value.trim();
+        const driver_id = document.getElementById("driver_id").value.trim();
+        const conductor_id = document.getElementById("conductor_id").value.trim();
 
         // Validate form data
-        if (!scheduleId || !driverId || !conductorId) {
+        if (!scheduleId || !driver_id || !conductor_id) {
             alert("All fields are required.");
             return;
         }
 
-        console.log("Form Data:", { scheduleId, driverId, conductorId });
+        console.log("Form Data:", { scheduleId, driver_id, conductor_id });
 
         // Determine the correct endpoint
-        const isUpdate = <?php echo $isUpdate ? 'true' : 'false'; ?>; // Pass PHP boolean as JavaScript boolean
-        const endpoint = isUpdate ? '<?php echo URLROOT; ?>/SuperAdminPages/updateassign' : '<?php echo URLROOT; ?>/SuperAdminPages/addassigns';
+        const isUpdate = <?php echo json_encode($isUpdate); ?>; // Pass PHP boolean as JavaScript boolean
+        const endpoint = isUpdate ? <?php echo json_encode(URLROOT . '/SuperAdminPages/updateassign'); ?> : <?php echo json_encode(URLROOT . '/SuperAdminPages/addassigns'); ?>;
 
         // Prepare form data
         const formData = {
             scheduleId: scheduleId,
-            driver_id: driverId,
-            conductor_id: conductorId
+            driver_id: driver_id,
+            conductor_id: conductor_id
         };
         console.log("Form Data to Send:", formData);
+        console.log("isUpdate:", isUpdate);
         console.log("Endpoint:", endpoint);
         // Send the request to the appropriate endpoint
         fetch(endpoint, {

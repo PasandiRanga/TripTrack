@@ -599,7 +599,7 @@ class SuperAdminPages extends Controller {
                 echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
                 exit();
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
+                //echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
                 http_response_code(500);
                 exit();
             }
