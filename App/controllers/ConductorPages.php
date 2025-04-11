@@ -98,60 +98,117 @@
             $this->view('pages/Conductor/ViewAssigns');
         }
 
+
         public function scanQRcode() {
+            // Make sure it's a POST request
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $scheduleId = $_POST['schedule_id'];
-                $seats = $_POST['seats'];
-
-                //$bookingModel = $this->model('M_ConductorPages');
-
+                // Get the raw JSON input
+                $json = file_get_contents("php://input");
+        
+                // Decode it
+                $data = json_decode($json, true);
+        
+                // Extract values
+                $scheduleId = $data['schedule_id'] ?? null;
+                $seats = $data['seats'] ?? null;
+        
+                // Basic validation
+                if (!$scheduleId || !$seats) {
+                    http_response_code(400); // Bad Request
+                    echo json_encode(['message' => 'Missing schedule ID or seats.']);
+                    return;
+                }
+        
+                // Try to find the booking in registered bookings first
                 $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
-
+                
+                // If not found in registered, check guest bookings
                 if (!$booking) {
                     $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
                 }
 
                 if ($booking) {
+                    // Try to insert into past bookings
                     $this->ConductorpagesModel->insertPastBooking($booking);
-                    echo json_encode(['success' => true, 'message' => 'Booking logged to past bookings.']);
-                } else {
-                    echo json_encode(['success' => false, 'message' => 'Booking not found.']);
-                }
-            } else {
-                http_response_code(405);
-                echo 'Method Not Allowed';
-            }
 
+                    // Send success response
+                    echo json_encode(['message' => 'Booking recorded successfully.']);
+                }else{
+                     // Booking not found
+                    http_response_code(404); // Not Found
+                    echo json_encode(['message' => 'No booking found for this schedule and seats.']);
+                }
+
+            }   
+            /*} else {
+                // Handle non-POST request
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(['message' => 'Method not allowed.']);
+            }*/
             $this->view('pages/Conductor/ScanQRcode');
         }
 
-        public function profile() {
-            $employee = $this->ConductorpagesModel->findEmployeeById($_SESSION['user_id']);
-
-            $data = [
-                'employee' => $employee
-            ];
-
+        /*public function scanQRcode() {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Validate and sanitize input data
+                $scheduleId = isset($_POST['schedule_id']) ? trim($_POST['schedule_id']) : null;
+                $seatsRaw = isset($_POST['seats']) ? trim($_POST['seats']) : null;
+                
+                if (!$scheduleId || !$seatsRaw) {
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => false, 'message' => 'Missing required data']);
+                    exit();
+                }
         
-
-            $this->view('pages/Conductor/Profile', $data);
-
-        }
-
-        public function viewLeaveRequests() {
-            $leaveRequest = $this->ConductorpagesModel->getLeaveRequests($_SESSION['user_id']);
-
-            $data = [
-                'leaveRequest' => $leaveRequest
-            ];
-
-            /*echo "<pre>";
-            print_r($data['leaveRequest']);
-            echo "</pre>";
-            exit();*/
-
-            $this->view('pages/Conductor/ViewLeaveRequests', $data);
-        }
+                // Log what was received for debugging
+                file_put_contents('debug_scan.log', "Received: Schedule=$scheduleId, Seats=$seatsRaw\n", FILE_APPEND);
+                
+                // Clean and normalize seats format
+                $seatsRaw = str_replace('"', '', $seatsRaw); // Remove any quotes
+                $seatsArray = explode(',', $seatsRaw);
+                $seatsArray = array_map('trim', $seatsArray); // Clean each seat value
+                
+                // Try to find the booking in registered bookings first
+                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsArray);
+                
+                // If not found in registered, check guest bookings
+                if (!$booking) {
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsArray);
+                }
+                
+                header('Content-Type: application/json');
+                
+                if ($booking) {
+                    // Try to insert into past bookings
+                    $result = $this->ConductorpagesModel->insertPastBooking($booking);
+                    
+                    if ($result) {
+                        echo json_encode(['success' => true, 'message' => 'Booking successfully logged to past bookings.']);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => '❌ Failed to log booking to past bookings.']);
+                    }
+                } else {
+                    // Determine why no booking was found
+                    $registeredScheduleMatch = $this->ConductorpagesModel->checkScheduleExistsInRegistered($scheduleId);
+                    $guestScheduleMatch = $this->ConductorpagesModel->checkScheduleExistsInGuest($scheduleId);
+        
+                    if (!$registeredScheduleMatch && !$guestScheduleMatch) {
+                        $errorMsg = '❌ No booking found: Schedule ID does not exist in either table.';
+                    } else {
+                        $errorMsg = '❌ No booking found: Seat number(s) do not match for the given Schedule ID.';
+                        // Log the seats that were being searched for
+                        file_put_contents('debug_scan.log', "Schedule exists but seats not found: " . implode(',', $seatsArray) . "\n", FILE_APPEND);
+                    }
+                    
+                    echo json_encode(['success' => false, 'message' => $errorMsg]);
+                }
+                
+                exit(); // Stop execution here - don't load the view after POST
+            }
+            
+            // Only load the view on GET request
+            $this->view('pages/Conductor/ScanQRcode');
+        }*/
 
         public function home() {
             $assignDetails = $this->ConductorpagesModel->getAssignDetailsByEmployeeId($_SESSION['user_id']);
