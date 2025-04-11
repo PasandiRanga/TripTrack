@@ -5,7 +5,7 @@
     cursor: pointer;
     margin-right: 20px; /* Adjust margin for better spacing */
     line-height: initial;
-    font-size: 1.5rem;
+    font-size: 0.8rem;
     position: relative;
 }
 
@@ -81,7 +81,7 @@ Update notification box styling to match theme
 
 /* Dropdown arrow to the right */
 .dropdown-arrow span {
-    font-size: 18px;
+    font-size: 12px;
     cursor: pointer;
     transform: rotate(0deg);
     transition: transform 0.3s ease;
@@ -136,7 +136,7 @@ Update notification box styling to match theme
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 18px;
+    font-size: 12px;
     color: #ff0000;
     cursor: pointer;
     font-weight: bold;

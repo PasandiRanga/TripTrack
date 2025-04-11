@@ -104,11 +104,11 @@ body{
     background-color: #218838;
 }
 
-.notification-list {
+.notification-lists {
     margin-bottom: 30px;
 }
 
-.notifi-item {
+.notifi-items {
     margin-bottom: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -117,17 +117,17 @@ body{
     position: relative;
 }
 
-.notifi-item.unread {
+.notifi-items.unread {
     border-left: 4px solid #007bff;
     background-color: #f8f9ff;
 }
 
-.notifi-item.read {
+.notifi-items.read {
     border-left: 4px solid #ddd;
     background-color: #fff;
 }
 
-.notification-header {
+.notification-headers {
     display: flex;
     align-items: center;
     padding: 15px;
@@ -136,7 +136,7 @@ body{
     position: relative;
 }
 
-.notification-header:hover {
+.notification-headers:hover {
     background-color: #f5f5f5;
 }
 
@@ -165,29 +165,29 @@ body{
     flex-grow: 1;
 }
 
-.notification-title {
+.notification-titles {
     font-weight: 600;
     font-size: 16px;
     color: #333;
     margin-bottom: 3px;
 }
 
-.notification-time {
+.notification-times {
     font-size: 12px;
     color: #888;
 }
 
-.notification-controls {
+.notification-controlsall {
     margin-left: 10px;
     color: #aaa;
 }
 
-.dropdown-arrow {
+.dropdown-arrows {
     font-size: 12px;
     transition: transform 0.3s;
 }
 
-.notification-content {
+.notification-contents {
     padding: 0;
     max-height: 0;
     overflow: hidden;
@@ -196,26 +196,26 @@ body{
     border-top: 1px solid #f0f0f0;
 }
 
-.notification-content.active {
+.notification-contents.active {
     padding: 15px;
     max-height: 500px;
 }
 
-.notification-content p {
+.notification-contents p {
     margin: 0 0 15px;
     font-size: 14px;
     line-height: 1.6;
     color: #555;
 }
 
-.notification-actions {
+.notification-actionsall {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-.notification-actions button,
-.notification-actions a {
+.notification-actionsall button,
+.notification-actionsall a {
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 13px;
@@ -318,13 +318,13 @@ body{
 }
 
 /* Animation for deleting notifications */
-.notifi-item.deleting {
+.notifi-items.deleting {
     transform: translateX(100%);
     opacity: 0;
 }
 
 /* Highlight effect */
-.notifi-item.highlight {
+.notifi-items.highlight {
     animation: highlight 2s ease;
 }
 
@@ -349,7 +349,7 @@ body{
         justify-content: center;
     }
     
-    .notification-header {
+    .notification-headers {
         flex-wrap: wrap;
     }
     
@@ -362,7 +362,7 @@ body{
         margin-bottom: 10px;
     }
     
-    .notification-actions {
+    .notification-actionsall {
         justify-content: center;
     }
 }

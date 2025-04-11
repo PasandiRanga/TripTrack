@@ -76,12 +76,12 @@
 
     <?php  echo '<script>console.log ("Notification data in the page2 :" , '. json_encode($Allnotifications) . '); </script>'; ?>
 
-    <div class="notification-list detailed" id="all-notification-list">
+    <div class="notification-lists detailed" id="all-notification-list">
         <?php if (!empty($Allnotifications)): ?>
             <?php foreach ($Allnotifications as $Anotification): ?>
-                <div class="notifi-item <?php echo $Anotification['is_read'] ? 'read' : 'unread'; ?>" 
+                <div class="notifi-items <?php echo $Anotification['is_read'] ? 'read' : 'unread'; ?>" 
                      data-notification-id="<?php echo $Anotification['id']; ?>">
-                    <div class="notification-header">
+                    <div class="notification-headers">
                         <?php if (!$Anotification['is_read']): ?>
                             <div class="unread-indicator"></div>
                         <?php endif; ?>
@@ -109,16 +109,16 @@
                             <i class="fas <?php echo $icon; ?>"></i>
                         </div>
                         <div class="notification-info">
-                            <div class="notification-title"><?php echo $Anotification['title']; ?></div>
-                            <div class="notification-time"><?php echo $Anotification['created_at']; ?></div>
+                            <div class="notification-titles"><?php echo $Anotification['title']; ?></div>
+                            <div class="notification-times"><?php echo $Anotification['created_at']; ?></div>
                         </div>
-                        <div class="notification-controls">
-                            <span class="dropdown-arrow">&#9660;</span>
+                        <div class="notification-controlsall">
+                            <span class="dropdown-arrows">&#9660;</span>
                         </div>
                     </div>
-                    <div class="notification-content">
+                    <div class="notification-contents">
                         <p><?php echo $Anotification['message']; ?></p>
-                        <div class="notification-actions">
+                        <div class="notification-actionsall">
                             <button class="mark-read-btn" data-id="<?php echo $Anotification['id']; ?>">
                                 <i class="fas <?php echo $Anotification['is_read'] ? 'fa-envelope' : 'fa-envelope-open'; ?>"></i>
                                 Mark as <?php echo $Anotification['is_read'] ? 'unread' : 'read'; ?>
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterRead = document.getElementById('filter-read');
     const markAllRead = document.getElementById('mark-all-read');
     const searchInput = document.getElementById('notification-search');
-    const notificationItems = document.querySelectorAll('.notifi-item');
+    const notificationItems = document.querySelectorAll('.notifi-items');
     
     // Set active filter button
     function setActiveFilter(activeButton) {
@@ -190,8 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const activeFilter = document.querySelector('.filter-buttons button.active').id;
         
         notificationItems.forEach(item => {
-            const title = item.querySelector('.notification-title').textContent.toLowerCase();
-            const content = item.querySelector('.notification-content p').textContent.toLowerCase();
+            const title = item.querySelector('.notification-titles').textContent.toLowerCase();
+            const content = item.querySelector('.notification-contents p').textContent.toLowerCase();
             const isRead = item.classList.contains('read');
             
             const matchesSearch = title.includes(searchText) || content.includes(searchText);
@@ -212,11 +212,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Toggle notification content visibility
-    document.querySelectorAll('.notification-header').forEach(header => {
+    document.querySelectorAll('.notification-headers').forEach(header => {
         header.addEventListener('click', function() {
             const item = this.parentElement;
-            const content = item.querySelector('.notification-content');
-            const arrow = item.querySelector('.dropdown-arrow');
+            const content = item.querySelector('.notification-contents');
+            const arrow = item.querySelector('.dropdown-arrows');
             
             // Toggle the active class on the content
             content.classList.toggle('active');
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation(); // Prevent triggering the parent click event
             
             const id = this.getAttribute('data-id');
-            const item = this.closest('.notifi-item');
+            const item = this.closest('.notifi-items');
             const isCurrentlyRead = item.classList.contains('read');
             console.log(id)
             console.log(item)
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!indicator) {
                     const newIndicator = document.createElement('div');
                     newIndicator.className = 'unread-indicator';
-                    item.querySelector('.notification-header').prepend(newIndicator);
+                    item.querySelector('.notification-headers').prepend(newIndicator);
                 }
             } else {
                 if (indicator) {
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation(); // Prevent triggering the parent click event
             
             const id = this.getAttribute('data-id');
-            const item = this.closest('.notifi-item');
+            const item = this.closest('.notifi-items');
             
             if (confirm('Are you sure you want to delete this notification?')) {
                 // Delete animation
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             item.remove();
                             
                             // Check if there are no more notifications
-                            if (document.querySelectorAll('.notifi-item').length === 0) {
+                            if (document.querySelectorAll('.notifi-items').length === 0) {
                                 const noNotifications = document.createElement('div');
                                 noNotifications.className = 'no-notifications';
                                 noNotifications.innerHTML = `
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mark all as read functionality
     markAllRead.addEventListener('click', function() {
-        const unreadItems = document.querySelectorAll('.notifi-item.unread');
+        const unreadItems = document.querySelectorAll('.notifi-items.unread');
         
         if (unreadItems.length === 0) {
             alert('No unread notifications to mark');
@@ -458,11 +458,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const openNotificationId = urlParams.get('open');
     
     if (openNotificationId) {
-        const targetNotification = document.querySelector(`.notifi-item[data-notification-id="${openNotificationId}"]`);
+        const targetNotification = document.querySelector(`.notifi-items[data-notification-id="${openNotificationId}"]`);
         if (targetNotification) {
             // Expand the notification
-            const content = targetNotification.querySelector('.notification-content');
-            const arrow = targetNotification.querySelector('.dropdown-arrow');
+            const content = targetNotification.querySelector('.notification-contents');
+            const arrow = targetNotification.querySelector('.dropdown-arrows');
             
             content.classList.add('active');
             arrow.innerHTML = '&#9650;'; // Up arrow
