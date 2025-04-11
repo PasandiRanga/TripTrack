@@ -100,13 +100,17 @@
 
 
         public function scanQRcode() {
-            // Make sure it's a POST request
+            
+            $this->view('pages/Conductor/ScanQRcode');
+        }
+
+        /*public function processScannedQR() {
+            // This handles the POST request when a QR code is scanned
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Get the raw JSON input
-                $json = file_get_contents("php://input");
+                header('Content-Type: application/json');
         
                 // Decode it
-                $data = json_decode($json, true);
+                $data = json_decode(file_get_contents("php://input"), true);
         
                 // Extract values
                 $scheduleId = $data['schedule_id'] ?? null;
@@ -138,77 +142,59 @@
                     http_response_code(404); // Not Found
                     echo json_encode(['message' => 'No booking found for this schedule and seats.']);
                 }
+                return;
 
             }   
-            /*} else {
+            else {
                 // Handle non-POST request
                 http_response_code(405); // Method Not Allowed
                 echo json_encode(['message' => 'Method not allowed.']);
-            }*/
-            $this->view('pages/Conductor/ScanQRcode');
-        }
-
-        /*public function scanQRcode() {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Validate and sanitize input data
-                $scheduleId = isset($_POST['schedule_id']) ? trim($_POST['schedule_id']) : null;
-                $seatsRaw = isset($_POST['seats']) ? trim($_POST['seats']) : null;
-                
-                if (!$scheduleId || !$seatsRaw) {
-                    header('Content-Type: application/json');
-                    echo json_encode(['success' => false, 'message' => 'Missing required data']);
-                    exit();
-                }
-        
-                // Log what was received for debugging
-                file_put_contents('debug_scan.log', "Received: Schedule=$scheduleId, Seats=$seatsRaw\n", FILE_APPEND);
-                
-                // Clean and normalize seats format
-                $seatsRaw = str_replace('"', '', $seatsRaw); // Remove any quotes
-                $seatsArray = explode(',', $seatsRaw);
-                $seatsArray = array_map('trim', $seatsArray); // Clean each seat value
-                
-                // Try to find the booking in registered bookings first
-                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsArray);
-                
-                // If not found in registered, check guest bookings
-                if (!$booking) {
-                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsArray);
-                }
-                
-                header('Content-Type: application/json');
-                
-                if ($booking) {
-                    // Try to insert into past bookings
-                    $result = $this->ConductorpagesModel->insertPastBooking($booking);
-                    
-                    if ($result) {
-                        echo json_encode(['success' => true, 'message' => 'Booking successfully logged to past bookings.']);
-                    } else {
-                        echo json_encode(['success' => false, 'message' => '❌ Failed to log booking to past bookings.']);
-                    }
-                } else {
-                    // Determine why no booking was found
-                    $registeredScheduleMatch = $this->ConductorpagesModel->checkScheduleExistsInRegistered($scheduleId);
-                    $guestScheduleMatch = $this->ConductorpagesModel->checkScheduleExistsInGuest($scheduleId);
-        
-                    if (!$registeredScheduleMatch && !$guestScheduleMatch) {
-                        $errorMsg = '❌ No booking found: Schedule ID does not exist in either table.';
-                    } else {
-                        $errorMsg = '❌ No booking found: Seat number(s) do not match for the given Schedule ID.';
-                        // Log the seats that were being searched for
-                        file_put_contents('debug_scan.log', "Schedule exists but seats not found: " . implode(',', $seatsArray) . "\n", FILE_APPEND);
-                    }
-                    
-                    echo json_encode(['success' => false, 'message' => $errorMsg]);
-                }
-                
-                exit(); // Stop execution here - don't load the view after POST
             }
-            
-            // Only load the view on GET request
-            $this->view('pages/Conductor/ScanQRcode');
         }*/
+
+        public function processScannedQR() {
+            // Make sure the request is POST
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Get the raw POST body
+                $input = file_get_contents("php://input");
+                $data = json_decode($input, true); // Decode JSON to associative array
+
+                // Extract the schedule_id and seats
+                $scheduleId = $data['schedule_id'];
+                $seats = $data['seats'];
+
+                if ($scheduleId && !empty($seats)) {
+                    $result = $this->ConductorpagesModel->tempQR($scheduleId, $seats);
+
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
+
+                    if (!$booking) {
+                        $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
+                    }
+                    /*echo json_encode(['message' => 'Made it to controller', 'booking' => $booking]);
+                    exit;*/
+                    if ($booking) {
+                        // Try to insert into past bookings
+                        $result = $this->ConductorpagesModel->insertPastBooking($booking);
+
+                        if ($booking) {
+                            echo json_encode(['message' => 'Scanned data saved successfully.']);
+                        } else {
+                            http_response_code(500);
+                            echo json_encode(['message' => 'Failed to save scanned data.']);
+                        }
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(['message' => 'Invalid input data.']);
+                    }   
+                }
+
+            } else {
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(['message' => 'Only POST requests are allowed.']);
+            }
+        }
+        
 
         public function home() {
             $assignDetails = $this->ConductorpagesModel->getAssignDetailsByEmployeeId($_SESSION['user_id']);
