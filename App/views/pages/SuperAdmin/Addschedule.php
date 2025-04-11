@@ -206,8 +206,10 @@
             if (isUpdate) {
                 formData.scheduleId = "<?php echo htmlspecialchars($scheduleId); ?>";
             }
+
             //console.log(formData);
             const endpoint = <?php echo $isUpdate ? "'".URLROOT."/SuperAdminPages/updateSchedule'" : "'".URLROOT."/SuperAdminPages/addschedule'"; ?>;
+
 
             fetch(endpoint, {
                 method: "POST",
@@ -217,7 +219,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
+
                         alert(isUpdate ? "Schedule updated successfully!" : "Schedule added successfully!");
+
                         window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/schedule';
                     } else {
                         alert("Error: " + data.message);

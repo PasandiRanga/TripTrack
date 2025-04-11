@@ -340,8 +340,9 @@ class SuperAdminPages extends Controller {
                 'type' => trim($inputData['type'] ?? '')
             ];
 
-            // Validate required fields
+
             if (empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['direction']) || empty($data['type'])) {
+
             echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
             http_response_code(400);
             exit();
