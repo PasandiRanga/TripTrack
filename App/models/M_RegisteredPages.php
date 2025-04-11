@@ -19,7 +19,7 @@
             try {
                 $this->db->beginTransaction();
                 
-                $this->db->query("SELECT Seats FROM registeredbooking WHERE id = :bookingId");
+                $this->db->query("SELECT selected_seats FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
                 echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
@@ -66,10 +66,10 @@
                 $this->db->query("INSERT INTO cancelled_online_bookings (id,Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , time_date , cancellation_fee , refund_amount, account_name , account_number , bank_name , branch_name)
                 VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod , 'Cancelled', NOW(), :cancellation_fee , :refund_amount , :account_name , :account_number , :bank_name , :branch_name);");
                 $this->db->bind(':id', $booking['id']);
-                $this->db->bind(':Booking_date', $booking['Booking_date']);
-                $this->db->bind(':Booking_time', $booking['Booking_time']);
-                $this->db->bind(':No_of_seats', $booking['No_of_seats']);
-                $this->db->bind(':Seats', $booking['Seats']);
+                $this->db->bind(':Booking_date', $booking['booking_date']);
+                $this->db->bind(':Booking_time', $booking['booking_time']);
+                $this->db->bind(':No_of_seats', $booking['number_of_seats']);
+                $this->db->bind(':Seats', $booking['selected_seats']);
                 $this->db->bind(':User_id', $booking['User_id']);
                 $this->db->bind(':schedule_id', $booking['schedule_id']);
                 $this->db->bind(':from_location', $booking['from_location']);
@@ -104,7 +104,7 @@
             try {
                 $this->db->beginTransaction();
                 
-                $this->db->query("SELECT Seats FROM registeredbooking WHERE id = :bookingId");
+                $this->db->query("SELECT selected_seats FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
                 echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
@@ -150,10 +150,10 @@
                  $this->db->query("INSERT INTO cancelled_cash_bookings (id,Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , time_date , cancellation_fee , refund_amount)
                 VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod , 'Cancelled', NOW(), :cancellation_fee , :refund_amount );");
                 $this->db->bind(':id', $booking['id']);
-                $this->db->bind(':Booking_date', $booking['Booking_date']);
-                $this->db->bind(':Booking_time', $booking['Booking_time']);
-                $this->db->bind(':No_of_seats', $booking['No_of_seats']);
-                $this->db->bind(':Seats', $booking['Seats']);
+                $this->db->bind(':Booking_date', $booking['booking_date']);
+                $this->db->bind(':Booking_time', $booking['booking_time']);
+                $this->db->bind(':No_of_seats', $booking['number_of_seats']);
+                $this->db->bind(':Seats', $booking['selected_seats']);
                 $this->db->bind(':User_id', $booking['User_id']);
                 $this->db->bind(':schedule_id', $booking['schedule_id']);
                 $this->db->bind(':from_location', $booking['from_location']);
@@ -373,7 +373,7 @@
         }
 
         public function createBooking($bookingData) {
-            $this->db->query("SELECT * FROM RegisteredBooking WHERE User_id = :userId AND Seats = :selectedSeats");
+            $this->db->query("SELECT * FROM RegisteredBooking WHERE User_id = :userId AND selected_seats = :selectedSeats");
             $this->db->bind(':userId', $bookingData['User_id']);
             $selectedSeats = is_array($bookingData['selectedSeats']) ? $bookingData['selectedSeats'] : explode(',', $bookingData['selectedSeats']);
             $this->db->bind(':selectedSeats', implode(',', $selectedSeats));
@@ -391,7 +391,7 @@
                 $currentDate = date('Y-m-d'); 
                 $currentTime = date('H:i:s'); 
 
-                $this->db->query("INSERT INTO RegisteredBooking (Booking_date, Booking_time,scheduleDate, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
+                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
                                         VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod);");
                 $this->db->bind(':bookingDate', $currentDate); 
                 $this->db->bind(':bookingTime', $currentTime); 

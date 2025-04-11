@@ -170,11 +170,12 @@
         public function getRegisteredBooking($scheduleId, $seats) {
             $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id = :schedule_id AND selected_seats = :seats");
             $this->db->bind(':schedule_id', $scheduleId);
-            return $this->db->single();
-
             // Format the incoming seats as an array
             $scannedSeats = is_array($seats) ? $seats : explode(',', $seats);
             
+            // Query the database for bookings
+            $bookings = $this->db->resultSet();
+
             // Loop through each booking to find matching seats
             foreach ($bookings as $booking) {
                 // In your database, seats are stored like "1,2" or "3,4,5"

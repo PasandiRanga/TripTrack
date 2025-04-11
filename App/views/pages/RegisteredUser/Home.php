@@ -36,6 +36,8 @@
     $busData = $data['bus'] ?? [];
     $distanceData = $data['distance'] ?? [];
     $routeData = $data['route'] ?? [];
+    $notifications = $data['notifications'] ?? [];
+    echo '<script>console.log("Notifications in page:", ' . json_encode($notifications) . ');</script>';
 
     ?>
 
@@ -61,12 +63,9 @@
     //     'email_err' => $data['email_err'] ?? ''
     // ];
 
-    $data = [
-        'currentController' => 'RegisteredPages', // Adjust this based on your controller
-        'currentMethod' => 'home', // Adjust this based on the method
-        'userRole' => $userRole,
-    ];
-
+    $data['currentController'] = 'RegisteredPages';
+    $data['currentMethod'] = 'allNotifications';
+    $data['userRole'] = $userRole;
     // echo '<pre>' . print_r($headerData,true) . '</pre>';
 
     
