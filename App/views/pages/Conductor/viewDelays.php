@@ -20,26 +20,32 @@
     <table id="delays">
     <thead>
         <tr>
-            <th>Delay ID</th>
-            <th>Route Nuber</th>
+            <!-- <th>Delay ID</th> -->
+            <th>Schedule ID</th>
             <th>Bus Number</th>
+            <th>Bus Route</th>
             <th>Departure Time</th>
             <th>New Departure Time</th>
             <th>Reason</th>
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($data['delay'])): ?>
-            <?php foreach ($data['delay'] as $delay): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($delay['delay_id']); ?></td>
-                    <td><?php echo htmlspecialchars($delay['route_no']); ?></td>
-                    <td><?php echo htmlspecialchars($delay['license_id']); ?></td>
-                    <td><?php echo htmlspecialchars($delay['dep_time']); ?></td>
-                    <td><?php echo htmlspecialchars($delay['new_dep_time']); ?></td>
-                    <td><?php echo htmlspecialchars($delay['reason']); ?></td>
-                </tr>
-                
+        <?php if (!empty($data['delays']) && !empty($data['buses']) && !empty($data['schedules'])): ?>
+            <?php foreach ($data['delays'] as $delay): ?>
+                <?php foreach($data['buses'] as $bus) :?>
+                    <?php foreach($data['schedules'] as $schedule): ?>
+                        <?php if($delay['schedule_id'] == $schedule['scheduleId'] && $schedule['License_id'] == $bus['License_id']): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($delay['schedule_id']); ?></td>
+                                <td><?php echo htmlspecialchars($bus['License_id']); ?></td>
+                                <td><?php echo htmlspecialchars($bus['start_location']); ?> - <?php echo htmlspecialchars($bus['destination']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['dep_time']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['new_dep_time']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['reason']); ?></td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
             <?php endforeach; ?>
         <?php endif;?>
     </tbody>

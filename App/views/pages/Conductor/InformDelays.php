@@ -27,11 +27,20 @@
     ?>
 
     <?php
-    $data = [
-        'currentController' => 'ConductorPages', // Adjust this based on your controller
-        'currentMethod' => 'informDelays', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
+    echo '<script>console.log("Data", ' . json_encode($data) . ');</script>';
+
+    $scheduleData = $data['schedules'] ?? [];
+
+    $busData = $data['buses'] ?? [];
+
+    echo '<script>console.log("Schedules", ' . json_encode($scheduleData) . ');</script>';
+    echo '<script>console.log("Buses", ' . json_encode($busData) . ');</script>';
+
+    
+
+    $data['currentController'] = 'RegisteredPages';
+    $data['currentMethod'] = 'allNotifications';
+    $data['userRole'] = $userRole;
     ?>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -42,78 +51,77 @@
 
     <h1>Inform Delays</h1>
 
-        <div class="container">
-            <div class="delay-form">
-                <h2>Fill the following details</h2>
+    <div class="container">
+        <div class="delay-form">
+            <h2>Fill the following details</h2>
 
-                <form id="delayForm" method="POST" action="<?php echo URLROOT; ?>/ConductorPages/informDelays">
+            <form id="delayForm" method="POST" action="<?php echo URLROOT; ?>/ConductorPages/addInformDelays">
                 
-            `       <div class="form-group">
-                        <div>
-                            <label for="routeNo">Route Number</label>
-                            <input type="text" id="routeNo" name="routeNo" required>
-                        </div>
-                        <div>
-                            <label for="busNo">Bus Number</label>
-                            <input type="text" id="busNo" name="busNo" required>
-                        </div>
+                <div class="form-group">
+                    <div>
+                        <label for="scheduleID">Schedule ID</label>
+                        <select class="schedule" id="scheduleID" name="scheduleID" required onchange="fetchDepartureTime()">
+                            <option value="">Select Schedule</option>
+                            <?php if(isset($scheduleData)): ?>
+                                <?php foreach($scheduleData as $scheduleItem): ?>
+                                    <?php 
+                                        // Extract the actual schedule data from the nested array
+                                        $schedule = $scheduleItem[0]; 
+                                    ?>
+                                    <?php foreach($busData as $bus): ?>
+                                        <?php if($schedule['License_id'] == $bus['License_id']): ?>
+                                            <option value="<?php echo $schedule['scheduleId']; ?>" 
+                                                data-departure-time="<?php echo $schedule['departureTime']; ?>">
+                                                <?php echo $schedule['scheduleId']; ?> - <?php echo $bus['start_location']; ?> to <?php echo $bus['destination']; ?>
+                                            </option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div>
-                            <label for="busRoute">Bus Route</label>
-                            <input type="text" id="busRoute" name="busRoute" required>
-                        </div>
+                <div class="form-group">
+                    <div>
+                        <label for="time">Departure Time</label>
+                        <input type="time" id="time" name="time" readonly required>
                     </div>
-
-                    <div class="form-group">
-                        <div>
-                            <label for="time">Departure Time</label>
-                            <input type="time" id="time" name="time" required>
-                        </div>
-                        <div>
-                            <label for="newTime">New Departure Time</label>
-                            <input type="time" id="newTime" name="newTime" required>
-                        </div>
+                    <div>
+                        <label for="newTime">New Departure Time</label>
+                        <input type="time" id="newTime" name="newTime" required>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div>
-                            <label for="reason">Reason</label>
-                            <!--<input type="text" id="reason" name="reason"  required>-->
-                            <textarea id="reason" name="reason" rows="5" required></textarea>
-                        </div>
+                <div class="form-group">
+                    <div>
+                        <label for="reason">Reason</label>
+                        <textarea id="reason" name="reason" rows="5" required></textarea>
                     </div>
+                </div>
 
-                    <br>
-                    <button type="submit" class="submit-btn">Submit</button>
+                <br>
+                <button type="submit" class="submit-btn">Submit</button>
 
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
 
-        <script>
+    <script>
+        function fetchDepartureTime() {
+            const scheduleSelect = document.getElementById('scheduleID');
+            const selectedOption = scheduleSelect.options[scheduleSelect.selectedIndex];
             
-            function goBack() {
-                window.history.back();
+            if (selectedOption.value) {
+                document.getElementById('time').value = selectedOption.getAttribute('data-departure-time');
+            } else {
+                document.getElementById('time').value = '';
             }
+        }
 
-            function submitDelayForm(event) {
-                event.preventDefault();
-
-                /*const delayData = {
-
-                }
-                console.log("Delay Form submitted:");
-                alert("Form submitted successfully");*/
-                
-                clearForm();
-            }
-
-            function clearForm() {
-                document.getElementById("delay-form").reset();
-            }
-
-        </script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 </html>

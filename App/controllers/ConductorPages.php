@@ -12,19 +12,34 @@
             echo "This is the index method";
         }
 
-        public function informDelays() {
+        public function informDelays(){
+            $schedules = $this->ConductorpagesModel->getSchedulesByEmployeeId($_SESSION['user_id']);
+            $buses = $this->ConductorpagesModel->getBusByScheduleID($schedules);
+            $data = [
+                'schedules' => $schedules,
+                'buses' => $buses
+            ];
+
+            echo '<script>console.log("Data :", ' . json_encode($data) . ');</script>';
+
+            $this->view('pages/Conductor/InformDelays', $data);
+        }
+
+        public function addInformDelays() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+                echo '<script>console.log(' . json_encode($_POST) .');</script>';
+                
+
                 // Collect data into an array
                 $data = [
-                    'routeNo' => trim($_POST['routeNo']),
-                    'busNo' => trim($_POST['busNo']),
-                    'busRoute' => trim($_POST['busRoute']),
+                    'scheduleID' => trim($_POST['scheduleID']),
                     'time' => trim($_POST['time']),
                     'newTime' => trim($_POST['newTime']),
                     'reason' => trim($_POST['reason']),
+                    'userID' =>trim($_SESSION['user_id'])
                 ];
 
                 $this->ConductorpagesModel->addDelays($data);
@@ -266,14 +281,8 @@
         }
 
         public function viewDelays() {
-            $delays = $this->ConductorpagesModel->getDelays($_SESSION['user_id']);
-
-            $data = [
-                'delay' => $delays
-            ];
-
+            $data = $this->ConductorpagesModel->getDelays();
             
-
             $this->view('pages/Conductor/ViewDelays', $data);
         }
 

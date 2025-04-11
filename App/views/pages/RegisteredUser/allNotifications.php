@@ -123,7 +123,7 @@
                                 <i class="fas <?php echo $Anotification['is_read'] ? 'fa-envelope' : 'fa-envelope-open'; ?>"></i>
                                 Mark as <?php echo $Anotification['is_read'] ? 'unread' : 'read'; ?>
                             </button>
-                            <?php if (isset($Anotification['actionUrl'])): ?>
+                            <?php if (isset($Anotification['link'])): ?>
                                 <a href="<?php echo $Anotification['link']; ?>" class="notification-action-btn">
                                     <i class="fas fa-external-link-alt"></i> View Details
                                 </a>

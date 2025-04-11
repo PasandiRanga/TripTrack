@@ -83,12 +83,10 @@
         }
 
         public function addDelays($data) {
-            $this->db->query("INSERT INTO bus_delay (route_no, License_id, bus_route, dep_time, new_dep_time, reason)
-                                VALUES (:routeNo, :busNo, :busRoute, :time, :newTime, :reason)");
-
-            $this->db->bind(':routeNo', $data['routeNo']);
-            $this->db->bind(':busNo', $data['busNo']);
-            $this->db->bind(':busRoute', $data['busRoute']);
+            $this->db->query("INSERT INTO bus_delay (schedule_id,employee_id, dep_time, new_dep_time, reason)
+                                VALUES (:scheduleID ,:employee_id, :time, :newTime, :reason)");
+             $this->db->bind(':scheduleID', $data['scheduleID']);
+             $this->db->bind(':employee_id', $data['userID']);
             $this->db->bind(':time', $data['time']);
             $this->db->bind(':newTime', $data['newTime']);
             $this->db->bind(':reason', $data['reason']);
@@ -97,6 +95,43 @@
             
         }
 
+        public function getBusesForDelays($delays){
+
+        }
+
+        public function getBusByScheduleID($schedules) {
+            // echo '<script> console.log("schedules: ", ' . json_encode($schedules) . '); </script>';
+            
+            $buses = [];
+            
+            foreach($schedules as $scheduleWrapper) {
+                // echo '<script> console.log("schedule: ", ' . json_encode($scheduleWrapper) . '); </script>';
+                
+                // Get the actual schedule object from the wrapper array (at index 0)
+                $schedule = $scheduleWrapper[0];
+                
+                // Now we can safely access the License_id
+                if (is_object($schedule)) {
+                    $licenseId = $schedule->License_id;
+                } else {
+                    $licenseId = $schedule['License_id'];
+                }
+                
+                // echo '<script> console.log("License id: ", ' . json_encode($licenseId) . '); </script>';
+                
+                $this->db->query('SELECT * FROM bus WHERE :licenseId = License_id');
+                $this->db->bind(':licenseId', $licenseId);
+                $result = $this->db->resultSet();
+                
+                if (!empty($result)) {
+                    $buses = array_merge($buses, $result);
+                    $buses = array_unique($buses, SORT_REGULAR); // Remove duplicate entries
+                }
+            }
+            
+            return $buses;
+        }
+        
         public function addLeaves($data) {
             
             $this->db->query("INSERT INTO employee_leave (employee_id, from_date, to_date, no_of_days, reason , status)
@@ -143,10 +178,40 @@
         }
 
         public function getDelays() {
-            $this->db->query('SELECT * FROM bus_delay');
+            $this->db->query('SELECT * FROM bus_delay WHERE employee_id = :emp_id');
+            $this->db->bind("emp_id", $_SESSION['user_id']);
+            $delays = $this->db->resultSet();
 
-            return $this->db->resultSet();
+            $schedules = [];
+            $buses = [];
+
+            foreach ($delays as $delay) {
+                // Get schedule
+                $this->db->query('SELECT * FROM schedule WHERE scheduleID = :scheduleID');
+                $this->db->bind(":scheduleID", $delay['schedule_id']);
+                $schedule = $this->db->single();
+
+                if ($schedule) {
+                    $schedules[] = $schedule;
+
+                    // Get bus info from License_id
+                    $this->db->query('SELECT * FROM bus WHERE License_id = :licenseID');
+                    $this->db->bind(':licenseID', $schedule['License_id']);
+                    $bus = $this->db->single();
+
+                    if ($bus) {
+                        $buses[] = $bus;
+                    }
+                }
+            }
+
+            return [
+                'delays' => $delays,
+                'schedules' => $schedules,
+                'buses' => $buses
+            ];
         }
+
 
         public function getLeaveRequest($leave_id) {
             $this->db->query('SELECT * FROM employee_leave WHERE leave_id=:leave_id');
@@ -268,6 +333,27 @@
             $this->db->bind(':schedule_id', $scheduleId);
             $result = $this->db->single();
             return $result->count > 0;
+        }
+
+        public function getSchedulesByEmployeeId($userID){
+            $this->db->query('SELECT * FROM assign WHERE :userID = conductor_id OR :userID=driver_id');
+            $this->db->bind(':userID', $userID);
+            $assigns = $this->db->resultSet();
+
+            $schedules = [];
+
+            foreach($assigns as $assign) {
+                // Assuming scheduleId is the column name in the assign table
+                $scheduleId = $assign['scheduleId']; // Adjust this based on your actual column name
+                
+                $this->db->query('SELECT * FROM schedule WHERE scheduleId = :schedule_id');
+                $this->db->bind(':schedule_id', $scheduleId);
+                $schedules[] = $this->db->resultSet();
+            }
+
+            return $schedules ?? []; // Return an empty array if no schedules found
+            
+            
         }
 
     }
