@@ -139,12 +139,12 @@
                     echo json_encode(['message' => 'No booking found for this schedule and seats.']);
                 }
 
-            }   
-            /*} else {
+            } else {
                 // Handle non-POST request
                 http_response_code(405); // Method Not Allowed
                 echo json_encode(['message' => 'Method not allowed.']);
-            }*/
+            }
+
             $this->view('pages/Conductor/ScanQRcode');
         }
 

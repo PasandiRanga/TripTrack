@@ -19,8 +19,8 @@ html, body {
     border: none;
     border-radius: 30px;
     box-shadow: 10px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left:50px;
-    margin-right:50px;
+    margin-left: 50px;
+    margin-right: 50px;
     background-color: #FFF;
     align-content: center;
     transition: all 0.3s ease;
@@ -108,175 +108,6 @@ li {
     margin-left: 20px;
 }
 
-/*-----------------------NOTIFICATION ICON-------------------------*/
-/* Notification Icon Container */
-.notiicon {
-    cursor: pointer;
-    margin-right: 20px; /* Adjust margin for better spacing */
-    line-height: initial;
-    font-size: 1.5rem;
-    position: relative;
-}
-
-/* Notification Count (Number) Styling */
-.notiicon span {
-    background: #f00;
-    padding: 4px; /* Smaller padding to reduce size */
-    border-radius: 50%;
-    color: #063946;
-    vertical-align: top;
-    font-size: 10px; /* Adjust font size for compatibility */
-    margin-left: -15px; /* Adjust position as per icon size */
-}
-
-/* Bell Icon Styling */
-.notiicon img {
-    width: 26px;
-    height: 26px; /* Decrease width for better alignment */
-    margin-top: 5px; /* Adjust margin to align with login button */
-    display: inline-block;
-}
-
-.notiicon:hover {
-    opacity: 1;
-}
-
-/* Update notification box styling to match theme */
-.notifi-box {
-    position: absolute;
-    top: 63px;
-    right: 35px;
-    background: #ffffff;
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Match navbar shadow */
-    width: 500px;
-    max-height: 400px; /* Set a maximum height for the box */
-    opacity: 0;
-    overflow-y: auto; /* Enable vertical scrolling if content overflows */
-    transition: opacity 0.3s ease, height 0.3s ease, transform 0.3s ease-in-out;
-    transform: translateY(-10px); /* Start with a subtle lift effect */
-    z-index: 999;
-    border-radius: 10px; /* Rounded corners for a soft look */
-    padding: 15px;
-}
-
-/* Notification box title */
-.notifi-box h2 {
-    font-size: 16px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    color: #333;
-    font-weight: bold;
-    text-align: center;
-    letter-spacing: 1px;
-}
-
-/* Notification items styling */
-.notifi-item {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    transition: background-color 0.3s ease;
-    border-radius: 8px; /* Soft rounded borders for each item */
-}
-
-.notifi-item:hover {
-    background-color: #f0f0f0; /* Match navbar hover */
-}
-
-.notifi-item .text h4 {
-    color: #333;
-    font-size: 18px;
-    font-weight: 600;
-    margin-top: 5px;
-}
-
-.notifi-item .text p {
-    color: #777;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* Dropdown arrow to the right */
-.dropdown-arrow span {
-    font-size: 18px;
-    cursor: pointer;
-    transform: rotate(0deg);
-    transition: transform 0.3s ease;
-    color: #0085cc; /* Add a subtle color for the arrow */
-}
-
-/* Notification item content */
-.notification-content {
-    display: none; /* Initially hidden */
-    padding: 10px 15px;
-    color: #333;
-    font-size: 16px;
-    border-top: 1px solid #eee;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-/* Show notification content when it's visible */
-.notifi-item.show .notification-content {
-    display: block;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-/* For better scroll experience, let's add some padding and space */
-.notifi-box.show {
-    opacity: 1; /* Show the notification box */
-    transform: translateY(0); /* Slide into view */
-    padding-bottom: 10px;
-}
-
-/* Add subtle animations to the notification box */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Apply animation */
-.notifi-box.show {
-    animation: fadeIn 0.5s ease-out;
-}
-
-/* Style for the cross (close) icon */
-.close-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 18px;
-    color: #ff0000;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.close-icon:hover {
-    color: #cc0000; /* Darker shade on hover */
-}
-
-/* Adjust notification box position for mobile */
-@media (max-width: 950px) {
-    .notifi-box {
-        width: 90%;
-        right: 5%;
-        left: 5%;
-        top: 55px;
-    }
-}
-
-
 /*---------------SIGNIN BOX------------------------------------ */
 
 /* Overlay for the sign-in box */
@@ -294,7 +125,6 @@ li {
     transition: opacity 0.3s ease;
     overflow: hidden; /* Prevent overflow outside the overlay */
 }
-
 
 /* Hidden class for toggling visibility */
 .hidden {
@@ -314,7 +144,6 @@ li {
     overflow-y: auto;/* Enables vertical scrolling when content overflows*/
 }
 
-
 /* Close button styling - positioned at top right of the signInBoxContent */
 .close-btn {
     position: absolute;
@@ -327,165 +156,11 @@ li {
 
 /*profile image in header*/
 .profile .pic img{
-
-    height:50px;
-    width:50px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
     overflow: hidden;
     border: 1px solid #002b38;
-
-}
-
-/* Add media queries for mobile responsiveness */
-@media (max-width: 1290px) {
-    .header {
-        flex-wrap: wrap;
-        height: 60px;
-        padding: 10px;
-    }
-
-    .abc {
-        width: auto; /* Changed from 100% to auto */
-        justify-content: flex-start; /* Keep items aligned to start */
-        flex-shrink: 0;
-    }
-
-    .navbarContainer {
-        margin-right: 30px;
-        justify-content: flex-end; /* Maintain right alignment */
-    }
-
-    .topic {
-        font-size: 23px; /* Keep consistent font size */
-    }
-
-    .logo {
-        width: 90px; /* Keep consistent size */
-        height: 90px;
-    }
-
-    .user-section {
-        margin-left: auto;
-    }
-
-    /* Adjust notification box position for mobile */
-    .notifi-box {
-        width: 90%;
-        right: 5%;
-        left: 5%;
-    }
-}
-
-@media (max-width: 950px) {
-    .header {
-        width: 98%;
-    }
-    
-    .navbar-container {
-        margin-right: 15px;
-    }
-}
-
-@media (max-width: 950px) {
-    .header {
-        height: 60px;
-        min-height: 60px;
-        transition: all 0.3s ease;
-    }
-
-    .header.expanded {
-        height: auto;
-        min-height: 60px;
-    }
-
-    .abc {
-        width: auto; /* Changed from 100% to auto */
-        justify-content: flex-start;
-        margin-bottom: 0; /* Remove margin that could cause shifting */
-        min-width: 0;
-        flex-wrap: nowrap;
-        flex-shrink: 0;
-    }
-
-    .topic {
-        font-size: 23px;
-        max-width: none;
-    }
-
-    .navbarContainer {
-        width: 100%;
-        margin: 0;
-    }
-
-    .user-section {
-        order: 1;
-        width: auto;
-    }
-
-    /* Hide desktop notifications and profile on mobile */
-    .user-section .notiicon,
-    .user-section .profile {
-        display: none;
-    }
-
-    /* Keep login button visible if user is not logged in */
-    .user-section .login-container {
-        display: flex;
-    }
-
-    .logo {
-        width: 90px; /* Keep consistent size */
-        height: 90px;
-    }
-
-    .notiicon {
-        margin-right: 10px;
-    }
-
-    .notiicon img {
-        width: 20px;
-        height: 20px;
-    }
-
-    .profile .pic img {
-        height: 35px;
-        width: 35px;
-    }
-
-    .login-button {
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-
-    /* Adjust notification box for mobile */
-    .notifi-box {
-        width: 90%;
-        right: 5%;
-        left: 5%;
-        top: 55px;
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        width: 92%;
-        margin: 8px;
-    }
-
-    .abc {
-        width: auto;
-        flex-shrink: 0;
-    }
-
-    .topic {
-        font-size: 23px;
-        max-width: none;
-    }
-
-    .logo {
-        width: 90px; /* Keep consistent size */
-        height: 90px;
-    }
 }
 
 /* Update the xyz class to better handle flex layout */
@@ -525,10 +200,103 @@ li {
     display: none; /* Hidden by default */
 }
 
+/* Add media queries for mobile responsiveness */
+@media (max-width: 1290px) {
+    .header {
+        flex-wrap: wrap;
+        height: 60px;
+        padding: 10px;
+    }
+
+    .abc {
+        width: auto; /* Changed from 100% to auto */
+        justify-content: flex-start; /* Keep items aligned to start */
+        flex-shrink: 0;
+    }
+
+    .navbarContainer {
+        margin-right: 30px;
+        justify-content: flex-end; /* Maintain right alignment */
+    }
+
+    .topic {
+        font-size: 23px; /* Keep consistent font size */
+    }
+
+    .logo {
+        width: 90px; /* Keep consistent size */
+        height: 90px;
+    }
+
+    .user-section {
+        margin-left: auto;
+    }
+}
+
 @media (max-width: 950px) {
+    .header {
+        width: 98%;
+    }
+    
+    .navbar-container {
+        margin-right: 15px;
+    }
+
+    .header {
+        height: 60px;
+        min-height: 60px;
+        transition: all 0.3s ease;
+    }
+
+    .header.expanded {
+        height: auto;
+        min-height: 60px;
+    }
+
     .abc {
         width: 100%;
+        justify-content: flex-start;
+        margin-bottom: 0; /* Remove margin that could cause shifting */
+        min-width: 0;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
         position: relative;
+    }
+
+    .topic {
+        font-size: 23px;
+        max-width: none;
+    }
+
+    .navbarContainer {
+        width: 100%;
+        margin: 0;
+    }
+
+    .user-section {
+        order: 1;
+        width: auto;
+    }
+
+    /* Hide desktop notifications and profile on mobile */
+    .user-section .notiicon,
+    .user-section .profile {
+        display: none;
+    }
+
+    /* Keep login button visible if user is not logged in */
+    .user-section .login-container {
+        display: flex;
+    }
+
+    .logo {
+        width: 90px; /* Keep consistent size */
+        height: 90px;
+    }
+
+    .login-button {
+        padding: 8px 12px;
+        font-size: 14px;
     }
 
     #navbar-toggle {
@@ -547,6 +315,24 @@ li {
     }
 }
 
-.hidden {
-    display: none;
+@media (max-width: 480px) {
+    .header {
+        width: 92%;
+        margin: 8px;
+    }
+
+    .abc {
+        width: auto;
+        flex-shrink: 0;
+    }
+
+    .topic {
+        font-size: 23px;
+        max-width: none;
+    }
+
+    .logo {
+        width: 90px; /* Keep consistent size */
+        height: 90px;
+    }
 }
