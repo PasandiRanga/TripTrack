@@ -615,8 +615,7 @@
     /**
      * Update notification read status
      */
-    public function updateNotificationReadStatus()
-    {
+    public function toggleReadStatus() {
         // Check if it's an AJAX request
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
             redirect('pages/error');
@@ -633,7 +632,7 @@
                 'success' => false,
                 'message' => 'Notification ID is required'
             ]);
-            return;
+            exit(); // Add this to ensure nothing else is output
         }
         
         $success = $this->NotificationModel->updateReadStatus($notificationId, $isRead, $_SESSION['user_id']);
@@ -643,8 +642,58 @@
         echo json_encode([
             'success' => $success
         ]);
+        exit(); // Add this to ensure nothing else is output
     }
 
+    public function deleteNotification(){
+        // Turn off output buffering
+
+        ob_start();
+        
+        try {
+            // Check if it's an AJAX request
+            if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+                // echo '<script>console.log("Not POST");</script>';
+                throw new Exception('Invalid request method');
+
+            }
+            
+            // Get POST data
+            $input = json_decode(file_get_contents('php://input'), true);
+            $notificationId = $input['notification_id'] ?? null;
+            // echo '<script>console.log("Notification id"' .json_encode($notificationId) . ');</script>';
+
+            
+            if (!$notificationId) {
+                throw new Exception('Notification ID is required');
+            }
+            
+            $success = $this->NotificationModel->deleteNotification($notificationId, $_SESSION['user_id']);
+            // echo '<script>console.log(' . json_encode($success) . ');</script>';
+    
+
+    
+            // Clear any output that might have happened
+            ob_clean();
+            
+            // Return JSON response
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => $success
+            ]);
+
+        } catch (Exception $e) {
+            // Clear any output
+            ob_clean();
+            
+            // Return error JSON
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
     /**
      * Dismiss notification
      */

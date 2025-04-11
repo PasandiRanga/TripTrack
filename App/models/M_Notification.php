@@ -23,7 +23,7 @@ class M_Notification {
     }
 
     public function getAllUserNotifications($userId){
-        $this->db->query('SELECT * FROM notifications WHERE user_id = :user_id ORDER BY created_at DESC');
+        $this->db->query('SELECT * FROM notifications WHERE user_id = :user_id AND is_deleted=0 ORDER BY created_at DESC');
         $this->db->bind(':user_id', $userId);
         
         $results = $this->db->resultSet();
@@ -56,7 +56,7 @@ class M_Notification {
     }
     
     /**
-     * Dismiss notification (mark as deleted)
+     * Dismiss notification
      */
     public function dismissNotification($notificationId, $userId) {
         $this->db->query('UPDATE notifications SET is_dismissed = 1 WHERE id = :id AND user_id = :user_id');
@@ -64,6 +64,13 @@ class M_Notification {
         $this->db->bind(':user_id', $userId);
         
         return $this->db->execute();
+    }
+
+    public function deleteNotification($notificationId,$userId) {
+            $this->db->query('UPDATE notifications SET is_deleted =1 WHERE id=:id AND user_id = :user_id');
+            $this->db->bind(':id', $notificationId);
+            $this->db->bind(':user_id', $userId);
+            return $this->db->execute();    
     }
     
     /**

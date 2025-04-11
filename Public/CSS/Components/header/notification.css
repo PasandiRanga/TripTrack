@@ -1,7 +1,7 @@
 /*-----------------------NOTIFICATION STYLES-------------------------*/
 
 /* Notification Icon Container */
-.notiicon {
+.notiicon1 {
     cursor: pointer;
     margin-right: 20px; /* Adjust margin for better spacing */
     line-height: initial;
@@ -10,18 +10,18 @@
 }
 
 /* Bell Icon Styling */
-.notiicon img {
+.notiicon1 img {
     width: 26px;
     height: 26px; /* Decrease width for better alignment */
     margin-top: 5px; /* Adjust margin to align with login button */
     display: inline-block;
 }
 
-.notiicon:hover {
+.notiicon1:hover {
     opacity: 1;
 }
 
-/* Update notification box styling to match theme */
+Update notification box styling to match theme
 .notifi-box {
     position: absolute;
     top: 63px;

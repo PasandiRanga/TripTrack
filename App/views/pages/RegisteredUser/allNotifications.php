@@ -237,6 +237,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const id = this.getAttribute('data-id');
             const item = this.closest('.notifi-item');
             const isCurrentlyRead = item.classList.contains('read');
+            console.log(id)
+            console.log(item)
+            console.log(isCurrentlyRead)
             
             // Toggle read/unread class
             item.classList.toggle('read');
@@ -260,29 +263,65 @@ document.addEventListener('DOMContentLoaded', function() {
                     indicator.remove();
                 }
             }
+
+             // Check if we're in the unread filter view and hide the item if it's now read
+            const activeFilter = document.querySelector('.filter-buttons button.active').id;
+            if (activeFilter === 'filter-unread' && !isCurrentlyRead) {
+                // If we're in unread filter and marking as read, hide this item
+                item.style.display = 'none';
+            } else if (activeFilter === 'filter-read' && isCurrentlyRead) {
+                // If we're in read filter and marking as unread, hide this item
+                item.style.display = 'none';
+            }
             
-            // Update on server via AJAX
-            fetch(`${URLROOT}/Notifications/toggleReadStatus`, {
+            fetch(`${URLROOT}/RegisteredPages/toggleReadStatus`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'  // Add this header
                 },
-                body: JSON.stringify({ id: id, read: !isCurrentlyRead })
+                body: JSON.stringify({ 
+                    notification_id: id,  // Change from 'id' to 'notification_id'
+                    is_read: !isCurrentlyRead 
+                })
             })
-            .then(response => response.json())
+            .then(response => {
+                // Check if response is empty
+                if (response.status === 204) {
+                    console.log('Empty response with status 204');
+                    return {success: true}; // Handle no-content response
+                }
+                    
+                // Log the raw response for debugging
+                response.clone().text().then(text => {
+                    console.log('Raw server response:', text);
+                });
+                    
+                return response.json();
+            })
             .then(data => {
                 if (!data.success) {
                     console.error('Failed to update notification status');
                     // Revert changes if failed
                     item.classList.toggle('read');
                     item.classList.toggle('unread');
+
+                    if (activeFilter === 'filter-unread' || activeFilter === 'filter-read') {
+                        item.style.display = 'block';
+                    }
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error type :', error.name);
+                console.error('Error message:', error.message);
+
                 // Revert changes on error
                 item.classList.toggle('read');
                 item.classList.toggle('unread');
+
+                if (activeFilter === 'filter-unread' || activeFilter === 'filter-read') {
+                    item.style.display = 'block';
+                }
             });
         });
     });
@@ -300,16 +339,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.classList.add('deleting');
                 
                 // Delete from server via AJAX
-                fetch(`${URLROOT}/Notifications/delete`, {
+                fetch(`${URLROOT}/RegisteredPages/deleteNotification`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: JSON.stringify({ id: id })
+                    body: JSON.stringify({
+                        notification_id: id
+                    })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        // Remove the notification from the UI
                         setTimeout(() => {
                             item.remove();
                             
@@ -328,13 +371,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, 300);
                     } else {
                         item.classList.remove('deleting');
-                        alert('Failed to delete notification');
+                        alert('Failed to delete notification. Please try again.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     item.classList.remove('deleting');
-                    alert('An error occurred while deleting the notification');
+                    alert('An error occurred while deleting the notification. Please try again.');
                 });
             }
         });
