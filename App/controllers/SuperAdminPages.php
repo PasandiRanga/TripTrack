@@ -298,8 +298,8 @@ class SuperAdminPages extends Controller {
                 exit();
             }
 
-            if($this->SuperAdminModel->addSchedule($data)){
-                echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
+            if($this->SuperAdminModel->addschedule($data)){
+                echo json_encode(['status' => 'success', 'message' => 'Schedule added successfully.']);
                 exit();
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database Error cannot add schedule']);
@@ -340,8 +340,9 @@ class SuperAdminPages extends Controller {
                 'type' => trim($inputData['type'] ?? '')
             ];
 
-            // Validate required fields
-            if (empty($data['scheduleId']) || empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['direction']) || empty($data['type'])) {
+
+            if (empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['direction']) || empty($data['type'])) {
+
             echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
             http_response_code(400);
             exit();
