@@ -81,10 +81,10 @@
             <?php foreach ($data['book1'] as $booking1): ?>
                 <tr>
                     <td><?= $booking1['id'] ?></td>
-                    <td><?= $booking1['Booking_date'] ?></td>
-                    <td><?= $booking1['Booking_time'] ?></td>
-                    <td><?= $booking1['No_of_seats'] ?></td>
-                    <td><?= $booking1['Seats'] ?></td>
+                    <td><?= $booking1['booking_date'] ?></td>
+                    <td><?= $booking1['booking_time'] ?></td>
+                    <td><?= $booking1['number_of_seats'] ?></td>
+                    <td><?= $booking1['selected_seats'] ?></td>
                     <td><?= $booking1['User_id'] ?></td>
                     <td><?= $booking1['schedule_id'] ?></td>
                     <td><?= $booking1['from_location'] ?></td>
