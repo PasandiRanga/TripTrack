@@ -83,17 +83,100 @@
         }
 
         public function addDelays($data) {
-            $this->db->query("INSERT INTO bus_delay (schedule_id,employee_id, dep_time, new_dep_time, reason)
-                                VALUES (:scheduleID ,:employee_id, :time, :newTime, :reason)");
-             $this->db->bind(':scheduleID', $data['scheduleID']);
-             $this->db->bind(':employee_id', $data['userID']);
-            $this->db->bind(':time', $data['time']);
-            $this->db->bind(':newTime', $data['newTime']);
-            $this->db->bind(':reason', $data['reason']);
+            try {
+                // Begin transaction
+                $this->db->beginTransaction();
 
-            return $this->db->execute();
+                // Step 1: Insert delay into bus_delay table
+                $this->db->query("INSERT INTO bus_delay (schedule_id, employee_id, dep_time, new_dep_time, reason)
+                                VALUES (:scheduleID, :employee_id, :time, :newTime, :reason)");
+                $this->db->bind(':scheduleID', $data['scheduleID']);
+                $this->db->bind(':employee_id', $data['userID']);
+                $this->db->bind(':time', $data['time']);
+                $this->db->bind(':newTime', $data['newTime']);
+                $this->db->bind(':reason', $data['reason']);
+                $result = $this->db->execute();
+
+                echo '<script>console.log(' . json_encode($result) . ');</script>';
+
+                if (!$result) {
+                    $this->db->rollBack();
+                    return false;
+                }
+
+                echo '<script>console.log(' . json_encode($result) . ');</script>';
+
+                // Step 2: Get user IDs affected by this schedule
+                $this->db->query("SELECT User_id FROM registeredbooking WHERE schedule_id = :scheduleID");
+                $this->db->bind(':scheduleID', $data['scheduleID']);
+                $userRows = array_unique($this->db->resultSet(), SORT_REGULAR);
+
+                echo '<script>console.log(' . json_encode($userRows) . ');</script>';
             
+                // Step 3: Get bus and schedule details
+                $this->db->query("SELECT License_id, departureTime FROM schedule WHERE scheduleId = :scheduleID");
+                $this->db->bind(':scheduleID', $data['scheduleID']);
+                $scheduleDetails = $this->db->single();
+
+                echo '<script>console.log(' . json_encode($scheduleDetails) . ');</script>';
+
+                if (!$scheduleDetails) {
+                    return false;
+                }
+
+                $this->db->query("SELECT start_location, destination FROM bus WHERE License_id = :licenseID");
+                $this->db->bind(':licenseID', $scheduleDetails['License_id']);
+                $busDetails = $this->db->single();
+
+                echo '<script>console.log(' . json_encode($busDetails) . ');</script>';
+        
+                if (!$busDetails) {
+                    return false;
+                }
+
+                $details = (object) array_merge((array) $scheduleDetails, (array) $busDetails);
+
+                echo '<script>console.log(' . json_encode($details) . ');</script>';
+                
+                if (!$details) {
+                    $this->db->rollBack();
+                    return false;
+                }
+
+                $start = $details->start_location;
+                $destination = $details->destination;
+                $originalTime = $details->departure_time;
+                $newTime = $data['newTime'];
+
+                $title = "Bus Delay Notification";
+                $message = "We regret to inform you that the bus from $start to $destination scheduled at $originalTime will be delayed. It will now depart at $newTime.";
+                $link = NULL;
+                $createdAt = date("Y-m-d H:i:s");
+
+                // Step 4: Insert notification for each user
+                foreach ($userRows as $user) {
+                    $this->db->query("INSERT INTO notifications (user_id, title, message, link, is_read, is_seen, is_deleted, created_at, is_dismissed)
+                                    VALUES (:user_id, :title, :message, :link, 0, 0, 0, :created_at, 0)");
+                    $this->db->bind(':user_id', $user['User_id']);
+                    $this->db->bind(':title', $title);
+                    $this->db->bind(':message', $message);
+                    $this->db->bind(':link', $link);
+                    $this->db->bind(':created_at', $createdAt);
+                    $this->db->execute();
+                }
+
+                // Commit if everything went well
+                $this->db->endTransaction();
+                return true;
+
+            } catch (Exception $e) {
+                // Rollback on error
+                $this->db->rollBack();
+                error_log("Add Delay Error: " . $e->getMessage());
+                return false;
+            }
         }
+
 
         public function getBusesForDelays($delays){
 

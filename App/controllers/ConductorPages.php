@@ -27,45 +27,29 @@
 
         public function addInformDelays() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Sanitize POST data
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-                echo '<script>console.log(' . json_encode($_POST) .');</script>';
-                
+            echo '<script>console.log(' . json_encode($_POST) .');</script>';
+            
+            // Collect data into an array
+            $data = [
+                'scheduleID' => trim($_POST['scheduleID']),
+                'time' => trim($_POST['time']),
+                'newTime' => trim($_POST['newTime']),
+                'reason' => trim($_POST['reason']),
+                'userID' => trim($_SESSION['user_id'])
+            ];
 
-                // Collect data into an array
-                $data = [
-                    'scheduleID' => trim($_POST['scheduleID']),
-                    'time' => trim($_POST['time']),
-                    'newTime' => trim($_POST['newTime']),
-                    'reason' => trim($_POST['reason']),
-                    'userID' =>trim($_SESSION['user_id'])
-                ];
-
-                $this->ConductorpagesModel->addDelays($data);
-
+            if ($this->ConductorpagesModel->addDelays($data)) {
                 header("Location: " . URLROOT . "/ConductorPages/viewDelays");
-
-                // Call the model method to add the bus
-                /*if ($this->ConductorpagesModel->addDelays($data)) {
-                    // Redirect to the fleet page on success
-                    header("Location: " . URLROOT . "/ConductorPages/viewDelays");
-                } else {
-                    die("Error: Unable to add the delay.");
-
-                <?php
-                echo '<pre>';
-                var_dump($data);
-                echo '</pre>';
-                exit();
-                ?>
-
-                }*/
             } else {
-                
-                $this->view('pages/Conductor/InformDelays');
+                echo '<script>alert("Failed to add delay. Please try again.");</script>';
+                header("Location: " . URLROOT . "/ConductorPages/informDelays");
             }
-
+            } else {
+            $this->view('pages/Conductor/InformDelays');
+            }
         }
 
         public function notifications() {
@@ -282,7 +266,7 @@
 
         public function viewDelays() {
             $data = $this->ConductorpagesModel->getDelays();
-            
+
             $this->view('pages/Conductor/ViewDelays', $data);
         }
 
