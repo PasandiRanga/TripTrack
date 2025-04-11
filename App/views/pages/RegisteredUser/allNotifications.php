@@ -30,8 +30,9 @@
 
 <?php
 
-    $notifications = $data['notifications'] ?? [];
-    echo '<script>console.log ("Notification data in the page :" , '. json_encode($notifications) . '); </script>';
+    $Allnotifications = $data['allnotifications'] ?? [];
+    $notifications = $data['notifications'] ??[];
+    echo '<script>console.log ("Notification data in the page :" , '. json_encode($Allnotifications) . '); </script>';
 
     $userId = $_SESSION['user_id'] ?? '';
     $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
@@ -72,23 +73,23 @@
         </div>
     </div>
 
-    <?php  echo '<script>console.log ("Notification data in the page2 :" , '. json_encode($notifications) . '); </script>'; ?>
+    <?php  echo '<script>console.log ("Notification data in the page2 :" , '. json_encode($Allnotifications) . '); </script>'; ?>
 
     <div class="notification-list detailed" id="all-notification-list">
-        <?php if (!empty($notifications)): ?>
-            <?php foreach ($notifications as $notification): ?>
-                <div class="notifi-item <?php echo $notification['is_read'] ? 'read' : 'unread'; ?>" 
-                     data-notification-id="<?php echo $notification['id']; ?>">
+        <?php if (!empty($Allnotifications)): ?>
+            <?php foreach ($Allnotifications as $Anotification): ?>
+                <div class="notifi-item <?php echo $Anotification['is_read'] ? 'read' : 'unread'; ?>" 
+                     data-notification-id="<?php echo $Anotification['id']; ?>">
                     <div class="notification-header">
-                        <?php if (!$notification['is_read']): ?>
+                        <?php if (!$Anotification['is_read']): ?>
                             <div class="unread-indicator"></div>
                         <?php endif; ?>
                         <div class="notification-icon">
                             <?php 
                             // Determine icon based on notification type
                             $icon = 'fa-bell';
-                            if (isset($notification['type'])) {
-                                switch($notification['type']) {
+                            if (isset($Anotification['type'])) {
+                                switch($Anotification['type']) {
                                     case 'booking':
                                         $icon = 'fa-ticket-alt';
                                         break;
@@ -107,26 +108,26 @@
                             <i class="fas <?php echo $icon; ?>"></i>
                         </div>
                         <div class="notification-info">
-                            <div class="notification-title"><?php echo $notification['title']; ?></div>
-                            <div class="notification-time"><?php echo $notification['created_at']; ?></div>
+                            <div class="notification-title"><?php echo $Anotification['title']; ?></div>
+                            <div class="notification-time"><?php echo $Anotification['created_at']; ?></div>
                         </div>
                         <div class="notification-controls">
                             <span class="dropdown-arrow">&#9660;</span>
                         </div>
                     </div>
                     <div class="notification-content">
-                        <p><?php echo $notification['message']; ?></p>
+                        <p><?php echo $Anotification['message']; ?></p>
                         <div class="notification-actions">
-                            <button class="mark-read-btn" data-id="<?php echo $notification['id']; ?>">
-                                <i class="fas <?php echo $notification['is_read'] ? 'fa-envelope' : 'fa-envelope-open'; ?>"></i>
-                                Mark as <?php echo $notification['is_read'] ? 'unread' : 'read'; ?>
+                            <button class="mark-read-btn" data-id="<?php echo $Anotification['id']; ?>">
+                                <i class="fas <?php echo $Anotification['is_read'] ? 'fa-envelope' : 'fa-envelope-open'; ?>"></i>
+                                Mark as <?php echo $Anotification['is_read'] ? 'unread' : 'read'; ?>
                             </button>
-                            <?php if (isset($notification['actionUrl'])): ?>
-                                <a href="<?php echo $notification['link']; ?>" class="notification-action-btn">
+                            <?php if (isset($Anotification['actionUrl'])): ?>
+                                <a href="<?php echo $Anotification['link']; ?>" class="notification-action-btn">
                                     <i class="fas fa-external-link-alt"></i> View Details
                                 </a>
                             <?php endif; ?>
-                            <button class="delete-notification-btn" data-id="<?php echo $notification['id']; ?>">
+                            <button class="delete-notification-btn" data-id="<?php echo $Anotification['id']; ?>">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>

@@ -1,4 +1,4 @@
-// Add this to your notification.js file or create a new file
+const URLROOT = 'http://localhost/TripTrack';
 
 document.addEventListener('DOMContentLoaded', function() {
     // Elements
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error marking notifications as seen:', error));
     }
     
-    // Function to update the read status of a notification
+    // Modify the updateReadStatus function in notification.js to ensure proper UI update
     function updateReadStatus(notificationId, isRead) {
         fetch(`${URLROOT}/RegisteredPages/updateNotificationReadStatus`, {
             method: 'POST',
@@ -146,10 +146,42 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 console.log(`Notification ${notificationId} read status updated`);
+                
+                // Make sure updateNotificationCount is called after the UI is updated
+                updateNotificationCount();
             }
         })
         .catch(error => console.error('Error updating notification read status:', error));
     }
+
+    // Ensure the badge is properly updated when the read/unread status changes
+    document.querySelectorAll('.mark-read-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            const notificationId = this.dataset.id;
+            const notificationItem = this.closest('.notifi-item');
+            
+            // Toggle read status
+            const isCurrentlyRead = notificationItem.classList.contains('read');
+            
+            // Send AJAX request to update read status
+            updateReadStatus(notificationId, !isCurrentlyRead);
+            
+            // Update UI
+            if (isCurrentlyRead) {
+                notificationItem.classList.remove('read');
+                notificationItem.classList.add('unread');
+                this.textContent = 'Mark as read';
+            } else {
+                notificationItem.classList.remove('unread');
+                notificationItem.classList.add('read');
+                this.textContent = 'Mark as unread';
+            }
+            
+            // Make sure to update the count after changing the UI
+            updateNotificationCount();
+        });
+    });
     
     // Function to dismiss a notification
     function dismissNotification(notificationId) {

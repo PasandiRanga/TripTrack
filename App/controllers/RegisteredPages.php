@@ -17,16 +17,6 @@
             echo "This is the index method";
         }
 
-        public function header(){
-            $notifications = $this->NotificationModel->getUserNotifications($_SESSION['user_id']);
-            echo '<script> console.log("Notifications in controller : "' . json_encode($notifications) . '); </script>';
-            $data = [
-                'notifications' => $notifications
-            ];
-            $this->view('inc/Components/header', $data);
-          
-        }
-
         public function home() {
 
         // Optional model updates
@@ -37,7 +27,7 @@
         $schedule = $this->RegisteredpagesModel->getSchedule();
         $bus = $this->RegisteredpagesModel->getBusDetails();
         $route = $this->RegisteredpagesModel->getRoute();
-        $notifications = $this->NotificationModel->getUserNotifications($_SESSION['user_id']);
+        $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
 
         echo '<script>console.log("Notifications in controller:", ' . json_encode($notifications) . ');</script>';
 
@@ -49,7 +39,7 @@
         ];
 
         $this->view('pages/RegisteredUser/home', $data);
-    }
+        }
 
         public function bookings() {
             $bookingsDetails = $this->RegisteredpagesModel->getBookings($_SESSION['user_id']);
@@ -82,12 +72,10 @@
             ];
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);
-        }
-
-        
+        }       
         public function contactUs() {
             
-            $notifications = $this->NotificationModel->getUserNotifications($_SESSION['user_id']);
+            $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
             $data =[
                 'notifications' => $notifications
             ];
@@ -133,25 +121,6 @@
         public function LoginBox() {
             $this->view('inc/Components/LoginBox/loginBox');
         }
-
-        // public function BusBooking() {
-        //     $schedule = $this->RegisteredpagesModel->getSchedule();
-        //     $bus = $this->RegisteredpagesModel->getBusDetails();
-        //     $distance = $this->RegisteredpagesModel->getDistance();
-        //     $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-        //     $data = [
-        //         'schedule' => $schedule,
-        //         'bus' => $bus,
-        //         'distance' => $distance,
-        //         'user' => $user,
-     
-        //     ];
-        //     $this->view('pages/RegisteredUser/BusBooking', $data);
-        // }
-
-        // public function RegisteredReceipt() {
-        //     $this->view('inc/Components/Receipt/RegisteredReceipt');
-        // }
 
         public function PaymentPortal(){
             $this->view('inc/Components/PaymentPortal/paymentPortal');
@@ -460,8 +429,6 @@
             ];
         }
 
-
-
         private function sendBookingEmail($bookingData) {
             $mail = new PHPMailer(true);
 
@@ -521,18 +488,6 @@
             }
         }
 
-        // public function getAllNotifications() {
-        //     header('Content-Type: application/json'); // Ensure JSON response
-
-        //     $notifications = $this->RegisteredpagesModel->getNotifications();
-            
-        //     echo json_encode([
-        //         'success' => true,
-        //         'notifications' => $notifications
-        //     ]);
-        //     exit;
-        // }
-
         public function newBookings() {
             $upcomingbookings = $this->RegisteredpagesModel->getUpcomingBookings($_SESSION['user_id']);  
             $pastbookings = $this->RegisteredpagesModel->getPastBookings($_SESSION['user_id']); 
@@ -540,7 +495,7 @@
             // echo '<script> console.log("Past Bookings: ", ' . json_encode($pastbookings) . '); </script>';
             $schedule = $this->RegisteredpagesModel->getSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
-            $notifications = $this->NotificationModel->getUserNotifications($_SESSION['user_id']);
+            $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
 
             $data = [
                 'upcomingbookings' => $upcomingbookings,
@@ -598,21 +553,20 @@
             }
         }
 
-
-        /**
-     * Display all notifications page
-     */
+    /*For all notifications */
     public function allNotifications()
     {
         echo '<script>console.log("Inside the controller")</script>';
         // Get all notifications for the current user
-        $notifications = $this->NotificationModel->getUserNotifications($_SESSION['user_id']);
-        echo '<script> console.log("Notifications: ", ' . json_encode($notifications) . '); </script>';
+        $allnotifications = $this->NotificationModel->getAllUserNotifications($_SESSION['user_id']);
+        $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+        echo '<script> console.log("Notifications: ", ' . json_encode($allnotifications) . '); </script>';
 
         $data = [
             'currentController' => 'RegisteredPages',
             'currentMethod' => 'allNotifications',
             'title' => 'All Notifications',
+            'allnotifications' => $allnotifications,
             'notifications' => $notifications
         ];
         echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
@@ -621,9 +575,7 @@
         $this->view('pages/RegisteredUser/allNotifications', $data);
     }
 
-    /**
-     * Get all notifications via AJAX
-     */
+   /* For the notification icon */
     public function getAllNotifications()
     {
         // Check if it's an AJAX request
@@ -631,7 +583,7 @@
             redirect('pages/error');
         }
         
-        $notifications = $this->NotificationModel->getUserNotifications($_SESSION['user_id']);
+        $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
         
         // Return JSON response
         header('Content-Type: application/json');
