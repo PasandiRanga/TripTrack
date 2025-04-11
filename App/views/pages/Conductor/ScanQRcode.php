@@ -54,54 +54,8 @@ authCheck(['Conductor', 'Driver']);
         </div>
 
         <script src="https://unpkg.com/html5-qrcode"></script>
+
         <script>
-            // Function to parse QR code text into key-value pairs
-            function parseQrText(decodedText) {
-                const lines = decodedText.split('\n');
-                const data = {};
-
-                lines.forEach(line => {
-                    const [key, value] = line.split(':');
-                    if (value) {
-                        data[key.trim()] = value.trim();
-                    }
-                });
-
-                return data;
-            }
-
-            // Function to show modal with parsed data
-            function showModal(decodedText) {
-                const data = parseQrText(decodedText);
-
-                if (data["Seats"]) {
-                    let acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
-                    const newSeats = data["Seats"].split(',').map(seat => seat.trim());
-                    
-                    // Add new seats to accepted list if not already there
-                    newSeats.forEach(seat => {
-                        if (!acceptedSeats.includes(seat)) {
-                            acceptedSeats.push(seat);
-                        }
-                    });
-
-                    localStorage.setItem("acceptedSeats", JSON.stringify(acceptedSeats));
-                }
-
-                document.getElementById('qrResultText').innerHTML =
-                    `<h2 class="qr-title">Booking is Accepted!!</h2>
-                    <strong>Booking Receipt</strong><br>
-                    Schedule ID: ${data["Schedule ID"]}<br>
-                    Seats: ${data["Seats"]}<br>
-                    Total Price: ${data["Total Price"]}`;
-
-                document.getElementById('qrModal').style.display = 'flex';
-            }
-
-            // Function to close modal
-            function closeModal() {
-                document.getElementById('qrModal').style.display = 'none';
-            }
 
             function domReady(fn) {
                 if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -115,7 +69,8 @@ authCheck(['Conductor', 'Driver']);
                 var lastResult, countResults = 0;
 
                 // If QR code is found
-                function onScanSuccess(decodedText, decodedResult) {
+                function onScanSuccess(decodedText) {
+
                     if (decodedText !== lastResult) {
                         ++countResults;
                         lastResult = decodedText;
@@ -130,6 +85,101 @@ authCheck(['Conductor', 'Driver']);
 
                 htmlscanner.render(onScanSuccess);
             });
+
+            // Function to show modal with parsed data
+            function showModal(decodedText) {
+
+                const data = parseQrText(decodedText);
+
+                /*if (data["Seats"]) {
+                    let acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
+                    const newSeats = data["Seats"].split(',').map(seat => seat.trim());
+                    
+                    // Add new seats to accepted list if not already there
+                    newSeats.forEach(seat => {
+                        if (!acceptedSeats.includes(seat)) {
+                            acceptedSeats.push(seat);
+                        }
+                    });
+
+                    localStorage.setItem("acceptedSeats", JSON.stringify(acceptedSeats));
+
+                    <strong>Booking Receipt</strong><br>
+                    Schedule ID: ${data["Schedule ID"]}<br>
+                    Seats: ${data["Seats"]}<br>
+                    Total Price: ${data["Total Price"]}`;
+
+                }*/
+
+                document.getElementById('qrResultText').innerHTML =
+                    `<h2 class="qr-title">Booking is Accepted!!</h2>
+                    <pre>${decodedText}</pre>`;
+
+                document.getElementById('qrModal').style.display = 'flex';
+
+                sendToServer(data["Schedule ID"], data["Seats"]);
+            }
+
+            // Function to parse QR code text into key-value pairs
+            function parseQrText(decodedText) {
+                const data = {};
+
+                const lines = decodedText.split('\n');
+
+                lines.forEach(line => {
+                    if (line.includes("Schedule ID:")) {
+                        data["Schedule ID"] = line.split("Schedule ID:")[1].trim();
+                    }
+
+                    if (line.includes("Seats:")) {
+                        let rawSeats = line.split("Seats:")[1].trim();
+                        let seatArray = rawSeats.split(',').map(seat => seat.trim());
+
+                        // Optional: sort seat numbers
+                        seatArray.sort((a, b) => parseInt(a) - parseInt(b));
+
+                        // Add quotes around the joined string
+                        data["Seats"] = `"${seatArray.join(', ')}"`;  // << this adds the quotes
+                    }
+                });
+
+                return data;
+            }
+
+            // Function to close modal
+            function closeModal() {
+                document.getElementById('qrModal').style.display = 'none';
+            }
+
+            function sendToServer(scheduleId, seats) {
+                fetch('<?php echo URLROOT; ?>/ConductorPages/scanQRcode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        schedule_id: scheduleId,
+                        seats: seats
+                    })
+                })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Server response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    // Optional: Show message to user
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    document.getElementById('qrResultText').innerHTML +=
+                        '<p class="error">Error updating server. Please try again.</p>';
+                });
+
+            }
+
         </script>
     </div>
 </body>
