@@ -51,6 +51,11 @@ Update notification box styling to match theme
     letter-spacing: 1px;
 }
 
+.notifi-item.read {
+    border-left: 4px solid #ddd;
+    background-color: #fff;
+}
+
 /* Notification items styling */
 .notifi-item {
     display: flex;
