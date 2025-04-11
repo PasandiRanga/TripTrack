@@ -31,13 +31,13 @@
 
     <?php
 
+    $notifications =  $data['notifications'] ?? [];
+
     $postdata = $data;
     
-    $data = [
-        'currentController' => 'RegisteredPages', // Adjust this based on your controller
-        'currentMethod' => 'contact', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
+        $data['currentController'] = 'RegisteredPages';
+        $data['currentMethod'] = 'allNotifications';
+        $data['userRole'] = $userRole;
     ?> 
 
     <?php
