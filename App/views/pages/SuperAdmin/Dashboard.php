@@ -20,12 +20,18 @@
 
     <div class="grid-container">
         <header class="header">
+            
 
             <div class="header-left" onclick="openSidebar()">
+               
                 <div class="sidebar-menu-icon">
                     <span class="material-icons-outlined">menu</span>
                 </div>
                 
+            </div>
+
+            <div class="header-right">
+                 <!-- <span>Admin Dashboard</span> <-->
             </div>
             
             <!--
