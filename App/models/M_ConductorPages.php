@@ -346,38 +346,32 @@
             
             return false;
         }
-        
-        public function getGuestBooking($scheduleId, $seats) {
-            // In guestbooking table, the field is also named "selected_seats"
-            $this->db->query("SELECT * FROM guestbooking WHERE schedule_id = :schedule_id");
-            $this->db->bind(':schedule_id', $scheduleId);
-            $bookings = $this->db->resultSet();
-            
-            // Format the incoming seats
-            $scannedSeats = is_array($seats) ? $seats : explode(',', $seats);
-            
-            foreach ($bookings as $booking) {
-                // In your database, guest seats are stored like "1, 2, 3" with quotes
-                // We need to remove quotes and then split
-                $seatString = str_replace('"', '', $booking->selected_seats);
-                $bookedSeats = explode(',', $seatString);
-                $allSeatsMatch = true;
-                
-                foreach ($scannedSeats as $seat) {
-                    $seat = trim($seat);
-                    if (!in_array($seat, array_map('trim', $bookedSeats))) {
-                        $allSeatsMatch = false;
-                        break;
-                    }
-                }
-                
-                if ($allSeatsMatch) {
-                    return $booking;
-                }
-            }
-            
-            return false;
+
+        public function getRegisteredBooking($scheduleId, $seats) {
+            $this->db->query('SELECT * FROM registeredbooking WHERE schedule_id = :scheduleId AND selected_seats = :seats');
+
+            $this->db->bind(':scheduleId', $scheduleId);
+            $this->db->bind(':seats', $seats);
+
+            return $this->db->single();
         }
+
+        public function tempQR($scheduleId, $seats) {
+            $this->db->query("INSERT INTO pastbookings (schedule_id, seat_no) VALUES (:scheduleId, :seats)");
+
+            $this->db->bind(':scheduleId', $scheduleId);
+            $this->db->bind(':seats', $seats);
+
+            if (!$this->db->execute()) {
+                return false; // One insert failed
+            }
+    
+            return true;
+        }
+
+        
+
+        //public function insertPastBooking($bookingData) {
 
         public function insertPastBooking($bookingData) {
             // The pastbooking table uses "Seats" (capital S) from your screenshot

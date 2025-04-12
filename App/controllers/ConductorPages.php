@@ -56,6 +56,12 @@
             $this->view('pages/Conductor/Notifications');
         }
 
+        public function viewDelays(){
+            $data = $this->ConductorpagesModel->getDelays();
+ 
+            $this->view('pages/Conductor/ViewDelays', $data);
+        }
+
         public function requestLeave() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Sanitize POST data
@@ -147,67 +153,59 @@
             $this->view('pages/Conductor/ScanQRcode');
         }
 
-        /*public function scanQRcode() {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Validate and sanitize input data
-                $scheduleId = isset($_POST['schedule_id']) ? trim($_POST['schedule_id']) : null;
-                $seatsRaw = isset($_POST['seats']) ? trim($_POST['seats']) : null;
-                
-                if (!$scheduleId || !$seatsRaw) {
-                    header('Content-Type: application/json');
-                    echo json_encode(['success' => false, 'message' => 'Missing required data']);
-                    exit();
-                }
         
-                // Log what was received for debugging
-                file_put_contents('debug_scan.log', "Received: Schedule=$scheduleId, Seats=$seatsRaw\n", FILE_APPEND);
-                
-                // Clean and normalize seats format
-                $seatsRaw = str_replace('"', '', $seatsRaw); // Remove any quotes
-                $seatsArray = explode(',', $seatsRaw);
-                $seatsArray = array_map('trim', $seatsArray); // Clean each seat value
-                
-                // Try to find the booking in registered bookings first
-                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsArray);
-                
-                // If not found in registered, check guest bookings
-                if (!$booking) {
-                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsArray);
-                }
-                
-                header('Content-Type: application/json');
-                
-                if ($booking) {
-                    // Try to insert into past bookings
-                    $result = $this->ConductorpagesModel->insertPastBooking($booking);
-                    
-                    if ($result) {
-                        echo json_encode(['success' => true, 'message' => 'Booking successfully logged to past bookings.']);
-                    } else {
-                        echo json_encode(['success' => false, 'message' => '❌ Failed to log booking to past bookings.']);
-                    }
-                } else {
-                    // Determine why no booking was found
-                    $registeredScheduleMatch = $this->ConductorpagesModel->checkScheduleExistsInRegistered($scheduleId);
-                    $guestScheduleMatch = $this->ConductorpagesModel->checkScheduleExistsInGuest($scheduleId);
-        
-                    if (!$registeredScheduleMatch && !$guestScheduleMatch) {
-                        $errorMsg = '❌ No booking found: Schedule ID does not exist in either table.';
-                    } else {
-                        $errorMsg = '❌ No booking found: Seat number(s) do not match for the given Schedule ID.';
-                        // Log the seats that were being searched for
-                        file_put_contents('debug_scan.log', "Schedule exists but seats not found: " . implode(',', $seatsArray) . "\n", FILE_APPEND);
-                    }
-                    
-                    echo json_encode(['success' => false, 'message' => $errorMsg]);
-                }
-                
-                exit(); // Stop execution here - don't load the view after POST
+        public function processScannedQR() {
+    // Make sure the request is POST
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        try {
+            // Get the raw POST body
+            $input = file_get_contents("php://input");
+            $data = json_decode($input, true); // Decode JSON to associative array
+
+            // Check if the required data exists
+            if (!isset($data['schedule_id']) || !isset($data['seats'])) {
+                http_response_code(400);
+                echo json_encode(['message' => 'Missing required data']);
+                return;
             }
-            
-            // Only load the view on GET request
-            $this->view('pages/Conductor/ScanQRcode');
-        }*/
+
+            // Extract the schedule_id and seats
+            $scheduleId = $data['schedule_id'];
+            $seats = $data['seats'];
+
+            // Attempt to get booking from guest bookings
+            $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
+
+            // If not found in guest bookings, try registered bookings
+            if (!$booking) {
+                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
+            }
+
+            // If booking was found
+            if ($booking) {
+                // Try to insert into past bookings
+                $result = $this->ConductorpagesModel->insertPastBooking($booking);
+
+                if ($result) {
+                    echo json_encode(['message' => 'Booking verified and recorded successfully']);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['message' => 'Failed to record booking']);
+                }
+            } else {
+                http_response_code(404);
+                echo json_encode(['message' => 'Booking not found with the provided details']);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['message' => 'Server error: ' . $e->getMessage()]);
+        }
+    } else {
+        http_response_code(405); // Method Not Allowed
+        echo json_encode(['message' => 'Only POST requests are allowed']);
+    }
+}
+        
 
         public function home() {
             $assignDetails = $this->ConductorpagesModel->getAssignDetailsByEmployeeId($_SESSION['user_id']);
@@ -264,11 +262,11 @@
             $this->view('pages/Conductor/home', $data);
         }
 
-        public function viewDelays() {
-            $data = $this->ConductorpagesModel->getDelays();
+        // public function viewDelays() {
+        //     $data = $this->ConductorpagesModel->getDelays();
 
-            $this->view('pages/Conductor/ViewDelays', $data);
-        }
+        //     $this->view('pages/Conductor/ViewDelays', $data);
+        // }
 
         public function updateLeaveRequests() {
 
