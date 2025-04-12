@@ -85,24 +85,29 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.mark-read-btn').forEach(button => {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
+            const btn = this; // Store reference to button
             const notificationId = this.dataset.id;
             const notificationItem = this.closest('.notifi-item');
             
-            // Toggle read status
+            // Toggle read status - check both classes to be certain
             const isCurrentlyRead = notificationItem.classList.contains('read');
+            console.log('Notification read status before click:', isCurrentlyRead);
             
             // Send AJAX request to update read status
-            updateReadStatus(notificationId, !isCurrentlyRead );
+            updateReadStatus(notificationId, !isCurrentlyRead);
             
-            // Update UI
+            // Update UI with explicit console logging
+            console.log('Updating button text. Current text:', btn.textContent);
             if (isCurrentlyRead) {
                 notificationItem.classList.remove('read');
                 notificationItem.classList.add('unread');
-                this.textContent = 'Mark as read';
+                btn.textContent = 'Mark as read';
+                console.log('Set button text to:', btn.textContent);
             } else {
                 notificationItem.classList.remove('unread');
                 notificationItem.classList.add('read');
-                this.textContent = 'Mark as unread';
+                btn.textContent = 'Mark as unread';
+                console.log('Set button text to:', btn.textContent);
             }
             
             // Update notification count
@@ -154,34 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error updating notification read status:', error));
     }
 
-    // Ensure the badge is properly updated when the read/unread status changes
-    document.querySelectorAll('.mark-read-btn').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation();
-            const notificationId = this.dataset.id;
-            const notificationItem = this.closest('.notifi-item');
-            
-            // Toggle read status
-            const isCurrentlyRead = notificationItem.classList.contains('read');
-            
-            // Send AJAX request to update read status
-            updateReadStatus(notificationId, !isCurrentlyRead);
-            
-            // Update UI
-            if (isCurrentlyRead) {
-                notificationItem.classList.remove('read');
-                notificationItem.classList.add('unread');
-                this.textContent = 'Mark as read';
-            } else {
-                notificationItem.classList.remove('unread');
-                notificationItem.classList.add('read');
-                this.textContent = 'Mark as unread';
-            }
-            
-            // Make sure to update the count after changing the UI
-            updateNotificationCount();
-        });
-    });
+
     
     // Function to dismiss a notification
     function dismissNotification(notificationId) {
