@@ -493,16 +493,18 @@
             $pastbookings = $this->RegisteredpagesModel->getPastBookings($_SESSION['user_id']); 
             // echo '<script> console.log("Upcoming Bookings: ", ' . json_encode($upcomingbookings) . '); </script>';
             // echo '<script> console.log("Past Bookings: ", ' . json_encode($pastbookings) . '); </script>';
-            $schedule = $this->RegisteredpagesModel->getSchedule();
+            $upcomingschedule = $this->RegisteredpagesModel->getUpcomingSchedule();
+            $pastschedule = $this->RegisteredpagesModel->getPastSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
 
             $data = [
                 'upcomingbookings' => $upcomingbookings,
                 'pastbookings' => $pastbookings,
-                'schedule' => $schedule,
+                'upcomingSchedule' => $upcomingschedule,
                 'bus' => $bus,
-                'notifications' => $notifications
+                'notifications' => $notifications,
+                'pastSchedule' => $pastschedule
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
