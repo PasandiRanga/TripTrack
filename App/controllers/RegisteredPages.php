@@ -364,11 +364,7 @@
             
 
                 try {
-                    // Save booking details
-                    $this->RegisteredpagesModel->createBooking($bookingData);
                     
-                    // Update schedule seat availability
-                    $this->RegisteredpagesModel->updateScheduleSeats($bookingData['scheduleId'], explode(', ', $bookingData['selectedSeats']));
 
                     // Generate QR Code text
                     $qrText = "Booking Receipt\n";
@@ -385,6 +381,12 @@
                     // Add the QR code data to booking data
                     $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];
                     $bookingData['qrCodeFilename'] = $qrData['qrCodeFilename'];
+
+                    // Save booking details
+                    $this->RegisteredpagesModel->createBooking($bookingData);
+                    
+                    // Update schedule seat availability
+                    $this->RegisteredpagesModel->updateScheduleSeats($bookingData['scheduleId'], explode(', ', $bookingData['selectedSeats']));
 
                     // Send booking confirmation email
                     $this->sendBookingEmail($bookingData);
