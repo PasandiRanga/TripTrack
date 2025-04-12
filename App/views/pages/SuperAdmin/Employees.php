@@ -64,7 +64,7 @@
                         echo "<td>{$user['contactNo']}</td>";
                         echo "<td>" . (!empty($user['email']) ? $user['email'] : '-') . "</td>";
                         echo "<td>{$user['role']}</td>";
-                        echo "<td><button class='update' onclick=\"editUser({$user['employee_id']})\">Update</button></td>";
+                        echo "<td><button class='update' onclick=\"editUser('{$user['employee_id']}')\">Update</button></td>";
                         echo "<td><button class='delete' onclick=deleteUser(\"{$user['employee_id']}\")>Delete</button></td>";
                         echo "</tr>";
                     }
@@ -79,9 +79,32 @@
 
     <script>
         // Function to handle the Edit action
-        function editUser(userId) {
-            alert(`Editing user with ID: ${userId}`);
-            // Implement the editing functionality as needed
+        function editUser(employee_id) {
+            // Find the row corresponding to the selected employee
+            const rows = Array.from(document.querySelectorAll("table.user-table tbody tr"));
+            const row = rows.find(row => row.cells[0].innerText.trim() === String(employee_id));
+
+            if (row) {
+                // Extract data from the row
+                const name = row.cells[1].innerText.trim();
+                const nic = row.cells[2].innerText.trim();
+                const address = row.cells[3].innerText.trim();
+                const contactNo = row.cells[4].innerText.trim();
+                const email = row.cells[5].innerText.trim();
+
+                // Redirect to the addemployee page with the data as query parameters
+                const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/addemployees');
+                url.searchParams.append('employee_id', employee_id);
+                url.searchParams.append('name', encodeURIComponent(name));
+                url.searchParams.append('nic', encodeURIComponent(nic));
+                url.searchParams.append('address', encodeURIComponent(address));
+                url.searchParams.append('contactNo', encodeURIComponent(contactNo));
+                url.searchParams.append('email', encodeURIComponent(email));
+
+                window.location.href = url.toString();
+            } else {
+                alert('Employee not found.');
+            }
         }
 
         // Function to handle the Delete action

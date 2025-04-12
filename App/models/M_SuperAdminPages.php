@@ -175,21 +175,22 @@ class M_SuperAdminPages {
         }
     }
 
-    public function addemployee($data){
-        $this->db->query('INSERT INTO employee(name,address,contactNo,email,password,role,nic) VALUES(:name,:address,:contactNo,:email,:password,:role,:nic)');
-        $this->db->bind(':name',$data['name']);
-        $this->db->bind(':address',$data['address']);
-        $this->db->bind(':nic',$data['nic']);
-        $this->db->bind(':contactNo',$data['contactNo']);
-        $this->db->bind(':email',$data['email']);
-        $this->db->bind(':password',$data['password']);
-        $this->db->bind(':role',$data['role']);
-        $this->db->bind(':nic',$data['nic']);
+    public function addemployee($data) {
+        $this->db->query('INSERT INTO employee(name, address, contactNo, email, password, role, nic) VALUES(:name, :address, :contactNo, :email, :password, :role, :nic)');
+        
+        // Bind parameters
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':contactNo', $data['contactNo']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':password', $data['password']);
+        $this->db->bind(':role', $data['role']);
+        $this->db->bind(':nic', $data['nic']);
 
-        if($this->db->execute()){
+        // Execute and return result
+        if ($this->db->execute()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -197,6 +198,26 @@ class M_SuperAdminPages {
     public function getEmployee(){
         $this->db->query('SELECT * FROM employee');
         return $this->db->resultSet();
+    }
+
+    public function updateEmployee($data){
+        $this->db->query('UPDATE employee SET name = :name, address = :address, contactNo = :contactNo, email = :email, nic = :nic WHERE employee_id = :employee_id');
+
+        // Bind parameters
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':contactNo', $data['contactNo']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':employee_id', $data['employee_id']);
+
+        // Execute and return result
+        if($this->db->execute()){
+            return true;
+        } else {
+            error_log("Failed to update employee");
+            return false;
+        }
     }
 
     public function deleteEmployee($employee_id){
