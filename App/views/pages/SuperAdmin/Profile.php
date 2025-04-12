@@ -26,37 +26,37 @@
             <div class="details-box">
                 <div class="detail-group">
                     <label>Employee ID:</label>
-                    <p><?php echo $data['employeeId']; ?></p>
+                    <p><?php //echo $data['employeeId']; ?></p>
                 </div>
 
                 <div class="detail-group">
                     <label>Name:</label>
-                    <p><?php echo $data['name']; ?></p>
+                    <p><?php //echo $data['name']; ?></p>
                 </div>
 
                 <div class="detail-group">
                     <label>NIC:</label>
-                    <p><?php echo $data['nic']; ?></p>
+                    <p><?php //echo $data['nic']; ?></p>
                 </div>
 
                 <div class="detail-group">
                     <label>Address:</label>
-                    <p><?php echo $data['address']; ?></p>
+                    <p><?php //echo $data['address']; ?></p>
                 </div>
 
                 <div class="detail-group">
                     <label>Contact No:</label>
-                    <p><?php echo $data['phone']; ?></p>
+                    <p><?php //echo $data['phone']; ?></p>
                 </div>
 
                 <div class="detail-group">
                     <label>Email:</label>
-                    <p><?php echo $data['email']; ?></p>
+                    <p><?php //echo $data['email']; ?></p>
                 </div>
 
                 <div class="detail-group">
                     <label>Role:</label>
-                    <p><?php echo $data['role']; ?></p>
+                    <p><?php //echo $data['role']; ?></p>
                 </div>
             </div>
 
