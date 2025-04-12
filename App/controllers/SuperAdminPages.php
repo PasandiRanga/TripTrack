@@ -280,6 +280,7 @@ class SuperAdminPages extends Controller {
             }
 
             $data = [
+                //'scheduleId' => trim($inputData['scheduleId'] ?? ''),
                 'License_id' => trim($inputData['License_id'] ?? ''),
                 'date' => trim($inputData['date'] ?? ''),
                 'departureTime' => trim($inputData['departureTime'] ?? ''),
@@ -297,8 +298,8 @@ class SuperAdminPages extends Controller {
                 exit();
             }
 
-            if($this->SuperAdminModel->addSchedule($data)){
-                echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
+            if($this->SuperAdminModel->addschedule($data)){
+                echo json_encode(['status' => 'success', 'message' => 'Schedule added successfully.']);
                 exit();
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database Error cannot add schedule']);
@@ -315,6 +316,49 @@ class SuperAdminPages extends Controller {
             $this->view('pages/SuperAdmin/Addschedule',$data);
         }
         
+    }
+
+    public function updateSchedule() {
+        header('Content-Type: application/json');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $inputData = json_decode(file_get_contents('php://input'), true);
+
+            if (!$inputData) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+            http_response_code(400);
+            exit();
+            }
+
+            $data = [
+                'scheduleId' => trim($inputData['scheduleId'] ?? ''),
+                'License_id' => trim($inputData['License_id'] ?? ''),
+                'date' => trim($inputData['date'] ?? ''),
+                'departureTime' => trim($inputData['departureTime'] ?? ''),
+                'arrivalTime' => trim($inputData['arrivalTime'] ?? ''),
+                'duration' => trim($inputData['duration'] ?? ''),
+                'direction' => trim($inputData['direction'] ?? ''),
+                'type' => trim($inputData['type'] ?? '')
+            ];
+
+
+            if (empty($data['License_id']) || empty($data['date']) || empty($data['departureTime']) || empty($data['arrivalTime']) || empty($data['direction']) || empty($data['type'])) {
+
+            echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+            http_response_code(400);
+            exit();
+            }
+
+            // Call the model method to update the schedule
+            if ($this->SuperAdminModel->updateSchedule($data)) {
+            echo json_encode(['status' => 'success', 'message' => 'Schedule updated successfully.']);
+            } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error updating the schedule.']);
+            http_response_code(500);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
+        }
     }
 
     public function deleteSchedule() {
@@ -599,7 +643,7 @@ class SuperAdminPages extends Controller {
                 echo json_encode(['status' => 'success', 'message' => 'Assign added successfully.']);
                 exit();
             } else {
-                //echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
+                echo json_encode(['status' => 'error', 'message' => 'Database error. Could not add assign.']);
                 http_response_code(500);
                 exit();
             }
@@ -624,7 +668,7 @@ class SuperAdminPages extends Controller {
             $conductors = $this->SuperAdminModel->getConductorID();
 
             $data = [
-                'schedules' => $assignedSchedules,
+                'schedules' => $schedules,
                 'drivers' => $drivers,
                 'conductors' => $conductors,
                 'scheduleId' => $scheduleId,
@@ -823,6 +867,34 @@ class SuperAdminPages extends Controller {
         ];
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
+
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Profile
+//---------------------------------------------------------------------------------------------------------------------- 
+
+    public function profile() {
+        // Start the session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Assuming you have a session variable storing the current employee ID
+        $currentEmpId = $_SESSION['emp_id'] ?? null;
+
+        if ($currentEmpId) {
+            $profile = $this->SuperAdminModel->getEmpDetailsById($currentEmpId);
+            $data = [
+                'profile' => $profile
+            ];
+
+            $this->view('pages/SuperAdmin/Profile', $data);
+        } else {
+            // Handle the case where the employee ID is not available in the session
+            //die("Employee ID not found in session.");
+            $this->view('pages/SuperAdmin/Profile');
+        }
+    }
+
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 

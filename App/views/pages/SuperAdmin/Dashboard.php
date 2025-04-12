@@ -20,12 +20,18 @@
 
     <div class="grid-container">
         <header class="header">
+            
 
             <div class="header-left" onclick="openSidebar()">
+               
                 <div class="sidebar-menu-icon">
                     <span class="material-icons-outlined">menu</span>
                 </div>
                 
+            </div>
+
+            <div class="header-right">
+                 <!-- <span>Admin Dashboard</span> <-->
             </div>
             
             <!--
@@ -37,7 +43,7 @@
 
         <aside id="sidebar">
             <div class="sidebar-title">
-                <div class="sidebar-brand">
+                <div class="sidebar-brand" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/profile'">
                     <span class="material-icons-outlined">admin_panel_settings</span> Admin
                 </div>
                     <span class="material-icons-outlined" onclick="closeSidebar()">arrow_back</span>

@@ -167,15 +167,7 @@
             return $this->db->execute();
         }
 
-        /*public function getGuestBooking($scheduleId, $seats) {
-            $this->db->query('SELECT * FROM guestbooking WHERE schedule_id = :scheduleId AND Seats = :seats');
         
-            $this->db->bind(':schedule_id', $scheduleId);
-            $this->db->bind(':Seats', $seats);
-        
-            return $this->db->resultSet();
-        }*/
-
         public function getGuestBooking($scheduleId, $seats) {
             $this->db->query("SELECT * FROM guestbooking WHERE schedule_id = :scheduleId AND selected_seats = :seats");
 
