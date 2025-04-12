@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const isCurrentlyRead = notificationItem.classList.contains('read');
             
             // Send AJAX request to update read status
-            updateReadStatus(notificationId, !isCurrentlyRead);
+            updateReadStatus(notificationId, !isCurrentlyRead );
             
             // Update UI
             if (isCurrentlyRead) {
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Modify the updateReadStatus function in notification.js to ensure proper UI update
     function updateReadStatus(notificationId, isRead) {
-        fetch(`${URLROOT}/RegisteredPages/updateNotificationReadStatus`, {
+        fetch(`${URLROOT}/RegisteredPages/toggleReadStatus`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 notification_id: notificationId,
-                is_read: isRead
+                is_read: isRead,
             })
         })
         .then(response => response.json())

@@ -22,7 +22,7 @@
 .date-item {
     min-width: 100px;
     padding: 10px 15px;
-    background: #f5f5f5;
+    background: #ffffff;
     border-radius: 10px;
     cursor: pointer;
     display: flex;
@@ -32,7 +32,7 @@
 }
 
 .date-item:hover {
-    background: #e0e0e0;
+    background: #477b9c;
 }
 
 .date-item.active {
