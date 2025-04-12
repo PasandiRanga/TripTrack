@@ -214,6 +214,28 @@
                 return [];
             }
         }
+
+        public function getUpcomingSchedule(){
+            try {
+                $this->db->query('SELECT * FROM schedule');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching schedule: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
+
+        public function getPastSchedule(){
+            try {
+                $this->db->query('SELECT * FROM past_schedules');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching schedule: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
         public function getBusDetails(){
             try {
                 $this->db->query('SELECT * FROM bus');
@@ -391,8 +413,8 @@
                 $currentDate = date('Y-m-d'); 
                 $currentTime = date('H:i:s'); 
 
-                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
-                                        VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod);");
+                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status) 
+                                        VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod , :booking_status);");
                 $this->db->bind(':bookingDate', $currentDate); 
                 $this->db->bind(':bookingTime', $currentTime); 
                 $this->db->bind(':scheduleDate', $schedule['date']);
@@ -404,6 +426,7 @@
                 $this->db->bind(':toLocation', $bookingData['to']);
                 $this->db->bind(':totalPrice', $bookingData['totalPrice']);
                 $this->db->bind(':paymentMethod' , $bookingData['paymentMethod']);
+                $this->db->bind(":booking_status" , "Pending");
                 return $this->db->execute();
             }
         }
