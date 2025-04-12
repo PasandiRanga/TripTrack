@@ -105,7 +105,51 @@
 
 
         public function scanQRcode() {
-            
+            // Make sure it's a POST request
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Get the raw JSON input
+                $json = file_get_contents("php://input");
+        
+                // Decode it
+                $data = json_decode($json, true);
+        
+                // Extract values
+                $scheduleId = $data['schedule_id'] ?? null;
+                $seats = $data['seats'] ?? null;
+        
+                // Basic validation
+                if (!$scheduleId || !$seats) {
+                    http_response_code(400); // Bad Request
+                    echo json_encode(['message' => 'Missing schedule ID or seats.']);
+                    return;
+                }
+        
+                // Try to find the booking in registered bookings first
+                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
+                
+                // If not found in registered, check guest bookings
+                if (!$booking) {
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
+                }
+
+                if ($booking) {
+                    // Try to insert into past bookings
+                    $this->ConductorpagesModel->insertPastBooking($booking);
+
+                    // Send success response
+                    echo json_encode(['message' => 'Booking recorded successfully.']);
+                }else{
+                     // Booking not found
+                    http_response_code(404); // Not Found
+                    echo json_encode(['message' => 'No booking found for this schedule and seats.']);
+                }
+
+            } else {
+                // Handle non-POST request
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(['message' => 'Method not allowed.']);
+            }
+
             $this->view('pages/Conductor/ScanQRcode');
         }
 

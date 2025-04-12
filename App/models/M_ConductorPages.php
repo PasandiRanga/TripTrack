@@ -315,14 +315,36 @@
             return $this->db->execute();
         }
 
-        
-        public function getGuestBooking($scheduleId, $seats) {
-            $this->db->query("SELECT * FROM guestbooking WHERE schedule_id = :scheduleId AND selected_seats = :seats");
+        public function getRegisteredBooking($scheduleId, $seats) {
+            $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id = :schedule_id AND selected_seats = :seats");
+            $this->db->bind(':schedule_id', $scheduleId);
+            // Format the incoming seats as an array
+            $scannedSeats = is_array($seats) ? $seats : explode(',', $seats);
+            
+            // Query the database for bookings
+            $bookings = $this->db->resultSet();
 
-            $this->db->bind(':scheduleId', $scheduleId);
-            $this->db->bind(':seats', $seats);
-
-            return $this->db->single();
+            // Loop through each booking to find matching seats
+            foreach ($bookings as $booking) {
+                // In your database, seats are stored like "1,2" or "3,4,5"
+                $bookedSeats = explode(',', $booking->selected_seats);
+                $allSeatsMatch = true;
+                
+                // Check if all scanned seats are in this booking
+                foreach ($scannedSeats as $seat) {
+                    $seat = trim($seat);
+                    if (!in_array($seat, array_map('trim', $bookedSeats))) {
+                        $allSeatsMatch = false;
+                        break;
+                    }
+                }
+                
+                if ($allSeatsMatch) {
+                    return $booking;
+                }
+            }
+            
+            return false;
         }
 
         public function getRegisteredBooking($scheduleId, $seats) {
@@ -352,25 +374,43 @@
         //public function insertPastBooking($bookingData) {
 
         public function insertPastBooking($bookingData) {
-            
+            // The pastbooking table uses "Seats" (capital S) from your screenshot
             $this->db->query("INSERT INTO pastregbooking (id, Booking_date, Booking_time, No_of_seats, Seats, schedule_id, from_location, to_location, total_price, paymentMethod) 
                              VALUES (:id, :booking_date, :booking_time, :no_of_seats, :seats, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod)");
         
-            $this->db->bind(':id', $bookingData['id']);
-            $this->db->bind(':booking_date', $bookingData['booking_date']);
-            $this->db->bind(':booking_time', $bookingData['booking_time']);
-            $this->db->bind(':no_of_seats', $bookingData['number_of_seats']);
-            $this->db->bind(':seats', $bookingData['selected_seats']);
-            $this->db->bind(':schedule_id', $bookingData['schedule_id']);
-            $this->db->bind(':from_location', $bookingData['from_location']);
-            $this->db->bind(':to_location', $bookingData['to_location']);
-            $this->db->bind(':total_price', $bookingData['total_price']);
-            $this->db->bind(':paymentMethod', $bookingData['paymentMethod'] ?? 'Cash');
+            // Make sure seat format matches past bookings (with quotes)
+            $seats = '"' . (is_array($bookingData->selected_seats) ? implode(', ', $bookingData->selected_seats) : $bookingData->selected_seats) . '"';
+        
+            $this->db->bind(':id', $bookingData->id);
+            $this->db->bind(':Booking_date', $bookingData->booking_date);
+            $this->db->bind(':Booking_time', $bookingData->booking_time);
+            $this->db->bind(':No_of_seats', $bookingData->number_of_seats);
+            $this->db->bind(':Seats', $seats);
+            //$this->db->bind(':user_id', $bookingData->User_id);
+            $this->db->bind(':schedule_id', $bookingData->schedule_id);
+            $this->db->bind(':from_location', $bookingData->from_location);
+            $this->db->bind(':to_location', $bookingData->to_location);
+            $this->db->bind(':total_price', $bookingData->total_price);
+            $this->db->bind(':paymentMethod', $bookingData->paymentMethod ?? 'Cash');
         
             return $this->db->execute();
         }
 
-        
+        // Check if schedule ID exists in registered bookings
+        public function checkScheduleExistsInRegistered($scheduleId) {
+            $this->db->query("SELECT COUNT(*) as count FROM registeredbooking WHERE schedule_id = :schedule_id");
+            $this->db->bind(':schedule_id', $scheduleId);
+            $result = $this->db->single();
+            return $result->count > 0;
+        }
+
+        // Check if schedule ID exists in guest bookings
+        public function checkScheduleExistsInGuest($scheduleId) {
+            $this->db->query("SELECT COUNT(*) as count FROM guestbooking WHERE schedule_id = :schedule_id");
+            $this->db->bind(':schedule_id', $scheduleId);
+            $result = $this->db->single();
+            return $result->count > 0;
+        }
 
         public function getSchedulesByEmployeeId($userID){
             $this->db->query('SELECT * FROM assign WHERE :userID = conductor_id OR :userID=driver_id');
