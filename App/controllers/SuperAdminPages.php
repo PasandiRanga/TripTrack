@@ -407,23 +407,26 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/addemployees');
     }
 
-    public function addemp(){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            // echo "<script>console.log(" . json_encode($_POST) . ");</script>";
-            // echo '<pre>';
-            // print_r($_POST);
-            // echo '</pre>';
-        
+    public function addemp() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json; charset=UTF-8');
+
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
             $data = [
-                'name' => trim($_POST['name']),
-                'nic' => trim($_POST['nic']),
-                'address' => trim($_POST['address']),
-                'contactNo' => trim($_POST['contactNo']),
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'role' => trim($_POST['role']),
+                'name' => trim($inputData['name'] ?? ''),
+                'nic' => trim($inputData['nic'] ?? ''),
+                'address' => trim($inputData['address'] ?? ''),
+                'contactNo' => trim($inputData['contactNo'] ?? ''),
+                'email' => trim($inputData['email'] ?? ''),
+                'password' => trim($inputData['password'] ?? ''),
+                'role' => trim($inputData['role'] ?? ''),
 
                 'name_err' => '',
                 'contactNo_err' => '',
@@ -434,129 +437,165 @@ class SuperAdminPages extends Controller {
                 'role_err' => ''
             ];
 
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-         
-        
-
             if (empty($data['name'])) {
                 $data['name_err'] = 'Please enter a name';
             }
-    
+
             // Validate contact number
             if (empty($data['contactNo'])) {
-                $data['contactNo_err'] = 'Please enter a contact number'; // Check if the field is empty
+                $data['contactNo_err'] = 'Please enter a contact number';
             } elseif (!ctype_digit($data['contactNo'])) {
-                $data['contactNo_err'] = 'The contact number must contain only numbers'; // Check if it contains only numeric characters
+                $data['contactNo_err'] = 'The contact number must contain only numbers';
             } elseif (strlen($data['contactNo']) !== 10) {
-                $data['contactNo_err'] = 'The contact number must be exactly 10 digits long'; // Check if it is exactly 10 digits
+                $data['contactNo_err'] = 'The contact number must be exactly 10 digits long';
             } elseif ($data['contactNo'][0] !== '0') {
-                $data['contactNo_err'] = 'The contact number must start with 0'; // Check if it starts with 0
+                $data['contactNo_err'] = 'The contact number must start with 0';
             }
 
-    
             // Validate NIC
             if (empty($data['nic'])) {
                 $data['nic_err'] = 'Please enter a NIC';
             } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
-                // Check if the NIC is either 12 digits or 11 digits followed by "V"
                 $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
-            }else {
-                // Check if NIC is already registered
+            } else {
                 if ($this->SuperAdminModel->findUserByNIC($data['nic'])) {
                     $data['nic_err'] = 'This NIC is already registered';
                 }
             }
 
-
-            //Validate the Address
+            // Validate address
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter an address';
             }
-    
 
-            // Validate Email
+            // Validate email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter an email';
             } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
             } else {
-                // Check if email is already registered
                 if ($this->SuperAdminModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'This email is already registered';
                 }
             }
 
-    
             // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter a password';
             } elseif (strlen($data['password']) < 8) {
-                // Check if the password is at least 8 characters long
                 $data['password_err'] = 'Password must be at least 8 characters long';
             } elseif (!preg_match('/[A-Z]/', $data['password'])) {
-                // Check if the password contains at least one uppercase letter
                 $data['password_err'] = 'Password must contain at least one uppercase letter';
             } elseif (!preg_match('/[a-z]/', $data['password'])) {
-                // Check if the password contains at least one lowercase letter
                 $data['password_err'] = 'Password must contain at least one lowercase letter';
             } elseif (!preg_match('/\d/', $data['password'])) {
-                // Check if the password contains at least one number
                 $data['password_err'] = 'Password must contain at least one number';
             } elseif (!preg_match('/[\W_]/', $data['password'])) {
-                // Check if the password contains at least one special character (symbol)
                 $data['password_err'] = 'Password must contain at least one special character';
             }
 
-            // echo '<pre>';
-            // print_r($data);
-            // print_r((empty($data['name_err']) && empty($data['contactNo_err']) && empty($data['nic_err']) &&
-            // empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err'])));
-            // echo '</pre>';
-              
-
             // Register the user if no errors are present
             if (empty($data['name_err']) && empty($data['contactNo_err']) && empty($data['nic_err']) &&
-            empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err'])) {
+                empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err'])) {
 
-                // echo '<pre>';
-                // print_r($data);
-                // echo '</pre>';
-                
-                
-
-                // Hash the password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                // echo '<pre>';
-                // print_r($data);
-                // echo '</pre>';
-                
-                // Debug output
-                var_dump($data['password']); // This should display a hashed string
-
-
-                // Register the user
                 if ($this->SuperAdminModel->addemployee($data)) {
-                    // echo '<pre>';
-                    // print_r($this->SuperAdminModel->addemployee($data));
-                    // echo '</pre>';
-                    $_SESSION['success_message'] = 'Employee added successfully!';
-                    header('Location: ' . URLROOT . '/SuperAdminPages/employees' );
-                    exit();  // Make sure no further code executes after the redirect
+                    echo json_encode(['status' => 'success', 'message' => 'Employee added successfully.']);
+                    exit();
                 } else {
-                    // echo '<pre>';
-                    // print_r($this->SuperAdminModel->addemployee($data));
-                    // echo '</pre>';
-                    // exit();
-                    die('Something went wrong');  // Handle errors in registration
+                    echo json_encode(['status' => 'error', 'message' => 'Error adding employee.']);
+                    http_response_code(500);
+                    exit();
                 }
             } else {
+                echo json_encode(['status' => 'error', 'errors' => $data]);
+                http_response_code(400);
+                exit();
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
+        }
+    }
 
-                header('Location: ' . URLROOT . '/SuperAdminPages/employees');
+    public function updateEmployee(){
+
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Decode the JSON input
+            $inputData = json_decode(file_get_contents('php://input'), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+                http_response_code(400);
+                exit();
             }
 
+            // Prepare the data array
+            $data = [
+                'employee_id' => trim($inputData['employee_id'] ?? ''),
+                'name' => trim($inputData['name'] ?? ''),
+                'nic' => trim($inputData['nic'] ?? ''),
+                'address' => trim($inputData['address'] ?? ''),
+                'contactNo' => trim($inputData['contactNo'] ?? ''),
+                'email' => trim($inputData['email'] ?? ''),
+                'name_err' => '',
+                'nic_err' => '',
+                'address_err' => '',
+                'contactNo_err' => '',
+                'email_err' => '',
+            ];
+
+            // Validate name
+            if (empty($data['name'])) {
+                $data['name_err'] = 'Please enter a name.';
+            }
+
+            // Validate NIC
+            if (empty($data['nic'])) {
+                $data['nic_err'] = 'Please enter a NIC.';
+            } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
+                $data['nic_err'] = 'NIC must be 12 digits or 9 digits followed by "V".';
+            }
+
+            // Validate address
+            if (empty($data['address'])) {
+                $data['address_err'] = 'Please enter an address.';
+            }
+
+            // Validate contact number
+            if (empty($data['contactNo'])) {
+                $data['contactNo_err'] = 'Please enter a contact number.';
+            } elseif (!ctype_digit($data['contactNo']) || strlen($data['contactNo']) !== 10 || $data['contactNo'][0] !== '0') {
+                $data['contactNo_err'] = 'Contact number must be 10 digits and start with 0.';
+            }
+
+            // Validate email
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter an email.';
+            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $data['email_err'] = 'Please enter a valid email.';
+            }
+
+            // Check for errors
+            if (empty($data['name_err']) && empty($data['nic_err']) && empty($data['address_err']) && empty($data['contactNo_err']) && empty($data['email_err'])) {
+                // Update the employee in the database
+                if ($this->SuperAdminModel->updateEmployee($data)) {
+                    echo json_encode(['status' => 'success', 'message' => 'Employee updated successfully.']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error updating the employee.']);
+                    http_response_code(500);
+                }
+            } else {
+                // Return validation errors
+                echo json_encode(['status' => 'error', 'errors' => $data]);
+                http_response_code(400);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
         }
     }
 
@@ -879,10 +918,10 @@ class SuperAdminPages extends Controller {
         }
 
         // Assuming you have a session variable storing the current employee ID
-        $currentEmpId = $_SESSION['emp_id'] ?? null;
-
+        $currentEmpId = $_SESSION['employee_id'] ?? null;
+         
         if ($currentEmpId) {
-            $profile = $this->SuperAdminModel->getEmpDetailsById($currentEmpId);
+            $profile = $this->SuperAdminModel->getEmployeeDetails($currentEmpId);
             $data = [
                 'profile' => $profile
             ];
