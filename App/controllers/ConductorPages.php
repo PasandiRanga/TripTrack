@@ -56,6 +56,12 @@
             $this->view('pages/Conductor/Notifications');
         }
 
+        public function viewDelays(){
+            $data = $this->ConductorpagesModel->getDelays();
+ 
+            $this->view('pages/Conductor/ViewDelays', $data);
+        }
+
         public function requestLeave() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Sanitize POST data
@@ -105,47 +111,56 @@
 
         
         public function processScannedQR() {
-            // Make sure the request is POST
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Get the raw POST body
-                $input = file_get_contents("php://input");
-                $data = json_decode($input, true); // Decode JSON to associative array
+    // Make sure the request is POST
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        try {
+            // Get the raw POST body
+            $input = file_get_contents("php://input");
+            $data = json_decode($input, true); // Decode JSON to associative array
 
-                // Extract the schedule_id and seats
-                $scheduleId = $data['schedule_id'];
-                $seats = $data['seats'];
-
-                if ($scheduleId && !empty($seats)) {
-                    $result = $this->ConductorpagesModel->tempQR($scheduleId, $seats);
-
-                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
-
-                    if (!$booking) {
-                        $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
-                    }
-                    /*echo json_encode(['message' => 'Made it to controller', 'booking' => $booking]);
-                    exit;*/
-                    if ($booking) {
-                        // Try to insert into past bookings
-                        $result = $this->ConductorpagesModel->insertPastBooking($booking);
-
-                        if ($booking) {
-                            echo json_encode(['message' => 'Scanned data saved successfully.']);
-                        } else {
-                            http_response_code(500);
-                            echo json_encode(['message' => 'Failed to save scanned data.']);
-                        }
-                    } else {
-                        http_response_code(400);
-                        echo json_encode(['message' => 'Invalid input data.']);
-                    }   
-                }
-
-            } else {
-                http_response_code(405); // Method Not Allowed
-                echo json_encode(['message' => 'Only POST requests are allowed.']);
+            // Check if the required data exists
+            if (!isset($data['schedule_id']) || !isset($data['seats'])) {
+                http_response_code(400);
+                echo json_encode(['message' => 'Missing required data']);
+                return;
             }
+
+            // Extract the schedule_id and seats
+            $scheduleId = $data['schedule_id'];
+            $seats = $data['seats'];
+
+            // Attempt to get booking from guest bookings
+            $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
+
+            // If not found in guest bookings, try registered bookings
+            if (!$booking) {
+                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
+            }
+
+            // If booking was found
+            if ($booking) {
+                // Try to insert into past bookings
+                $result = $this->ConductorpagesModel->insertPastBooking($booking);
+
+                if ($result) {
+                    echo json_encode(['message' => 'Booking verified and recorded successfully']);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['message' => 'Failed to record booking']);
+                }
+            } else {
+                http_response_code(404);
+                echo json_encode(['message' => 'Booking not found with the provided details']);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['message' => 'Server error: ' . $e->getMessage()]);
         }
+    } else {
+        http_response_code(405); // Method Not Allowed
+        echo json_encode(['message' => 'Only POST requests are allowed']);
+    }
+}
         
 
         public function home() {
@@ -203,11 +218,11 @@
             $this->view('pages/Conductor/home', $data);
         }
 
-        public function viewDelays() {
-            $data = $this->ConductorpagesModel->getDelays();
+        // public function viewDelays() {
+        //     $data = $this->ConductorpagesModel->getDelays();
 
-            $this->view('pages/Conductor/ViewDelays', $data);
-        }
+        //     $this->view('pages/Conductor/ViewDelays', $data);
+        // }
 
         public function updateLeaveRequests() {
 

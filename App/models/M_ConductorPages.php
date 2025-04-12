@@ -325,12 +325,12 @@
             return $this->db->single();
         }
 
-        public function getRegisteredtBooking($scheduleId, $seats) {
+        public function getRegisteredBooking($scheduleId, $seats) {
             $this->db->query('SELECT * FROM registeredbooking WHERE schedule_id = :scheduleId AND selected_seats = :seats');
-        
-            $this->db->bind(':schedule_id', $scheduleId);
+
+            $this->db->bind(':scheduleId', $scheduleId);
             $this->db->bind(':seats', $seats);
-        
+
             return $this->db->single();
         }
 
