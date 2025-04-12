@@ -135,9 +135,6 @@ authCheck(['Conductor', 'Driver']);
                         let rawSeats = line.split("Seats:")[1].trim();
                         let seatArray = rawSeats.split(',').map(seat => seat.trim());
 
-                        // Optional: sort seat numbers
-                        seatArray.sort((a, b) => parseInt(a) - parseInt(b));
-
                         // Add quotes around the joined string
                         data["Seats"] = `"${seatArray.join(', ')}"`;  // << this adds the quotes
                     }
@@ -152,7 +149,7 @@ authCheck(['Conductor', 'Driver']);
             }
 
             function sendToServer(scheduleId, seats) {
-                fetch('<?php echo URLROOT; ?>/ConductorPages/scanQRcode', {
+                fetch('<?php echo URLROOT; ?>/ConductorPages/processScannedQR', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
