@@ -15,8 +15,8 @@ body {
 .container {
     display: flex;
     width: 95%;
-    border: 2px solid #333;
-    background: white;
+    border: transparent;
+    background: transparent;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
     height: 84vh;
 }
@@ -79,11 +79,16 @@ header .icons span {
 
 header .icons span:hover {
     background: #f2f2f2;
+    font-size: 2.5rem;
 }
 
 header .current-date {
     font-size: 2.5rem;
     font-weight: bolder;
+}
+
+header .current-date:hover{
+    color: #42a2a5;
 }
 
 .calendar {
@@ -111,12 +116,13 @@ header .current-date {
 .calendar li {
     color: #333;
     width: calc(100% / 7); /* Ensure 7 days in a row */
-    font-size: 2.5rem;
+    font-size: 2.1rem;
     text-align: center;
 }
 
 .calendar .weeks li {
-    font-weight: bolder;
+    color: #42a2a5;
+    font-weight:600;
     cursor: default;
     width: calc(100% / 7); /* Ensure week days align with calendar days */
 }
@@ -134,7 +140,7 @@ header .current-date {
 }
 
 .days li.active {
-    color: #fff;
+    color: #42a2a5;
 }
 
 .days li::before {
@@ -188,6 +194,7 @@ header .current-date {
         font-size: 1.5rem;
         text-align: center;
     }
+
 }
 
 
@@ -205,8 +212,8 @@ header .current-date {
     z-index: -1;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    background-color: #e3f2fd !important;
-    border: 2px solid #2196f3;
+    background-color: rgb(205, 255, 255) !important;
+    border: 2px solid aqua;
 }
 
 .past-booking::before {
@@ -235,18 +242,21 @@ header .current-date {
     border-radius: 10px;
     text-align: left;
     font-size: 1.1rem;
+    z-index: 1;
 }
 
 .booking-item.upcoming {
-    background-color: #e3f2fd;
-    border: 2px solid #2196f3;
+    background-color: rgb(205, 255, 255);
+    border: 2px solid aqua;
     box-shadow: 0 2px 5px rgba(33, 150, 243, 0.1);
+    z-index: 1;
 }
 
 .booking-item.past {
     background-color: #fff3e0;
     border: 2px solid #ff9800;
     box-shadow: 0 2px 5px rgba(255, 152, 0, 0.1);
+    z-index: 1;
 }
 
 .booking-item p {
@@ -297,6 +307,7 @@ header .current-date {
     .date-details h4 {
         font-size: 1.2rem;
     }
+
 }
 
 .three-dots {
@@ -311,19 +322,21 @@ header .current-date {
 
 /* Menu container */
 .menu {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
     top: 10px;
     right: 10px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-    z-index: 10;
-    width: 180px; /* Increased width for better readability */
-    opacity: 0; /* Make the menu initially invisible */
-    transform: translateY(-20px); /* Start from above */
-    transition: opacity 0.3s, transform 0.3s ease; /* Smooth transition */
+    z-index: 9999;
+    overflow: visible;
+    width: 180px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s, transform 0.3s ease;
 }
+
 
 /* Show the menu with an animation */
 .menu.show {
@@ -343,22 +356,21 @@ header .current-date {
 
 /* Style for each menu item */
 .menu ul li {
-    padding: 12px 20px;
+    padding: 5px 5px;
     cursor: pointer;
     text-align: left;
-    font-size: 1.1rem;
+    font-size: 1rem;
     transition: background-color 0.3s ease;
 }
 
 /* Hover effect for each menu item */
 .menu ul li:hover {
-    background-color: #f4f4f4;
-    color: #2196f3; /* Highlight the text */
+    color: #42a2a5; /* Highlight the text */
 }
 
 /* Added border on hover to give the items a more defined look */
 .menu ul li:hover {
-    border-left: 4px solid #2196f3;
+    font-size: 1.2rem;
     padding-left: 16px;
 }
 
@@ -373,6 +385,11 @@ header .current-date {
 
 .menu ul li:active {
     background-color: #e1f5fe; /* Active state for items */
+}
+
+/* Optional: Add subtle divider lines between items */
+.menu ul li + li {
+    border-top: 1px solid #eee;
 }
 
 /* Close menu when clicking outside */
@@ -590,6 +607,10 @@ body.menu-open .menu.show {
     gap: 10px;
 }
 
+.booking-summary p{
+    font-size: 15px;
+}
+
 .arrow-icon {
     font-size: 18px;
     user-select: none;
@@ -606,3 +627,8 @@ body.menu-open .menu.show {
     max-height: 500px; /* large enough for your content */
     padding-top: 10px;
 }
+
+.cal{
+    width: 120px;
+}
+

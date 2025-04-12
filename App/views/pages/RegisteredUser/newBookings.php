@@ -125,7 +125,6 @@
             <div class="column">
                 <div class="date-details">
                         <div id="date-info">
-            
                         </div>
                 </div>
             </div>
@@ -135,7 +134,7 @@
     <!--Cancel Policy pop up -->
     <div id="cancelPolicyPopup" class="policypopup hidden">
         <div class="policypopup-content">
-            <h3 align="center"c>Cancel Booking</h3>
+            <h3 align="center">Cancel Booking</h3>
             <p id="policypopup-details"></p>
             <!--Content will come here -->
             <div class="policypopup-actions">
@@ -262,7 +261,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let dateInfo = `<h3>Bookings for ${dateStr}</h3>`;
 
         if (!bookingStatus.scheduleIds.length) {
-            dateInfo += `<p>No bookings available for this date.</p>`;
+            dateInfo += `<p>No bookings available for this date.</p>
+                         <br><br>
+                         <img class="cal" src="<?php echo URLROOT; ?>/public/images/calender.png" alt="calendar">`;
         } else {
             dateInfo += `<div class="booking-list">`;
             
@@ -285,8 +286,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </div>
                                 <div class="booking-summary">
                                     <span class="arrow-icon">▼</span>
-                                    <p><strong>${booking.from_location} - </strong></p>
-                                    <p><strong>${booking.to_location}</strong></p>
+                                    <p><strong>${booking.from_location} - </strong>
+                                    <strong>${booking.to_location}</strong></p>
                                 </div>
                                 <div class="booking-details">
                                     <p><strong>From:</strong> ${booking.from_location}</p>
@@ -321,10 +322,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </div>
                                 <div class="booking-summary">
                                     <span class="arrow-icon">▼</span>
-                                    <p><strong>From:</strong> ${booking.from_location}</p>
-                                    <p><strong>To:</strong> ${booking.to_location}</p>
+                                    <p><strong>${booking.from_location} - </strong>
+                                    <strong>${booking.to_location}</strong></p>
                                 </div>
                                 <div class="booking-details">
+                                    <p><strong>From:</strong> ${booking.from_location}</p>
+                                    <p><strong>To:</strong> ${booking.to_location}</p>
                                     <p><strong>Time:</strong> ${schedule.departureTime}</p>
                                     <p><strong>Bus:</strong> ${bus ? bus.License_id : 'N/A'}</p>
                                     <p><strong>Booking ID:</strong> ${booking.id}</p>
