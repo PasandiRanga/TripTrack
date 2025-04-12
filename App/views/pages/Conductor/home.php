@@ -118,8 +118,8 @@
                             <th>Start Location</th>
                             <th>Destination</th>
                             <th>License ID</th>
-                            <th>Available Seats</th>
-                            <th>Booked Seats</th>
+                            <!--<th>Available Seats</th>
+                            <th>Booked Seats</th>-->
                             <th>Price</th>
                             <th>Price Per KM</th>
                             <th>Type</th>
@@ -140,8 +140,8 @@
                                         <td><?= htmlspecialchars($item['start_location']) ?></td>
                                         <td><?= htmlspecialchars($item['destination']) ?></td>
                                         <td><?= htmlspecialchars($item['License_id']) ?></td>
-                                        <td><?= htmlspecialchars($item['availableSeats']) ?></td>
-                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>
+                                        <!--<td><?= htmlspecialchars($item['availableSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>-->
                                         <td><?= htmlspecialchars($item['price']) ?></td>
                                         <td><?= htmlspecialchars($item['priceperkm']) ?></td>
                                         <td><?= htmlspecialchars($item['type']) ?></td>
@@ -169,8 +169,8 @@
                             <th>Start Location</th>
                             <th>Destination</th>
                             <th>License ID</th>
-                            <th>Available Seats</th>
-                            <th>Booked Seats</th>
+                            <!--<th>Available Seats</th>
+                            <th>Booked Seats</th>-->
                             <th>Price</th>
                             <th>Price Per KM</th>
                             <th>Type</th>
@@ -191,8 +191,8 @@
                                         <td><?= htmlspecialchars($item['start_location']) ?></td>
                                         <td><?= htmlspecialchars($item['destination']) ?></td>
                                         <td><?= htmlspecialchars($item['License_id']) ?></td>
-                                        <td><?= htmlspecialchars($item['availableSeats']) ?></td>
-                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>
+                                        <!--<td><?= htmlspecialchars($item['availableSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>-->
                                         <td><?= htmlspecialchars($item['price']) ?></td>
                                         <td><?= htmlspecialchars($item['priceperkm']) ?></td>
                                         <td><?= htmlspecialchars($item['type']) ?></td>

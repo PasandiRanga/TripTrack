@@ -312,6 +312,11 @@
         }
 
         public function busLayOut() {
+            $acceptedSeats = [];
+            if (isset($_GET['accepted'])) {
+                $acceptedSeats = explode(',', $_GET['accepted']);
+}
+
             $this->view('pages/Conductor/busLayout');
         }
         
