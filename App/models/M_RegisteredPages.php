@@ -23,6 +23,7 @@
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
                 echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
+             
                
                 if (!$seats) {
                     throw new Exception("Booking not found");
@@ -37,7 +38,7 @@
                 echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
 
 
-                $seatsString = $seats['Seats'];
+                $seatsString = $seats['selected_seats'];
                 $seatsString = str_replace('"', '', $seatsString); // Remove any quote characters
                 $seatsArray = array_map('trim', explode(',', $seatsString));
                 echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
@@ -109,6 +110,8 @@
                 $seats = $this->db->single();
                 echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
                
+                
+               
                 if (!$seats) {
                     throw new Exception("Booking not found");
                 }
@@ -121,8 +124,10 @@
                 }
                 echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
 
+            
 
-                $seatsString = $seats['Seats'];
+
+                $seatsString = $seats['selected_seats'];
                 $seatsString = str_replace('"', '', $seatsString); // Remove any quote characters
                 $seatsArray = array_map('trim', explode(',', $seatsString));
                 echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
@@ -133,6 +138,7 @@
 
                 $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
                 echo '<script> console.log("Booked seats of the schedule after cancellation: ", ' . json_encode($bookedSeats) . '); </script>';
+
 
 
                 $this->db->query("UPDATE schedule SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
@@ -413,8 +419,8 @@
                 $currentDate = date('Y-m-d'); 
                 $currentTime = date('H:i:s'); 
 
-                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status) 
-                                        VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod , :booking_status);");
+                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , qrcode_path) 
+                                        VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod , :booking_status, :qrcode_path);");
                 $this->db->bind(':bookingDate', $currentDate); 
                 $this->db->bind(':bookingTime', $currentTime); 
                 $this->db->bind(':scheduleDate', $schedule['date']);
@@ -427,6 +433,7 @@
                 $this->db->bind(':totalPrice', $bookingData['totalPrice']);
                 $this->db->bind(':paymentMethod' , $bookingData['paymentMethod']);
                 $this->db->bind(":booking_status" , "Pending");
+                $this->db->bind(":qrcode_path" , $bookingData['qrCodeFilename']);
                 return $this->db->execute();
             }
         }
