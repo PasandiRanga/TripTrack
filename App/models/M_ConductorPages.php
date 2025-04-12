@@ -353,20 +353,27 @@
 
         public function insertPastBooking($bookingData) {
             
-            $this->db->query("INSERT INTO pastregbooking (id, Booking_date, Booking_time, No_of_seats, Seats, schedule_id, from_location, to_location, total_price, paymentMethod) 
-                             VALUES (:id, :booking_date, :booking_time, :no_of_seats, :seats, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod)");
+            $this->db->query("INSERT INTO pastregbooking (id, Booking_date, Booking_time,scheduleDate, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status) 
+                             VALUES (:id, :booking_date, :booking_time,:scheduleDate, :no_of_seats, :seats, :userid ,:schedule_id, :from_location, :to_location, :total_price, :paymentMethod , :bookingStatus)");
         
             $this->db->bind(':id', $bookingData['id']);
             $this->db->bind(':booking_date', $bookingData['booking_date']);
             $this->db->bind(':booking_time', $bookingData['booking_time']);
+            $this->db->bind(':scheduleDate', $bookingData['scheduleDate']);
             $this->db->bind(':no_of_seats', $bookingData['number_of_seats']);
             $this->db->bind(':seats', $bookingData['selected_seats']);
+            $this->db->bind("userid" , $bookingData['User_id']);
             $this->db->bind(':schedule_id', $bookingData['schedule_id']);
             $this->db->bind(':from_location', $bookingData['from_location']);
             $this->db->bind(':to_location', $bookingData['to_location']);
             $this->db->bind(':total_price', $bookingData['total_price']);
             $this->db->bind(':paymentMethod', $bookingData['paymentMethod'] ?? 'Cash');
-        
+            $this->db->bind(':bookingStatus', 'Arrived');
+            $this->db->execute();
+
+            $this->db->query("DELETE FROM registeredbooking WHERE id = :id");
+            $this->db->bind(':id', $bookingData['id']);
+      
             return $this->db->execute();
         }
 

@@ -33,7 +33,8 @@
         $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
         $upcomingBookingData = $data['upcomingbookings'] ?? [];
         $pastBookingData = $data['pastbookings'] ?? [];
-        $scheduleData = $data['schedule'] ?? [];
+        $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
+        $pastScheduleData = $data['pastSchedule'] ??[];
         $notifications = $data['notifications'] ?? [];
         // $bookingData = $data['bookingsDetails'] ?? [];
         $busData = $data['bus'] ?? [];
@@ -67,7 +68,7 @@
         $pastSchedules = [];
 
         foreach ($upcomingBookingData as $upcoming) {
-            $matchedSchedules = array_filter($scheduleData, function ($s) use ($upcoming) {
+            $matchedSchedules = array_filter($upcomingScheduleData, function ($s) use ($upcoming) {
                 return $s['scheduleId'] == $upcoming['schedule_id']; // Match schedule by ID
             });
             // Merge results to ensure all schedules are collected
@@ -77,7 +78,7 @@
         }
 
         foreach($pastBookingData as $past) {
-            $matchedSchedules = array_filter($scheduleData, function ($s) use ($past) {
+            $matchedSchedules = array_filter($pastScheduleData, function ($s) use ($past) {
                 return $s['scheduleId'] == $past['schedule_id']; // Match schedule by ID
             });
             // Merge results to ensure all schedules are collected
@@ -172,7 +173,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Get PHP variables
     const upcomingBookings = <?php echo json_encode($upcomingBookingData); ?>;
     const pastBookings = <?php echo json_encode($pastBookingData); ?>;
-    const scheduleData = <?php echo json_encode($scheduleData); ?>;
+    const upcomingScheduleData = <?php echo json_encode($upcomingScheduleData); ?>;
+    const pastScheduleData = <?php echo json_encode($pastScheduleData); ?>;
     const busData = <?php echo json_encode($busData); ?>;
 
     let date = new Date(),
@@ -191,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Check upcoming bookings
         upcomingBookings.forEach(booking => {
-            const schedule = scheduleData.find(s => s.scheduleId === booking.schedule_id);
+            const schedule = upcomingScheduleData.find(s => s.scheduleId === booking.schedule_id);
             if (schedule && schedule.date === dateStr) {
                 hasUpcoming = true;
                 scheduleIds.add(booking.schedule_id);
@@ -200,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Check past bookings
         pastBookings.forEach(booking => {
-            const schedule = scheduleData.find(s => s.scheduleId === booking.schedule_id);
+            const schedule = pastScheduleData.find(s => s.scheduleId === booking.schedule_id);
             if (schedule && schedule.date === dateStr) {
                 hasPast = true;
                 scheduleIds.add(booking.schedule_id);
@@ -270,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (bookingStatus.hasUpcoming) {
                 dateInfo += `<h4>Upcoming Bookings</h4>`;
                 upcomingBookings.forEach(booking => {
-                    const schedule = scheduleData.find(s => s.scheduleId === booking.schedule_id);
+                    const schedule = upcomingScheduleData.find(s => s.scheduleId === booking.schedule_id);
                     if (schedule && schedule.date === dateStr) {
                         const bus = busData.find(b => b.busId === schedule.busId);
                         dateInfo += `
@@ -306,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (bookingStatus.hasPast) {
                 dateInfo += `<h4>Past Bookings</h4>`;
                 pastBookings.forEach(booking => {
-                    const schedule = scheduleData.find(s => s.scheduleId === booking.schedule_id);
+                    const schedule = pastScheduleData.find(s => s.scheduleId === booking.schedule_id);
                     if (schedule && schedule.date === dateStr) {
                         const bus = busData.find(b => b.busId === schedule.busId);
                         dateInfo += `
@@ -349,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 // Find the booking and schedule objects
                 const bookingObj = [...upcomingBookings, ...pastBookings].find(b => b.id == bookingId);
-                const scheduleObj = scheduleData.find(s => s.scheduleId == scheduleId);
+                const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || pastScheduleData.find(s => s.scheduleId == scheduleId);
                 
                 if (bookingObj && scheduleObj) {
                     showCancelPolicy(bookingObj, scheduleObj);
