@@ -16,9 +16,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel ="stylesheet" href="file:///E:/fontawesome/css/all.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/RegisteredUser/newBookings.css?v=<?php echo time(); ?>">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
     <!-- Set user role in localStorage -->
     <script>
@@ -49,9 +52,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <div class="hero-container">
         <br/>
-        <div class="header-container">
+        <center><div class="header-container">
             <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
-        </div>
+        </div></center>
         <br/>
     </div>
     
@@ -159,11 +162,34 @@
         </div>
     </div>
 
+    <!-- Rating and Reviews pop up -->
+    <div id="reviewPopup" class="popup hidden">
+        <div class="reviewPopup-content">
+            <div id="review-popup-details"></div>
+            <h3>Your Idea</h3>
+            <form action="#">
+                <div class="rating">
+                    <input type="number" name="rating" hidden>
+                    <i class='bx bx-star star' style="--i: 0;"></i>
+                    <i class='bx bx-star star' style="--i: 1;"></i>
+                    <i class='bx bx-star star' style="--i: 2;"></i>
+                    <i class='bx bx-star star' style="--i: 3;"></i>
+                    <i class='bx bx-star star' style="--i: 4;"></i>
+                </div>
+                <textarea name="opinion" cols="30" rows="5" placeholder="Your opinion..."></textarea>
+                <div class="popup-actions">
+                    <button type="submit" class="post">Post</button>
+                    <button class="cancel-btn">close</button>
+                </div>
+            </form>    
+        </div>
+    </div>
+
     </body>
     </html>
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
     const currentDate = document.querySelector(".current-date");
     const daysTag = document.querySelector(".days");
     const prevNextIcons = document.querySelectorAll(".icons span");
@@ -317,8 +343,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
-                                        <li>Option 1</li>
-                                        <li>Option 2</li>
+                                        <li>view ticket</li>
+                                        <li class="add-review" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Add Reviews</li>
                                         <li>Option 3</li>
                                     </ul>
                                 </div>
@@ -361,6 +387,44 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         });
+
+        //rating and review box
+        document.querySelectorAll('.add-review').forEach(item => {
+        item.addEventListener('click', function () {
+            const bookingId = this.getAttribute('data-booking-id');
+            const scheduleId = this.getAttribute('data-schedule-id');
+
+            const bookingObj = [...upcomingBookings, ...pastBookings].find(b => b.id == bookingId);
+            const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || pastScheduleData.find(s => s.scheduleId == scheduleId);
+
+            if (bookingObj && scheduleObj) {
+                showReviewPopup(bookingObj, scheduleObj);
+            }
+        });
+        });
+    }
+    //----------Rating and Review Box----------
+
+    // Show review popup
+    function showReviewPopup(bookingObj, scheduleObj) {
+        const popup = document.getElementById("reviewPopup");
+        const details = document.getElementById("review-popup-details");
+
+        //details.innerHTML = `Booking ID: ${bookingObj.id}<br>Bus: ${scheduleObj.busName}<br>Date: ${scheduleObj.date}`;
+
+        popup.classList.remove("hidden");
+
+        // Attach close button listener
+        const closeBtn = popup.querySelector(".cancel-btn");
+        if (closeBtn) {
+            closeBtn.onclick = closeReviewBox;
+        }
+    }
+
+    //close reviewPopup
+    function closeReviewBox() {
+        const popup = document.getElementById("reviewPopup");
+        popup.classList.add("hidden");
     }
 
     renderCalendar();
@@ -655,6 +719,31 @@ function toggleDetails(event, element) {
         arrow.textContent = '▲';
     }
 }
+
+    //javascript for star filling
+    const allStar = document.querySelectorAll('.rating .star')
+    const ratingValue = document.querySelector('.rating input')
+
+    allStar.forEach((item,idx)=>{
+        item.addEventListener('click',function(){
+            let click=0
+            ratingValue.value = idx + 1
+            console.log(ratingValue.value)
+            allStar.forEach(i=>{
+                i.classList.replace('bxs-star','bx-star')
+                i.classList.remove('active')
+            })
+            for(let i=0;i<allStar.length;i++){
+                if(i<=idx){
+                    allStar[i].classList.replace('bx-star','bxs-star')
+                    allStar[i].classList.add('active')
+                }else{
+                    allStar[i].style.setProperty('--i',click)
+                    click++
+                }
+            }
+        })
+    })
 
 
 
