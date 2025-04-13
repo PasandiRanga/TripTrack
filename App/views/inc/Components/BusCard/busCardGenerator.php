@@ -60,7 +60,15 @@ foreach ($busData as $bus) {
             ?>'">
                 <div class="bus-card-header">
                     <div class="route-info">
-                        <h2><?php echo $bus['start_location']; ?> - <?php echo $bus['destination']; ?> </h2>
+                        <h2>
+                            <?php 
+                            if ($schedule['direction'] === 'backward') {
+                                echo $bus['destination'] . ' - ' . $bus['start_location'];
+                            } else {
+                                echo $bus['start_location'] . ' - ' . $bus['destination'];
+                            }
+                            ?>
+                        </h2>
                         <span class="bus-type">Route :<?php echo $bus['routeNumber']; ?></span>
                     </div>
                 </div>

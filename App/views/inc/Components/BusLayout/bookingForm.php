@@ -92,7 +92,9 @@
             <!-- Payment method  -->
             <div class="form-group-inline">
                 <label>Payment method:</label>
-                <input type="radio" name="paymentMethod" value="Cash" required> Cash
+                <?php if ($userRole === 'RegisteredUser'): ?>
+                    <input type="radio" name="paymentMethod" value="Cash" required> Cash
+                <?php endif; ?>
                 <input type="radio" name="paymentMethod" value="Online" required> Online
             </div>
 
@@ -110,7 +112,7 @@
     <div class="confirmBox hidden" id="confirmBox">
         <div class="confirmBoxContent">
             <h1>Are You Sure?</h1>
-            <h4>You won't be able to cancel the booking later!</h4>
+            <h4>Login to access Cash Payments and Booking Cancellations</h4>
             <p>
                 <button id="yes" onclick="confirmAction()">Proceed Without Login</button>
                 <button id="no" onclick="closeConfirmBox()">Log In</button>
