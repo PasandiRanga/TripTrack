@@ -377,8 +377,6 @@
             return $this->db->execute();
         }
 
-        
-
         public function getSchedulesByEmployeeId($userID){
             $this->db->query('SELECT * FROM assign WHERE :userID = conductor_id OR :userID=driver_id');
             $this->db->bind(':userID', $userID);
@@ -397,6 +395,16 @@
 
             return $schedules ?? []; // Return an empty array if no schedules found
             
+        }
+
+        public function getSchedule() {
+            $this->db->query('SELECT * FROM schedule');
+
+            return $this->db->resultSet();
+
+        }
+
+        public function addAcceptedSeats($seats) {
             
         }
 

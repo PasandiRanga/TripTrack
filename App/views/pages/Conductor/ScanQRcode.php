@@ -98,7 +98,7 @@ authCheck(['Conductor', 'Driver']);
 
                 document.getElementById('qrModal').style.display = 'flex';
 
-                saveAcceptedSeats(data["Seats"]);
+                //saveAcceptedSeats(data["Seats"]);
 
                 sendToServer(data["Schedule ID"], data["Seats"]);
             }
@@ -160,7 +160,7 @@ authCheck(['Conductor', 'Driver']);
 
             }
 
-            function saveAcceptedSeats(seatString) {
+            /*function saveAcceptedSeats(seatString) {
                 let acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
 
                 // Remove quotes if any, and split into array
@@ -180,7 +180,7 @@ authCheck(['Conductor', 'Driver']);
                 const seatsParam = encodeURIComponent(acceptedSeats.join(','));
 
                 window.location.href = `<?php echo URLROOT; ?>/ConductorPages/busLayout?accepted=${seatsParam}`;
-            }
+            }*/
 
 
 
