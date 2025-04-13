@@ -40,7 +40,7 @@
         $busData = $data['bus'] ?? [];
         // $userData = $data['user'] ?? [];
         $data['currentController'] = 'RegisteredPages';
-        $data['currentMethod'] = 'allNotifications';
+        $data['currentMethod'] = 'bookings';
         $data['userRole'] = $userRole;
 
     ?>

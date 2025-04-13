@@ -62,13 +62,16 @@
             $distance = $this->RegisteredpagesModel->getDistance();
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
             $route = $this->RegisteredpagesModel->getRoute();
+            $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+
 
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
                 'distance' => $distance,
                 'user'=> $user,
-                'route' => $route
+                'route' => $route,
+                'notifications' => $notifications
             ];
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);
@@ -89,8 +92,11 @@
 
         public function profile() {
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+            $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+
             $data =[
-                'user' => $user
+                'user' => $user,
+                'notifications' => $notifications
             ]; 
             $this->view('pages/RegisteredUser/profile' , $data);
         }

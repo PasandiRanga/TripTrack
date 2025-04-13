@@ -32,11 +32,10 @@
 
     <?php
     $profile = $data['user'] ?? [];
-    $data = [
-        'currentController' => 'RegisteredPages', // Adjust this based on your controller
-        'currentMethod' => 'profile', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
+    $notifications = $data['notifications'] ?? [];
+    $data['currentController'] = 'RegisteredPages';
+    $data['currentMethod'] = 'profile';
+    $data['userRole'] = $userRole;
     ?>
 
     <script>

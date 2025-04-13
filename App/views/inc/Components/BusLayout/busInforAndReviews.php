@@ -1,6 +1,13 @@
 <div class="bus-info">
     <div class="route-container">
-        <h2><?php echo $selectedBus['start_location']; ?> - <?php echo $selectedBus['destination']; ?></h2>
+        <h2><?php 
+                if ($selectedSchedule['direction'] === 'backward') {
+                    echo $selectedBus['destination'] . ' - ' . $selectedBus['start_location'];
+                } else {
+                    echo $selectedBus['start_location'] . ' - ' . $selectedBus['destination'];
+                }
+            ?>
+        </h2>
         <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
     </div>
     <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['License_id']); ?></p>

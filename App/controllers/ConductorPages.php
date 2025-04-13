@@ -166,6 +166,8 @@
         public function home() {
             $assignDetails = $this->ConductorpagesModel->getAssignDetailsByEmployeeId($_SESSION['user_id']);
 
+            echo '<script> console.log("assign details: ", ' . json_encode($assignDetails) . '); </script>';
+
             if (empty($assignDetails)) {
                 return [];
             }
