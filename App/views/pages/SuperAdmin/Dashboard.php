@@ -77,9 +77,9 @@
                     <span class="material-icons-outlined">notifications</span> Notifications
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/leaverequests'">
+                <!-- <li class="sidebar-list-item" onclick="location.href='<//?php echo URLROOT; ?>/SuperAdminPages/leaverequests'">
                     <span class="material-icons-outlined">publish</span> Leave Requests
-                </li>
+                </li> -->
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">
                     <span class="material-icons-outlined">schedule</span> Schedule

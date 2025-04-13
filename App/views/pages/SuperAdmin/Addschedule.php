@@ -3,14 +3,14 @@
     authCheck(['Admin']);
 ?>
 <?php
-    $scheduleId = $_GET['scheduleId'] ?? '';
-    $licenseId = $_GET['License_id'] ?? '';
-    $date = $_GET['date'] ?? '';
-    $departureTime = $_GET['departureTime'] ?? '';
-    $arrivalTime = $_GET['arrivalTime'] ?? '';
-    $duration = $_GET['duration'] ?? '';
-    $type = $_GET['type'] ?? '';
-    $direction = $_GET['direction'] ?? '';
+    $scheduleId = isset($_GET['scheduleId']) ? urldecode($_GET['scheduleId']) : '';
+    $licenseId = isset($_GET['License_id']) ? urldecode($_GET['License_id']) : '';
+    $date = isset($_GET['date']) ? urldecode($_GET['date']) : '';
+    $departureTime = isset($_GET['departureTime']) ? urldecode($_GET['departureTime']) : '';
+    $arrivalTime = isset($_GET['arrivalTime']) ? urldecode($_GET['arrivalTime']) : '';
+    $duration = isset($_GET['duration']) ? urldecode($_GET['duration']) : '';
+    $type = isset($_GET['type']) ? urldecode($_GET['type']) : '';
+    $direction = isset($_GET['direction']) ? urldecode($_GET['direction']) : '';
     $isUpdate = !empty($scheduleId);   
    
 ?>
@@ -38,12 +38,14 @@
 
         <div class="form-group">
             <label for="License_id">License ID:</label>
-            <select type="text" id="License_id" name="License_id" required>
-                <option value="">Select BusID</option>
+            <select id="License_id" name="License_id" required>
+                <?php if (!$isUpdate): ?>
+                    <option value="">Select BusID</option>
+                <?php endif; ?>
                 <?php foreach ($data['bus'] as $bus): ?>
-                    <option value="<?php echo $bus['License_id']; ?>"
-                        data-seats="<?php echo $bus['passengers']; ?>"
-                        <?php echo $bus['License_id'] === $licenseId ? 'selected' : ''; ?>>
+                    <option value="<?php echo $bus['License_id']; ?>" 
+                        data-seats="<?php echo $bus['passengers']; ?>" 
+                        <?php echo $bus['License_id'] == $licenseId ? 'selected' : ''; ?>>
                         <?php echo $bus['License_id']; ?>
                     </option>
                 <?php endforeach; ?>
@@ -52,7 +54,7 @@
 
         <div class="form-group">
             <label for="availableSeats">Available Seats:</label>
-            <input type="number" id="availableSeats" name="availableSeats" value="<?php echo htmlspecialchars($data['availableSeats'] ?? ''); ?>" required readonly>
+            <input type="number" id="availableSeats" name="availableSeats" value="<?php echo $isUpdate ? htmlspecialchars($data['availableSeats'] ?? '') : ''; ?>" <?php echo $isUpdate ? 'disabled' : 'readonly'; ?>>
         </div>
 
         <div class="form-group">
@@ -79,7 +81,7 @@
 
         <div class="form-group">
             <label for="departureTime">Departure Time:</label>
-            <input type="time" id="departureTime" name="departureTime" value="<?php echo htmlspecialchars($departureTime); ?>" required>
+            <input type="time" id="departureTime" name="departureTime" value="<?php echo $isUpdate ? htmlspecialchars($departureTime) : ''; ?>" required>
         </div>
 
         <div class="form-group">
@@ -89,7 +91,7 @@
 
         <div class="form-group">
             <label for="duration">Duration:</label>
-            <input type="text" id="duration" name="duration" value="<?php echo htmlspecialchars($duration); ?>" placeholder="e.g., 09:30:00" required>
+            <input type="text" id="duration" name="duration" value="<?php echo htmlspecialchars($duration); ?>" placeholder="e.g., 09:30:00" readonly required>
         </div>
 
 
@@ -118,26 +120,28 @@
         });
 
         function calculateDuration() {
-            let departureTime = document.getElementById("departureTime").value;
-            let arrivalTime = document.getElementById("arrivalTime").value;
-            let durationTime = document.getElementById("duration");
+            const departureTime = document.getElementById("departureTime").value;
+            const arrivalTime = document.getElementById("arrivalTime").value;
+            const durationInput = document.getElementById("duration");
 
             if (departureTime && arrivalTime) {
-                let departure = new Date(`1970-01-01T${departureTime}:00`);
-                let arrival = new Date(`1970-01-01T${arrivalTime}:00`);
+                const [depHours, depMinutes] = departureTime.split(":").map(Number);
+                const [arrHours, arrMinutes] = arrivalTime.split(":").map(Number);
 
-                if (arrival < departure) {
-                    arrival.setDate(arrival.getDate() + 1); // Handle next-day arrival
+                let depTotalMinutes = depHours * 60 + depMinutes;
+                let arrTotalMinutes = arrHours * 60 + arrMinutes;
+
+                if (arrTotalMinutes < depTotalMinutes) {
+                    arrTotalMinutes += 24 * 60; // Handle next-day arrival
                 }
 
-                let diffMs = arrival - departure;
-                let hours = Math.floor(diffMs / (1000 * 60 * 60));
-                let minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                const diffMinutes = arrTotalMinutes - depTotalMinutes;
+                const hours = Math.floor(diffMinutes / 60);
+                const minutes = diffMinutes % 60;
 
-                let durationFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
-                durationTime.value = durationFormatted;
+                durationInput.value = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
             } else {
-                durationTime.value = "";
+                durationInput.value = "";
             }
         }
 
