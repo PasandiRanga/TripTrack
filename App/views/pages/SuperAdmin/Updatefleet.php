@@ -21,7 +21,7 @@
     <form id="fleet-form" method="POST" action="<?php echo URLROOT; ?>/SuperAdminPages/updateBus">
         <!-- License ID (Primary Key) - Read-only -->
         <div class="form-group">
-            <label for="License_id">License ID (Primary Key):</label>
+            <label for="License_id">License ID:</label>
             <input 
                 type="text" 
                 id="License_id" 
@@ -42,16 +42,16 @@
             >
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="route">Route:</label>
             <input 
                 type="text" 
                 id="route" 
                 name="route" 
-                value="<?php echo isset($data['busDetails']['route']) ? htmlspecialchars($data['busDetails']['route']) : ''; ?>" 
+                value="<//?php echo isset($data['busDetails']['route']) ? htmlspecialchars($data['busDetails']['route']) : ''; ?>" 
                 required
             >
-        </div>
+        </div> -->
 
         <!--
         <div class="form-group">
@@ -67,14 +67,14 @@
             </select>
         </div>
         -->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="stops">Stops:</label>
             <textarea 
                 id="stops" 
                 name="stops" 
                 rows="3" 
-                required><?php echo isset($data['busDetails']['stops']) ? htmlspecialchars($data['busDetails']['stops']) : ''; ?></textarea>
-        </div>
+                required></?php echo isset($data['busDetails']['stops']) ? htmlspecialchars($data['busDetails']['stops']) : ''; ?></textarea>
+        </div> -->
 
         <div class="form-group">
             <label for="start_location">Starts:</label>

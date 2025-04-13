@@ -19,7 +19,7 @@
         <div class="profile-details">
             <!-- Profile Image -->
             <div class="profile-image-container">
-                <img id="profile-image-preview" src="<?php echo URLROOT; ?>/public/uploads/<?php echo $data['profileImage'] ?? 'default.png'; ?>" alt="Profile Image">
+                <img id="profile-image-preview" src="<?php echo URLROOT; ?>/public/images/profileImages/<?php echo (isset($data['profileImage']) && file_exists(APPROOT . '/../public/images/profileImages/' . $data['profileImage'])) ? $data['profileImage'] : 'default.jpg'; ?>" alt="Profile Image">
             </div>
 
             <!-- Admin Details -->

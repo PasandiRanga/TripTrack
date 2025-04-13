@@ -40,25 +40,29 @@
 
     <?php if ($isUpdate): ?>
         <!-- Hidden input to include scheduleId in the form data for updates -->
-        <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>">
+        <input type="text" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>" readonly>
     <?php endif; ?>
 
     <label for="driver_id">Driver ID:</label>
     <select id="driver_id" name="driver_id" required>
-        <option value="">Select Driver</option>
+        <?php if (!$isUpdate): ?>
+            <option value="">Select Driver</option>
+        <?php endif; ?>
         <?php foreach ($data['drivers'] as $driver): ?>
             <option value="<?php echo $driver['employee_id']; ?>" <?php echo $driver['employee_id'] == $driverId ? 'selected' : ''; ?>>
-                <?php echo $driver['employee_id']; ?>
+            <?php echo $driver['employee_id']; ?>
             </option>
         <?php endforeach; ?>
     </select>
 
     <label for="conductor_id">Conductor ID:</label>
     <select id="conductor_id" name="conductor_id" required>
-        <option value="">Select Conductor</option>
+        <?php if (!$isUpdate): ?>
+            <option value="">Select Conductor</option>
+        <?php endif; ?>
         <?php foreach ($data['conductors'] as $conductor): ?>
             <option value="<?php echo $conductor['employee_id']; ?>" <?php echo $conductor['employee_id'] == $conductorId ? 'selected' : ''; ?>>
-                <?php echo $conductor['employee_id']; ?>
+            <?php echo $conductor['employee_id']; ?>
             </option>
         <?php endforeach; ?>
     </select>
