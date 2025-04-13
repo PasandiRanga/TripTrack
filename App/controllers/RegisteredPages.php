@@ -63,6 +63,7 @@
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
             $route = $this->RegisteredpagesModel->getRoute();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            $pastNotArrivedBookings = $this->RegisteredpagesModel->getPastNotArrivedBookings($_SESSION['user_id']);
 
 
             $data = [
