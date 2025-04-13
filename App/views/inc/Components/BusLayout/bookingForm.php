@@ -104,7 +104,86 @@
             <p><strong>Price per Seat:</strong>&nbsp;&nbsp; Rs.<span id="pricePerSeat" ><?php echo htmlspecialchars($pricePerSeat); ?></span></p>
             <p><strong>Total Price:</strong> &nbsp;&nbsp;Rs. <span id="total-price">0</span></p>
                
-            <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>  
+            <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>
+            
+            <?php
+                // At the end of your bookingForm.php file, after the checkout button
+
+                // Initialize penalty fee
+                $penaltyFee = 0;
+
+                // Check if the user has past bookings where they didn't arrive
+                if ($userRole === 'RegisteredUser' && !empty($pastNotArrivedBookings)) {
+                    foreach ($pastNotArrivedBookings as $booking) {
+                        if (isset($booking['penalty_fee'])) {
+                            $penaltyFee += floatval($booking['penalty_fee']);
+                        }
+                    }
+                    
+                    // Only show the penalty message if there actually is a penalty
+                    if ($penaltyFee > 0) {
+                        ?>
+                        <div class="penalty-notice">
+                            <strong>Notice:</strong> You have a penalty fee of Rs. <?php echo number_format($penaltyFee, 2); ?> 
+                            for previous bookings where you did not arrive. This amount will be added to your total.
+                        </div>
+                        
+                        <script>
+                            // Update the total price calculation to include the penalty fee
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const penaltyFee = <?php echo $penaltyFee; ?>;
+                                const originalUpdatePrice = updatePrice;
+                                
+                                // Override the updatePrice function to include penalty fee
+                                window.updatePrice = function(from, to) {
+                                    // Call the original function
+                                    originalUpdatePrice(from, to);
+                                    
+                                    // Add penalty fee to total
+                                    const pricePerSeatElement = document.getElementById('pricePerSeat');
+                                    const totalPriceElement = document.getElementById('total-price');
+                                    const totalPriceInput = document.getElementById('totalPriceInput');
+                                    const noOfSeats = parseInt(document.getElementById('noOfseats').value) || 0;
+                                    
+                                    const pricePerSeat = parseFloat(pricePerSeatElement.textContent);
+                                    const seatTotal = pricePerSeat * noOfSeats;
+                                    const grandTotal = seatTotal + penaltyFee;
+                                    
+                                    // Update the display and hidden input
+                                    totalPriceElement.textContent = grandTotal.toFixed(2);
+                                    totalPriceInput.value = grandTotal.toFixed(2);
+                                };
+                                
+                                // Add hidden input for penalty fee
+                                const penaltyInput = document.createElement('input');
+                                penaltyInput.type = 'hidden';
+                                penaltyInput.name = 'penaltyFee';
+                                penaltyInput.value = penaltyFee;
+                                document.getElementById('bookingForm').appendChild(penaltyInput);
+                                
+                                // Trigger price update if from and to are already selected
+                                const from = document.getElementById('from').value;
+                                const to = document.getElementById('to').value;
+                                if (from && to) {
+                                    updatePrice(from, to);
+                                }
+                            });
+                        </script>
+                        
+                        <style>
+                            .penalty-notice {
+                                background-color: #fff3cd;
+                                color: #856404;
+                                padding: 12px;
+                                margin: 15px 0;
+                                border-radius: 4px;
+                                border-left: 4px solid #ffeeba;
+                            }
+                        </style>
+                        <?php
+                    }
+                }
+            ?>
             
     </form>
     <br>
@@ -179,13 +258,9 @@
     }
 
     function processBooking(paymentMethod) {
-        if(paymentMethod === 'Cash'){
-            bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/GuestReceipt';
-            bookingForm.submit();
-        }else if (paymentMethod === 'Online'){
+        
             bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/paymentPortal';
             bookingForm.submit();
-        }
     }
 
     // Update form submission handling

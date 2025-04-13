@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/LoginBox/loginBox.css?v=<?php echo time(); ?>">
-    <style>
+    <!-- <style>
         .password-container {
             position: relative;
         }
@@ -29,7 +29,7 @@
             transition: all 0.3s ease;
         } */
         
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="signInContent">
@@ -47,7 +47,7 @@
                     <input type="password" name="password" id="password" 
                            value="<?php echo htmlspecialchars($headerData['password'] ?? ''); ?>" 
                            placeholder="Enter password">
-                    <span class="toggle-password" id="togglePassword">👁</span>
+                    <!-- <span class="toggle-password" id="togglePassword">👁</span> -->
                 </div>
                 <span class="form-invalid">
                     <?php echo !empty($headerData['password_err']) ? $headerData['password_err'] : ''; ?>
