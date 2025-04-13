@@ -538,6 +538,21 @@
             return $this->db->execute();
         }
 
+        public function addReview($data) {
+            $this->db->query("INSERT INTO ratings (User_id, License_id, rate, review, Date, Time) 
+                            VALUES (:user_id, :license_id, :rate, :review, :date, :time)");
+
+            $this->db->bind(':user_id', $data['user_id']);
+            $this->db->bind(':license_id', $data['license_id']);
+            $this->db->bind(':rate', $data['rate']);
+            $this->db->bind(':review', $data['review']);
+            $this->db->bind(':date', $data['date']);
+            $this->db->bind(':time', $data['time']);
+
+            return $this->db->execute();
+        }
+
+
     }
 
 ?>

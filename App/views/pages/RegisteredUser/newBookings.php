@@ -167,7 +167,7 @@
         <div class="reviewPopup-content">
             <div id="review-popup-details"></div>
             <h3>Your Idea</h3>
-            <form action="#">
+                <form action="<?php echo URLROOT ?>/RegisteredPages/addReviews" method="POST" enctype="multipart/form-data">
                 <div class="rating">
                     <input type="number" name="rating" hidden>
                     <i class='bx bx-star star' style="--i: 0;"></i>
