@@ -58,7 +58,7 @@
             </div>
             <button class="edit-image-button" onclick="showImageUpdateBox()"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
             <h2><?php echo $profile['Name']; ?></h2>
-            <p><?php echo $profile['User_id']; ?></p>
+            <!-- <p><?php echo $profile['User_id']; ?></p> -->
 
             <div class="btn">
 

@@ -423,7 +423,7 @@
                 $this->db->bind(':bookingDate', $currentDate); 
                 $this->db->bind(':bookingTime', $currentTime); 
                 $this->db->bind(':scheduleDate', $schedule['date']);
-                $this->db->bind(':scheduleTime', $schedule['departureTime ']);
+                $this->db->bind(':scheduleTime', $schedule['departureTime']);
                 $this->db->bind(':noOfSeats', $bookingData['noOfSeats']);
                 $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
                 $this->db->bind(':userId', $bookingData['User_id']);                      
@@ -494,7 +494,7 @@
 
         public function getPastNotArrivedBookings($userId){
             try{
-                $this->db->query('SELECT * FROM pastregbooking WHERE User_id = :userId AND booking_status = "Not Arrived"');
+                $this->db->query('SELECT * FROM pastregbooking WHERE User_id = :userId AND booking_status = "Not Arrived" AND PenaltyPaid = "Not Paid"');
                 $this->db->bind(':userId', $userId);
                 return $this->db->resultSet();
             }catch (Exception $e) {
@@ -504,6 +504,40 @@
             }
         }
 
+        public function markPenaltyPaid($userId){
+            try{
+                $this->db->query('UPDATE pastregbooking SET PenaltyPaid = "Paid" WHERE User_id = :userId AND booking_status = "Not Arrived"AND PenaltyPaid = "Not Paid"');
+                $this->db->bind(':userId', $userId);
+                return $this->db->execute();
+            }catch (Exception $e) {
+                error_log("Error updating: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
+
+        public function sendPenaltyPaidNotification($userId , $penaltyFee){
+            try{
+                $title = "Penalty Fee Paid";
+                $message = "Thank you for paying the penalty fee of $penaltyFee.";
+                $link = NULL;
+                $createdAt = date("Y-m-d H:i:s");
+
+                // Step 4: Insert notification for each user
+                $this->db->query("INSERT INTO notifications (user_id, title, message, link, is_read, is_seen, is_deleted, created_at, is_dismissed)
+                                VALUES (:user_id, :title, :message, :link, 0, 0, 0, :created_at, 0)");
+                $this->db->bind(':user_id', $userId);
+                $this->db->bind(':title', $title);
+                $this->db->bind(':message', $message);
+                $this->db->bind(':link', $link);
+                $this->db->bind(':created_at', $createdAt);
+                $this->db->execute();
+            }catch  (Exception $e){
+                error_log("Error Inserting: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
     }
 
 ?>

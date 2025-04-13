@@ -25,6 +25,7 @@
             $busData = $data['bus'] ?? [];
             $routeData = $data['route'] ?? [];
             $distanceData = $data['distance'] ?? [];
+            $pastNotArrivedBookings = $data['pastNotArrivedBookings'] ?? [];
 
             // Retrieve the user role from the form submission or session
             $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');

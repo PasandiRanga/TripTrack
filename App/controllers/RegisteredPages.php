@@ -72,7 +72,8 @@
                 'distance' => $distance,
                 'user'=> $user,
                 'route' => $route,
-                'notifications' => $notifications
+                'notifications' => $notifications,
+                'pastNotArrivedBookings' => $pastNotArrivedBookings
             ];
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);
@@ -374,6 +375,8 @@
             
 
                 try {
+
+                    
                     
 
                     // Generate QR Code text
@@ -392,6 +395,16 @@
                     $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];
                     $bookingData['qrCodeFilename'] = $qrData['qrCodeFilename'];
 
+                    if(isset($_POST['penaltyFee']) && $_POST['penaltyFee'] > 0 && isset($_SESSION['user_id']) ){
+                        $penaltyFee = floatval($_POST['penaltyFee']);
+                        $userId = $_SESSION['user_id'];
+
+                        $this->RegisteredpagesModel->MarkPenaltyPaid($userId);
+
+                        $this->RegisteredpagesModel->sendPenaltyPaidNotification($userId , $penaltyFee);
+                    }
+
+
                     // Save booking details
                     $this->RegisteredpagesModel->createBooking($bookingData);
                     
@@ -400,6 +413,7 @@
 
                     // Send booking confirmation email
                     $this->sendBookingEmail($bookingData);
+
 
                     // Load Receipt View
                     $this->view('inc/Components/Receipt/RegisteredReceipt', [
