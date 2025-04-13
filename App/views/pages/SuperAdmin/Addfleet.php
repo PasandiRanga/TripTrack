@@ -84,10 +84,29 @@
 
 </form>
 
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <p id="popupMessage"></p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", function(){
+        function showPopup(message) {
+            const popupOverlay = document.getElementById("popupOverlay");
+            const popupMessage = document.getElementById("popupMessage");
+
+            popupMessage.innerText = message;
+            popupOverlay.style.display = "flex";
+        }
+
+        function closePopup() {
+            const popupOverlay = document.getElementById("popupOverlay");
+            popupOverlay.style.display = "none";
+        }
+
+    document.addEventListener("DOMContentLoaded", function() {
         function goBack() {
             window.history.back();
         }
@@ -104,7 +123,6 @@
             }
         });
 
-
         document.getElementById("fleet-form").addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -116,7 +134,6 @@
                 passengers: document.getElementById("passengers").value.trim(),
                 price: document.getElementById("price").value.trim(),
                 priceperkm: document.getElementById("priceperkm").value.trim()
-
             };
 
             console.log("Form Data:", formData);
@@ -126,7 +143,6 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             })
-
                 .then(response => response.text()) // Get text response first
                 .then(text => {
                     try {
@@ -137,13 +153,15 @@
                 })
                 .then(data => {
                     if (data.status === "success") {
-                        alert("Fleet added successfully!");
-                        window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
+                        showPopup("Fleet added successfully!");
+                        setTimeout(() => {
+                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
+                        }, 2000); // Redirect after 2 seconds
                     } else {
-                        alert("Error: " + data.message);
+                        showPopup("Error: " + data.message);
                     }
                 })
-                .catch(error => alert("An error occurred: " + error.message));
+                .catch(error => showPopup("An error occurred: " + error.message));
         });
 
         // Clear form fields

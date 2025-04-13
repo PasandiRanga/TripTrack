@@ -25,6 +25,7 @@
             $busData = $data['bus'] ?? [];
             $routeData = $data['route'] ?? [];
             $distanceData = $data['distance'] ?? [];
+            $pastNotArrivedBookings = $data['pastNotArrivedBookings'] ?? [];
 
             // Retrieve the user role from the form submission or session
             $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
@@ -37,17 +38,16 @@
             } elseif ($formUserRole === 'RegisteredUser') {
                 $userRole = 'RegisteredUser';
                 $currentController = 'RegisteredPages';
+                $notifications = $data['notifications'];
             } else {
                 $userRole = 'GuestUser'; // Default to GuestUser if no valid role is provided
                 $currentController = 'GuestPages';
             }
 
             // Pass data to the template
-            $data = [
-                'currentController' => $currentController,
-                'currentMethod' => 'home', // Adjust as needed
-                'userRole' => $userRole
-            ];
+            $data['currentController'] = $currentController;
+            $data['currentMethod'] = 'home';
+            $data['userRole'] = $userRole;
 
             include 'seatData.php';
                 

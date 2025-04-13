@@ -88,6 +88,7 @@
             <input type="hidden" name="selectedSeats" value="<?php echo htmlspecialchars($_POST['selectedSeats']); ?>">
             <input type="hidden" name="paymentMethod" value="<?php echo htmlspecialchars($_POST['paymentMethod']); ?>">
             <input type="hidden" name="totalPrice" value="<?php echo htmlspecialchars($_POST['totalPrice']); ?>">
+            <input type="hidden" name="penaltyFee" value="<?php echo htmlspecialchars($_POST['penaltyFee']); ?>">
         <?php endif; ?>
 
             <div class="form-group">
