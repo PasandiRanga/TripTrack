@@ -419,11 +419,12 @@
                 $currentDate = date('Y-m-d'); 
                 $currentTime = date('H:i:s'); 
 
-                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , qrcode_path) 
-                                        VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod , :booking_status, :qrcode_path);");
+                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate,departureTime, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , qrcode_path) 
+                                        VALUES (:bookingDate, :bookingTime, :scheduleDate,:scheduleTime, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod , :booking_status, :qrcode_path);");
                 $this->db->bind(':bookingDate', $currentDate); 
                 $this->db->bind(':bookingTime', $currentTime); 
                 $this->db->bind(':scheduleDate', $schedule['date']);
+                $this->db->bind(':scheduleTime', $schedule['departureTime ']);
                 $this->db->bind(':noOfSeats', $bookingData['noOfSeats']);
                 $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
                 $this->db->bind(':userId', $bookingData['User_id']);                      

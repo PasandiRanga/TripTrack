@@ -1,7 +1,3 @@
-<?php
-    require_once APPROOT.'/helpers/auth_check.php';
-    authCheck(['RegisteredUser' , 'GuestUser']);
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,8 +10,6 @@
         <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/BusLayout/seatLayout.css?v=<?php echo time(); ?>">
         <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
         <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
     </head>
     <body>
         <script>
@@ -31,9 +25,6 @@
             $busData = $data['bus'] ?? [];
             $routeData = $data['route'] ?? [];
             $distanceData = $data['distance'] ?? [];
-            $notifications = $data['notifications'] ?? [];
-            echo '<script>console.log("Notifications in page:", ' . json_encode($notifications) . ');</script>';
-
 
             // Retrieve the user role from the form submission or session
             $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
@@ -46,16 +37,16 @@
             } elseif ($formUserRole === 'RegisteredUser') {
                 $userRole = 'RegisteredUser';
                 $currentController = 'RegisteredPages';
+                $notifications = $data['notifications'];
             } else {
                 $userRole = 'GuestUser'; // Default to GuestUser if no valid role is provided
                 $currentController = 'GuestPages';
             }
 
             // Pass data to the template
-            $data['currentController'] = 'RegisteredPages';
-            $data['currentMethod'] = 'Home';
+            $data['currentController'] = $currentController;
+            $data['currentMethod'] = 'home';
             $data['userRole'] = $userRole;
-            
 
             include 'seatData.php';
                 
@@ -135,11 +126,10 @@
             }
         ?>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
         <div class="hero-container">
             <br/>
             <?php require APPROOT . '/views/inc/Components/Header/header.php'; ?>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
    
             <div class="layout-container">
                 <div class="seat-layout">
