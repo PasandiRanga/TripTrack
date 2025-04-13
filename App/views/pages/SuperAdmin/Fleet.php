@@ -125,31 +125,78 @@
     </table>
     </div>
 
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <p id="popupMessage"></p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+        <!-- Delete Confirmation Popup -->
+    <div class="popup-overlay" id="deletePopupOverlay">
+        <div class="popup-box">
+            <p id="deletePopupMessage">Are you sure you want to delete this schedule?</p>
+            <div class="popup-buttons">
+                <button class="confirm-btn" id="confirmDeleteBtn">Yes</button>
+                <button class="cancel-btn" onclick="closeDeletePopup()">No</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+
+        function showPopup(message) {
+            const popupOverlay = document.getElementById("popupOverlay");
+            const popupMessage = document.getElementById("popupMessage");
+
+            popupMessage.innerText = message;
+            popupOverlay.style.display = "flex";
+        }
+
+        function closePopup() {
+            const popupOverlay = document.getElementById("popupOverlay");
+            popupOverlay.style.display = "none";
+        }
         // Delete Bus Function
         function deleteBus(License_id) {
-            if (confirm("Are you sure you want to delete this bus?")) {
-                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteBus', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ License_id })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // Find the row with the matching License_id and remove it
-                        const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
-                        const row = rows.find(row => row.cells[0].innerText === License_id);
-                        if (row) {
-                            row.remove(); // Remove the row if it matches the License_id
-                        }
-                        alert(data.message);
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(() => alert('Error deleting the bus from the fleet.'));
-            }
+            const deletePopupOverlay = document.getElementById("deletePopupOverlay");
+            const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+            // Show the delete confirmation popup
+            deletePopupOverlay.style.display = "flex";
+
+            // Attach event listener to the confirm button
+            confirmDeleteBtn.onclick = function () {
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteBus', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ License_id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                // Find the row with the matching License_id and remove it
+                const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
+                const row = rows.find(row => row.cells[0].innerText === License_id);
+                if (row) {
+                    row.remove(); // Remove the row if it matches the License_id
+                }
+                showPopup(data.message); // Show success popup
+                } else {
+                showPopup(data.message); // Show error popup
+                }
+            })
+            .catch(() => showPopup('Error deleting the bus from the fleet.'))
+            .finally(() => {
+                // Hide the delete confirmation popup
+                deletePopupOverlay.style.display = "none";
+            });
+            };
+        }
+
+        function closeDeletePopup() {
+            const deletePopupOverlay = document.getElementById("deletePopupOverlay");
+            deletePopupOverlay.style.display = "none";
         }
 
 
