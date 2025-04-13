@@ -225,7 +225,9 @@
                 echo("<script>console.log('Refund amount2: $refund_amount');</script>");          
 
                 $cancellationData = $this->RegisteredpagesModel->getCancellationDetails($bookingId, $_SESSION['user_id']);
-                
+
+                $this->sendcancellationEmail($cancellationData);
+
                 if ($bookingId) {
                     $data = [
                         'booking_id' => $bookingId,
@@ -234,6 +236,7 @@
                         'bankDetails' => $bankDetails,
                         'cancellationData' => $cancellationData,
                     ];
+
                     $this->view('inc/Components/CancellationReceipt/cancellationReceipt', $data);
                 } else {
                     header("Location: " . URLROOT . "/RegisteredPages/newbookings?error=Invalid booking ID");
@@ -439,6 +442,77 @@
 
         private function sendBookingEmail($bookingData) {
             $mail = new PHPMailer(true);
+            
+            try {
+                // SMTP Configuration using defined constants
+                $mail->isSMTP();
+                $mail->Host       = SMTP_HOST;
+                $mail->SMTPAuth   = true;
+                $mail->Username   = SMTP_EMAIL;
+                $mail->Password   = SMTP_PASSWORD;
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = SMTP_PORT;
+                
+                // Email Headers
+                $mail->setFrom(SMTP_EMAIL, 'TripTrack');
+                $mail->addAddress($bookingData['email'], $bookingData['name']);
+                
+                // Attach the QR code image as inline image
+                $qrCodePath = APPROOT . "/public/qrcodes/" . $bookingData['qrCodeFilename']; // Ensure you pass the filename too
+                $mail->addEmbeddedImage($qrCodePath, 'qr_code_image', 'qr_code.png', 'base64', 'image/png');
+                
+                // Email content
+                $mail->isHTML(true);
+                $mail->Subject = 'Your Booking Confirmation - TripTrack';
+                $mail->Body = '
+                <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+                    <div style="text-align: center; background-color: #f8f8f8; padding: 10px; margin-bottom: 20px; border-radius: 3px;">
+                        <h2 style="color: #2c3e50; margin: 0;">Booking Confirmation</h2>
+                    </div>
+                    
+                    <p>Dear ' . htmlspecialchars($bookingData['name']) . ',</p>
+                    <p>Thank you for booking with TripTrack. Here are your booking details:</p>
+                    
+                    <table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd; margin: 20px 0;">
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['name']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['email']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Contact:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['contact']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>NIC:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['nic']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>From:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['from']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>To:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['to']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Bus ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['License_id']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Schedule ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['scheduleId']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Number of Seats:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['noOfSeats']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Seats:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['selectedSeats']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Price:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">Rs. ' . htmlspecialchars($bookingData['totalPrice']) . '</td></tr>
+                    </table>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <h3 style="color: #2c3e50;">Your QR Code</h3>
+                        <p>Scan the QR code below for your booking details:</p>
+                        <img src="cid:qr_code_image" alt="QR Code" style="width: 200px; height: 200px; border: 1px solid #ddd; padding: 5px;"/>
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p>We look forward to serving you.</p>
+                        <p>Best regards,<br>
+                        <b>TripTrack Team</b></p>
+                    </div>
+                    
+                    <div style="margin-top: 20px; font-size: 12px; color: #777; text-align: center;">
+                        <p>If you have any questions regarding your booking, please contact our customer service.</p>
+                        <p>© ' . date('Y') . ' TripTrack. All rights reserved.</p>
+                    </div>
+                </div>';
+                
+                $mail->send();
+            } catch (Exception $e) {
+                error_log("Email could not be sent. Error: {$mail->ErrorInfo}");
+            }
+        }
+
+        public function sendCancellationEmail($cancellationData) {
+            $mail = new PHPMailer(true);
 
             try {
                 // SMTP Configuration using defined constants
@@ -452,47 +526,88 @@
 
                 // Email Headers
                 $mail->setFrom(SMTP_EMAIL, 'TripTrack');
-                $mail->addAddress($bookingData['email'], $bookingData['name']);
 
-                // Attach the QR code image as inline image
-                $qrCodePath = APPROOT . "/public/qrcodes/" . $bookingData['qrCodeFilename']; // Ensure you pass the filename too
-                $mail->addEmbeddedImage($qrCodePath, 'qr_code_image', 'qr_code.png', 'base64', 'image/png');
+                $userData = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+                $mail->addAddress($userData['Email'], $userData['Name']);
 
                 // Email content
                 $mail->isHTML(true);
-                $mail->Subject = 'Your Booking Confirmation - TripTrack';
+                $mail->Subject = 'Your Booking Cancellation - TripTrack';
+
+                // Determine if it's an online or cash booking based on payment method
+                $isOnlineBooking = ($cancellationData['paymentMethod'] != 'Cash');
+                
                 $mail->Body = '
-                <div style="font-family: Arial, sans-serif; color: #333;">
-                    <h2>Booking Confirmation</h2>
-                    <p>Dear ' . htmlspecialchars($bookingData['name']) . ',</p>
-                    <p>Thank you for booking with TripTrack. Here are your booking details:</p>
+                <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+                    <div style="text-align: center; background-color: #f8f8f8; padding: 10px; margin-bottom: 20px; border-radius: 3px;">
+                        <h2 style="color: #2c3e50; margin: 0;">Booking Cancellation Confirmation</h2>
+                    </div>
                     
-                    <table style="border-collapse: collapse; width: 100%;">
-                        <tr><td><strong>Name:</strong></td><td>' . htmlspecialchars($bookingData['name']) . '</td></tr>
-                        <tr><td><strong>Email:</strong></td><td>' . htmlspecialchars($bookingData['email']) . '</td></tr>
-                        <tr><td><strong>Contact:</strong></td><td>' . htmlspecialchars($bookingData['contact']) . '</td></tr>
-                        <tr><td><strong>NIC:</strong></td><td>' . htmlspecialchars($bookingData['nic']) . '</td></tr>
-                        <tr><td><strong>From:</strong></td><td>' . htmlspecialchars($bookingData['from']) . '</td></tr>
-                        <tr><td><strong>To:</strong></td><td>' . htmlspecialchars($bookingData['to']) . '</td></tr>
-                        <tr><td><strong>Bus ID:</strong></td><td>' . htmlspecialchars($bookingData['License_id']) . '</td></tr>
-                        <tr><td><strong>Schedule ID:</strong></td><td>' . htmlspecialchars($bookingData['scheduleId']) . '</td></tr>
-                        <tr><td><strong>Number of Seats:</strong></td><td>' . htmlspecialchars($bookingData['noOfSeats']) . '</td></tr>
-                        <tr><td><strong>Seats:</strong></td><td>' . htmlspecialchars($bookingData['selectedSeats']) . '</td></tr>
-                        <tr><td><strong>Total Price:</strong></td><td>Rs. ' . htmlspecialchars($bookingData['totalPrice']) . '</td></tr>
+                    <p>Dear ' . htmlspecialchars($userData['Name']) . ',</p>
+                    <p>Your booking with TripTrack has been successfully cancelled. Here are the details of the cancelled booking:</p>
+                    
+                    <table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd; margin: 20px 0;">
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Booking ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['id']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Booking Date:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['Booking_date']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Booking Time:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['Booking_time']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>From:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['from_location']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>To:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['to_location']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Schedule ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['schedule_id']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Number of Seats:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['No_of_seats']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Seats:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['Seats']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Original Price:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">Rs. ' . htmlspecialchars($cancellationData['total_price']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Payment Method:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['paymentMethod']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Cancellation Fee:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">Rs. ' . htmlspecialchars($cancellationData['cancellation_fee']) . '</td></tr>';
+                        
+                // Show refund amount only for online bookings
+                if ($isOnlineBooking) {
+                    $mail->Body .= '
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Refund Amount:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">Rs. ' . htmlspecialchars($cancellationData['refund_amount']) . '</td></tr>';
+                }
+                        
+                $mail->Body .= '
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Cancellation Date:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['time_date']) . '</td></tr>';
+                
+                // Add account details only for online bookings
+                if ($isOnlineBooking) {
+                    $mail->Body .= '
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Account Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['account_name']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Account Number:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['account_number']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Bank Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['bank_name']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Branch Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['branch_name']) . '</td></tr>';
+                }
+                
+                $mail->Body .= '    
                     </table>
-
-                    <h3>Your QR Code</h3>
-                    <p>Scan the QR code below for your booking details:</p>
-                    <img src="cid:qr_code_image" alt="QR Code" style="width: 200px; height: 200px;"/>
-
-
-                    <p>We look forward to serving you.</p>
-                    <p>Best regards,<br>TripTrack Team</p>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #2c3e50; border-radius: 3px;">';
+                
+                // Add specific refund message for online bookings
+                if ($isOnlineBooking) {
+                    $mail->Body .= '<strong>Important Note:</strong> Your refund of Rs. ' . htmlspecialchars($cancellationData['refund_amount']) . ' will be deposited to your provided bank account within 2 to 3 business days.';
+                } else {
+                    $mail->Body .= 'Please note that as this was a cash booking, no refund will be processed through the system.';
+                }
+                
+                $mail->Body .= '
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p>If you have any questions regarding this cancellation or would like to make a new booking, please contact our customer service.</p>
+                        <p>Thank you for choosing TripTrack.</p>
+                        <p>Best regards,<br><b>TripTrack Team</b></p>
+                    </div>
+                    
+                    <div style="margin-top: 20px; font-size: 12px; color: #777; text-align: center;">
+                        <p>© ' . date('Y') . ' TripTrack. All rights reserved.</p>
+                    </div>
                 </div>';
-
+                
                 $mail->send();
+                return true;
             } catch (Exception $e) {
-                error_log("Email could not be sent. Error: {$mail->ErrorInfo}");
+                error_log("Cancellation email could not be sent. Error: {$mail->ErrorInfo}");
+                return false;
             }
         }
 

@@ -333,6 +333,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <p><strong>Time:</strong> ${schedule.departureTime}</p>
                                     <p><strong>Bus:</strong> ${bus ? bus.License_id : 'N/A'}</p>
                                     <p><strong>Booking ID:</strong> ${booking.id}</p>
+                                    <p><strong>Payment Method:</strong> ${booking.paymentMethod}</p>
+
                                 </div>
                             </div>
                         `;
