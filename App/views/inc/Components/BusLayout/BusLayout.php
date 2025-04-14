@@ -137,9 +137,9 @@
                     <?php require APPROOT . '/views/inc/Components/BusLayout/seatLayout.php'; ?>
                 </div>
                 
-                <div class="map-container">
+                <!-- <div class="map-container">
                     <?php require APPROOT . '/views/inc/Components/busLayout/map.php'; ?>
-                </div>
+                </div> -->
 
                 <div class="all-container"> 
                     <!-- Bus info and review -->

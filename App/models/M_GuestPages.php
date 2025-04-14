@@ -229,6 +229,82 @@
             return $this->db->execute();
         }
 
-        
-    }
+
+        public function setPasswordResetToken($email, $token, $expiry) {
+            try {
+                // First, check if a reset record already exists for this user
+                $this->db->query('SELECT * FROM password_resets WHERE email = :email');
+                $this->db->bind(':email', $email);
+                $existing = $this->db->single();
+                
+                if ($this->db->rowCount() > 0) {
+                    // Update existing token
+                    $this->db->query('UPDATE password_resets SET token = :token, expiry = :expiry WHERE email = :email');
+                } else {
+                    // Insert new token
+                    $this->db->query('INSERT INTO password_resets (email, token, expiry) VALUES (:email, :token, :expiry)');
+                }
+                
+                // Bind values
+                $this->db->bind(':email', $email);
+                $this->db->bind(':token', $token);
+                $this->db->bind(':expiry', $expiry);
+                
+                if ($this->db->execute()) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } catch (Exception $e) {
+                    error_log('Error setting password reset token: ' . $e->getMessage());
+                    return false;
+                }
+            }
+
+            public function checkResetToken($email) {
+                $this->db->query('SELECT * FROM password_resets WHERE email = :email');
+                $this->db->bind(':email', $email);
+                $row = $this->db->single();
+                
+                if ($this->db->rowCount() > 0) {
+                    return $row;
+                } else {
+                    return false;
+                }
+            }
+
+            public function resetPassword($email, $password) {
+                try {
+                    // Start transaction
+                    $this->db->beginTransaction();
+                    
+                    // Update user password
+                    $this->db->query('UPDATE customer SET Password = :password WHERE Email = :email');
+                    $this->db->bind(':password', $password);
+                    $this->db->bind(':email', $email);
+                    if($this->db->execute()){
+                        echo "Password changed";
+                        
+                    }
+                 
+                    // Remove reset token
+                    $this->db->query('DELETE FROM password_resets WHERE email = :email');
+                    $this->db->bind(':email', $email);
+                    if($this->db->execute()){
+                        echo "Reset deleted";
+                        
+                    }
+                    
+                    // Commit transaction
+                    $this->db->endTransaction();
+                    
+                    return true;
+                } catch (Exception $e) {
+                // Rollback transaction if something went wrong
+                    $this->db->rollBack();
+                    error_log('Error resetting password: ' . $e->getMessage());
+                    return false;
+                }
+            }
+        }
 ?>
