@@ -129,38 +129,58 @@
                     $scheduleId = $data['schedule_id'];
                     $seats = $data['seats'];
 
-                    $this->ConductorpagesModel->addAcceptedSeats($seats);
+                    $seatsString = '"' . implode(', ', $seats) . '"';
+
+                    //error_log("booking details: " . $seatsString);
+
+                    $response = [
+                        'message' => 'Data received',
+                        'schedule_id' => $scheduleId,
+                        'seats' => $seatsString
+                    ];
+
+                    $this->ConductorpagesModel->updateAcceptedSeats($seats, $scheduleId);
+
+                    $result = false;
 
                     // Attempt to get booking from guest bookings
-                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
-
-                    // If not found in guest bookings, try registered bookings
-                    if (!$booking) {
-                        $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsString);
+                    error_log("booking details: " . print_r($booking, true));
+                    if($booking) {
+                        $result = $this->ConductorpagesModel->insertPastGuestBooking($booking);
+                        error_log("booking details after insert: " . print_r($booking, true));
+                    }else {
+                        // If not found in guest bookings, try registered bookings
+                        $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsString);
+                        if ($booking) {
+                            $result = $this->ConductorpagesModel->insertPastRegBooking($booking);
+                        }
                     }
 
-                    // If booking was found
-                    if ($booking) {
-                        // Try to insert into past bookings
-                        $result = $this->ConductorpagesModel->insertPastBooking($booking);
-
+                    if($booking) {
                         if ($result) {
-                            echo json_encode(['message' => 'Booking verified and recorded successfully']);
+                            $response['message'] = 'Booking verified and recorded successfully';
                         } else {
                             http_response_code(500);
-                            echo json_encode(['message' => 'Failed to record booking']);
+                            $response['status'] = 'error';
+                            $response['message'] = 'Failed to record booking';
                         }
                     } else {
                         http_response_code(404);
-                        echo json_encode(['message' => 'Booking not found with the provided details']);
+                        $response['status'] = 'error';
+                        $response['message'] = 'Booking not found with the provided details';
                     }
+                    echo json_encode($response);
+
                 } catch (Exception $e) {
                     http_response_code(500);
-                    echo json_encode(['message' => 'Server error: ' . $e->getMessage()]);
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'Server error: ' . $e->getMessage()]);
                 }
             } else {
                 http_response_code(405); // Method Not Allowed
-                echo json_encode(['message' => 'Only POST requests are allowed']);
+                echo json_encode(['status' => 'error', 'message' => 'Only POST requests are allowed']);
             }
         }
         

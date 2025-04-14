@@ -119,7 +119,7 @@ authCheck(['Conductor', 'Driver']);
                         let seatArray = rawSeats.split(',').map(seat => seat.trim());
 
                         // Add quotes around the joined string
-                        data["Seats"] = `"${seatArray.join(', ')}"`;  // << this adds the quotes
+                        data["Seats"] = seatArray;
                     }
                 });
 
@@ -132,6 +132,7 @@ authCheck(['Conductor', 'Driver']);
             }
 
             function sendToServer(scheduleId, seats) {
+                console.log("Sending to server:", scheduleId, seats);
                 fetch('<?php echo URLROOT; ?>/ConductorPages/processScannedQR', {
                     method: 'POST',
                     headers: {
@@ -149,8 +150,15 @@ authCheck(['Conductor', 'Driver']);
                     return res.json();
                 })
                 .then(data => {
-                    console.log(data.message);
-                    // Optional: Show message to user
+                    console.log('Response from server:', data);
+
+                    if (data.status === 'success') {
+                        document.getElementById('qrResultText').innerHTML +=
+                            `<p class="success">${data.message}</p>`;
+                    } else {
+                        document.getElementById('qrResultText').innerHTML +=
+                            `<p class="error">${data.message}</p>`;
+                    }
                 })
                 .catch(err => {
                     console.error('Error:', err);
