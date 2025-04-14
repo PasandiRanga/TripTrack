@@ -64,7 +64,7 @@
     // ];
 
     $data['currentController'] = 'RegisteredPages';
-    $data['currentMethod'] = 'allNotifications';
+    $data['currentMethod'] = 'home';
     $data['userRole'] = $userRole;
     // echo '<pre>' . print_r($headerData,true) . '</pre>';
 

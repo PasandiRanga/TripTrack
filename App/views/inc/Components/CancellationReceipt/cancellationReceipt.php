@@ -61,10 +61,12 @@
                 <span class="detail-label">Cancellation Fee :</span>
                 <span class="detail-value amount-highlight fee-amount"><?php echo $cancellationData['cancellation_fee']?></span>
             </div>
-            <div class="detail-row">
-                <span class="detail-label">Refund Amount:</span>
-                <span class="detail-value amount-highlight refund-amount"><?php echo $cancellationData['refund_amount']?></span>
-            </div>
+            <?php if($cancellationData['paymentMethod'] === 'Online'): ?>
+                <div class="detail-row">
+                    <span class="detail-label">Refund Amount:</span>
+                    <span class="detail-value amount-highlight refund-amount"><?php echo $cancellationData['refund_amount']?></span>
+                </div>
+            <?php endif; ?>
         </div>
         
         <?php if($cancellationData['paymentMethod'] === 'Online'): ?>

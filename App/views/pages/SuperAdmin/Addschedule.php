@@ -103,6 +103,13 @@
         </div>
     </form>
 
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <p id="popupMessage"></p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
 <script>
 
  document.addEventListener("DOMContentLoaded", function () {
@@ -111,6 +118,22 @@
             document.getElementById("schedule-form").reset();
             document.getElementById("scheduleId").value = ""; // Clear schedule ID
         }
+
+         // Function to show the popup
+        function showPopup(message) {
+            const popupOverlay = document.getElementById("popupOverlay");
+            const popupMessage = document.getElementById("popupMessage");
+
+            popupMessage.innerText = message;
+            popupOverlay.style.display = "flex";
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            const popupOverlay = document.getElementById("popupOverlay");
+            popupOverlay.style.display = "none";
+        }
+
 
         // Function to update availableSeats when License_id is selected
         document.getElementById("License_id").addEventListener("change", function () {
@@ -223,10 +246,10 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
-
-                        alert(isUpdate ? "Schedule updated successfully!" : "Schedule added successfully!");
-
-                        window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/schedule';
+                        showPopup(isUpdate ? "Schedule updated successfully!" : "Schedule added successfully!");
+                        document.getElementById("popupOverlay").querySelector("button").onclick = function () {
+                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/schedule';
+                        };
                     } else {
                         alert("Error: " + data.message);
                     }
