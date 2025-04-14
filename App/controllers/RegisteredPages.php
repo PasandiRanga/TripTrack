@@ -865,7 +865,31 @@
             'success' => $success
         ]);
     }
-        
+       
+    // public function addReviews() {
+    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+    //         $data = [
+    //             'user_id' => $_POST['user_id'],
+    //             'license_id' => $_POST['license_id'],
+    //             'rate' => $_POST['rating'],
+    //             'review' => trim($_POST['opinion']),
+    //             'date' => date('Y-m-d'),
+    //             'time' => date('H:i:s')
+    //         ];
+
+    //         if ($this->RegisteredpagesModel->addReview($data)) {
+    //             // redirect to previous or success page
+    //             redirect('RegisteredPages/newBookings'); 
+    //         } else {
+    //             die('Something went wrong');
+    //         }
+    //     } else {
+    //         redirect('RegisteredPages/newBookings');
+    //     }
+    // }
+
 
 
     }  

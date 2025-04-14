@@ -336,6 +336,7 @@
             }
         }
         
+
         public function updateProfile($data) {
             $this->db->query("UPDATE customer 
                               SET Name = :name, Email = :email, Contact_number = :contact_number, NIC = :nic, Address = :address 
@@ -418,12 +419,11 @@
                 $currentDate = date('Y-m-d'); 
                 $currentTime = date('H:i:s'); 
 
-                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate,departureTime, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , qrcode_path) 
-                                        VALUES (:bookingDate, :bookingTime, :scheduleDate,:scheduleTime, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod , :booking_status, :qrcode_path);");
+                $this->db->query("INSERT INTO RegisteredBooking (booking_date, booking_time,scheduleDate, number_of_seats, selected_seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , qrcode_path) 
+                                        VALUES (:bookingDate, :bookingTime, :scheduleDate, :noOfSeats, :selectedSeats, :userId, :scheduleId, :fromLocation, :toLocation, :totalPrice, :paymentMethod , :booking_status, :qrcode_path);");
                 $this->db->bind(':bookingDate', $currentDate); 
                 $this->db->bind(':bookingTime', $currentTime); 
                 $this->db->bind(':scheduleDate', $schedule['date']);
-                $this->db->bind(':scheduleTime', $schedule['departureTime']);
                 $this->db->bind(':noOfSeats', $bookingData['noOfSeats']);
                 $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
                 $this->db->bind(':userId', $bookingData['User_id']);                      
@@ -484,6 +484,52 @@
             }
         }
 
+        /*
+        public function updatePastBookings() {
+            $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id IN (SELECT scheduleId FROM schedule WHERE date < CURDATE())");
+            $pastBookings = $this->db->resultSet();
+            $successCount = 0;
+
+        //     // if(!empty($pastBookings)) {
+        //     //     echo '<pre>';
+        //     //     print_r($pastBookings[0]);
+        //     //     echo '</pre>';
+        //     //     exit;
+        //     // }
+            
+        //     if($pastBookings){
+        //         foreach($pastBookings as $pastBooking){
+        //             //Inserting it to regPastBooking table
+        //             $this->db->query("INSERT INTO pastregbooking(id, Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
+        //                             VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod);");
+                    
+        //             $this->db->bind(':id', $pastBooking['id']);
+        //             $this->db->bind(':Booking_date', $pastBooking['Booking_date']);
+        //             $this->db->bind(':Booking_time', $pastBooking['Booking_time']);
+        //             $this->db->bind(':No_of_seats', $pastBooking['No_of_seats']);
+        //             $this->db->bind(':Seats', $pastBooking['Seats']);
+        //             $this->db->bind(':User_id', $pastBooking['User_id']);
+        //             $this->db->bind(':schedule_id', $pastBooking['schedule_id']);
+        //             $this->db->bind(':from_location', $pastBooking['from_location']);
+        //             $this->db->bind(':to_location', $pastBooking['to_location']);
+        //             $this->db->bind(':total_price', $pastBooking['total_price']);
+        //             $this->db->bind(':paymentMethod', $pastBooking['paymentMethod']);
+                    
+        //             if($this->db->execute()) {
+        //                 // Successfully inserted, now delete from registeredbooking
+        //                 $this->db->query("DELETE FROM registeredbooking WHERE id = :id");
+        //                 $this->db->bind(':id', $pastBooking['id']);
+        //                 $this->db->execute();
+        //                 $successCount++;
+        //             }
+        //         }
+        //     }
+
+            
+            
+            return $successCount; // Return the number of successfully processed bookings
+        }
+        */
         public function updateProfileImage($userId, $imagePath) {
             $this->db->query('UPDATE customer SET Profile_image = :image WHERE User_id = :id');
             $this->db->bind(':image', $imagePath);
@@ -538,6 +584,21 @@
                 return [];
             }
         }
+        // public function addReview($data) {
+        //     $this->db->query("INSERT INTO ratings (User_id, License_id, rate, review, Date, Time) 
+        //                     VALUES (:user_id, :license_id, :rate, :review, :date, :time)");
+
+        //     $this->db->bind(':user_id', $data['user_id']);
+        //     $this->db->bind(':license_id', $data['license_id']);
+        //     $this->db->bind(':rate', $data['rate']);
+        //     $this->db->bind(':review', $data['review']);
+        //     $this->db->bind(':date', $data['date']);
+        //     $this->db->bind(':time', $data['time']);
+
+        //     return $this->db->execute();
+        // }
+
+
     }
 
 ?>

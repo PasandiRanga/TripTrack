@@ -166,8 +166,9 @@
     <div id="reviewPopup" class="popup hidden">
         <div class="reviewPopup-content">
             <div id="review-popup-details"></div>
-            <h3>Your Idea</h3>
-            <form action="#">
+            <h3>Tell Us How the Wheels Rolled!</h3>
+                <form action="#">
+                <!--<form action="<?php echo URLROOT ?>/RegisteredPages/addReviews" method="POST" enctype="multipart/form-data">-->
                 <div class="rating">
                     <input type="number" name="rating" hidden>
                     <i class='bx bx-star star' style="--i: 0;"></i>
@@ -176,10 +177,10 @@
                     <i class='bx bx-star star' style="--i: 3;"></i>
                     <i class='bx bx-star star' style="--i: 4;"></i>
                 </div>
-                <textarea name="opinion" cols="30" rows="5" placeholder="Your opinion..."></textarea>
+                <textarea name="opinion" cols="30" rows="5" placeholder="Let your travel tale ride with us..."></textarea>
                 <div class="popup-actions">
                     <button type="submit" class="post">Post</button>
-                    <button class="cancel-btn">close</button>
+                    <button class="cancel-btn" id="closeButton">close</button>
                 </div>
             </form>    
         </div>
@@ -424,10 +425,16 @@
     }
 
     //close reviewPopup
+    document.getElementById("closeButton").addEventListener("click", function (event) {
+        event.preventDefault();
+        closeReviewBox();
+    });
+
     function closeReviewBox() {
         const popup = document.getElementById("reviewPopup");
         popup.classList.add("hidden");
     }
+
 
     renderCalendar();
 
