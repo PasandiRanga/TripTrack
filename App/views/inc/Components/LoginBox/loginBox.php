@@ -2,34 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/LoginBox/loginBox.css?v=<?php echo time(); ?>">
-    <!-- <style>
-        .password-container {
-            position: relative;
-        }
-        .toggle-password {
-            position: absolute;
-            right: 0.5px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            user-select: none;
-            color: #8c8c8c; 
-            font-size: 20px;
-            z-index: 10;
-        } 
-        /* Maintain consistent styling for both input types */
-        /* input[type="password"] , input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #43cea2;
-            border-radius: 5px;
-            font-size: 1rem;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            outline: none;
-            transition: all 0.3s ease;
-        } */
-        
-    </style> -->
+   
 </head>
 <body>
     <div class="signInContent">
@@ -47,7 +20,7 @@
                     <input type="password" name="password" id="password" 
                            value="<?php echo htmlspecialchars($headerData['password'] ?? ''); ?>" 
                            placeholder="Enter password">
-                    <!-- <span class="toggle-password" id="togglePassword">👁</span> -->
+                    <span class="toggle-password" id="togglePassword"><i class="fas fa-eye-slash"></i>'</span>
                 </div>
                 <span class="form-invalid">
                     <?php echo !empty($headerData['password_err']) ? $headerData['password_err'] : ''; ?>
@@ -76,9 +49,12 @@
                 if (passwordInput.type === 'password') {
                     passwordInput.setAttribute('type', 'text');
                     passwordInput.classList.add('password-visible');
+                    togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
                 } else {
                     passwordInput.setAttribute('type', 'password');
                     passwordInput.classList.remove('password-visible');
+                    togglePassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+
                 }
             });
         });
