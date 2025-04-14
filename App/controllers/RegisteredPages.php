@@ -455,7 +455,7 @@
             ];
         }
 
-        private function sendBookingEmail($bookingData) {
+       private function sendBookingEmail($bookingData) {
             $mail = new PHPMailer(true);
             
             try {
@@ -484,7 +484,7 @@
                     <div style="text-align: center; background-color: #f8f8f8; padding: 10px; margin-bottom: 20px; border-radius: 3px;">
                         <h2 style="color: #2c3e50; margin: 0;">Booking Confirmation</h2>
                     </div>
-                    
+                     
                     <p>Dear ' . htmlspecialchars($bookingData['name']) . ',</p>
                     <p>Thank you for booking with TripTrack. Here are your booking details:</p>
                     
