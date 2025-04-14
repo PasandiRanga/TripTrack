@@ -61,8 +61,13 @@
                         echo "<td>{$schedule['duration']}</td>";
                         echo "<td>{$schedule['availableSeats']}</td>";
                         echo "<td>{$schedule['bookedSeats']}</td>";
-                        echo "<td><button class='update-btn' onclick='updateSchedule(\"{$schedule['scheduleId']}\")'>Update</button></td>";
-                        echo "<td><button class='delete-btn' onclick='deleteSchedule(\"{$schedule['scheduleId']}\")'>Delete</button></td>";
+                        if ($schedule['bookedSeats'] == 0) {
+                            echo "<td><button class='update-btn' onclick='updateSchedule(\"{$schedule['scheduleId']}\")'>Update</button></td>";
+                            echo "<td><button class='delete-btn' onclick='deleteSchedule(\"{$schedule['scheduleId']}\")'>Delete</button></td>";
+                        } else {
+                            echo "<td><button class='update-btn' onclick='showPopup(\"Cannot update a schedule with bookings.\")'>Update</button></td>";
+                            echo "<td><button class='delete-btn' onclick='showPopup(\"Cannot delete a schedule with bookings.\")'>Delete</button></td>";
+                        }
                         echo "</tr>";
                     }
                 } else {
@@ -74,6 +79,25 @@
         </table>
     </div>
 
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <p id="popupMessage"></p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+        <!-- Delete Confirmation Popup -->
+    <div class="popup-overlay" id="deletePopupOverlay">
+        <div class="popup-box">
+            <p id="deletePopupMessage">Are you sure you want to delete this schedule?</p>
+            <div class="popup-buttons">
+                <button class="confirm-btn" id="confirmDeleteBtn">Yes</button>
+                <button class="cancel-btn" onclick="closeDeletePopup()">No</button>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         function selectRow(row) {
             const selectedRow = document.querySelector(".schedule-table tr.selected");
@@ -81,6 +105,19 @@
                 selectedRow.classList.remove("selected");
             }
             row.classList.add("selected");
+        }
+
+        function showPopup(message) {
+            const popupOverlay = document.getElementById("popupOverlay");
+            const popupMessage = document.getElementById("popupMessage");
+
+            popupMessage.innerText = message;
+            popupOverlay.style.display = "flex";
+        }
+
+        function closePopup() {
+            const popupOverlay = document.getElementById("popupOverlay");
+            popupOverlay.style.display = "none";
         }
 
         function updateSchedule(scheduleId) {
@@ -123,27 +160,43 @@
             }
         }
         function deleteSchedule(scheduleId) {
-            if (confirm("Are you sure you want to delete this schedule?")) {
-                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteSchedule', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json'},
-                    body: JSON.stringify({scheduleId})
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.status === 'success'){
-                        const rows = Array.from(document.querySelectorAll("table.schedule-table tbody tr"));
-                        const row = rows.find(row => row.cells[0].innerText.trim() === String(scheduleId));
-                        if(row){
-                            row.remove();
-                        }
-                        alert(data.message);
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(() => alert('Error deleting the schedule.'));
-            }
+            const deletePopupOverlay = document.getElementById("deletePopupOverlay");
+            const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+            // Show the delete confirmation popup
+            deletePopupOverlay.style.display = "flex";
+
+            // Attach a one-time event listener to the confirm button
+            confirmDeleteBtn.onclick = function () {
+            fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteSchedule', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ scheduleId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                const rows = Array.from(document.querySelectorAll("table.schedule-table tbody tr"));
+                const row = rows.find(row => row.cells[0].innerText.trim() === String(scheduleId));
+                if (row) {
+                    row.remove();
+                }
+                showPopup(data.message);
+                } else {
+                showPopup(data.message);
+                }
+            })
+            .catch(() => showPopup('Error deleting the schedule.'))
+            .finally(() => {
+                // Close the delete confirmation popup
+                deletePopupOverlay.style.display = "none";
+            });
+            };
+        }
+
+        function closeDeletePopup() {
+            const deletePopupOverlay = document.getElementById("deletePopupOverlay");
+            deletePopupOverlay.style.display = "none";
         }
     </script>
 </body>

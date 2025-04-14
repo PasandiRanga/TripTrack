@@ -46,8 +46,12 @@
         <input type="email" id="email" name="email" placeholder="Enter Email" value="<?php echo $email; ?>" required>
 
         <?php if (!$isUpdate): ?>
+
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter Password" required>
+        
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
 
             <label for="role">Role:</label>
             <select id="role" name="role" required>
@@ -69,6 +73,10 @@
     </form>
 
 <script>
+    document.getElementById('togglePassword').addEventListener('change', function() {
+        const passwordField = document.getElementById('password');
+        passwordField.type = this.checked ? 'text' : 'password';
+    });
     function clearForm() {
         document.getElementById("userForm").reset();
     }
@@ -76,13 +84,21 @@
     function addEmployee() {
         const endpoint = '<?php echo URLROOT; ?>/SuperAdminPages/addemp';
 
+        const password = document.getElementById("password").value.trim();
+        const confirmPassword = document.getElementById("confirm_password").value.trim();
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match. Please try again.");
+            return;
+        }
+
         const formData = {
             name: document.getElementById("name").value.trim(),
             nic: document.getElementById("nic").value.trim(),
             address: document.getElementById("address").value.trim(),
             contactNo: document.getElementById("contactNo").value.trim(),
             email: document.getElementById("email").value.trim(),
-            password: document.getElementById("password").value.trim(),
+            password: password,
             role: document.getElementById("role").value.trim()
         };
 

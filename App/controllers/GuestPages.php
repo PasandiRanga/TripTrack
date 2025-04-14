@@ -35,7 +35,6 @@
             $this->view('pages/GuestUser/home', $data);
         }
 
-
         public function contact() {
             $this->view('pages/GuestUser/contactus');
         }
@@ -141,8 +140,6 @@
             ];
         }
 
-
-
         private function sendBookingEmail($bookingData) {
             $mail = new PHPMailer(true);
 
@@ -201,7 +198,6 @@
                 error_log("Email could not be sent. Error: {$mail->ErrorInfo}");
             }
         }
-
 
         public function PaymentPortal(){
             $this->view('inc/Components/PaymentPortal/paymentPortal');
@@ -495,7 +491,6 @@
             exit();
         }
 
-        
         public function logout(){
             unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
@@ -604,6 +599,259 @@
 
             require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
         }
+
+        public function forgotPassword() {
+            $data = [
+                'email' => '',
+                'email_err' => ''
+            ];
+            
+            $this->view('pages/GuestUser/forgotPassword', $data);
+        }
+
+        function flash($name = '', $message = '', $class = 'alert alert-success') {
+            if (!empty($name)) {
+                if (!empty($message) && empty($_SESSION[$name])) {
+                    if (!empty($_SESSION[$name . '_class'])) {
+                        unset($_SESSION[$name . '_class']);
+                    }
+                    if (!empty($_SESSION[$name])) {
+                        unset($_SESSION[$name]);
+                    }
+                    $_SESSION[$name] = $message;
+                    $_SESSION[$name . '_class'] = $class;
+                } elseif (empty($message) && !empty($_SESSION[$name])) {
+                    $class = !empty($_SESSION[$name . '_class']) ? $_SESSION[$name . '_class'] : '';
+                    echo '<div class="' . $class . '" id="msg-flash">' . $_SESSION[$name] . '</div>';
+                    unset($_SESSION[$name]);
+                    unset($_SESSION[$name . '_class']);
+                }
+            }
+        }
+
+        public function sendPasswordResetEmail($email, $resetLink) {
+            $mail = new PHPMailer(true);
+
+            try {
+                $mail->isSMTP();
+                $mail->Host       = SMTP_HOST;
+                $mail->SMTPAuth   = true;
+                $mail->Username   = SMTP_EMAIL;
+                $mail->Password   = SMTP_PASSWORD;
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = SMTP_PORT;
+
+                $mail->setFrom(SMTP_EMAIL, 'TripTrack');
+                $mail->addAddress($email);
+
+                $mail->isHTML(true);
+                $mail->Subject = 'TripTrack - Password Reset Request';
+
+                $mail->Body = '
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                    <h2 style="color: #2c3e50;">Password Reset Request</h2>
+                    <p>Hi,</p>
+                    <p>We received a request to reset your password for your TripTrack account.</p>
+                    <p>Please click the button below to reset your password:</p>
+                    <p style="text-align: center;">
+                        <a href="' . $resetLink . '" style="background-color: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                    </p>
+                    <p>This link will expire in 1 hour. If you didn’t request this, please ignore this email.</p>
+                    <br>
+                    <p>Regards,<br><strong>TripTrack Team</strong></p>
+                </div>';
+
+                $mail->send();
+                return true;
+            } catch (Exception $e) {
+                error_log("Password reset email failed: " . $mail->ErrorInfo);
+                return false;
+            }
+        }
+
+
+
+        public function processForgotPassword() {
+
+            ob_start();
+
+            // Set header for JSON response
+            header('Content-Type: application/json');
+            
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Sanitize POST data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+                
+                // Init data
+                $data = [
+                    'email' => trim($_POST['email']),
+                    'email_err' => '',
+                    'success' => false,
+                    'message' => ''
+                ];
+                
+                // Validate Email
+                if (empty($data['email'])) {
+                    $data['email_err'] = 'Please enter email';
+                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    $data['email_err'] = 'Please enter a valid email';
+                } elseif (!$this->GuestpagesModel->findUserByEmail($data['email'])) {
+                    $data['email_err'] = 'No account found with that email address';
+                }
+                
+                // Make sure errors are empty
+                if (empty($data['email_err'])) {
+                    try {
+
+                        // echo '<script>console.log("Found customer");</script>';
+                
+                        // Generate token
+                        $token = bin2hex(random_bytes(32));
+                        
+                        // Hash token before storing
+                        $hashed_token = password_hash($token, PASSWORD_DEFAULT);
+                        
+                        // Set expiry time (1 hour from now)
+                        $expiry = date('Y-m-d H:i:s', time() + 3600);
+                        
+                        // Save token to database
+                        if ($this->GuestpagesModel->setPasswordResetToken($data['email'], $hashed_token, $expiry)) {
+                            // Send email with reset link
+                            $reset_link = URLROOT . '/GuestPages/resetPassword/' . $token . '/' . urlencode($data['email']);
+                            
+                            $to = $data['email'];
+                            $subject = "Password Reset Request";
+                            $message = "Hello,\n\nYou have requested to reset your password. Please click the link below to reset your password:\n\n";
+                            $message .= $reset_link . "\n\n";
+                            $message .= "This link will expire in 1 hour.\n\n";
+                            $message .= "If you didn't request this, please ignore this email.\n\n";
+                            $message .= "Regards,\nYour Website Team";
+                            $headers = "From: noreply@yourwebsite.com";
+                            
+                            $sent = $this->sendPasswordResetEmail($data['email'], $reset_link);
+
+                            if ($sent) {
+                                $data['success'] = true;
+                                $data['message'] = 'Password reset link has been sent to your email';
+                            } else {
+                                $data['message'] = 'Failed to send password reset email. Please try again.';
+                            }
+
+                            
+                        } else {
+                            $data['message'] = 'Something went wrong with the database operation. Please try again.';
+                        }
+                    } catch (Exception $e) {
+                        $data['message'] = 'System error. Please try again later.';
+                        error_log($e->getMessage());
+                        // You might want to log the error: error_log($e->getMessage());
+                    }
+                }
+
+                ob_end_clean();
+                
+                // Return JSON response
+                echo json_encode($data);
+                ob_end_flush();
+
+                return;
+
+            } else {
+
+                ob_end_clean();
+                // Return error JSON for non-POST requests
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Invalid request method'
+                ]);
+                return;
+            }
+        }
+
+        
+
+
+        // Reset password form
+        public function resetPassword($token = null, $email = null) {
+            if ($token === null || $email === null) {
+                $this->flash('password_reset', 'Invalid password reset link', 'alert alert-danger');
+                redirect('GuestPages/home');
+            }
+            
+            $email = urldecode($email);
+            
+            // Check if token is valid and not expired
+            $tokenData = $this->GuestpagesModel->checkResetToken($email);
+            
+            if (!$tokenData) {
+                $this->flash('password_reset', 'Invalid or expired password reset link', 'alert alert-danger');
+                redirect('GuestPages/home');
+                return;
+            }
+            
+            // Verify token
+            if (!password_verify($token, $tokenData['token'])) {
+                $this->flash('password_reset', 'Invalid password reset link', 'alert alert-danger');
+                redirect('GuestPages/home');
+                return;
+            }
+            
+            // Check if token is expired
+            if (strtotime($tokenData['expiry']) < time()) {
+                $this->flash('password_reset', 'Your password reset link has expired', 'alert alert-danger');
+                redirect('GuestPages/home');
+                return;
+            }
+            
+            $data = [
+                'token' => $token,
+                'email' => $email,
+                'password' => '',
+                'confirm_password' => '',
+                'password_err' => '',
+                'confirm_password_err' => ''
+            ];
+            
+            $this->view('pages/GuestUser/resetPassword', $data);
+        }
+
+
+        public function processResetPassword() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Sanitize POST data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+                
+                // Init data
+                $data = [
+                    'token' => trim($_POST['token']),
+                    'email' => trim($_POST['email']),
+                    'password' => trim($_POST['password']),
+                    'confirm_password' => trim($_POST['confirm_password']),
+                    'password_err' => '',
+                    'confirm_password_err' => ''
+                ];
+
+                echo json_encode($_POST['email']);
+            
+                
+                // Hash password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+                
+                    
+                // Update password and clear reset token
+                    if ($this->GuestpagesModel->resetPassword($data['email'], $data['password'])) {
+                        $this->flash('password_reset', 'Your password has been reset successfully');
+                        redirect('GuestPages/home');
+                    } else {
+                        $this->flash('password_reset', 'Something went wrong. Please try again.', 'alert alert-danger');
+                        $this->view('GuestPages/resetPassword', $data);
+                    }
+                
+            } else {
+                redirect('GuestPages/resetPassword');
+            }
+        }
+
     }  
 
 ?>
