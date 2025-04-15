@@ -39,6 +39,7 @@
         $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
         $pastScheduleData = $data['pastSchedule'] ??[];
         $notifications = $data['notifications'] ?? [];
+        // $reviews = $data['reviews'] ?? [];
         // $bookingData = $data['bookingsDetails'] ?? [];
         $busData = $data['bus'] ?? [];
         // $userData = $data['user'] ?? [];
@@ -82,6 +83,7 @@
 
         foreach($pastBookingData as $past) {
             $matchedSchedules = array_filter($pastScheduleData, function ($s) use ($past) {
+
                 return $s['scheduleId'] == $past['schedule_id']; // Match schedule by ID
             });
             // Merge results to ensure all schedules are collected
@@ -162,34 +164,43 @@
         </div>
     </div>
 
+    
     <!-- Rating and Reviews pop up -->
-    <div id="reviewPopup" class="popup hidden">
-        <div class="reviewPopup-content">
-            <div id="review-popup-details"></div>
-            <h3>Tell Us How the Wheels Rolled!</h3>
-                <form action="#">
-                <!--<form action="<?php echo URLROOT ?>/RegisteredPages/addReviews" method="POST" enctype="multipart/form-data">-->
-                <div class="rating">
-                    <input type="number" name="rating" hidden>
-                    <i class='bx bx-star star' style="--i: 0;"></i>
-                    <i class='bx bx-star star' style="--i: 1;"></i>
-                    <i class='bx bx-star star' style="--i: 2;"></i>
-                    <i class='bx bx-star star' style="--i: 3;"></i>
-                    <i class='bx bx-star star' style="--i: 4;"></i>
-                </div>
-                <textarea name="opinion" cols="30" rows="5" placeholder="Let your travel tale ride with us..."></textarea>
-                <div class="popup-actions">
-                    <button type="submit" class="post">Post</button>
-                    <button class="cancel-btn" id="closeButton">close</button>
-                </div>
-            </form>    
-        </div>
+<div id="reviewPopup" class="popup hidden">
+    <div class="reviewPopup-content">
+        <div id="review-popup-details"></div>
+        <h3>Tell Us How the Wheels Rolled!</h3>
+            
+        <form action="<?php echo URLROOT ?>/RegisteredPages/addReviews" method="POST" enctype="multipart/form-data">
+            <!-- Add the license_id input here -->
+            <input type="hidden" name="license_id" id="license_id_input" value="">
+            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user_id']); ?>">
+
+            <div class="rating">
+                <input type="number" name="rating" hidden>
+                <i class='bx bx-star star' style="--i: 0;"></i>
+                <i class='bx bx-star star' style="--i: 1;"></i>
+                <i class='bx bx-star star' style="--i: 2;"></i>
+                <i class='bx bx-star star' style="--i: 3;"></i>
+                <i class='bx bx-star star' style="--i: 4;"></i>
+            </div>
+            <textarea name="opinion" cols="30" rows="5" placeholder="Let your travel tale ride with us..."></textarea>
+            <div class="popup-actions">
+                <button type="submit" class="post">Post</button>
+                <button class="cancel-btn" id="closeButton">close</button>
+            </div>
+        </form>    
     </div>
+</div>
 
     </body>
     </html>
 
     <script>
+
+        // Modify the showReviewPopup function in your JavaScript
+    
+    
     document.addEventListener("DOMContentLoaded", function () {
     const currentDate = document.querySelector(".current-date");
     const daysTag = document.querySelector(".days");
@@ -412,11 +423,24 @@
     function showReviewPopup(bookingObj, scheduleObj) {
         const popup = document.getElementById("reviewPopup");
         const details = document.getElementById("review-popup-details");
+        
+        // Find the bus associated with this schedule
+        const bus = busData.find(b => b.busId === scheduleObj.busId);
+        const licenseId = bus ? bus.License_id : 'N/A';
+        
+        console.log("License ID:", licenseId);
+        console.log("Booking ID:", bookingObj.id);
 
-        //details.innerHTML = `Booking ID: ${bookingObj.id}<br>Bus: ${scheduleObj.busName}<br>Date: ${scheduleObj.date}`;
-
+        document.getElementById("license_id_input").value = licenseId;
+        
+        // Display booking details in the popup if needed
+        details.innerHTML = `
+            <p><strong>From:</strong> ${bookingObj.from_location}</p>
+            <p><strong>To:</strong> ${bookingObj.to_location}</p>
+        `;
+        
         popup.classList.remove("hidden");
-
+    
         // Attach close button listener
         const closeBtn = popup.querySelector(".cancel-btn");
         if (closeBtn) {
