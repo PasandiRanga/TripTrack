@@ -396,12 +396,12 @@ class M_SuperAdminPages {
             $currentDate = date("Y-m-d");
             $currentTime = date("H:i:s");
 
-            $this->db->query('INSERT INTO assign (scheduleId, driver_id, conductor_id, assign_time, assign_date) 
-                            VALUES (:scheduleId, :driver_id, :conductor_id, :assign_time, :assign_date)');
+            $this->db->query('INSERT INTO assign (scheduleId, driver_name, conductor_name, assign_time, assign_date) 
+                            VALUES (:scheduleId, :driver_name, :conductor_name, :assign_time, :assign_date)');
 
             $this->db->bind(':scheduleId', $data['scheduleId']);
-            $this->db->bind(':driver_id', $data['driver_id']);
-            $this->db->bind(':conductor_id', $data['conductor_id']);
+            $this->db->bind(':driver_name', $data['driverName']);
+            $this->db->bind(':conductor_name', $data['conductorName']);
             $this->db->bind(':assign_time', $currentTime);
             $this->db->bind(':assign_date', $currentDate);
 
@@ -429,13 +429,13 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    public function getDriverID(){
-        $this->db->query("SELECT employee_id FROM employee WHERE role='Driver'");
+    public function getDriverName(){
+        $this->db->query("SELECT name FROM employee WHERE role='Driver'");
         return $this->db->resultSet();
     }
 
-    public function getConductorID(){
-        $this->db->query("SELECT employee_id FROM employee WHERE role='Conductor'");
+    public function getConductorName(){
+        $this->db->query("SELECT name FROM employee WHERE role='Conductor'");
         return $this->db->resultSet();
     }
 
@@ -448,12 +448,12 @@ class M_SuperAdminPages {
         error_log("Model updateAssign Data: " . json_encode($data));
 
         // Update query
-        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_id = :driver_id, conductor_id = :conductor_id, assign_time = :assign_time, assign_date = :assign_date WHERE scheduleId = :scheduleId');
+        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_name = :driver_name, conductor_name = :conductor_name, assign_time = :assign_time, assign_date = :assign_date WHERE scheduleId = :scheduleId');
 
         // Bind parameters
         $this->db->bind(':scheduleId', $data['scheduleId']);
-        $this->db->bind(':driver_id', $data['driver_id']);
-        $this->db->bind(':conductor_id', $data['conductor_id']);
+        $this->db->bind(':driver_name', $data['driverName']);
+        $this->db->bind(':conductor_name', $data['conductorName']);
         $this->db->bind(':assign_time', $currentTime);
         $this->db->bind(':assign_date', $currentDate);
 
