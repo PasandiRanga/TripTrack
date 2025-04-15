@@ -22,6 +22,8 @@
         <select id="bookingType" onchange="toggleBookingType()">
             <option value="guest">Guest User Bookings</option>
             <option value="registered">Registered User Bookings</option>
+            <option value="cancel_online">Cancelled Online Bookings</option>
+            <option value="cancel_cash">Cancelled Cash Bookings</option>
         </select>
     </div>
 
@@ -93,6 +95,74 @@
                 </tr>
             <?php endforeach; ?>
         </tbody>
+
+        <!-- Cancelled online bookings table -->
+        <thead id="cancel-online-thead">
+            <tr>
+                <th>ID</th>
+                <th>Booking Date</th>
+                <th>Booking Time</th>
+                <th>No. of Seats</th>
+                <th>Seats</th>
+                <th>User ID</th>
+                <th>Schedule ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Total Price</th>
+                <th>Time and Date of Cancellation</th>
+            </tr>
+        </thead>
+        <tbody id="cancel-online-tbody">
+            <?php foreach ($data['cancel_online_bookings'] as $cancel): ?>
+                <tr>
+                    <td><?= $cancel['id'] ?></td>
+                    <td><?= $cancel['Booking_date'] ?></td>
+                    <td><?= $cancel['Booking_time'] ?></td>
+                    <td><?= $cancel['No_of_seats'] ?></td>
+                    <td><?= $cancel['Seats'] ?></td>
+                    <td><?= $cancel['User_id'] ?></td>
+                    <td><?= $cancel['schedule_id'] ?></td>
+                    <td><?= $cancel['from_location'] ?></td>
+                    <td><?= $cancel['to_location'] ?></td>
+                    <td><?= $cancel['total_price'] ?></td>
+                    <td><?= $cancel['time_date'] ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+
+        <!-- Cancelled cash bookings table -->
+        <thead id="cancel-cash-thead">
+            <tr>
+                <th>ID</th>
+                <th>Booking Date</th>
+                <th>Booking Time</th>
+                <th>No. of Seats</th>
+                <th>Seats</th>
+                <th>User ID</th>
+                <th>Schedule ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Total Price</th>
+                <th>Time and Date of Cancellation</th>
+            </tr>
+        </thead>
+
+        <tbody id="cancel-cash-tbody">
+            <?php foreach ($data['cancel_cash_bookings'] as $cancel): ?>
+                <tr>
+                    <td><?= $cancel['id'] ?></td>
+                    <td><?= $cancel['Booking_date'] ?></td>
+                    <td><?= $cancel['Booking_time'] ?></td>
+                    <td><?= $cancel['No_of_seats'] ?></td>
+                    <td><?= $cancel['Seats'] ?></td>
+                    <td><?= $cancel['User_id'] ?></td>
+                    <td><?= $cancel['schedule_id'] ?></td>
+                    <td><?= $cancel['from_location'] ?></td>
+                    <td><?= $cancel['to_location'] ?></td>
+                    <td><?= $cancel['total_price'] ?></td>
+                    <td><?= $cancel['time_date'] ?></td>
+                </tr>
+            <?php endforeach; ?>
     </table>
     </div>
     
@@ -104,17 +174,47 @@
             const guestTbody = document.getElementById('guest-tbody');
             const registeredThead = document.getElementById('registered-thead');
             const registeredTbody = document.getElementById('registered-tbody');
+            const cancelOnlineThead = document.getElementById('cancel-online-thead');
+            const cancelOnlineTbody = document.getElementById('cancel-online-tbody');
+            const cancelCashThead = document.getElementById('cancel-cash-thead');
+            const cancelCashTbody = document.getElementById('cancel-cash-tbody');
 
             if (bookingType === 'guest') {
-                guestThead.style.display = '';
-                guestTbody.style.display = '';
-                registeredThead.style.display = 'none';
-                registeredTbody.style.display = 'none';
-            } else {
-                guestThead.style.display = 'none';
-                guestTbody.style.display = 'none';
-                registeredThead.style.display = '';
-                registeredTbody.style.display = '';
+            guestThead.style.display = '';
+            guestTbody.style.display = '';
+            registeredThead.style.display = 'none';
+            registeredTbody.style.display = 'none';
+            cancelOnlineThead.style.display = 'none';
+            cancelOnlineTbody.style.display = 'none';
+            cancelCashThead.style.display = 'none';
+            cancelCashTbody.style.display = 'none';
+            } else if (bookingType === 'registered') {
+            guestThead.style.display = 'none';
+            guestTbody.style.display = 'none';
+            registeredThead.style.display = '';
+            registeredTbody.style.display = '';
+            cancelOnlineThead.style.display = 'none';
+            cancelOnlineTbody.style.display = 'none';
+            cancelCashThead.style.display = 'none';
+            cancelCashTbody.style.display = 'none';
+            } else if (bookingType === 'cancel_online') {
+            guestThead.style.display = 'none';
+            guestTbody.style.display = 'none';
+            registeredThead.style.display = 'none';
+            registeredTbody.style.display = 'none';
+            cancelOnlineThead.style.display = '';
+            cancelOnlineTbody.style.display = '';
+            cancelCashThead.style.display = 'none';
+            cancelCashTbody.style.display = 'none';
+            } else if (bookingType === 'cancel_cash') {
+            guestThead.style.display = 'none';
+            guestTbody.style.display = 'none';
+            registeredThead.style.display = 'none';
+            registeredTbody.style.display = 'none';
+            cancelOnlineThead.style.display = 'none';
+            cancelOnlineTbody.style.display = 'none';
+            cancelCashThead.style.display = '';
+            cancelCashTbody.style.display = '';
             }
         }
 

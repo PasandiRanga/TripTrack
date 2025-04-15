@@ -142,6 +142,15 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function getCancelOnlineBookings() {
+        $this->db->query('SELECT * FROM cancelled_online_bookings');
+        return $this->db->resultSet();
+    }
+
+    public function getCancelCashBookings() {
+        $this->db->query('SELECT * FROM cancelled_cash_bookings');
+        return $this->db->resultSet();
+    }
 //------------------------------------------------------------------------------------------------------------------------------------
     //Employee
 

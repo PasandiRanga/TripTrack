@@ -239,9 +239,13 @@ class SuperAdminPages extends Controller {
     public function bookings() {
         $guestbookings = $this->SuperAdminModel->getGuestBookings();
         $registerbookings = $this->SuperAdminModel->getRegisterBookings();
+        $cancel_online_bookings = $this->SuperAdminModel->getCancelOnlineBookings();
+        $cancel_cash_bookings = $this->SuperAdminModel->getCancelCashBookings();
         $data = [
             'book' => $guestbookings,
-            'book1' => $registerbookings
+            'book1' => $registerbookings,
+            'cancel_online_bookings' => $cancel_online_bookings,
+            'cancel_cash_bookings' => $cancel_cash_bookings
         ];
         $this->view('pages/SuperAdmin/Bookings',$data);
 
