@@ -15,7 +15,58 @@
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
     <h1>Booking Records</h1>
+    <!-- Filter checkboxes -->
+    <div class="filter-checkbox-container">
+        <label><input type="checkbox" id="filterName" onchange="filterTable()"> Name</label>
+        <label><input type="checkbox" id="filterEmail" onchange="filterTable()"> Email</label>
+        <label><input type="checkbox" id="filterContact" onchange="filterTable()"> Contact</label>
+        <label><input type="checkbox" id="filterNIC" onchange="filterTable()"> NIC</label>
+    </div>
 
+    <script>
+        function filterTable() {
+            const filterName = document.getElementById('filterName').checked;
+            const filterEmail = document.getElementById('filterEmail').checked;
+            const filterContact = document.getElementById('filterContact').checked;
+            const filterNIC = document.getElementById('filterNIC').checked;
+
+            const rows = document.querySelectorAll('.booking-table tbody tr');
+
+            rows.forEach(row => {
+                const name = row.cells[1]?.textContent.toLowerCase();
+                const email = row.cells[2]?.textContent.toLowerCase();
+                const contact = row.cells[3]?.textContent.toLowerCase();
+                const nic = row.cells[4]?.textContent.toLowerCase();
+
+                let isVisible = true;
+
+                if (filterName && !name) isVisible = false;
+                if (filterEmail && !email) isVisible = false;
+                if (filterContact && !contact) isVisible = false;
+                if (filterNIC && !nic) isVisible = false;
+
+                row.style.display = isVisible ? '' : 'none';
+            });
+        }
+    </script>
+    <br>
+    <!-- Search box -->
+    <div class="search-container">
+        <label for="searchBox">Search:</label>
+        <input type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for bookings...">
+    </div>
+ 
+    <script>
+        function searchTable() {
+            const searchValue = document.getElementById('searchBox').value.toLowerCase();
+            const rows = document.querySelectorAll('.booking-table tbody tr');
+
+            rows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchValue) ? '' : 'none';
+            });
+        }
+    </script>
     <!-- Select box for filtering booking types -->
     <div class="filter-container">
         <label for="bookingType">Select Booking Type:</label>
