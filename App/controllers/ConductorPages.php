@@ -111,56 +111,78 @@
 
         
         public function processScannedQR() {
-    // Make sure the request is POST
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        try {
-            // Get the raw POST body
-            $input = file_get_contents("php://input");
-            $data = json_decode($input, true); // Decode JSON to associative array
+            // Make sure the request is POST
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                try {
+                    // Get the raw POST body
+                    $input = file_get_contents("php://input");
+                    $data = json_decode($input, true); // Decode JSON to associative array
 
-            // Check if the required data exists
-            if (!isset($data['schedule_id']) || !isset($data['seats'])) {
-                http_response_code(400);
-                echo json_encode(['message' => 'Missing required data']);
-                return;
-            }
+                    // Check if the required data exists
+                    if (!isset($data['schedule_id']) || !isset($data['seats'])) {
+                        http_response_code(400);
+                        echo json_encode(['message' => 'Missing required data']);
+                        return;
+                    }
 
-            // Extract the schedule_id and seats
-            $scheduleId = $data['schedule_id'];
-            $seats = $data['seats'];
+                    // Extract the schedule_id and seats
+                    $scheduleId = $data['schedule_id'];
+                    $seats = $data['seats'];
 
-            // Attempt to get booking from guest bookings
-            $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seats);
+                    $seatsString = '"' . implode(', ', $seats) . '"';
 
-            // If not found in guest bookings, try registered bookings
-            if (!$booking) {
-                $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seats);
-            }
+                    //error_log("booking details: " . $seatsString);
 
-            // If booking was found
-            if ($booking) {
-                // Try to insert into past bookings
-                $result = $this->ConductorpagesModel->insertPastBooking($booking);
+                    $response = [
+                        'message' => 'Data received',
+                        'schedule_id' => $scheduleId,
+                        'seats' => $seatsString
+                    ];
 
-                if ($result) {
-                    echo json_encode(['message' => 'Booking verified and recorded successfully']);
-                } else {
+                    $this->ConductorpagesModel->updateAcceptedSeats($seats, $scheduleId);
+
+                    $result = false;
+
+                    // Attempt to get booking from guest bookings
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsString);
+                    error_log("booking details: " . print_r($booking, true));
+                    if($booking) {
+                        $result = $this->ConductorpagesModel->insertPastGuestBooking($booking);
+                        error_log("booking details after insert: " . print_r($booking, true));
+                    }else {
+                        // If not found in guest bookings, try registered bookings
+                        $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsString);
+                        if ($booking) {
+                            $result = $this->ConductorpagesModel->insertPastRegBooking($booking);
+                        }
+                    }
+
+                    if($booking) {
+                        if ($result) {
+                            $response['message'] = 'Booking verified and recorded successfully';
+                        } else {
+                            http_response_code(500);
+                            $response['status'] = 'error';
+                            $response['message'] = 'Failed to record booking';
+                        }
+                    } else {
+                        http_response_code(404);
+                        $response['status'] = 'error';
+                        $response['message'] = 'Booking not found with the provided details';
+                    }
+                    echo json_encode($response);
+
+                } catch (Exception $e) {
                     http_response_code(500);
-                    echo json_encode(['message' => 'Failed to record booking']);
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'Server error: ' . $e->getMessage()]);
                 }
             } else {
-                http_response_code(404);
-                echo json_encode(['message' => 'Booking not found with the provided details']);
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(['status' => 'error', 'message' => 'Only POST requests are allowed']);
             }
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['message' => 'Server error: ' . $e->getMessage()]);
         }
-    } else {
-        http_response_code(405); // Method Not Allowed
-        echo json_encode(['message' => 'Only POST requests are allowed']);
-    }
-}
         
 
         public function home() {
@@ -314,7 +336,9 @@
         }
 
         public function busLayOut() {
-            $this->view('pages/Conductor/busLayout');
+            $scheduleData = $this->ConductorpagesModel->getScheduleById();
+
+            $this->view('pages/Conductor/busLayout', $scheduleData);
         }
         
 

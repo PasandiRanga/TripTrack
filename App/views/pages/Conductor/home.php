@@ -118,8 +118,8 @@
                             <th>Start Location</th>
                             <th>Destination</th>
                             <th>License ID</th>
-                            <th>Available Seats</th>
-                            <th>Booked Seats</th>
+                            <!--<th>Available Seats</th>
+                            <th>Booked Seats</th>-->
                             <th>Price</th>
                             <th>Price Per KM</th>
                             <th>Type</th>
@@ -140,8 +140,8 @@
                                         <td><?= htmlspecialchars($item['start_location']) ?></td>
                                         <td><?= htmlspecialchars($item['destination']) ?></td>
                                         <td><?= htmlspecialchars($item['License_id']) ?></td>
-                                        <td><?= htmlspecialchars($item['availableSeats']) ?></td>
-                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>
+                                        <!--<td><?= htmlspecialchars($item['availableSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>-->
                                         <td><?= htmlspecialchars($item['price']) ?></td>
                                         <td><?= htmlspecialchars($item['priceperkm']) ?></td>
                                         <td><?= htmlspecialchars($item['type']) ?></td>
@@ -169,8 +169,8 @@
                             <th>Start Location</th>
                             <th>Destination</th>
                             <th>License ID</th>
-                            <th>Available Seats</th>
-                            <th>Booked Seats</th>
+                            <!--<th>Available Seats</th>
+                            <th>Booked Seats</th>-->
                             <th>Price</th>
                             <th>Price Per KM</th>
                             <th>Type</th>
@@ -191,8 +191,8 @@
                                         <td><?= htmlspecialchars($item['start_location']) ?></td>
                                         <td><?= htmlspecialchars($item['destination']) ?></td>
                                         <td><?= htmlspecialchars($item['License_id']) ?></td>
-                                        <td><?= htmlspecialchars($item['availableSeats']) ?></td>
-                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>
+                                        <!--<td><?= htmlspecialchars($item['availableSeats']) ?></td>
+                                        <td><?= htmlspecialchars($item['bookedSeats']) ?></td>-->
                                         <td><?= htmlspecialchars($item['price']) ?></td>
                                         <td><?= htmlspecialchars($item['priceperkm']) ?></td>
                                         <td><?= htmlspecialchars($item['type']) ?></td>
@@ -209,7 +209,43 @@
                     </tbody>
             </table>
 
+            <div class="modal-overlay" id="logoutModal">
+            <div class="modal-content">
+                <h2>Are you sure you want to logout?</h2>
+                <p>This will end your current session.</p>
+                <div class="modal-buttons">
+                    <button class="modal-button btn-yes" onclick="proceedLogout()">Yes</button>
+                    <button class="modal-button btn-no" onclick="cancelLogout()">No</button>
+                </div>
+            </div>
+            </div>
+
             <script>
+                //logout
+                let popup = document.getElementById("logoutModal");
+                function Openpopup(){
+                popup.classList.add("open-popup");
+                }
+                function showLogoutModal() {
+                    document.getElementById('logoutModal').style.display = 'flex';
+                }
+
+                // Hide the logout modal
+                function hideLogoutModal() {
+                    document.getElementById('logoutModal').style.display = 'none';
+                }
+
+                // Proceed with logout and redirect to login page
+                function proceedLogout() {
+                    window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
+                }
+
+
+                // Function to redirect back to dashboard
+                function cancelLogout() {
+                    window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home";
+                }
+
                 const defaultColor = '#9e9ea4';
 
                 // Default display

@@ -36,63 +36,74 @@ h1 {
     margin-bottom: 30px;
 }
 
-.bus-layout {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 280px; /* 4 seats per row (4 x 60px incl. margin) */
-    margin: 0 auto;
-    gap: 10px;
-    justify-content: center;
+.layout-wrapper {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.summary-panel {
+  width: 300px;
+}
+
+.summary-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.seat-layout {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 220px;
+  justify-content: end;
 }
 
 .seat {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    background-color: #e0e0e0;
-    border: 2px solid #ccc;
-    transition: 0.2s ease;
-    cursor: default;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
 }
 
-.seat.booked {
-    background-color: orange;
-    color: white;
+.accepted {
+  background-color: green;
 }
 
-.seat.accepted {
-    background-color: green;
-    color: white;
+.to-be-accepted {
+  background-color: orange;
+}
+
+.newly-accepted {
+  background-color: blue;
+}
+
+.available {
+  background-color: gray;
 }
 
 .legend {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+  margin-top: 20px;
 }
 
-.legend div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.legend .seat {
-    width: 20px;
-    height: 20px;
-    font-size: 0;
+.legend-color {
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  border-radius: 3px;
 }
 
-.accepted-msg-text {
-    text-align: center;
-    margin: 30px auto;
-    font-family: 'Arial', sans-serif;
-    font-size: 20px;
-    color: #2e7d32;
-}
+.legend-color.accepted { background-color: green; }
+.legend-color.to-be-accepted { background-color: orange; }
+.legend-color.newly-accepted { background-color: blue; }
+.legend-color.available { background-color: gray; }
