@@ -37,6 +37,7 @@
     $distanceData = $data['distance'] ?? [];
     $routeData = $data['route'] ?? [];
     $notifications = $data['notifications'] ?? [];
+    
     echo '<script>console.log("Notifications in page:", ' . json_encode($notifications) . ');</script>';
 
     ?>

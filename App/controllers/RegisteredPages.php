@@ -28,6 +28,7 @@
         $bus = $this->RegisteredpagesModel->getBusDetails();
         $route = $this->RegisteredpagesModel->getRoute();
         $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+        
 
         echo '<script>console.log("Notifications in controller:", ' . json_encode($notifications) . ');</script>';
 
@@ -635,6 +636,7 @@
             $pastschedule = $this->RegisteredpagesModel->getPastSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            // $reviews = $this->RegisteredpagesModel->getReviews($_SESSION['user_id']);
 
             $data = [
                 'upcomingbookings' => $upcomingbookings,
@@ -642,7 +644,8 @@
                 'upcomingSchedule' => $upcomingschedule,
                 'bus' => $bus,
                 'notifications' => $notifications,
-                'pastSchedule' => $pastschedule
+                'pastSchedule' => $pastschedule,
+                // 'reviews' => $reviews
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
@@ -866,29 +869,31 @@
         ]);
     }
        
-    // public function addReviews() {
-    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    public function addReviews() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-    //         $data = [
-    //             'user_id' => $_POST['user_id'],
-    //             'license_id' => $_POST['license_id'],
-    //             'rate' => $_POST['rating'],
-    //             'review' => trim($_POST['opinion']),
-    //             'date' => date('Y-m-d'),
-    //             'time' => date('H:i:s')
-    //         ];
+            echo '<script>console.log("Post data: ' . json_encode($_POST) . '");</script>';
 
-    //         if ($this->RegisteredpagesModel->addReview($data)) {
-    //             // redirect to previous or success page
-    //             redirect('RegisteredPages/newBookings'); 
-    //         } else {
-    //             die('Something went wrong');
-    //         }
-    //     } else {
-    //         redirect('RegisteredPages/newBookings');
-    //     }
-    // }
+            $data = [
+            'user_id' => $_POST['user_id'],
+            'license_id' => $_POST['license_id'],
+            'rate' => $_POST['rating'],
+            'review' => trim($_POST['opinion']),
+            'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
+            'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
+        ];
+        
+        if ($this->RegisteredpagesModel->addReview($data)) {
+            // redirect to previous or success page
+            redirect('RegisteredPages/newBookings');
+        } else {
+            die('Something went wrong');
+        }
+    } else {
+        redirect('RegisteredPages/newBookings');
+    }
+}
 
 
 
