@@ -49,7 +49,8 @@ authCheck(['Conductor', 'Driver']);
                 
                 <p id="qrResultText"></p>
                 <button onclick="closeModal()">Close</button>
-                <button id="viewLayout" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/busLayout'">View Bus Layout</button>
+                <button id="viewLayout" onclick="redirectToBusLayout()">View Bus Layout</button>
+
             </div>
         </div>
 
@@ -91,31 +92,13 @@ authCheck(['Conductor', 'Driver']);
 
                 const data = parseQrText(decodedText);
 
-                /*if (data["Seats"]) {
-                    let acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
-                    const newSeats = data["Seats"].split(',').map(seat => seat.trim());
-                    
-                    // Add new seats to accepted list if not already there
-                    newSeats.forEach(seat => {
-                        if (!acceptedSeats.includes(seat)) {
-                            acceptedSeats.push(seat);
-                        }
-                    });
-
-                    localStorage.setItem("acceptedSeats", JSON.stringify(acceptedSeats));
-
-                    <strong>Booking Receipt</strong><br>
-                    Schedule ID: ${data["Schedule ID"]}<br>
-                    Seats: ${data["Seats"]}<br>
-                    Total Price: ${data["Total Price"]}`;
-
-                }*/
-
                 document.getElementById('qrResultText').innerHTML =
                     `<h2 class="qr-title">Booking is Accepted!!</h2>
                     <pre>${decodedText}</pre>`;
 
                 document.getElementById('qrModal').style.display = 'flex';
+
+                //saveAcceptedSeats(data["Seats"]);
 
                 sendToServer(data["Schedule ID"], data["Seats"]);
             }
@@ -136,7 +119,7 @@ authCheck(['Conductor', 'Driver']);
                         let seatArray = rawSeats.split(',').map(seat => seat.trim());
 
                         // Add quotes around the joined string
-                        data["Seats"] = `"${seatArray.join(', ')}"`;  // << this adds the quotes
+                        data["Seats"] = seatArray;
                     }
                 });
 
@@ -149,6 +132,7 @@ authCheck(['Conductor', 'Driver']);
             }
 
             function sendToServer(scheduleId, seats) {
+                console.log("Sending to server:", scheduleId, seats);
                 fetch('<?php echo URLROOT; ?>/ConductorPages/processScannedQR', {
                     method: 'POST',
                     headers: {
@@ -166,8 +150,15 @@ authCheck(['Conductor', 'Driver']);
                     return res.json();
                 })
                 .then(data => {
-                    console.log(data.message);
-                    // Optional: Show message to user
+                    console.log('Response from server:', data);
+
+                    if (data.status === 'success') {
+                        document.getElementById('qrResultText').innerHTML +=
+                            `<p class="success">${data.message}</p>`;
+                    } else {
+                        document.getElementById('qrResultText').innerHTML +=
+                            `<p class="error">${data.message}</p>`;
+                    }
                 })
                 .catch(err => {
                     console.error('Error:', err);
@@ -176,6 +167,30 @@ authCheck(['Conductor', 'Driver']);
                 });
 
             }
+
+            /*function saveAcceptedSeats(seatString) {
+                let acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
+
+                // Remove quotes if any, and split into array
+                let seats = seatString.replace(/"/g, "").split(',').map(seat => seat.trim());
+
+                seats.forEach(seat => {
+                    if (!acceptedSeats.includes(seat)) {
+                        acceptedSeats.push(seat);
+                    }
+                });
+
+                localStorage.setItem("acceptedSeats", JSON.stringify(acceptedSeats));
+            }
+
+            function redirectToBusLayout() {
+                const acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
+                const seatsParam = encodeURIComponent(acceptedSeats.join(','));
+
+                window.location.href = `<?php echo URLROOT; ?>/ConductorPages/busLayout?accepted=${seatsParam}`;
+            }*/
+
+
 
         </script>
     </div>

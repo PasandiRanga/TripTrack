@@ -334,27 +334,10 @@
             return $this->db->single();
         }
 
-        public function tempQR($scheduleId, $seats) {
-            $this->db->query("INSERT INTO pastbookings (schedule_id, seat_no) VALUES (:scheduleId, :seats)");
-
-            $this->db->bind(':scheduleId', $scheduleId);
-            $this->db->bind(':seats', $seats);
-
-            if (!$this->db->execute()) {
-                return false; // One insert failed
-            }
-    
-            return true;
-        }
-
-        
-
-        //public function insertPastBooking($bookingData) {
-
-        public function insertPastBooking($bookingData) {
+        public function insertPastRegBooking($bookingData) {
             
-            $this->db->query("INSERT INTO pastregbooking (id, Booking_date, Booking_time,scheduleDate, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status) 
-                             VALUES (:id, :booking_date, :booking_time,:scheduleDate, :no_of_seats, :seats, :userid ,:schedule_id, :from_location, :to_location, :total_price, :paymentMethod , :bookingStatus)");
+            $this->db->query("INSERT INTO pastregbooking (id, Booking_date, Booking_time, scheduleDate, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status) 
+                             VALUES (:id, :booking_date, :booking_time, :scheduleDate, :no_of_seats, :seats, :userid ,:schedule_id, :from_location, :to_location, :total_price, :paymentMethod , :bookingStatus)");
         
             $this->db->bind(':id', $bookingData['id']);
             $this->db->bind(':booking_date', $bookingData['booking_date']);
@@ -362,7 +345,7 @@
             $this->db->bind(':scheduleDate', $bookingData['scheduleDate']);
             $this->db->bind(':no_of_seats', $bookingData['number_of_seats']);
             $this->db->bind(':seats', $bookingData['selected_seats']);
-            $this->db->bind("userid" , $bookingData['User_id']);
+            $this->db->bind(':userid' , $bookingData['User_id']);
             $this->db->bind(':schedule_id', $bookingData['schedule_id']);
             $this->db->bind(':from_location', $bookingData['from_location']);
             $this->db->bind(':to_location', $bookingData['to_location']);
@@ -377,7 +360,34 @@
             return $this->db->execute();
         }
 
+        public function insertPastGuestBooking($bookingData) {
+            //error_log("booking details at model: " . print_r($bookingData, true));
+            
+            $this->db->query("INSERT INTO pastguestbooking (id, name, email, contact, nic, from_location, to_location, number_of_seats, selected_seats, total_price, schedule_id, paymentMethod, booking_date, booking_time, booking_status) 
+                             VALUES (:id, :name, :email, :contact, :nic, :from_location, :to_location, :number_of_seats, :selected_seats, :total_price, :schedule_id, :paymentMethod, :booking_date, :booking_time, :booking_status)");
         
+            $this->db->bind(':id', $bookingData['id']);
+            $this->db->bind(':name', $bookingData['name']);
+            $this->db->bind(':email', $bookingData['email']);
+            $this->db->bind(':contact', $bookingData['contact']);
+            $this->db->bind(':nic', $bookingData['nic']);
+            $this->db->bind(':from_location', $bookingData['from_location']);
+            $this->db->bind(':to_location', $bookingData['to_location']);
+            $this->db->bind(':number_of_seats', $bookingData['number_of_seats']);
+            $this->db->bind(':selected_seats', $bookingData['selected_seats']);
+            $this->db->bind(':total_price', $bookingData['total_price']);
+            $this->db->bind(':schedule_id', $bookingData['schedule_id']);
+            $this->db->bind(':paymentMethod', $bookingData['paymentMethod'] ?? 'Cash');
+            $this->db->bind(':booking_date', $bookingData['booking_date']);
+            $this->db->bind(':booking_time', $bookingData['booking_time']);
+            $this->db->bind(':booking_status', 'Arrived');
+            $this->db->execute();
+
+            $this->db->query("DELETE FROM guestbooking WHERE id = :id");
+            $this->db->bind(':id', $bookingData['id']);
+      
+            return $this->db->execute();
+        }
 
         public function getSchedulesByEmployeeId($userID){
             $this->db->query('SELECT * FROM assign WHERE :userID = conductor_id OR :userID=driver_id');
@@ -397,7 +407,37 @@
 
             return $schedules ?? []; // Return an empty array if no schedules found
             
-            
+        }
+
+        public function getSchedule() {
+            $this->db->query('SELECT * FROM schedule');
+
+            return $this->db->resultSet();
+
+        }
+
+        public function updateAcceptedSeats($seats, $schedule_id) {
+            $this->db->query('SELECT acceptedSeats FROM schedule WHERE scheduleId = :schedule_id');
+            $this->db->bind(':schedule_id', $schedule_id);
+            $this->db->execute();
+
+            $row = $this->db->single();
+            $currentSeats = $row['acceptedSeats'] ?? '';
+
+            $currentSeatsArray = array_filter(array_map('trim', explode(',', $currentSeats)));
+            $newSeatsArray = array_filter(array_map('trim', $seats));
+
+            $mergedSeats = array_unique(array_merge($currentSeatsArray, $newSeatsArray));
+            sort($mergedSeats, SORT_NUMERIC);
+
+            $updatedSeats = implode(',', $mergedSeats);
+
+            $this->db->query('UPDATE schedule SET acceptedSeats = :updatedSeats WHERE scheduleId = :schedule_id');
+            $this->db->bind(':schedule_id', $schedule_id);
+            $this->db->bind(':updatedSeats', $updatedSeats);
+            $this->db->execute();
+
+            return $updatedSeats;
         }
 
     }

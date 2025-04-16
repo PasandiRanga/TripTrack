@@ -1,11 +1,6 @@
 <?php
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Conductor' , 'Driver']);
-
-$data = [
-    'totalSeats' => 40,
-    'bookedSeats' => ['5', '12', '25', '30'], // Seats booked but not yet scanned
-];
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +17,7 @@ $data = [
 </head>
 
 <body>
+
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'Conductor'); ?>;
         localStorage.setItem('userRole', userRole);
@@ -44,56 +40,73 @@ $data = [
 
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
 
-    <div id="accepted-seats-msg" class="accepted-msg-text"></div>
+    <h1>Bus Layout</h1>
 
-    <div class="bus-layout">
-        <?php
-        $seatsPerRow = 4;
+  <div class="layout-wrapper">
 
-        for ($i = 1; $i <= $data['totalSeats']; $i++) {
-            $status = in_array((string)$i, $data['bookedSeats']) ? 'booked' : 'available';
+    <!-- Left Panel: Seat Summary -->
+    <div class="summary-panel">
+      <h2>Seat Status Summary</h2>
+      <ul>
+        <li><strong>Accepted Seats:</strong> <span id="acceptedList"></span></li>
+        <li><strong>To Be Accepted Seats:</strong> <span id="toBeAcceptedList"></span></li>
+        <li><strong>All Booked Seats:</strong> <span id="allBookedList"></span></li>
+        <li><strong>Newly Accepted Seats (from QR):</strong> <span id="newlyAcceptedList"></span></li>
+      </ul>
 
-            echo "<div class='seat $status' data-seat='$i'>$i</div>";
-
-            // Line break after each row
-            if ($i % $seatsPerRow == 0) {
-                echo '<div class="clear-row"></div>';
-            }
-        }
-        ?>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-color accepted"></span> Accepted</div>
+        <div class="legend-item"><span class="legend-color to-be-accepted"></span> To Be Accepted</div>
+        <div class="legend-item"><span class="legend-color newly-accepted"></span> Newly Accepted</div>
+        <div class="legend-item"><span class="legend-color available"></span> Available</div>
+      </div>
     </div>
 
-    <div class="legend">
-        <div><span class="seat available"></span> Available</div>
-        <div><span class="seat booked"></span> Booked (Pending Scan)</div>
-        <div><span class="seat accepted"></span> Accepted (Scanned)</div>
-    </div>
+    <!-- Right Panel: Seat Layout -->
+    <div id="seatLayout" class="seat-layout"></div>
 
-    <script>
-        const acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
+  </div>
 
-        document.querySelectorAll('.seat').forEach(seat => {
-            const seatId = seat.getAttribute('data-seat');
-            if (acceptedSeats.includes(seatId)) {
-                seat.classList.remove('booked');
-                seat.classList.add('accepted');
-            }
-        });
+  <script>
+    const acceptedSeats = ["1", "2", "3", "10", "15"];
+    const toBeAcceptedSeats = ["4", "5", "6", "20"];
 
-        const acceptedMsgBox = document.getElementById("accepted-seats-msg");
+    const urlParams = new URLSearchParams(window.location.search);
+    const newlyAcceptedString = urlParams.get("accepted") || "";
+    const newlyAcceptedSeats = newlyAcceptedString.split(',').map(s => s.trim()).filter(Boolean);
 
-        if (acceptedSeats.length > 0) {
-            acceptedMsgBox.innerHTML = `
-                <h3>✅ Accepted Seats: ${acceptedSeats.join(", ")}</h3>
-                
-            `;
-        } else {
-            acceptedMsgBox.innerHTML = `
-                <p>No seats have been accepted yet.</p>
-            `;
-        }
+    const allBookedSeats = [...new Set([...acceptedSeats, ...toBeAcceptedSeats])];
 
-    </script>
+    const layoutContainer = document.getElementById("seatLayout");
+    for (let i = 1; i <= 40; i++) {
+      const seat = i.toString();
+      const seatDiv = document.createElement("div");
+      seatDiv.className = "seat";
+
+      if (newlyAcceptedSeats.includes(seat)) {
+        seatDiv.classList.add("newly-accepted");
+      } else if (acceptedSeats.includes(seat)) {
+        seatDiv.classList.add("accepted");
+      } else if (toBeAcceptedSeats.includes(seat)) {
+        seatDiv.classList.add("to-be-accepted");
+      } else {
+        seatDiv.classList.add("available");
+      }
+
+      seatDiv.textContent = seat;
+      layoutContainer.appendChild(seatDiv);
+
+      if (i % 4 === 0) {
+        layoutContainer.appendChild(document.createElement("br"));
+      }
+    }
+
+    const formatList = arr => arr.length ? arr.join(', ') : "None";
+    document.getElementById("acceptedList").textContent = formatList(acceptedSeats);
+    document.getElementById("toBeAcceptedList").textContent = formatList(toBeAcceptedSeats);
+    document.getElementById("allBookedList").textContent = formatList(allBookedSeats);
+    document.getElementById("newlyAcceptedList").textContent = formatList(newlyAcceptedSeats);
+  </script>
 
 </body>
 </html>
