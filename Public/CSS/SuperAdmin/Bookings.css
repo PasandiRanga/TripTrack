@@ -124,3 +124,30 @@ h1 {
         font-size: 14px;
     }
 }
+
+/*Search Box*/
+     .search-container {
+        display: flex;
+        justify-content: flex-end; /* push content to the right */
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .search-container label {
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    .search-container input {
+        padding: 8px;
+        font-size: 14px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .search-container input:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
