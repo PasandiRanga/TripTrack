@@ -28,8 +28,8 @@
             <thead>
                 <tr>
                     <th>Schedule ID</th>
-                    <th>Conductor ID</th>
-                    <th>Driver ID</th>
+                    <th>Conductor Name</th>
+                    <th>Driver Name</th>
                     <th>Assign Time</th>
                     <th>Assign Date</th>
                     <th>Update</th>
@@ -50,8 +50,8 @@
                     foreach ($data['assign'] as $assign) {
                         echo "<tr>
                                 <td>{$assign['scheduleId']}</td>
-                                <td>{$assign['conductor_id']}</td>
-                                <td>{$assign['driver_id']}</td>
+                                <td>{$assign['conductor_name']}</td>
+                                <td>{$assign['driver_name']}</td>
                                 <td>{$assign['assign_time']}</td>
                                 <td>{$assign['assign_date']}</td>
                                 <td><button class='update-btn' onclick='updateAssign(\"{$assign['scheduleId']}\")'>Update</button></td>
@@ -100,18 +100,18 @@
             if (row) {
                 // Extract data from the row
                 const scheduleId = row.cells[0].innerText.trim();
-                const conductorId = row.cells[1].innerText.trim();
-                const driverId = row.cells[2].innerText.trim();
+                const conductorName = row.cells[1].innerText.trim();
+                const driverName = row.cells[2].innerText.trim();
 
                 // Redirect to the updateassign page with pre-filled data
                 const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/Addassigns');
                 url.searchParams.append('scheduleId', scheduleId);
-                url.searchParams.append('conductorId', conductorId);
-                url.searchParams.append('driverId', driverId);
+                url.searchParams.append('conductorName', conductorName);
+                url.searchParams.append('driverName', driverName);
 
                 window.location.href = url.toString();
             } else {
-                alert("Assignment not found.");
+                alert("Assign not found.");
             }
         }
     </script>

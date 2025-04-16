@@ -585,6 +585,7 @@
                 return [];
             }
         }
+        
         public function addReview($data) {
             $this->db->query("INSERT INTO ratings (User_id, License_id, rate, review, Date, Time) 
                             VALUES (:user_id, :license_id, :rate, :review, :date, :time)");
@@ -599,10 +600,10 @@
             return $this->db->execute();
         }
 
-        public function getReviews($userID){
-            $this->db->query("SELECT * FROM ratings");
-            return $this->db->resultSet();
-    
+        public function getAverageRatings($licenseId){
+            $this->db->query('SELECT License_id,AVG(rate) as average_rate FROM ratings WHERE License_id = :licenseId');
+            $this->db->bind(':licenseId',$licenseId);
+            return $this->db->single();
         }
 
         public function getCancellations($usrID){

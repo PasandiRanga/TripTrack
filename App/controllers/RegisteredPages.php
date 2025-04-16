@@ -18,29 +18,33 @@
         }
 
         public function home() {
+    echo '<script>console.log("User id:", ' . json_encode($_SESSION['user_id']) . ');</script>';
 
-        // Optional model updates
-        // $this->RegisteredpagesModel->updatePastBookings();
+    $schedule = $this->RegisteredpagesModel->getSchedule();
+    $bus = $this->RegisteredpagesModel->getBusDetails();
+    $route = $this->RegisteredpagesModel->getRoute();
+    $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+    $averageRatings = [];   
 
-        echo '<script>console.log("User id:", ' . json_encode($_SESSION['user_id']) . ');</script>';
+    foreach ($schedule as $item) {
+        $licenseId = $item['License_id'];
+        $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
+        $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+    }
 
-        $schedule = $this->RegisteredpagesModel->getSchedule();
-        $bus = $this->RegisteredpagesModel->getBusDetails();
-        $route = $this->RegisteredpagesModel->getRoute();
-        $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
-        
+    echo '<script>console.log("Notifications in controller:", ' . json_encode($notifications) . ');</script>';
 
-        echo '<script>console.log("Notifications in controller:", ' . json_encode($notifications) . ');</script>';
+    $data = [
+        'schedule' => $schedule,
+        'bus' => $bus,
+        'route' => $route,
+        'notifications' => $notifications,
+        'averageRatings' => $averageRatings,
+    ];
 
-        $data = [
-            'schedule' => $schedule,
-            'bus' => $bus,
-            'route' => $route,
-            'notifications' => $notifications
-        ];
+    $this->view('pages/RegisteredUser/home', $data);
+}
 
-        $this->view('pages/RegisteredUser/home', $data);
-        }
 
         public function bookings() {
             $bookingsDetails = $this->RegisteredpagesModel->getBookings($_SESSION['user_id']);
@@ -900,6 +904,28 @@
     //     cancellations
     // }
 
+    // public function getAverageRatings() {
+    //     $scheduleData = $this->RegisteredpagesModel->getSchedule(); 
+    //     $averageRatings = [];
+
+    //     foreach ($scheduleData as $schedule) {
+    //         $licenseId = $schedule['License_id'];
+    //         $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
+    //         $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+
+    //         // Debug output
+    //         echo "License: $licenseId<br>";
+    //         print_r($averageRatings[$licenseId]);
+    //         echo "<hr>";
+    //     }
+
+    //     $data = [
+    //         'schedule' => $scheduleData,
+    //         'averageRatings' => $averageRatings,
+    //     ];
+
+    //     $this->view('pages/RegisteredUser/home', $data);
+    // }
 
 
     }  

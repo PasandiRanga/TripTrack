@@ -5,8 +5,8 @@
 <?php
     // Check if this is an update operation
     $scheduleId = $_GET['scheduleId'] ?? '';
-    $driverId = $_GET['driver_id'] ?? '';
-    $conductorId = $_GET['conductor_id'] ?? '';
+    $driverName = $_GET['driver_name'] ?? '';
+    $conductorName = $_GET['conductor_name'] ?? '';
     $isUpdate = !empty($scheduleId); // Determine if it's an update operation
 
 ?>
@@ -43,26 +43,26 @@
         <input type="text" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>" readonly>
     <?php endif; ?>
 
-    <label for="driver_id">Driver ID:</label>
-    <select id="driver_id" name="driver_id" required>
+    <label for="driver_name">Driver Name:</label>
+    <select id="driver_name" name="driver_name" required>
         <?php if (!$isUpdate): ?>
             <option value="">Select Driver</option>
         <?php endif; ?>
         <?php foreach ($data['drivers'] as $driver): ?>
-            <option value="<?php echo $driver['employee_id']; ?>" <?php echo $driver['employee_id'] == $driverId ? 'selected' : ''; ?>>
-            <?php echo $driver['employee_id']; ?>
+            <option value="<?php echo $driver['name']; ?>" <?php echo $driver['name'] == $driverName ? 'selected' : ''; ?>>
+            <?php echo $driver['name']; ?>
             </option>
         <?php endforeach; ?>
     </select>
 
-    <label for="conductor_id">Conductor ID:</label>
-    <select id="conductor_id" name="conductor_id" required>
+    <label for="conductor_name">Conductor Name:</label>
+    <select id="conductor_name" name="conductor_name" required>
         <?php if (!$isUpdate): ?>
             <option value="">Select Conductor</option>
         <?php endif; ?>
         <?php foreach ($data['conductors'] as $conductor): ?>
-            <option value="<?php echo $conductor['employee_id']; ?>" <?php echo $conductor['employee_id'] == $conductorId ? 'selected' : ''; ?>>
-            <?php echo $conductor['employee_id']; ?>
+            <option value="<?php echo $conductor['name']; ?>" <?php echo $conductor['name'] == $conductorName ? 'selected' : ''; ?>>
+            <?php echo $conductor['name']; ?>
             </option>
         <?php endforeach; ?>
     </select>
@@ -81,16 +81,16 @@
         <?php else: ?>
             scheduleId = document.getElementById("scheduleId").value.trim(); 
         <?php endif; ?>        
-        const driver_id = document.getElementById("driver_id").value.trim();
-        const conductor_id = document.getElementById("conductor_id").value.trim();
+        const driverName = document.getElementById("driver_name").value.trim();
+        const conductorName = document.getElementById("conductor_name").value.trim();
 
         // Validate form data
-        if (!scheduleId || !driver_id || !conductor_id) {
-            alert("All fields are required.");
+        if (!scheduleId || !driverName || !conductorName) {
+            alert("All fields are required. view and try again.");
             return;
         }
 
-        console.log("Form Data:", { scheduleId, driver_id, conductor_id });
+        console.log("Form Data:", { scheduleId, driverName, conductorName });
 
         // Determine the correct endpoint
         const isUpdate = <?php echo json_encode($isUpdate); ?>; // Pass PHP boolean as JavaScript boolean
@@ -99,8 +99,8 @@
         // Prepare form data
         const formData = {
             scheduleId: scheduleId,
-            driver_id: driver_id,
-            conductor_id: conductor_id
+            driverName: driverName,
+            conductorName: conductorName
         };
         console.log("Form Data to Send:", formData);
         console.log("isUpdate:", isUpdate);

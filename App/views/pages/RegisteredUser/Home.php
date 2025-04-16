@@ -37,7 +37,7 @@
     $distanceData = $data['distance'] ?? [];
     $routeData = $data['route'] ?? [];
     $notifications = $data['notifications'] ?? [];
-    
+    $averageRatings = $data['averageRatings'] ?? [];
     echo '<script>console.log("Notifications in page:", ' . json_encode($notifications) . ');</script>';
 
     ?>
@@ -48,11 +48,13 @@
         var userId = <?php echo json_encode($userId); ?>;
         var userRole = <?php echo json_encode($userRole); ?>;
         var routeData = <?php echo json_encode($routeData); ?>;
+        var averageRatings = <?php echo json_encode($averageRatings); ?>;
         console.log("Schedule Data: ", scheduleData);
         console.log("Bus Data: ", busData);
         console.log("User ID: ", userId);
         console.log("User Role: ", userRole);  
         console.log("Route Data: ", routeData);
+        console.log("Average ratings: ",averageRatings);
     </script>
 
 <?php
@@ -80,7 +82,6 @@
     </div>
 
     <div class="header-container">
-  
         <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
     </div>
 

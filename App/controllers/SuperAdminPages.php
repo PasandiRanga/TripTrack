@@ -239,9 +239,13 @@ class SuperAdminPages extends Controller {
     public function bookings() {
         $guestbookings = $this->SuperAdminModel->getGuestBookings();
         $registerbookings = $this->SuperAdminModel->getRegisterBookings();
+        $cancel_online_bookings = $this->SuperAdminModel->getCancelOnlineBookings();
+        $cancel_cash_bookings = $this->SuperAdminModel->getCancelCashBookings();
         $data = [
             'book' => $guestbookings,
-            'book1' => $registerbookings
+            'book1' => $registerbookings,
+            'cancel_online_bookings' => $cancel_online_bookings,
+            'cancel_cash_bookings' => $cancel_cash_bookings
         ];
         $this->view('pages/SuperAdmin/Bookings',$data);
 
@@ -651,7 +655,7 @@ class SuperAdminPages extends Controller {
     }
 
     public function addassigns() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Set header to return JSON response
             header('Content-Type: application/json');
 
@@ -666,13 +670,16 @@ class SuperAdminPages extends Controller {
 
             $data = [
                 'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
-                'driver_id'    => trim($inputData['driver_id'] ?? ''),
-                'conductor_id' => trim($inputData['conductor_id'] ?? '')
+                'driverName'    => trim($inputData['driverName'] ?? ''),
+                'conductorName' => trim($inputData['conductorName'] ?? '')
             ];
 
+            // Print the data for debugging
+            error_log("Assign Data: " . json_encode($data));
+
             // Validate required fields
-            if (empty($data['scheduleId']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
-                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+            if (empty($data['scheduleId']) || empty($data['driverName']) || empty($data['conductorName'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required controller.']);
                 http_response_code(400);
                 exit();
             }
@@ -688,8 +695,8 @@ class SuperAdminPages extends Controller {
             }
         } else {
                 $scheduleId = $_GET['scheduleId'] ?? '';
-                $driverId = $_GET['driver_id'] ?? '';
-                $conductorId = $_GET['conductor_id'] ?? '';
+                $driverName = $_GET['driverName'] ?? '';
+                $conductorName = $_GET['conductorName'] ?? '';
                 $isUpdate = !empty($scheduleId);
             //Fetch all schedules
             $allSchedules = $this->SuperAdminModel->getScheduleID();
@@ -703,16 +710,16 @@ class SuperAdminPages extends Controller {
             });
             // Fetch schedule, driver, and conductor data
             $schedules = $availableSchedules;
-            $drivers = $this->SuperAdminModel->getDriverID();
-            $conductors = $this->SuperAdminModel->getConductorID();
+            $drivers = $this->SuperAdminModel->getDriverName();
+            $conductors = $this->SuperAdminModel->getConductorName();
 
             $data = [
                 'schedules' => $schedules,
                 'drivers' => $drivers,
                 'conductors' => $conductors,
                 'scheduleId' => $scheduleId,
-                'driverId' => $driverId,
-                'conductorId' => $conductorId,
+                'driverName' => $driverName,
+                'conductorName' => $conductorName,
                 'isUpdate' => $isUpdate
             ];
 
@@ -735,15 +742,15 @@ class SuperAdminPages extends Controller {
 
             $data = [
                 'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
-                'driver_id'    => trim($inputData['driver_id'] ?? ''),
-                'conductor_id' => trim($inputData['conductor_id'] ?? '')
+                'driverName'    => trim($inputData['driverName'] ?? ''),
+                'conductorName' => trim($inputData['conductorName'] ?? '')
             ];
 
             // Debug log to verify data
             error_log("Controller updateAssign Data: " . json_encode($data));
 
             // Validate required fields
-            if (empty($data['scheduleId']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
+            if (empty($data['scheduleId']) || empty($data['driverName']) || empty($data['conductorName'])) {
                 echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
                 http_response_code(400);
                 exit();
