@@ -895,6 +895,25 @@
     }
 }
 
+    public function getAverageRatings() {
+        $scheduleData = $this->RegisteredPagesModel->getSchedule(); 
+        $averageRatings = [];
+
+        foreach ($scheduleData as $schedule) {
+            $licenseId = $schedule->License_id;
+            $avg = $this->RegisteredPagesModel->getAverageRatings($licenseId);
+            $averageRatings[$licenseId] = $avg ? round($avg->average_rate, 1) : 'No ratings';
+        }
+
+        $data = [
+            'schedule' => $scheduleData,
+            'averageRatings' => $averageRatings,
+        ];
+
+        $this->view('RegisteredPages/home', $data);
+    }
+
+
 
 
     }  
