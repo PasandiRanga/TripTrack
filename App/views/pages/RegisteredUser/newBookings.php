@@ -319,9 +319,8 @@
                                 <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
-                                        <li>Option 1</li>
+                                        <li>View Tikcet</li>
                                         <li class="cancel-booking" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Cancel</li>
-                                        <li>Option 3</li>
                                     </ul>
                                 </div>
                                 <div class="booking-summary">
@@ -357,7 +356,6 @@
                                     <ul>
                                         <li>view ticket</li>
                                         <li class="add-review" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Add Reviews</li>
-                                        <li>Option 3</li>
                                     </ul>
                                 </div>
                                 <div class="booking-summary">
