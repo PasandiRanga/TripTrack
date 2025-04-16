@@ -636,6 +636,7 @@
             $pastschedule = $this->RegisteredpagesModel->getPastSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            $cancellations = $this->RegisteredpagesModel->getCancellations($_SESSION['user_id']);
             // $reviews = $this->RegisteredpagesModel->getReviews($_SESSION['user_id']);
 
             $data = [
@@ -876,24 +877,28 @@
             echo '<script>console.log("Post data: ' . json_encode($_POST) . '");</script>';
 
             $data = [
-            'user_id' => $_POST['user_id'],
-            'license_id' => $_POST['license_id'],
-            'rate' => $_POST['rating'],
-            'review' => trim($_POST['opinion']),
-            'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
-            'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
-        ];
-        
-        if ($this->RegisteredpagesModel->addReview($data)) {
-            // redirect to previous or success page
-            redirect('RegisteredPages/newBookings');
+                'user_id' => $_POST['user_id'],
+                'license_id' => $_POST['license_id'],
+                'rate' => $_POST['rating'],
+                'review' => trim($_POST['opinion']),
+                'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
+                'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
+            ];
+            
+            if ($this->RegisteredpagesModel->addReview($data)) {
+                // redirect to previous or success page
+                redirect('RegisteredPages/newBookings');
+            } else {
+                die('Something went wrong');
+            }
         } else {
-            die('Something went wrong');
+            redirect('RegisteredPages/newBookings');
         }
-    } else {
-        redirect('RegisteredPages/newBookings');
     }
-}
+
+    // public function getCancelledBookings(){
+    //     cancellations
+    // }
 
 
 

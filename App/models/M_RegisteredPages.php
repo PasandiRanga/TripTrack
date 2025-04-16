@@ -605,6 +605,10 @@
     
         }
 
+        public function getCancellations($usrID){
+            $this->db->query("SELECT * FROM cancelledBookings" );
+        }
+
 
     }
 
