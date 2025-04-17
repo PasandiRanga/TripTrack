@@ -108,32 +108,46 @@ class SuperAdminPages extends Controller {
     }
 
     public function updateBus() {
+        header('Content-Type: application/json');
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Sanitize input
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // Decode the JSON input
+            $inputData = json_decode(file_get_contents('php://input'), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+                http_response_code(400);
+                exit();
+            }
 
             // Prepare the data array
             $data = [
-                'License_id' => $_POST['License_id'],
-                'routeNumber' => $_POST['routeNumber'],
-                'route' => $_POST['route'],
-                //'busType' => $_POST['busType'],
-                'stops' => $_POST['stops'],
-                'start_location' => $_POST['start_location'],
-                'destination' => $_POST['destination'],
-                //'rating' => $_POST['rating'],
-                'passengers' => $_POST['passengers'],
-                'price' => $_POST['price'],
-                'priceperkm' => $_POST['priceperkm']
+                'License_id' => trim($inputData['License_id'] ?? ''),
+                'routeNumber' => trim($inputData['routeNumber'] ?? ''),
+                'start_location' => trim($inputData['start_location'] ?? ''),
+                'destination' => trim($inputData['destination'] ?? ''),
+                'passengers' => trim($inputData['passengers'] ?? ''),
+                'price' => trim($inputData['price'] ?? ''),
+                'priceperkm' => trim($inputData['priceperkm'] ?? '')
             ];
+
+            // Validate required fields
+            if (empty($data['License_id']) || empty($data['routeNumber']) || empty($data['start_location']) || empty($data['destination']) || empty($data['passengers']) || empty($data['price']) || empty($data['priceperkm'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
 
             // Call the model method to update the bus
             if ($this->SuperAdminModel->updateBus($data)) {
-                header("Location: " . URLROOT . "/SuperAdminPages/fleet");
-                exit;
+                echo json_encode(['status' => 'success', 'message' => 'Bus updated successfully.']);
             } else {
-                die("Error: Unable to update the bus.");
+                echo json_encode(['status' => 'error', 'message' => 'Error updating the bus.']);
+                http_response_code(500);
             }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
         }
     }
 

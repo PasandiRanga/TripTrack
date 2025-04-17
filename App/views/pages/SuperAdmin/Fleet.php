@@ -201,9 +201,9 @@
 
 
         // Update Bus Function
-        function updateBus(License_id) {
-            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/updatefleet?License_id=' + encodeURIComponent(License_id);
-        }
+        // function updateBus(License_id) {
+        //     window.location.href = '<//?php echo URLROOT; ?>/SuperAdminPages/updatefleet?License_id=' + encodeURIComponent(License_id);
+        // }
 
         // Search Function
         function searchFleet() {
@@ -250,35 +250,69 @@
         }
 
         // Update Table Function
-        function updateTable(buses) {
-            const tableBody = document.getElementById("fleet-table-body");
-            tableBody.innerHTML = ''; // Clear the table before inserting new rows
+        // function updateTable(buses) {
+        //     const tableBody = document.getElementById("fleet-table-body");
+        //     tableBody.innerHTML = ''; // Clear the table before inserting new rows
 
-            if (buses.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="14">No buses found.</td></tr>';
-                return;
+        //     if (buses.length === 0) {
+        //     tableBody.innerHTML = '<tr><td colspan="14">No buses found.</td></tr>';
+        //     return;
+        //     }
+
+        //     buses.forEach(bus => {
+        //     const row = document.createElement("tr");
+        //     row.innerHTML = `
+        //         <td>${bus.License_id}</td>
+        //         <td>${bus.routeNumber}</td>
+        //         <td>${bus.start_location}</td>
+        //         <td>${bus.destination}</td>
+        //         <td>${bus.passengers}</td>
+        //         <td>${bus.price}</td>
+        //         <td>${bus.priceperkm}</td>
+        //         <td>
+        //         <button class='update-button' onclick='updateBus("${bus.License_id}")'>Update</button>
+        //         </td>
+        //         <td>
+        //         <button class='delete-button' onclick='deleteBus("${bus.License_id}")'>Delete</button>
+        //         </td>
+        //     `;
+        //     tableBody.appendChild(row);
+        //     });
+        // }
+
+        function updateBus(License_id) {
+            // Find the row with the matching License_id
+            const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
+            const row = rows.find(row => row.cells[0].innerText === License_id);
+
+            if (row) {
+            // Extract data from the row
+            const routeNumber = row.cells[1].innerText;
+            const startLocation = row.cells[2].innerText;
+            const destination = row.cells[3].innerText;
+            const passengers = row.cells[4].innerText;
+            const price = row.cells[5].innerText;
+            const pricePerKm = row.cells[6].innerText;
+
+            // Redirect to the AddFleet page with pre-filled data
+            const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/AddFleet');
+            url.searchParams.append('License_id', License_id);
+            url.searchParams.append('routeNumber', routeNumber);
+            url.searchParams.append('start_location', startLocation);
+            url.searchParams.append('destination', destination);
+            url.searchParams.append('passengers', passengers);
+            url.searchParams.append('price', price);
+            url.searchParams.append('priceperkm', pricePerKm);
+
+            window.location.href = url.toString();
+            } else {
+            alert("Bus not found.");
             }
-
-            buses.forEach(bus => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${bus.License_id}</td>
-                    <td>${bus.routeNumber}</td>
-                    <!-- <td>${bus.route}</td> -->
-                    <!-- <td>$//{bus.busType}</td> -->
-                    <!-- <td>${bus.stops}</td> -->
-                    <td>${bus.start_location}</td>
-                    <td>${bus.destination}</td>
-                    <!-- <td>$//{bus.rating}</td> -->
-                    <td>${bus.passengers}</td>
-                    <td>${bus.price}</td>
-                    <td>${bus.priceperkm}</td>
-                    <td><button class='update-button' onclick='updateBus("${bus.License_id}")'>Update</button></td>
-                    <td><button class='delete-button' onclick='deleteBus("${bus.License_id}")'>Delete</button></td>
-                `;
-                tableBody.appendChild(row);
-            });
         }
+
+        // function redirectToUpdateForm(License_id) {
+        //     window.location.href = '<//?php echo URLROOT; ?>/SuperAdminPages/AddFleet?License_id=' + encodeURIComponent(License_id);
+        // }
     </script>
 </body>
 </html>
