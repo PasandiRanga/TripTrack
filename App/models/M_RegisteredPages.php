@@ -606,8 +606,20 @@
             return $this->db->single();
         }
 
-        public function getCancellations($usrID){
-            $this->db->query("SELECT * FROM cancelledBookings" );
+        public function getCancellations($userID){
+            $this->db->query("SELECT * FROM cancelled_cash_bookings WHERE :userid = User_id" );
+            $this->db->bind(':userid',$userID);
+
+            $cancellations = $this->db->resultSet();
+
+            $this->db->query("SELECT * FROM cancelled_online_bookings WHERE :userid = User_id");
+            $this->db->bind(':userid' , $userID);
+
+            $onlineCancellations = $this->db->resultSet();
+            $cancellations = array_merge($cancellations, $onlineCancellations);
+
+            return $cancellations;
+            
         }
 
 

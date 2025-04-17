@@ -650,7 +650,7 @@
                 'bus' => $bus,
                 'notifications' => $notifications,
                 'pastSchedule' => $pastschedule,
-                // 'reviews' => $reviews
+                'cancellations' => $cancellations                // 'reviews' => $reviews
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
