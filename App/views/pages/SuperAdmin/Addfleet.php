@@ -2,15 +2,18 @@
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 
-    // Check if this is an update operation
-    $isUpdate = isset($data['busDetails']);
-    $licenseId = $isUpdate && isset($data['busDetails']['License_id']) ? htmlspecialchars($data['busDetails']['License_id']) : '';
-    $routeNumber = $isUpdate && isset($data['busDetails']['routeNumber']) ? htmlspecialchars($data['busDetails']['routeNumber']) : '';
-    $startLocation = $isUpdate && isset($data['busDetails']['start_location']) ? htmlspecialchars($data['busDetails']['start_location']) : '';
-    $destination = $isUpdate && isset($data['busDetails']['destination']) ? htmlspecialchars($data['busDetails']['destination']) : '';
-    $passengers = $isUpdate && isset($data['busDetails']['passengers']) ? htmlspecialchars($data['busDetails']['passengers']) : '';
-    $price = $isUpdate && isset($data['busDetails']['price']) ? htmlspecialchars($data['busDetails']['price']) : '';
-    $pricePerKm = $isUpdate && isset($data['busDetails']['priceperkm']) ? htmlspecialchars($data['busDetails']['priceperkm']) : '';
+        // Check if this is an update operation
+    //$isUpdate = isset($_GET['License_id']);
+    $isUpdate = isset($_GET['License_id']) && !empty($_GET['License_id']); // Check if it's an update operation
+    $licenseId = $isUpdate ? htmlspecialchars($_GET['License_id']) : '';
+    $routeNumber = $isUpdate ? htmlspecialchars($_GET['routeNumber']) : '';
+    $startLocation = $isUpdate ? htmlspecialchars($_GET['start_location']) : '';
+    $destination = $isUpdate ? htmlspecialchars($_GET['destination']) : '';
+    $passengers = $isUpdate ? htmlspecialchars($_GET['passengers']) : '';
+    $price = $isUpdate ? htmlspecialchars($_GET['price']) : '';
+    $pricePerKm = $isUpdate ? htmlspecialchars($_GET['priceperkm']) : '';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,26 +115,28 @@
             const price = selectedOption.getAttribute("data-price");
             const pricePerKm = selectedOption.getAttribute("data-priceperkm");
 
+
             document.getElementById("price").value = price || '';
             document.getElementById("priceperkm").value = pricePerKm || '';
         });
 
-        // Clear form fields
-        function clearForm() {
-            document.getElementById("fleet-form").reset();
+        // Clear form fields and reset price fields
+        document.getElementById("fleet-form").addEventListener("reset", function () {
             document.getElementById("price").value = '';
             document.getElementById("priceperkm").value = '';
-        }
-    });
+        });
 
-    document.getElementById("fleetForm").addEventListener("submit", function(event) {
+        // Handle form submission
+        document.getElementById("fleet-form").addEventListener("submit", function (event) {
+
             event.preventDefault();
 
             // Determine the correct endpoint based on whether it's an update or add operation
             const isUpdate = <?php echo json_encode($isUpdate); ?>;
             const endpoint = isUpdate 
                 ? '<?php echo URLROOT; ?>/SuperAdminPages/updateBus' 
-                : '<?php echo URLROOT; ?>/SuperAdminPages/addFleet';
+
+                : '<?php echo URLROOT; ?>/SuperAdminPages/AddFleet';
 
             // Collect form data
             let formData = {
@@ -144,32 +149,34 @@
                 priceperkm: document.getElementById("priceperkm").value.trim()
             };
 
+
+            // Debugging: Log form data
+            console.log(formData);
+
+
             // Send the request to the appropriate endpoint
             fetch(endpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             })
-            .then(response => response.text())  // Get text response first
-            .then(text => {
-                try {
-                    return JSON.parse(text);  // Try parsing JSON
-                } catch (error) {
-                    throw new Error("Invalid JSON response: " + text);  // Handle non-JSON errors
-                }
-            })
-            .then(data => {
-                if (data.status === "success") {
-                    showPopup(isUpdate ? "Bus updated successfully!" : "Bus added successfully!");
-                    setTimeout(() => {
-                        window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
-                    }, 2000);
-                } else {
-                    showPopup("Error: " + data.message);
-                }
-            })
-            .catch(error => showPopup("An error occurred: " + error.message));
+
+                .then(response => response.json()) // Parse JSON response
+                .then(data => {
+                    console.log("Server Response:", data);
+                    if (data.status === "success") {
+                        showPopup(isUpdate ? "Bus updated successfully!" : "Bus added successfully!");
+                        document.getElementById("popupOverlay").querySelector("button").onclick = function () {
+                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
+                        };
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => alert("An error occurred: " + error.message));
         });
+    });
+
 </script>
 </body>
 </html>
