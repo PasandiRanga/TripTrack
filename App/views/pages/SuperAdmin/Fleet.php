@@ -281,11 +281,11 @@
         // }
 
         function updateBus(License_id) {
-            // Find the row with the matching License_id
-            const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
-            const row = rows.find(row => row.cells[0].innerText === License_id);
+        // Find the row with the matching License_id
+        const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
+        const row = rows.find(row => row.cells[0].innerText === License_id);
 
-            if (row) {
+        if (row) {
             // Extract data from the row
             const routeNumber = row.cells[1].innerText;
             const startLocation = row.cells[2].innerText;
@@ -305,10 +305,10 @@
             url.searchParams.append('priceperkm', pricePerKm);
 
             window.location.href = url.toString();
-            } else {
+        } else {
             alert("Bus not found.");
-            }
         }
+    }
 
         // function redirectToUpdateForm(License_id) {
         //     window.location.href = '<//?php echo URLROOT; ?>/SuperAdminPages/AddFleet?License_id=' + encodeURIComponent(License_id);
