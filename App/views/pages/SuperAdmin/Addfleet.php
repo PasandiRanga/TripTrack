@@ -13,6 +13,7 @@
     $price = $isUpdate ? htmlspecialchars($_GET['price']) : '';
     $pricePerKm = $isUpdate ? htmlspecialchars($_GET['priceperkm']) : '';
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,6 +115,7 @@
             const price = selectedOption.getAttribute("data-price");
             const pricePerKm = selectedOption.getAttribute("data-priceperkm");
 
+
             document.getElementById("price").value = price || '';
             document.getElementById("priceperkm").value = pricePerKm || '';
         });
@@ -126,12 +128,14 @@
 
         // Handle form submission
         document.getElementById("fleet-form").addEventListener("submit", function (event) {
+
             event.preventDefault();
 
             // Determine the correct endpoint based on whether it's an update or add operation
             const isUpdate = <?php echo json_encode($isUpdate); ?>;
             const endpoint = isUpdate 
                 ? '<?php echo URLROOT; ?>/SuperAdminPages/updateBus' 
+
                 : '<?php echo URLROOT; ?>/SuperAdminPages/AddFleet';
 
             // Collect form data
@@ -145,8 +149,10 @@
                 priceperkm: document.getElementById("priceperkm").value.trim()
             };
 
+
             // Debugging: Log form data
             console.log(formData);
+
 
             // Send the request to the appropriate endpoint
             fetch(endpoint, {
@@ -154,6 +160,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             })
+
                 .then(response => response.json()) // Parse JSON response
                 .then(data => {
                     console.log("Server Response:", data);
@@ -169,6 +176,7 @@
                 .catch(error => alert("An error occurred: " + error.message));
         });
     });
+
 </script>
 </body>
 </html>
