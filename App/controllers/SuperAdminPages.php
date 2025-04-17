@@ -116,9 +116,10 @@ class SuperAdminPages extends Controller {
     }
 
     public function updateBus() {
-        header('Content-Type: application/json');
-
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            header('Content-Type: application/json');
             // Decode the JSON input
             $inputData = json_decode(file_get_contents('php://input'), true);
 
@@ -276,9 +277,52 @@ class SuperAdminPages extends Controller {
     public function reports() {
         $this->view('pages/SuperAdmin/Reports');
     }
+//----------------------------------------------------------------------------------------------------------------------
+                                    //reviews
+//---------------------------------------------------------------------------------------------------------------------- 
 
     public function reviews() {
-        $this->view('pages/SuperAdmin/Reviews');
+        $reviews = $this->SuperAdminModel->getReviews();
+        $data = [
+            'reviews' => $reviews
+        ];
+        $this->view('pages/SuperAdmin/Reviews',$data);
+    }
+
+    public function replyreview() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json; charset=UTF-8');
+
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'reviewId' => trim($inputData['reviewId'] ?? ''),
+                'reply' => trim($inputData['reply'] ?? '')
+            ];
+
+            if (empty($data['reviewId']) || empty($data['reply'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            if ($this->SuperAdminModel->replyReview($data)) {
+                echo json_encode(['status' => 'success', 'message' => 'Reply added successfully.']);
+                exit();
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Database Error: Cannot add reply.']);
+                http_response_code(500);
+                exit();
+            }
+        } else {
+            // Handle GET request or other methods
+        }
     }
 
 //----------------------------------------------------------------------------------------------------------------------
