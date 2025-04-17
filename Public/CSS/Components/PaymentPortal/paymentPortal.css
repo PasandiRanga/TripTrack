@@ -1,41 +1,84 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    color: #333;
 }
 
 .payment-container {
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 35px;
+    width: 450px;
+    max-width: 90%;
+}
+
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+    font-size: 14px;
 }
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+
+input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Error styling */
+.input-error {
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .card-details {
     display: flex;
     justify-content: space-between;
+    gap: 15px;
 }
 
 .card-details .form-group {
@@ -44,29 +87,151 @@ input {
 
 .btn-submit {
     width: 100%;
-    padding: 12px;
-    background-color: #4CAF50;
+    padding: 14px;
+    background-color: #3498db;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 10px;
 }
 
 .btn-submit:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
 }
 
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+.btn-submit:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+/* Card Number Input Styling with Icons */
+.card-input-container {
+    position: relative;
+}
+
+.card-icons {
+    position: absolute;
+    top: 37px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.card-icon {
+    width: 30px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    transition: opacity 0.3s;
+}
+
+.card-icon.visa {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDYyNCI+PHBhdGggZmlsbD0iIzAwNTc5ZiIgZD0iTTkxOC4xNiAzMTEuMDJjMC0xMjAuMTMtODYuOC0yMDUuOS0yMTYuOTMtMjA1LjlINTcuNDlsLS40OC4xNHYuMjNsLS4zLjIydjQxMy42OWguMnYuMmguNDFINjk5LjFjMTMwLjEyLS4wMSAyMTktODUuNTMgMjE5LjA2LTIwOC41OFoiLz48cGF0aCBmaWxsPSIjZmZhMDAwIiBkPSJNMTM0Ljc5IDMxMS4wMmMwIDEzMC4xMyA4Ni44IDIwOC41OCAyMTYuOTMgMjA4LjU4aDY0NC4wN2wuNDgtLjE0di0uMmwuMy0uMjJWMTA1LjM2aC0uMnYtLjJoLS40MUgzNTMuODdjLTEzMC4xMyAwLTIxOSA4NS41My0yMTkuMDggMjA1Ljg2WiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zNTIuNzMgMzExLjE0YzAgNTguOTEgNDYuODMgMTA0LjI5IDEwNS43NCAxMDQuMjloNzM2Ljk0di0yMDguNUg0NTguNDdjLTU4LjkxIDAtMTA1Ljc0IDQ2LjgzLTEwNS43NCAxMDQuMjFaIi8+PC9zdmc+');
+}
+
+.card-icon.mastercard {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDc3OCI+PGNpcmNsZSBjeD0iMzIyLjUiIGN5PSIzODkiIHI9IjI4OS41IiBmaWxsPSIjZWIwMDFiIi8+PHBhdGggZD0iTTMyMi41IDEwMGMxNjAgMCAyODkuNSAxMjkuNSAyODkuNSAyODkuNVMyNTQyLjczIDY3OC41IDMyMi41IDY3OC41IiBmaWxsPSIjZjc5ZTFiIi8+PGNpcmNsZSBjeD0iNjc3LjUiIGN5PSIzODkiIHI9IjI4OS41IiBmaWxsPSIjZmY5OTAwIi8+PHBhdGggZD0iTTY3Ny41IDEwMGMxNjAgMCAyODkuNSAxMjkuNSAyODkuNSAyODkuNVM4MzcuNSA2NzguNSA2NzguNSA2NzguNSIgZmlsbD0iI2Y3OWUxYiIvPjxwYXRoIGQ9Ik01MDAgMjA2LjQ3djM2Ny4wNiIgc3Ryb2tlPSIjZmY5OTAwIiBzdHJva2Utd2lkdGg9IjI5MCIvPjwvc3ZnPg==');
+}
+
+.card-icon.amex {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDc3OCI+PHBhdGggZmlsbD0iIzAwNmZjZiIgZD0iTTAsMzg5YzAsMjE0Ljg0LDE3NC4xNiwzODksMzg5LDM4OWgyMjJjMjE0Ljg0LDAsMzg5LTE3NC4xNiwzODktMzg5UzgyNS44NCwwLDYxMSwwSDM4OUMxNzQuMTYsMCwwLDE3NC4xNiwwLDM4OXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNDU3LjY5LDM4OS4zNUgyODIuMDN2LTU4Ljk0aDI4MC43M3YtNTIuMjZIMjgyLjAzdi01OC45NGgxNzUuNjZMMzgxLjQ3LDM5Ny44OEw0NTcuNjksMzg5LjM1eiBNNzQ5LjUsMTY2SDU5MC44M2wtNDAuODYsNDUuMjNMMNTA5LjExLDE2Nkg0MDUuNjFsLTEwMiwyNTcuNjJoMTA4LjkxbDI3LjAzLTcxLjgzaDU0LjA1TDUyMC42Miw0MjMuNmg2Ni44OWwzMS42OSw0My44Mmw4OS4zNywwbDg5LjM3LTQzLjgyTDc0OS41LDE2NnoiLz48L3N2Zz4=');
+}
+
+.card-icon.active {
+    opacity: 1;
+}
+
+/* Payment Status Styling */
 .payment-status {
-    margin-top: 15px;
+    margin-top: 20px;
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 6px;
 }
 
 .success {
-    color: green;
+    color: #27ae60;
+    background-color: rgba(39, 174, 96, 0.1);
 }
 
 .error {
-    color: red;
+    color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Secure Payment Indicator */
+.secure-payment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    color: #7f8c8d;
+    font-size: 12px;
+}
+
+.secure-payment svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    fill: #7f8c8d;
+}
+
+/* Make form elements look better on mobile */
+@media (max-width: 480px) {
+    .payment-container {
+        padding: 25px;
+        width: 100%;
+    }
+    
+    .card-details {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .card-details .form-group {
+        width: 100%;
+    }
+}
+
+/* Custom styling for card number input with formatting */
+#cardNumber {
+    padding-right: 85px; /* Space for the card icons */
+}
+
+/* Validation checkmark for valid fields */
+.form-group.valid::after {
+    content: '✓';
+    position: absolute;
+    right: 10px;
+    top: 37px;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* Loading spinner for submit button */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+    margin-left: 8px;
+    vertical-align: middle;
 }

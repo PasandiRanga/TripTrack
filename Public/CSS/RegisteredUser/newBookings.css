@@ -567,3 +567,12 @@
                 margin-bottom: 5px;
             }
         }
+.days li.cancelled-booking::before {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    border: 2px solid var(--danger-color);
+}
+
+.booking-item.cancelled {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-left-color: var(--danger-color);
+}
