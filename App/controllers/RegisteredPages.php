@@ -18,32 +18,32 @@
         }
 
         public function home() {
-    echo '<script>console.log("User id:", ' . json_encode($_SESSION['user_id']) . ');</script>';
+            echo '<script>console.log("User id:", ' . json_encode($_SESSION['user_id']) . ');</script>';
 
-    $schedule = $this->RegisteredpagesModel->getSchedule();
-    $bus = $this->RegisteredpagesModel->getBusDetails();
-    $route = $this->RegisteredpagesModel->getRoute();
-    $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
-    $averageRatings = [];   
+            $schedule = $this->RegisteredpagesModel->getSchedule();
+            $bus = $this->RegisteredpagesModel->getBusDetails();
+            $route = $this->RegisteredpagesModel->getRoute();
+            $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            $averageRatings = [];   
 
-    foreach ($schedule as $item) {
-        $licenseId = $item['License_id'];
-        $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
-        $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
-    }
+            foreach ($schedule as $item) {
+                $licenseId = $item['License_id'];
+                $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+            }
 
-    echo '<script>console.log("Notifications in controller:", ' . json_encode($notifications) . ');</script>';
+            echo '<script>console.log("Notifications in controller:", ' . json_encode($notifications) . ');</script>';
 
-    $data = [
-        'schedule' => $schedule,
-        'bus' => $bus,
-        'route' => $route,
-        'notifications' => $notifications,
-        'averageRatings' => $averageRatings,
-    ];
+            $data = [
+                'schedule' => $schedule,
+                'bus' => $bus,
+                'route' => $route,
+                'notifications' => $notifications,
+                'averageRatings' => $averageRatings,
+            ];
 
-    $this->view('pages/RegisteredUser/home', $data);
-}
+            $this->view('pages/RegisteredUser/home', $data);
+        }
 
 
         public function bookings() {
@@ -51,6 +51,7 @@
             $schedule = $this->RegisteredpagesModel->getSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+
             $data =[
                 'bookingsDetails' => $bookingsDetails,
                 'schedule' => $schedule,
@@ -70,7 +71,6 @@
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
             $pastNotArrivedBookings = $this->RegisteredpagesModel->getPastNotArrivedBookings($_SESSION['user_id']);
 
-
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
@@ -78,7 +78,7 @@
                 'user'=> $user,
                 'route' => $route,
                 'notifications' => $notifications,
-                'pastNotArrivedBookings' => $pastNotArrivedBookings
+                'pastNotArrivedBookings' => $pastNotArrivedBookings,
             ];
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);
