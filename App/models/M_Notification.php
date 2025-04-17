@@ -54,6 +54,14 @@ class M_Notification {
         
         return $this->db->execute();
     }
+
+    public function updateReadStatusOfAll($notiID , $userID){
+        $this->db->query('UPDATE notifications SET is_read = :is_read WHERE id = :id AND user_id = :user_id');
+        $this->db->bind(':is_read', 1);
+        $this->db->bind(':id', $notiID);
+        $this->db->bind(':user_id', $userID);
+        return $this->db->execute();
+    }
     
     /**
      * Dismiss notification
