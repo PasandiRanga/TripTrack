@@ -12,23 +12,16 @@
 </head>
 <body>
 
-    <?php
-        
-        
+    <?php 
         // Assuming $data['currentController'] and $data['currentMethod'] are passed to this view
         $currentController = $data['currentController'] ?? '';
         // echo "Current controller is: " . $currentController;
         $currentMethod = $data['currentMethod'] ?? '';
         // echo "Current method is: " . $currentMethod;
         $userRole = $_SESSION['user_role'] ?? '';
-
-
-      
-    
         ?>
        
 <?php
-
 // Get the selected date from the query parameter, default to current date if none selected
 $selectedDate = $_GET['date'] ?? date('Y-m-d');
 
@@ -48,6 +41,14 @@ foreach ($busData as $bus) {
         }
         // Check if the schedule matches the selected date
         if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
+            // Get the specific rating for this bus
+            $busRating = isset($averageRatings[$bus['License_id']]) ? $averageRatings[$bus['License_id']] : 0;
+            // Check if the rating is numeric
+            $ratingIsNumeric = is_numeric($busRating);
+            // If rating is not numeric, set a default value for star display
+            $numericRating = $ratingIsNumeric ? (float)$busRating : 0;
+            // Round to nearest 0.5 for star display
+            $roundedRating = round($numericRating * 2) / 2;
             ?>
             <div class="bus-card" onclick="window.location.href = '<?php 
                 if ($userRole === 'GuestUser') {
@@ -138,9 +139,9 @@ foreach ($busData as $bus) {
                 <div class="bus-card-footer">
                 <div class="rating">
                     <?php
-                    $rating = 0.0; // Default rating value
+                    // Use the specific rating for this bus
                     for ($i = 1; $i <= 5; $i++) {
-                        if ($i <= $rating) {
+                        if ($i <= $roundedRating) {
                             // Display a yellow star for each rating point
                             echo '<i class="fas fa-star" style="color: #FFD700;"></i>'; // Yellow star
                         } else {
@@ -149,7 +150,7 @@ foreach ($busData as $bus) {
                         }
                     }
                     ?>
-                    <span><?php echo $rating; ?></span> <!-- Display rating value -->
+                    <span><?php echo $ratingIsNumeric ? number_format($numericRating, 1) : $busRating; ?></span> <!-- Display rating value -->
                 </div>
 
                     <div class="price">
@@ -168,6 +169,3 @@ if ($displayedCards === 0) {
     echo '<div class="no-buses-message">No buses available for the selected date.</div>';
 }
 ?>
-
-</body>
-</html>
