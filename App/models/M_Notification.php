@@ -12,7 +12,7 @@ class M_Notification {
      * Get all notifications for a user
      */
     public function getNewNotifications($userId) {
-        $this->db->query('SELECT * FROM notifications WHERE user_id = :user_id AND is_dismissed=0 AND is_read = 0 ORDER BY created_at DESC');
+        $this->db->query('SELECT * FROM notifications WHERE user_id = :user_id AND is_dismissed=0 AND is_read = 0 AND is_deleted=0 ORDER BY created_at DESC');
         $this->db->bind(':user_id', $userId);
         
         $results = $this->db->resultSet();
