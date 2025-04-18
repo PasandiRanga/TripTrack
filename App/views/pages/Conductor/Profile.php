@@ -29,7 +29,8 @@
 
 
     <?php
-    $profile = $data['employee'] ?? [];
+    $profile = $data;
+    error_log("profile details at view: " . print_r($data, true));
     // echo '<pre>';
     //         print_r($_SESSION['user_profile_image']);
     //         echo '</pre>';
