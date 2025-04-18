@@ -62,7 +62,6 @@ class M_SuperAdminPages {
     public function updateBus($data) {
         $this->db->query('UPDATE bus SET 
             routeNumber = :routeNumber,
-            route = :route,
             start_location = :start_location,
             destination = :destination,
             passengers = :passengers,
@@ -72,9 +71,9 @@ class M_SuperAdminPages {
 
         // Bind parameters
         $this->db->bind(':routeNumber', $data['routeNumber']);
-        $this->db->bind(':route', $data['route']);
+        //$this->db->bind(':route', $data['route']);
         //$this->db->bind(':busType', $data['busType']);
-        $this->db->bind(':stops', $data['stops']);
+        //$this->db->bind(':stops', $data['stops']);
         $this->db->bind(':start_location', $data['start_location']);
         $this->db->bind(':destination', $data['destination']);
         //$this->db->bind(':rating', $data['rating']);
@@ -327,6 +326,13 @@ class M_SuperAdminPages {
         $this->db->query('SELECT * FROM support_request');
         return $this->db->resultSet();
     }
+
+    public function setRepliedStatus($requestId) {
+        $this->db->query("UPDATE support_requests SET replied = 1 WHERE Request_id = :id");
+        $this->db->bind(':id', $requestId);
+        return $this->db->execute();
+    }
+
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //Routes

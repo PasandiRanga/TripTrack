@@ -97,6 +97,18 @@ h2 {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+.reply-btn.replied {
+    background-color: #28a745; /* Green */
+    color: white;
+    cursor: not-allowed;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+/* Replied row background */
+.contact-table tbody tr.replied-row {
+    background-color: #e6f9e6 !important; /* Light green background */
+}
 
 .reply-btn:hover {
     background-color: #0056b3; /* Darker blue on hover */

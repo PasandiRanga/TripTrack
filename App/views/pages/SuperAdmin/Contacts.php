@@ -27,6 +27,7 @@
                     <th>Email</th>
                     <th>Contact no</th>
                     <th>Message</th>
+                    <th>Replied</th>
                     <th>Reply</th>
                 </tr>
             </thead>
@@ -49,7 +50,8 @@
                             echo "<td>{$contact['email']}</td>";
                             echo "<td>{$contact['contactNo']}</td>";
                             echo "<td>{$contact['message']}</td>";
-                            echo "<td><button class='reply-btn' onclick=\"replyAndRemoveRow(this, '{$mailto}')\">Reply</button></td>";
+                            echo "<td>" . ($contact['replied'] ? 'Yes' : 'No') . "</td>";
+                            echo "<td><button class='reply-btn' onclick=\"reply(this, '{$mailto}')\">Reply</button></td>";
                             echo "</tr>";
                         }
                     } else {
@@ -62,18 +64,36 @@
 
     <!-- JavaScript for reply + remove row -->
     <script>
-        function replyAndRemoveRow(button, mailtoUrl) {
-            // Open email client
-            window.location.href = mailtoUrl;
+    function reply(button, mailtoUrl, requestId) {
+        // Open mail client
+        window.location.href = mailtoUrl;
 
-            // Wait 1 second, then remove the row smoothly
-            setTimeout(() => {
-                const row = button.closest('tr');
-                row.style.transition = 'opacity 0.3s ease-out';
-                row.style.opacity = '0';
-                setTimeout(() => row.remove(), 300);
-            }, 1000);
-        }
+        // Immediately update UI
+        button.textContent = 'Replied';
+        button.disabled = true;
+        button.classList.add('replied');
+        const row = button.closest('tr');
+        row.classList.add('replied-row');
+        row.cells[5].textContent = 'Yes';
+
+        // Send update to server
+        fetch('<?php echo URLROOT; ?>/SuperAdminPages/markReplied', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ request_id: requestId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert("Failed to mark as replied on the server.");
+            }
+        })
+        .catch(err => {
+            console.error("Error updating status:", err);
+        });
+    }
     </script>
 </body>
 </html>

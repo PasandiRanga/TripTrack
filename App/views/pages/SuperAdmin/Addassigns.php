@@ -53,7 +53,7 @@
             <?php endif; ?>
             <?php foreach ($data['drivers'] as $driver): ?>
                 <option value="<?php echo $driver['employee_id']; ?>" 
-                data-name="<?php echo $driver['name']; ?>"
+                data-name="<?php echo htmlspecialchars($driver['name']); ?>"
                 <?php echo $driver['employee_id'] == $driverId ? 'selected' : ''; ?>>
                 <?php echo $driver['employee_id']; ?>
                 </option>

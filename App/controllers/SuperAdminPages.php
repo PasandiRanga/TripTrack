@@ -1005,6 +1005,24 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
 
+    public function markReplied() {
+    // Get raw POST data
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        $requestId = $data['request_id'] ?? null;
+
+        if ($requestId) {
+            if ($this->SuperAdminModel->setRepliedStatus($requestId)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Missing ID']);
+        }
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
                                     //Profile
 //---------------------------------------------------------------------------------------------------------------------- 
