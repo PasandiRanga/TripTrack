@@ -27,42 +27,53 @@
                     <th>Email</th>
                     <th>Contact no</th>
                     <th>Message</th>
-                    <th>User ID</th>
                     <th>Reply</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    // Example data (replace with actual database query results)
-                    /*
-                    $requests = [
-                        ['request_id' => 1, 'name' => 'John Doe', 'email' => 'john@example.com', 'contact_no' => '1234567890', 'message' => 'Need help with my account.', 'user_id' => 101],
-                        ['request_id' => 2, 'name' => 'Jane Smith', 'email' => 'jane@example.com', 'contact_no' => '0987654321', 'message' => 'Issue with recent order.', 'user_id' => 102],
-                    ]; */
-                    if(isset($data['contact']) && is_array($data['contact'])){
+                    if (isset($data['contact']) && is_array($data['contact'])) {
                         foreach ($data['contact'] as $contact) {
+                            $email = $contact['email'];
+                            $name = $contact['name'];
+                            $message = $contact['message'];
+
+                            // Build a properly encoded mailto link with new lines
+                            $subject = rawurlencode("Support Request Reply");
+                            $body = rawurlencode("Hello {$name},\n\nRegarding your message:\n{$message}\n\n---\nReply here.");
+                            $mailto = "mailto:{$email}?subject={$subject}&body={$body}";
+
                             echo "<tr>";
                             echo "<td>{$contact['Request_id']}</td>";
                             echo "<td>{$contact['name']}</td>";
                             echo "<td>{$contact['email']}</td>";
                             echo "<td>{$contact['contactNo']}</td>";
                             echo "<td>{$contact['message']}</td>";
-                            echo "<td>{$contact['User_id']}</td>";
-                            echo "<td><button class='reply-btn' onclick=\"window.location.href='mailto:{$contact['email']}?subject=Support%20Request%20Reply&body=Hello%20{$contact['name']},%0A%0ARegarding%20your%20message:%20{$contact['message']}%0A%0A---%0AReply%20here.'\">Reply</button></td>";
+                            echo "<td><button class='reply-btn' onclick=\"replyAndRemoveRow(this, '{$mailto}')\">Reply</button></td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='14'>No bus data available.</td></tr>";
+                        echo "<tr><td colspan='6'>No contact requests available.</td></tr>";
                     }
-                    
                 ?>
             </tbody>
         </table>
     </div>
 
+    <!-- JavaScript for reply + remove row -->
     <script>
-        // Function to handle the Delete button click
-        
+        function replyAndRemoveRow(button, mailtoUrl) {
+            // Open email client
+            window.location.href = mailtoUrl;
+
+            // Wait 1 second, then remove the row smoothly
+            setTimeout(() => {
+                const row = button.closest('tr');
+                row.style.transition = 'opacity 0.3s ease-out';
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 300);
+            }, 1000);
+        }
     </script>
 </body>
 </html>

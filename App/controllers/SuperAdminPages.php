@@ -312,7 +312,7 @@ class SuperAdminPages extends Controller {
                 exit();
             }
 
-            if ($this->SuperAdminModel->replyReview($data)) {
+            if ($this->SuperAdminModel->replyreview($data)) {
                 echo json_encode(['status' => 'success', 'message' => 'Reply added successfully.']);
                 exit();
             } else {
@@ -322,9 +322,15 @@ class SuperAdminPages extends Controller {
             }
         } else {
             // Handle GET request or other methods
+            http_response_code(405); // Method Not Allowed
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+            exit();
         }
     }
 
+    public function replyreviews() {
+        $this->view('pages/SuperAdmin/ReplyReviews');
+    }
 //----------------------------------------------------------------------------------------------------------------------
                                     //Schedule
 //---------------------------------------------------------------------------------------------------------------------- 
@@ -704,9 +710,7 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/ReplyLeaves');
     }
 
-    public function replyreviews() {
-        $this->view('pages/SuperAdmin/ReplyReviews');
-    }
+
 
 //----------------------------------------------------------------------------------------------------------------------
                                     //Assigns
@@ -737,14 +741,16 @@ class SuperAdminPages extends Controller {
             $data = [
                 'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
                 'driverName'    => trim($inputData['driverName'] ?? ''),
-                'conductorName' => trim($inputData['conductorName'] ?? '')
+                'conductorName' => trim($inputData['conductorName'] ?? ''),
+                'driver_id' => trim($inputData['driverId'] ?? ''),
+                'conductor_id' => trim($inputData['conductorId'] ?? '')
             ];
 
             // Print the data for debugging
             error_log("Assign Data: " . json_encode($data));
 
             // Validate required fields
-            if (empty($data['scheduleId']) || empty($data['driverName']) || empty($data['conductorName'])) {
+            if (empty($data['scheduleId']) || empty($data['driverName']) || empty($data['conductorName']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
                 echo json_encode(['status' => 'error', 'message' => 'All fields are required controller.']);
                 http_response_code(400);
                 exit();
@@ -761,8 +767,10 @@ class SuperAdminPages extends Controller {
             }
         } else {
                 $scheduleId = $_GET['scheduleId'] ?? '';
-                $driverName = $_GET['driverName'] ?? '';
-                $conductorName = $_GET['conductorName'] ?? '';
+                $driverName = $_GET['driver_name'] ?? '';
+                $conductorName = $_GET['conductor_name'] ?? '';
+                $driver_id = $_GET['driver_id'] ?? '';
+                $conductor_id = $_GET['conductor_id'] ?? '';
                 $isUpdate = !empty($scheduleId);
             //Fetch all schedules
             $allSchedules = $this->SuperAdminModel->getScheduleID();
@@ -786,6 +794,8 @@ class SuperAdminPages extends Controller {
                 'scheduleId' => $scheduleId,
                 'driverName' => $driverName,
                 'conductorName' => $conductorName,
+                'driver_id' => $driver_id,
+                'conductor_id' => $conductor_id,
                 'isUpdate' => $isUpdate
             ];
 
@@ -809,14 +819,16 @@ class SuperAdminPages extends Controller {
             $data = [
                 'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
                 'driverName'    => trim($inputData['driverName'] ?? ''),
-                'conductorName' => trim($inputData['conductorName'] ?? '')
+                'conductorName' => trim($inputData['conductorName'] ?? ''),
+                'driver_id' => trim($inputData['driverid'] ?? ''),
+                'conductor_id' => trim($inputData['conductorid'] ?? '')
             ];
 
             // Debug log to verify data
             error_log("Controller updateAssign Data: " . json_encode($data));
 
             // Validate required fields
-            if (empty($data['scheduleId']) || empty($data['driverName']) || empty($data['conductorName'])) {
+            if (empty($data['scheduleId']) || empty($data['driverName']) || empty($data['conductorName']) || empty($data['driver_id']) || empty($data['conductor_id'])) {
                 echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
                 http_response_code(400);
                 exit();

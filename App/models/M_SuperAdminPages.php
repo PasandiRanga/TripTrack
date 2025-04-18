@@ -405,12 +405,14 @@ class M_SuperAdminPages {
             $currentDate = date("Y-m-d");
             $currentTime = date("H:i:s");
 
-            $this->db->query('INSERT INTO assign (scheduleId, driver_name, conductor_name, assign_time, assign_date) 
-                            VALUES (:scheduleId, :driver_name, :conductor_name, :assign_time, :assign_date)');
+            $this->db->query('INSERT INTO assign (scheduleId, driver_name, driver_id, conductor_name, conductor_id, assign_time, assign_date) 
+                            VALUES (:scheduleId, :driver_name, :driver_id :conductor_name, :conductor_id, :assign_time, :assign_date)');
 
             $this->db->bind(':scheduleId', $data['scheduleId']);
             $this->db->bind(':driver_name', $data['driverName']);
+            $this->db->bind(':driver_id', $data['driverId']);
             $this->db->bind(':conductor_name', $data['conductorName']);
+            $this->db->bind(':conductor_id', $data['conductorId']);
             $this->db->bind(':assign_time', $currentTime);
             $this->db->bind(':assign_date', $currentDate);
 
@@ -439,14 +441,15 @@ class M_SuperAdminPages {
     }
 
     public function getDriverName(){
-        $this->db->query("SELECT name FROM employee WHERE role='Driver'");
+        $this->db->query("SELECT employee_id,name FROM employee WHERE role='Driver'");
         return $this->db->resultSet();
     }
 
     public function getConductorName(){
-        $this->db->query("SELECT name FROM employee WHERE role='Conductor'");
+        $this->db->query("SELECT employee_id,name FROM employee WHERE role='Conductor'");
         return $this->db->resultSet();
     }
+
 
     public function updateAssign($data) {
         date_default_timezone_set('Asia/Colombo'); // Set the timezone
@@ -457,12 +460,14 @@ class M_SuperAdminPages {
         error_log("Model updateAssign Data: " . json_encode($data));
 
         // Update query
-        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_name = :driver_name, conductor_name = :conductor_name, assign_time = :assign_time, assign_date = :assign_date WHERE scheduleId = :scheduleId');
+        $this->db->query('UPDATE assign SET scheduleId = :scheduleId, driver_name = :driver_name, driver_id = :driver_id, conductor_name = :conductor_name, conductor_id = :conductor_id, assign_time = :assign_time, assign_date = :assign_date WHERE scheduleId = :scheduleId');
 
         // Bind parameters
         $this->db->bind(':scheduleId', $data['scheduleId']);
         $this->db->bind(':driver_name', $data['driverName']);
+        $this->db->bind(':driver_id', $data['driverId']);
         $this->db->bind(':conductor_name', $data['conductorName']);
+        $this->db->bind(':conductor_id', $data['conductorId']);
         $this->db->bind(':assign_time', $currentTime);
         $this->db->bind(':assign_date', $currentDate);
 
@@ -507,10 +512,11 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    public function replyreviews($data) {
+    public function replyreview($data) {
         
-        $this->db->query('UPDATE bus_reviews SET reply = :reply WHERE reviewId = :reviewId');
+        $this->db->query('UPDATE bus_reviews SET reply = :reply, replied = :replied WHERE reviewId = :reviewId');
         $this->db->bind(':reply', $data['reply']);
+        $this->db->bind(':replied', 'Yes');
         $this->db->bind(':reviewId', $data['reviewId']);
 
         if ($this->db->execute()) {
