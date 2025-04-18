@@ -382,14 +382,7 @@
             $this->db->bind(':booking_date', $bookingData['booking_date']);
             $this->db->bind(':booking_time', $bookingData['booking_time']);
             $this->db->bind(':booking_status', 'Arrived');
-            error_log("🚀 Running INSERT query...");
-            $success = $this->db->execute();
-
-            if (!$success) {
-                error_log("❌ Insert into pastguestbooking failed");
-                error_log("🔍 Data: " . print_r($bookingData, true));
-                return false;
-            }
+            $this->db->execute();
 
             $this->db->query("DELETE FROM guestbooking WHERE id = :id");
             $this->db->bind(':id', $bookingData['id']);
@@ -452,6 +445,24 @@
             $this->db->execute();
 
             return $updatedSeats;
+        }
+
+        public function checkGuestBooking($booking_id, $nic) {
+            $this->db->query('SELECT schedule_id, selected_seats FROM guestbooking WHERE id = :booking_id AND nic = :nic');
+            $this->db->bind(':booking_id', $booking_id);
+            $this->db->bind(':nic', $nic);
+            $this->db->execute();
+
+            return $this->db->single();
+        }
+
+        public function checkRegBooking($booking_id, $nic) {
+            $this->db->query('SELECT schedule_id, selected_seats FROM registeredbooking WHERE id = :booking_id AND nic = :nic');
+            $this->db->bind(':booking_id', $booking_id);
+            $this->db->bind(':nic', $nic);
+            $this->db->execute();
+
+            return $this->db->single();
         }
 
     }
