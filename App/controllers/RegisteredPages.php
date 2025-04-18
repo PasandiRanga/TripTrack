@@ -640,6 +640,7 @@
             $pastschedule = $this->RegisteredpagesModel->getPastSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            $cancellations = $this->RegisteredpagesModel->getCancellations($_SESSION['user_id']);
             // $reviews = $this->RegisteredpagesModel->getReviews($_SESSION['user_id']);
 
             $data = [
@@ -649,7 +650,7 @@
                 'bus' => $bus,
                 'notifications' => $notifications,
                 'pastSchedule' => $pastschedule,
-                // 'reviews' => $reviews
+                'cancellations' => $cancellations                // 'reviews' => $reviews
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
@@ -765,7 +766,7 @@
     public function toggleReadStatus() {
         // Check if it's an AJAX request
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-            redirect('pages/error');
+            redirect('RegisteredPages/home');
         }
         
         // Get POST data
@@ -792,6 +793,48 @@
         exit(); // Add this to ensure nothing else is output
     }
 
+    public function markAllAsRead() {
+        ob_start();
+        try {
+            if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+                throw new Exception('Invalid request method');
+            }
+            
+            $input = json_decode(file_get_contents('php://input'), true);
+            
+            // Check if ids array exists
+            if (!isset($input['ids']) || !is_array($input['ids'])) {
+                throw new Exception('Invalid input format');
+            }
+            
+            $success = true;
+            foreach ($input['ids'] as $notiID) {
+                $result = $this->NotificationModel->updateReadStatusOfAll($notiID, $_SESSION['user_id']);
+                if (!$result) {
+                    $success = false;
+                }
+            }
+            
+            // Clear any output that might have happened
+            ob_clean();
+            
+            // Return JSON response
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => $success
+            ]);
+        } catch (Exception $e) {
+            // Clear any output
+            ob_clean();
+            
+            // Return error JSON
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
     public function deleteNotification(){
         // Turn off output buffering
 
@@ -880,24 +923,28 @@
             echo '<script>console.log("Post data: ' . json_encode($_POST) . '");</script>';
 
             $data = [
-            'user_id' => $_POST['user_id'],
-            'license_id' => $_POST['license_id'],
-            'rate' => $_POST['rating'],
-            'review' => trim($_POST['opinion']),
-            'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
-            'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
-        ];
-        
-        if ($this->RegisteredpagesModel->addReview($data)) {
-            // redirect to previous or success page
-            redirect('RegisteredPages/newBookings');
+                'user_id' => $_POST['user_id'],
+                'license_id' => $_POST['license_id'],
+                'rate' => $_POST['rating'],
+                'review' => trim($_POST['opinion']),
+                'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
+                'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
+            ];
+            
+            if ($this->RegisteredpagesModel->addReview($data)) {
+                // redirect to previous or success page
+                redirect('RegisteredPages/newBookings');
+            } else {
+                die('Something went wrong');
+            }
         } else {
-            die('Something went wrong');
+            redirect('RegisteredPages/newBookings');
         }
-    } else {
-        redirect('RegisteredPages/newBookings');
     }
-}
+
+    // public function getCancelledBookings(){
+    //     cancellations
+    // }
 
     // public function getAverageRatings() {
     //     $scheduleData = $this->RegisteredpagesModel->getSchedule(); 

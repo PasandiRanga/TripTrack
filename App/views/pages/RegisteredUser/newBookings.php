@@ -31,13 +31,16 @@
 
     <?php
         echo '<script> console.log(' . json_encode($data) . ') </script>';
-        
+        $cancellationData = $data['cancellations'] ?? [];
+        echo '<script> console.log("Cancellation data:", ' . json_encode($cancellationData) . ') </script>';
         $userId = $_SESSION['user_id'] ?? '';
         $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
         $upcomingBookingData = $data['upcomingbookings'] ?? [];
         $pastBookingData = $data['pastbookings'] ?? [];
         $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
         $pastScheduleData = $data['pastSchedule'] ??[];
+       
+         
         $notifications = $data['notifications'] ?? [];
         // $reviews = $data['reviews'] ?? [];
         // $bookingData = $data['bookingsDetails'] ?? [];
@@ -213,6 +216,7 @@
     const upcomingScheduleData = <?php echo json_encode($upcomingScheduleData); ?>;
     const pastScheduleData = <?php echo json_encode($pastScheduleData); ?>;
     const busData = <?php echo json_encode($busData); ?>;
+    const cancelledBookings = <?php echo json_encode($cancellationData); ?>;
 
     let date = new Date(),
         currYear = date.getFullYear(),
@@ -227,6 +231,8 @@
         const scheduleIds = new Set();
         let hasUpcoming = false;
         let hasPast = false;
+        let hasCancels = false;
+    
 
         // Check upcoming bookings
         upcomingBookings.forEach(booking => {
@@ -246,9 +252,21 @@
             }
         });
 
+        cancelledBookings.forEach(booking => {
+            // Try to find the schedule in either past or upcoming
+            const schedule = pastScheduleData.find(s => s.scheduleId === booking.schedule_id) || 
+                            upcomingScheduleData.find(s => s.scheduleId === booking.schedule_id);
+            
+            if (schedule && schedule.date === dateStr) {
+                hasCancels = true;
+                scheduleIds.add(booking.schedule_id);
+            }
+        });
+
         return {
             hasUpcoming,
             hasPast,
+            hasCancels,
             scheduleIds: Array.from(scheduleIds)
         };
     }
@@ -371,6 +389,45 @@
                                     <p><strong>Booking ID:</strong> ${booking.id}</p>
                                     <p><strong>Payment Method:</strong> ${booking.paymentMethod}</p>
 
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            if (bookingStatus.hasCancels){
+                dateInfo += `<h4>Cancelled Bookings</h4>`;
+                cancelledBookings.forEach(booking => {
+                    const pastschedule = pastScheduleData.find(s => s.scheduleId === booking.schedule_id);
+                    const upcomingschedule = upcomingScheduleData.find(s => s.scheduleId === booking.schedule_id);
+                    
+                    // Use either past or upcoming schedule based on what's available
+                    const schedule = pastschedule || upcomingschedule;
+                    
+                    if (schedule && schedule.date === dateStr) {
+                        const bus = busData.find(b => b.busId === schedule.busId);
+                        dateInfo += `
+                            <div class="booking-item cancelled" onclick="toggleDetails(event, this)">
+                                <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
+                                <div class="menu">
+                                    <ul>
+                                        <li>view ticket</li>
+                                    </ul>
+                                </div>
+                                <div class="booking-summary">
+                                    <span class="arrow-icon">▼</span>
+                                    <p><strong>${booking.from_location} - </strong>
+                                    <strong>${booking.to_location}</strong></p>
+                                </div>
+                                <div class="booking-details">
+                                    <p><strong>From:</strong> ${booking.from_location}</p>
+                                    <p><strong>To:</strong> ${booking.to_location}</p>
+                                    <p><strong>Time:</strong> ${schedule.departureTime}</p>
+                                    <p><strong>Bus:</strong> ${bus ? bus.License_id : 'N/A'}</p>
+                                    <p><strong>Booking ID:</strong> ${booking.id}</p>
+                                    <p><strong>Payment Method:</strong> ${booking.paymentMethod}</p>
+                                    <p><strong>Cancelled Date:</strong> ${booking.time_date}</p>
                                 </div>
                             </div>
                         `;

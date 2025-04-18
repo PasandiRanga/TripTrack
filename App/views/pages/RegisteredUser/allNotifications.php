@@ -412,10 +412,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Send to server
-        fetch(`${URLROOT}/Notifications/markAllAsRead`, {
+        fetch(`${URLROOT}/RegisteredPages/markAllAsRead`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'  // Add this for consistency
             },
             body: JSON.stringify({ ids: unreadIds })
         })
