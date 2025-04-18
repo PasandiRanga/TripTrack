@@ -47,7 +47,7 @@
     
     <!-- Header and Navbar -->
     <br/>
-    <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
+    <center><?php require APPROOT.'/views/inc/Components/Header/header.php'; ?></center>
 
     <!-- Profile Container -->
     <div class="profile-container">
@@ -118,23 +118,23 @@
         <div class="profile-right">
             <div class="detail">
                 <label>Full Name</label>
-                <input type="text" value="<?php echo $profile['Name']; ?>">
+                <input type="text" value="<?php echo $profile['Name']; ?>"readonly>
             </div>
             <div class="detail">
                 <label>Email Address</label>
-                <input type="mail" value="<?php echo $profile['Email']; ?>">
+                <input type="mail" value="<?php echo $profile['Email']; ?>"readonly>
             </div>
             <div class="detail">
                 <label>Contact Number</label>
-                <input type="text" value="<?php echo $profile['Contact_number']; ?>">
+                <input type="text" value="<?php echo $profile['Contact_number']; ?>"readonly>
             </div>
             <div class="detail">
                 <label>NIC</label>
-                <input type="text" value="<?php echo $profile['NIC']; ?>">
+                <input type="text" value="<?php echo $profile['NIC']; ?>"readonly>
             </div>
             <div class="detail">
                 <label>Address</label>
-                <input type="text" value="<?php echo $profile['Address']; ?>">
+                <input type="text" value="<?php echo $profile['Address']; ?>"readonly>
             </div>
 
             <button class="edit-button" onclick="showUpdateBox()">Edit</button>

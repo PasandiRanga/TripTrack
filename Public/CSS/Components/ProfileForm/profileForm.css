@@ -45,25 +45,31 @@
 }
 
 .done {
-    background: linear-gradient(135deg, #43cea2, #185a9d);
-    color: #ffffff;
+    background: linear-gradient(135deg, #00897b, #006064);
+    color: white;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px 25px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
-    align-self: flex-start;
-    width: 120px;
-    margin-top: 10px;
-    transition: background-color 0.3s;
+    font-size: 15px;
+    align-self: flex-end;
+    width: auto;
+    margin-top: 25px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0, 137, 123, 0.25);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .done:hover {
-    background: linear-gradient(135deg, #185a9d , #43cea2);
-}
+    background: linear-gradient(135deg, #00796b, #00838f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 137, 123, 0.3);}
 
 .profileForm {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -88,12 +94,12 @@ label {
 }
 
 .detail input {
+    background-color: #f2fffe;
+    color: #555;
+    border: 1px solid #e5e5e5;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #43cea2;
     border-radius: 5px;
-    background-color: white;
-    color: #333;
     margin-bottom: 10px;
 }
 
