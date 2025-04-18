@@ -306,5 +306,11 @@
                     return false;
                 }
             }
+
+            public function getAverageRatings($licenseId){
+                $this->db->query('SELECT License_id,AVG(rate) as average_rate FROM ratings WHERE License_id = :licenseId');
+                $this->db->bind(':licenseId',$licenseId);
+                return $this->db->single();
+            }
         }
 ?>
