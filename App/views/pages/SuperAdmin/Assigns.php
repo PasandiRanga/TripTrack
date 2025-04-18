@@ -113,9 +113,9 @@
                 const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/Addassigns');
                 url.searchParams.append('scheduleId', scheduleId);
                 url.searchParams.append('conductorName', conductorName);
-                url.searchParams.append('conductorId', conductorId);
+                url.searchParams.append('conductor_id', conductorId);
                 url.searchParams.append('driverName', driverName);
-                url.searchParams.append('driverId', driverId);
+                url.searchParams.append('driver_id', driverId);
 
                 window.location.href = url.toString();
             } else {

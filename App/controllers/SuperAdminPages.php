@@ -782,10 +782,22 @@ class SuperAdminPages extends Controller {
             $availableSchedules = array_filter($allSchedules, function($schedule) use ($assignedSchedules) {
                 return !in_array($schedule['scheduleId'], array_column($assignedSchedules, 'scheduleId'));
             });
+
+            //$allDrivers = $this->SuperAdminModel->getDriverId();
+            //$assignedDrivers = $this->SuperAdminModel->getAssignedDrivers();
+
+            //filter the available drivers to execute already assigned ones
+            $availablesDrivers = $this->SuperAdminModel->getAvailableDrivers();
+
+            //$allConductors = $this->SuperAdminModel->getConductorId();
+            //$assignedConductors = $this->SuperAdminModel->getAssignedConductors();
+
+            //filter the available conductors to execute already assigned ones
+            $availableConductors = $this->SuperAdminModel->getAvailableConductors();
             // Fetch schedule, driver, and conductor data
             $schedules = $availableSchedules;
-            $drivers = $this->SuperAdminModel->getDriverName();
-            $conductors = $this->SuperAdminModel->getConductorName();
+            $drivers = $availablesDrivers;
+            $conductors = $availableConductors;
 
             $data = [
                 'schedules' => $schedules,
@@ -820,8 +832,8 @@ class SuperAdminPages extends Controller {
                 'scheduleId'   => trim($inputData['scheduleId'] ?? ''),
                 'driverName'    => trim($inputData['driverName'] ?? ''),
                 'conductorName' => trim($inputData['conductorName'] ?? ''),
-                'driver_id' => trim($inputData['driverid'] ?? ''),
-                'conductor_id' => trim($inputData['conductorid'] ?? '')
+                'driver_id' => trim($inputData['driverId'] ?? ''),
+                'conductor_id' => trim($inputData['conductorId'] ?? '')
             ];
 
             // Debug log to verify data
@@ -846,6 +858,7 @@ class SuperAdminPages extends Controller {
             http_response_code(405);
         }
     }
+
     public function deleteAssign() {
         header('Content-Type: application/json');
 
