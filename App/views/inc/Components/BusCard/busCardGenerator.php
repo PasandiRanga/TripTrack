@@ -47,6 +47,7 @@ foreach ($busData as $bus) {
             $ratingIsNumeric = is_numeric($busRating);
             // If rating is not numeric, set a default value for star display
             $numericRating = $ratingIsNumeric ? (float)$busRating : 0;
+            
             // Round to nearest 0.5 for star display
             $roundedRating = round($numericRating * 2) / 2;
             ?>
@@ -139,14 +140,19 @@ foreach ($busData as $bus) {
                 <div class="bus-card-footer">
                 <div class="rating">
                     <?php
-                    // Use the specific rating for this bus
+                    // Modified stars display code to handle decimal ratings correctly
                     for ($i = 1; $i <= 5; $i++) {
-                        if ($i <= $roundedRating) {
-                            // Display a yellow star for each rating point
-                            echo '<i class="fas fa-star" style="color: #FFD700;"></i>'; // Yellow star
-                        } else {
-                            // Display a gray star for the remaining
-                            echo '<i class="fas fa-star" style="color: #ccc;"></i>'; // Gray star
+                        // Full star
+                        if ($i <= floor($roundedRating)) {
+                            echo '<i class="fas fa-star" style="color: #FFD700;"></i>';
+                        } 
+                        // Half star
+                        elseif ($i - 0.5 <= $roundedRating) {
+                            echo '<i class="fas fa-star-half-alt" style="color: #FFD700;"></i>';
+                        } 
+                        // Empty star
+                        else {
+                            echo '<i class="fas fa-star" style="color: #ccc;"></i>';
                         }
                     }
                     ?>
