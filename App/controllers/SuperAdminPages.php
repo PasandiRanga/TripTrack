@@ -47,14 +47,14 @@ class SuperAdminPages extends Controller {
 
             $inputData = json_decode(file_get_contents("php://input"), true);
 
-            //echo var_dump($inputData); //check the data check the correct id
+            error_log("Input Data: " . json_encode($inputData)); // Log the input data for debugging
 
-            if(!$inputData){
+            if (!$inputData) {
                 echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
                 http_response_code(400);
                 exit();
             }
-           
+
             // Collect data into an array
             $data = [
                 'License_id' => trim($inputData['License_id'] ?? ''),
@@ -65,12 +65,20 @@ class SuperAdminPages extends Controller {
                 'price' => trim($inputData['price'] ?? ''),
                 'priceperkm' => trim($inputData['priceperkm'] ?? '')
             ];
+
+            // Validate required fields
+            if (empty($data['License_id']) || empty($data['routeNumber']) || empty($data['start_location']) || empty($data['destination']) || empty($data['passengers']) || empty($data['price']) || empty($data['priceperkm'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
             // Call the model method to add the bus
-            if($this->SuperAdminModel->addBus($data)){
+            if ($this->SuperAdminModel->addBus($data)) {
                 echo json_encode(['status' => 'success', 'message' => 'Bus added successfully.']);
                 exit();
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Database Error cannot add schedule']);
+                echo json_encode(['status' => 'error', 'message' => 'Database Error: Cannot add bus.']);
                 http_response_code(500);
                 exit();
             }
@@ -81,7 +89,7 @@ class SuperAdminPages extends Controller {
                 'route' => $route
             ];
             // Load the view if not a POST request
-            $this->view('pages/SuperAdmin/Addfleet',$data);
+            $this->view('pages/SuperAdmin/Addfleet', $data);
         }
     }
 
@@ -108,32 +116,47 @@ class SuperAdminPages extends Controller {
     }
 
     public function updateBus() {
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Sanitize input
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            header('Content-Type: application/json');
+            // Decode the JSON input
+            $inputData = json_decode(file_get_contents('php://input'), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input']);
+                http_response_code(400);
+                exit();
+            }
 
             // Prepare the data array
             $data = [
-                'License_id' => $_POST['License_id'],
-                'routeNumber' => $_POST['routeNumber'],
-                'route' => $_POST['route'],
-                //'busType' => $_POST['busType'],
-                'stops' => $_POST['stops'],
-                'start_location' => $_POST['start_location'],
-                'destination' => $_POST['destination'],
-                //'rating' => $_POST['rating'],
-                'passengers' => $_POST['passengers'],
-                'price' => $_POST['price'],
-                'priceperkm' => $_POST['priceperkm']
+                'License_id' => trim($inputData['License_id'] ?? ''),
+                'routeNumber' => trim($inputData['routeNumber'] ?? ''),
+                'start_location' => trim($inputData['start_location'] ?? ''),
+                'destination' => trim($inputData['destination'] ?? ''),
+                'passengers' => trim($inputData['passengers'] ?? ''),
+                'price' => trim($inputData['price'] ?? ''),
+                'priceperkm' => trim($inputData['priceperkm'] ?? '')
             ];
+
+            // Validate required fields
+            if (empty($data['License_id']) || empty($data['routeNumber']) || empty($data['start_location']) || empty($data['destination']) || empty($data['passengers']) || empty($data['price']) || empty($data['priceperkm'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
 
             // Call the model method to update the bus
             if ($this->SuperAdminModel->updateBus($data)) {
-                header("Location: " . URLROOT . "/SuperAdminPages/fleet");
-                exit;
+                echo json_encode(['status' => 'success', 'message' => 'Bus updated successfully.']);
             } else {
-                die("Error: Unable to update the bus.");
+                echo json_encode(['status' => 'error', 'message' => 'Error updating the bus.']);
+                http_response_code(500);
             }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+            http_response_code(405);
         }
     }
 
@@ -212,24 +235,24 @@ class SuperAdminPages extends Controller {
         }
     }
 
-    public function updatefleet() {
-        // Retrieve the license ID from the GET request
-        $licence_id = isset($_GET['License_id']) ? $_GET['License_id'] : null;
+    // public function updatefleet() {
+    //     // Retrieve the license ID from the GET request
+    //     $licence_id = isset($_GET['License_id']) ? $_GET['License_id'] : null;
 
-        if ($licence_id) {
-            // Fetch the bus details using the model
-            $busDetails = $this->SuperAdminModel->getBusByLicenseId($licence_id);
+    //     if ($licence_id) {
+    //         // Fetch the bus details using the model
+    //         $busDetails = $this->SuperAdminModel->getBusByLicenseId($licence_id);
 
-            // Pass the details to the view
-            if ($busDetails) {
-                $this->view('pages/SuperAdmin/Updatefleet', ['busDetails' => $busDetails]);
-            } else {
-                die("Bus not found.");
-            }
-        } else {
-            die("License ID not provided.");
-        }
-    }
+    //         // Pass the details to the view
+    //         if ($busDetails) {
+    //             $this->view('pages/SuperAdmin/Updatefleet', ['busDetails' => $busDetails]);
+    //         } else {
+    //             die("Bus not found.");
+    //         }
+    //     } else {
+    //         die("License ID not provided.");
+    //     }
+    // }
 
 //----------------------------------------------------------------------------------------------------------------------
                                     //bookings
@@ -254,9 +277,52 @@ class SuperAdminPages extends Controller {
     public function reports() {
         $this->view('pages/SuperAdmin/Reports');
     }
+//----------------------------------------------------------------------------------------------------------------------
+                                    //reviews
+//---------------------------------------------------------------------------------------------------------------------- 
 
     public function reviews() {
-        $this->view('pages/SuperAdmin/Reviews');
+        $reviews = $this->SuperAdminModel->getReviews();
+        $data = [
+            'reviews' => $reviews
+        ];
+        $this->view('pages/SuperAdmin/Reviews',$data);
+    }
+
+    public function replyreview() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json; charset=UTF-8');
+
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
+            $data = [
+                'reviewId' => trim($inputData['reviewId'] ?? ''),
+                'reply' => trim($inputData['reply'] ?? '')
+            ];
+
+            if (empty($data['reviewId']) || empty($data['reply'])) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            if ($this->SuperAdminModel->replyReview($data)) {
+                echo json_encode(['status' => 'success', 'message' => 'Reply added successfully.']);
+                exit();
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Database Error: Cannot add reply.']);
+                http_response_code(500);
+                exit();
+            }
+        } else {
+            // Handle GET request or other methods
+        }
     }
 
 //----------------------------------------------------------------------------------------------------------------------

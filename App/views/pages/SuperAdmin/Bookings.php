@@ -15,58 +15,8 @@
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
     <h1>Booking Records</h1>
-    <!-- Filter checkboxes -->
-    <div class="filter-checkbox-container">
-        <label><input type="checkbox" id="filterName" onchange="filterTable()"> Name</label>
-        <label><input type="checkbox" id="filterEmail" onchange="filterTable()"> Email</label>
-        <label><input type="checkbox" id="filterContact" onchange="filterTable()"> Contact</label>
-        <label><input type="checkbox" id="filterNIC" onchange="filterTable()"> NIC</label>
-    </div>
 
-    <script>
-        function filterTable() {
-            const filterName = document.getElementById('filterName').checked;
-            const filterEmail = document.getElementById('filterEmail').checked;
-            const filterContact = document.getElementById('filterContact').checked;
-            const filterNIC = document.getElementById('filterNIC').checked;
-
-            const rows = document.querySelectorAll('.booking-table tbody tr');
-
-            rows.forEach(row => {
-                const name = row.cells[1]?.textContent.toLowerCase();
-                const email = row.cells[2]?.textContent.toLowerCase();
-                const contact = row.cells[3]?.textContent.toLowerCase();
-                const nic = row.cells[4]?.textContent.toLowerCase();
-
-                let isVisible = true;
-
-                if (filterName && !name) isVisible = false;
-                if (filterEmail && !email) isVisible = false;
-                if (filterContact && !contact) isVisible = false;
-                if (filterNIC && !nic) isVisible = false;
-
-                row.style.display = isVisible ? '' : 'none';
-            });
-        }
-    </script>
     <br>
-    <!-- Search box -->
-    <div class="search-container">
-        <label for="searchBox">Search:</label>
-        <input type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for bookings...">
-    </div>
- 
-    <script>
-        function searchTable() {
-            const searchValue = document.getElementById('searchBox').value.toLowerCase();
-            const rows = document.querySelectorAll('.booking-table tbody tr');
-
-            rows.forEach(row => {
-                const rowText = row.textContent.toLowerCase();
-                row.style.display = rowText.includes(searchValue) ? '' : 'none';
-            });
-        }
-    </script>
     <!-- Select box for filtering booking types -->
     <div class="filter-container">
         <label for="bookingType">Select Booking Type:</label>
@@ -78,6 +28,20 @@
         </select>
     </div>
 
+<!-- Search box -->
+    <div class="search-container">
+        <label for="searchBox">Search:</label>
+        <input type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for bookings...">
+    </div>
+
+<!-- Filter checkboxes -->
+    <div class="filter-checkbox-container">
+        <label><input type="checkbox" id="filterToday" class="filter-checkbox"> Today</label>
+        <label><input type="checkbox" id="filterYesterday" class="filter-checkbox"> Yesterday</label>
+        <label><input type="checkbox" id="filterThisWeek" class="filter-checkbox"> This Week</label>
+        <label><input type="checkbox" id="filterThisMonth" class="filter-checkbox"> This Month</label>
+    </div>
+
     <!-- Booking tables -->
     <div class="booking-table-container">
     <table class="booking-table">
@@ -85,6 +49,8 @@
         <thead id="guest-thead">
             <tr>
                 <th>ID</th>
+                <th>Booking Date</th>
+                <th>Booking Time</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Contact</th>
@@ -95,12 +61,15 @@
                 <th>Selected Seats</th>
                 <th>Total Price</th>
                 <th>Schedule ID</th>
+                
             </tr>
         </thead>
         <tbody id="guest-tbody">
             <?php foreach ($data['book'] as $booking): ?>
                 <tr>
                     <td><?= $booking['id'] ?></td>
+                    <td><?= $booking['booking_date'] ?></td>
+                    <td><?= $booking['booking_time'] ?></td>
                     <td><?= $booking['name'] ?></td>
                     <td><?= $booking['email'] ?></td>
                     <td><?= $booking['contact'] ?></td>
@@ -111,6 +80,7 @@
                     <td><?= $booking['selected_seats'] ?></td>
                     <td><?= $booking['total_price'] ?></td>
                     <td><?= $booking['schedule_id'] ?></td>
+                    
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -218,6 +188,61 @@
     </div>
     
     <script>
+
+        function searchTable() {
+            const searchValue = document.getElementById('searchBox').value.toLowerCase();
+            const rows = document.querySelectorAll('.booking-table tbody tr');
+
+            rows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchValue) ? '' : 'none';
+            });
+        }
+
+        document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', (event) => {
+                if (event.target.checked) {
+                    document.querySelectorAll('.filter-checkbox').forEach(cb => {
+                        if (cb !== event.target) cb.checked = false;
+                    });
+                }
+                filterTable(); // Call the filter function on change
+            });
+        });
+
+        function filterTable() {
+            const filterToday = document.getElementById('filterToday').checked;
+            const filterYesterday = document.getElementById('filterYesterday').checked;
+            const filterThisWeek = document.getElementById('filterThisWeek').checked;
+            const filterThisMonth = document.getElementById('filterThisMonth').checked;
+
+            const rows = document.querySelectorAll('.booking-table tbody tr');
+            const today = new Date();
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            rows.forEach(row => {
+                const bookingDate = new Date(row.cells[1]?.textContent);
+                let isVisible = true;
+
+                if (filterToday) {
+                    isVisible = bookingDate.toDateString() === today.toDateString();
+                } else if (filterYesterday) {
+                    const yesterday = new Date(today.getTime() - oneDay);
+                    isVisible = bookingDate.toDateString() === yesterday.toDateString();
+                } else if (filterThisWeek) {
+                    const startOfWeek = new Date(today);
+                    startOfWeek.setDate(today.getDate() - today.getDay());
+                    isVisible = bookingDate >= startOfWeek && bookingDate <= today;
+                } else if (filterThisMonth) {
+                    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                    isVisible = bookingDate >= startOfMonth && bookingDate <= today;
+                }
+
+                row.style.display = isVisible ? '' : 'none';
+            });
+        }
+
+
         function toggleBookingType() {
             const bookingType = document.getElementById('bookingType').value;
 

@@ -307,6 +307,12 @@
                 }
             }
 
+            public function getAverageRatings($licenseId){
+                $this->db->query('SELECT License_id,AVG(rate) as average_rate FROM ratings WHERE License_id = :licenseId');
+                $this->db->bind(':licenseId',$licenseId);
+                return $this->db->single();
+            }
+
             public function getBookingID($email , $scheduleID , $selectedSeats){
                 $this->db->query("SELECT id FROM guestbooking WHERE :email = email AND :scheduleid = schedule_id AND :selectedSeats = selected_seats");
                 $this->db->bind(':email' , $email);

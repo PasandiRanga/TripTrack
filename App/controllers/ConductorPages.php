@@ -139,7 +139,10 @@
                         'seats' => $seatsString
                     ];
 
-                    $this->ConductorpagesModel->updateAcceptedSeats($seats, $scheduleId);
+                    $acceptedSeats = $this->ConductorpagesModel->updateAcceptedSeats($seats, $scheduleId);
+
+                    //error_log("accepted seats: " . $acceptedSeats);
+                    error_log("accepted seats: " . print_r($acceptedSeats, true));
 
                     $result = false;
 
@@ -148,7 +151,7 @@
                     error_log("booking details: " . print_r($booking, true));
                     if($booking) {
                         $result = $this->ConductorpagesModel->insertPastGuestBooking($booking);
-                        error_log("booking details after insert: " . print_r($booking, true));
+                        error_log("made it past the insert: ");
                     }else {
                         // If not found in guest bookings, try registered bookings
                         $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsString);
@@ -184,6 +187,17 @@
             }
         }
         
+        public function busLayout() {
+            $scheduleData = $this->ConductorpagesModel->getSchedule();
+            $busData = $this->ConductorpagesModel->getBusDetails();
+
+            $data = [
+                'scheduleData' => $scheduleData,
+                'busData' => $busData
+            ];
+
+            $this->view('pages/Conductor/busLayout', $data);
+        }
 
         public function home() {
             $assignDetails = $this->ConductorpagesModel->getAssignDetailsByEmployeeId($_SESSION['user_id']);
@@ -335,12 +349,12 @@
             }
         }
 
-        public function busLayOut() {
-            $scheduleData = $this->ConductorpagesModel->getScheduleById();
-
-            $this->view('pages/Conductor/busLayout', $scheduleData);
+        public function profile() {
+            $data = $this->ConductorpagesModel->findEmployeeById($_SESSION['user_id']);
+            //$notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            //error_log("profile details: " . print_r($data, true));
+            
+            $this->view('pages/Conductor/profile' , $data);
         }
-        
-
     }
 ?>
