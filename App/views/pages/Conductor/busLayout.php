@@ -7,6 +7,8 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/busLayout.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/seatLayout.css?v=<?php echo time(); ?>">
+    <!--css files-->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
@@ -24,89 +26,143 @@
     </script>
 
     <?php
-    // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'Conductor';
+        $userRole = $_SESSION['user_role'] ?? 'Conductor';
+        $scheduleData = $data['scheduleData'] ?? [];
+        //$acceptedSeats = $scheduleData['acceptedSeats'] ?? [];
+        $busData = $data['busData'] ?? [];
+
+        /*$bookedSeatsArray = explode(',', $bookedSeats);
+        $acceptedSeatsArray = explode(',', $acceptedSeats);
+
+        $notAcceptedSeats = array_diff($bookedSeatsArray, $acceptedSeatsArray);
+        $notAcceptedSeats = array_values($notAcceptedSeats);*/
+
+        $data['currentController'] = 'ConductorPages';
+        $data['currentMethod'] = 'busLayout';
+        $data['userRole'] = $userRole;
+
+        include APPROOT . '/views/inc/Components/BusLayout/seatData.php';
+
+        $scheduleId = $_GET['schedule'];
+        echo "<script>console.log('Schedule id :', " . json_encode($scheduleId) . ");</script>";
+
+        $selectedBus = null;
+        $bookedSeats = [];
+        $acceptedSeats = [];
+        $busLayout = [];
+        $busType = null;
+
+        foreach ($scheduleData as $schedule) {
+          if ($schedule['scheduleId'] === $scheduleId) {
+            echo "<script>console.log('Selected schedule:', " . json_encode($schedule) . ");</script>";
+            $bookedSeatsString = trim($schedule['bookedSeats']);
+            $bookedSeats = !empty($bookedSeatsString) ? array_map('trim', explode(',', $bookedSeatsString)) : [];
+            $acceptedSeatsString = trim($schedule['acceptedSeats']);
+            $acceptedSeats = !empty($acceptedSeatsString) ? array_map('trim', explode(',', $acceptedSeatsString)) : [];
+            break;
+          }
+        }
+
+        $notAcceptedSeats = array_diff($bookedSeats, $acceptedSeats);
+        $notAcceptedSeats = array_values($notAcceptedSeats);
+
+        foreach ($scheduleData as $schedule) {
+          if ($schedule['scheduleId'] === $scheduleId) {
+            $licenseId = $schedule['License_id'];
+            break;
+          }
+        }
+
+        foreach($busData as $bus) {
+          if ($bus['License_id'] === $licenseId) {
+            $selectedBus = $bus;
+            echo "<script>console.log('Selected bus:', " . json_encode($selectedBus) . ");</script>";
+            $busType = $bus['passengers'];
+            echo "<script>console.log('bus type:', " . json_encode($busType) . ");</script>";
+            break;
+          }
+        }
+
+        echo "<script>console.log('Seat Data:', " . json_encode($seatData) . ");</script>";
+        foreach ($seatData as $layout) {
+            echo "<script>console.log('Seat type:', " . json_encode($layout) . ");</script>";
+            //echo "<script>console.log('Seat type 2:', " . json_encode($layout['seats']) . ");</script>";
+            echo "<script>console.log('bus type 1:', " . json_encode($busType) . ");</script>";
+            if($layout['seatType'] == $busType) {
+              //echo "<script>console.log('bus type 2:', " . json_encode($busType) . ");</script>";
+              //echo "<script>console.log('Seat type 3:', " . json_encode($layout['seats']) . ");</script>";
+              echo "<script>console.log('Seat Type 2:', " . json_encode($layout['seatType']) . ");</script>";
+              $busLayout = $layout['seats'];
+              //echo "<script>console.log('Bus layout:', " . json_encode($busLayout) . ");</script>";
+              echo "<script>console.log('BusLayout:', " . json_encode($busLayout) . ");</script>";
+              break;
+            }
+        }
+
+        if ($selectedBus) {
+                foreach ($scheduleData as $schedule) {
+                    if ($schedule['License_id'] == $licenseId && $schedule['scheduleId'] == $scheduleId) {
+                        $selectedSchedule = $schedule;
+                        break;
+                    }
+                }
+            }
     ?>
-
-    <?php
-    $data = [
-        'currentController' => 'ConductorPages', // Adjust this based on your controller
-        'currentMethod' => 'busLayout', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
-    ?>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
-
-    <h1>Bus Layout</h1>
-
-  <div class="layout-wrapper">
-
-    <!-- Left Panel: Seat Summary -->
-    <div class="summary-panel">
-      <h2>Seat Status Summary</h2>
-      <ul>
-        <li><strong>Accepted Seats:</strong> <span id="acceptedList"></span></li>
-        <li><strong>To Be Accepted Seats:</strong> <span id="toBeAcceptedList"></span></li>
-        <li><strong>All Booked Seats:</strong> <span id="allBookedList"></span></li>
-        <li><strong>Newly Accepted Seats (from QR):</strong> <span id="newlyAcceptedList"></span></li>
-      </ul>
-
-      <div class="legend">
-        <div class="legend-item"><span class="legend-color accepted"></span> Accepted</div>
-        <div class="legend-item"><span class="legend-color to-be-accepted"></span> To Be Accepted</div>
-        <div class="legend-item"><span class="legend-color newly-accepted"></span> Newly Accepted</div>
-        <div class="legend-item"><span class="legend-color available"></span> Available</div>
-      </div>
+    <div class="page-top">
+      <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
+      
+      <h1>Seat Layout</h1>  
     </div>
+    <div class="layout-container">
+        <div class="seat-layout">
+            <?php require APPROOT . '/views/pages/Conductor/seatLayout.php'; ?>
+        </div>
+        <div class="detail-container">
+            <div class="bus-info">
+                <div class="route-container">
+                    <h2><?php 
+                            if ($selectedSchedule['direction'] === 'backward') {
+                                echo $selectedBus['destination'] . ' - ' . $selectedBus['start_location'];
+                            } else {
+                                echo $selectedBus['start_location'] . ' - ' . $selectedBus['destination'];
+                            }
+                        ?>
+                    </h2>
+                    <p class="date"><?php echo htmlspecialchars($selectedSchedule['date']); ?></p>
+                </div>
 
-    <!-- Right Panel: Seat Layout -->
-    <div id="seatLayout" class="seat-layout"></div>
+            <p><strong>Bus Number:</strong> <?php echo htmlspecialchars($selectedBus['License_id']); ?></p>
+            <p><strong>Route Number:</strong> <?php echo htmlspecialchars($selectedBus['routeNumber']); ?></p>
+            <p><strong>Total Available Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['availableSeats']); ?></p>
+            <p><strong>Booked Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['bookedSeats']); ?></p>
+            <p><strong>Accepted Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['acceptedSeats']); ?></p>
+            <p><strong>Not Yet Accepted Seats:</strong> <?php echo implode(', ', $notAcceptedSeats); ?></p>
+            <!--not accepted seats-->
 
-  </div>
-
-  <script>
-    const acceptedSeats = ["1", "2", "3", "10", "15"];
-    const toBeAcceptedSeats = ["4", "5", "6", "20"];
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const newlyAcceptedString = urlParams.get("accepted") || "";
-    const newlyAcceptedSeats = newlyAcceptedString.split(',').map(s => s.trim()).filter(Boolean);
-
-    const allBookedSeats = [...new Set([...acceptedSeats, ...toBeAcceptedSeats])];
-
-    const layoutContainer = document.getElementById("seatLayout");
-    for (let i = 1; i <= 40; i++) {
-      const seat = i.toString();
-      const seatDiv = document.createElement("div");
-      seatDiv.className = "seat";
-
-      if (newlyAcceptedSeats.includes(seat)) {
-        seatDiv.classList.add("newly-accepted");
-      } else if (acceptedSeats.includes(seat)) {
-        seatDiv.classList.add("accepted");
-      } else if (toBeAcceptedSeats.includes(seat)) {
-        seatDiv.classList.add("to-be-accepted");
-      } else {
-        seatDiv.classList.add("available");
-      }
-
-      seatDiv.textContent = seat;
-      layoutContainer.appendChild(seatDiv);
-
-      if (i % 4 === 0) {
-        layoutContainer.appendChild(document.createElement("br"));
-      }
-    }
-
-    const formatList = arr => arr.length ? arr.join(', ') : "None";
-    document.getElementById("acceptedList").textContent = formatList(acceptedSeats);
-    document.getElementById("toBeAcceptedList").textContent = formatList(toBeAcceptedSeats);
-    document.getElementById("allBookedList").textContent = formatList(allBookedSeats);
-    document.getElementById("newlyAcceptedList").textContent = formatList(newlyAcceptedSeats);
-  </script>
-
+            <div class="info-details">
+                <div class="info-item">
+                    <div>
+                        <h3><?php echo htmlspecialchars($selectedSchedule['departureTime']); ?></h3>                    <p>Departure</p>
+                    </div>
+                    <span class="icon-time">
+                        <i class="fas fa-bus"></i>
+                    </span> 
+                </div>
+                <div class="time-container">
+                    <hr class="dotted-line">
+                </div>
+                <div class="info-item">
+                    <span class="icon-time"><i class="fas fa-map-marker-alt"></i></span> <!-- Location icon -->
+                    <div>
+                        <h3><?php echo htmlspecialchars($selectedSchedule['arrivalTime']); ?></h3>
+                        <p>Arrival</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
+

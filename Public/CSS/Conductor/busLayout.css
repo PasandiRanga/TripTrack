@@ -1,13 +1,14 @@
 body {
-    margin: 0;
+    position: relative;
+    margin: 0; 
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7fa !important;
-    color: #333;
+    justify-content: center; 
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    background-color: #d8f8ee;
 }
 
-/* Back Button */
-.back-button, .view_delays-button {
+.back-button {
     display: inline-block;
     margin: 20px;
     padding: 10px 20px;
@@ -18,92 +19,195 @@ body {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    position: absolute;
 }
 
-.back-button:hover,
-.view_delays-button:hover {
+.back-button:hover {
     background-color: #052d37;
-}
-
-.back-button {
-    top: 15px;
-    left: 25px;
 }
 
 h1 {
     text-align: center;
+    margin: 0;
+    margin-bottom: 0px;
+    font-size: 2.5rem;
+    color: #063946;
+}/**/
+
+.layout-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+.detail-container {
+    flex: 1;
+    width: auto !important;
+}
+
+@media screen and (max-width:1286) {
+    .bus-info{
+        width: auto !important;
+    }
+
+    .info-details {
+        align-items: flex-start !important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .bus-info {
+            width: auto !important;
+            margin-top: 70px !important;
+    }
+
+    .info-details {
+        align-items: flex-start !important;
+    }
+
+    .info-details > .info-item:not(:last-child) {
+        margin-right: 0 !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* .time-container {
+        display: none !important;
+    } */
+
+    .dotted-line {
+        border: none;
+        border-top: 2px dotted #064060;
+        width: auto;
+        margin: 0;
+    }
+}
+
+.bus-info {
+    width: auto;
+    max-width: 610px;
+    /* max-width: 860px; */
+    margin-top: 70px;
+    padding: 40px;
+    padding-bottom: 40px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    flex-direction: column;
+    position: relative;
     margin-bottom: 30px;
+    height: auto;
 }
 
-.layout-wrapper {
-  display: flex;
-  gap: 30px;
-  align-items: flex-start;
+.bus-info h2 {
+    font-size: 1.5em;
+    margin: 0;
+    color: #222;
 }
 
-.summary-panel {
-  width: 300px;
+.bus-info p {
+    margin: 1px 0;
+    font-size: 0.9em;
+    color: #555;
 }
 
-.summary-panel ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px 0;
+.bus-info .highlight {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #36A690;
 }
 
-.seat-layout {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 220px;
-  justify-content: end;
+.route-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.seat {
-  width: 40px;
-  height: 40px;
-  margin: 5px;
-  text-align: center;
-  line-height: 40px;
-  border-radius: 6px;
-  font-weight: bold;
-  color: white;
+.route-container h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #222;
+    padding-bottom: 10px;
 }
 
-.accepted {
-  background-color: green;
+.route-container .date {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 0;
+    padding-bottom: 10px;
 }
 
-.to-be-accepted {
-  background-color: orange;
+.info-details {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 70px;
+    margin-bottom: 60px;
 }
 
-.newly-accepted {
-  background-color: blue;
+.info-details > .info-item:not(:last-child) {
+    margin-right: 2px;
 }
 
-.available {
-  background-color: gray;
+.info-item {
+    display: flex;
+    align-items: center;
 }
 
-.legend {
-  margin-top: 20px;
+.info-item div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+.info-item i {
+    font-size: 10em;
+    color: #007bff;
 }
 
-.legend-color {
-  width: 15px;
-  height: 15px;
-  margin-right: 8px;
-  border-radius: 3px;
+
+
+.info-item h3 {
+    font-size: 1em;
+    margin: 1px;
+    color: #666;
 }
 
-.legend-color.accepted { background-color: green; }
-.legend-color.to-be-accepted { background-color: orange; }
-.legend-color.newly-accepted { background-color: blue; }
-.legend-color.available { background-color: gray; }
+.info-item p {
+    font-size: 0.85em;
+    color: #666;
+}
+
+.icon-time {
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.time-container {
+    position: relative;
+    flex-grow: 0.75;
+    margin: 0 10px;
+}
+
+.time-container::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    border: 2px solid #064060;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.dotted-line {
+    border: none;
+    border-top: 2px dotted #064060;
+    width: 100%;
+    margin: 0;
+}
