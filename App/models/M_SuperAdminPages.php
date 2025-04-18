@@ -491,10 +491,34 @@ class M_SuperAdminPages {
     //Profile
 
 //------------------------------------------------------------------------------------------------------------------------------------
+
     public function getEmployeeDetails($employee_id) {
         $this->db->query('SELECT employee_id, name, address, contactNo, email, role, nic FROM employee WHERE employee_id = :employee_id');
         $this->db->bind(':employee_id', $employee_id);
         return $this->db->single();
+    }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //Reviews
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    public function getReviews() {
+        $this->db->query('SELECT * FROM bus_reviews');
+        return $this->db->resultSet();
+    }
+
+    public function replyreviews($data) {
+        
+        $this->db->query('UPDATE bus_reviews SET reply = :reply WHERE reviewId = :reviewId');
+        $this->db->bind(':reply', $data['reply']);
+        $this->db->bind(':reviewId', $data['reviewId']);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            error_log("Failed to update review reply");
+            return false;
+        }
     }
 
 //------------------------------------------------------------------------------------------------------------------------------------
