@@ -361,7 +361,8 @@
         }
 
         public function insertPastGuestBooking($bookingData) {
-            //error_log("booking details at model: " . print_r($bookingData, true));
+            error_log("📌 insertPastGuestBooking() was called");
+            error_log("booking details at model: " . print_r($bookingData, true));
             
             $this->db->query("INSERT INTO pastguestbooking (id, name, email, contact, nic, from_location, to_location, number_of_seats, selected_seats, total_price, schedule_id, paymentMethod, booking_date, booking_time, booking_status) 
                              VALUES (:id, :name, :email, :contact, :nic, :from_location, :to_location, :number_of_seats, :selected_seats, :total_price, :schedule_id, :paymentMethod, :booking_date, :booking_time, :booking_status)");
@@ -381,7 +382,14 @@
             $this->db->bind(':booking_date', $bookingData['booking_date']);
             $this->db->bind(':booking_time', $bookingData['booking_time']);
             $this->db->bind(':booking_status', 'Arrived');
-            $this->db->execute();
+            error_log("🚀 Running INSERT query...");
+            $success = $this->db->execute();
+
+            if (!$success) {
+                error_log("❌ Insert into pastguestbooking failed");
+                error_log("🔍 Data: " . print_r($bookingData, true));
+                return false;
+            }
 
             $this->db->query("DELETE FROM guestbooking WHERE id = :id");
             $this->db->bind(':id', $bookingData['id']);
@@ -414,6 +422,12 @@
 
             return $this->db->resultSet();
 
+        }
+
+        public function getBusDetails() {
+            $this->db->query('SELECT * FROM bus');
+
+            return $this->db->resultSet();
         }
 
         public function updateAcceptedSeats($seats, $schedule_id) {

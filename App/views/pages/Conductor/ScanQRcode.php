@@ -98,8 +98,6 @@ authCheck(['Conductor', 'Driver']);
 
                 document.getElementById('qrModal').style.display = 'flex';
 
-                //saveAcceptedSeats(data["Seats"]);
-
                 sendToServer(data["Schedule ID"], data["Seats"]);
             }
 
@@ -111,7 +109,11 @@ authCheck(['Conductor', 'Driver']);
 
                 lines.forEach(line => {
                     if (line.includes("Schedule ID:")) {
-                        data["Schedule ID"] = line.split("Schedule ID:")[1].trim();
+                        const scheduleId = line.split("Schedule ID:")[1].trim();
+                        data["Schedule ID"] = scheduleId;
+
+                        // Save to localStorage
+                        localStorage.setItem("scheduleId", scheduleId);
                     }
 
                     if (line.includes("Seats:")) {
@@ -168,28 +170,12 @@ authCheck(['Conductor', 'Driver']);
 
             }
 
-            /*function saveAcceptedSeats(seatString) {
-                let acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
-
-                // Remove quotes if any, and split into array
-                let seats = seatString.replace(/"/g, "").split(',').map(seat => seat.trim());
-
-                seats.forEach(seat => {
-                    if (!acceptedSeats.includes(seat)) {
-                        acceptedSeats.push(seat);
-                    }
-                });
-
-                localStorage.setItem("acceptedSeats", JSON.stringify(acceptedSeats));
-            }
-
             function redirectToBusLayout() {
-                const acceptedSeats = JSON.parse(localStorage.getItem("acceptedSeats") || "[]");
-                const seatsParam = encodeURIComponent(acceptedSeats.join(','));
+                const scheduleId = localStorage.getItem("scheduleId") || "[]";
+                const seatsParam = encodeURIComponent(scheduleId);
 
-                window.location.href = `<?php echo URLROOT; ?>/ConductorPages/busLayout?accepted=${seatsParam}`;
-            }*/
-
+                window.location.href = `<?php echo URLROOT; ?>/ConductorPages/busLayout?schedule=${seatsParam}`;
+            }
 
 
         </script>
