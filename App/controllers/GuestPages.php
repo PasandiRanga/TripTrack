@@ -97,13 +97,17 @@
                     $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];
                     $bookingData['qrCodeFilename'] = $qrData['qrCodeFilename'];
 
+                    $bookingID = $this->GuestpagesModel->getBookingID($bookingData['email'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
+                    $bookingId = $bookingID['id'];
+
                     // Send booking confirmation email
                     $this->sendBookingEmail($bookingData);
 
                     // Load Receipt View
                     $this->view('inc/Components/Receipt/GuestReceipt', [
                         'bookingData' => $bookingData,
-                        'qrText' => $qrText
+                        'qrText' => $qrText,
+                        'bookingID' => $bookingId
                     ]);
 
                 } catch (Exception $e) {
@@ -143,6 +147,11 @@
         private function sendBookingEmail($bookingData) {
             $mail = new PHPMailer(true);
 
+            echo '<script>console.log("Inside send email");</script>';
+
+            $bookingID = $this->GuestpagesModel->getBookingID($bookingData['email'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
+         
+
             try {
                 // SMTP Configuration using defined constants
                 $mail->isSMTP();
@@ -165,23 +174,26 @@
                 $mail->isHTML(true);
                 $mail->Subject = 'Your Booking Confirmation - TripTrack';
                 $mail->Body = '
-                <div style="font-family: Arial, sans-serif; color: #333;">
-                    <h2>Booking Confirmation</h2>
+                <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+                    <div style="text-align: center; background-color: #f8f8f8; padding: 10px; margin-bottom: 20px; border-radius: 3px;">
+                        <h2 style="color: #2c3e50; margin: 0;">Booking Confirmation</h2>
+                    </div>
                     <p>Dear ' . htmlspecialchars($bookingData['name']) . ',</p>
                     <p>Thank you for booking with TripTrack. Here are your booking details:</p>
                     
-                    <table style="border-collapse: collapse; width: 100%;">
-                        <tr><td><strong>Name:</strong></td><td>' . htmlspecialchars($bookingData['name']) . '</td></tr>
-                        <tr><td><strong>Email:</strong></td><td>' . htmlspecialchars($bookingData['email']) . '</td></tr>
-                        <tr><td><strong>Contact:</strong></td><td>' . htmlspecialchars($bookingData['contact']) . '</td></tr>
-                        <tr><td><strong>NIC:</strong></td><td>' . htmlspecialchars($bookingData['nic']) . '</td></tr>
-                        <tr><td><strong>From:</strong></td><td>' . htmlspecialchars($bookingData['from']) . '</td></tr>
-                        <tr><td><strong>To:</strong></td><td>' . htmlspecialchars($bookingData['to']) . '</td></tr>
-                        <tr><td><strong>Bus ID:</strong></td><td>' . htmlspecialchars($bookingData['License_id']) . '</td></tr>
-                        <tr><td><strong>Schedule ID:</strong></td><td>' . htmlspecialchars($bookingData['scheduleId']) . '</td></tr>
-                        <tr><td><strong>Number of Seats:</strong></td><td>' . htmlspecialchars($bookingData['noOfSeats']) . '</td></tr>
-                        <tr><td><strong>Seats:</strong></td><td>' . htmlspecialchars($bookingData['selectedSeats']) . '</td></tr>
-                        <tr><td><strong>Total Price:</strong></td><td>Rs. ' . htmlspecialchars($bookingData['totalPrice']) . '</td></tr>
+                    <table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd; margin: 20px 0;">
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Booking ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingID['id']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['name']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['email']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Contact:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['contact']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>NIC:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['nic']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>From:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['from']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>To:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['to']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Bus ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['License_id']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Schedule ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['scheduleId']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Number of Seats:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['noOfSeats']) . '</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Seats:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['selectedSeats']) . '</td></tr>
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Price:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">Rs. ' . htmlspecialchars($bookingData['totalPrice']) . '</td></tr>
                     </table>
 
                     <h3>Your QR Code</h3>
