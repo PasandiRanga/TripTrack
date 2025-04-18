@@ -12,6 +12,7 @@
         <h1>Booking Receipt</h1>
         
         <div class="details">
+            <p><strong>Name:</strong> <?php echo htmlspecialchars($data['bookingID']); ?></p>
             <p><strong>Name:</strong> <?php echo htmlspecialchars($data['bookingData']['name']); ?></p>
             <p><strong>User id:</strong><?php echo htmlspecialchars($_SESSION['user_id']) ?></p>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($data['bookingData']['email']); ?></p>
