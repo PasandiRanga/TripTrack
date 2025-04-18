@@ -12,9 +12,9 @@
         <h1>Booking Receipt</h1>
         
         <div class="details">
-            <p><strong>Name:</strong> <?php echo htmlspecialchars($data['bookingID']); ?></p>
+            <p><strong>Booking ID:</strong> <?php echo htmlspecialchars($data['bookingID']); ?></p>
             <p><strong>Name:</strong> <?php echo htmlspecialchars($data['bookingData']['name']); ?></p>
-            <p><strong>User id:</strong><?php echo htmlspecialchars($_SESSION['user_id']) ?></p>
+            <p><strong>User ID:</strong><?php echo htmlspecialchars($_SESSION['user_id']) ?></p>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($data['bookingData']['email']); ?></p>
             <p><strong>Contact:</strong> <?php echo htmlspecialchars($data['bookingData']['contact']); ?></p>
             <p><strong>NIC:</strong> <?php echo htmlspecialchars($data['bookingData']['nic']); ?></p>

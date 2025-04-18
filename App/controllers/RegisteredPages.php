@@ -416,6 +416,9 @@
                     // Update schedule seat availability
                     $this->RegisteredpagesModel->updateScheduleSeats($bookingData['scheduleId'], explode(', ', $bookingData['selectedSeats']));
 
+                    $bookingID = $this->RegisteredpagesModel->getBookingID($bookingData['User_id'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
+                    $bookingId = $bookingID['id'];
+
                     // Send booking confirmation email
                     $this->sendBookingEmail($bookingData);
 
@@ -423,7 +426,8 @@
                     // Load Receipt View
                     $this->view('inc/Components/Receipt/RegisteredReceipt', [
                         'bookingData' => $bookingData,
-                        'qrText' => $qrText
+                        'qrText' => $qrText,
+                        'bookingID' => $bookingId
                     ]);
 
                 } catch (Exception $e) {
