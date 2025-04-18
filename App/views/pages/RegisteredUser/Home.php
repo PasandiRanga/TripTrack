@@ -150,6 +150,81 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+</script>
+
+<script>
+var averageRatings = <?php echo json_encode($averageRatings); ?>;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const dateItems = document.querySelectorAll('.date-item');
+    const travelDateInput = document.getElementById('travelDate');
+    
+    dateItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all items
+            dateItems.forEach(di => di.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Get the selected date
+            const selectedDate = this.dataset.date;
+            
+            // Update the search bar date input
+            travelDateInput.value = selectedDate;
+            
+            fetch(`${URLROOT}/RegisteredPages/filterBusByDate?date=${selectedDate}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('bus-card-container').innerHTML = html;
+                    
+                    // After loading the new HTML, reapply ratings
+                    applyRatingsToCards();
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+    
+    // Function to apply ratings to bus cards
+    function applyRatingsToCards() {
+        const busCards = document.querySelectorAll('.bus-card');
+        
+        busCards.forEach(card => {
+            // Extract the license ID from the card's onclick attribute
+            const onclickAttr = card.getAttribute('onclick');
+            const licenseIdMatch = onclickAttr.match(/Licenseid=([^&]+)/);
+            
+            if (licenseIdMatch && licenseIdMatch[1]) {
+                const licenseId = decodeURIComponent(licenseIdMatch[1]);
+                const rating = averageRatings[licenseId];
+                
+                if (rating) {
+                    const ratingDiv = card.querySelector('.rating');
+                    if (ratingDiv) {
+                        const numericRating = isNaN(parseFloat(rating)) ? 0 : parseFloat(rating);
+                        const roundedRating = Math.round(numericRating * 2) / 2;
+                        
+                        // Generate stars HTML
+                        let starsHTML = '';
+                        for (let i = 1; i <= 5; i++) {
+                            if (i <= Math.floor(roundedRating)) {
+                                starsHTML += '<i class="fas fa-star" style="color: #FFD700;"></i>';
+                            } else if (i - 0.5 <= roundedRating) {
+                                starsHTML += '<i class="fas fa-star-half-alt" style="color: #FFD700;"></i>';
+                            } else {
+                                starsHTML += '<i class="fas fa-star" style="color: #ccc;"></i>';
+                            }
+                        }
+                        
+                        starsHTML += `<span>${isNaN(parseFloat(rating)) ? rating : parseFloat(rating).toFixed(1)}</span>`;
+                        ratingDiv.innerHTML = starsHTML;
+                    }
+                }
+            }
+        });
+    }
+});
 </script>
     
 
