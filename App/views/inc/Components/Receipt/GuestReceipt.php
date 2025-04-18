@@ -12,6 +12,7 @@
         <h1>Booking Receipt</h1>
         
         <div class="details">
+            <p><strong>Booking ID:</strong> <?php echo htmlspecialchars($data['bookingID']); ?></p>
             <p><strong>Name:</strong> <?php echo htmlspecialchars($data['bookingData']['name']); ?></p>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($data['bookingData']['email']); ?></p>
             <p><strong>Contact:</strong> <?php echo htmlspecialchars($data['bookingData']['contact']); ?></p>
@@ -19,7 +20,7 @@
             <p><strong>From:</strong> <?php echo htmlspecialchars($data['bookingData']['from']); ?></p>
             <p><strong>To:</strong> <?php echo htmlspecialchars($data['bookingData']['to']); ?></p>
             <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($data['bookingData']['License_id']); ?></p>
-            <p><strong>Schedule ID:</strong> <?php echo htmlspecialchars($data['bookingData']['scheduleId']); ?></p>
+            <!-- <p><strong>Schedule ID:</strong> <?php echo htmlspecialchars($data['bookingData']['scheduleId']); ?></p> -->
             <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($data['bookingData']['noOfSeats']); ?></p>
             <p><strong>Seats:</strong> <?php echo htmlspecialchars(implode(', ', (array)$data['bookingData']['selectedSeats'])); ?></p>
             <p><strong>Total Price:</strong> Rs. <?php echo htmlspecialchars($data['bookingData']['totalPrice']); ?></p>

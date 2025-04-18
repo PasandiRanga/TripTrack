@@ -91,6 +91,14 @@
             <input type="hidden" name="penaltyFee" value="<?php echo isset($_POST['penaltyFee']) ? htmlspecialchars($_POST['penaltyFee']) : null; ?>">
         <?php endif; ?>
 
+            <div id="cardTypeGroup">
+                <input type="radio" name="cardType" id="visa" value="visa">
+                <label for="visa"><img src="visa.png" alt="Visa"></label>
+                <input type="radio" name="cardType" id="mastercard" value="mastercard">
+                <label for="mastercard"><img src="mastercard.png" alt="MasterCard"></label>
+            </div>
+
+
             <div class="form-group">
                 <label for="cardName">Cardholder Name</label>
                 <input type="text" id="cardName" name="cardName" required>
@@ -137,6 +145,6 @@
         </form>
     </div>
 
-    <script src="paymentPortal.js"></script>
+    <script src="<?php echo URLROOT; ?>/App/view/inc/Components/PaymentPortal/paymentPortal.js"></script>
 </body>
 </html>
