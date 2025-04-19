@@ -30,27 +30,25 @@
     </script>
 
     <?php
-        echo '<script> console.log(' . json_encode($data) . ') </script>';
-        $cancellationData = $data['cancellations'] ?? [];
-        echo '<script> console.log("Cancellation data:", ' . json_encode($cancellationData) . ') </script>';
-        $userId = $_SESSION['user_id'] ?? '';
-        $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
-        $upcomingBookingData = $data['upcomingbookings'] ?? [];
-        $pastBookingData = $data['pastbookings'] ?? [];
-        $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
-        $pastScheduleData = $data['pastSchedule'] ??[];
-       
-         
-        $notifications = $data['notifications'] ?? [];
-        // $reviews = $data['reviews'] ?? [];
-        // $bookingData = $data['bookingsDetails'] ?? [];
-        $busData = $data['bus'] ?? [];
-        // $userData = $data['user'] ?? [];
-        $data['currentController'] = 'RegisteredPages';
-        $data['currentMethod'] = 'bookings';
-        $data['userRole'] = $userRole;
-
-    ?>
+    echo '<script> console.log(' . json_encode($data) . ') </script>';
+    $cancellationData = $data['cancellations'] ?? [];
+    echo '<script> console.log("Cancellation data:", ' . json_encode($cancellationData) . ') </script>';
+    $userId = $_SESSION['user_id'] ?? '';
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
+    $upcomingBookingData = $data['upcomingbookings'] ?? [];
+    $pastBookingData = $data['pastbookings'] ?? [];
+    $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
+    $pastScheduleData = $data['pastSchedule'] ??[];
+    $userData = $data['user'] ?? [];
+    $notifications = $data['notifications'] ?? [];
+    // $reviews = $data['reviews'] ?? [];
+    $regBookingsData = $data['regBookingsDetails'] ?? []; // Add this line
+    $busData = $data['bus'] ?? [];
+    // $userData = $data['user'] ?? [];
+    $data['currentController'] = 'RegisteredPages';
+    $data['currentMethod'] = 'bookings';
+    $data['userRole'] = $userRole;
+?>
 
     <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -167,34 +165,45 @@
         </div>
     </div>
 
+
+    <!--View ticket-->
+    <div id="ticketViewPopup" class="popup hidden">
+        <div id="ticketBox" class="ticketPopup-content">
+            <sapan id="closeTicketBtn" class="close-popup">&times;</sapan>
+            <div class="ticketView-popup-details">
+                <!-- Dynamic content will be injected here -->
+            </div>
+        </div>
+    </div>
+
     
     <!-- Rating and Reviews pop up -->
-<div id="reviewPopup" class="popup hidden">
-    <div class="reviewPopup-content">
-        <div id="review-popup-details"></div>
-        <h3>Tell Us How the Wheels Rolled!</h3>
-            
-        <form action="<?php echo URLROOT ?>/RegisteredPages/addReviews" method="POST" enctype="multipart/form-data">
-            <!-- Add the license_id input here -->
-            <input type="hidden" name="license_id" id="license_id_input" value="">
-            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user_id']); ?>">
+    <div id="reviewPopup" class="popup hidden">
+        <div class="reviewPopup-content">
+            <div id="review-popup-details"></div>
+            <h3>Tell Us How the Wheels Rolled!</h3>
+                
+            <form action="<?php echo URLROOT ?>/RegisteredPages/addReviews" method="POST" enctype="multipart/form-data">
+                <!-- Add the license_id input here -->
+                <input type="hidden" name="license_id" id="license_id_input" value="">
+                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user_id']); ?>">
 
-            <div class="rating">
-                <input type="number" name="rating" hidden>
-                <i class='bx bx-star star' style="--i: 0;"></i>
-                <i class='bx bx-star star' style="--i: 1;"></i>
-                <i class='bx bx-star star' style="--i: 2;"></i>
-                <i class='bx bx-star star' style="--i: 3;"></i>
-                <i class='bx bx-star star' style="--i: 4;"></i>
-            </div>
-            <textarea name="opinion" cols="30" rows="5" placeholder="Let your travel tale ride with us..."></textarea>
-            <div class="popup-actions">
-                <button type="submit" class="post">Post</button>
-                <button class="cancel-btn" id="closeButton">close</button>
-            </div>
-        </form>    
+                <div class="rating">
+                    <input type="number" name="rating" hidden>
+                    <i class='bx bx-star star' style="--i: 0;"></i>
+                    <i class='bx bx-star star' style="--i: 1;"></i>
+                    <i class='bx bx-star star' style="--i: 2;"></i>
+                    <i class='bx bx-star star' style="--i: 3;"></i>
+                    <i class='bx bx-star star' style="--i: 4;"></i>
+                </div>
+                <textarea name="opinion" cols="30" rows="5" placeholder="Let your travel tale ride with us..."></textarea>
+                <div class="popup-actions">
+                    <button type="submit" class="post">Post</button>
+                    <button class="cancel-btn" id="closeButton">close</button>
+                </div>
+            </form>    
+        </div>
     </div>
-</div>
 
     </body>
     </html>
@@ -337,7 +346,7 @@
                                 <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
-                                        <li>View Tikcet</li>
+                                        <li class="view-ticket">View Tikcet</li>
                                         <li class="cancel-booking" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Cancel</li>
                                     </ul>
                                 </div>
@@ -372,7 +381,7 @@
                                 <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
-                                        <li>view ticket</li>
+                                        <li class="view-ticket" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">View Ticket</li>
                                         <li class="add-review" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Add Reviews</li>
                                     </ul>
                                 </div>
@@ -471,6 +480,32 @@
             }
         });
         });
+
+        // After you attach event listeners for cancellation and reviews in the showDateDetails function,
+        // Add this code to handle ticket viewing:
+
+        document.querySelectorAll('.view-ticket').forEach(item => {
+            item.addEventListener('click', function() {
+                const bookingItem = this.closest('.booking-item');
+                const bookingId = bookingItem.querySelector('.cancel-booking')?.getAttribute('data-booking-id') || 
+                                bookingItem.querySelector('.add-review')?.getAttribute('data-booking-id');
+                const scheduleId = bookingItem.querySelector('.cancel-booking')?.getAttribute('data-schedule-id') || 
+                                bookingItem.querySelector('.add-review')?.getAttribute('data-schedule-id');
+                
+                // Find the booking and schedule objects
+                const bookingObj = [...upcomingBookings, ...pastBookings, ...cancelledBookings].find(b => b.id == bookingId);
+                const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || 
+                                pastScheduleData.find(s => s.scheduleId == scheduleId);
+                const busObj = busData.find(b => b.License_id === scheduleObj.License_id);
+                
+                // You need to retrieve user data - assuming you have it available in PHP
+                const userData = <?php echo json_encode($data['user'] ?? []); ?>;
+                
+                if (bookingObj && scheduleObj && busObj) {
+                    showTicket(bookingObj, scheduleObj, busObj, userData);
+                }
+            });
+        });
     }
     //----------Rating and Review Box----------
 
@@ -489,10 +524,10 @@
         document.getElementById("license_id_input").value = licenseId;
         
         // Display booking details in the popup if needed
-        details.innerHTML = `
-            <p><strong>From:</strong> ${bookingObj.from_location}</p>
-            <p><strong>To:</strong> ${bookingObj.to_location}</p>
-        `;
+        // details.innerHTML = `
+        //     <p><strong>From:</strong> ${bookingObj.from_location}</p>
+        //     <p><strong>To:</strong> ${bookingObj.to_location}</p>
+        // `;
         
         popup.classList.remove("hidden");
     
@@ -833,6 +868,127 @@ function toggleDetails(event, element) {
         })
     })
 
+function showTicket(booking, schedule, bus, user) {
+    const ticketPopup = document.getElementById('ticketViewPopup');
+    const ticketContent = ticketPopup.querySelector('.ticketView-popup-details');
+    
+    // Get the matching schedule and bus for this booking
+    const bookingScheduleId = booking.schedule_id;
+    
+    // Handle both array and single object for schedule
+    const matchedSchedule = Array.isArray(schedule) ? 
+        schedule.find(s => s.scheduleId == bookingScheduleId) : 
+        (schedule.scheduleId == bookingScheduleId ? schedule : null);
+    
+    // Get the bus license ID from the schedule
+    const busLicenseId = matchedSchedule ? matchedSchedule.License_id : null;
+    
+    // Find the matching bus
+    const matchedBus = Array.isArray(bus) ? 
+        bus.find(b => b.License_id == busLicenseId) : 
+        (bus.License_id == busLicenseId ? bus : null);
+    
+    // Format data for display
+    const seats = booking.Seats || "N/A";
+    const numberOfSeats = booking.number_of_seats || 1;
+    const userName = user.Name || user.user_name || "User";
+    const userNIC = user.NIC || user.nic || "N/A";
+    
+    // Get route number - it might be in different properties based on your DB structure
+    const routeNumber = matchedBus ? (matchedBus.routeNumber || matchedBus.route_number) : "N/A";
+    const formattedPrice = booking.total_price ? Number(booking.total_price).toFixed(2) : "0.00";
+    
+    let qrImagePath = booking.qrcode_path || "";
+    let qrDisplay;
+
+    if (qrImagePath) {
+        // Remove any leading slashes and adjust the path structure
+        qrImagePath = qrImagePath.replace(/^\/+/, '');
+        
+        // Use the correct path prefix
+        qrDisplay = `<img src="<?php echo URLROOT; ?>/qrcodes/${qrImagePath}" alt="QR Code" class="ticket-qr">`;
+        
+        console.log("QR Image URL:", `<?php echo URLROOT; ?>/qrcodes/${qrImagePath}`);
+    } else {
+        qrDisplay = `<i class="fas fa-qrcode fa-5x"></i>`;
+    }
+    
+    ticketContent.innerHTML = `
+        <div class="bus-ticket">
+            <div class="ticket-header">
+                <div class="location">
+                    <h2>${booking.from_location.toUpperCase()}</h2>
+                </div>
+                <hr class="dotted-line">
+                <div class="icon">
+                    <i class="fas fa-bus-alt"></i>
+                </div>
+                <hr class="dotted-line">
+                <div class="location">
+                    <h2>${booking.to_location.toUpperCase()}</h2>
+                </div>
+            </div>
+            
+            <hr class="dotted-separator">
+            
+            <div class="ticket-body">
+                <div class="info">
+                    <p><strong>Route No:</strong>&nbsp;&nbsp; ${routeNumber}</p>
+                    <p><strong>Bus Number:</strong>&nbsp;&nbsp; ${busLicenseId || "N/A"}</p>
+                    <p><strong>Ticket Reference No:</strong>&nbsp;&nbsp; ${booking.id}</p>
+                    <p><strong>Date:</strong>&nbsp;&nbsp; ${booking.scheduleDate || (matchedSchedule ? matchedSchedule.date : "N/A")}</p>
+                    <p><strong>Time:</strong>&nbsp;&nbsp; ${booking.departureTime || (matchedSchedule ? matchedSchedule.departureTime : "N/A")}</p>
+                </div>
+                <div class="price">
+                    <h3>LKR ${formattedPrice}</h3>
+                </div>
+            </div>
+            
+            <hr class="dotted-separator">
+            
+            <div class="ticket-footer">
+                <div class="passenger-info">
+                    <p><strong>Name:</strong>&nbsp;&nbsp; ${userName}</p>
+                    <p><strong>NIC No:</strong>&nbsp;&nbsp; ${userNIC}</p>
+                    <p><strong>Seat Numbers:</strong>&nbsp;&nbsp; ${seats}</p>
+                    <p><strong>No of Seats:</strong>&nbsp;&nbsp; ${numberOfSeats}</p>
+                </div>
+                <div class="qr-code">
+                    ${qrDisplay}
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Show the ticket popup
+    ticketPopup.classList.remove('hidden');
+    
+    // Ensure the popup fits on screen
+    document.body.style.overflow = 'hidden'; // Prevent body scrolling when popup is active
+    
+    // Add event listener to close button
+    document.getElementById('closeTicketBtn').addEventListener('click', function() {
+        ticketPopup.classList.add('hidden');
+        document.body.style.overflow = ''; // Restore body scrolling
+    });
+    
+    // Close popup when clicking outside the ticket (optional)
+    ticketPopup.addEventListener('click', function(e) {
+        if (e.target === ticketPopup) {
+            ticketPopup.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Debug information to help troubleshoot
+    console.log("Booking:", booking);
+    console.log("Schedule:", matchedSchedule);
+    console.log("Bus:", matchedBus);
+    console.log("User:", user);
+    console.log("Route Number:", routeNumber);
+    console.log("NIC:", userNIC);
+    console.log("QR Path:", qrImagePath);
+}
 
 
 </script>

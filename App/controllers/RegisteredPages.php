@@ -45,23 +45,6 @@
             $this->view('pages/RegisteredUser/home', $data);
         }
 
-
-        public function bookings() {
-            $bookingsDetails = $this->RegisteredpagesModel->getBookings($_SESSION['user_id']);
-            $schedule = $this->RegisteredpagesModel->getSchedule();
-            $bus = $this->RegisteredpagesModel->getBusDetails();
-            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-
-            $data =[
-                'bookingsDetails' => $bookingsDetails,
-                'schedule' => $schedule,
-                'bus' => $bus,
-                'user' => $user
-            ];
-            $this->view('pages/RegisteredUser/Bookings' , $data);
-            
-        }
-
         public function busLayout() {
             $schedule = $this->RegisteredpagesModel->getSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
@@ -70,6 +53,13 @@
             $route = $this->RegisteredpagesModel->getRoute();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
             $pastNotArrivedBookings = $this->RegisteredpagesModel->getPastNotArrivedBookings($_SESSION['user_id']);
+            $averageRatings = [];  
+            
+            foreach ($schedule as $item) {
+                $licenseId = $item['License_id'];
+                $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+            }
 
             $data = [
                 'schedule' => $schedule,
@@ -79,6 +69,7 @@
                 'route' => $route,
                 'notifications' => $notifications,
                 'pastNotArrivedBookings' => $pastNotArrivedBookings,
+                'averageRatings' => $averageRatings,
             ];
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);
@@ -416,6 +407,9 @@
                     // Update schedule seat availability
                     $this->RegisteredpagesModel->updateScheduleSeats($bookingData['scheduleId'], explode(', ', $bookingData['selectedSeats']));
 
+                    $bookingID = $this->RegisteredpagesModel->getBookingID($bookingData['User_id'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
+                    $bookingId = $bookingID['id'];
+
                     // Send booking confirmation email
                     $this->sendBookingEmail($bookingData);
 
@@ -423,7 +417,8 @@
                     // Load Receipt View
                     $this->view('inc/Components/Receipt/RegisteredReceipt', [
                         'bookingData' => $bookingData,
-                        'qrText' => $qrText
+                        'qrText' => $qrText,
+                        'bookingID' => $bookingId
                     ]);
 
                 } catch (Exception $e) {
@@ -462,6 +457,16 @@
 
        private function sendBookingEmail($bookingData) {
             $mail = new PHPMailer(true);
+
+            $bookingID = $this->RegisteredpagesModel->getBookingID($bookingData['User_id'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
+
+            if (is_string($bookingID) && strpos($bookingID, '{id:') !== false) {
+                // This is a simple regex to extract just the ID value like "R363"
+                preg_match('/id: [\'"]([^\'"]+)[\'"]/', $bookingID, $matches);
+                if (isset($matches[1])) {
+                    $bookingID = $matches[1];
+                }
+            }
             
             try {
                 // SMTP Configuration using defined constants
@@ -494,6 +499,7 @@
                     <p>Thank you for booking with TripTrack. Here are your booking details:</p>
                     
                     <table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd; margin: 20px 0;">
+                        <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Booking ID:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingID['id']) . '</td></tr>
                         <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['name']) . '</td></tr>
                         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['email']) . '</td></tr>
                         <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Contact:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($bookingData['contact']) . '</td></tr>
@@ -640,6 +646,8 @@
             $pastschedule = $this->RegisteredpagesModel->getPastSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+            $bookingsDetails = $this->RegisteredpagesModel->getRegBookings($_SESSION['user_id']);
             // $reviews = $this->RegisteredpagesModel->getReviews($_SESSION['user_id']);
 
             $data = [
@@ -649,6 +657,8 @@
                 'bus' => $bus,
                 'notifications' => $notifications,
                 'pastSchedule' => $pastschedule,
+                'user' => $user,
+                'regBookingsDetails' => $bookingsDetails,
                 // 'reviews' => $reviews
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';

@@ -221,6 +221,17 @@
             }
         }
 
+        public function getRegBookings($userId){
+            try {
+                $this->db->query('SELECT * FROM registeredbooking WHERE User_id = :userId ');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching schedule: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
+
         public function getUpcomingSchedule(){
             try {
                 $this->db->query('SELECT * FROM schedule');
@@ -485,52 +496,6 @@
             }
         }
 
-        /*
-        public function updatePastBookings() {
-            $this->db->query("SELECT * FROM registeredbooking WHERE schedule_id IN (SELECT scheduleId FROM schedule WHERE date < CURDATE())");
-            $pastBookings = $this->db->resultSet();
-            $successCount = 0;
-
-        //     // if(!empty($pastBookings)) {
-        //     //     echo '<pre>';
-        //     //     print_r($pastBookings[0]);
-        //     //     echo '</pre>';
-        //     //     exit;
-        //     // }
-            
-        //     if($pastBookings){
-        //         foreach($pastBookings as $pastBooking){
-        //             //Inserting it to regPastBooking table
-        //             $this->db->query("INSERT INTO pastregbooking(id, Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod) 
-        //                             VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod);");
-                    
-        //             $this->db->bind(':id', $pastBooking['id']);
-        //             $this->db->bind(':Booking_date', $pastBooking['Booking_date']);
-        //             $this->db->bind(':Booking_time', $pastBooking['Booking_time']);
-        //             $this->db->bind(':No_of_seats', $pastBooking['No_of_seats']);
-        //             $this->db->bind(':Seats', $pastBooking['Seats']);
-        //             $this->db->bind(':User_id', $pastBooking['User_id']);
-        //             $this->db->bind(':schedule_id', $pastBooking['schedule_id']);
-        //             $this->db->bind(':from_location', $pastBooking['from_location']);
-        //             $this->db->bind(':to_location', $pastBooking['to_location']);
-        //             $this->db->bind(':total_price', $pastBooking['total_price']);
-        //             $this->db->bind(':paymentMethod', $pastBooking['paymentMethod']);
-                    
-        //             if($this->db->execute()) {
-        //                 // Successfully inserted, now delete from registeredbooking
-        //                 $this->db->query("DELETE FROM registeredbooking WHERE id = :id");
-        //                 $this->db->bind(':id', $pastBooking['id']);
-        //                 $this->db->execute();
-        //                 $successCount++;
-        //             }
-        //         }
-        //     }
-
-            
-            
-            return $successCount; // Return the number of successfully processed bookings
-        }
-        */
         public function updateProfileImage($userId, $imagePath) {
             $this->db->query('UPDATE customer SET Profile_image = :image WHERE User_id = :id');
             $this->db->bind(':image', $imagePath);
@@ -620,6 +585,14 @@
 
             return $cancellations;
             
+        }
+
+        public function getBookingID($userID , $scheduleID , $selectedSeats){
+            $this->db->query("SELECT id FROM registeredbooking WHERE :userid = User_id AND :scheduleid = schedule_id AND :selectedSeats = selected_seats");
+            $this->db->bind(':userid' , $userID);
+            $this->db->bind('scheduleid' , $scheduleID);
+            $this->db->bind(':selectedSeats' , $selectedSeats);
+            return $this->db->single();
         }
 
 

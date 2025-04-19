@@ -312,5 +312,13 @@
                 $this->db->bind(':licenseId',$licenseId);
                 return $this->db->single();
             }
+
+            public function getBookingID($email , $scheduleID , $selectedSeats){
+                $this->db->query("SELECT id FROM guestbooking WHERE :email = email AND :scheduleid = schedule_id AND :selectedSeats = selected_seats");
+                $this->db->bind(':email' , $email);
+                $this->db->bind('scheduleid' , $scheduleID);
+                $this->db->bind(':selectedSeats' , $selectedSeats);
+                return $this->db->single();
+            }
         }
 ?>

@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 // Ensure all booking details are passed through
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate inputs (similar to previous implementation)
@@ -61,4 +61,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Payment Failed: " . $result['message'];
     }
 }
-?>
+?> -->

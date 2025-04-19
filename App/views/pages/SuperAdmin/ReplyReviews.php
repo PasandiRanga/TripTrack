@@ -35,7 +35,7 @@
     </div>
 
     <!-- Reply Form -->
-    <form method="post" action="<?php echo URLROOT; ?>/SuperAdminPages/replyreview" onsubmit="return submitReply()" class="reply-form">
+    <form method="post" action="<?php echo URLROOT; ?>/SuperAdminPages/replyreview" class="reply-form" id="replyForm">
         <input type="hidden" name="reviewId" value="<?php echo htmlspecialchars($reviewId); ?>">
         <label for="reply">Your Reply:</label>
         <textarea id="reply" name="reply" rows="5" required></textarea>
@@ -46,51 +46,47 @@
 
     <script>
         // Function to handle reply form submission
-    async function submitReply(event) {
-        event.preventDefault(); // Stop normal form submission
+        document.getElementById("replyForm").addEventListener("submit", submitReply);
 
-        const replyText = document.getElementById("reply").value.trim();
-        const reviewId = document.querySelector('input[name="reviewId"]').value;
+            async function submitReply(event) {
+                event.preventDefault();
 
-        if (replyText === "") {
-            alert("Please enter a reply before submitting.");
-            return false;
-        }
+                const replyText = document.getElementById("reply").value.trim();
+                const reviewId = document.querySelector('input[name="reviewId"]').value;
 
-        const confirmSubmit = confirm("Are you sure you want to submit this reply?");
-        if (!confirmSubmit) return false;
+                if (replyText === "") {
+                    alert("Please enter a reply before submitting.");
+                    return;
+                }
 
-        try {
-            const response = await fetch('<?php echo URLROOT; ?>/SuperAdminPages/replyreview', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    reviewId: reviewId,
-                    reply: replyText
-                })
-            });
+                const confirmSubmit = confirm("Are you sure you want to submit this reply?");
+                if (!confirmSubmit) return;
 
-            if (!response.ok) {
-                throw new Error('Failed to submit reply');
+                try {
+                    const response = await fetch('<?php echo URLROOT; ?>/SuperAdminPages/replyreview', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            reviewId: reviewId,
+                            reply: replyText
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.status === "success") {
+                        alert("Reply submitted successfully!");
+                        window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/reviews';
+                    } else {
+                        alert(result.message || "Failed to submit reply.");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("An error occurred while submitting the reply.");
+                }
             }
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert("Reply submitted successfully!");
-                window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/reviews';
-            } else {
-                alert("Failed to submit reply. Please try again.");
-            }
-        } catch (error) {
-            console.error(error);
-            alert("An error occurred while submitting the reply.");
-        }
-
-        return false;
-    }
 
     </script>
 </body>

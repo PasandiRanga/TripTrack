@@ -329,7 +329,7 @@
         }
 
         /* Modal Styling */
-        .popup, .policypopup, #reviewPopup {
+        .popup, .policypopup, #reviewPopup , #ticketViewPopup {
             position: fixed;
             top: 0;
             left: 0;
@@ -342,7 +342,7 @@
             z-index: 1000;
         }
 
-        .popup-content, .policypopup-content, .reviewPopup-content {
+        .popup-content, .policypopup-content, .reviewPopup-content{
             background-color: white;
             padding: 25px;
             border-radius: var(--border-radius);
@@ -352,7 +352,7 @@
             overflow-y: auto;
         }
 
-        .popup.hidden, .policypopup.hidden, #reviewPopup.hidden {
+        .popup.hidden, .policypopup.hidden, #reviewPopup.hidden ,#ticketViewPopup.hidden{
             display: none;
         }
 
@@ -575,4 +575,139 @@
 .booking-item.cancelled {
     background-color: rgba(239, 68, 68, 0.1);
     border-left-color: var(--danger-color);
+}
+
+
+.bus-ticket {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 15px;
+    width: 500px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    margin: auto;
+    animation: fadeIn 0.5s ease-in-out;
+    border: 1px solid #43cea2;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.ticketPopup-content{
+    background-color: transparent;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    max-width: 550px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.location h2 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: bold;
+    color: #43cea2;
+}
+
+.location p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: antiquewhite;
+}
+
+.icon i {
+    font-size: 2em;
+    color: #ffffff;
+    
+}
+
+/* Dotted line style */
+.dotted-line {
+    border: none;
+    border-top: 2px dotted #000000; /* Dotted line with blue color */
+    width: 100%; /* Ensure the line stretches */
+    margin: 0; /* Remove any margins */
+}
+
+.dotted-separator {
+    border: none;
+    border-top: 2px dashed #000000;
+    margin: 15px 0;
+}
+
+.ticket-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info {
+    text-align: left;
+    line-height: 1.8;
+    font-size: 0.9em;
+}
+
+.info p {
+    margin: 5px 0;
+    color: #000000;
+}
+
+.price h3 {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #43cea2; /* Gold color for price */
+}
+
+.ticket-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.8;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.passenger-info {
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: #000000;
+}
+
+.passenger-info p {
+    margin: 5px 0;
+}
+
+.qr-code i {
+    font-size: 2.5em;
+    color: #000000;
+    padding: 10px;
+    border: 2px dashed #8ecae6;
+    border-radius: 10px;
+}
+
+span .close-popup {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #d32e2e;
 }
