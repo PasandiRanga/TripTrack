@@ -38,7 +38,8 @@
 
     // Loop through the reviews array and display each review
     foreach ($data['reviews'] as $review) {
-        $rowClass = !$review['replied'] ? 'new-review' : '';
+        // Apply 'new-review' class if review is unreplied, otherwise apply 'replied-review'
+        $rowClass = !$review['replied'] ? 'new-review' : 'replied-review';
         echo "<tr onclick=\"goToReplyPage({$review['reviewId']})\" class=\"$rowClass\">";
         echo "<td>{$review['reviewId']}</td>";
         echo "<td>{$review['License_id']}</td>";
@@ -79,6 +80,21 @@
         } else {
             alert("Review not found.");
         }
+    }
+
+    function updateReviewRowStyles() {
+        const rows = document.querySelectorAll("table.review-table tbody tr");
+
+        rows.forEach(row => {
+            const repliedStatus = row.cells[6].innerText; // Assuming the 'Status' column is at index 6
+            if (repliedStatus === 'No') {
+                row.classList.add('new-review');
+                row.classList.remove('replied-review');
+            } else {
+                row.classList.add('replied-review');
+                row.classList.remove('new-review');
+            }
+        });
     }
 </script>
 

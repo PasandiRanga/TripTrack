@@ -92,7 +92,7 @@
                     <span class="material-icons-outlined">route</span> Routes
                 </li>
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/contacts'">
-                    <span class="material-icons-outlined">contact_page</span> Contacts
+                    <span class="material-icons-outlined">contact_page</span> Support Requests
                 </li>
 
                 <li class="sidebar-list-item" onclick="Openpopup()">

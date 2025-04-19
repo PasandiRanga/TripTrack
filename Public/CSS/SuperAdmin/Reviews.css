@@ -20,7 +20,7 @@ body {
 }
 
 .back-button:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
 }
 
 .title {
@@ -33,20 +33,16 @@ body {
 .review-table-container {
     margin: 20px auto;
     width: 90%;
-    border-radius: 10px; /* Rounds the corners */
-    overflow: hidden; /* Ensures corners stay rounded */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
-    background-color: white; /* Ensures a consistent background */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: white;
 }
 
 .review-table {
     width: 100%;
-    border-collapse: separate; /* Necessary for border-radius to apply */
-    border-spacing: 0; /* Removes any gaps between cells */
-}
-.review-table td {
-    padding: 12px;
-    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .review-table th {
@@ -58,13 +54,21 @@ body {
 }
 
 .review-table td {
+    padding: 12px;
+    text-align: center;
     color: black;
 }
 
+/* Zebra striping */
 .review-table tr:nth-child(even) {
     background-color: #f4f4f4;
 }
 
+.review-table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Row hover */
 .review-table tr:hover {
     background-color: #f1f1f1;
     cursor: pointer;
@@ -74,6 +78,16 @@ body {
 .review-table tr.selected {
     background-color: #d3d3d3;
     font-weight: bold;
+}
+
+/* Highlight Unreplied Review */
+.review-table tr.new-review {
+    background-color: #ffdddd !important; /* Light red for unreplied */
+}
+
+/* Optional: Replied review (if used) */
+.review-table tr.replied-review {
+    background-color: #eaffea !important; /* Light green */
 }
 
 @media (max-width: 768px) {
