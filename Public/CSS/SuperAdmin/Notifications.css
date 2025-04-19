@@ -38,6 +38,8 @@ h2 {
     margin-bottom: 20px;
 }
 
+
+
 .button-container {
     text-align: right;
     margin-bottom: 20px;
@@ -57,62 +59,42 @@ h2 {
     background-color: #218838;
 }
 
-.table-selection {
-    margin-bottom: 20px;
-    font-size: 16px;
-}
-
-.table-selection label {
-    margin-right: 15px;
-    cursor: pointer;
-}
-
 .table-wrapper {
+    width: 100%;
     display: flex;
     justify-content: center;
-}
-
-table {
-    border-collapse: collapse;
-    width: 70%;
-    table-layout: fixed; /* Ensure consistent column widths */
+    overflow-x: auto;
     margin-top: 20px;
+    padding: 0 20px;
 }
 
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-    }
-
-table th {
-    background-color: #007bff;
-    color: white;
-}
-
-.visible-table {
-    visibility: visible;
-    position: relative;
-}
-
-.hidden-table {
-    visibility: hidden;
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-}
-
-.right-side table {
+.delay-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: auto;
 }
 
-.right-side th,
-.right-side td {
-    padding: 12px;
+.delay-table th,
+.delay-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
     text-align: center;
-}  
+}
+
+.delay-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.delay-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.delay-table tbody tr:hover {
+    background-color: #f1f1f1;
+} 
 
 .send-notification-button {
     margin: 20px 0;

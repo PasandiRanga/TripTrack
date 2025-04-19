@@ -41,7 +41,7 @@
 
                             // Build a properly encoded mailto link with new lines
                             $subject = rawurlencode("Support Request Reply");
-                            $body = rawurlencode("Hello {$name},\n\nRegarding your message:\n{$message}\n\n---\nReply here.");
+                            $body = rawurlencode("Hello {$name},\n\nRegarding your message:\n{$message}\n\n---\nReply - \n");
                             $mailto = "mailto:{$email}?subject={$subject}&body={$body}";
 
                             echo "<tr>";

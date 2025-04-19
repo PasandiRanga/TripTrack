@@ -466,8 +466,17 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/LeaveRequests');
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Notifications
+//---------------------------------------------------------------------------------------------------------------------- 
+
     public function notifications() {
-        $this->view('pages/SuperAdmin/Notifications');
+
+        $delays = $this->SuperAdminModel->getBusDelays();
+        $data = [
+            'delays' => $delays
+        ];
+        $this->view('pages/SuperAdmin/Notifications', $data);
     }
 
     public function sendnotifications() {
