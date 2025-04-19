@@ -382,18 +382,23 @@
         barChart.render();
         
 
+    const bookingsFromPHP = <?php echo json_encode($data['chartbookings']); ?>;
+    const cancellationsFromPHP = <?php echo json_encode($data['chartcancellations']); ?>;
 
+    const labels = bookingsFromPHP.map(item => item.day);
+    const bookingData = bookingsFromPHP.map(item => item.bookings);
+    const cancellationData = cancellationsFromPHP.map(item => item.cancellations);
         
         // AREA CHART
         const areaChartOptions = {
             series: [
             {
                 name: 'Bookings',
-                data: [31, 40, 28, 51, 42, 109, 100],
+                data: bookingData,
             },
             {
                 name: 'Cancellations',
-                data: [11, 32, 22, 32, 34, 52, 41],
+                data: cancellationData,
             },
             ],
             chart: {
@@ -406,7 +411,7 @@
             },
             },
             colors: ['#00ab57', '#d50000'],
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            labels: labels,
             dataLabels: {
             enabled: false,
             },
