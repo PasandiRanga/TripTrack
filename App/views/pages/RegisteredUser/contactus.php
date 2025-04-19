@@ -75,16 +75,16 @@
 
           <div class="info">
             <div class="information">
-              <img src="<?php echo URLROOT; ?>/Public/images/location.png" class="icon" alt="" />
+              <i class="fas fa-map-marker-alt icon-custom"></i>
               <p>123 Main Street, Suite 400
               City, State, ZIP Code</p>
             </div>
             <div class="information">
-              <img src="<?php echo URLROOT; ?>/Public/images/email.png" class="icon" alt="" />
+              <i class="fas fa-envelope icon-custom"></i>
               <p>info@example.com</p>
             </div>
             <div class="information">
-              <img src="<?php echo URLROOT; ?>/Public/images/phone.png" class="icon" alt="" />
+              <i class="fas fa-phone-alt icon-custom"></i>
               <p>Phone: +1 (123) 456-7890</p>
             </div>
           </div>
@@ -112,8 +112,10 @@
 
           <form action="<?php echo URLROOT; ?>/RegisteredPages/submitRequest" method="POST" enctype="multipart/form-data">
             <h3 class="title">Contact us</h3>
+            <p class="description">We’d love to hear from you. Please fill out this form and we’ll get in touch shortly.</>
+
             <div class="input-container">
-              <input type="text" name="name" id="name" class="input" value="<?php echo isset($postdata['name']) ? $postdata['name'] : ''; ?>" />
+              <input type="text" name="name" id="name" class="name" value="<?php echo isset($postdata['name']) ? $postdata['name'] : ''; ?>" />
               <label for="">Name</label>
               <span>Name</span>
               <p class="invalid"><?php echo isset($postdata['name_err']) ? $postdata['name_err'] : ''; ?></p>
