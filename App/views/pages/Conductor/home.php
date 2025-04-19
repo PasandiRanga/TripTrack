@@ -251,14 +251,14 @@
                 // Default display
                 document.getElementById('pastAssigns').style.display = 'none';
                 document.getElementById('upcomingAssigns').style.display = 'table';
-                document.getElementById('showUpcomingAssigns').style.color = '#4CAF50';
+                document.getElementById('showUpcomingAssigns').style.color = '#185a9d';
 
                 // Tab click events
                 document.getElementById('showUpcomingAssigns').addEventListener('click', function () {
                     document.getElementById('upcomingAssigns').style.display = 'table';
                     document.getElementById('pastAssigns').style.display = 'none';
 
-                    document.getElementById('showUpcomingAssigns').style.color = '#4CAF50';
+                    document.getElementById('showUpcomingAssigns').style.color = '#185a9d';
 
                     document.getElementById('showPastAssigns').style.color = defaultColor;
                 });
@@ -267,7 +267,7 @@
                     document.getElementById('pastAssigns').style.display = 'table';
                     document.getElementById('upcomingAssigns').style.display = 'none';
 
-                    document.getElementById('showPastAssigns').style.color = '#4CAF50';
+                    document.getElementById('showPastAssigns').style.color = '#185a9d';
 
                     document.getElementById('showUpcomingAssigns').style.color = defaultColor;
                 });
