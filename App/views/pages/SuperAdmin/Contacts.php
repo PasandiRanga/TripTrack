@@ -50,8 +50,15 @@
                             echo "<td>{$contact['email']}</td>";
                             echo "<td>{$contact['contactNo']}</td>";
                             echo "<td>{$contact['message']}</td>";
-                            echo "<td>" . ($contact['replied'] ? 'Yes' : 'No') . "</td>";
-                            echo "<td><button class='reply-btn' onclick=\"reply(this, '{$mailto}')\">Reply</button></td>";
+                            $replied = $contact['replied'] == 'Yes' || $contact['replied'] == 1;
+
+                            echo "<td>" . ($replied ? 'Yes' : 'No') . "</td>";
+
+                            if ($replied) {
+                                echo "<td><button class='reply-btn replied' disabled>Replied</button></td>";
+                            } else {
+                                echo "<td><button class='reply-btn' onclick=\"reply(this, '{$mailto}', {$contact['Request_id']})\">Reply</button></td>";
+                            }
                             echo "</tr>";
                         }
                     } else {
@@ -86,7 +93,9 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (!data.success) {
+            if (data.success) {
+                alert("Marked as replied on the server.");
+            } else {
                 alert("Failed to mark as replied on the server.");
             }
         })

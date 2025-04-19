@@ -327,12 +327,11 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    public function setRepliedStatus($requestId) {
-        $this->db->query("UPDATE support_requests SET replied = 1 WHERE Request_id = :id");
+   public function setRepliedStatus($requestId) {
+        $this->db->query("UPDATE support_request SET replied = 'Yes' WHERE Request_id = :id");
         $this->db->bind(':id', $requestId);
         return $this->db->execute();
     }
-
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //Routes
