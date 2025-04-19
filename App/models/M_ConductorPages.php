@@ -448,7 +448,7 @@
         }
 
         public function checkGuestBooking($booking_id, $nic) {
-            $this->db->query('SELECT schedule_id, selected_seats FROM guestbooking WHERE id = :booking_id AND nic = :nic');
+            $this->db->query('SELECT * FROM guestbooking WHERE id = :booking_id AND nic = :nic');
             $this->db->bind(':booking_id', $booking_id);
             $this->db->bind(':nic', $nic);
             $this->db->execute();
@@ -457,9 +457,9 @@
         }
 
         public function checkRegBooking($booking_id, $nic) {
-            $this->db->query('SELECT schedule_id, selected_seats FROM registeredbooking WHERE id = :booking_id AND nic = :nic');
+            $this->db->query('SELECT * FROM registeredbooking WHERE id = :booking_id');
             $this->db->bind(':booking_id', $booking_id);
-            $this->db->bind(':nic', $nic);
+            //$this->db->bind(':nic', $nic);
             $this->db->execute();
 
             return $this->db->single();

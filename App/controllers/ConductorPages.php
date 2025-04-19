@@ -230,7 +230,9 @@
 
                     if($booking) {
                         if ($result) {
+                            $response['status'] = 'success';
                             $response['message'] = 'Booking verified and recorded successfully';
+                            $response['bookingData'] = $bookingData;
                         } else {
                             http_response_code(500);
                             $response['status'] = 'error';
