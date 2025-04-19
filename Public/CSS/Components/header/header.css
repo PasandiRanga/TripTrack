@@ -154,13 +154,52 @@ li {
     color: #cc0000;
 }
 
-/*profile image in header*/
-.profile .pic img{
-    height: 50px;
-    width: 50px;
+.profile .pic img {
+    height: 40px; /* Reduced from 50px */
+    width: 40px; /* Reduced from 50px */
     border-radius: 50%;
-    overflow: hidden;
     border: 1px solid #002b38;
+    display: block; /* Ensures proper block display */
+    object-fit: cover; /* Maintains aspect ratio while covering the area */
+}
+
+/* Add this to properly contain the profile image */
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.pic {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 5px 0;
+}
+
+/* Ensure the user-section is properly aligned */
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20px;
+    height: 100%;
+}
+
+/* Ensure proper vertical alignment in the header */
+.header {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    /* rest of your properties remain the same */
+}
+
+/* Adjust user-profile-container if needed */
+.user-profile-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 /* Update the xyz class to better handle flex layout */
