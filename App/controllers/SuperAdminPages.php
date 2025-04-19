@@ -466,8 +466,17 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/LeaveRequests');
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+                                    //Notifications
+//---------------------------------------------------------------------------------------------------------------------- 
+
     public function notifications() {
-        $this->view('pages/SuperAdmin/Notifications');
+
+        $delays = $this->SuperAdminModel->getBusDelays();
+        $data = [
+            'delays' => $delays
+        ];
+        $this->view('pages/SuperAdmin/Notifications', $data);
     }
 
     public function sendnotifications() {
@@ -1005,23 +1014,30 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Contacts',$data);
     }
 
-    public function markReplied() {
-    // Get raw POST data
-        $json = file_get_contents("php://input");
-        $data = json_decode($json, true);
+    public function markReplied()
+    {
+        // Make sure it's a POST request
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Get raw JSON input
+            $input = json_decode(file_get_contents('php://input'), true);
 
-        $requestId = $data['request_id'] ?? null;
+            if (isset($input['request_id'])) {
+                $requestId = $input['request_id'];
 
-        if ($requestId) {
-            if ($this->SuperAdminModel->setRepliedStatus($requestId)) {
-                echo json_encode(['success' => true]);
+                // Update the record
+                if ($this->SuperAdminModel->setRepliedStatus($requestId)) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false, 'error' => 'Database update failed']);
+                }
             } else {
-                echo json_encode(['success' => false]);
+                echo json_encode(['success' => false, 'error' => 'Invalid input']);
             }
         } else {
-            echo json_encode(['success' => false, 'error' => 'Missing ID']);
+            echo json_encode(['success' => false, 'error' => 'Invalid request method']);
         }
     }
+
 
 //----------------------------------------------------------------------------------------------------------------------
                                     //Profile

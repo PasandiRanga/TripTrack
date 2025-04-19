@@ -7,14 +7,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications</title>
+    <title>Delay Notifications</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Notifications.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
     <div class="container">
-        <h2>Notifications</h2>
+        <h2>Delay Notifications</h2>
 
         <!-- Send Notification Button -->
         <div class="button-container">
@@ -25,75 +25,37 @@
             </button>
         </div>
 
-        <!-- Selection Table -->
-        <div class="table-selection">
-            <label>
-                <input type="radio" name="tableSelector" value="employee" checked onclick="toggleTable('employee')">
-                Employees
-            </label>
-            <label>
-                <input type="radio" name="tableSelector" value="passenger" onclick="toggleTable('passenger')">
-                Passengers
-            </label>
-        </div>
-
-        <!-- Tables -->
+        <!-- Delay Notifications Table -->
         <div class="table-wrapper">
-            <table id="employeeTable" class="visible-table">
+            <table class="delay-table">
                 <thead>
                     <tr>
+                        <th>Delay ID</th>
+                        <th>Schedule ID</th>
                         <th>Employee ID</th>
-                        <th>Content</th>
-                        <th>Date</th>
-                        <th>Time</th>
+                        <th>Departure Time</th>
+                        <th>New Departure Time</th>
+                        <th>Reason</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1001</td>
-                        <td>Employee Notification Content</td>
-                        <td>2025-01-24</td>
-                        <td>10:00 AM</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table id="passengerTable" class="hidden-table">
-                <thead>
-                    <tr>
-                        <th>Schedule</th>
-                        <th>Content</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Route 1 - Bus 1001</td>
-                        <td>Passenger Notification Content</td>
-                        <td>2025-01-24</td>
-                        <td>10:15 AM</td>
-                    </tr>
+                    <?php if (!empty($data['delays'])): ?>
+                        <?php foreach ($data['delays'] as $delay): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($delay['delay_id']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['schedule_id']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['employee_id']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['dep_time']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['new_dep_time']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['reason']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="6">No delay notifications found.</td></tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
-
-    <script>
-        // Toggle between Employee and Passenger tables
-        function toggleTable(tableType) {
-            const employeeTable = document.getElementById("employeeTable");
-            const passengerTable = document.getElementById("passengerTable");
-
-            if (tableType === 'employee') {
-                employeeTable.className = "visible-table";
-                passengerTable.className = "hidden-table";
-            } else if (tableType === 'passenger') {
-                employeeTable.className = "hidden-table";
-                passengerTable.className = "visible-table";
-            }
-        }
-    </script>
-
 </body>
 </html>
