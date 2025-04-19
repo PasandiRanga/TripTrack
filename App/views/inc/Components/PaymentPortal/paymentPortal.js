@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Payment portal script loaded');    
     // Get form elements
     const paymentForm = document.getElementById('paymentForm');
     const cardNameInput = document.getElementById('cardName');
@@ -7,10 +8,41 @@ document.addEventListener('DOMContentLoaded', function() {
     const cvvInput = document.getElementById('cvv');
     const submitButton = document.querySelector('.btn-submit');
     
-    // Format card number with spaces
+    // Get card icons
+    const visaIcon = document.querySelector('.card-icon.visa');
+    const mastercardIcon = document.querySelector('.card-icon.mastercard');
+    const amexIcon = document.querySelector('.card-icon.amex');
+    
+    // Remove card type selection radio buttons completely
+    const cardTypeGroup = document.getElementById('cardTypeGroup');
+    if (cardTypeGroup) {
+        cardTypeGroup.remove(); // Completely remove from DOM
+    }
+    
+    // Initially set both Visa and Mastercard icons to semi-visible (half opacity)
+    visaIcon.style.opacity = '0.5';
+    mastercardIcon.style.opacity = '0.5';
+    if (amexIcon) amexIcon.style.opacity = '0.5'; // Optional if you want to keep Amex
+    
+    // Format card number with spaces and detect card type
     cardNumberInput.addEventListener('input', function() {
         let value = this.value.replace(/\D/g, '').substring(0, 16);
         this.value = value.replace(/(.{4})/g, '$1 ').trim();
+        
+        // Reset all card icons to half opacity
+        visaIcon.style.opacity = '0.5';
+        mastercardIcon.style.opacity = '0.5';
+        if (amexIcon) amexIcon.style.opacity = '0.5';
+        
+        // Show the correct card icon based on first digit
+        if (value.length > 0) {
+            const firstDigit = value.charAt(0);
+            if (firstDigit === '4') {
+                visaIcon.style.opacity = '1';
+            } else if (firstDigit === '5') {
+                mastercardIcon.style.opacity = '1';
+            }
+        }
     });
     
     // Format expiry date with slash
@@ -39,48 +71,27 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.input-error').forEach(input => {
             input.classList.remove('input-error');
         });
-        
-        let isValid = true;
-        
-        // Validate card name
-        if (!validateCardName()) {
-            isValid = false;
-        }
-        
-        // Validate card number
-        if (!validateCardNumber()) {
-            isValid = false;
-        }
-        
-        // Validate expiry date
-        if (!validateExpiry()) {
-            isValid = false;
-        }
-        
-        // Validate CVV
-        if (!validateCVV()) {
-            isValid = false;
-        }
 
-        if (!validateCardType()) {
-            isValid = false;
-        }
-
+        console.log('Name validation:', validateCardName());
+        console.log('Card number validation:', validateCardNumber());
+        console.log('Expiry validation:', validateExpiry());
+        console.log('CVV validation:', validateCVV());
         
+       // Validate all fields
+        const isNameValid = validateCardName();
+        const isCardNumberValid = validateCardNumber();
+        const isExpiryValid = validateExpiry();
+        const isCvvValid = validateCVV();
+
         // If valid, submit the form
-        if (isValid) {
+        if (isNameValid && isCardNumberValid && isExpiryValid && isCvvValid) {
             // Show loading state
-            submitButton.innerHTML = 'Processing...';
+            submitButton.innerHTML = 'Processing... <span class="spinner"></span>';
             submitButton.disabled = true;
             
-            // Normally you would submit the form here
-            // For now, let's just simulate a successful submission
+            // Actually submit the form after validation has passed
             setTimeout(function() {
-                alert('Payment successful!');
-                submitButton.innerHTML = 'Confirm Payment';
-                submitButton.disabled = false;
-                // Uncomment to actually submit:
-                // paymentForm.submit();
+                paymentForm.submit();
             }, 1500);
         } else {
             // Scroll to first error
@@ -88,6 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (firstError) {
                 firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
+            // Make sure submit button is enabled
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Confirm Payment';
         }
     });
     
@@ -128,6 +142,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!/^\d+$/.test(value)) {
             showError(cardNumberInput, 'Card number can only contain digits');
+            return false;
+        }
+        
+        // Check if it's a valid card type (starting with 4 or 5)
+        const firstDigit = value.charAt(0);
+        if (firstDigit !== '4' && firstDigit !== '5') {
+            showError(cardNumberInput, 'Only Visa (starts with 4) or Mastercard (starts with 5) accepted');
             return false;
         }
         
@@ -200,16 +221,3 @@ document.addEventListener('DOMContentLoaded', function() {
         formGroup.appendChild(errorMessage);
     }
 });
-
-function validateCardType() {
-    const selectedType = document.querySelector('input[name="cardType"]:checked');
-    if (!selectedType) {
-        const cardTypeGroup = document.getElementById('cardTypeGroup');
-        const error = document.createElement('div');
-        error.className = 'error-message';
-        error.textContent = 'Please select your card type';
-        cardTypeGroup.appendChild(error);
-        return false;
-    }
-    return true;
-}
