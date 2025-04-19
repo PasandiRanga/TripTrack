@@ -53,6 +53,13 @@
             $route = $this->RegisteredpagesModel->getRoute();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
             $pastNotArrivedBookings = $this->RegisteredpagesModel->getPastNotArrivedBookings($_SESSION['user_id']);
+            $averageRatings = [];  
+            
+            foreach ($schedule as $item) {
+                $licenseId = $item['License_id'];
+                $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+            }
 
             $data = [
                 'schedule' => $schedule,
@@ -62,6 +69,7 @@
                 'route' => $route,
                 'notifications' => $notifications,
                 'pastNotArrivedBookings' => $pastNotArrivedBookings,
+                'averageRatings' => $averageRatings,
             ];
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);

@@ -15,7 +15,14 @@
     <p><strong>Available Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['availableSeats']); ?></p>
     <div class="rating">
         <?php
-            $rating = 0.0;
+            // Get the current bus license ID
+            $busLicenseId = $selectedBus['License_id'];
+            
+            // Get the rating for this specific bus from the averageRatings array
+            $rating = isset($averageRatings[$busLicenseId]) && $averageRatings[$busLicenseId] !== "No ratings" 
+                ? (float)$averageRatings[$busLicenseId] 
+                : 0.0;
+                
             $fullStars = floor($rating);
             $halfStar = $rating - $fullStars >= 0.5; 
             $maxStars = 5; 
@@ -30,8 +37,16 @@
                 echo '<i class="far fa-star empty-star"></i>';
             }
         ?>
-        <span><?php echo number_format($rating, 1); ?></span>
-    </div>
+    <span>
+        <?php 
+            if (isset($averageRatings[$busLicenseId]) && $averageRatings[$busLicenseId] !== "No ratings") {
+                echo number_format($rating, 1);
+            } else {
+                echo "No ratings";
+            }
+        ?>
+    </span>
+</div>
     <div class="info-details">
         <div class="info-item">
             <div>
