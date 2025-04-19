@@ -26,6 +26,7 @@
             $routeData = $data['route'] ?? [];
             $distanceData = $data['distance'] ?? [];
             $pastNotArrivedBookings = $data['pastNotArrivedBookings'] ?? [];
+            $averageRatings = $data['averageRatings'] ?? [];
 
             // Retrieve the user role from the form submission or session
             $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
@@ -126,6 +127,11 @@
                 }
             }
         ?>
+
+        <script>
+            var averageRatings = <?php echo json_encode($averageRatings); ?>;
+            console.log("Average ratings: ",averageRatings);
+        </script>
 
         <div class="hero-container">
             <br/>
