@@ -54,11 +54,20 @@
             $distance = $this->GuestpagesModel->getDistance();
             $route = $this->GuestpagesModel->getRoute();
             $distance = $this->GuestpagesModel->getDistance();
+            $averageRatings = []; 
+            
+            foreach ($schedule as $item) {
+                $licenseId = $item['License_id'];
+                $avg = $this->GuestpagesModel->getAverageRatings($licenseId);
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+            }
+
             $data = [
                 'schedule' => $schedule,
                 'bus' => $bus,
                 'distance' => $distance,
-                'route' => $route
+                'route' => $route,
+                'averageRatings' => $averageRatings,
             ];
             $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
