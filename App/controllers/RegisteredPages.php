@@ -45,23 +45,6 @@
             $this->view('pages/RegisteredUser/home', $data);
         }
 
-
-        public function bookings() {
-            $bookingsDetails = $this->RegisteredpagesModel->getBookings($_SESSION['user_id']);
-            $schedule = $this->RegisteredpagesModel->getSchedule();
-            $bus = $this->RegisteredpagesModel->getBusDetails();
-            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-
-            $data =[
-                'bookingsDetails' => $bookingsDetails,
-                'schedule' => $schedule,
-                'bus' => $bus,
-                'user' => $user
-            ];
-            $this->view('pages/RegisteredUser/Bookings' , $data);
-            
-        }
-
         public function busLayout() {
             $schedule = $this->RegisteredpagesModel->getSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
@@ -655,6 +638,8 @@
             $pastschedule = $this->RegisteredpagesModel->getPastSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
+            $bookingsDetails = $this->RegisteredpagesModel->getRegBookings($_SESSION['user_id']);
             // $reviews = $this->RegisteredpagesModel->getReviews($_SESSION['user_id']);
 
             $data = [
@@ -664,6 +649,8 @@
                 'bus' => $bus,
                 'notifications' => $notifications,
                 'pastSchedule' => $pastschedule,
+                'user' => $user,
+                'regBookingsDetails' => $bookingsDetails,
                 // 'reviews' => $reviews
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
