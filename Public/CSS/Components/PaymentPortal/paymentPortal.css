@@ -1,34 +1,36 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f7f9fc;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    color: #333;
+    color: #2d3748;
 }
 
 .payment-container {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 35px;
-    width: 450px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    width: 480px;
     max-width: 90%;
+    transition: all 0.3s ease;
 }
 
 h2 {
     text-align: center;
-    color: #2c3e50;
-    margin-bottom: 25px;
-    font-weight: 600;
-    border-bottom: 1px solid #eee;
+    color: #1a202c;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 24px;
+    border-bottom: 1px solid #edf2f7;
     padding-bottom: 15px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     position: relative;
 }
 
@@ -36,38 +38,56 @@ label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
-    color: #555;
+    color: #4a5568;
     font-size: 14px;
+    transition: color 0.3s;
 }
 
 input {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 14px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     font-size: 15px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
     box-sizing: border-box;
+    background-color: #f8fafc;
+    color: #2d3748;
 }
 
 input:focus {
-    border-color: #3498db;
+    border-color: #4299e1;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+    background-color: #ffffff;
+}
+
+input::placeholder {
+    color: #a0aec0;
 }
 
 /* Error styling */
 .input-error {
-    border-color: #e74c3c !important;
-    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+    border-color: #e53e3e !important;
+    background-color: #fff5f5;
 }
 
 .error-message {
-    color: #e74c3c;
+    color: #e53e3e;
     font-size: 12px;
-    margin-top: 5px;
+    margin-top: 6px;
     font-weight: 500;
+    padding-left: 4px;
     animation: fadeIn 0.3s ease;
+    display: none;
+}
+
+input.invalid {
+            border: 1px solid #ff3333;
+}
+        
+.error-message.visible {
+    display: block;
 }
 
 @keyframes fadeIn {
@@ -87,20 +107,23 @@ input:focus {
 
 .btn-submit {
     width: 100%;
-    padding: 14px;
-    background-color: #3498db;
+    padding: 16px;
+    background-color: #3182ce;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    transition: background-color 0.3s, transform 0.1s;
-    margin-top: 10px;
+    transition: all 0.3s;
+    margin-top: 15px;
+    box-shadow: 0 4px 6px rgba(49, 130, 206, 0.1);
 }
 
 .btn-submit:hover {
-    background-color: #2980b9;
+    background-color: #2b6cb0;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(49, 130, 206, 0.15);
 }
 
 .btn-submit:active {
@@ -108,8 +131,10 @@ input:focus {
 }
 
 .btn-submit:disabled {
-    background-color: #95a5a6;
+    background-color: #a0aec0;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Card Number Input Styling with Icons */
@@ -119,54 +144,56 @@ input:focus {
 
 .card-icons {
     position: absolute;
-    top: 37px;
-    right: 10px;
+    top: 41px;
+    right: 15px;
     display: flex;
     gap: 5px;
 }
 
 .card-icon {
-    width: 30px;
+    width: 32px;
     height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
-    opacity: 0.3;
     transition: opacity 0.3s;
 }
 
 .card-icon.visa {
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDYyNCI+PHBhdGggZmlsbD0iIzAwNTc5ZiIgZD0iTTkxOC4xNiAzMTEuMDJjMC0xMjAuMTMtODYuOC0yMDUuOS0yMTYuOTMtMjA1LjlINTcuNDlsLS40OC4xNHYuMjNsLS4zLjIydjQxMy42OWguMnYuMmguNDFINjk5LjFjMTMwLjEyLS4wMSAyMTktODUuNTMgMjE5LjA2LTIwOC41OFoiLz48cGF0aCBmaWxsPSIjZmZhMDAwIiBkPSJNMTM0Ljc5IDMxMS4wMmMwIDEzMC4xMyA4Ni44IDIwOC41OCAyMTYuOTMgMjA4LjU4aDY0NC4wN2wuNDgtLjE0di0uMmwuMy0uMjJWMTA1LjM2aC0uMnYtLjJoLS40MUgzNTMuODdjLTEzMC4xMyAwLTIxOSA4NS41My0yMTkuMDggMjA1Ljg2WiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zNTIuNzMgMzExLjE0YzAgNTguOTEgNDYuODMgMTA0LjI5IDEwNS43NCAxMDQuMjloNzM2Ljk0di0yMDguNUg0NTguNDdjLTU4LjkxIDAtMTA1Ljc0IDQ2LjgzLTEwNS43NCAxMDQuMjFaIi8+PC9zdmc+');
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjY4IiB2aWV3Qm94PSIwIDAgMTAwIDY4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTM5LjUxMzggMTcuNkwyNS4wODQ2IDUwLjkyMjhIMTYuMTEzOEw4Ljg3OTgzIDIyLjg3OTVDOC40MzUyOSAyMS4wMDQ2IDguMDcxNzMgMjAuMjg5OCA2LjQ2MTQyIDE5LjQ0NDdDMy44ODM2OCAxOC4wOTU1IC0wLjAwMDMwNTU3NiAxNi44NTY0IC0wLjAwMDMwNTU3NiAxNi44NTY0TDAuMTcxMTk5IDE3LjZIMTMuMjEwOUMxNC45NzU3IDE3LjYgMTYuNTg1IDE4Ljk0OTIgMTcuMDI5NiAyMS4wOTQ3TDIxLjAxMDQgNDAuNzg2OEwzMC44OTI2IDE3LjZIMzkuNTEzOFoiIGZpbGw9IiMwRDI4OEMiLz4NCjxwYXRoIGQ9Ik05MC4yODc3IDE3LjZIODMuNDQ1MkM4MS4xNjg5IDE3LjYgNzkuMzg1IDE4LjQxNTIgNzguNDA1NCAyMC41MzA3TDY0LjQwMTggNTAuOTUyOUg3My44NjMzQzczLjg2MzMgNTAuOTUyOSA3NS4zMTI3IDQ3LjE4MzYgNzUuNjc2MiA0Ni4zNjg0QzcyLjk0ODkgNDYuMzY4NCA2Ny43MTExIDQ2LjM2ODQgNjcuNzExMSA0Ni4zNjg0QzY4LjMxNiA0NC41MjM4IDcyLjQzNDMgMzMuNzg2NCA3Mi40MzQzIDMzLjc4NjRDNzIuNDM0MyAzMy43ODY0IDczLjA5OTIgMzEuOTE4MyA3My40MzI4IDMwLjk1MDlINzMuNTgzMkM3NC4wMjc3IDMxLjkxODMgODEuMDk4NyA1MC45ODMgODEuMDk4NyA1MC45ODNIOTAuMjg3N0w5MC4yODc3IDE3LjZaIiBmaWxsPSIjMEQyODhDIi8+DQo8cGF0aCBkPSJNNTAuNzA5NCAxNy42TDQyLjMzOSA0MS4xMjI5TDQxLjgwNDUgMzguMzkzOEwzOC4zNTE2IDIwLjc4MjlDMzcuODA3IDAxOC43MjQ0IDM2LjA3MjMgMTcuNiAzMy43NzYgMTcuNkgyMS4wNDk4TDIwLjg3OCAxNy44OThDMjAuODc4IDE3Ljg5OCAyNi4zNjg1IDE5LjE5NzEgMzEuNDc5NyAyMS40NjAyQzMzLjE3MzYgMjIuMTU3OCAzMy43MTgyIDIzLjA4MzMgMzQuMjYyNyAyNC41OTQ1TDM5Ljk3ODQgNTAuOTUzSDQ5LjQ2OTlMNjAuMTMzOCAxNy42SDUwLjcwOTRaIiBmaWxsPSIjMEQyODhDIi8+DQo8cGF0aCBkPSJNNzUuNDI0NiAyNi41MzNMNzcuMTY4NSAyMC44MzMxQzc3LjE2ODUgMjAuODMzMSA3My45MzYgMTkuMzQzNiA3MC42NTIxIDE5LjM0MzZDNjcuMDk3OCAxOS4zNDM2IDU3LjY2NTMgMjAuOTM3MSA1Ny42NjUzIDI5LjE3MzdDNTcuNjY1MyAzNy4wMTMyIDY5LjA5NyAzNi45MjMxIDY5LjA5NyA0MS4xNTI3QzY5LjA5NyA0NS4zNzI0IDYwLjY2ODMgNDQuNTI3MyA1Ny41MjUgNDIuMjQ0TDU1LjY5MTEgNDguMTQ0Qzk1NS42OTExIDQ4LjE0NCA1OS43Mzc0IDUwLjI5OTUgNjMuOTI3NSA1MC4yOTk1QzY4LjE0NzMgNTAuMjk5NSA3Ny44MzM0IDQ2Ljc4OTcgNzcuODMzNCAzOS4wNjc5Qzc3LjgzMzQgMzAuOTUwOSA2Ni4zOTQgMzAuNDQ2MiA2Ni4zOTQgMjYuNjU3M0M2Ni4Mzk0IDIyLjg2ODQgNzIuMTQwNyAyNC4wMDc0IDc1LjQyNDYgMjYuNTMzWiIgZmlsbD0iIyBBRTk4MkIiLz4NCjwvc3ZnPg==');
 }
 
 .card-icon.mastercard {
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDc3OCI+PGNpcmNsZSBjeD0iMzIyLjUiIGN5PSIzODkiIHI9IjI4OS41IiBmaWxsPSIjZWIwMDFiIi8+PHBhdGggZD0iTTMyMi41IDEwMGMxNjAgMCAyODkuNSAxMjkuNSAyODkuNSAyODkuNVMyNTQyLjczIDY3OC41IDMyMi41IDY3OC41IiBmaWxsPSIjZjc5ZTFiIi8+PGNpcmNsZSBjeD0iNjc3LjUiIGN5PSIzODkiIHI9IjI4OS41IiBmaWxsPSIjZmY5OTAwIi8+PHBhdGggZD0iTTY3Ny41IDEwMGMxNjAgMCAyODkuNSAxMjkuNSAyODkuNSAyODkuNVM4MzcuNSA2NzguNSA2NzguNSA2NzguNSIgZmlsbD0iI2Y3OWUxYiIvPjxwYXRoIGQ9Ik01MDAgMjA2LjQ3djM2Ny4wNiIgc3Ryb2tlPSIjZmY5OTAwIiBzdHJva2Utd2lkdGg9IjI5MCIvPjwvc3ZnPg==');
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjY4IiB2aWV3Qm94PSIwIDAgMTAwIDY4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTYzLjg4MTUgMTcuMjQ3N0gzNi4xMTg1VjUwLjc1MjNINjMuODgxNVYxNy4yNDc3WiIgZmlsbD0iIzZDNkJCRCIvPg0KPHBhdGggZD0iTTM3Ljg0OTYgMzRDMzcuODQ5NiAyNi41Njg1IDQxLjIyNDcgMTkuOTY0NiA0Ni41MDAxIDE1LjQ5NDZDNDEuOTAwOCAxMS43OTg5IDM1LjkwNTYgOSAyOS4zNDgxIDlDMTYuMzQ3NSA5IDYgMTkuODY3NyA2IDM0QzYgNDguMTI5OSAxNi4zNDc1IDU5IDI5LjM0ODEgNTlDMzUuOTA1NiA1OSA0MS45MDA4IDU2LjIwMTEgNDYuNTAwMSA1Mi41MDMxQzQxLjIyNDcgNDguMDM1NCAzNy44NDk2IDQxLjQzMzkgMzcuODQ5NiAzNFoiIGZpbGw9IiNFQjAwMUIiLz4NCjxwYXRoIGQ9Ik05NCAzNEM5NCA0OC4xMjk5IDgzLjY1MjUgNTkgNzAuNjUxOSA1OUM2NC4wOTQ0IDU5IDU4LjA5OTkgNTYuMjAxMSA1My40OTk5IDUyLjUwMzFDNTguNzc4IDQ4LjAzMyA2Mi4xNTA0IDQxLjQzMzkgNjIuMTUwNCAzNEM2Mi4xNTA0IDI2LjU2ODUgNTguNzc1MyAxOS45NjQ2IDUzLjQ5OTkgMTUuNDk0NkM1OC4wOTkyIDExLjc5ODkgNjQuMDk0NCA5IDcwLjY1MTkgOUM4My42NTI1IDkgOTQgMTkuODcwMSA5NCAzNFoiIGZpbGw9IiNGNzk5MUQiLz4NCjwvc3ZnPg==');
 }
 
 .card-icon.amex {
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDc3OCI+PHBhdGggZmlsbD0iIzAwNmZjZiIgZD0iTTAsMzg5YzAsMjE0Ljg0LDE3NC4xNiwzODksMzg5LDM4OWgyMjJjMjE0Ljg0LDAsMzg5LTE3NC4xNiwzODktMzg5UzgyNS44NCwwLDYxMSwwSDM4OUMxNzQuMTYsMCwwLDE3NC4xNiwwLDM4OXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNDU3LjY5LDM4OS4zNUgyODIuMDN2LTU4Ljk0aDI4MC43M3YtNTIuMjZIMjgyLjAzdi01OC45NGgxNzUuNjZMMzgxLjQ3LDM5Ny44OEw0NTcuNjksMzg5LjM1eiBNNzQ5LjUsMTY2SDU5MC44M2wtNDAuODYsNDUuMjNMMNTA5LjExLDE2Nkg0MDUuNjFsLTEwMiwyNTcuNjJoMTA4LjkxbDI3LjAzLTcxLjgzaDU0LjA1TDUyMC42Miw0MjMuNmg2Ni44OWwzMS42OSw0My44Mmw4OS4zNywwbDg5LjM3LTQzLjgyTDc0OS41LDE2NnoiLz48L3N2Zz4=');
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjY4IiB2aWV3Qm94PSIwIDAgMTAwIDY4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHJlY3QgeD0iMSIgeT0iMSIgd2lkdGg9Ijk4IiBoZWlnaHQ9IjY2IiByeD0iNyIgZmlsbD0iIzAxNkZkMSIvPg0KPHBhdGggZD0iTTUwLjg5ODQgMzQuMDAxN0gzMS4xMDE2VjE3SDUwLjg5ODRWMTM0LjAwMTdaIiBmaWxsPSJ3aGl0ZSIvPg0KPHBhdGggZD0iTTMzIDM0LjAwMDFDMzMgMjcuMzcyOSAzNS4yODYxIDIxLjIxODggMzkuMDQyMyAxNi40NjIxQzM1LjYzMjkgMTIuOTI2NiAzMC44NzU3IDExIDI1LjY2NjcgMTFDMTQuNDM2MiAxMSA1IDIxLjE2NjYgNSAzNC4wMDAxQzUgNDYuODMzNiAxNC40MzYyIDU3IDI1LjY2NjcgNTdDMzAuODc1NyA1NyAzNS42MzI5IDU1LjA3MzQgMzkuMDQyMyA1MS41MzM2QzM1LjI4NjEgNDYuNzgxMyAzMyA0MC42MjczIDMzIDMzLjk5NzJWMzQuMDAwMVoiIGZpbGw9IiMxQTM1N0EiLz4NCjxwYXRoIGQ9Ik05NSAzNEM5NSA0Ni44MzM2IDg1LjU2MzggNTcgNzQuMzMzMyA1N0M2OS4xMjQzIDU3IDY0LjM2NzEgNTUuMDczNCA2MC45NTc3IDUxLjUzMzZDNjQuNzEzOSA0Ni43ODEzIDY3IDQwLjYyNzMgNjcgMzRDNjcgMjcuMzcyOSA2NC43MTM5IDIxLjIxODggNjAuOTU3NyAxNi40NjIxQzY0LjM2NzEgMTIuOTI2NiA2OS4xMjQzIDExIDc0LjMzMzMgMTFDODUuNTYzOCAxMSA5NSAyMS4xNjY2IDk1IDM0WiIgZmlsbD0id2hpdGUiLz4NCjwvc3ZnPg==');
 }
 
-.card-icon.active {
-    opacity: 1;
+/* Remove default cardTypeGroup styling */
+#cardTypeGroup {
+    display: none;
 }
 
 /* Payment Status Styling */
 .payment-status {
     margin-top: 20px;
     text-align: center;
-    font-weight: 600;
-    padding: 10px;
-    border-radius: 6px;
+    font-weight: 500;
+    padding: 12px;
+    border-radius: 8px;
 }
 
 .success {
-    color: #27ae60;
-    background-color: rgba(39, 174, 96, 0.1);
+    color: #2f855a;
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
 }
 
 .error {
-    color: #e74c3c;
-    background-color: rgba(231, 76, 60, 0.1);
+    color: #c53030;
+    background-color: #fff5f5;
+    border: 1px solid #fed7d7;
 }
 
 /* Secure Payment Indicator */
@@ -174,48 +201,24 @@ input:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
-    color: #7f8c8d;
-    font-size: 12px;
+    margin-top: 25px;
+    color: #718096;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .secure-payment svg {
-    width: 14px;
-    height: 14px;
-    margin-right: 5px;
-    fill: #7f8c8d;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    fill: #4299e1;
 }
 
-/* Make form elements look better on mobile */
-@media (max-width: 480px) {
-    .payment-container {
-        padding: 25px;
-        width: 100%;
-    }
-    
-    .card-details {
-        flex-direction: column;
-        gap: 0;
-    }
-    
-    .card-details .form-group {
-        width: 100%;
-    }
-}
-
-/* Custom styling for card number input with formatting */
-#cardNumber {
-    padding-right: 85px; /* Space for the card icons */
-}
-
-/* Validation checkmark for valid fields */
-.form-group.valid::after {
-    content: '✓';
-    position: absolute;
-    right: 10px;
-    top: 37px;
-    color: #27ae60;
-    font-weight: bold;
+/* For read-only inputs like amount */
+input[readonly] {
+    background-color: #edf2f7;
+    color: #4a5568;
+    font-weight: 600;
 }
 
 /* Loading spinner for submit button */
@@ -228,10 +231,71 @@ input:focus {
     display: inline-block;
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     border-top-color: white;
     animation: spin 0.8s linear infinite;
     margin-left: 8px;
     vertical-align: middle;
+}
+
+/* Responsive styling */
+@media (max-width: 576px) {
+    .payment-container {
+        padding: 30px 20px;
+        border-radius: 12px;
+    }
+    
+    h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .card-details {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .card-details .form-group {
+        width: 100%;
+    }
+    
+    input {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+    
+    .btn-submit {
+        padding: 14px;
+        font-size: 15px;
+    }
+}
+
+/* Focus within styling for form groups */
+.form-group:focus-within label {
+    color: #3182ce;
+}
+
+/* Valid input styling */
+input:valid:not([readonly]):not(:placeholder-shown) {
+    border-color: #48bb78;
+    background-color: #f0fff4;
+}
+
+/* Card number custom styling */
+#cardNumber {
+    letter-spacing: 1px;
+    font-family: monospace;
+    font-size: 16px;
+    padding-right: 85px;
+}
+
+/* Add some subtle animation to the form */
+.payment-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
