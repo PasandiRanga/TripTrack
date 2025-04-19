@@ -221,6 +221,17 @@
             }
         }
 
+        public function getRegBookings($userId){
+            try {
+                $this->db->query('SELECT * FROM registeredbooking WHERE User_id = :userId ');
+                return $this->db->resultSet();
+            } catch (Exception $e) {
+                error_log("Error fetching schedule: " . $e->getMessage());
+                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                return [];
+            }
+        }
+
         public function getUpcomingSchedule(){
             try {
                 $this->db->query('SELECT * FROM schedule');

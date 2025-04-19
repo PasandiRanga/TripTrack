@@ -30,27 +30,25 @@
     </script>
 
     <?php
-        echo '<script> console.log(' . json_encode($data) . ') </script>';
-        $cancellationData = $data['cancellations'] ?? [];
-        echo '<script> console.log("Cancellation data:", ' . json_encode($cancellationData) . ') </script>';
-        $userId = $_SESSION['user_id'] ?? '';
-        $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
-        $upcomingBookingData = $data['upcomingbookings'] ?? [];
-        $pastBookingData = $data['pastbookings'] ?? [];
-        $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
-        $pastScheduleData = $data['pastSchedule'] ??[];
-       
-         
-        $notifications = $data['notifications'] ?? [];
-        // $reviews = $data['reviews'] ?? [];
-        // $bookingData = $data['bookingsDetails'] ?? [];
-        $busData = $data['bus'] ?? [];
-        // $userData = $data['user'] ?? [];
-        $data['currentController'] = 'RegisteredPages';
-        $data['currentMethod'] = 'bookings';
-        $data['userRole'] = $userRole;
-
-    ?>
+    echo '<script> console.log(' . json_encode($data) . ') </script>';
+    $cancellationData = $data['cancellations'] ?? [];
+    echo '<script> console.log("Cancellation data:", ' . json_encode($cancellationData) . ') </script>';
+    $userId = $_SESSION['user_id'] ?? '';
+    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
+    $upcomingBookingData = $data['upcomingbookings'] ?? [];
+    $pastBookingData = $data['pastbookings'] ?? [];
+    $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
+    $pastScheduleData = $data['pastSchedule'] ??[];
+    $userData = $data['user'] ?? [];
+    $notifications = $data['notifications'] ?? [];
+    // $reviews = $data['reviews'] ?? [];
+    $regBookingsData = $data['regBookingsDetails'] ?? []; // Add this line
+    $busData = $data['bus'] ?? [];
+    // $userData = $data['user'] ?? [];
+    $data['currentController'] = 'RegisteredPages';
+    $data['currentMethod'] = 'bookings';
+    $data['userRole'] = $userRole;
+?>
 
     <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -498,10 +496,10 @@
                 const bookingObj = [...upcomingBookings, ...pastBookings, ...cancelledBookings].find(b => b.id == bookingId);
                 const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || 
                                 pastScheduleData.find(s => s.scheduleId == scheduleId);
-                const busObj = busData.find(b => b.busId === scheduleObj.busId);
+                const busObj = busData.find(b => b.License_id === scheduleObj.License_id);
                 
                 // You need to retrieve user data - assuming you have it available in PHP
-                const userData = <?php echo json_encode($_SESSION); ?>;
+                const userData = <?php echo json_encode($data['user'] ?? []); ?>;
                 
                 if (bookingObj && scheduleObj && busObj) {
                     showTicket(bookingObj, scheduleObj, busObj, userData);
@@ -874,11 +872,46 @@ function showTicket(booking, schedule, bus, user) {
     const ticketPopup = document.getElementById('ticketViewPopup');
     const ticketContent = ticketPopup.querySelector('.ticketView-popup-details');
     
-    // Format the data for display (Ticket)
-    const seats = booking.Seats || booking.seats || "N/A";
-    const numberOfSeats = booking.No_of_seats || booking.no_of_seats || 1;
-    const userName = user.user_name || "User";
-    const userNIC = user.nic || "N/A";
+    // Get the matching schedule and bus for this booking
+    const bookingScheduleId = booking.schedule_id;
+    
+    // Handle both array and single object for schedule
+    const matchedSchedule = Array.isArray(schedule) ? 
+        schedule.find(s => s.scheduleId == bookingScheduleId) : 
+        (schedule.scheduleId == bookingScheduleId ? schedule : null);
+    
+    // Get the bus license ID from the schedule
+    const busLicenseId = matchedSchedule ? matchedSchedule.License_id : null;
+    
+    // Find the matching bus
+    const matchedBus = Array.isArray(bus) ? 
+        bus.find(b => b.License_id == busLicenseId) : 
+        (bus.License_id == busLicenseId ? bus : null);
+    
+    // Format data for display
+    const seats = booking.Seats || "N/A";
+    const numberOfSeats = booking.number_of_seats || 1;
+    const userName = user.Name || user.user_name || "User";
+    const userNIC = user.NIC || user.nic || "N/A";
+    
+    // Get route number - it might be in different properties based on your DB structure
+    const routeNumber = matchedBus ? (matchedBus.routeNumber || matchedBus.route_number) : "N/A";
+    const formattedPrice = booking.total_price ? Number(booking.total_price).toFixed(2) : "0.00";
+    
+    let qrImagePath = booking.qrcode_path || "";
+    let qrDisplay;
+
+    if (qrImagePath) {
+        // Remove any leading slashes and adjust the path structure
+        qrImagePath = qrImagePath.replace(/^\/+/, '');
+        
+        // Use the correct path prefix
+        qrDisplay = `<img src="<?php echo URLROOT; ?>/qrcodes/${qrImagePath}" alt="QR Code" class="ticket-qr">`;
+        
+        console.log("QR Image URL:", `<?php echo URLROOT; ?>/qrcodes/${qrImagePath}`);
+    } else {
+        qrDisplay = `<i class="fas fa-qrcode fa-5x"></i>`;
+    }
     
     ticketContent.innerHTML = `
         <div class="bus-ticket">
@@ -895,24 +928,24 @@ function showTicket(booking, schedule, bus, user) {
                     <h2>${booking.to_location.toUpperCase()}</h2>
                 </div>
             </div>
-
+            
             <hr class="dotted-separator">
-
+            
             <div class="ticket-body">
                 <div class="info">
-                    <p><strong>Route No:</strong>&nbsp;&nbsp; ${bus.route || "N/A"}</p>
-                    <p><strong>Bus Number:</strong>&nbsp;&nbsp; ${bus.License_id}</p>
+                    <p><strong>Route No:</strong>&nbsp;&nbsp; ${routeNumber}</p>
+                    <p><strong>Bus Number:</strong>&nbsp;&nbsp; ${busLicenseId || "N/A"}</p>
                     <p><strong>Ticket Reference No:</strong>&nbsp;&nbsp; ${booking.id}</p>
-                    <p><strong>Date:</strong>&nbsp;&nbsp; ${schedule.date}</p>
-                    <p><strong>Time:</strong>&nbsp;&nbsp; ${schedule.departureTime}</p>
+                    <p><strong>Date:</strong>&nbsp;&nbsp; ${booking.scheduleDate || (matchedSchedule ? matchedSchedule.date : "N/A")}</p>
+                    <p><strong>Time:</strong>&nbsp;&nbsp; ${booking.departureTime || (matchedSchedule ? matchedSchedule.departureTime : "N/A")}</p>
                 </div>
                 <div class="price">
-                    <h3>LKR ${booking.total_price ? Number(booking.total_price).toFixed(2) : "0.00"}</h3>
+                    <h3>LKR ${formattedPrice}</h3>
                 </div>
             </div>
-
+            
             <hr class="dotted-separator">
-
+            
             <div class="ticket-footer">
                 <div class="passenger-info">
                     <p><strong>Name:</strong>&nbsp;&nbsp; ${userName}</p>
@@ -921,8 +954,7 @@ function showTicket(booking, schedule, bus, user) {
                     <p><strong>No of Seats:</strong>&nbsp;&nbsp; ${numberOfSeats}</p>
                 </div>
                 <div class="qr-code">
-                    <!-- QR code placeholder -->
-                    <i class="fas fa-qrcode"></i>
+                    ${qrDisplay}
                 </div>
             </div>
         </div>
@@ -947,6 +979,15 @@ function showTicket(booking, schedule, bus, user) {
             document.body.style.overflow = '';
         }
     });
+    
+    // Debug information to help troubleshoot
+    console.log("Booking:", booking);
+    console.log("Schedule:", matchedSchedule);
+    console.log("Bus:", matchedBus);
+    console.log("User:", user);
+    console.log("Route Number:", routeNumber);
+    console.log("NIC:", userNIC);
+    console.log("QR Path:", qrImagePath);
 }
 
 
