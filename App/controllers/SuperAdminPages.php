@@ -17,6 +17,9 @@ class SuperAdminPages extends Controller {
             // Calculate the total income
             $totalIncome = $income['registered_income'] + $income['guest_income'];
 
+            //chart 2
+            $chartbookings =  $this->SuperAdminModel->getLast7DaysBookingCounts();
+            $chartcancellations = $this->SuperAdminModel->getLast7DaysCancellationCounts();
             // Pass the data to the view or return as JSON (API)
             $data = [
                 'registered_income' => $income['registered_income'],
@@ -25,7 +28,9 @@ class SuperAdminPages extends Controller {
                 'total_customers' => $totalcustomers,
                 'total_guests' => $total_guests,
                 'total_registered' => $total_registered,
-                'total_bookings' => $total_bookings
+                'total_bookings' => $total_bookings,
+                'chartbookings' => $chartbookings,
+                'chartcancellations' => $chartcancellations
             ];
 
 
@@ -479,9 +484,65 @@ class SuperAdminPages extends Controller {
         $this->view('pages/SuperAdmin/Notifications', $data);
     }
 
+
     public function sendnotifications() {
-        $this->view('pages/SuperAdmin/Sendnotifications');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json; charset=UTF-8');
+
+            $inputData = json_decode(file_get_contents("php://input"), true);
+
+            // Check if input is valid JSON
+            if (!$inputData) {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
+                http_response_code(400);
+                exit();
+            }
+
+            // Sanitize input
+            $data = [
+                'employee_id'    => trim($inputData['employee_id'] ?? ''),
+                'employee_name'  => trim($inputData['employee_name'] ?? ''),
+                'employee_type'  => trim($inputData['employee_role'] ?? ''),
+                'title'          => trim($inputData['title'] ?? ''),
+                'message'        => trim($inputData['message'] ?? ''),
+            ];
+
+            // Validate input
+            if (
+                empty($data['employee_id']) ||
+                empty($data['employee_name']) ||
+                empty($data['employee_type']) ||
+                empty($data['title']) ||
+                empty($data['message'])
+            ) {
+                echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+                http_response_code(400);
+                exit();
+            }
+
+            // Send notification using model
+            if ($this->SuperAdminModel->sendNotification($data)) {
+                echo json_encode(['status' => 'success', 'message' => 'Notification sent successfully.']);
+                exit();
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Database Error: Cannot send notification.']);
+                http_response_code(500);
+                exit();
+            }
+
+        } else {
+
+            // GET Request: Load employees and render form
+            $employees = $this->SuperAdminModel->getEmployee_notification(); // This should return id, name, role
+
+            $data = [
+                'employees' => $employees
+            ];
+
+            $this->view('pages/SuperAdmin/Sendnotifications', $data);
+        }
     }
+
 
 
 //----------------------------------------------------------------------------------------------------------------------
