@@ -2,12 +2,7 @@
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 
-    // Dummy data – replace this with real DB data in your controller
-    $employees = [
-        ['id' => 1, 'name' => 'Alice Perera', 'role' => 'Driver'],
-        ['id' => 2, 'name' => 'Nimal Silva', 'role' => 'Conductor'],
-        ['id' => 3, 'name' => 'Sunil Jayasuriya', 'role' => 'Mechanic'],
-    ];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,26 +17,26 @@
 
     <div class="left-side">
         <!-- Notification Form -->
-        <form id="notificationForm" onsubmit="return submitNotification()" class="notification-form">
+        <form id="notificationForm" method="POST" action="<?php echo URLROOT . '/SuperAdminPages/sendnotifications'?>" class="notification-form">
             <h2 class="form_header">Send Notification</h2>
 
             <label for="notificationType">Select Notification Type:</label>
             <select id="notificationType" name="notificationType" onchange="toggleNotificationFields()" required>
                 <option value="">Select Type</option>
-                <option value="employee">Employee</option>
+                <option value="employee" selected>Employee</option> <!-- Default selected -->
                 <option value="passenger">Passenger</option>
             </select>
 
             <!-- Employee Fields -->
-            <div id="employeeFields" class="notification-section" style="display: none;">
+            <div id="employeeFields" class="notification-section">
                 <label for="employeeId">Select Employee:</label>
-                <select id="employeeId" name="employee_id" onchange="updateEmployeeDetails()" required>
-                    <option value="">-- Select Employee --</option>
-                    <?php foreach ($employees as $employee): ?>
-                        <option value="<?php echo $employee['id']; ?>" 
-                                data-name="<?php echo $employee['name']; ?>" 
-                                data-role="<?php echo $employee['role']; ?>">
-                            <?php echo $employee['id'] . ' - ' . $employee['name']; ?>
+                <select id="employeeId" name="employeeId" required>
+                    <option value="">Select Employee</option>
+                    <?php foreach ($data['employees'] as $employee): ?>
+                        <option value="<?php echo $employee['employee_id']; ?>" 
+                                data-name="<?php echo htmlspecialchars($employee['name']); ?>" 
+                                data-role="<?php echo htmlspecialchars($employee['role']); ?>">
+                            <?php echo $employee['employee_id']; ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -58,7 +53,6 @@
                 <label for="notificationMessage">Message:</label>
                 <textarea id="notificationMessage" name="message" placeholder="Enter your message here" required></textarea>
 
-                <input type="hidden" name="created_at" value="<?php echo date('Y-m-d H:i:s'); ?>">
             </div>
 
             <!-- Passenger Fields -->
@@ -85,31 +79,74 @@
             document.getElementById("passengerFields").style.display = notificationType === "passenger" ? "block" : "none";
         }
 
-        function updateEmployeeDetails() {
-            const select = document.getElementById("employeeId");
-            const selectedOption = select.options[select.selectedIndex];
-            const name = selectedOption.getAttribute("data-name") || "";
-            const role = selectedOption.getAttribute("data-role") || "";
+document.addEventListener("DOMContentLoaded", function () {
+    // Initialize employee name and role fields based on the selected employee
+    const employeeSelect = document.getElementById("employeeId");
+    const nameField = document.getElementById("employeeName");
+    const roleField = document.getElementById("employeeRole");
 
-            document.getElementById("employeeName").value = name;
-            document.getElementById("employeeRole").value = role;
-        }
+    employeeSelect.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
 
-        function submitNotification() {
+        const name = selectedOption.getAttribute("data-name") || "";
+        const role = selectedOption.getAttribute("data-role") || "";
+
+        nameField.value = name;
+        roleField.value = role;
+    });
+
+    // Form submission logic
+    const notificationForm = document.getElementById("notificationForm");
+
+    if (notificationForm) {
+        notificationForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
             const notificationType = document.getElementById("notificationType").value;
 
+            // Employee notification logic
             if (notificationType === "employee") {
                 const empId = document.getElementById("employeeId").value;
+                const empName = document.getElementById("employeeName").value;
+                const empRole = document.getElementById("employeeRole").value;
                 const title = document.getElementById("notificationTitle").value;
                 const msg = document.getElementById("notificationMessage").value;
 
-                if (!empId || !title || !msg) {
+                if (!empId || !empName || !empRole || !title || !msg) {
                     alert("Please fill all employee notification fields.");
                     return false;
                 }
 
-                alert(`Notification sent to Employee ID: ${empId}`);
-            } else if (notificationType === "passenger") {
+                const data = {
+                    employee_id: empId,
+                    employee_name: empName,
+                    employee_role: empRole,
+                    title: title,
+                    message: msg
+                };
+                console.log("Data to be sent:", data); // Debugging line
+                // Send the data via fetch API
+                fetch(window.location.href, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 'success') {
+                        alert("Notification sent successfully!");
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while sending the notification.");
+                });
+
+            }else if (notificationType === "passenger") {
                 const schedule = document.getElementById("schedule").value;
                 const msg = document.getElementById("passengerMessage").value;
 
@@ -118,14 +155,25 @@
                     return false;
                 }
 
+                // Handle passenger notification logic here (optional)
                 alert(`Notification sent for Schedule: ${schedule}`);
             } else {
                 alert("Please select a notification type.");
                 return false;
             }
 
-            return true;
-        }
+            return false; // Prevent default form submission
+        });
+    } else {
+        console.error("Form element not found");
+    }
+});
+
+
+        // Ensure the correct fields are shown on page load
+        window.onload = function () {
+            toggleNotificationFields();
+        };
     </script>
 </body>
 </html>

@@ -582,6 +582,35 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function sendNotification($data) {
+        $this->db->query('
+            INSERT INTO notifications (employee_id, employee_name, employee_type, title, message) 
+            VALUES (:employee_id, :employee_name, :employee_type, :title, :message)
+        ');
+
+        // Bind parameters
+        $this->db->bind(':employee_id', $data['employee_id']);
+        $this->db->bind(':employee_name', $data['employee_name']);
+        $this->db->bind(':employee_type', $data['employee_type']);
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':message', $data['message']);
+
+
+        // Execute and return result
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            error_log("Failed to send notification");
+            return false;
+        }
+    }
+
+    public function getEmployee_notification(){
+        $this->db->query("SELECT employee_id, name, role FROM employee WHERE role IN ('Driver', 'Conductor')");
+        return $this->db->resultSet();
+    }
+
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
 
@@ -661,5 +690,122 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
  
+//------------------------------------------------------------------------------------------------------------------------------------
+    //chart 02 booking-cancellation
+
+//------------------------------------------------------------------------------------------------------------------------------------
+ 
+public function getLast7DaysBookingCounts()
+{
+    $this->db->query("
+        SELECT date_series.day,
+               COALESCE(gb.count, 0) + COALESCE(rb.count, 0) AS bookings
+        FROM (
+            SELECT CURDATE() - INTERVAL n DAY AS day
+            FROM (
+                SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL
+                SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+            ) AS days
+        ) AS date_series
+        LEFT JOIN (
+            SELECT DATE(booking_date) AS day, COUNT(*) AS count
+            FROM guestbooking
+            WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
+            GROUP BY DATE(booking_date)
+        ) AS gb ON gb.day = date_series.day
+        LEFT JOIN (
+            SELECT DATE(booking_date) AS day, COUNT(*) AS count
+            FROM registeredbooking
+            WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
+            GROUP BY DATE(booking_date)
+        ) AS rb ON rb.day = date_series.day
+        ORDER BY date_series.day ASC
+    ");
+
+    return $this->db->resultSet();
+}
+
+
+public function getLast7DaysCancellationCounts()
+{
+    $this->db->query("
+        SELECT date_series.day,
+               COALESCE(co.count, 0) + COALESCE(cc.count, 0) AS cancellations
+        FROM (
+            SELECT CURDATE() - INTERVAL n DAY AS day
+            FROM (
+                SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL
+                SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+            ) AS days
+        ) AS date_series
+        LEFT JOIN (
+            SELECT DATE(Booking_date) AS day, COUNT(*) AS count
+            FROM cancelled_online_bookings
+            WHERE Booking_date >= CURDATE() - INTERVAL 6 DAY
+            GROUP BY DATE(Booking_date)
+        ) AS co ON co.day = date_series.day
+        LEFT JOIN (
+            SELECT DATE(Booking_date) AS day, COUNT(*) AS count
+            FROM cancelled_cash_bookings
+            WHERE Booking_date >= CURDATE() - INTERVAL 6 DAY
+            GROUP BY DATE(Booking_date)
+        ) AS cc ON cc.day = date_series.day
+        ORDER BY date_series.day ASC
+    ");
+
+    return $this->db->resultSet();
+}
+
+/*
+-- Bookings (guestbooking + registeredbooking)
+SELECT date_series.day,
+       COALESCE(gb.count, 0) + COALESCE(rb.count, 0) AS bookings
+FROM (
+    SELECT CURDATE() - INTERVAL n DAY AS day
+    FROM (
+        SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL
+        SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+    ) AS days
+) AS date_series
+LEFT JOIN (
+    SELECT DATE(booking_date) AS day, COUNT(*) AS count
+    FROM guestbooking
+    WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
+    GROUP BY DATE(booking_date)
+) AS gb ON gb.day = date_series.day
+LEFT JOIN (
+    SELECT DATE(booking_date) AS day, COUNT(*) AS count
+    FROM registeredbooking
+    WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
+    GROUP BY DATE(booking_date)
+) AS rb ON rb.day = date_series.day;
+
+
+
+
+
+//-- Cancellations (cancelled_online_bookings + cancelled_cash_bookings)
+SELECT date_series.day,
+       COALESCE(co.count, 0) + COALESCE(cc.count, 0) AS cancellations
+FROM (
+    SELECT CURDATE() - INTERVAL n DAY AS day
+    FROM (
+        SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL
+        SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+    ) AS days
+) AS date_series
+LEFT JOIN (
+    SELECT DATE(Booking_date) AS day, COUNT(*) AS count
+    FROM cancelled_online_bookings
+    WHERE Booking_date >= CURDATE() - INTERVAL 6 DAY
+    GROUP BY DATE(Booking_date)
+) AS co ON co.day = date_series.day
+LEFT JOIN (
+    SELECT DATE(Booking_date) AS day, COUNT(*) AS count
+    FROM cancelled_cash_bookings
+    WHERE Booking_date >= CURDATE() - INTERVAL 6 DAY
+    GROUP BY DATE(Booking_date)
+) AS cc ON cc.day = date_series.day; */
+
 }
 ?>
