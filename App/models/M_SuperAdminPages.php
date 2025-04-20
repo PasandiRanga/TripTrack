@@ -616,6 +616,20 @@ class M_SuperAdminPages {
     //total bookings
        //guest bookings
        //registered bookings
+    
+
+    public function getGuestBookingsReport($month) {
+        $this->db->query("SELECT COUNT(*) as total FROM guestbooking WHERE DATE_FORMAT(booking_date, '%Y-%m') = :month");
+        $this->db->bind(':month', $month);
+        return $this->db->single()->total;
+    }
+
+    public function getRegisteredBookingsReport($month) {
+        $this->db->query("SELECT COUNT(*) as total FROM registeredbooking WHERE DATE_FORMAT(booking_date, '%Y-%m') = :month");
+        $this->db->bind(':month', $month);
+        return $this->db->single()->total;
+    }
+
 
     //booking cancellation
        //cancelled online bookings
@@ -631,7 +645,7 @@ class M_SuperAdminPages {
     //total buses in the system
     //total schedules in the system
 
-    
+
 
 
 

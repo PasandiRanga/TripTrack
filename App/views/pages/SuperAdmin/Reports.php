@@ -10,7 +10,6 @@
   <title>TripTrack Report</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <button class="back-button no-print" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -131,7 +130,7 @@
       background-color: #004d40;
     }
 
-        table {
+    table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 15px;
@@ -148,19 +147,61 @@
     }
 
     @media print {
-    .no-print {
+      .no-print {
         display: none !important;
+      }
     }
+
+    .month-selector {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .month-selector select {
+      padding: 8px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .back-button {
+      margin-bottom: 15px;
+      padding: 8px 16px;
+      background-color: #ccc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
 
   </style>
 </head>
 <body>
 
+<button class="back-button no-print" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
+
+<div class="month-selector no-print">
+  <label for="monthSelect">Select Month: </label>
+  <select id="monthSelect" onchange="updateReportMonth()">
+    <option value="January">January</option>
+    <option value="February">February</option>
+    <option value="March">March</option>
+    <option value="April">April</option>
+    <option value="May">May</option>
+    <option value="June">June</option>
+    <option value="July">July</option>
+    <option value="August">August</option>
+    <option value="September">September</option>
+    <option value="October">October</option>
+    <option value="November">November</option>
+    <option value="December">December</option>
+  </select>
+</div>
+
 <div class="report-container" id="report-content">
   <div class="header">
     <h1>TripTrack Report</h1>
-    <p id="report-date"></p>
+    <p id="report-month">Month: April</p>
   </div>
 
   <div class="section">
@@ -259,77 +300,83 @@
     </div>
   </div>
 
-      <div class="section">
-      <h2>Income per Bus</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Bus ID</th>
-            <th>Income ( LKR )</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>BUS001</td><td>25,000</td></tr>
-          <tr><td>BUS002</td><td>30,000</td></tr>
-          <tr><td>BUS003</td><td>18,000</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section">
-      <h2>Income per Route</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Route Number</th>
-            <th>Income ( LKR )</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>RT001</td><td>40,000</td></tr>
-          <tr><td>RT002</td><td>55,000</td></tr>
-          <tr><td>RT003</td><td>30,000</td></tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="section">
+    <h2>Income per Bus</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Bus ID</th>
+          <th>Income ( LKR )</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>BUS001</td><td>25,000</td></tr>
+        <tr><td>BUS002</td><td>30,000</td></tr>
+        <tr><td>BUS003</td><td>18,000</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <button class="generate-btn no-print" onclick="generatePDF()">Generate PDF</button>
+  <div class="section">
+    <h2>Income per Route</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Route Number</th>
+          <th>Income ( LKR )</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>RT001</td><td>40,000</td></tr>
+        <tr><td>RT002</td><td>55,000</td></tr>
+        <tr><td>RT003</td><td>30,000</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<button class="generate-btn no-print" onclick="generatePDF()">Generate PDF</button>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-  // Set current date
-  const today = new Date();
-  document.getElementById("report-date").textContent = `Date: ${today.toLocaleDateString()}`;
+  const monthSelect = document.getElementById('monthSelect');
+  const reportMonth = document.getElementById('report-month');
 
-  // PDF Generation
-    async function generatePDF() {
+  // Initialize with current month
+  const today = new Date();
+  monthSelect.value = today.toLocaleString('default', { month: 'long' });
+  reportMonth.textContent = `Month: ${monthSelect.value}`;
+
+  function updateReportMonth() {
+    const selectedMonth = monthSelect.value;
+    reportMonth.textContent = `Month: ${selectedMonth}`;
+  }
+
+  async function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'pt', 'a4');
 
-    // Hide buttons temporarily
+    // Hide no-print elements
     document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
 
     await doc.html(document.getElementById('report-content'), {
-        callback: function (pdf) {
-        pdf.save(`TripTrack_Report_${today.toISOString().split('T')[0]}.pdf`);
-
-        // Restore buttons after saving
+      callback: function (pdf) {
+        const selectedMonth = monthSelect.value;
+        pdf.save(`TripTrack_Report_${selectedMonth}.pdf`);
         document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
-        },
-        margin: [20, 20, 20, 20],
-        autoPaging: 'text',
-        x: 10,
-        y: 10,
-        html2canvas: {
-        scale: 0.5, // Shrinks layout for A4
+      },
+      margin: [20, 20, 20, 20],
+      autoPaging: 'text',
+      x: 10,
+      y: 10,
+      html2canvas: {
+        scale: 0.5,
         windowWidth: document.body.scrollWidth
-        }
+      }
     });
-    }
+  }
 </script>
 
 </body>
 </html>
-
