@@ -584,7 +584,7 @@ class M_SuperAdminPages {
 
     public function sendNotification($data) {
         $this->db->query('
-            INSERT INTO notifications (employee_id, employee_name, employee_type, title, message) 
+            INSERT INTO sendnotifications_employee (employee_id, employee_name, employee_type, title, message) 
             VALUES (:employee_id, :employee_name, :employee_type, :title, :message)
         ');
 
