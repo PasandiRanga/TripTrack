@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,60 +18,21 @@
 
 </head>
 <body>
+
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
         localStorage.setItem('userRole', userRole);
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Counter animation for numbers section
-            function animateCounters() {
-                const counters = document.querySelectorAll('.number-count');
-                const speed = 200;
-                
-                counters.forEach(counter => {
-                    const target = +counter.getAttribute('data-target');
-                    const count = +counter.innerText;
-                    const increment = target / speed;
-                    
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count + increment);
-                        setTimeout(animateCounters, 1);
-                    } else {
-                        counter.innerText = target.toLocaleString();
-                    }
-                });
-            }
-            
-            // Check if element is in viewport
-            function isInViewport(element) {
-                const rect = element.getBoundingClientRect();
-                return (
-                    rect.top >= 0 &&
-                    rect.left >= 0 &&
-                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-                );
-            }
-            
-            // Start animation when scrolled into view
-            const numbersSection = document.querySelector('.numbers-section');
-            let animated = false;
-            
-            window.addEventListener('scroll', function() {
-                if (!animated && isInViewport(numbersSection)) {
-                    animateCounters();
-                    animated = true;
-                }
-            });
-        });
     </script>
 
     <?php
+    // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'GuestUser';
-    
+    ?>
+
+    <?php
     $data = [
-        'currentController' => 'GuestPages',
-        'currentMethod' => 'about',
+        'currentController' => 'GuestPages', // Adjust this based on your controller
+        'currentMethod' => 'about', // Adjust this based on the method
         'userRole' => $userRole
     ];
     ?>
@@ -80,17 +40,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     
     <div class="hero-container">
+    
+        <br/>
         <div class="header-container">
             <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
         </div>
         
         <!-- Hero Section -->
-        <div class="hero-section">
+        <div class="hero-section" style="background: url('<?php echo URLROOT; ?>/Public/images/aboutPage.jpg') no-repeat center center; background-size: cover;">
+            <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>Transforming Travel Across Sri Lanka</h1>
+                <h1><span class="typing-text">Transforming Travel Across Sri Lanka</span></h1>
                 <p>Discover the story behind Trip Track and our mission to revolutionize bus travel with technology and exceptional service.</p>
                 <div class="hero-buttons">
-                    <a href="<?php echo URLROOT; ?>/users/register" class="hero-btn primary-btn">Get Started</a>
+                    <a href="<?php echo URLROOT; ?>/GuestPages/home" class="hero-btn primary-btn">Get Started</a>
                     <a href="#learn-more" class="hero-btn secondary-btn">Learn More</a>
                 </div>
             </div>
@@ -135,6 +98,37 @@
                     <p>To revolutionize the way people travel across Sri Lanka by harnessing the power of technology to create the most comprehensive and accessible transportation network in the country.</p>
                     <p>We envision a future where planning and booking travel is effortless, allowing our users to focus on what matters most — enjoying their journey and creating lasting memories.</p>
                 </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team-section">
+                <div class="section-title">
+                    <h2>Leadership</h2>
+                    <p>Meet the visionary behind Trip Track</p>
+                </div>
+                
+                <div class="team-member">
+                <div class="left-column">
+                    <div class="team-photo">
+                    <img src="<?php echo URLROOT; ?>/Public/images/owner.jpg" alt="Nadika Perera">
+                    </div>
+                    <div class="team-name-role">
+                    <h3>Nadika Perera</h3>
+                    <span class="position">Founder & Chief Executive Officer</span>
+                    </div>
+                    <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <p>Nadika Perera is the visionary behind <span class="highlight">Trip Track</span>. With a passion for technology and a deep understanding of the transportation industry, Nadika founded <span class="highlight">Trip Track</span> to address the challenges faced by travelers in Sri Lanka.</p>
+                    <p>His extensive experience in both the tech and transportation sectors has been instrumental in developing a platform that truly understands and addresses the needs of modern travelers.</p>
+                    <p>Under Nadika's leadership, <span class="highlight">Trip Track</span> has grown into a trusted name in the travel industry, known for its commitment to customer satisfaction and innovation. When not working on improving <span class="highlight">Trip Track</span>, Nadika enjoys traveling and exploring new places, always on the lookout for ways to make travel more accessible and enjoyable for everyone.</p>
+                </div>
+                </div>
+
             </div>
             
             <!-- Values Section -->
@@ -190,6 +184,59 @@
                 </div>
             </div>
             
+            <!-- Testimonials Section -->
+            <div class="testimonials-section">
+                <div class="section-title">
+                    <h2>What Our Users Say</h2>
+                    <p>Experiences shared by travelers who use Trip Track</p>
+                </div>
+                
+                <div class="testimonials-container">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            <p>Trip Track has completely transformed how I travel around Sri Lanka. The booking process is seamless, and I love getting updates about my journey in real-time.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="<?php echo URLROOT; ?>/Public/images/ava1.jpg" alt="User Avatar">
+                            </div>
+                            <div class="author-info">
+                                <h4>Dinesh Jayawardena</h4>
+                                <span>Regular Traveler</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            <p>As someone who travels frequently for work, Trip Track has been a game-changer. I can quickly compare different routes and times, and their customer service is exceptional.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="<?php echo URLROOT; ?>/Public/images/ava3.jpg" alt="User Avatar">
+                            </div>
+                            <div class="author-info">
+                                <h4>Malini Fernando</h4>
+                                <span>Business Traveler</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            <p>Planning trips with my family used to be stressful until I discovered Trip Track. Now I can book multiple tickets at once and have all the information I need in one place.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="<?php echo URLROOT; ?>/Public/images/ava2.jpg" alt="User Avatar">
+                            </div>
+                            <div class="author-info">
+                                <h4>Roshan Gunasekera</h4>
+                                <span>Family Traveler</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Numbers Section -->
             <div class="numbers-section">
                 <div class="numbers-container">
@@ -211,97 +258,58 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Team Section -->
-            <div class="team-section">
-                <div class="section-title">
-                    <h2>Leadership</h2>
-                    <p>Meet the visionary behind Trip Track</p>
-                </div>
-                
-                <div class="team-member">
-                    <div class="team-photo">
-                        <img src="<?php echo URLROOT; ?>/Public/images/owner.jpg" alt="Nadika Perera">
-                    </div>
-                    <div class="team-info">
-                        <h3>Nadika Perera</h3>
-                        <span class="position">Founder & Chief Executive Officer</span>
-                        <p>Nadika Perera is the visionary behind <span class="highlight">Trip Track</span>. With a passion for technology and a deep understanding of the transportation industry, Nadika founded <span class="highlight">Trip Track</span> to address the challenges faced by travelers in Sri Lanka.</p>
-                        <p>His extensive experience in both the tech and transportation sectors has been instrumental in developing a platform that truly understands and addresses the needs of modern travelers.</p>
-                        <p>Under Nadika's leadership, <span class="highlight">Trip Track</span> has grown into a trusted name in the travel industry, known for its commitment to customer satisfaction and innovation. When not working on improving <span class="highlight">Trip Track</span>, Nadika enjoys traveling and exploring new places, always on the lookout for ways to make travel more accessible and enjoyable for everyone.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Testimonials Section -->
-            <div class="testimonials-section">
-                <div class="section-title">
-                    <h2>What Our Users Say</h2>
-                    <p>Experiences shared by travelers who use Trip Track</p>
-                </div>
-                
-                <div class="testimonials-container">
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>Trip Track has completely transformed how I travel around Sri Lanka. The booking process is seamless, and I love getting updates about my journey in real-time.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="/api/placeholder/60/60" alt="User Avatar">
-                            </div>
-                            <div class="author-info">
-                                <h4>Dinesh Jayawardena</h4>
-                                <span>Regular Traveler</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>As someone who travels frequently for work, Trip Track has been a game-changer. I can quickly compare different routes and times, and their customer service is exceptional.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="/api/placeholder/60/60" alt="User Avatar">
-                            </div>
-                            <div class="author-info">
-                                <h4>Malini Fernando</h4>
-                                <span>Business Traveler</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>Planning trips with my family used to be stressful until I discovered Trip Track. Now I can book multiple tickets at once and have all the information I need in one place.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="/api/placeholder/60/60" alt="User Avatar">
-                            </div>
-                            <div class="author-info">
-                                <h4>Roshan Gunasekera</h4>
-                                <span>Family Traveler</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CTA Section -->
-            <div class="cta-section">
-                <div class="cta-content">
-                    <h2>Ready to Experience Better Travel?</h2>
-                    <p>Join thousands of satisfied travelers who rely on Trip Track for their journeys across Sri Lanka. Book your next trip today and discover the difference.</p>
-                    <a href="<?php echo URLROOT; ?>/users/register" class="cta-btn">Start Your Journey</a>
-                </div>
-            </div>
+
         </div>
         
         <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
+
+    <script>
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
+        localStorage.setItem('userRole', userRole);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Counter animation for numbers section
+            function animateCounters() {
+                const counters = document.querySelectorAll('.number-count');
+                const speed = 200;
+                
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+                    
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(animateCounters, 1);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                });
+            }
+            
+            // Check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+            
+            // Start animation when scrolled into view
+            const numbersSection = document.querySelector('.numbers-section');
+            let animated = false;
+            
+            window.addEventListener('scroll', function() {
+                if (!animated && isInViewport(numbersSection)) {
+                    animateCounters();
+                    animated = true;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
