@@ -934,28 +934,28 @@
             }
         }
 
-        // public function getAverageRatings() {
-        //     $scheduleData = $this->RegisteredpagesModel->getSchedule(); 
-        //     $averageRatings = [];
+        public function getAverageRatings() {
+            $scheduleData = $this->RegisteredpagesModel->getSchedule(); 
+            $averageRatings = [];
 
-        //     foreach ($scheduleData as $schedule) {
-        //         $licenseId = $schedule['License_id'];
-        //         $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
-        //         $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+            foreach ($scheduleData as $schedule) {
+                $licenseId = $schedule['License_id'];
+                $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
 
-        //         // Debug output
-        //         echo "License: $licenseId<br>";
-        //         print_r($averageRatings[$licenseId]);
-        //         echo "<hr>";
-        //     }
+                // Debug output
+                echo "License: $licenseId<br>";
+                print_r($averageRatings[$licenseId]);
+                echo "<hr>";
+            }
 
-        //     $data = [
-        //         'schedule' => $scheduleData,
-        //         'averageRatings' => $averageRatings,
-        //     ];
+            $data = [
+                'schedule' => $scheduleData,
+                'averageRatings' => $averageRatings,
+            ];
 
-        //     $this->view('pages/RegisteredUser/home', $data);
-        // }
+            $this->view('pages/RegisteredUser/home', $data);
+        }
 
 
     }  
