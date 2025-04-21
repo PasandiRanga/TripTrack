@@ -186,6 +186,75 @@
                 echo json_encode(['status' => 'error', 'message' => 'Only POST requests are allowed']);
             }
         }
+
+        public function acceptBookingForm() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                try{
+                    // Sanitize and retrieve POST data
+                    $bookingId = trim($_POST['bookingId'] ?? '');
+                    $nic = trim($_POST['nic'] ?? '');
+                
+
+                    if (str_starts_with($bookingId, 'R')) {
+                        // Call registered booking check
+                        $bookingData = $this->ConductorpagesModel->checkRegBooking($bookingId, $nic);
+                    } elseif (str_starts_with($bookingId, 'G')) {
+                        // Call guest booking check
+                        $bookingData = $this->ConductorpagesModel->checkGuestBooking($bookingId, $nic);
+                    } else {
+                        $bookingData = null;
+                    }
+
+                    $seatsString = $bookingData['selected_seats'];
+                    $scheduleId = $bookingData['schedule_id'];
+
+                    $seats = array_map('trim', explode(',', trim($seatsString, '"')));
+
+                    $acceptedSeats = $this->ConductorpagesModel->updateAcceptedSeats($seats, $scheduleId);
+
+                    $result = false;
+
+                    // Attempt to get booking from guest bookings
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsString);
+                    error_log("booking details: " . print_r($booking, true));
+                    if($booking) {
+                        $result = $this->ConductorpagesModel->insertPastGuestBooking($booking);
+                        error_log("made it past the insert: ");
+                    }else {
+                        // If not found in guest bookings, try registered bookings
+                        $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsString);
+                        if ($booking) {
+                            $result = $this->ConductorpagesModel->insertPastRegBooking($booking);
+                        }
+                    }
+
+                    if($booking) {
+                        if ($result) {
+                            $response['status'] = 'success';
+                            $response['message'] = 'Booking verified and recorded successfully';
+                            $response['bookingData'] = $bookingData;
+                        } else {
+                            http_response_code(500);
+                            $response['status'] = 'error';
+                            $response['message'] = 'Failed to record booking';
+                        }
+                    } else {
+                        http_response_code(404);
+                        $response['status'] = 'error';
+                        $response['message'] = 'Booking not found with the provided details';
+                    }
+                    echo json_encode($response);
+
+                } catch (Exception $e) {
+                    http_response_code(500);
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'Server error: ' . $e->getMessage()]);
+                }
+            } else {
+                $this->view('pages/Conductor/acceptBookingForm');
+            }
+        }
         
         public function busLayout() {
             $scheduleData = $this->ConductorpagesModel->getSchedule();
