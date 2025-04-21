@@ -145,12 +145,12 @@
 
             <div class="charts">
                 <div class="charts-card">
-                    <h2 class="chart-title">Top 5 Routes</h2>
+                    <h2 class="chart-title">Income Per Routes</h2>
                     <div id="bar-chart"></div>
                 </div>
 
                 <div class="charts-card">
-                    <h2 class="chart-title">Income Summary</h2>
+                    <h2 class="chart-title">Booking Summary</h2>
                     <div id="area-chart"></div>
                 </div>
             </div>
@@ -266,12 +266,18 @@
             document.getElementById("cardpopup").style.display = "none";
         }
 
+        const topRoutesData = <?= json_encode($data['routes'] ?? []) ?>;
 
+        // Extract route names and total incomes for the chart
+        const routeNames = topRoutesData.map(route => route.route);
+        const totalIncomes = topRoutesData.map(route => route.total_income);
+        console.log(routeNames);
+        console.log(totalIncomes);
         const barChartOptions = {
             series: [
             {
-                data: [12034, 8500, 6250, 4235, 2856],
-                name: 'routes_income',
+                name: 'Income',
+                data: totalIncomes,
             },
             ],
             chart: {
@@ -328,7 +334,7 @@
             theme: 'dark',
             },
             xaxis: {
-            categories: ['Galle-Makubura', 'Colombo-Homagama', 'Galle-Matara', 'Kottawa-Petta', 'Colombo-Kandy'],
+            categories: routeNames,
             title: {
                 style: {
                 color: '#f5f7ff',

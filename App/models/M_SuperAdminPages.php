@@ -616,26 +616,233 @@ class M_SuperAdminPages {
     //total bookings
        //guest bookings
        //registered bookings
-    
+ 
 
-    public function getGuestBookingsReport($month) {
-        $this->db->query("SELECT COUNT(*) as total FROM guestbooking WHERE DATE_FORMAT(booking_date, '%Y-%m') = :month");
-        $this->db->bind(':month', $month);
-        return $this->db->single()->total;
-    }
+// Total Bookings (Guest + Registered)
+public function getTotalBookingsReport() {
+    $this->db->query("
+        SELECT 
+            month, 
+            SUM(total) AS total 
+        FROM (
+            SELECT 
+                DATE_FORMAT(booking_date, '%Y-%m') AS month, 
+                COUNT(*) AS total 
+            FROM pastguestbooking 
+            GROUP BY month
 
-    public function getRegisteredBookingsReport($month) {
-        $this->db->query("SELECT COUNT(*) as total FROM registeredbooking WHERE DATE_FORMAT(booking_date, '%Y-%m') = :month");
-        $this->db->bind(':month', $month);
-        return $this->db->single()->total;
-    }
+            UNION ALL
+
+            SELECT 
+                DATE_FORMAT(Booking_date, '%Y-%m') AS month, 
+                COUNT(*) AS total 
+            FROM pastregbooking 
+            GROUP BY month
+        ) AS combined
+        GROUP BY month
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+
+public function getGuestBookingsReport() {
+    $this->db->query("
+        SELECT DATE_FORMAT(booking_date, '%Y-%m') as month, COUNT(*) as total 
+        FROM pastguestbooking 
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+public function getRegisteredBookingsReport() {
+    $this->db->query("
+        SELECT DATE_FORMAT(Booking_date, '%Y-%m') as month, COUNT(*) as total 
+        FROM pastregbooking 
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+public function getTotalBookingsIncomeReport() {
+    $this->db->query("
+        SELECT month, SUM(total) as total FROM (
+            SELECT DATE_FORMAT(booking_date, '%Y-%m') as month, SUM(total_price) as total 
+            FROM pastguestbooking 
+            GROUP BY month
+            UNION ALL
+            SELECT DATE_FORMAT(booking_date, '%Y-%m') as month, SUM(total_price) as total 
+            FROM pastregbooking 
+            GROUP BY month
+        ) as combined
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
 
 
     //booking cancellation
        //cancelled online bookings
        //cancelled cash bookings
+
+public function getTotalCancellationsReport() {
+    $this->db->query("
+        SELECT 
+            month, 
+            SUM(total) AS total 
+        FROM (
+            SELECT 
+                DATE_FORMAT(time_date, '%Y-%m') AS month, 
+                COUNT(*) AS total 
+            FROM cancelled_online_bookings 
+            GROUP BY month
+
+            UNION ALL
+
+            SELECT 
+                DATE_FORMAT(time_date, '%Y-%m') AS month, 
+                COUNT(*) AS total 
+            FROM cancelled_cash_bookings 
+            GROUP BY month
+        ) AS combined
+        GROUP BY month
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+
+public function getOnlineCancellationsReport() {
+    $this->db->query("
+        SELECT DATE_FORMAT(time_date, '%Y-%m') as month, COUNT(*) as total 
+        FROM cancelled_online_bookings 
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+public function getCashCancellationsReport() {
+    $this->db->query("
+        SELECT DATE_FORMAT(time_date, '%Y-%m') as month, COUNT(*) as total 
+        FROM cancelled_cash_bookings 
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+//--------------------------------------------------------------------------------------------------------------------------------
+//    //total income
+       //total income from guest bookings
+       //total income from registered bookings
+//---------------------------------------------------------------------------------------------------------------------------------
+// Guest Booking Income
+public function getGuestBookingIncomeReport() {
+    $this->db->query("
+        SELECT DATE_FORMAT(booking_date, '%Y-%m') as month, SUM(total_price) as total 
+        FROM pastguestbooking 
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+// Registered Booking Income
+public function getRegisteredBookingIncomeReport() {
+    $this->db->query("
+        SELECT DATE_FORMAT(Booking_date, '%Y-%m') as month, SUM(total_price) as total 
+        FROM pastregbooking 
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+// Online Cancellation Refunds and Fees
+public function getTotalRefundsReport() {
+    $this->db->query("
+        SELECT month, SUM(refund_total) as refund_total FROM (
+            SELECT DATE_FORMAT(time_date, '%Y-%m') as month, SUM(refund_amount) as refund_total 
+            FROM cancelled_online_bookings 
+            GROUP BY month
+            UNION ALL
+            SELECT DATE_FORMAT(time_date, '%Y-%m') as month, SUM(refund_amount) as refund_total 
+            FROM cancelled_cash_bookings 
+            GROUP BY month
+        ) AS combined
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+public function getTotalCancellationFeesReport() {
+    $this->db->query("
+        SELECT month, SUM(fee_total) as fee_total FROM (
+            SELECT DATE_FORMAT(time_date, '%Y-%m') as month, SUM(cancellation_fee) as fee_total 
+            FROM cancelled_online_bookings 
+            GROUP BY month
+            UNION ALL
+            SELECT DATE_FORMAT(time_date, '%Y-%m') as month, SUM(cancellation_fee) as fee_total 
+            FROM cancelled_cash_bookings 
+            GROUP BY month
+        ) AS combined
+        GROUP BY month 
+        ORDER BY month DESC
+    ");
+    return $this->db->resultSet();
+}
+
+
+
+public function getRegisteredCustomersReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM customer ");
+    return $this->db->single()['total'];
+}
+
+public function getTotalDriversReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM employee WHERE role = 'Driver'");
+    return $this->db->single();
+}
+
+public function getTotalConductorsReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM employee WHERE role = 'Conductor'");
+    return $this->db->single();
+}
+
+public function getTotalAdminsReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM employee WHERE role = 'Admin'");
+    return $this->db->single();
+}
+
+public function getTotalEmployeesReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM employee");
+    return $this->db->single();
+}
+
+
+public function getTotalRoutesReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM routes");
+    return $this->db->single();
+}
+
+public function getTotalSchedulesReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM schedule");
+    return $this->db->single();
+}
+
+public function getTotalBusesReport() {
+    $this->db->query("SELECT COUNT(*) as total FROM bus");
+    return $this->db->single();
+}
+
+
+
     
-    //total income
+    
     //total registered customers
     //total employees in the system
         //total drivers in the system
@@ -728,7 +935,37 @@ class M_SuperAdminPages {
     //box 03
 
 //------------------------------------------------------------------------------------------------------------------------------------
- 
+//------------------------------------------------------------------------------------------------------------------------------------
+    //chart 01 Routes with income
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+
+public function getTopRoutesIncome() {
+    // Query to get the top 5 routes with total income for the current month
+    $this->db->query("
+        SELECT 
+            b.routeNumber,
+            CONCAT(b.start_location, ' - ', b.destination) AS route,
+            SUM(COALESCE(pg.total_price, 0)) + SUM(COALESCE(pr.total_price, 0)) AS total_income
+        FROM past_schedules ps
+        LEFT JOIN bus b ON ps.license_id = b.license_id
+        LEFT JOIN pastguestbooking pg 
+            ON ps.scheduleId = pg.schedule_id 
+            AND DATE_FORMAT(pg.booking_date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
+        LEFT JOIN pastregbooking pr 
+            ON ps.scheduleId = pr.schedule_id 
+            AND DATE_FORMAT(pr.booking_date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
+        WHERE DATE_FORMAT(ps.date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
+        GROUP BY b.routeNumber, b.start_location, b.destination
+        ORDER BY total_income DESC
+        LIMIT 5;
+    ");
+    
+    // Return the result set
+    return $this->db->resultSet();
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //chart 02 booking-cancellation
 
