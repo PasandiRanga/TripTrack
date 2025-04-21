@@ -279,9 +279,41 @@ class SuperAdminPages extends Controller {
 
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+                                    //reviews
+//---------------------------------------------------------------------------------------------------------------------- 
+
+
     public function reports() {
-        $this->view('pages/SuperAdmin/Reports');
-    }
+
+    $data = [
+        'totalBookings' => $this->SuperAdminModel->getTotalBookingsReport(),
+        'guestBookings' => $this->SuperAdminModel->getGuestBookingsReport(),
+        'registeredBookings' => $this->SuperAdminModel->getRegisteredBookingsReport(),
+        'totalCancellations' => $this->SuperAdminModel->getTotalCancellationsReport(),
+        'onlineCancellations' => $this->SuperAdminModel->getOnlineCancellationsReport(),
+        'cashCancellations' => $this->SuperAdminModel->getCashCancellationsReport(),
+        'totalGuestIncome' => $this->SuperAdminModel->getGuestBookingIncomeReport(),
+        'totalRegisteredIncome' => $this->SuperAdminModel->getRegisteredBookingIncomeReport(),
+        'totalBookingIncome' => $this->SuperAdminModel->getTotalBookingsIncomeReport(),
+        'registeredCustomers' => $this->SuperAdminModel->getRegisteredCustomersReport(),
+        'totalEmployees' => $this->SuperAdminModel->getTotalEmployeesReport(),
+        'totalDrivers' => $this->SuperAdminModel->getTotalDriversReport(),
+        'totalConductors' => $this->SuperAdminModel->getTotalConductorsReport(),
+        'totalAdmins' => $this->SuperAdminModel->getTotalAdminsReport(),
+        'totalRoutes' => $this->SuperAdminModel->getTotalRoutesReport(),
+        'totalBuses' => $this->SuperAdminModel->getTotalBusesReport(),
+        'totalSchedules' => $this->SuperAdminModel->getTotalSchedulesReport(),
+        'totalRefunds' => $this->SuperAdminModel->getTotalRefundsReport(),
+        'totalCancellationFees' => $this->SuperAdminModel->getTotalCancellationFeesReport(),
+
+    ];
+
+    // Render view
+    $this->view('pages/SuperAdmin/Reports', $data);
+}
+
+
 //----------------------------------------------------------------------------------------------------------------------
                                     //reviews
 //---------------------------------------------------------------------------------------------------------------------- 
