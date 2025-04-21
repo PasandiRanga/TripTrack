@@ -194,9 +194,9 @@
             <h4>Login to access Cash Payments and Booking Cancellations</h4>
             <p>
                 <button id="yes" onclick="confirmAction()">Proceed Without Login</button>
-                <button id="no" onclick="closeConfirmBox()">Log In</button>
+                <button id="no" onclick="closeConfirmBoxandLogin()">Log In</button>
             </p>
-            <div class="close-btn" onclick="confirmAction()">×</div>
+            <div class="close-btn" onclick="closeConfirmBox()">×</div>
         </div>
     </div>
 
@@ -230,10 +230,14 @@
     };
 
     // Function to close confirm box and show login box
-    window.closeConfirmBox = function() {
+    window.closeConfirmBoxandLogin = function() {
         document.getElementById("confirmBox").classList.add("hidden");
         document.getElementById("signInBox").classList.remove("hidden");
     };
+
+    window.closeConfirmBox = function(){
+        document.getElementById("confirmBox").classList.add("hidden");
+    }
 
     function updateFormAction(paymentMethod) {
         if (paymentMethod === 'Cash') {
