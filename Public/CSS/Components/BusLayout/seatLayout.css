@@ -69,7 +69,7 @@
     /* transition: transform 0.2s; */
     padding: 0;
     box-sizing: border-box;
-    background-image: url('./../../../../public/images/seat.jpg');
+    background-image: url('./../../../../public/images/seatother.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

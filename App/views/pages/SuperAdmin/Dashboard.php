@@ -20,14 +20,11 @@
 
     <div class="grid-container">
         <header class="header">
-            
 
-            <div class="header-left" onclick="openSidebar()">
-               
+            <div class="header-left" id="menuIcon" onclick="openSidebar()">
                 <div class="sidebar-menu-icon">
                     <span class="material-icons-outlined">menu</span>
                 </div>
-                
             </div>
 
             <div class="header-right">
@@ -76,10 +73,6 @@
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/notifications'">
                     <span class="material-icons-outlined">notifications</span> Notifications
                 </li>
-
-                <!-- <li class="sidebar-list-item" onclick="location.href='<//?php echo URLROOT; ?>/SuperAdminPages/leaverequests'">
-                    <span class="material-icons-outlined">publish</span> Leave Requests
-                </li> -->
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">
                     <span class="material-icons-outlined">schedule</span> Schedule
@@ -187,10 +180,12 @@
     <script>
         var sidebarOpen = false; // Fixed typo from 'sidebarOpean'
         var sidebar = document.getElementById("sidebar");
+        var menuIcon = document.getElementById("menuIcon");
 
         function openSidebar() {
             if (!sidebarOpen) {
                 sidebar.classList.add("sidebar-responsive");
+                //menuIcon.style.display = "none"; // Hide menu icon
                 //sidebar.style.transform = "translateX(0)";
                 sidebarOpen = true;
             }
@@ -199,6 +194,7 @@
         function closeSidebar() {
             if (sidebarOpen) {
                 sidebar.classList.remove("sidebar-responsive");
+                 //menuIcon.style.display = "block"; // Show menu icon again
                 //sidebar.style.transform = "translateX(-100%)";
                 sidebarOpen = false;
             }
@@ -382,18 +378,23 @@
         barChart.render();
         
 
+    const bookingsFromPHP = <?php echo json_encode($data['chartbookings']); ?>;
+    const cancellationsFromPHP = <?php echo json_encode($data['chartcancellations']); ?>;
 
+    const labels = bookingsFromPHP.map(item => item.day);
+    const bookingData = bookingsFromPHP.map(item => item.bookings);
+    const cancellationData = cancellationsFromPHP.map(item => item.cancellations);
         
         // AREA CHART
         const areaChartOptions = {
             series: [
             {
                 name: 'Bookings',
-                data: [31, 40, 28, 51, 42, 109, 100],
+                data: bookingData,
             },
             {
                 name: 'Cancellations',
-                data: [11, 32, 22, 32, 34, 52, 41],
+                data: cancellationData,
             },
             ],
             chart: {
@@ -406,7 +407,7 @@
             },
             },
             colors: ['#00ab57', '#d50000'],
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            labels: labels,
             dataLabels: {
             enabled: false,
             },
