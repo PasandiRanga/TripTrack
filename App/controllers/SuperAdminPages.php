@@ -1141,26 +1141,10 @@ class SuperAdminPages extends Controller {
 //---------------------------------------------------------------------------------------------------------------------- 
 
     public function profile() {
-        // Start the session if not already started
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+    
+        $profile = $this->SuperAdminModel->findEmployeeById($_SESSION['user_id']);
 
-        // Assuming you have a session variable storing the current employee ID
-        $currentEmpId = $_SESSION['employee_id'] ?? null;
-         
-        if ($currentEmpId) {
-            $profile = $this->SuperAdminModel->getEmployeeDetails($currentEmpId);
-            $data = [
-                'profile' => $profile
-            ];
-
-            $this->view('pages/SuperAdmin/Profile', $data);
-        } else {
-            // Handle the case where the employee ID is not available in the session
-            //die("Employee ID not found in session.");
-            $this->view('pages/SuperAdmin/Profile');
-        }
+            $this->view('pages/SuperAdmin/Profile', $profile);
     }
 
 
