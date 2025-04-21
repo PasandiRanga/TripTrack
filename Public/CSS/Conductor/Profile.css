@@ -1,10 +1,13 @@
-body {
+body,html {
     position: relative;
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7fa;
-    color: #333;
+    font-family: Arial, sans-serif;
+    background-color: #d8f8ee;
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; or auto */
+
 }
 
 .back-button {
@@ -13,7 +16,7 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: #063946;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -21,7 +24,7 @@ body {
 }
 
 .back-button:hover {
-    background-color: #052d37;
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
 }
 
 h1 {
@@ -39,16 +42,16 @@ h1 {
     align-items: stretch;
     padding: 20px;
     gap: 20px;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 .profile-left {
-    background-color: transparent;
-    padding: 20px;
-    border-radius: 10px;
-    border: 3px solid #002b38;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
+    background-color: white;
+    padding: 35px 20px;
+    border-radius: 12px;
+    border: 3px solid #00897b;
+    box-shadow: 0 5px 20px rgba(0, 137, 123, 0.1);
+    width: 330px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -64,17 +67,27 @@ h1 {
 }
 
 .profile-pic {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     overflow: hidden;
-    border: 1px solid #002b38;
+    border: 3px solid transparent;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0, 137, 123, 0.2);
 }
 
 .profile-pic img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.profile-left h2 {
+    color: #00897b;
+    margin: 15px 0;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .logout-button {
@@ -93,41 +106,71 @@ h1 {
 }
 
 .profile-right {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    border: 3px solid #002b38;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 35px;
+    border-radius: 12px;
+    border: 3px solid #00897b;
+    box-shadow: 0 5px 20px rgba(0, 137, 123, 0.1);
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 800px;
+    width: 550px;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 .detail {
     display: flex;
     flex-direction: column;
+    margin-bottom: 8px;
+    position: relative;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 12px;
 }
 
-label {
+.detail:last-of-type {
+    border-bottom: none;
+}
+
+/* Label styling */
+.detail label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #00897b;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* Input field styling */
+.detail input {
+    padding: 12px 15px;
     font-size: 16px;
-    font-weight: bold;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
     color: #333;
     margin-bottom: 5px;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    width: 100%; /* Make all inputs full width */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    font-weight: bolder;
+
 }
 
-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #0251a6;
-    border-radius: 5px;
+.detail input:focus {
+    border-color: #00897b;
+    box-shadow: 0 0 0 2px rgba(0, 137, 123, 0.1);
     background-color: white;
+    outline: none;
 }
 
-input:focus {
-    border-color: #007bff;
-    background-color: #fff;
+.detail input:read-only {
+    cursor: default;
+    background-color: #f2fffe;
+    color: #555;
+    border: 1px solid #e5e5e5;
 }
 
 .modal-overlay {

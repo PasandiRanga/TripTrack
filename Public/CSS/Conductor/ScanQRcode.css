@@ -1,34 +1,61 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color:  #f4f7fa!important;
+    font-family: 'Poppins', sans-serif;
+    background-color: #d8f8ee !important;
     color: #333;
     height: 100vh;
 }
 
 /* Back Button */
 .back-button {
+    position: fixed;
     display: inline-block;
-    margin: 20px;
+    top: 30px !important;
+    left: 40px !important;
     padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #063946;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
+        background: linear-gradient(135deg, #43cea2, #185a9d);
+        border: none;
+        color: white;
+        font-size: 0.9em;
+        border-radius: 6px;
+        cursor: pointer;
+        height: 35px; /* Adjusted to match input group height */
+        min-width: 80px;
+}
+
+.acceptBooking-button {
+    position: fixed;
+    display: inline-block;
+    top: 30px !important;
+    right: 40px !important;
+    padding: 10px 20px;
+        background: linear-gradient(135deg, #43cea2, #185a9d);
+        border: none;
+        color: white;
+        font-size: 1.0em;
+        border-radius: 6px;
+        cursor: pointer;
+        height: 37px; /* Adjusted to match input group height */
+        min-width: 80px;
 }
 
 .back-button:hover {
     background-color: #052d37;
 }
 
+button {
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+}
+
+button:hover {
+        background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    }
+
 /* View Layout Button Specific Style */
 #viewLayout1 {
     display: inline-block;
-    background-color: #063946;
+    background: linear-gradient(135deg, #43cea2, #185a9d);background-color: #063946;
     color: #fff;
     padding: 10px 18px;
     border: none;
@@ -55,11 +82,14 @@ body {
 
 /* Main Title */
 h1 {
+    top: 30px;
+    left: 42%;
     text-align: center;
     margin: 0;
     margin-bottom: 15px;
     font-size: 2.5rem;
-    color: #063946;
+    color: #43cea2;
+    position: fixed;
 }
 
 /* Container */
@@ -69,7 +99,9 @@ h1 {
 
 /* QR Reader Container */
 .qr-reader-container {
-    margin: 30px auto;
+    position: fixed;
+    margin: 60px auto !important;
+    left: 25%;
     width: 100%;
     display: flex;
     justify-content: center;

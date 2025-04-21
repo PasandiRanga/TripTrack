@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #f4f7fa !important;
+    background-color: #d8f8ee !important;
     color: #333;
 }
 
@@ -14,7 +14,7 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: #063946;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -24,7 +24,7 @@ body {
 
 .back-button:hover,
 .view_delays-button:hover {
-    background-color: #052d37;
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
 }
 
 .back-button {
@@ -71,7 +71,7 @@ h1 {
     margin-top: 10px;
     text-align: center;
     font-size: 1.6rem;
-    color: #004080;
+    color: #43cea2;
     margin-bottom: 20px;
 }
 
@@ -143,11 +143,11 @@ textarea[id="reason"]:focus {
     cursor: pointer;
     margin-top: 10px;
     text-align: center;
-    background-color: #28a745;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
 }
 
 .submit-btn:hover {
-    background-color: #218838;
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
 }
 
 /* Responsive Styles */

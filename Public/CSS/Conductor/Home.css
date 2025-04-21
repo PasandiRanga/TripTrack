@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    background-color: #263043;
+    background-color: #1abc9c;
     font-family: "Arial", sans-serif;
 }
 
@@ -68,12 +68,13 @@ body{
     height: 100% !important;
     grid-area: sidebar;
     height: 100%;
-    background-color: #263043;
+    background-color: #1abc9c;
     overflow-y: auto;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
     color: white;
     margin-top: 0;
+    font-weight: bold;
 }
 
 .sidebar-title{
@@ -113,7 +114,7 @@ body{
 }
 
 .sidebar-list-item:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
 }
 
@@ -125,7 +126,7 @@ body{
 
 .main-container{
     grid-area: main;
-    background-color: beige;
+    background-color: #d8f8ee;
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 40px;
@@ -195,7 +196,7 @@ table {
 
 /* Table Header Styling */
 table th {
-    background-color: #063946;  /* Semi-transparent background */
+    background-color: #43cea2;  /* Semi-transparent background */
     color: white; /* Dark text for contrast */
     font-weight: bold;
     padding: 18px;
@@ -364,7 +365,7 @@ h3 {
 
 .clear-button {
     padding: 8px 15px;
-    background-color: #063946;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     color: white;
     border: none;
     border-radius: 5px;
@@ -377,7 +378,7 @@ h3 {
 }
 
 .clear-button:hover {
-    background-color: #052d37;
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
 }
 
 .input-group {

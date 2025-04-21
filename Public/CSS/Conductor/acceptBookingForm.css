@@ -1,0 +1,129 @@
+ body {
+        background-color: #d8f8ee;
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .form-container {
+        width: 510px !important;
+        margin-top: 40px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 2rem 3rem;
+        max-width: 600px;
+        width: 100%;
+    }
+
+    .form-title {
+        text-align: center;
+        color: #43cea2;
+        font-size: 27px;
+        margin-bottom: 2rem;
+    }
+
+    .form-row {
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        width: 100%;
+        font-size: 16px;
+        color: #333;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #43cea2;
+        border-radius: 4px;
+        font-size: 1rem;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 0.8rem;
+        background: linear-gradient(135deg, #43cea2, #185a9d);
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    }
+
+    button:hover {
+        background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    }
+
+.close {
+    margin-right: 15px;
+}
+
+.back-button {
+    position: fixed;
+    display: inline-block;
+    top: 30px !important;
+    left: 40px !important;
+    padding: 10px 20px;
+        background: linear-gradient(135deg, #43cea2, #185a9d);
+        border: none;
+        color: white;
+        font-size: 0.9em;
+        border-radius: 6px;
+        cursor: pointer;
+        height: 35px; /* Adjusted to match input group height */
+        min-width: 80px;
+}
+    .close,
+    .viewLayout {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #43cea2, #185a9d);
+        border: none;
+        color: white;
+        font-size: 0.9em;
+        border-radius: 6px;
+        cursor: pointer;
+        height: 35px; /* Adjusted to match input group height */
+        min-width: 80px;
+    }
+
+    @media (max-width: 600px) {
+        .form-row {
+            flex-direction: column;
+        }
+    }
+
+#resultModal {
+    display: none; /* Hide modal initially */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent background */
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    margin: 100px auto;
+    width: 300px;
+    border-radius: 8px;
+    text-align: center;
+}
