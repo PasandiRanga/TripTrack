@@ -334,6 +334,39 @@
             }
         }
 
+        //This for find a single person
+        public function getUserByEmail($email) {
+            $this->db->query('SELECT * FROM customer WHERE Email = :email');
+            $this->db->bind(':email', $email);
+            
+            return $this->db->single();
+        }
+
+        public function isNICUsedByAnotherUser($nic, $currentUserId) {
+            $this->db->query('SELECT * FROM customer WHERE NIC = :nic AND User_id != :user_id');
+            $this->db->bind(':nic', $nic);
+            $this->db->bind(':user_id', $currentUserId);
+            
+            $this->db->execute();
+            
+            // If any rows are returned, the NIC is used by another user
+            return $this->db->rowCount() > 0;
+        }
+
+        public function findUserByNIC($nic) {
+            $this->db->query('SELECT * FROM customer WHERE NIC = :nic');
+            $this->db->bind(':nic', $nic);
+            
+            $row = $this->db->single();
+            
+            // Check if row exists
+            if ($this->db->rowCount() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         public function deleteAccount($userID) {
             $this->db->query('DELETE FROM customer WHERE User_id = :userId');
             $this->db->bind(':userId', $userID);

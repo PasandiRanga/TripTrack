@@ -138,19 +138,94 @@
         public function profileUpdate() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                
                 $data = [
                     'name' => trim($_POST['name']),
                     'email' => trim($_POST['email']),
                     'contact_number' => trim($_POST['contact_number']),
                     'nic' => trim($_POST['nic']),
                     'address' => trim($_POST['address']),
-                    'current_email' => $_SESSION['user_email'], // Assume session stores ged-in user email
+                    'current_email' => $_SESSION['user_email'],
+                    'name_err' => '',
+                    'email_err' => '',
+                    'contact_number_err' => '',
+                    'nic_err' => '',
+                    'address_err' => '',
+                    'has_errors' => false
                 ];
-    
+                
+                // Validate name
+                if (empty($data['name'])) {
+                    $data['name_err'] = 'Please enter name';
+                    $data['has_errors'] = true;
+                }
+                
+                // Validate email
+                if (empty($data['email'])) {
+                    $data['email_err'] = 'Please enter email';
+                    $data['has_errors'] = true;
+                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
+                    $data['has_errors'] = true;
+                } else {
+                    // Only check for duplicate email if the email has changed from the current user's email
+                    if ($data['email'] !== $data['current_email'] && $this->RegisteredpagesModel->findUserByEmail($data['email'])) {
+                        $data['email_err'] = 'This email is already registered';
+                        $data['has_errors'] = true;
+                    }
+                }
+                
+                // Validate contact number
+                if (empty($data['contact_number'])) {
+                    $data['contact_number_err'] = 'Please enter contact number';
+                    $data['has_errors'] = true;
+                } elseif (!preg_match('/^\d{10}$/', $data['contact_number'])) {
+                    $data['contact_number_err'] = 'Please enter a valid contact number';
+                    $data['has_errors'] = true;
+                }
+                
+                // Validate NIC
+                if (empty($data['nic'])) {
+                    $data['nic_err'] = 'Please enter a NIC';
+                    $data['has_errors'] = true;
+                } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
+                    // Check if the NIC is either 12 digits or 9 digits followed by "V"
+                    $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
+                    $data['has_errors'] = true;
+                } else {
+                    // Get the user's current NIC from the database using their email
+                    $currentUser = $this->RegisteredpagesModel->getUserByEmail($data['current_email']);
+                    
+                    // Only check for duplicate NIC if the NIC has changed from the current user's NIC
+                    if ($data['nic'] !== $currentUser->NIC) {
+                        // Check if another user has this NIC
+                        if ($this->RegisteredpagesModel->isNICUsedByAnotherUser($data['nic'], $currentUser->User_id)) {
+                            $data['nic_err'] = 'This NIC is already registered';
+                            $data['has_errors'] = true;
+                        }
+                    }
+                }
+                
+                // Validate address
+                if (empty($data['address'])) {
+                    $data['address_err'] = 'Please enter address';
+                    $data['has_errors'] = true;
+                }
+                
+                // If validation fails, store form data and errors in session and redirect back
+                if ($data['has_errors']) {
+                    $_SESSION['profile_data'] = $data;
+                    header("Location: " . URLROOT . '/RegisteredPages/Profile');
+                    exit();
+                }
+                
+                // Validation passed - update profile
                 if ($this->RegisteredpagesModel->updateProfile($data)) {
                     $_SESSION['user_email'] = $data['email'];
+                    $_SESSION['success_message'] = 'Profile updated successfully';
                     header('Location: ' . URLROOT . '/RegisteredPages/profile');
                 } else {
+                    $_SESSION['error_message'] = 'Something went wrong updating your profile';
                     header("Location: " . URLROOT . '/RegisteredPages/Profile');
                 }
             } else {
