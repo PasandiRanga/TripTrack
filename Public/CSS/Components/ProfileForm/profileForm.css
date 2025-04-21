@@ -106,3 +106,10 @@ label {
 .detail input:focus {
     border-color: 3px solid #43cea2;
 }
+
+.error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+    display: block;
+}
