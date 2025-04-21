@@ -9,11 +9,15 @@
             <div>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Name'])) ? htmlspecialchars($userData['Name']) : ''; ?>" required>
+                <div id="NameError" class="error-message">Name can only contain characters.</div>
+
             </div>
             <!-- Input email  -->
             <div>
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" name="email" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Email'])) ? htmlspecialchars($userData['Email']) : ''; ?>" required>
+                <div id="EmailError" class="error-message">Please enter a valid email address</div>
+
             </div>
         </div>
 
@@ -23,11 +27,14 @@
             <div>
                 <label for="contact">Contact No:</label>
                 <input type="text" id="contact" name="contact" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Contact_number'])) ? htmlspecialchars($userData['Contact_number']) : ''; ?>" required>
+                <div id="ContactError" class="error-message">Please enter valid contact number</div>
+
             </div>
             <!-- Input NIC number  -->
             <div>
                 <label for="nic">NIC No:</label>
                 <input type="text" id="nic" name="nic" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['NIC'])) ? htmlspecialchars($userData['NIC']) : ''; ?>" required>
+                <div id="ContactError" class="error-message">Please enter valid NIC number</div>
             </div>
         </div>
 
@@ -202,43 +209,223 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const bookingForm = document.getElementById('bookingForm');
     const userRole = '<?php echo $userRole; ?>';
-    let selectedPaymentMethod = ''; // Store selected payment method
+    let selectedPaymentMethod = ''; 
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const contactInput = document.getElementById('contact');
+    const nicInput = document.getElementById('nic');
+    const selectedSeatsInput = document.getElementById('selectedSeats');
+    const noOfSeatsInput = document.getElementById('noOfseats');
+    const checkoutButton = document.getElementById('checkoutButton');
+    const fromSelect = document.getElementById('from');
+    const toSelect = document.getElementById('to');
 
-    // Show the login box on page load if required
-    const showPopup = <?php echo isset($data['showPopup']) && $data['showPopup'] ? 'true' : 'false'; ?>;
-    if (showPopup) {
-        document.getElementById('signInBox').classList.remove('hidden');
+    // Get existing error elements or create new ones
+    const nameError = document.getElementById('NameError');
+    const emailError = document.getElementById('EmailError');
+    const contactError = document.getElementById('ContactError');
+    const nicError = document.getElementById('nicError') || createErrorElement('nic');
+    const locationError = createErrorElement('from');
+    
+    // Ensure all error messages are initially hidden
+    document.querySelectorAll('.error-message').forEach(error => {
+        error.style.display = 'none';
+    });
+
+    // Create error message elements for fields that don't have them
+    function createErrorElement(fieldId) {
+        const field = document.getElementById(fieldId);
+        const existingError = document.getElementById(fieldId + 'Error');
+        
+        if (existingError) {
+            existingError.style.display = 'none';
+            return existingError;
+        }
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.id = fieldId + 'Error';
+        errorDiv.className = 'error-message';
+        errorDiv.style.display = 'none';
+        
+        if (field && field.parentNode) {
+            field.parentNode.appendChild(errorDiv);
+        }
+        return errorDiv;
+    }
+    
+    // Function to show/hide error message
+    function showError(inputElement, errorElement, message, isError) {
+        if (isError) {
+            inputElement.classList.add('input-error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        } else {
+            inputElement.classList.remove('input-error');
+            errorElement.style.display = 'none';
+        }
     }
 
-    // Function to show sign-in box
-    function showSignInBox() {
-        document.getElementById('signInBox').classList.remove('hidden');
+    // Validation functions
+    function validateName() {
+        const name = nameInput.value.trim();
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        
+        if (name === '') {
+            showError(nameInput, nameError, 'Name is required', true);
+            return false;
+        } else if (!nameRegex.test(name)) {
+            showError(nameInput, nameError, 'Name should only contain letters and spaces', true);
+            return false;
+        } else {
+            showError(nameInput, nameError, '', false);
+            return true;
+        }
     }
 
-    // Function to close sign-in box
-    function closeSignInBox() {
-        document.getElementById('signInBox').classList.add('hidden');
+    function validateEmail() {
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email === '') {
+            showError(emailInput, emailError, 'Email is required', true);
+            return false;
+        } else if (!emailRegex.test(email)) {
+            showError(emailInput, emailError, 'Please enter a valid email address', true);
+            return false;
+        } else {
+            showError(emailInput, emailError, '', false);
+            return true;
+        }
     }
 
-    // Function to confirm action when proceeding without login or closing the box
-    window.confirmAction = function() {
-        document.getElementById("confirmBox").classList.add("hidden");
-        processBooking(selectedPaymentMethod);
-    };
-
-    // Function to close confirm box and show login box
-    window.closeConfirmBoxandLogin = function() {
-        document.getElementById("confirmBox").classList.add("hidden");
-        document.getElementById("signInBox").classList.remove("hidden");
-    };
-
-    window.closeConfirmBox = function(){
-        document.getElementById("confirmBox").classList.add("hidden");
+    function validateContact() {
+        const contact = contactInput.value.trim();
+        const contactRegex = /^\d{10}$/;
+        
+        if (contact === '') {
+            showError(contactInput, contactError, 'Contact number is required', true);
+            return false;
+        } else if (!contactRegex.test(contact)) {
+            showError(contactInput, contactError, 'Contact number must be exactly 10 digits', true);
+            return false;
+        } else {
+            showError(contactInput, contactError, '', false);
+            return true;
+        }
     }
 
+    function validateNIC() {
+        const nic = nicInput.value.trim();
+        // NIC regex for either 9 digits followed by 'v' or 'V', or exactly 12 digits
+        const nicRegex = /^(\d{9}[vV]|\d{12})$/;
+        
+        if (nic === '') {
+            showError(nicInput, nicError, 'NIC number is required', true);
+            return false;
+        } else if (!nicRegex.test(nic)) {
+            showError(nicInput, nicError, 'NIC must be either 9 digits followed by v or 12 digits', true);
+            return false;
+        } else {
+            showError(nicInput, nicError, '', false);
+            return true;
+        }
+    }
+
+    function validateLocations() {
+        const from = fromSelect.value;
+        const to = toSelect.value;
+        
+        if (from === to && from !== '' && to !== '') {
+            showError(fromSelect, locationError, 'Departure and arrival locations cannot be the same', true);
+            return false;
+        } else {
+            showError(fromSelect, locationError, '', false);
+            return true;
+        }
+    }
+
+    function validateSeats() {
+        return selectedSeatsInput.value.trim() !== '' && parseInt(noOfSeatsInput.value) > 0;
+    }
+
+    function validatePaymentMethod() {
+        const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+        return Array.from(paymentMethods).some(radio => radio.checked);
+    }
+
+    // Format input as it's being typed
+    contactInput.addEventListener('input', function() {
+        // Remove non-digit characters and limit to 10 digits
+        this.value = this.value.replace(/\D/g, '').substring(0, 10);
+        validateContact();
+    });
+
+    nicInput.addEventListener('input', function() {
+        // Allow only digits and 'v' or 'V', limit to appropriate length
+        let value = this.value.replace(/[^0-9vV]/g, '');
+        
+        // If last character is 'v' or 'V', ensure it's at position 10
+        if (/[vV]/.test(value.charAt(value.length - 1)) && value.length > 10) {
+            const digits = value.replace(/[vV]/g, '');
+            value = digits.substring(0, 9) + value.charAt(value.length - 1);
+        } else if (!/[vV]/.test(value) && value.length > 12) {
+            value = value.substring(0, 12);
+        }
+        
+        this.value = value;
+        validateNIC();
+    });
+
+    // Add event listeners for validation
+    nameInput.addEventListener('input', validateName);
+    emailInput.addEventListener('input', validateEmail);
+    fromSelect.addEventListener('change', validateLocations);
+    toSelect.addEventListener('change', validateLocations);
+
+    // Event listener for payment method selection
+    const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+    paymentRadios.forEach(radio => {
+        radio.addEventListener('change', validateForm);
+    });
+
+    // Add event listener to the form for handling input changes
+    bookingForm.addEventListener('input', validateForm);
+    
+    // Function to validate the entire form
+    function validateForm() {
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isContactValid = validateContact();
+        const isNICValid = validateNIC();
+        const areLocationsValid = validateLocations();
+        const areSeatsValid = validateSeats();
+        const isPaymentMethodValid = validatePaymentMethod();
+        
+        // Enable checkout button only if all validations pass
+        checkoutButton.disabled = !(
+            isNameValid && 
+            isEmailValid && 
+            isContactValid && 
+            isNICValid && 
+            areLocationsValid && 
+            areSeatsValid && 
+            isPaymentMethodValid
+        );
+        
+        if (!checkoutButton.disabled) {
+            checkoutButton.style.opacity = '1';
+        } else {
+            checkoutButton.style.opacity = '0.6';
+        }
+    }
+
+    // Run validation on page load to set initial button state
+    validateForm();
+    
+    // Handle payment method logic
     function updateFormAction(paymentMethod) {
         if (paymentMethod === 'Cash') {
             if (userRole === 'RegisteredUser') {
@@ -262,19 +449,53 @@
     }
 
     function processBooking(paymentMethod) {
-        
-            bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/paymentPortal';
-            bookingForm.submit();
+        bookingForm.action = '<?php echo URLROOT; ?>/GuestPages/paymentPortal';
+        bookingForm.submit();
+    }
+
+    // Window functions for confirm box
+    window.confirmAction = function() {
+        document.getElementById("confirmBox").classList.add("hidden");
+        processBooking(selectedPaymentMethod);
+    };
+
+    window.closeConfirmBoxandLogin = function() {
+        document.getElementById("confirmBox").classList.add("hidden");
+        if (document.getElementById("signInBox")) {
+            document.getElementById("signInBox").classList.remove("hidden");
+        }
+    };
+
+    window.closeConfirmBox = function() {
+        document.getElementById("confirmBox").classList.add("hidden");
+    };
+
+    // Show the login box on page load if required
+    const showPopup = <?php echo isset($data['showPopup']) && $data['showPopup'] ? 'true' : 'false'; ?>;
+    if (showPopup && document.getElementById('signInBox')) {
+        document.getElementById('signInBox').classList.remove('hidden');
     }
 
     // Update form submission handling
     bookingForm.addEventListener('submit', function(e) {
         e.preventDefault(); // Prevent default form submission
         
-        const from = document.getElementById("from").value;
-        const to = document.getElementById("to").value;
-        const selectedSeats = document.getElementById("selectedSeats").value;
+        const from = fromSelect.value;
+        const to = toSelect.value;
+        const selectedSeats = selectedSeatsInput.value;
         const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+        // Perform full validation
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isContactValid = validateContact();
+        const isNICValid = validateNIC();
+        const areLocationsValid = validateLocations();
+        
+        // Check if all validations pass
+        if (!isNameValid || !isEmailValid || !isContactValid || !isNICValid || !areLocationsValid) {
+            return false;
+        }
 
         if (from === to) {
             alert("The 'From' and 'To' locations cannot be the same.");
@@ -291,20 +512,28 @@
             return false;
         }
 
-        // Add the payment method as a hidden field
-        let paymentInput = document.createElement("input");
-        paymentInput.type = "hidden";
-        paymentInput.name = "paymentMethod";
-        paymentInput.value = paymentMethod.value;
-        bookingForm.appendChild(paymentInput);
-
         // If updateFormAction returns true, submit the form directly
         // Otherwise, the confirmBox will be shown
         if (updateFormAction(paymentMethod.value)) {
             bookingForm.submit();
         }
     });
+
+    // Initialize price updating function (if not defined elsewhere)
+    if (typeof updatePrice !== 'function') {
+        window.updatePrice = function(from, to) {
+            const pricePerSeatElement = document.getElementById('pricePerSeat');
+            const totalPriceElement = document.getElementById('total-price');
+            const totalPriceInput = document.getElementById('totalPriceInput');
+            const noOfSeats = parseInt(document.getElementById('noOfseats').value) || 0;
+            
+            const pricePerSeat = parseFloat(pricePerSeatElement.textContent);
+            const total = pricePerSeat * noOfSeats;
+            
+            totalPriceElement.textContent = total.toFixed(2);
+            totalPriceInput.value = total.toFixed(2);
+        };
+    }
 });
 
 </script>
-    
