@@ -84,10 +84,6 @@
             $this->view('pages/RegisteredUser/contactus' , $data);
         }
 
-        public function notification() {
-            $this->view('pages/RegisteredUser/notifications');
-        }
-
         public function profile() {
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
@@ -110,18 +106,10 @@
             }
         }
 
-        public function seeTicket() {
-            $this->view('pages/RegisteredUser/seeTicket');
-        }
-
         public function signIn() {
             $this->view('pages/RegisteredUser/signIn');
         }
-
-        public function Notify() {
-            $this->view('pages/RegisteredUser/Notify');
-        }
-
+     
         public function LoginBox() {
             $this->view('inc/Components/LoginBox/loginBox');
         }
@@ -785,227 +773,241 @@
             }
         }
 
-    /*For all notifications */
-    public function allNotifications()
-    {
-        echo '<script>console.log("Inside the controller")</script>';
-        // Get all notifications for the current user
-        $allnotifications = $this->NotificationModel->getAllUserNotifications($_SESSION['user_id']);
-        $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
-        echo '<script> console.log("Notifications: ", ' . json_encode($allnotifications) . '); </script>';
+        /* For all noticiation page */
+        public function allNotifications()
+        {
+            echo '<script>console.log("Inside the controller")</script>';
+            // Get all notifications for the current user
+            $allnotifications = $this->NotificationModel->getAllUserNotifications($_SESSION['user_id']);
+            $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            echo '<script> console.log("Notifications: ", ' . json_encode($allnotifications) . '); </script>';
 
-        $data = [
-            'currentController' => 'RegisteredPages',
-            'currentMethod' => 'allNotifications',
-            'title' => 'All Notifications',
-            'allnotifications' => $allnotifications,
-            'notifications' => $notifications
-        ];
-        echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
+            $data = [
+                'currentController' => 'RegisteredPages',
+                'currentMethod' => 'allNotifications',
+                'title' => 'All Notifications',
+                'allnotifications' => $allnotifications,
+                'notifications' => $notifications
+            ];
+            echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
-        
-        $this->view('pages/RegisteredUser/allNotifications', $data);
-    }
-
-   /* For the notification icon */
-    public function getAllNotifications()
-    {
-        // Check if it's an AJAX request
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-            redirect('pages/error');
+            
+            $this->view('pages/RegisteredUser/allNotifications', $data);
         }
-        
-        $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
-        
-        // Return JSON response
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => true,
-            'notifications' => $notifications
-        ]);
-    }
 
-    /**
-     * Mark notifications as seen
-     */
-    public function markNotificationsAsSeen()
-    {
-        // Check if it's an AJAX request
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-            redirect('pages/error');
-        }
-        
-        $success = $this->NotificationModel->markNotificationsAsSeen($_SESSION['user_id']);
-        
-        // Return JSON response
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => $success
-        ]);
-    }
-
-    /**
-     * Update notification read status
-     */
-    public function toggleReadStatus() {
-        // Check if it's an AJAX request
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-            redirect('pages/error');
-        }
-        
-        // Get POST data
-        $input = json_decode(file_get_contents('php://input'), true);
-        $notificationId = $input['notification_id'] ?? null;
-        $isRead = $input['is_read'] ?? false;
-        
-        if (!$notificationId) {
+        /* For the notification icon */
+        public function getAllNotifications()
+        {
+            // Check if it's an AJAX request
+            if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+                redirect('pages/error');
+            }
+            
+            $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
+            
+            // Return JSON response
             header('Content-Type: application/json');
             echo json_encode([
-                'success' => false,
-                'message' => 'Notification ID is required'
+                'success' => true,
+                'notifications' => $notifications
             ]);
-            exit(); // Add this to ensure nothing else is output
         }
-        
-        $success = $this->NotificationModel->updateReadStatus($notificationId, $isRead, $_SESSION['user_id']);
-        
-        // Return JSON response
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => $success
-        ]);
-        exit(); // Add this to ensure nothing else is output
-    }
 
-    public function deleteNotification(){
-        // Turn off output buffering
-
-        ob_start();
-        
-        try {
+        /* Mark notifications as seen notification icon*/
+        public function markNotificationsAsSeen()
+        {
             // Check if it's an AJAX request
-            if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-                // echo '<script>console.log("Not POST");</script>';
-                throw new Exception('Invalid request method');
-
+            if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+                redirect('pages/error');
             }
             
-            // Get POST data
-            $input = json_decode(file_get_contents('php://input'), true);
-            $notificationId = $input['notification_id'] ?? null;
-            // echo '<script>console.log("Notification id"' .json_encode($notificationId) . ');</script>';
-
-            
-            if (!$notificationId) {
-                throw new Exception('Notification ID is required');
-            }
-            
-            $success = $this->NotificationModel->deleteNotification($notificationId, $_SESSION['user_id']);
-            // echo '<script>console.log(' . json_encode($success) . ');</script>';
-    
-
-    
-            // Clear any output that might have happened
-            ob_clean();
+            $success = $this->NotificationModel->markNotificationsAsSeen($_SESSION['user_id']);
             
             // Return JSON response
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => $success
             ]);
+        }
 
-        } catch (Exception $e) {
-            // Clear any output
-            ob_clean();
+        /* Update notification read status in notification icon*/
+        public function toggleReadStatus() {
+            // Check if it's an AJAX request
+            if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+                redirect('pages/error');
+            }
             
-            // Return error JSON
+            // Get POST data
+            $input = json_decode(file_get_contents('php://input'), true);
+            $notificationId = $input['notification_id'] ?? null;
+            $isRead = $input['is_read'] ?? false;
+            
+            if (!$notificationId) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Notification ID is required'
+                ]);
+                exit(); // Add this to ensure nothing else is output
+            }
+            
+            $success = $this->NotificationModel->updateReadStatus($notificationId, $isRead, $_SESSION['user_id']);
+            
+            // Return JSON response
             header('Content-Type: application/json');
             echo json_encode([
-                'success' => false,
-                'message' => $e->getMessage()
+                'success' => $success
             ]);
+            exit(); // Add this to ensure nothing else is output
         }
-    }
-    /**
-     * Dismiss notification
-     */
-    public function dismissNotification()
-    {
-        // Check if it's an AJAX request
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-            redirect('pages/error');
+
+        public function deleteNotification(){
+            // Turn off output buffering
+
+            ob_start();
+            
+            try {
+                // Check if it's an AJAX request
+                if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+                    // echo '<script>console.log("Not POST");</script>';
+                    throw new Exception('Invalid request method');
+
+                }
+                
+                // Get POST data
+                $input = json_decode(file_get_contents('php://input'), true);
+                $notificationId = $input['notification_id'] ?? null;
+                // echo '<script>console.log("Notification id"' .json_encode($notificationId) . ');</script>';
+
+                
+                if (!$notificationId) {
+                    throw new Exception('Notification ID is required');
+                }
+                
+                $success = $this->NotificationModel->deleteNotification($notificationId, $_SESSION['user_id']);
+                // echo '<script>console.log(' . json_encode($success) . ');</script>';
+        
+
+        
+                // Clear any output that might have happened
+                ob_clean();
+                
+                // Return JSON response
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => $success
+                ]);
+
+            } catch (Exception $e) {
+                // Clear any output
+                ob_clean();
+                
+                // Return error JSON
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ]);
+            }
         }
-        
-        // Get POST data
-        $input = json_decode(file_get_contents('php://input'), true);
-        $notificationId = $input['notification_id'] ?? null;
-        
-        if (!$notificationId) {
+        /* Dismiss notification in notification icon*/
+        public function dismissNotification()
+        {
+            // Check if it's an AJAX request
+            if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+                redirect('pages/error');
+            }
+            
+            // Get POST data
+            $input = json_decode(file_get_contents('php://input'), true);
+            $notificationId = $input['notification_id'] ?? null;
+            
+            if (!$notificationId) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Notification ID is required'
+                ]);
+                return;
+            }
+            
+            $success = $this->NotificationModel->dismissNotification($notificationId, $_SESSION['user_id']);
+            
+            // Return JSON response
             header('Content-Type: application/json');
             echo json_encode([
-                'success' => false,
-                'message' => 'Notification ID is required'
+                'success' => $success
             ]);
-            return;
+        }
+
+        public function markAllAsRead() {
+            ob_start();
+            try {
+                if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+                    throw new Exception('Invalid request method');
+                }
+                
+                $input = json_decode(file_get_contents('php://input'), true);
+                
+                // Check if ids array exists
+                if (!isset($input['ids']) || !is_array($input['ids'])) {
+                    throw new Exception('Invalid input format');
+                }
+                
+                $success = true;
+                foreach ($input['ids'] as $notiID) {
+                    $result = $this->NotificationModel->updateReadStatusOfAll($notiID, $_SESSION['user_id']);
+                    if (!$result) {
+                        $success = false;
+                    }
+                }
+                
+                // Clear any output that might have happened
+                ob_clean();
+                
+                // Return JSON response
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => $success
+                ]);
+            } catch (Exception $e) {
+                // Clear any output
+                ob_clean();
+                
+                // Return error JSON
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ]);
+            }
         }
         
-        $success = $this->NotificationModel->dismissNotification($notificationId, $_SESSION['user_id']);
-        
-        // Return JSON response
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => $success
-        ]);
-    }
-       
-    public function addReviews() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        public function addReviews() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            echo '<script>console.log("Post data: ' . json_encode($_POST) . '");</script>';
+                echo '<script>console.log("Post data: ' . json_encode($_POST) . '");</script>';
 
-            $data = [
-            'user_id' => $_POST['user_id'],
-            'license_id' => $_POST['license_id'],
-            'rate' => $_POST['rating'],
-            'review' => trim($_POST['opinion']),
-            'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
-            'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
-        ];
-        
-        if ($this->RegisteredpagesModel->addReview($data)) {
-            // redirect to previous or success page
-            redirect('RegisteredPages/newBookings');
-        } else {
-            die('Something went wrong');
+                $data = [
+                'user_id' => $_POST['user_id'],
+                'license_id' => $_POST['license_id'],
+                'rate' => $_POST['rating'],
+                'review' => trim($_POST['opinion']),
+                'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
+                'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
+            ];
+            
+            if ($this->RegisteredpagesModel->addReview($data)) {
+                // redirect to previous or success page
+                redirect('RegisteredPages/newBookings');
+            } else {
+                die('Something went wrong');
+            }
+            } else {
+                redirect('RegisteredPages/newBookings');
+            }
         }
-    } else {
-        redirect('RegisteredPages/newBookings');
-    }
-}
-
-    // public function getAverageRatings() {
-    //     $scheduleData = $this->RegisteredpagesModel->getSchedule(); 
-    //     $averageRatings = [];
-
-    //     foreach ($scheduleData as $schedule) {
-    //         $licenseId = $schedule['License_id'];
-    //         $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
-    //         $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
-
-    //         // Debug output
-    //         echo "License: $licenseId<br>";
-    //         print_r($averageRatings[$licenseId]);
-    //         echo "<hr>";
-    //     }
-
-    //     $data = [
-    //         'schedule' => $scheduleData,
-    //         'averageRatings' => $averageRatings,
-    //     ];
-
-    //     $this->view('pages/RegisteredUser/home', $data);
-    // }
 
 
     }  
