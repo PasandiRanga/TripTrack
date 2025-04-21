@@ -935,7 +935,37 @@ public function getTotalBusesReport() {
     //box 03
 
 //------------------------------------------------------------------------------------------------------------------------------------
- 
+//------------------------------------------------------------------------------------------------------------------------------------
+    //chart 01 Routes with income
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+
+public function getTopRoutesIncome() {
+    // Query to get the top 5 routes with total income for the current month
+    $this->db->query("
+        SELECT 
+            b.routeNumber,
+            CONCAT(b.start_location, ' - ', b.destination) AS route,
+            SUM(COALESCE(pg.total_price, 0)) + SUM(COALESCE(pr.total_price, 0)) AS total_income
+        FROM past_schedules ps
+        LEFT JOIN bus b ON ps.license_id = b.license_id
+        LEFT JOIN pastguestbooking pg 
+            ON ps.scheduleId = pg.schedule_id 
+            AND DATE_FORMAT(pg.booking_date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
+        LEFT JOIN pastregbooking pr 
+            ON ps.scheduleId = pr.schedule_id 
+            AND DATE_FORMAT(pr.booking_date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
+        WHERE DATE_FORMAT(ps.date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
+        GROUP BY b.routeNumber, b.start_location, b.destination
+        ORDER BY total_income DESC
+        LIMIT 5;
+    ");
+    
+    // Return the result set
+    return $this->db->resultSet();
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //chart 02 booking-cancellation
 

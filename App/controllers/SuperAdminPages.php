@@ -20,6 +20,9 @@ class SuperAdminPages extends Controller {
             //chart 2
             $chartbookings =  $this->SuperAdminModel->getLast7DaysBookingCounts();
             $chartcancellations = $this->SuperAdminModel->getLast7DaysCancellationCounts();
+
+            //chart 01
+            $routes = $this->SuperAdminModel->getTopRoutesIncome();
             // Pass the data to the view or return as JSON (API)
             $data = [
                 'registered_income' => $income['registered_income'],
@@ -30,7 +33,8 @@ class SuperAdminPages extends Controller {
                 'total_registered' => $total_registered,
                 'total_bookings' => $total_bookings,
                 'chartbookings' => $chartbookings,
-                'chartcancellations' => $chartcancellations
+                'chartcancellations' => $chartcancellations,
+                'routes' => $routes,
             ];
 
 
