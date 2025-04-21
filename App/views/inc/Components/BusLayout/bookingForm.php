@@ -15,7 +15,7 @@
             <!-- Input email  -->
             <div>
                 <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Email'])) ? htmlspecialchars($userData['Email']) : ''; ?>" required>
+                <input type="email" id="Bookingemail" name="email" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Email'])) ? htmlspecialchars($userData['Email']) : ''; ?>" required>
                 <div id="EmailError" class="error-message">Please enter a valid email address</div>
 
             </div>
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userRole = '<?php echo $userRole; ?>';
     let selectedPaymentMethod = ''; 
     const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
+    const emailInput = document.getElementById('Bookingemail');
     const contactInput = document.getElementById('contact');
     const nicInput = document.getElementById('nic');
     const selectedSeatsInput = document.getElementById('selectedSeats');
