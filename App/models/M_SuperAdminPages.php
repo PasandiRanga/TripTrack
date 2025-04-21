@@ -609,6 +609,45 @@ class M_SuperAdminPages {
         $this->db->query("SELECT employee_id, name, role FROM employee WHERE role IN ('Driver', 'Conductor')");
         return $this->db->resultSet();
     }
+//------------------------------------------------------------------------------------------------------------------------------------
+    //Reports
+
+//------------------------------------------------------------------------------------------------------------------------------------
+    //total bookings
+       //guest bookings
+       //registered bookings
+    
+
+    public function getGuestBookingsReport($month) {
+        $this->db->query("SELECT COUNT(*) as total FROM guestbooking WHERE DATE_FORMAT(booking_date, '%Y-%m') = :month");
+        $this->db->bind(':month', $month);
+        return $this->db->single()->total;
+    }
+
+    public function getRegisteredBookingsReport($month) {
+        $this->db->query("SELECT COUNT(*) as total FROM registeredbooking WHERE DATE_FORMAT(booking_date, '%Y-%m') = :month");
+        $this->db->bind(':month', $month);
+        return $this->db->single()->total;
+    }
+
+
+    //booking cancellation
+       //cancelled online bookings
+       //cancelled cash bookings
+    
+    //total income
+    //total registered customers
+    //total employees in the system
+        //total drivers in the system
+        //total conductors in the system
+        //total admins in the system
+    //total routes
+    //total buses in the system
+    //total schedules in the system
+
+
+
+
 
 
 //------------------------------------------------------------------------------------------------------------------------------------
