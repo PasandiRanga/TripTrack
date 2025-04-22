@@ -155,6 +155,35 @@ var averageRatings = <?php echo json_encode($averageRatings); ?>;
 document.addEventListener('DOMContentLoaded', function() {
     const dateItems = document.querySelectorAll('.date-item');
     const travelDateInput = document.getElementById('travelDate');
+
+    // Function to handle the show more button
+    function setupShowMoreButton() {
+        console.log("Setting up show more button");
+        const showMoreBtn = document.getElementById('show-more-btn');
+        
+        if (showMoreBtn) {
+            console.log("Found show more button");
+            showMoreBtn.addEventListener('click', function() {
+                console.log("Show more button clicked");
+                // Show all additional cards
+                const hiddenCards = document.querySelectorAll('.hidden-card');
+                console.log("Found additional cards:", hiddenCards.length);
+                
+                hiddenCards.forEach(card => {
+                    card.style.display = 'block';
+                    console.log("Set card display to block");
+                });
+                
+                // Hide the "Show More" button
+                this.style.display = 'none';
+                console.log("Button hidden");
+            });
+        } else {
+            console.log("Show more button not found");
+        }
+    }
+
+    setupShowMoreButton();
     
     dateItems.forEach(item => {
         item.addEventListener('click', function() {
@@ -174,9 +203,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('bus-card-container').innerHTML = html;
-                    
-                    // After loading the new HTML, reapply ratings
-                    applyRatingsToCards();
+                    console.log("Loaded new content for date:", selectedDate);
+
+                    // Reapply ratings to cards if needed
+                    if (typeof applyRatingsToCards === 'function') {
+                        applyRatingsToCards();
+                    }
+                    // Setup the show more button for the new content
+                    setupShowMoreButton();
                 })
                 .catch(error => console.error('Error:', error));
         });

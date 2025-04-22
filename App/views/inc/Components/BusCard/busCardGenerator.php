@@ -27,6 +27,16 @@ $selectedDate = $_GET['date'] ?? date('Y-m-d');
 
 // Initialize the counter before the loop
 $displayedCards = 0;
+$totalCards = 0;
+
+// Count the total number of cards that will be displayed
+foreach ($busData as $bus) {
+    foreach ($scheduleData as $schedule) {
+        if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
+            $totalCards++;
+        }
+    }
+}
 
 // Instead, iterate through all buses
 foreach ($busData as $bus) {
@@ -50,8 +60,10 @@ foreach ($busData as $bus) {
             
             // Round to nearest 0.5 for star display
             $roundedRating = round($numericRating * 2) / 2;
+            // Determine if this card should be hidden initially
+            $cardClass = ($displayedCards >= 8) ? 'bus-card hidden-card' : 'bus-card';
             ?>
-            <div class="bus-card" onclick="window.location.href = '<?php 
+            <div class="<?php echo $cardClass; ?>" onclick="window.location.href = '<?php 
                 if ($userRole === 'GuestUser') {
                     echo URLROOT . '/GuestPages/busLayout?Licenseid=' . urlencode($bus['License_id']) . '&scheduleId=' . urlencode($schedule['scheduleId']);
                 } elseif ($userRole === 'RegisteredUser') {
@@ -173,5 +185,41 @@ foreach ($busData as $bus) {
 // If no buses found for the selected date
 if ($displayedCards === 0) {
     echo '<div class="no-buses-message">No buses available for the selected date.</div>';
+} elseif ($totalCards > 8) {
+    // Show the "Show More" button only if there are more than 8 cards
+    echo '<div class="show-more-container">
+        <button id="show-more-btn" class="show-more-btn">Show More</button>
+    </div>';
 }
 ?>
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Script loaded");
+    const showMoreBtn = document.getElementById('show-more-btn');
+    
+    if (showMoreBtn) {
+        console.log("Show more button found");
+        showMoreBtn.addEventListener('click', function() {
+            console.log("Show more button clicked");
+            // Show all additional cards
+            const hiddenCards = document.querySelectorAll('.hidden-card');
+            console.log("Additional cards found:", hiddenCards.length);
+            
+            hiddenCards.forEach(card => {
+                card.style.display = 'block';
+                console.log("Card display set to block");
+            });
+            
+            // Hide the "Show More" button
+            this.style.display = 'none';
+            console.log("Button hidden");
+        });
+    } else {
+        console.log("Show more button not found");
+    }
+});
+</script>

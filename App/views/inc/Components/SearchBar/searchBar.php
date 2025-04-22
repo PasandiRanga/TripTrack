@@ -232,6 +232,8 @@
         busCardContainer.style.display = 'block';
         busCardContainer.style.display = 'flex';  
         busCardContainer.innerHTML = storedBusData;
+        updateDateBarSelection(selectedDate); // Reset to the original bus card data
+        renderFilteredSchedules(filteredSchedules, busData);
     });
 }
 
