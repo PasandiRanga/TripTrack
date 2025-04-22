@@ -543,12 +543,21 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
-    public function getEmployeeDetails($employee_id) {
-        $this->db->query('SELECT employee_id, name, address, contactNo, email, role, nic FROM employee WHERE employee_id = :employee_id');
-        $this->db->bind(':employee_id', $employee_id);
-        return $this->db->single();
-    }
+        public function findEmployeeById($userId){
+            $this->db->query('SELECT * FROM employee WHERE employee_id=:userId');
 
+            $this->db->bind(":userId",$userId);
+
+            $row = $this->db->single();
+
+            if($this->db->rowCount()>0){
+                error_log(print_r($row, true));
+                return $row;
+            }
+            else{
+                return false;  
+            }
+        }
 //------------------------------------------------------------------------------------------------------------------------------------
     //Reviews
 

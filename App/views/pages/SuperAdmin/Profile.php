@@ -1,70 +1,106 @@
-<!-- filepath: c:\xampp\htdocs\TripTrack\App\views\pages\SuperAdmin\Profile.php -->
 <?php
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Profile</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Profile.css?v=<?php echo time(); ?>">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/profile.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
-    <div class="profile-container">
-        <h1>Admin Profile</h1>
-        <div class="profile-details">
-            <!-- Profile Image -->
-            <div class="profile-image-container">
-                <img id="profile-image-preview" src="<?php echo URLROOT; ?>/public/images/profileImages/<?php echo (isset($data['profileImage']) && file_exists(APPROOT . '/../public/images/profileImages/' . $data['profileImage'])) ? $data['profileImage'] : 'default.jpg'; ?>" alt="Profile Image">
-            </div>
 
-            <!-- Admin Details -->
-            <div class="details-box">
-                <div class="detail-group">
-                    <label>Employee ID:</label>
-                    <p><?php //echo $data['employeeId']; ?></p>
-                </div>
+<?php
+    $userRole = $_SESSION['userRole'] ?? 'Admin';
+    $profile = $data;
+?>
 
-                <div class="detail-group">
-                    <label>Name:</label>
-                    <p><?php //echo $data['name']; ?></p>
-                </div>
+<script>
+    var userRole = <?php echo json_encode($userRole); ?>;
+    localStorage.setItem('userRole', userRole);
+</script>
 
-                <div class="detail-group">
-                    <label>NIC:</label>
-                    <p><?php //echo $data['nic']; ?></p>
-                </div>
+<button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
-                <div class="detail-group">
-                    <label>Address:</label>
-                    <p><?php //echo $data['address']; ?></p>
-                </div>
+<div class="page-header">
+    <h1>Admin Profile</h1>
+</div>
 
-                <div class="detail-group">
-                    <label>Contact No:</label>
-                    <p><?php //echo $data['phone']; ?></p>
-                </div>
+<!-- Profile Container -->
+<div class="profile-container">
+    <!-- Left Side: Profile Image + Logout -->
+    <div class="profile-left">
+        <div class="profile-pic">
+            <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $_SESSION['user_profile_image']; ?>" alt="Profile Picture" class="profile-pic">
+        </div>
+        <h2><?php echo $profile['name']; ?></h2>
+        <p><?php echo $profile['employee_id']; ?></p>
 
-                <div class="detail-group">
-                    <label>Email:</label>
-                    <p><?php //echo $data['email']; ?></p>
-                </div>
+        <button class="logout-button" onclick="Openpopup()"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> LogOut</button>
+    </div>
 
-                <div class="detail-group">
-                    <label>Role:</label>
-                    <p><?php //echo $data['role']; ?></p>
-                </div>
-            </div>
-
-            <!-- Update Profile Button -->
-            <div class="button-group">
-                <button onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/editProfile'">Edit Profile</button>
-            </div>
+    <!-- Right Side: Admin Info -->
+    <div class="profile-right">
+        <div class="detail">
+            <label>Full Name</label>
+            <input type="text" value="<?php echo $profile['name']; ?>" readonly>
+        </div>
+        <div class="detail">
+            <label>Employee ID</label>
+            <input type="text" value="<?php echo $profile['employee_id']; ?>" readonly>
+        </div>
+        <div class="detail">
+            <label>Role</label>
+            <input type="text" value="<?php echo $profile['role']; ?>" readonly>
+        </div>
+        <div class="detail">
+            <label>Email Address</label>
+            <input type="email" value="<?php echo $profile['email']; ?>" readonly>
+        </div>
+        <div class="detail">
+            <label>Contact Number</label>
+            <input type="text" value="<?php echo $profile['contactNo']; ?>" readonly>
+        </div>
+        <div class="detail">
+            <label>NIC</label>
+            <input type="text" value="<?php echo $profile['nic']; ?>" readonly>
+        </div>
+        <div class="detail">
+            <label>Address</label>
+            <input type="text" value="<?php echo $profile['address']; ?>" readonly>
         </div>
     </div>
+</div>
+
+<!-- Logout Modal -->
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-content">
+        <h2>Are you sure you want to logout?</h2>
+        <p>This will end your current session.</p>
+        <div class="modal-buttons">
+            <button class="modal-button btn-yes" onclick="proceedLogout()">Yes</button>
+            <button class="modal-button btn-no" onclick="cancelLogout()">No</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Openpopup() {
+        document.getElementById("logoutModal").classList.add("open-popup");
+    }
+
+    function proceedLogout() {
+        window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
+    }
+
+    function cancelLogout() {
+        window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/profile";
+    }
+</script>
+
 </body>
 </html>
