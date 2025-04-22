@@ -82,6 +82,20 @@ class SuperAdminPages extends Controller {
                 exit();
             }
 
+             // License ID format: LC-xxxx
+            if (!preg_match('/^[A-Z]{2}-\d{4}$/', $data['License_id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'License ID must be in the format XX-1234 (two capital letters, a dash, and four digits).']);
+                http_response_code(400);
+                exit();
+            }
+
+            // Start and Destination should be alphabetic with optional spaces
+            if (!preg_match('/^[A-Za-z ]+$/', $data['start_location']) || !preg_match('/^[A-Za-z ]+$/', $data['destination'])) {
+                echo json_encode(['status' => 'error', 'message' => 'Start and Destination must contain only letters and spaces.']);
+                http_response_code(400);
+                exit();
+            }
+
             // Call the model method to add the bus
             if ($this->SuperAdminModel->addBus($data)) {
                 echo json_encode(['status' => 'success', 'message' => 'Bus added successfully.']);

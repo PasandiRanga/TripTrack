@@ -17,63 +17,117 @@ body {
     border: none;
     cursor: pointer;
 }
-
-h1 {
-    text-align: center;
+/* Styling for the Box Wrapper */
+.box {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
 }
 
+/* Header Styling */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Styling for the Form */
 #fleet-form {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    width: 100%;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
 }
 
-.form-group input, select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-.form-group .passengers{
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-.button {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 10px;
-    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus state for inputs and selects */
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Styling for the Buttons Container */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;  /* Ensuring it takes full width */
+    margin-top: 20px;
+}
+
+/* Styling for the Buttons */
+.button {
+    padding: 12px 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 48%; /* Ensure the buttons are side by side with equal width */
 }
 
+/* Hover effect for the submit button */
 .button:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
 }
 
+/* Styling for the Clear button */
+.button[type="button"] {
+    background-color: #f44336;
+}
+
+/* Hover effect for the clear button */
+.button[type="button"]:hover {
+    background-color: #d32f2f;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 768px) {
+    .box {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    /* Stack buttons vertically on small screens */
+    .button-container {
+        flex-direction: column;
+        align-items: center; /* Center the buttons */
+        gap: 10px;
+    }
+
+    .button {
+        width: 100%; /* Buttons take up full width on small screens */
+    }
+}
 /* Popup box styles */
         .popup-overlay {
             position: fixed;
