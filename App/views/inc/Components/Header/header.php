@@ -31,17 +31,15 @@
 
     ?>
 
-    <nav class="header">
+    <nav class="headers">
         <div class="abc">
             <div class="xyz">
                 <ul>
-                    <li><img class="logo" src="<?php echo URLROOT; ?>/public/images/logo2.png" alt="Logo"></li>
+                    <li><img class="logo" src="<?php echo URLROOT; ?>/public/images/logoicon.png" alt="Logo"></li>
                     <li class="topic">
                         <?php
-                        if ($userRole === "Admin") {
-                            echo "Admin Dashboard";
-                        } elseif ($userRole === "RegisteredUser") {
-                            echo "Trip Track";
+                        if ($userRole === "RegisteredUser") {
+                            echo '<img src="' . URLROOT . '/public/images/logoname.png" alt="Trip Track Logo" class="header-logo">';
                         } else {
                             echo "Trip Track";
                         }

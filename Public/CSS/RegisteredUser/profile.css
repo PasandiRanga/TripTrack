@@ -56,7 +56,6 @@ body,html {
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid transparent;
-    margin-bottom: 15px;
     box-shadow: 0 4px 15px rgba(0, 137, 123, 0.2);
 }
 
