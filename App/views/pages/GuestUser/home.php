@@ -120,73 +120,28 @@
         <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
 <script>
+// Replace the two script blocks with this unified solution
 document.addEventListener('DOMContentLoaded', function() {
+    var averageRatings = <?php echo json_encode($averageRatings); ?>;
     const dateItems = document.querySelectorAll('.date-item');
     const travelDateInput = document.getElementById('travelDate');
     
-    dateItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Remove active class from all items
-            dateItems.forEach(di => di.classList.remove('active'));
-            
-            // Add active class to clicked item
-            this.classList.add('active');
-            
-            // Get the selected date
-            const selectedDate = this.dataset.date;
-            
-            // Update the search bar date input
-            travelDateInput.value = selectedDate;
-            
-            fetch(`${URLROOT}/GuestPages/filterBusByDate?date=${selectedDate}`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('bus-card-container').innerHTML = html;
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    });
-});
-</script>
-
-<script>
-var averageRatings = <?php echo json_encode($averageRatings); ?>;
-
-document.addEventListener('DOMContentLoaded', function() {
-    const dateItems = document.querySelectorAll('.date-item');
-    const travelDateInput = document.getElementById('travelDate');
-
-    // Function to handle the show more button
-    function setupShowMoreButton() {
-        console.log("Setting up show more button");
-        const showMoreBtn = document.getElementById('show-more-btn');
-        
-        if (showMoreBtn) {
-            console.log("Found show more button");
-            showMoreBtn.addEventListener('click', function() {
-                console.log("Show more button clicked");
-                // Show all additional cards
-                const hiddenCards = document.querySelectorAll('.hidden-card');
-                console.log("Found additional cards:", hiddenCards.length);
-                
-                hiddenCards.forEach(card => {
-                    card.style.display = 'block';
-                    console.log("Set card display to block");
-                });
-                
-                // Hide the "Show More" button
-                this.style.display = 'none';
-                console.log("Button hidden");
-            });
-        } else {
-            console.log("Show more button not found");
-        }
-    }
-
+    // Apply ratings initially when page loads
+    applyRatingsToCards();
+    
+    // Set up the show more button
     setupShowMoreButton();
     
     dateItems.forEach(item => {
         item.addEventListener('click', function() {
+            // Prevent multiple rapid clicks
+            if (this.classList.contains('processing')) {
+                return;
+            }
+            
+            // Add processing class to prevent multiple clicks
+            this.classList.add('processing');
+            
             // Remove active class from all items
             dateItems.forEach(di => di.classList.remove('active'));
             
@@ -197,32 +152,50 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedDate = this.dataset.date;
             
             // Update the search bar date input
-            travelDateInput.value = selectedDate;
+            if (travelDateInput) {
+                travelDateInput.value = selectedDate;
+            }
             
-            fetch(`${URLROOT}/RegisteredPages/filterBusByDate?date=${selectedDate}`)
+            // Show loading indicator
+            const busCardContainer = document.getElementById('bus-card-container');
+            busCardContainer.innerHTML = '<div class="loading">Loading...</div>';
+            
+            // Use the correct controller based on user role
+            const controllerPath = userRole === 'GuestUser' ? 'GuestPages' : 'RegisteredPages';
+            
+            fetch(`${URLROOT}/${controllerPath}/filterBusByDate?date=${selectedDate}`)
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('bus-card-container').innerHTML = html;
                     console.log("Loaded new content for date:", selectedDate);
-
-                    // Reapply ratings to cards if needed
-                    if (typeof applyRatingsToCards === 'function') {
+                    
+                    // After loading the new HTML, reapply ratings and setup buttons with a slight delay
+                    setTimeout(function() {
                         applyRatingsToCards();
-                    }
-                    // Setup the show more button for the new content
-                    setupShowMoreButton();
+                        setupShowMoreButton();
+                    }, 100);
+                    
+                    // Remove processing class
+                    this.classList.remove('processing');
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    this.classList.remove('processing');
+                    busCardContainer.innerHTML = '<div class="error">An error occurred. Please try again.</div>';
+                });
         });
     });
     
     // Function to apply ratings to bus cards
     function applyRatingsToCards() {
         const busCards = document.querySelectorAll('.bus-card');
+        console.log("Applying ratings to", busCards.length, "cards");
         
         busCards.forEach(card => {
             // Extract the license ID from the card's onclick attribute
             const onclickAttr = card.getAttribute('onclick');
+            if (!onclickAttr) return;
+            
             const licenseIdMatch = onclickAttr.match(/Licenseid=([^&]+)/);
             
             if (licenseIdMatch && licenseIdMatch[1]) {
@@ -249,12 +222,39 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         starsHTML += `<span>${isNaN(parseFloat(rating)) ? rating : parseFloat(rating).toFixed(1)}</span>`;
                         ratingDiv.innerHTML = starsHTML;
+                        console.log("Applied rating", rating, "to bus", licenseId);
                     }
                 }
             }
         });
     }
+    
+    // Function to set up the "Show More" button
+    function setupShowMoreButton() {
+        const showMoreBtn = document.getElementById('show-more-btn');
+        
+        if (showMoreBtn) {
+            // Remove any existing event listeners (to prevent duplicates)
+            showMoreBtn.replaceWith(showMoreBtn.cloneNode(true));
+            
+            // Get the fresh reference
+            const freshBtn = document.getElementById('show-more-btn');
+            
+            freshBtn.addEventListener('click', function() {
+                // Show all additional cards
+                const hiddenCards = document.querySelectorAll('.hidden-card');
+                
+                hiddenCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+                
+                // Hide the "Show More" button
+                this.style.display = 'none';
+            });
+        }
+    }
 });
+
 </script>
     
 
