@@ -77,16 +77,9 @@ body {
         width:auto;
     }
 
-    .map-container {
-        width: 100% !important;
-        max-width: 80% !important;
-        margin: 10px 0 !important;
-        order: 3;
-    }
-
     /* Adjust booking form to full width */
-    .booking-form {
-        width: 100% !important;
+    .form {
+        width: 96% !important;
         padding: 15px !important;
         box-sizing: border-box;
     }    
@@ -126,17 +119,18 @@ body {
     position: relative;
 }
 
-.booking-form {
+.form {
     flex: 1;
+    margin-left: 36px;
     padding-left: 40px;
     padding-right: 45px;
     padding-top: 20px;
     background-color: #ffffff;
     border-radius: 8px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-    width: 710px;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 5px 20px rgba(0, 137, 123, 0.1);    
+    width: 680px;
 }
-
 
 @media (max-width: 768px) {
     .booking-section {

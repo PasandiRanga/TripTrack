@@ -132,7 +132,7 @@
                         <?php require APPROOT . '/views/inc/Components/busLayout/busInforAndReviews.php'; ?>
                     </div>
                     <!-- Booking form -->
-                    <div class="booking-form">
+                    <div class="form">
                         <?php require APPROOT . '/views/inc/Components/busLayout/bookingForm.php'; ?>
                     </div>
                 </div>
