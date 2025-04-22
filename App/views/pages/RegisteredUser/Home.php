@@ -123,12 +123,25 @@
         <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
 <script>
+// Replace the two separate script blocks with this single, optimized version
 document.addEventListener('DOMContentLoaded', function() {
+    var averageRatings = <?php echo json_encode($averageRatings); ?>;
     const dateItems = document.querySelectorAll('.date-item');
     const travelDateInput = document.getElementById('travelDate');
     
+    // Apply ratings initially when page loads
+    applyRatingsToCards();
+    
     dateItems.forEach(item => {
         item.addEventListener('click', function() {
+            // Prevent multiple rapid clicks
+            if (this.classList.contains('processing')) {
+                return;
+            }
+            
+            // Add processing class to prevent multiple clicks
+            this.classList.add('processing');
+            
             // Remove active class from all items
             dateItems.forEach(di => di.classList.remove('active'));
             
@@ -139,40 +152,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedDate = this.dataset.date;
             
             // Update the search bar date input
-            travelDateInput.value = selectedDate;
+            if (travelDateInput) {
+                travelDateInput.value = selectedDate;
+            }
             
-            fetch(`${URLROOT}/RegisteredPages/filterBusByDate?date=${selectedDate}`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('bus-card-container').innerHTML = html;
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    });
-});
-
-</script>
-
-<script>
-var averageRatings = <?php echo json_encode($averageRatings); ?>;
-
-document.addEventListener('DOMContentLoaded', function() {
-    const dateItems = document.querySelectorAll('.date-item');
-    const travelDateInput = document.getElementById('travelDate');
-    
-    dateItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Remove active class from all items
-            dateItems.forEach(di => di.classList.remove('active'));
-            
-            // Add active class to clicked item
-            this.classList.add('active');
-            
-            // Get the selected date
-            const selectedDate = this.dataset.date;
-            
-            // Update the search bar date input
-            travelDateInput.value = selectedDate;
+            // Show loading indicator
+            const busCardContainer = document.getElementById('bus-card-container');
+            busCardContainer.innerHTML = '<div class="loading">Loading...</div>';
             
             fetch(`${URLROOT}/RegisteredPages/filterBusByDate?date=${selectedDate}`)
                 .then(response => response.text())
@@ -180,19 +166,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('bus-card-container').innerHTML = html;
                     
                     // After loading the new HTML, reapply ratings
-                    applyRatingsToCards();
+                    setTimeout(applyRatingsToCards, 100);
+                    
+                    // Remove processing class
+                    this.classList.remove('processing');
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    this.classList.remove('processing');
+                });
         });
     });
     
     // Function to apply ratings to bus cards
     function applyRatingsToCards() {
         const busCards = document.querySelectorAll('.bus-card');
+        console.log("Applying ratings to", busCards.length, "cards");
         
         busCards.forEach(card => {
             // Extract the license ID from the card's onclick attribute
             const onclickAttr = card.getAttribute('onclick');
+            if (!onclickAttr) return;
+            
             const licenseIdMatch = onclickAttr.match(/Licenseid=([^&]+)/);
             
             if (licenseIdMatch && licenseIdMatch[1]) {
@@ -219,14 +214,31 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         starsHTML += `<span>${isNaN(parseFloat(rating)) ? rating : parseFloat(rating).toFixed(1)}</span>`;
                         ratingDiv.innerHTML = starsHTML;
+                        console.log("Applied rating", rating, "to bus", licenseId);
                     }
                 }
             }
         });
     }
-});
-</script>
     
+    // Handle show more button
+    const showMoreBtn = document.getElementById('show-more-btn');
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', function() {
+            // Show all additional cards
+            const hiddenCards = document.querySelectorAll('.hidden-card');
+            
+            hiddenCards.forEach(card => {
+                card.style.display = 'block';
+            });
+            
+            // Hide the "Show More" button
+            this.style.display = 'none';
+        });
+    }
+});
+
+</script>
 
 </body>
 </html>
