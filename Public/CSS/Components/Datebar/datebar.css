@@ -1,52 +1,53 @@
 .date-bar-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-    display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
 .date-scroll {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding: 10px 0;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 .date-scroll::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .date-item {
     min-width: 100px;
-    padding: 10px 15px;
+    padding: 10px;
     background: #ffffff;
     border-radius: 10px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: all 0.3s ease;
+    transition    : all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 137, 123, 0.25);
 }
 
 .date-item:hover {
-    background: #477b9c;
+  background:#00897b;
+  color: white;
 }
 
 .date-item.active {
-     background: linear-gradient(135deg, #43cea2, #185a9d);
-    color: white;
+background: linear-gradient(135deg, #00897b, #006064);
+  color: white;
 }
 
 .day-name {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
 .date-number {
-    font-size: 16px;
-    font-weight: 600;
+  font-size: 16px;
+  font-weight: 600;
 }

@@ -2,28 +2,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4;
+    background-color: #ffffffed;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 20px;
-    gap: 20px; /* Reduced from 40px */
+    gap: 20px;
     flex-wrap: wrap;
     font-family: poppins;
-    max-width: 1200px; /* Added max-width */
-    margin: 20px auto; /* Center the container */
+    max-width: 1200px;
+    margin: 20px auto;
 }
 
 .input-group {
     display: flex;
     align-items: center;
-    background-color: #fff;
+    background-color: #f2fffe;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #43cea2;
     flex: 1 1 200px;
-    min-width: 200px; /* Added minimum width */
-    max-width: 300px; /* Added maximum width */
+    min-width: 200px;
+    max-width: 300px;
 }
 
 .icon {
@@ -43,46 +42,63 @@
     min-width: 0;
 }
 
-/* .bus-card {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 10px;
-    padding: 20px;
-} */
-#closePopupButton,
-.search-button {
+#closePopupButton, .search-button {
     padding: 10px 20px;
-    background: linear-gradient(135deg, #43cea2, #185a9d);
+    background: linear-gradient(135deg, #00897b, #006064);
     border: none;
     color: white;
     font-size: 1.2em;
     border-radius: 6px;
     cursor: pointer;
-    height: 45px; /* Adjusted to match input group height */
+    height: 45px;
     min-width: 110px;
 }
 
 .search-button:hover {
-    background: linear-gradient(135deg, #185a9d, #43cea2)
+    background: linear-gradient(135deg,  #006064 ,#00897b);
 }
 
-.search-input,
-.search-input[type="date"],
-.search-input[type="time"] {
-    color: #4a5568;
+/* The overlay and popup styles */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
 }
 
-search-input::focused{
-    border-color: #43cea2;
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    z-index: 1000;
 }
 
-/* Updated media queries */
+.popup-content {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#closePopupButton {
+    margin-top: 10px;
+}
+
+/* Media queries */
 @media (max-width: 1024px) {
     .search-bar-container {
         padding: 15px;
         gap: 15px;
     }
-
+    
     .input-group {
         min-width: 180px;
         max-width: 250px;
@@ -95,13 +111,13 @@ search-input::focused{
         gap: 12px;
         margin: 15px;
     }
-
+    
     .input-group {
         min-width: 160px;
         max-width: 100%;
-        flex: 1 1 calc(50% - 12px); /* Two items per row */
+        flex: 1 1 calc(50% - 12px);
     }
-
+    
     .search-button {
         flex: 1 1 calc(50% - 12px);
         width: auto;
@@ -115,63 +131,18 @@ search-input::focused{
         gap: 10px;
         margin: 10px;
     }
-
+    
     .input-group {
-        flex: 1 1 100%; /* Full width on mobile */
+        flex: 1 1 100%;
         min-width: 100%;
     }
-
+    
     .search-button {
         flex: 1 1 100%;
         width: 100%;
-        height: 45px; /* Keeping consistent height */
     }
-
+    
     .search-input {
         font-size: 14px;
     }
-}
-
-/* The overlay background */
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark semi-transparent */
-    z-index: 999; /* Make sure it appears above other elements */
-}
-
-/* The popup styles */
-.popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* background-color: white; */
-    /* border: 1px solid #ccc; */
-    padding: 20px;
-    z-index: 1000; /* Make sure the popup is above the overlay */
-    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-}
-
-.popup-content {
-    text-align: center;
-}
-
-#closePopupButton {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#closePopupButton:hover {
-    background-color: #0056b3;
 }
