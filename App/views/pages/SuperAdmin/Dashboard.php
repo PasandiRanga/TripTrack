@@ -21,7 +21,7 @@
     <div class="grid-container">
         <header class="header">
 
-            <div class="header-left" id="menuIcon" onclick="openSidebar()">
+            <div class="header-right" id="menuIcon" onclick="openSidebar()">
                 <div class="sidebar-menu-icon">
                     <span class="material-icons-outlined">menu</span>
                 </div>
@@ -108,18 +108,18 @@
                             'Total Guest Bookings Income: <?php echo $data['guest_income']; ?>',
                             'Total Registered Bookings Income: <?php echo $data['registered_income']; ?>' )">
                     <div class="card-inner">
-                        <h3>Total Monthly Income</h3>
+                        <h3 class="card-title">Total Monthly Income</h3>
                         <span class="material-icons-outlined">local_atm</span>
                     </div>
-                    <h1><?php echo 'LKR ', $data['total_income']; ?></h1>
+                    <h1 class="card-value"><?php echo 'LKR ', $data['total_income']; ?></h1>
                 </div>
 
                 <div class="card" onclick="showPopup('Total Customers: <?php echo $data['total_customers']; ?>')">
                     <div class="card-inner">
-                        <h3>Customers</h3>
+                        <h3 class="card-title">Customers</h3>
                         <span class="material-icons-outlined">groups</span>
                     </div>
-                    <h1><?php echo $data['total_customers']; ?></h1>
+                    <h1 class="card-value"><?php echo $data['total_customers']; ?></h1>
                 </div>
 
                 <div class="card" onclick="showPopupBox3(
@@ -128,18 +128,18 @@
                             'Total Guest Bookings: <?php echo $data['total_guests']; ?>',
                             'Total Registered Bookings: <?php echo $data['total_registered']; ?>' )">
                     <div class="card-inner">
-                        <h3>Monthly Bookings</h3>
+                        <h3 class="card-title">Monthly Bookings</h3>
                         <span class="material-icons-outlined">book</span>
                     </div>
-                    <h1><?php echo $data['total_bookings']; ?></h1>
+                    <h1 class="card-value"><?php echo $data['total_bookings']; ?></h1>
                 </div>
 
                 <div class="card" onclick="showPopup('Completed Schedules: 56')">
                     <div class="card-inner">
-                        <h3>Completed Schedules</h3>
+                        <h3 class="card-title">Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
                     </div>
-                    <h1><?php echo '56'; // Example PHP dynamic content ?></h1>
+                    <h1 class="card-value"><?php echo '56'; // Example PHP dynamic content ?></h1>
                 </div>
             </div>
 

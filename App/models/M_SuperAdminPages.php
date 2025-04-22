@@ -994,15 +994,15 @@ public function getLast7DaysBookingCounts()
         ) AS date_series
         LEFT JOIN (
             SELECT DATE(booking_date) AS day, COUNT(*) AS count
-            FROM guestbooking
+            FROM pastguestbooking
             WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
             GROUP BY DATE(booking_date)
         ) AS gb ON gb.day = date_series.day
         LEFT JOIN (
-            SELECT DATE(booking_date) AS day, COUNT(*) AS count
-            FROM registeredbooking
+            SELECT DATE(Booking_date) AS day, COUNT(*) AS count
+            FROM pastregbooking
             WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
-            GROUP BY DATE(booking_date)
+            GROUP BY DATE(Booking_date)
         ) AS rb ON rb.day = date_series.day
         ORDER BY date_series.day ASC
     ");
