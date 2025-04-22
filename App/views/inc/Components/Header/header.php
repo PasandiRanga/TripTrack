@@ -29,7 +29,7 @@
                             if ($userRole === "RegisteredUser") {
                                 echo '<img src="' . URLROOT . '/public/images/logoname.png" alt="Trip Track Logo" class="header-logo">';
                             } else {
-                                echo "Trip Track";
+                                echo '<img src="' . URLROOT . '/public/images/logoname.png" alt="Trip Track Logo" class="header-logo">';
                             }?>
                         </li>
                         <li class="navbarContainer"><?php require APPROOT.'/views/inc/Components/NavBar/navbar.php'; ?></li>

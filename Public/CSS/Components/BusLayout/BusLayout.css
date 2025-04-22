@@ -13,30 +13,6 @@ body {
     width:100%;
 }
 
-.map-container {
-    grid-area: map;
-    width: 100%;
-    margin: 20px 0;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.map-container h3 {
-    text-align: center;
-    color: #43cea2;
-    margin-bottom: 20px;
-    font-size: 1.5em;
-}
-
-#map {
-    width: 100%;
-    height: 400px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
 @media screen and (max-width:1500px) {
     .all-container{
         width: auto !important;
@@ -101,16 +77,9 @@ body {
         width:auto;
     }
 
-    .map-container {
-        width: 100% !important;
-        max-width: 80% !important;
-        margin: 10px 0 !important;
-        order: 3;
-    }
-
     /* Adjust booking form to full width */
-    .booking-form {
-        width: 100% !important;
+    .form {
+        width: 96% !important;
         padding: 15px !important;
         box-sizing: border-box;
     }    
@@ -150,50 +119,39 @@ body {
     position: relative;
 }
 
-.booking-form {
+.form {
     flex: 1;
+    margin-left: 20px;
     padding-left: 40px;
     padding-right: 45px;
     padding-top: 20px;
     background-color: #ffffff;
     border-radius: 8px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-    width: 710px;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 5px 20px rgba(0, 137, 123, 0.1);    
+    width: 680px;
 }
 
+form:before{
+    content: "Select Your Seats";
+    position: absolute;
+    top: -110px;
+    /* left: 0.01px; */
+    background: #00897b;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 137, 123, 0.2);
+
+}
 
 @media (max-width: 768px) {
     .booking-section {
         flex-direction: column;
     }
-}
-
-.map-container {
-    width: 50%;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.map-container h3 {
-    text-align: center;
-    color: #43cea2;
-    margin-bottom: 20px;
-}
-
-#map {
-    width: 100%;
-    height: 400px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-#googleMap {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 4px;
 }
 
 h1 {

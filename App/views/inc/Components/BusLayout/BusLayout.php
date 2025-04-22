@@ -30,7 +30,6 @@
 
             // Retrieve the user role from the form submission or session
             $formUserRole = ($_SESSION['user_role'] ?? 'GuestUser');
-            echo("<script>console.log('User Role: $formUserRole');</script>");
 
             // Set zuserRole and currentController based on the form data or session
             if ($formUserRole === 'GuestUser') {
@@ -45,7 +44,6 @@
                 $currentController = 'GuestPages';
             }
 
-            // Pass data to the template
             $data['currentController'] = $currentController;
             $data['currentMethod'] = 'home';
             $data['userRole'] = $userRole;
@@ -55,8 +53,6 @@
             // Retrieve data from POST
             $License_id = $_GET['Licenseid'] ?? null;
             $scheduleId = $_GET['scheduleId'] ?? null;
-            echo "<script>console.log('Licenseid :', " . json_encode($License_id) . ");</script>";
-            echo "<script>console.log('Scheduleid :', " . json_encode($scheduleId) . ");</script>";
 
             // Find the selected bus and schedule to get booked seats
             $selectedBus = null;
@@ -69,7 +65,6 @@
             // Find the selected bus and schedule to get booked seats
             foreach ($scheduleData as $schedule) {
                 if ($schedule['scheduleId'] === $scheduleId) {
-                    echo "<script>console.log('Selected schedule:', " . json_encode($schedule) . ");</script>";
                     $bookedSeatsString = trim($schedule['bookedSeats']);
                     $bookedSeats = !empty($bookedSeatsString) ? 
                     array_map('trim', explode(',', $bookedSeatsString)) : [];
@@ -81,10 +76,7 @@
             foreach($busData as $bus) {
                 if ($bus['License_id'] === $License_id) {
                     $selectedBus = $bus;
-                    echo "<script>console.log('Selected bus:', " . json_encode($selectedBus) . ");</script>";
                     $busType = $bus['passengers'];
-                    echo "<script>console.log('bus type:', " . json_encode($busType) . ");</script>";
-                    echo "<script>console.log('BusType:', " . json_encode($busType) . ");</script>";
                     $leastPrice = $bus['priceperkm'];
                     break;
                 }
@@ -100,19 +92,10 @@
                 }
             }
 
-            // egt the respective seat layout
-            echo "<script>console.log('Seat Data:', " . json_encode($seatData) . ");</script>";
+            // get the respective seat layout
             foreach ($seatData as $layout) {
-                echo "<script>console.log('Seat type:', " . json_encode($layout) . ");</script>";
-                //echo "<script>console.log('Seat type 2:', " . json_encode($layout['seats']) . ");</script>";
-                echo "<script>console.log('bus type 1:', " . json_encode($busType) . ");</script>";
                 if($layout['seatType'] == $busType) {
-                    //echo "<script>console.log('bus type 2:', " . json_encode($busType) . ");</script>";
-                    //echo "<script>console.log('Seat type 3:', " . json_encode($layout['seats']) . ");</script>";
-                    echo "<script>console.log('Seat Type 2:', " . json_encode($layout['seatType']) . ");</script>";
-                    $busLayout = $layout['seats'];
-                    //echo "<script>console.log('Bus layout:', " . json_encode($busLayout) . ");</script>";
-                    echo "<script>console.log('BusLayout:', " . json_encode($busLayout) . ");</script>";
+                    $busLayout = $layout['seats']; 
                     break;
                 }
             }
@@ -142,10 +125,6 @@
                 <div class="seat-layout">
                     <?php require APPROOT . '/views/inc/Components/BusLayout/seatLayout.php'; ?>
                 </div>
-                
-                <!-- <div class="map-container">
-                    <?php require APPROOT . '/views/inc/Components/busLayout/map.php'; ?>
-                </div> -->
 
                 <div class="all-container"> 
                     <!-- Bus info and review -->
@@ -153,7 +132,7 @@
                         <?php require APPROOT . '/views/inc/Components/busLayout/busInforAndReviews.php'; ?>
                     </div>
                     <!-- Booking form -->
-                    <div class="booking-form">
+                    <div class="form">
                         <?php require APPROOT . '/views/inc/Components/busLayout/bookingForm.php'; ?>
                     </div>
                 </div>
@@ -170,7 +149,7 @@
                 </script>";
         ?>
 
-<script>
+<!-- <script>
     document.getElementById('from').addEventListener('change', function() {
         const from = this.value;
         const to = document.getElementById('to').value;
@@ -337,11 +316,10 @@
             checkoutButton.disabled = !(allFieldsFilled && seatsSelected && paymentSelected);
         }
     });
-
     
 </script>
-
-
+ -->
+<script src="<?php echo URLROOT; ?>/public/js/bookingForm.js?v=<?php echo time(); ?>"></script>
 
 </body>
 </html>
