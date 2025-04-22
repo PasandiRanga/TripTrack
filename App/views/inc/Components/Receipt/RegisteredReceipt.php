@@ -56,7 +56,7 @@
             var element = document.getElementById('receipt-content');
             html2pdf().from(element).save('Booking_Receipt.pdf');
             
-            downloadButton.style.display = 'inline-block';
+            downloadButton.style.display = 'block';
         }
 
     </script>

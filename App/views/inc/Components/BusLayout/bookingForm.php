@@ -390,10 +390,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     toSelect.addEventListener('change', function() {
         validateLocations();
-        // validateForm();
     });
 
-    numofseats.addEventListener('change', function() {
+    numofseats.addEventListener('input', function() {
         validateSeats();
     });
 
@@ -529,4 +528,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 });
+
+
+
 </script>
