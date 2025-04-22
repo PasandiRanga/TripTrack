@@ -129,6 +129,262 @@
     </div>
     </div>
     <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
+    <script>
+// Form Validation Script
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all form elements
+    const form = document.querySelector('form');
+    const nameInput = document.getElementById('name');
+    const numberInput = document.getElementById('number');
+    const nicInput = document.getElementById('nic');
+    const addressInput = document.getElementById('address');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm');
+    const termsCheckbox = document.getElementById('terms');
+    const registerButton = document.getElementById('Register');
+
+    // Ensure all error messages are initially hidden
+    document.querySelectorAll('.form-invalid').forEach(error => {
+        // First check if it's empty
+        if (!error.textContent.trim()) {
+            error.style.display = 'none';
+        }
+    });
+
+    // Disable the Register button initially
+    registerButton.disabled = true;
+    registerButton.style.opacity = '0.5';
+    registerButton.style.cursor = 'not-allowed';
+
+    // Error message elements
+    const createErrorElement = (inputId) => {
+        const errorId = `${inputId}_err`;
+        let errorElement = document.getElementById(errorId);
+        
+        if (!errorElement) {
+            errorElement = document.createElement('span');
+            errorElement.id = errorId;
+            errorElement.className = 'form-invalid';
+            const inputElement = document.getElementById(inputId);
+            inputElement.insertAdjacentElement('afterend', errorElement);
+        }
+        
+        return errorElement;
+    };
+
+    // Validation functions
+    const validateName = () => {
+        const namePattern = /^[A-Za-z\s]+$/;
+        const errorElement = createErrorElement('name');
+        
+        if (!nameInput.value.trim()) {
+            errorElement.textContent = 'Name is required';
+            errorElement.style.display = 'block';
+            return false;
+        } else if (!namePattern.test(nameInput.value)) {
+            errorElement.textContent = 'Name should only contain alphabetic characters';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    const validateNumber = () => {
+        const numberPattern = /^[0-9]{10}$/;
+        const errorElement = createErrorElement('number');
+        
+        if (!numberInput.value.trim()) {
+            errorElement.textContent = 'Contact number is required';
+            errorElement.style.display = 'block';
+            return false;
+        } else if (!numberPattern.test(numberInput.value)) {
+            errorElement.textContent = 'Contact number should be exactly 10 digits';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    const validateNIC = () => {
+        // Pattern for 9 digits followed by 'v' or 'V', or 12 digits
+        const nicPattern = /^([0-9]{9}[vV]|[0-9]{12})$/;
+        const errorElement = createErrorElement('nic');
+        
+        if (!nicInput.value.trim()) {
+            errorElement.textContent = 'NIC is required';
+            errorElement.style.display = 'block';
+            return false;
+        } else if (!nicPattern.test(nicInput.value)) {
+            errorElement.textContent = 'NIC should be 9 digits followed by v or 12 digits';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    const validateAddress = () => {
+        const errorElement = createErrorElement('address');
+        
+        if (!addressInput.value.trim()) {
+            errorElement.textContent = 'Address is required';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    const validateEmail = () => {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const errorElement = createErrorElement('email');
+        
+        if (!emailInput.value.trim()) {
+            errorElement.textContent = 'Email is required';
+            errorElement.style.display = 'block';
+            return false;
+        } else if (!emailPattern.test(emailInput.value)) {
+            errorElement.textContent = 'Please enter a valid email address';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    const validatePassword = () => {
+        // At least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const errorElement = createErrorElement('password');
+        
+        if (!passwordInput.value) {
+            errorElement.textContent = 'Password is required';
+            errorElement.style.display = 'block';
+            return false;
+        } else if (!passwordPattern.test(passwordInput.value)) {
+            errorElement.textContent = 'Password must be at least 8 characters with 1 uppercase, 1 lowercase, 1 number, and 1 special character';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    const validateConfirmPassword = () => {
+        const errorElement = createErrorElement('confirm');
+        
+        if (!confirmInput.value) {
+            errorElement.textContent = 'Confirm password is required';
+            errorElement.style.display = 'block';
+            return false;
+        } else if (confirmInput.value !== passwordInput.value) {
+            errorElement.textContent = 'Passwords do not match';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    const validateTerms = () => {
+        const errorElement = createErrorElement('terms');
+        
+        if (!termsCheckbox.checked) {
+            errorElement.textContent = 'You must agree to the Terms of Service';
+            errorElement.style.display = 'block';
+            return false;
+        } else {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+            return true;
+        }
+    };
+
+    // Validate all fields and enable/disable the Register button
+    const validateForm = () => {
+        const isNameValid = validateName();
+        const isNumberValid = validateNumber();
+        const isNICValid = validateNIC();
+        const isAddressValid = validateAddress();
+        const isEmailValid = validateEmail();
+        const isPasswordValid = validatePassword();
+        const isConfirmValid = validateConfirmPassword();
+        const isTermsChecked = validateTerms();
+
+        // If all validations pass, enable the Register button
+        if (isNameValid && isNumberValid && isNICValid && isAddressValid && 
+            isEmailValid && isPasswordValid && isConfirmValid && isTermsChecked) {
+            registerButton.disabled = false;
+            registerButton.style.opacity = '1';
+            registerButton.style.cursor = 'pointer';
+        } else {
+            registerButton.disabled = true;
+            registerButton.style.opacity = '0.5';
+            registerButton.style.cursor = 'not-allowed';
+        }
+    };
+
+    // Add event listeners to all input fields
+    nameInput.addEventListener('input', function() {
+        validateName();
+    });
+    
+    numberInput.addEventListener('input', function() {
+        validateNumber();
+    });
+    
+    nicInput.addEventListener('input', function() {
+        validateNIC();
+    });
+    
+    addressInput.addEventListener('input', function() {
+        validateAddress();
+    });
+    
+    emailInput.addEventListener('input', function() {
+        validateEmail();
+    });
+    
+    passwordInput.addEventListener('input', function() {
+        validatePassword();
+    });
+    
+    confirmInput.addEventListener('input', function() {
+        validateConfirmPassword();
+    });
+    
+    termsCheckbox.addEventListener('change', function() {
+        validateTerms();
+        validateForm();
+    });
+
+    // Prevent form submission if validation fails
+    form.addEventListener('submit', function(event) {
+        validateForm();
+        if (registerButton.disabled) {
+            event.preventDefault();
+        }
+    });
+});
+
+    </script>
 
 </body>
 </html>

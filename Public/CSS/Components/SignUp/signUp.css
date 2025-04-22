@@ -114,7 +114,7 @@ form {
 input[type="text"], input[type="password"], input[type="email"] {
     width: 100%;
     padding: 10px 15px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border: 1px solid #43cea2;
     border-radius: 5px;
     font-size: 1rem;
@@ -192,14 +192,20 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     color: #333;
 }
 
-/* Error Messages */
-.form-invalid {
-    color: #FF0000; /* Red color for error messages */
-    font-size: 0.875rem; /* Slightly smaller font size */
-    margin-top: 0px; /* Space between the input field and error message */
-    margin-bottom: 15px; /* Bottom margin to separate from the next form field */
-    display: block; /* Ensure error message is on its own line */
+.form-invalid:empty {
+    display: none;
 }
+
+/* Modify your existing form-invalid style */
+.form-invalid {
+    color: #FF0000;
+    font-size: 0.875rem;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+
 
 /* Placeholder for Profile Image */
 #placeholder {
@@ -508,9 +514,4 @@ p {
             text-decoration: underline;
         }
 
-        .form-invalid {
-            color: red;
-            font-size: 0.875rem;
-            margin-top: 5px;
-            display: block;
-        }
+        

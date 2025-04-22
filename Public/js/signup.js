@@ -71,12 +71,20 @@ const passwordField = document.querySelector("#password");
 const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
 const confirmPasswordField = document.querySelector("#confirm");
 
+// Initialize icons as fa-eye-slash (password hidden initially)
+togglePassword.classList.remove("fa-eye");
+togglePassword.classList.add("fa-eye-slash");
+
+toggleConfirmPassword.classList.remove("fa-eye");
+toggleConfirmPassword.classList.add("fa-eye-slash");
+
 togglePassword.addEventListener("click", () => {
     // Toggle password visibility
     const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
     passwordField.setAttribute("type", type);
-
-    // Toggle the icon
+    
+    // Toggle the icon - when showing password (text), use fa-eye
+    togglePassword.classList.toggle("fa-eye");
     togglePassword.classList.toggle("fa-eye-slash");
 });
 
@@ -84,10 +92,12 @@ toggleConfirmPassword.addEventListener("click", () => {
     // Toggle confirm password visibility
     const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
     confirmPasswordField.setAttribute("type", type);
-
-    // Toggle the icon
+    
+    // Toggle the icon - when showing password (text), use fa-eye
+    toggleConfirmPassword.classList.toggle("fa-eye");
     toggleConfirmPassword.classList.toggle("fa-eye-slash");
 });
+
 
 // OTP Related Functions
 function showConfirmBox() {
@@ -171,6 +181,8 @@ document.querySelector(".resend-otp a").addEventListener("click", function(e) {
         }
     });
 });
+
+
 
 /*
 // Profile image drag-and-drop

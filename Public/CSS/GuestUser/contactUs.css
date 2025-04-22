@@ -152,10 +152,10 @@ img.icon{
   resize: vertical;
 }
 
-.input-container label,
+/* .input-container label,
 .input-container span {
   display: none;
-}
+} */
 
 .invalid {
   color: #e74c3c;

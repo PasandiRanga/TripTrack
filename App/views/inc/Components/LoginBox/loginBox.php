@@ -1,4 +1,3 @@
-<!-- Update your login page to include the forgot password popup -->
 <!DOCTYPE html>
 <html>
 <head>

@@ -6,15 +6,6 @@
     include APPROOT . '/views/inc/Components/Button/button.php';
 ?>
 
-<script>
-    // Populate scheduleData and busData from PHP variables, assuming these are passed from the server.
-    /*
-    const scheduleData = <?php echo json_encode($scheduleData); ?>;
-    const busData = <?php echo json_encode($busData); ?>;
-    const routeData = <?php echo json_encode($routeData); ?>;
-    */
-</script>
-
 
 <div class="search-bar-container">
     <div class="input-group">
@@ -65,7 +56,7 @@
         <div class="icon"><i class="fas fa-calendar-alt"></i></div>
         <input type="date" class="search-input" id="travelDate" min="">
     </div>
-    <button class="search-button" id="searchButton">Search</button>
+    <button class="search-button" id="searchButton"  onclick="handleSearch()">Search</button>
 </div>
 
 <!-- <div id="bus-card-container"></div> Placeholder for bus cards -->
@@ -82,14 +73,13 @@
 
 <script>
     let storedBusData = ''; // Declare and initialize the variable to store bus card data
-    const URLROOT = "<?php echo URLROOT; ?>";
     // Set the date input field to today's date on page load
     document.addEventListener('DOMContentLoaded', function() {
         const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
         document.getElementById('travelDate').value = today;
     });
 
-    document.getElementById('searchButton').addEventListener('click', function () {
+    function handleSearch() {
         const from = document.getElementById('from').value;
         const to = document.getElementById('to').value;
         const travelDate = document.getElementById('travelDate').value;
@@ -148,7 +138,7 @@
             // Render the filtered schedules in the bus card container
             renderFilteredSchedules(filteredSchedules , busData);
         }
-    });
+    };
 
     function renderFilteredSchedules(filteredSchedules, busData) {
     const busCardContainer = document.getElementById('bus-card-container');
@@ -242,6 +232,8 @@
         busCardContainer.style.display = 'block';
         busCardContainer.style.display = 'flex';  
         busCardContainer.innerHTML = storedBusData;
+        updateDateBarSelection(selectedDate); // Reset to the original bus card data
+        renderFilteredSchedules(filteredSchedules, busData);
     });
 }
 
