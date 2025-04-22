@@ -55,9 +55,12 @@
 <body>
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
-    <h1>Fleet Management</h1>
+    
 
     <!-- Add button -->
+    <div class="box">
+    <h1>Fleet Management</h1>
+    
     <div class="add-button-container">
         <a href="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet">
             <button>Add Bus</button>
@@ -122,6 +125,7 @@
             ?>
         </tbody>
     </table>
+    </div>
     </div>
 
     <div class="popup-overlay" id="popupOverlay">

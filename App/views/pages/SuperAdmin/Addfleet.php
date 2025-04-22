@@ -26,65 +26,83 @@
 <body>
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/fleet'">Back</button>
+    <div class="box">
+        <h1><?php echo $isUpdate ? 'Update Bus Details' : 'Add New Bus'; ?></h1>
 
-    <h1><?php echo $isUpdate ? 'Update Bus Details' : 'Add New Bus'; ?></h1>
+        <!-- Fleet form -->
+        <form id="fleet-form" method="POST" action="<?php echo $isUpdate ? URLROOT . '/SuperAdminPages/updateBus' : URLROOT . '/SuperAdminPages/AddFleet'; ?>" class="form-group">
+            <?php
+                echo '<script>console.log(' . json_encode($data) . ');</script>';
+            ?>
 
-    <!-- Fleet form -->
-    <form id="fleet-form" method="POST" action="<?php echo $isUpdate ? URLROOT . '/SuperAdminPages/updateBus' : URLROOT . '/SuperAdminPages/AddFleet'; ?>" class="form-group">
-        <?php
-            echo '<script>console.log(' . json_encode($data) . ');</script>';
-        ?>
-        <!-- License ID -->
-        <label for="License_id">License ID:</label>
-        <input type="text" id="License_id" name="License_id" value="<?php echo $licenseId; ?>" <?php echo $isUpdate ? 'readonly' : 'required'; ?>>
+            <!-- License ID -->
+            <div class="form-group">
+                <label for="License_id">License ID:</label>
+                <input type="text" id="License_id" name="License_id" value="<?php echo $licenseId; ?>" <?php echo $isUpdate ? 'readonly' : 'required'; ?>>
+            </div>
 
-        <!-- Route Number -->
-        <label for="routeNumber">Route No:</label>
-        <select id="routeNumber" name="routeNumber" required>
-            <option value="">Select Route Number</option>
-            <?php if (!empty($data['route'])): foreach ($data['route'] as $route): ?>
-                <option value="<?php echo $route['routeNumber']; ?>"
-                        data-price="<?php echo htmlspecialchars($route['price']); ?>"
-                        data-priceperkm="<?php echo htmlspecialchars($route['priceperkm']); ?>"
-                        <?php echo $route['routeNumber'] == $routeNumber ? 'selected' : ''; ?>>
-                    <?php echo $route['routeNumber']; ?>
-                </option>
-            <?php endforeach; else: ?>
-                <option value="" disabled>No routes available</option>
-            <?php endif; ?>
-        </select>
+            <!-- Route Number -->
+            <div class="form-group">
+                <label for="routeNumber">Route No:</label>
+                <select id="routeNumber" name="routeNumber" required>
+                    <option value="">Select Route Number</option>
+                    <?php if (!empty($data['route'])): foreach ($data['route'] as $route): ?>
+                        <option value="<?php echo $route['routeNumber']; ?>"
+                                data-price="<?php echo htmlspecialchars($route['price']); ?>"
+                                data-priceperkm="<?php echo htmlspecialchars($route['priceperkm']); ?>"
+                                <?php echo $route['routeNumber'] == $routeNumber ? 'selected' : ''; ?>>
+                            <?php echo $route['routeNumber']; ?>
+                        </option>
+                    <?php endforeach; else: ?>
+                        <option value="" disabled>No routes available</option>
+                    <?php endif; ?>
+                </select>
+            </div>
 
-        <!-- Start Location -->
-        <label for="start_location">Starts:</label>
-        <input type="text" id="start_location" name="start_location" value="<?php echo $startLocation; ?>" required placeholder="e.g., Colombo">
+            <!-- Start Location -->
+            <div class="form-group">
+                <label for="start_location">Starts:</label>
+                <input type="text" id="start_location" name="start_location" value="<?php echo $startLocation; ?>" required placeholder="e.g., Colombo">
+            </div>
 
-        <!-- Destination -->
-        <label for="destination">Destination:</label>
-        <input type="text" id="destination" name="destination" value="<?php echo $destination; ?>" required placeholder="e.g., Kandy">
+            <!-- Destination -->
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" value="<?php echo $destination; ?>" required placeholder="e.g., Kandy">
+            </div>
 
-        <!-- Passengers -->
-        <label for="passengers">Passengers:</label>
-        <select id="passengers" name="passengers" class="passengers" required>
-            <option value="" disabled>Select capacity</option>
-            <option value="37" <?php echo $passengers == 37 ? 'selected' : ''; ?>>37</option>
-            <option value="45" <?php echo $passengers == 45 ? 'selected' : ''; ?>>45</option>
-            <option value="50" <?php echo $passengers == 50 ? 'selected' : ''; ?>>50</option>
-            <option value="51" <?php echo $passengers == 51 ? 'selected' : ''; ?>>51</option>
-        </select>
+            <!-- Passengers -->
+            <div class="form-group">
+                <label for="passengers">Passengers:</label>
+                <select id="passengers" name="passengers" class="passengers" required>
+                    <option value="" disabled>Select capacity</option>
+                    <option value="37" <?php echo $passengers == 37 ? 'selected' : ''; ?>>37</option>
+                    <option value="45" <?php echo $passengers == 45 ? 'selected' : ''; ?>>45</option>
+                    <option value="50" <?php echo $passengers == 50 ? 'selected' : ''; ?>>50</option>
+                    <option value="51" <?php echo $passengers == 51 ? 'selected' : ''; ?>>51</option>
+                </select>
+            </div>
 
-        <!-- Price -->
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" value="<?php echo $price; ?>" required readonly>
+            <!-- Price -->
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" value="<?php echo $price; ?>" required readonly>
+            </div>
 
-        <!-- Price per KM -->
-        <label for="priceperkm">Price per KM:</label>
-        <input type="number" id="priceperkm" name="priceperkm" value="<?php echo $pricePerKm; ?>" required readonly>
+            <!-- Price per KM -->
+            <div class="form-group">
+                <label for="priceperkm">Price per KM:</label>
+                <input type="number" id="priceperkm" name="priceperkm" value="<?php echo $pricePerKm; ?>" required readonly>
+            </div>
 
-        <!-- Submit and Clear buttons -->
-        <button class="button" type="submit"><?php echo $isUpdate ? 'Update Bus' : 'Add Bus'; ?></button>
-        <button class="button" type="button" onclick="clearForm()">Clear</button>
-    </form>
-
+            <!-- Submit and Clear buttons -->
+            <div class="button-container">
+                <button class="button" type="submit"><?php echo $isUpdate ? 'Update Bus' : 'Add Bus'; ?></button>
+                <button class="button" type="button" onclick="clearForm()">Clear</button>
+            </div>
+        </form>
+    </div>
+    <!-- Popup overlay -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box">
             <p id="popupMessage"></p>
@@ -93,6 +111,12 @@
     </div>
 
 <script>
+
+    function clearForm() {
+        document.getElementById('License_id').value = '';
+        document.getElementById('start_location').value = '';
+        document.getElementById('destination').value = '';
+    }
     // Show popup message
     function showPopup(message) {
         const popupOverlay = document.getElementById("popupOverlay");
@@ -170,10 +194,10 @@
                             window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
                         };
                     } else {
-                        alert("Error: " + data.message);
+                        showPopup("Error: " + data.message);
                     }
                 })
-                .catch(error => alert("An error occurred: " + error.message));
+                .catch(error => showPopup("An error occurred: " + error.message));
         });
     });
 
