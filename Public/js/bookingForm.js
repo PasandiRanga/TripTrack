@@ -31,6 +31,25 @@ document.addEventListener('DOMContentLoaded', function() {
         error.style.display = 'none';
     });
 
+    // Initialize the seat selection functionality
+    initializeSeatSelection();
+
+    // Initialize price displays to zero
+    const pricePerSeatElement = document.getElementById('pricePerSeat');
+    const totalPriceElement = document.getElementById('total-price');
+    const totalPriceInput = document.getElementById('totalPriceInput');
+    
+    // Set initial values if not already set
+    if (!pricePerSeatElement.textContent || pricePerSeatElement.textContent === '0') {
+        pricePerSeatElement.textContent = '0.00';
+    }
+    if (!totalPriceElement.textContent || totalPriceElement.textContent === '0') {
+        totalPriceElement.textContent = '0.00';
+    }
+    if (!totalPriceInput.value || totalPriceInput.value === '0') {
+        totalPriceInput.value = '0.00';
+    }
+
     // Function to show/hide error message
     function showError(inputElement, errorElement, message, isError) {
         if (isError) {
@@ -195,13 +214,16 @@ document.addEventListener('DOMContentLoaded', function() {
     emailInput.addEventListener('input', validateEmail);
     fromSelect.addEventListener('change', function() {
         validateLocations();
+        updatePrice(fromSelect.value, toSelect.value);
     });
     toSelect.addEventListener('change', function() {
         validateLocations();
+        updatePrice(fromSelect.value, toSelect.value);
     });
 
     numofseats.addEventListener('input', function() {
         validateSeats();
+        updatePrice(fromSelect.value, toSelect.value);
     });
 
     // Event listener for payment method selection
@@ -301,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         validateSeats() && 
                         validatePaymentMethod();
         
-        if (!isValid) {a
+        if (!isValid) {
             return false;
         }
 
@@ -314,20 +336,154 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Price updating function
-    window.updatePrice = function(from, to) {
+    // ADDED FROM BUSLAYOUT.PHP: Initialize seat selection functionality
+    function initializeSeatSelection() {
+        const numberButtons = document.querySelectorAll('.number-button:not(.booked)');
+        let selectedSeats = [];
+
+        // Load any pre-selected seats if available
+        if (selectedSeatsInput.value) {
+            selectedSeats = selectedSeatsInput.value.split(', ');
+            
+            // Highlight pre-selected seats
+            selectedSeats.forEach(seatNumber => {
+                const seatButton = Array.from(numberButtons).find(button => button.textContent === seatNumber);
+                if (seatButton) {
+                    seatButton.classList.add('selected');
+                }
+            });
+        }
+
+        // Add click event for seat selection
+        numberButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const seatNumber = this.textContent;
+                
+                if (this.classList.contains('selected')) {
+                    // Deselect seat
+                    this.classList.remove('selected');
+                    selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
+                } else {
+                    // Select seat
+                    this.classList.add('selected');
+                    selectedSeats.push(seatNumber);
+                }
+
+                // Update form inputs
+                selectedSeatsInput.value = selectedSeats.join(', ');
+                noOfSeatsInput.value = selectedSeats.length;
+
+                // Get current 'from' and 'to' values and recalculate price
+                const from = fromSelect.value;
+                const to = toSelect.value;
+                
+                // Only update price if both from and to are selected
+                if (from && to) {
+                    updatePrice(from, to);
+                }
+
+                // Validate form after seat selection changes
+                // validateForm();
+            });
+        });
+    }
+
+    // ADDED FROM BUSLAYOUT.PHP: Price calculation function
+    function updatePrice(from, to) {
+        if (!from || !to) return;
+        
+        // Check if selectedBus is available in the global scope
+        if (typeof selectedBus === 'undefined' || typeof distanceData === 'undefined' || typeof leastPrice === 'undefined') {
+            console.error('Required global variables are not defined.');
+            return;
+        }
+        
+        // Get the start location and destination from the selected bus
+        const startLocation = selectedBus.start_location;
+        const destination = selectedBus.destination;
+        const price = selectedBus.price;
+        let pricePerSeat = 0;
+
+        // From middle to destination
+        if (destination === to.trim() && startLocation !== from.trim()) {
+            // Full journey minus distance from start to boarding point
+            let totalDistance = 0;
+            let boardingDistance = 0;
+            
+            // Find total route distance
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === destination) {
+                    totalDistance = parseFloat(route.distance);
+                    break;
+                }
+            }
+            
+            // Find boarding point distance
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === from.trim()) {
+                    boardingDistance = parseFloat(route.distance);
+                    break;
+                }
+            }
+            
+            const finalDistance = totalDistance - boardingDistance;
+            pricePerSeat = leastPrice * finalDistance;
+            
+        // From start to destination
+        } else if (destination === to.trim() && startLocation === from.trim()) {
+            // Full journey price
+            pricePerSeat = price;
+        
+        // From middle to middle 
+        } else if (destination !== to.trim() && startLocation !== from.trim()) {
+            // Partial journey between two intermediate stops
+            let toDistance = 0;
+            let fromDistance = 0;
+            
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === to.trim()) {
+                    toDistance = parseFloat(route.distance);
+                }
+                if (route.start === startLocation && route.location.trim() === from.trim()) {
+                    fromDistance = parseFloat(route.distance);
+                }
+            }
+            
+            const finalDistance = toDistance - fromDistance;
+            pricePerSeat = leastPrice * finalDistance;
+        
+        // From start to middle
+        } else if (startLocation === from.trim() && destination !== to.trim()) {
+            // Journey from start to intermediate stop
+            for (const route of distanceData) {
+                if (route.start === startLocation && route.location.trim() === to.trim()) {
+                    const finalDistance = parseFloat(route.distance);
+                    pricePerSeat = leastPrice * finalDistance;
+                    break;
+                }
+            }
+        }
+
+        // Ensure price is not negative
+        pricePerSeat = Math.max(0, pricePerSeat);
+        
+        // Update display elements
         const pricePerSeatElement = document.getElementById('pricePerSeat');
         const totalPriceElement = document.getElementById('total-price');
-        const totalPriceInput = document.getElementById('totalPriceInput');
         const noOfSeats = parseInt(document.getElementById('noOfseats').value) || 0;
         
-        const pricePerSeat = parseFloat(pricePerSeatElement.textContent);
+        pricePerSeatElement.textContent = pricePerSeat.toFixed(2);
+        
+        // Add penalty fee if applicable
         const seatTotal = pricePerSeat * noOfSeats;
         const grandTotal = seatTotal + penaltyFee;
         
         totalPriceElement.textContent = grandTotal.toFixed(2);
         totalPriceInput.value = grandTotal.toFixed(2);
-    };
+    }
+
+    // Make updatePrice globally available
+    window.updatePrice = updatePrice;
 
     // Initialize price update if from and to are already selected
     const from = fromSelect.value;
@@ -336,4 +492,3 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePrice(from, to);
     }
 });
-

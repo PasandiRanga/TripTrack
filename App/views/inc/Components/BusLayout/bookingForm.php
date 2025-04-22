@@ -153,4 +153,3 @@
 </div>
 
 <!-- Include the external JavaScript file -->
-<script src="<?php echo URLROOT; ?>/public/js/bookingForm.js?v=<?php echo time(); ?>"></script>

@@ -262,7 +262,7 @@ select {
   color: var(--error-color);
   border: 2px solid var(--error-color);
   border-radius: 8px;
-  width: 120px;
+  width: 140;
   height: 40px;
   font-size: 16px;
   font-weight: 600;

@@ -149,7 +149,7 @@
                 </script>";
         ?>
 
-<script>
+<!-- <script>
     document.getElementById('from').addEventListener('change', function() {
         const from = this.value;
         const to = document.getElementById('to').value;
@@ -318,8 +318,8 @@
     });
     
 </script>
-
-
+ -->
+<script src="<?php echo URLROOT; ?>/public/js/bookingForm.js?v=<?php echo time(); ?>"></script>
 
 </body>
 </html>
