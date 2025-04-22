@@ -127,27 +127,27 @@ class M_SuperAdminPages {
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------
-    // Bookings (unchanged)
+    // Bookings
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 
     public function getGuestBookings() {
-        $this->db->query('SELECT * FROM guestbooking');
+        $this->db->query('SELECT * FROM guestbooking order by booking_date desc');
         return $this->db->resultSet();
     }
 
     public function getRegisterBookings() {
-        $this->db->query('SELECT * FROM registeredbooking');
+        $this->db->query('SELECT * FROM registeredbooking order by Booking_date desc');
         return $this->db->resultSet();
     }
 
     public function getCancelOnlineBookings() {
-        $this->db->query('SELECT * FROM cancelled_online_bookings');
+        $this->db->query('SELECT * FROM cancelled_online_bookings order by time_date desc');
         return $this->db->resultSet();
     }
 
     public function getCancelCashBookings() {
-        $this->db->query('SELECT * FROM cancelled_cash_bookings');
+        $this->db->query('SELECT * FROM cancelled_cash_bookings order by time_date desc');
         return $this->db->resultSet();
     }
 //------------------------------------------------------------------------------------------------------------------------------------

@@ -13,12 +13,13 @@
 <body>
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
-
+<div class="box-wrraper">
     <h1>Booking Records</h1>
 
     <br>
+    <div class='box'>
     <!-- Select box for filtering booking types -->
-    <div class="filter-container">
+    <div class="filter-box-container">
         <label for="bookingType">Select Booking Type:</label>
         <select id="bookingType" onchange="toggleBookingType()">
             <option value="guest">Guest User Bookings</option>
@@ -35,15 +36,15 @@
     </div>
 
 <!-- Filter checkboxes -->
-    <div class="filter-checkbox-container">
+    <div class="filter-container">
         <label><input type="checkbox" id="filterToday" class="filter-checkbox"> Today</label>
         <label><input type="checkbox" id="filterYesterday" class="filter-checkbox"> Yesterday</label>
         <label><input type="checkbox" id="filterThisWeek" class="filter-checkbox"> This Week</label>
         <label><input type="checkbox" id="filterThisMonth" class="filter-checkbox"> This Month</label>
     </div>
+    </div>
 
-    <!-- Booking tables -->
-    <div class="booking-table-container">
+<div class="booking-table-container">
     <table class="booking-table">
         <!-- Guest bookings table -->
         <thead id="guest-thead">
@@ -61,12 +62,11 @@
                 <th>Selected Seats</th>
                 <th>Total Price</th>
                 <th>Schedule ID</th>
-                
             </tr>
         </thead>
         <tbody id="guest-tbody">
             <?php foreach ($data['book'] as $booking): ?>
-                <tr>
+                <tr class="booking-row" onclick="toggleDetails(this)">
                     <td><?= $booking['id'] ?></td>
                     <td><?= $booking['booking_date'] ?></td>
                     <td><?= $booking['booking_time'] ?></td>
@@ -80,12 +80,25 @@
                     <td><?= $booking['selected_seats'] ?></td>
                     <td><?= $booking['total_price'] ?></td>
                     <td><?= $booking['schedule_id'] ?></td>
-                    
+                </tr>
+                <!-- Hidden row for additional details -->
+                <tr class="details-row" style="display:none;">
+                    <td colspan="13">
+                        <div class="additional-details">
+                            <p><strong>Selected Seats:</strong> <?= $booking['selected_seats'] ?></p>
+                            <p><strong>Total Price:</strong> <?= $booking['total_price'] ?></p>
+                            <p><strong>Schedule ID:</strong> <?= $booking['schedule_id'] ?></p>
+                        </div>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
+    </table>
+</div>
 
         <!-- Registered bookings table -->
+<div class="booking-table-container">
+    <table class="booking-table">
         <thead id="registered-thead">
             <tr>
                 <th>ID</th>
@@ -102,7 +115,7 @@
         </thead>
         <tbody id="registered-tbody">
             <?php foreach ($data['book1'] as $booking1): ?>
-                <tr>
+                <tr class="booking-row" onclick="toggleDetails(this)">
                     <td><?= $booking1['id'] ?></td>
                     <td><?= $booking1['booking_date'] ?></td>
                     <td><?= $booking1['booking_time'] ?></td>
@@ -114,10 +127,24 @@
                     <td><?= $booking1['to_location'] ?></td>
                     <td><?= $booking1['total_price'] ?></td>
                 </tr>
+                <!-- Hidden row for additional details -->
+                <tr class="details-row" style="display:none;">
+                    <td colspan="10">
+                        <div class="additional-details">
+                            <p><strong>Selected Seats:</strong> <?= $booking1['selected_seats'] ?></p>
+                            <p><strong>Total Price:</strong> <?= $booking1['total_price'] ?></p>
+                            <p><strong>Schedule ID:</strong> <?= $booking1['schedule_id'] ?></p>
+                        </div>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
+    </table>
+</div>
 
-        <!-- Cancelled online bookings table -->
+<!-- Cancelled online bookings table -->
+<div class="booking-table-container">
+    <table class="booking-table">
         <thead id="cancel-online-thead">
             <tr>
                 <th>ID</th>
@@ -135,7 +162,7 @@
         </thead>
         <tbody id="cancel-online-tbody">
             <?php foreach ($data['cancel_online_bookings'] as $cancel): ?>
-                <tr>
+                <tr class="booking-row" onclick="toggleDetails(this)">
                     <td><?= $cancel['id'] ?></td>
                     <td><?= $cancel['Booking_date'] ?></td>
                     <td><?= $cancel['Booking_time'] ?></td>
@@ -148,10 +175,24 @@
                     <td><?= $cancel['total_price'] ?></td>
                     <td><?= $cancel['time_date'] ?></td>
                 </tr>
+                <!-- Hidden row for additional details -->
+                <tr class="details-row" style="display:none;">
+                    <td colspan="11">
+                        <div class="additional-details">
+                            <p><strong>Seats:</strong> <?= $cancel['Seats'] ?></p>
+                            <p><strong>Total Price:</strong> <?= $cancel['total_price'] ?></p>
+                            <p><strong>Schedule ID:</strong> <?= $cancel['schedule_id'] ?></p>
+                        </div>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
+    </table>
+</div>
 
-        <!-- Cancelled cash bookings table -->
+<!-- Cancelled cash bookings table -->
+<div class="booking-table-container">
+    <table class="booking-table">
         <thead id="cancel-cash-thead">
             <tr>
                 <th>ID</th>
@@ -167,10 +208,9 @@
                 <th>Time and Date of Cancellation</th>
             </tr>
         </thead>
-
         <tbody id="cancel-cash-tbody">
             <?php foreach ($data['cancel_cash_bookings'] as $cancel): ?>
-                <tr>
+                <tr class="booking-row" onclick="toggleDetails(this)">
                     <td><?= $cancel['id'] ?></td>
                     <td><?= $cancel['Booking_date'] ?></td>
                     <td><?= $cancel['Booking_time'] ?></td>
@@ -183,11 +223,33 @@
                     <td><?= $cancel['total_price'] ?></td>
                     <td><?= $cancel['time_date'] ?></td>
                 </tr>
+                <!-- Hidden row for additional details -->
+                <tr class="details-row" style="display:none;">
+                    <td colspan="11">
+                        <div class="additional-details">
+                            <p><strong>Seats:</strong> <?= $cancel['Seats'] ?></p>
+                            <p><strong>Total Price:</strong> <?= $cancel['total_price'] ?></p>
+                            <p><strong>Schedule ID:</strong> <?= $cancel['schedule_id'] ?></p>
+                        </div>
+                    </td>
+                </tr>
             <?php endforeach; ?>
+        </tbody>
     </table>
-    </div>
-    
+</div>
+</div>
     <script>
+        function toggleDetails(row) {
+            // Find the next sibling of the clicked row (which is the hidden details row)
+            const detailsRow = row.nextElementSibling;
+            
+            // Toggle the visibility of the details row
+            if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
+                detailsRow.style.display = 'table-row';
+            } else {
+                detailsRow.style.display = 'none';
+            }
+        }
 
         function searchTable() {
             const searchValue = document.getElementById('searchBox').value.toLowerCase();
@@ -243,59 +305,36 @@
         }
 
 
-        function toggleBookingType() {
-            const bookingType = document.getElementById('bookingType').value;
+function toggleBookingType() {
+    const bookingType = document.getElementById('bookingType').value;
 
-            const guestThead = document.getElementById('guest-thead');
-            const guestTbody = document.getElementById('guest-tbody');
-            const registeredThead = document.getElementById('registered-thead');
-            const registeredTbody = document.getElementById('registered-tbody');
-            const cancelOnlineThead = document.getElementById('cancel-online-thead');
-            const cancelOnlineTbody = document.getElementById('cancel-online-tbody');
-            const cancelCashThead = document.getElementById('cancel-cash-thead');
-            const cancelCashTbody = document.getElementById('cancel-cash-tbody');
+    // Get all table containers (guest, registered, cancel online, and cancel cash)
+    const guestTable = document.querySelector('#guest-thead').closest('table').parentElement;
+    const registeredTable = document.querySelector('#registered-thead').closest('table').parentElement;
+    const cancelOnlineTable = document.querySelector('#cancel-online-thead').closest('table').parentElement;
+    const cancelCashTable = document.querySelector('#cancel-cash-thead').closest('table').parentElement;
 
-            if (bookingType === 'guest') {
-            guestThead.style.display = '';
-            guestTbody.style.display = '';
-            registeredThead.style.display = 'none';
-            registeredTbody.style.display = 'none';
-            cancelOnlineThead.style.display = 'none';
-            cancelOnlineTbody.style.display = 'none';
-            cancelCashThead.style.display = 'none';
-            cancelCashTbody.style.display = 'none';
-            } else if (bookingType === 'registered') {
-            guestThead.style.display = 'none';
-            guestTbody.style.display = 'none';
-            registeredThead.style.display = '';
-            registeredTbody.style.display = '';
-            cancelOnlineThead.style.display = 'none';
-            cancelOnlineTbody.style.display = 'none';
-            cancelCashThead.style.display = 'none';
-            cancelCashTbody.style.display = 'none';
-            } else if (bookingType === 'cancel_online') {
-            guestThead.style.display = 'none';
-            guestTbody.style.display = 'none';
-            registeredThead.style.display = 'none';
-            registeredTbody.style.display = 'none';
-            cancelOnlineThead.style.display = '';
-            cancelOnlineTbody.style.display = '';
-            cancelCashThead.style.display = 'none';
-            cancelCashTbody.style.display = 'none';
-            } else if (bookingType === 'cancel_cash') {
-            guestThead.style.display = 'none';
-            guestTbody.style.display = 'none';
-            registeredThead.style.display = 'none';
-            registeredTbody.style.display = 'none';
-            cancelOnlineThead.style.display = 'none';
-            cancelOnlineTbody.style.display = 'none';
-            cancelCashThead.style.display = '';
-            cancelCashTbody.style.display = '';
-            }
-        }
+    // Hide all tables by default
+    guestTable.style.display = 'none';
+    registeredTable.style.display = 'none';
+    cancelOnlineTable.style.display = 'none';
+    cancelCashTable.style.display = 'none';
 
-        // Set default visibility on load
-        toggleBookingType();
+    // Show the selected table based on the booking type
+    if (bookingType === 'guest') {
+        guestTable.style.display = '';
+    } else if (bookingType === 'registered') {
+        registeredTable.style.display = '';
+    } else if (bookingType === 'cancel_online') {
+        cancelOnlineTable.style.display = '';
+    } else if (bookingType === 'cancel_cash') {
+        cancelCashTable.style.display = '';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    toggleBookingType();  // Make sure the correct table is shown when the page loads
+});
     </script>
 </body>
 </html>
