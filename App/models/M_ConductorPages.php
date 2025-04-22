@@ -66,6 +66,66 @@
             return $this->db->single();
         }
 
+        public function getUpcomingSchedule($userId) {
+            //Get schedule IDs assigned to this user
+            $this->db->query("SELECT scheduleId FROM assign WHERE conductor_id = :userId OR driver_id = :userId");
+            $this->db->bind(':userId', $userId);
+            $scheduleIdRows = $this->db->resultSet();
+            $scheduleIds = array_column($scheduleIdRows, 'scheduleId');
+
+            if (empty($scheduleIds)) {
+                return [];
+            }
+
+            //Build placeholders and bind schedule IDs
+            $placeholders = implode(',', array_fill(0, count($scheduleIds), '?'));
+
+            //Query schedule + bus data via JOIN
+            $this->db->query("
+                SELECT s.scheduleId, s.License_id, s.date, s.departureTime, s.arrivalTime, s.availableSeats, s.bookedSeats, s.type, b.start_location, b.destination, b.routeNumber, b.price, b.priceperkm
+                FROM schedule s
+                JOIN bus b ON s.License_id = b.License_id
+                WHERE s.scheduleId IN ($placeholders)
+            ");
+
+            foreach ($scheduleIds as $index => $id) {
+                $this->db->bind($index + 1, $id); // Bind positionally: ? placeholders
+            }
+
+            //Fetch and return the joined data
+            return $this->db->resultSet();
+        }
+
+        public function getPastSchedule($userId) {
+            //Get schedule IDs assigned to this user
+            $this->db->query("SELECT scheduleId FROM assign WHERE conductor_id = :userId OR driver_id = :userId");
+            $this->db->bind(':userId', $userId);
+            $scheduleIdRows = $this->db->resultSet();
+            $scheduleIds = array_column($scheduleIdRows, 'scheduleId');
+
+            if (empty($scheduleIds)) {
+                return [];
+            }
+
+            //Build placeholders and bind schedule IDs
+            $placeholders = implode(',', array_fill(0, count($scheduleIds), '?'));
+
+            //Query schedule + bus data via JOIN
+            $this->db->query("
+                SELECT s.scheduleId, s.License_id, s.date, s.departureTime, s.arrivalTime, s.availableSeats, s.bookedSeats, s.type, b.start_location, b.destination, b.routeNumber, b.price, b.priceperkm
+                FROM past_schedules s
+                JOIN bus b ON s.License_id = b.License_id
+                WHERE s.scheduleId IN ($placeholders)
+            ");
+
+            foreach ($scheduleIds as $index => $id) {
+                $this->db->bind($index + 1, $id); // Bind positionally: ? placeholders
+            }
+
+            //Fetch and return the joined data
+            return $this->db->resultSet();
+        }
+
         public function findEmployeeById($userId){
             $this->db->query('SELECT * FROM employee WHERE employee_id=:userId');
 
