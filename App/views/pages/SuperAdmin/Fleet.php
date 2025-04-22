@@ -55,7 +55,6 @@
 <body>
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
-
     <h1>Fleet Management</h1>
 
     <!-- Add button -->
@@ -249,36 +248,36 @@
             .catch(() => alert('An error occurred while reloading data.'));
         }
 
-        // Update Table Function
-        // function updateTable(buses) {
-        //     const tableBody = document.getElementById("fleet-table-body");
-        //     tableBody.innerHTML = ''; // Clear the table before inserting new rows
+        //Update Table Function
+        function updateTable(buses) {
+            const tableBody = document.getElementById("fleet-table-body");
+            tableBody.innerHTML = ''; // Clear the table before inserting new rows
 
-        //     if (buses.length === 0) {
-        //     tableBody.innerHTML = '<tr><td colspan="14">No buses found.</td></tr>';
-        //     return;
-        //     }
+            if (buses.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="14">No buses found.</td></tr>';
+            return;
+            }
 
-        //     buses.forEach(bus => {
-        //     const row = document.createElement("tr");
-        //     row.innerHTML = `
-        //         <td>${bus.License_id}</td>
-        //         <td>${bus.routeNumber}</td>
-        //         <td>${bus.start_location}</td>
-        //         <td>${bus.destination}</td>
-        //         <td>${bus.passengers}</td>
-        //         <td>${bus.price}</td>
-        //         <td>${bus.priceperkm}</td>
-        //         <td>
-        //         <button class='update-button' onclick='updateBus("${bus.License_id}")'>Update</button>
-        //         </td>
-        //         <td>
-        //         <button class='delete-button' onclick='deleteBus("${bus.License_id}")'>Delete</button>
-        //         </td>
-        //     `;
-        //     tableBody.appendChild(row);
-        //     });
-        // }
+            buses.forEach(bus => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${bus.License_id}</td>
+                <td>${bus.routeNumber}</td>
+                <td>${bus.start_location}</td>
+                <td>${bus.destination}</td>
+                <td>${bus.passengers}</td>
+                <td>${bus.price}</td>
+                <td>${bus.priceperkm}</td>
+                <td>
+                <button class='update-button' onclick='updateBus("${bus.License_id}")'>Update</button>
+                </td>
+                <td>
+                <button class='delete-button' onclick='deleteBus("${bus.License_id}")'>Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+            });
+        }
 
         function updateBus(License_id) {
 
