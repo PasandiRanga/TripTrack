@@ -49,7 +49,7 @@
         console.log("Profile Data:", profileData);
     </script>
 
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/newhome'">Back</button>
 
     <div class="page-header">
         <h1>Employee Profile</h1>

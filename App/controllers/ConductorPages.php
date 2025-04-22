@@ -331,6 +331,19 @@
         //     $this->view('pages/Conductor/ViewDelays', $data);
         // }
 
+        public function newHome() {
+            $upcomingschedule = $this->ConductorpagesModel->getUpcomingSchedule($_SESSION['user_id']);
+            $pastschedule = $this->ConductorpagesModel->getPastSchedule($_SESSION['user_id']);
+
+            $data = [
+                'upcomingSchedule' => $upcomingschedule,
+                'pastSchedule' => $pastschedule
+            ];
+            echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
+
+            $this->view('pages/Conductor/newHome' , $data);
+        }
+
         public function updateLeaveRequests() {
 
             $leave_id = filter_input(INPUT_GET, 'leave_id', FILTER_SANITIZE_STRING);

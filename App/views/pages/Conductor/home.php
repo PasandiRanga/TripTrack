@@ -1,12 +1,11 @@
-
 <?php
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Conductor' , 'Driver']);
 
     // Get current date
     $currentDate = date('Y-m-d');
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
