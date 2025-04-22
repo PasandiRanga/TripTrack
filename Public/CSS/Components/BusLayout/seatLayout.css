@@ -82,7 +82,7 @@
 .number-button:hover {
     transform: scale(1.1);
     cursor: pointer;
-    background-color: rgba(0, 85, 105, 0.5);
+    background-color: #006064;
 }
 
 .number-button.booked {
@@ -116,7 +116,7 @@
     /* Hover effects for available seats */
     .number-button:not(.booked):hover {
         transform: scale(1.1);
-        border: 2px solid #007bff;
+        border: 2px solid #006064;
     }
 
 
