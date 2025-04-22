@@ -29,8 +29,8 @@ html, body {
     overflow: hidden;
     flex-shrink: 0;
     height: 25px;
-    width: 165px;
-    margin-top: 2px;
+    width: 160px;
+    margin-top: 5px;
 }
 
 .navbarContainer {
@@ -107,14 +107,14 @@ li {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
+    height: 100vh; /* Full screen height */
+    background: rgba(0, 0, 0, 0.7);  /* Dark background */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     transition: opacity 0.3s ease;
-    overflow: hidden;
+    overflow: hidden; /* Prevent overflow outside the overlay */
 }
 
 .hidden {
@@ -124,14 +124,14 @@ li {
 .signInBoxContent {
     background-color: #fff;
     width: auto;
-    height: auto;
+    height: auto; /* Ensure the height is dynamic */
     padding: 20px;
     box-sizing: border-box;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    max-height: 100vh;
-    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional box shadow */
+    position: relative;  /* This ensures the close button is positioned relative to this box */
+    max-height: 100vh; /*Set a max height for the container (80% of viewport height)*/
+    overflow-y: auto;/* Enables vertical scrolling when content overflows*/
 }
 
 .close-btn {
