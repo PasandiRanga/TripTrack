@@ -100,7 +100,7 @@
             <?php
             if (isset($data['bus']) && is_array($data['bus'])) {
                 foreach ($data['bus'] as $bus) {
-                    echo "<tr>";
+                    echo "<tr class='selected'>";
                     echo "<td>{$bus['License_id']}</td>";
                     echo "<td>{$bus['routeNumber']}</td>";
                     //echo "<td>{$bus['route']}</td>";
@@ -220,13 +220,13 @@
                 if (data.status === 'success' && data.data) {
                     const count = data.data.length;
 
-                    alert(`Total Buses found: ${count}`);
+                    showPopup(`Total Buses found: ${count}`);
                     updateTable(data.data);
                 } else {
-                    alert('No matching buses found.');
+                    showPopup('No matching buses found.');
                 }
             })
-            .catch(() => alert('An error occurred while searching.'));
+            .catch(() => showPopup('An error occurred while searching.'));
         }
 
         // Clear Search Function

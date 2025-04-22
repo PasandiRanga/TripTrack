@@ -21,104 +21,258 @@ body {
 
 h1 {
     text-align: center;
+    color: #263043;
+    font-size: 32px;
+    margin-top: 20px;
 }
 
+/* Search Container */
 .search-container {
-    margin: 20px;
+    margin: 30px auto;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
+    align-items: center;
 }
 
+/* Search Input */
 .search-input {
+    padding: 10px 15px;
+    width: 250px;
     border-radius: 5px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .search-input:focus {
     outline: none;
-    border-color: black; /* Highlight on focus */
-    box-shadow: 0 0 5px rgba(6, 57, 70, 0.5);
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
 }
 
-.search-container .search-button{
-    background-color: #007bff;
-    border-radius: 4px;
-    color: white;
+/* Search Button */
+.search-button, .search-button-clear {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
 }
-.search-container .search-button-clear{
+
+.search-button {
     background-color: #007bff;
-    border-radius: 4px;
     color: white;
-    cursor: pointer;
 }
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.search-button-clear {
+    background-color: #f44336;
+    color: white;
+}
+
+.search-button-clear:hover {
+    background-color: #d32f2f;
+}
+
+/* Input Style */
 .search-container input {
-    padding: 8px;
-    width: 200px;
+    padding: 10px;
+    width: 250px;
+    font-size: 16px;
 }
 
-.fleet-table-container{
-    margin: 20px auto;
-    width: 90%;
-    border-radius: 10px; /* Rounds the corners */
-    overflow: hidden; /* Ensures corners stay rounded */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
-    background-color: white; /* Ensures a consistent background */
+/* Container for the table */
+.fleet-table-container {
+    margin: 30px auto;
+    width: 95%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Softer, more subtle shadow */
+    background-color: white;
+    padding: 20px; /* Added padding for better spacing around the table */
+    transition: box-shadow 0.3s ease; /* Added smooth transition for hover effect */
 }
 
+/* Fleet Table Styling */
 .fleet-table {
     width: 100%;
-    border-collapse: separate; /* Necessary for border-radius to apply */
-    border-spacing: 0; /* Removes any gaps between cells */
-}
-
-.fleet-table td {
-    padding: 12px;
-    text-align: left;
-    height: auto;
-    max-width: 300px;
+    border-collapse: collapse; /* Collapse borders for more compact look */
 }
 
 .fleet-table th {
     background-color: #007bff;
     color: white;
     border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px; /* Added slight letter spacing for readability */
+}
+
+.fleet-table td {
     padding: 12px;
     text-align: left;
+    font-size: 14px;
+    color: #555; /* Softer text color for better readability */
+    max-width: 300px;
+    word-wrap: break-word; /* Prevents long text from breaking the layout */
 }
-.fleet-table tr.expand{
-    height: auto;
-}
+
 .fleet-table tr.selected {
-    background-color: #d3d3d3; /* Light grey color */
+    background-color: #e7e7e7; /* Slightly darker grey for selected row */
 }
-.fleet-table tr.hover {
+
+.fleet-table tr:hover {
+    background-color: #f1f1f1; /* Subtle hover effect */
     cursor: pointer;
-    background-color: #f1f1f1;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
 }
+
+/* Action Buttons Container */
 .action-buttons {
     display: flex;
-    border-radius: 4px;
-    justify-content: right;
-    gap: 10px;
-    margin: 20px;
-}
-
-.add-button-container{
-    margin: 20px auto; /* Centers the button horizontally */
-    width: 90%; /* Matches the table's width */
-    display: flex;
     justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
 }
 
+/* Action Button Styling */
 .action-buttons button {
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 12px 25px;
+    border-radius: 6px;
     background-color: #007bff;
     color: white;
     border: none;
+    font-size: 14px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Adds slight "lift" on hover for better feedback */
+}
+
+.action-buttons button:active {
+    transform: translateY(1px); /* Slightly pushes the button down on click */
+}
+
+/* Button for adding new items */
+.add-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.add-button-container button {
+    padding: 12px 30px;
+    background-color: #28a745; /* Green for positive actions */
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-button-container button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.add-button-container button:active {
+    transform: translateY(1px);
+}
+
+/* Ensure the table is responsive on smaller screens */
+@media screen and (max-width: 768px) {
+    .fleet-table-container {
+        width: 100%; /* Make the container full width on mobile */
+        padding: 10px; /* Add some padding for better layout */
+    }
+
+    .fleet-table {
+        width: 100%;
+        border: none; /* Remove borders */
+        border-collapse: collapse;
+        overflow-x: auto; /* Allow horizontal scrolling */
+        display: block; /* Make table block for scrolling */
+    }
+
+    .fleet-table th, .fleet-table td {
+        font-size: 14px; /* Reduce font size for better readability */
+        padding: 10px; /* Add padding for easier touch interaction */
+    }
+
+    /* Make table headers more readable */
+    .fleet-table th {
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+    }
+
+    /* Add horizontal scrolling for the table */
+    .fleet-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Row hover effect for mobile */
+    .fleet-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Action buttons for mobile */
+    .action-buttons button {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}
+
+/* For Extra small screens (<= 576px) */
+@media screen and (max-width: 576px) {
+    /* Stack table rows vertically (convert to cards) */
+    .fleet-table {
+        display: block; /* Turn table into a block */
+    }
+
+    .fleet-table td {
+        display: block; /* Make each cell a block on small screens */
+        width: 100%; /* Make cells take full width */
+        text-align: right; /* Align text to the right for labels */
+        border-bottom: 1px solid #ddd; /* Add a border for separation */
+        padding: 10px 0;
+    }
+
+    .fleet-table th {
+        display: none; /* Hide headers since it's converted to cards */
+    }
+
+    .fleet-table td:before {
+        content: attr(data-label); /* Use a custom attribute for labels */
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #007bff;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Action buttons styling for mobile */
+    .action-buttons button {
+        width: 100%; /* Make action buttons full width */
+        margin-top: 10px;
+    }
+
+    .fleet-table-container {
+        padding: 5px; /* Reduce padding */
+    }
 }
 
 /* Popup box styles */
