@@ -1,17 +1,11 @@
-/* navbar.css */
+/* Optimized navbar.css */
 .navbar {
     display: flex;
     align-items: center;
-    /* background-color: #064060; */
-    padding: 5px 5px;
-    /* border-radius: 50px; */
+    padding: 5px;
     position: relative;
     z-index: 10;
-    /* margin-top: 10px; */
     width: fit-content;
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-    /* margin-left: 50px; */
-    
 }
 
 .navbar #navbar-container {
@@ -19,7 +13,6 @@
     align-items: center;
     width: fit-content;
     justify-content: space-between;
-
 }
 
 .navbar #navbar-items {
@@ -27,7 +20,6 @@
     align-items: center;
     white-space: nowrap;
     width: auto;
-    flex-shrink: 0;
 }
 
 .navbar .navbar-item {
@@ -38,46 +30,32 @@
     margin: 0 5px;
     border-radius: 50px;
     transition: background-color 0.3s ease, color 0.3s ease;
-    color: #185a9d;
+    color: #006064;
     text-decoration: none;
     font-family: poppins;
     font-size: 18px;
     font-weight: bold;
-    flex-shrink: 0;
 }
 
 .navbar .navbar-item .text {
-  
     margin-left: 5px;
 }
 
 .navbar .navbar-item.selected {
     background-color: #f0f0f0;
-    color: #185a9d;
-    font-weight: bold;
+    color: #006064;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-.navbar .navbar-item.selected .text {
-    display: inline-block !important; /* Show text only when item is selected */
 }
 
 .navbar .navbar-item:hover {
     background-color: #acd1db;
-    color: #185a9d;
-}
-
-.navbar .navbar-item i {
-    width: 24px;
-    height: 24px;
-    margin-right: 5px;
 }
 
 .navbar .navbar-toggle {
     display: none;
     background: none;
     border: none;
-    color: #185a9d;
+    color: #006064;
     font-size: 30px;
     cursor: pointer;
     margin-left: auto;
@@ -100,11 +78,11 @@
         width: 100%;
         padding: 0;
     }
-
+    
     #navbar-container {
         width: 100%;
     }
-
+    
     #navbar-items {
         display: none !important;
         width: 100%;
@@ -116,14 +94,13 @@
         right: 0;
         z-index: 1000;
     }
-
+    
     #navbar-items.active {
         display: flex !important;
         flex-direction: column;
         animation: slideDown 0.3s ease;
     }
-
-    /* Override desktop navbar-item styles for mobile */
+    
     .navbar .navbar-item {
         width: 80%;
         padding: 12px 20px;
@@ -131,37 +108,33 @@
         border-radius: 0;
         text-align: left;
         justify-content: flex-start;
-        color: #185a9d;
-        background: none;
-        box-shadow: none;
     }
-
+    
     .navbar .navbar-item:hover {
         background-color: #f0f0f0;
     }
-
+    
     .navbar .navbar-item.selected {
         background-color: #f0f0f0;
         box-shadow: none;
     }
-
+    
     .navbar .navbar-item .text {
         display: inline-block !important;
         margin-left: 10px;
     }
-
+    
     .navbar-toggle {
         display: block !important;
     }
-
-    /* Mobile-specific notification and profile styles */
+    
     .mobile-only {
         display: block;
         border-top: 1px solid #eee;
         margin-top: 10px;
         padding-top: 10px;
     }
-
+    
     .notifications-item .badge {
         background: #f00;
         padding: 2px 6px;

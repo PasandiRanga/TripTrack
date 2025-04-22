@@ -447,9 +447,8 @@
         public function createBooking($bookingData) {
             $this->db->query("SELECT * FROM RegisteredBooking WHERE User_id = :userId AND selected_seats = :selectedSeats");
             $this->db->bind(':userId', $bookingData['User_id']);
-            $selectedSeats = is_array($bookingData['selectedSeats']) ? $bookingData['selectedSeats'] : explode(',', $bookingData['selectedSeats']);
-            $this->db->bind(':selectedSeats', implode(',', $selectedSeats));
-            $existingBooking = $this->db->resultSet();
+            $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
+            $existingBooking = $this->db->single();
 
 
             $this->db->query("SELECT * FROM schedule WHERE scheduleId = :scheduleId");
@@ -457,7 +456,7 @@
             $schedule = $this->db->single();
             
             if ($existingBooking) {
-                exit(); 
+                return;
             }else{
                 date_default_timezone_set('Asia/Colombo');
                 $currentDate = date('Y-m-d'); 

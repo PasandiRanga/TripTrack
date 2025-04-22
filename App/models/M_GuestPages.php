@@ -158,13 +158,18 @@
 
         //Insert guest booking data
         public function createBooking($bookingData) {
-            $this->db->query("SELECT * FROM GuestBooking WHERE schedule_id = :scheduleId AND selected_seats = :selectedSeats");
+            $this->db->query("SELECT * FROM guestbooking WHERE schedule_id = :scheduleId AND selected_seats = :selectedSeats");
             $this->db->bind(':scheduleId', $bookingData['scheduleId']);
-            $this->db->bind(':selectedSeats', is_array($bookingData['selectedSeats']) 
-                ? implode(',', $bookingData['selectedSeats']) 
-                : $bookingData['selectedSeats']);
+            echo '<script>console.log(' .json_encode($bookingData['selectedSeats']) . ');</script>';
+            echo '<script>console.log(' .json_encode($bookingData['selectedSeatsJSON']) . ');</script>';
+            $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
 
             $existingBooking = $this->db->single();
+
+            // Check if a booking already exists with the same scheduleId and selectedSeats
+            // If it does, do not insert a new booking
+            echo '<script>console.log(' .json_encode($existingBooking) . ');</script>';
+          
 
             if ($existingBooking) {
                 return; // Do not insert duplicate booking
@@ -176,7 +181,7 @@
 
 
 
-            $this->db->query("INSERT INTO GuestBooking (name, email, contact, nic, from_location, to_location, 
+            $this->db->query("INSERT INTO guestbooking (name, email, contact, nic, from_location, to_location, 
                                 number_of_seats, selected_seats, total_price, paymentMethod, schedule_id, booking_date, booking_time)
                             VALUES (:name, :email, :contact, :nic, :fromLocation, :toLocation, 
                                 :noOfSeats, :selectedSeats, :totalPrice, :paymentMethod, :scheduleId, :bookingDate, :bookingTime)");

@@ -6,14 +6,13 @@
     include APPROOT . '/views/inc/Components/Button/button.php';
 ?>
 
-
 <div class="search-bar-container">
     <div class="input-group">
         <div class="icon"><i class="fas fa-bus"></i></div>
         <select class="search-input" id="from">
             <option value="" disabled selected>From</option>
             <?php
-                // Extract unique locations from routeData stops
+                // Extracting unique locations from routeData stops
                 $allStops = [];
                 foreach ($routeData as $route) {
                     // Handle stops
@@ -22,7 +21,7 @@
                         $allStops = array_merge($allStops, $stops);
                     }
                     
-                    // Handle from-to locations
+                    // get the from-to locations
                     if (!empty($route['route'])) {
                         $routeEndpoints = array_map('trim', explode('-', $route['route']));
                         $allStops = array_merge($allStops, $routeEndpoints);
@@ -59,8 +58,6 @@
     <button class="search-button" id="searchButton"  onclick="handleSearch()">Search</button>
 </div>
 
-<!-- <div id="bus-card-container"></div> Placeholder for bus cards -->
-
 <div id="overlay" class="overlay"></div>
 
 <!-- Popup for no schedules found -->
@@ -72,10 +69,10 @@
 </div>
 
 <script>
-    let storedBusData = ''; // Declare and initialize the variable to store bus card data
+    let storedBusData = ''; 
     // Set the date input field to today's date on page load
     document.addEventListener('DOMContentLoaded', function() {
-        const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        const today = new Date().toISOString().split('T')[0]; 
         document.getElementById('travelDate').value = today;
     });
 
@@ -88,12 +85,12 @@
         // Update date bar selection when searching
         updateDateBarSelection(travelDate);
 
-        // First filter routes that contain both 'from' and 'to' stops
+        // Filter routes that contain both 'from' and 'to' stops
         const filteredRoutes = routeData.filter(route => {
             if (route.stops) {
                 // Get stops from the stops field
                 const stopsArray = route.stops.split(',').map(stop => stop.trim());
-                
+    
                 // Get endpoints from the route field
                 const routeEndpoints = route.route ? route.route.split('-').map(stop => stop.trim()) : [];
                 

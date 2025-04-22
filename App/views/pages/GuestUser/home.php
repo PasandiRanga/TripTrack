@@ -26,7 +26,6 @@
 
     <?php
     $userId = $_SESSION['user_id'] ?? '';
-    // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
@@ -42,32 +41,20 @@
         var userRole = <?php echo json_encode($userRole); ?>;
         var routeData = <?php echo json_encode($routeData); ?>;
         var averageRatings = <?php echo json_encode($averageRatings); ?>;
-        console.log("Schedule Data: ", scheduleData);
-        console.log("Bus Data: ", busData);
-        console.log("User ID: ", userId);
-        console.log("User Role: ", userRole);  
-        console.log("Route Data: ", routeData);
-        console.log("Average ratings: ",averageRatings);
     </script>
 
-<?php
-   
-    $headerData = [
-        'showPopup' => $data['show_pop'] ?? false,
-        'email' => $data['email'] ?? '',
-        'password_err' => $data['password_err'] ?? '',
-        'email_err' => $data['email_err'] ?? ''
-    ];
-
-    $data = [
-        'currentController' => 'GuestPages', // Adjust this based on your controller
-        'currentMethod' => 'home', // Adjust this based on the method
-        'userRole' => $userRole,
-    ];
-
-    // echo '<pre>' . print_r($headerData,true) . '</pre>';
-
-    
+    <?php
+        $headerData = [
+            'showPopup' => $data['show_pop'] ?? false,
+            'email' => $data['email'] ?? '',
+            'password_err' => $data['password_err'] ?? '',
+            'email_err' => $data['email_err'] ?? ''
+        ];
+        $data = [
+            'currentController' => 'GuestPages', 
+            'currentMethod' => 'home', 
+            'userRole' => $userRole,
+        ];  
     ?>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -120,7 +107,7 @@
         <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
 <script>
-// Replace the two script blocks with this unified solution
+
 document.addEventListener('DOMContentLoaded', function() {
     var averageRatings = <?php echo json_encode($averageRatings); ?>;
     const dateItems = document.querySelectorAll('.date-item');
