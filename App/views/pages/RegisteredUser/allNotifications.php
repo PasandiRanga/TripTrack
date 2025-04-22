@@ -62,10 +62,6 @@
     </div>
     
     <div class="notification-filters">
-        <div class="notification-search">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="notification-search" placeholder="      Search notifications...">
-        </div>
         <div class="filter-buttons">
             <button id="filter-all" class="active">All</button>
             <button id="filter-unread">Unread</button>
@@ -173,7 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterUnread = document.getElementById('filter-unread');
     const filterRead = document.getElementById('filter-read');
     const markAllRead = document.getElementById('mark-all-read');
-    const searchInput = document.getElementById('notification-search');
     const notificationItems = document.querySelectorAll('.notifi-items');
     
     // Set active filter button
@@ -186,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Filter notifications
     function filterNotifications() {
-        const searchText = searchInput.value.toLowerCase();
         const activeFilter = document.querySelector('.filter-buttons button.active').id;
         
         notificationItems.forEach(item => {
@@ -194,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const content = item.querySelector('.notification-contents p').textContent.toLowerCase();
             const isRead = item.classList.contains('read');
             
-            const matchesSearch = title.includes(searchText) || content.includes(searchText);
             let matchesFilter = true;
             
             if (activeFilter === 'filter-unread') {
@@ -203,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 matchesFilter = isRead;
             }
             
-            if (matchesSearch && matchesFilter) {
+            if (matchesFilter) {
                 item.style.display = 'block';
             } else {
                 item.style.display = 'none';
@@ -448,8 +441,6 @@ document.addEventListener('DOMContentLoaded', function() {
         filterNotifications();
     });
     
-    // Add event listener to search input
-    searchInput.addEventListener('input', filterNotifications);
     
     // Apply initial filtering
     filterNotifications();
