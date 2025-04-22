@@ -1,180 +1,251 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 body {
-  font-family: "Poppins", sans-serif;
-  background: url("<?php echo URLROOT; ?>/public/images/bg1.png") no-repeat center center/cover;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background-color: #d8f8ee;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .hero-container {
-  background: linear-gradient(to bottom right, #d1f1ea, #e4f9f2);
-  /* padding-top: 100px; */
-  padding-bottom: 100px;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #d8f8ee;
 }
 
 .Contactcontainer {
-  margin: 0 auto;
-  width: 90%;
-  max-width: 1100px;
-  background: #ffffffee;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-  margin-top: 25px;
-  margin-bottom: 30px;
-  background-image: url('./../../../images/contactBack.jpg');
-  
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 35px;
+    margin: 40px auto;
+    max-width: 1100px;
+    background-image: url('./../../../images/contactBack.jpg');
+    border-radius: 12px;
+    border: 3px solid #00897b;
+    box-shadow: 0 5px 20px rgba(0, 137, 123, 0.1);
+    position: relative;
+}
+
+.Contactcontainer:before {
+    content: "Contact Us";
+    position: absolute;
+    top: -15px;
+    left: 25px;
+    background: #00897b;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 137, 123, 0.2);
 }
 
 .form-form {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-  flex-wrap: wrap;
+    display: flex;
+    width: 100%;
+    gap: 30px;
 }
 
 .contact-info, .contact-form {
-  flex: 1;
-  min-width: 300px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.contact-form {
-   flex: 1;
-   min-width: 300px;
-   background: #fff;
-   padding: 25px;
-   border-radius: 15px;
+/* Contact Info Section */
+.contact-info {
+    padding-right: 20px;
+    border-right: 1px solid #f0f0f0;
 }
 
-.contact-info .title,
-.contact-form .title {
-  font-size: 28px;
-  color: #1abc9c;
-  font-weight: 600;
-  margin-bottom: 20px;
-  -webkit-text-stroke: 1px #eef6f4;
+.contact-info .title, .contact-form .title {
+    color: #00897b;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
 }
 
-.contact-info .description {
-  font-size: 16px;
-  color: #ffff;
-  line-height: 1.6;
-  margin-bottom: 30px;
+.contact-info .description, .contact-form .description {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
 }
 
 .information {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  color:white;
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 15px;
 }
 
-img.icon{
-    color: #c7f1e9;
-
+.icon-custom {
+    color: #00897b;
+    font-size: 18px;
+    width: 24px;
 }
 
-
-
-.information img {
-  width: 24px;
-  color: #c7f1e9;
-  margin-right: 15px;
+.social-media {
+    margin-top: 30px;
 }
 
-.social-media{
-  color:white;
+.social-media p {
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
 }
 
 .social-icons a {
-  color: #c7f1e9;
-  margin-right: 15px;
-  font-size: 20px;
-  transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #f0f7f5;
+    color: #00897b;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .social-icons a:hover {
-  transform: scale(1.2);
-  color: #0f766e;
+    background-color: #00897b;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 137, 123, 0.2);
+}
+
+/* Contact Form Section */
+.contact-form {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #eee;
 }
 
 .input-container {
-  position: relative;
-  margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    position: relative;
 }
 
-.input{
-  width: 90%;
-  padding: 12px 18px;
-  border-radius: 25px;
-  border: 1px solid #ccc;
-  background: #f9f9f9;
-  font-size: 15px;
-  transition: all 0.3s ease-in-out;
-}
- 
-.contact-form .input-container input[type='text'],
-.contact-form .input-container input[type='email'],
-.contact-form .input-container input[type='tel'],
-.contact-form .input-container textarea {
-  /* Your styles here */
-  width: 90% !important;
-  padding: 12px 18px !important;
-  border-radius: 25px !important;
-  border: 1px solid #ccc !important;
-  background: #f9f9f9 !important;
-  font-size: 15px !important;
-  transition: all 0.3s ease-in-out !important;
-  /* Add other properties with !important */
+.input-container label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #00897b;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
 }
 
-.contact-form .input-container input[type='text']:focus,
-.contact-form .input-container input[type='email']:focus,
-.contact-form .input-container input[type='tel']:focus,
-.contact-form .input-container textarea:focus {
-  border-color: #1abc9c !important;
-  background: #fff !important;
-  box-shadow: 0 0 5px rgba(26, 188, 156, 0.4) !important;
-  outline: none !important;
+.input-container input, .input-container textarea {
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.input:focus {
-  border-color: #1abc9c;
-  background: #fff;
-  box-shadow: 0 0 5px rgba(26, 188, 156, 0.4);
-  outline: none;
+.input-container input:focus, .input-container textarea:focus {
+    border-color: #00897b;
+    box-shadow: 0 0 0 2px rgba(0, 137, 123, 0.1);
+    background-color: white;
+    outline: none;
 }
 
 .textarea .input {
-  min-height: 120px;
-  resize: vertical;
+    min-height: 120px;
+    resize: vertical;
 }
 
-/* .input-container label,
-.input-container span {
-  display: none;
-} */
-
 .invalid {
-  color: #e74c3c;
-  font-size: 13px;
-  margin-top: 5px;
+    color: #e22222;
+    font-size: 13px;
+    margin-top: 5px;
 }
 
 .btn {
-  background-color: #1abc9c;
-  color: #fff;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 30px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 10px;
+    background: linear-gradient(135deg, #00897b, #006064);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    align-self: flex-end;
+    width: auto;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 137, 123, 0.25);
+    transition: all 0.2s ease;
 }
 
 .btn:hover {
-  background-color: #159e86;
+    background: linear-gradient(135deg, #00796b, #00838f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 137, 123, 0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+    .form-form {
+        flex-direction: column;
+    }
+
+    .contact-info {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .Contactcontainer {
+        padding: 25px;
+        margin: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .Contactcontainer {
+        padding: 20px 15px;
+    }
+
+    .contact-form {
+        padding: 15px;
+    }
+
+    .input-container input, .input-container textarea {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-top: 15px;
+    }
 }
