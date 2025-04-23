@@ -139,12 +139,10 @@
         </div>
       </div>
     </div>
-      
-       <div class="footerContainer">
+</div>
+<div class="footerContainer">
 <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
 </div>
- 
-    </div>
      
     <script>
     const inputs = document.querySelectorAll(".input");
