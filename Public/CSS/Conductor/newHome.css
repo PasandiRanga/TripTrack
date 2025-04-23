@@ -1,8 +1,10 @@
 body{
     margin: 0;
     padding: 0;
-    background-color: #1abc9c;
-    font-family: "Arial", sans-serif;
+    background-color: #006064;
+    /*background-color: #1abc9c;*/
+    /*background: rgba(1, 197, 148, 0.95);*/
+    font-family: "Ariel", sans-serif;
 }
 
 .fa-solid{
@@ -68,18 +70,22 @@ body{
     height: 100% !important;
     grid-area: sidebar;
     height: 100%;
-    background-color: #1abc9c;
+    /*background: rgba(1, 197, 148, 0.95);
+    background-color: #1abc9c;*/
+    background-color: #006064;
     overflow-y: auto;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
     color: white;
     margin-top: 0;
     font-weight: bold;
+    backdrop-filter: blur(10px);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
 .sidebar-title{
-    display: flex;
-    /*justify-content: space-between;*/
+    /*display: flex;
+    justify-content: space-between;*/
     align-items: center;
     padding: 30px 30px 30px 30px;
     margin-top: 20px;
@@ -109,8 +115,12 @@ body{
 }
 
 .sidebar-list-item {
-    padding: 20px 20px 20px 20px;
+    /*padding: 20px 20px 20px 20px;*/
     font-size: 20px;
+    padding: 22px;
+
+    border-radius: 10px;
+    transition: 0.3s;
 }
 
 .sidebar-list-item:hover {
@@ -126,7 +136,8 @@ body{
 
 .main-container{
     grid-area: main;
-    background-color: #d8f8ee;
+    /*background-color: #d8f8ee;*/
+    background: linear-gradient(to right, #e8fdf5, #c0f0df);
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 40px;
@@ -180,13 +191,20 @@ body{
         }
 
 .container {
-    display: flex;
+    /*display: flex;*/
     width: 95%;
     max-width: 1400px;
     flex-wrap: wrap;
     gap: 20px;
-    min-height: 80vh;
+    min-height: 70vh;
     margin: 50px;
+    border-radius: 1rem;
+    /*box-shadow: 0 4px 16px rgba(0,0,0,0.1);*/
+}
+
+.container-heading {
+    margin-bottom: 25px;
+    text-align: center;
 }
 
         .column {
@@ -206,7 +224,7 @@ body{
 
         .wrapper {
             border-radius: var(--border-radius);
-            height: 100%;
+            height: 85%;
         }
 
         .wrapper header {
@@ -214,7 +232,8 @@ body{
             align-items: center;
             padding: 20px 25px;
             justify-content: space-between;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+           
+            background: linear-gradient(135deg, #00897b,#006064);
             color: white;
             border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
