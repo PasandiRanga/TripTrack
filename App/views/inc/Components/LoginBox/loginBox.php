@@ -29,9 +29,6 @@
                 <div class="checkbox-group">
                     <!-- Updated to trigger popup -->
                     <div class="tosign"><a href="javascript:void(0)" id="forgotPasswordLink">Forgot password?</a></div>
-                    <label>
-                        <input type="checkbox"> Remember me
-                    </label>
                 </div>
                 
                 <center><button type="submit" class="sign-in-btn">Sign In</button></center>

@@ -117,11 +117,10 @@
                 // Pass $data['schedule'] to busCardGenerator.php
                 require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
             ?>
-        </div>
-
-        
-        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+        </div>    
     </div>
+<?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+
 <script>
 // Replace the two separate script blocks with this single, optimized version
 document.addEventListener('DOMContentLoaded', function() {

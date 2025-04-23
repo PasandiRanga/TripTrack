@@ -183,86 +183,8 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Testimonials Section -->
-            <div class="testimonials-section">
-                <div class="section-title">
-                    <h2>What Our Users Say</h2>
-                    <p>Experiences shared by travelers who use Trip Track</p>
-                </div>
-                
-                <div class="testimonials-container">
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>Trip Track has completely transformed how I travel around Sri Lanka. The booking process is seamless, and I love getting updates about my journey in real-time.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="<?php echo URLROOT; ?>/Public/images/ava1.jpg" alt="User Avatar">
-                            </div>
-                            <div class="author-info">
-                                <h4>Dinesh Jayawardena</h4>
-                                <span>Regular Traveler</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>As someone who travels frequently for work, Trip Track has been a game-changer. I can quickly compare different routes and times, and their customer service is exceptional.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="<?php echo URLROOT; ?>/Public/images/ava3.jpg" alt="User Avatar">
-                            </div>
-                            <div class="author-info">
-                                <h4>Malini Fernando</h4>
-                                <span>Business Traveler</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>Planning trips with my family used to be stressful until I discovered Trip Track. Now I can book multiple tickets at once and have all the information I need in one place.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="<?php echo URLROOT; ?>/Public/images/ava2.jpg" alt="User Avatar">
-                            </div>
-                            <div class="author-info">
-                                <h4>Roshan Gunasekera</h4>
-                                <span>Family Traveler</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Numbers Section -->
-            <div class="numbers-section">
-                <div class="numbers-container">
-                    <div class="number-item">
-                        <div class="number-count" data-target="50000">0</div>
-                        <div class="number-label">Happy Travelers</div>
-                    </div>
-                    <div class="number-item">
-                        <div class="number-count" data-target="200">0</div>
-                        <div class="number-label">Bus Routes</div>
-                    </div>
-                    <div class="number-item">
-                        <div class="number-count" data-target="25">0</div>
-                        <div class="number-label">Districts Covered</div>
-                    </div>
-                    <div class="number-item">
-                        <div class="number-count" data-target="98">0</div>
-                        <div class="number-label">Satisfaction Rate (%)</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        
-        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
     </div>
+        <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
 
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
