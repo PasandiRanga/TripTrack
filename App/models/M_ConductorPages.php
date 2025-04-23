@@ -525,5 +525,46 @@
             return $this->db->single();
         }
 
+        public function getAllNotifications($userId) {
+            $this->db->query('SELECT * FROM sendnotifications_employee WHERE employee_id = :user_id AND is_deleted=0 ORDER BY created_at DESC');
+            $this->db->bind(':user_id', $userId);
+
+            $results = $this->db->resultSet();
+
+            return $results;
+        }
+
+        public function getNewNotifications($userId) {
+            $this->db->query('SELECT * FROM sendnotifications_employee WHERE employee_id = :user_id AND is_dismissed=0 AND is_read = 0 AND is_deleted=0 ORDER BY created_at DESC');
+            $this->db->bind(':user_id', $userId);
+
+            $results = $this->db->resultSet();
+
+            return $results;
+        }
+
+        public function updateReadStatus($notificationId, $isRead, $userId) {
+            $this->db->query('UPDATE sendnotifications_employee SET is_read = :is_read WHERE id = :id AND employee_id = :user_id');
+            $this->db->bind(':is_read', $isRead ? 1 : 0);
+            $this->db->bind(':id', $notificationId);
+            $this->db->bind(':user_id', $userId);
+            
+            return $this->db->execute();
+        }
+
+        public function deleteNotification($notificationId,$userId) {
+            $this->db->query('UPDATE notifications SET is_deleted =1 WHERE id=:id AND employee_id = :user_id');
+            $this->db->bind(':id', $notificationId);
+            $this->db->bind(':user_id', $userId);
+            return $this->db->execute();    
+        }
+
+        public function updateReadStatusOfAll($notiID , $userID){
+            $this->db->query('UPDATE notifications SET is_read = :is_read WHERE id = :id AND employee_id = :user_id');
+            $this->db->bind(':is_read', 1);
+            $this->db->bind(':id', $notiID);
+            $this->db->bind(':user_id', $userID);
+            return $this->db->execute();
+        }
     }
 ?>

@@ -53,7 +53,142 @@
         }
 
         public function notifications() {
-            $this->view('pages/Conductor/Notifications');
+            $allnotifications = $this->ConductorpagesModel->getAllNotifications($_SESSION['user_id']);
+            $newnotifications = $this->ConductorpagesModel->getNewNotifications($_SESSION['user_id']);
+
+            $data = [
+                'currentController' => 'ConductorPages',
+                'currentMethod' => 'notifications',
+                'title' => 'All Notifications',
+                'allnotifications' => $allnotifications,
+                'notifications' => $newnotifications
+            ];
+
+            $this->view('pages/Conductor/Notifications', $data);
+        }
+
+        /* Update notification read status in notification icon*/
+        public function toggleReadStatus() {
+            // Check if it's an AJAX request
+            if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+                redirect('pages/error');
+            }
+            
+            // Get POST data
+            $input = json_decode(file_get_contents('php://input'), true);
+            $notificationId = $input['notification_id'] ?? null;
+            $isRead = $input['is_read'] ?? false;
+            
+            if (!$notificationId) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Notification ID is required'
+                ]);
+                exit(); // Add this to ensure nothing else is output
+            }
+            
+            $success = $this->ConductorpagesModel->updateReadStatus($notificationId, $isRead, $_SESSION['user_id']);
+            
+            // Return JSON response
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => $success
+            ]);
+            exit(); // Add this to ensure nothing else is output
+        }
+
+        public function deleteNotification(){
+            // Turn off output buffering
+
+            ob_start();
+            
+            try {
+                // Check if it's an AJAX request
+                if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+                    // echo '<script>console.log("Not POST");</script>';
+                    throw new Exception('Invalid request method');
+
+                }
+                
+                // Get POST data
+                $input = json_decode(file_get_contents('php://input'), true);
+                $notificationId = $input['notification_id'] ?? null;
+                // echo '<script>console.log("Notification id"' .json_encode($notificationId) . ');</script>';
+
+                
+                if (!$notificationId) {
+                    throw new Exception('Notification ID is required');
+                }
+                
+                $success = $this->ConductorpagesModel->deleteNotification($notificationId, $_SESSION['user_id']);
+                // echo '<script>console.log(' . json_encode($success) . ');</script>';
+        
+
+        
+                // Clear any output that might have happened
+                ob_clean();
+                
+                // Return JSON response
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => $success
+                ]);
+
+            } catch (Exception $e) {
+                // Clear any output
+                ob_clean();
+                
+                // Return error JSON
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ]);
+            }
+        }
+
+        public function markAllAsRead() {
+            ob_start();
+            try {
+                if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+                    throw new Exception('Invalid request method');
+                }
+                
+                $input = json_decode(file_get_contents('php://input'), true);
+                
+                // Check if ids array exists
+                if (!isset($input['ids']) || !is_array($input['ids'])) {
+                    throw new Exception('Invalid input format');
+                }
+                
+                $success = true;
+                foreach ($input['ids'] as $notiID) {
+                    $result = $this->ConductorpagesModel->updateReadStatusOfAll($notiID, $_SESSION['user_id']);
+                    if (!$result) {
+                        $success = false;
+                    }
+                }
+                
+                // Clear any output that might have happened
+                ob_clean();
+                
+                // Return JSON response
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => $success
+                ]);
+            } catch (Exception $e) {
+                // Clear any output
+                ob_clean();
+                
+                // Return error JSON
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ]);
+            }
         }
 
         public function viewDelays(){
