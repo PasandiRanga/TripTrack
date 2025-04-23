@@ -282,6 +282,22 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function getScheduledBuses(){
+        $this->db->query("SELECT License_id FROM schedule");
+        return $this->db->resultSet();
+    }
+
+    public function getAvailableBuses(){
+        // Query to get buses that are not in the schedule
+        $this->db->query("
+            SELECT License_id, passengers
+            FROM bus
+            WHERE License_id NOT IN (SELECT License_id FROM schedule)
+        ");
+        
+        return $this->db->resultSet();
+    }
+
     public function updateSchedule($data) {
 
         $this->db->query('UPDATE schedule SET License_id = :License_id, date = :date, departureTime = :departureTime, arrivalTime = :arrivalTime, duration = :duration, direction = :direction, type = :type WHERE scheduleId = :scheduleId');

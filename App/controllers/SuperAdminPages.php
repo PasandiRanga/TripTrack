@@ -439,9 +439,10 @@ class SuperAdminPages extends Controller {
             }
         } else {
             $bus = $this->SuperAdminModel->getBusID();
-
+            $availableBuses = $this->SuperAdminModel->getAvailableBuses(); // Fetch available buses from the model
             $data = [
-                'bus' => $bus
+                'bus' => $bus,
+                'availableBuses' => $availableBuses // Pass the available buses to the view
             ];
 
             $this->view('pages/SuperAdmin/Addschedule',$data);

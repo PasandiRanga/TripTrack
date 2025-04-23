@@ -42,7 +42,7 @@
                 <?php if (!$isUpdate): ?>
                     <option value="">Select BusID</option>
                 <?php endif; ?>
-                <?php foreach ($data['bus'] as $bus): ?>
+                <?php foreach ($data['availableBuses'] as $bus): ?>
                     <option value="<?php echo $bus['License_id']; ?>" 
                         data-seats="<?php echo $bus['passengers']; ?>" 
                         <?php echo $bus['License_id'] == $licenseId ? 'selected' : ''; ?>>
