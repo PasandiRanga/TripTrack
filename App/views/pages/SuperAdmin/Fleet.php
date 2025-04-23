@@ -61,10 +61,8 @@
     <div class="box">
     <h1>Fleet Management</h1>
     
-    <div class="add-button-container">
-        <a href="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet">
-            <button>Add Bus</button>
-        </a>
+    <div class="add-button-wrapper">
+        <a href="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet" class="add-button">Add Bus</a>
     </div>
 
     <!-- Search and Clear -->

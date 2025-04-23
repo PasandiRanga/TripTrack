@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
+    background-color: #d8f8ee;
     margin: 0;
     padding: 0;
 }
@@ -12,7 +12,7 @@ body {
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #006064;
     border-radius: 4px;
     color: white;
     border: none;
@@ -48,8 +48,8 @@ h1 {
 
 .search-input:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
+    border-color: #006064;
+    box-shadow: #006064;
 }
 
 /* Search Button */
@@ -60,15 +60,16 @@ h1 {
     cursor: pointer;
     transition: background-color 0.3s;
     border: none;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .search-button {
-    background-color: #007bff;
+    background: linear-gradient(135deg, #00897b, #006064);
     color: white;
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: linear-gradient(135deg, #00897b, #006064);
 }
 
 .search-button-clear {
@@ -94,7 +95,7 @@ h1 {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Softer, more subtle shadow */
-    background-color: white;
+    background-color: #d8f8ee;
     padding: 20px; /* Added padding for better spacing around the table */
     transition: box-shadow 0.3s ease; /* Added smooth transition for hover effect */
 }
@@ -106,7 +107,7 @@ h1 {
 }
 
 .fleet-table th {
-    background-color: #007bff;
+    background-color: #006064;
     color: white;
     border: 1px solid #ddd;
     padding: 15px;
@@ -120,7 +121,7 @@ h1 {
     padding: 12px;
     text-align: left;
     font-size: 14px;
-    color: #555; /* Softer text color for better readability */
+    color: black; /* Softer text color for better readability */
     max-width: 300px;
     word-wrap: break-word; /* Prevents long text from breaking the layout */
 }
@@ -147,16 +148,16 @@ h1 {
 .action-buttons button {
     padding: 12px 25px;
     border-radius: 6px;
-    background-color: #007bff;
+    background-color: #006064;
     color: white;
     border: none;
     font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .action-buttons button:hover {
-    background-color: #0056b3;
+    background-color: #006064;
     transform: translateY(-2px); /* Adds slight "lift" on hover for better feedback */
 }
 
@@ -165,29 +166,30 @@ h1 {
 }
 
 /* Button for adding new items */
-.add-button-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
+.add-button-wrapper {
+    text-align: right;
+    margin: 20px 30px 10px 0; /* Adjust margins as needed */
 }
 
-.add-button-container button {
+.add-button {
+    display: inline-block;
     padding: 12px 30px;
-    background-color: #28a745; /* Green for positive actions */
+    background: linear-gradient(135deg, #00897b, #006064);
     border-radius: 6px;
     color: white;
     font-size: 14px;
+    text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.add-button-container button:hover {
-    background-color: #218838;
+.add-button:hover {
     transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
-.add-button-container button:active {
+.add-button:active {
     transform: translateY(1px);
 }
 
@@ -213,7 +215,7 @@ h1 {
 
     /* Make table headers more readable */
     .fleet-table th {
-        background-color: #007bff;
+        background-color: #006064;
         color: white;
         text-align: center;
     }
@@ -305,7 +307,7 @@ h1 {
         content: attr(data-label); /* Use a custom attribute for labels */
         font-weight: bold;
         text-transform: uppercase;
-        color: #007bff;
+        color: #006064;
         display: block;
         margin-bottom: 5px;
     }

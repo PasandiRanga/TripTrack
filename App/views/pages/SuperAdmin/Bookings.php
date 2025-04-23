@@ -104,10 +104,8 @@
                 <th>Schedule Date</th>
                 <th>No. of Seats</th>
                 <th>User ID</th>
-                <th>Schedule ID</th>
                 <th>From</th>
                 <th>To</th>
-                <th>Total Price</th>
                 <th>Panelty fee</th>
             </tr>
         </thead>
@@ -121,10 +119,8 @@
                     <td><?= $booking1['scheduleDate'] ?></td>
                     <td><?= $booking1['No_of_seats'] ?></td>
                     <td><?= $booking1['User_id'] ?></td>
-                    <td><?= $booking1['schedule_id'] ?></td>
                     <td><?= $booking1['from_location'] ?></td>
                     <td><?= $booking1['to_location'] ?></td>
-                    <td><?= $booking1['total_price'] ?></td>
                     <td><?= $booking1['penalty_fee'] ?></td>
                 </tr>
                 <!-- Hidden row for additional details -->
@@ -152,10 +148,8 @@
                 <th>Booking Time</th>
                 <th>No. of Seats</th>
                 <th>User ID</th>
-                <th>Schedule ID</th>
                 <th>From</th>
                 <th>To</th>
-                <th>Total Price</th>
                 <th>Time and Date of Cancellation</th>
             </tr>
         </thead>
@@ -167,10 +161,8 @@
                     <td><?= $cancel['Booking_time'] ?></td>
                     <td><?= $cancel['No_of_seats'] ?></td>
                     <td><?= $cancel['User_id'] ?></td>
-                    <td><?= $cancel['schedule_id'] ?></td>
                     <td><?= $cancel['from_location'] ?></td>
                     <td><?= $cancel['to_location'] ?></td>
-                    <td><?= $cancel['total_price'] ?></td>
                     <td><?= $cancel['time_date'] ?></td>
                 </tr>
                 <!-- Hidden row for additional details -->
@@ -197,11 +189,9 @@
                 <th>Booking Date</th>
                 <th>Booking Time</th>
                 <th>No. of Seats</th>
-                <th>User ID</th>
-                <th>Schedule ID</th>
+                <th>User ID</td>
                 <th>From</th>
                 <th>To</th>
-                <th>Total Price</th>
                 <th>Time and Date of Cancellation</th>
             </tr>
         </thead>
@@ -213,10 +203,8 @@
                     <td><?= $cancel['Booking_time'] ?></td>
                     <td><?= $cancel['No_of_seats'] ?></td>
                     <td><?= $cancel['User_id'] ?></td>
-                    <td><?= $cancel['schedule_id'] ?></td>
                     <td><?= $cancel['from_location'] ?></td>
                     <td><?= $cancel['to_location'] ?></td>
-                    <td><?= $cancel['total_price'] ?></td>
                     <td><?= $cancel['time_date'] ?></td>
                 </tr>
                 <!-- Hidden row for additional details -->
