@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/newHome.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer">
@@ -100,6 +101,36 @@
         </aside>
 
         <main class="main-container">
+            <div class="main-cards">
+                <div class="card">
+                    <div class="card-inner">
+                        <h3 class="card-title">Total Completed Schedules</h3>
+                        <span class="material-icons-outlined">beenhere</span>
+                    </div>
+                    <h1 class="card-value">17</h1>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <h3 class="card-title">Top Route</h3>
+                        <span class="material-icons-outlined">book</span>
+                    </div>
+                    <h1 class="card-value">Colombo-Kandy</h1>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <h3 class="card-title">Notifications</h3>
+                        <span class="material-icons-outlined">local_atm</span>
+                    </div>
+                    <h1 class="card-value">value</h1>
+                </div>
+            </div>
+
+            <!--<div class="main-title">
+                <h2>Employee Schedule</h2> 
+
+            </div>-->
 
             <center>
             <div class="container">
