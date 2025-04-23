@@ -1,101 +1,138 @@
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
-    color: black;
+    color: #333;
 }
 
 /* Back Button */
 .back-button {
-    margin: 20px;
-    padding: 10px 20px;
-    font-size: 14px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
     background-color: #007bff;
+    border-radius: 4px;
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .back-button:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
+}
+
+.box {
+    background-color: #ffffff;
+    margin: 30px auto;
+    padding: 20px;
+    width: 95%;
+    max-width: 1200px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Page Title */
 h2 {
     text-align: center;
-    margin: 20px 0;
-    color: black;
+    margin: 20px 0 30px;
+    color: #263043;
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Add Assign Button */
 .top-actions {
-    margin: 20px auto; /* Centers the button horizontally */
-    width: 90%; /* Matches the table's width */
+    margin: 20px auto;
+    width: 95%;
     display: flex;
     justify-content: flex-end;
 }
 
 .add-assign-btn {
-    padding: 10px 20px;
+    padding: 12px 30px;
     font-size: 14px;
-    background-color: #007bff;
+    background-color: #28a745;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .add-assign-btn:hover {
-    background-color: #007bff;
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.add-assign-btn:active {
+    transform: translateY(1px);
 }
 
 /* Table Container */
 .assign-table-container {
-    max-width: 90%;
-    margin: 0 auto 20px;
-    overflow-x: auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    width: 95%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
 }
 
 /* Table Styling */
 .assign-table {
     width: 100%;
     border-collapse: collapse;
-    text-align: left;
 }
 
-.assign-table thead {
+.assign-table th {
     background-color: #007bff;
     color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-.assign-table th,
 .assign-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    max-width: 300px;
+    word-wrap: break-word;
+    vertical-align: middle;
 }
 
 .assign-table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.assign-table tbody tr:hover {
+.assign-table tr:hover {
     background-color: #f1f1f1;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Update and Delete Buttons */
+/* Buttons inside table */
 .update-btn,
 .delete-btn {
-    padding: 5px 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
     font-size: 14px;
-    border: none;
-    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: none;
 }
 
 .update-btn {
@@ -104,7 +141,8 @@ h2 {
 }
 
 .update-btn:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .delete-btn {
@@ -114,4 +152,66 @@ h2 {
 
 .delete-btn:hover {
     background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+.delete-btn:active,
+.update-btn:active {
+    transform: translateY(1px);
+}
+
+/* Responsive table */
+@media screen and (max-width: 768px) {
+    .assign-table-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .assign-table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        border: none;
+    }
+
+    .assign-table th, .assign-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .top-actions {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .assign-table {
+        display: block;
+    }
+
+    .assign-table td {
+        display: block;
+        width: 100%;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+    .assign-table th {
+        display: none;
+    }
+
+    .assign-table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #007bff;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .add-assign-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
 }

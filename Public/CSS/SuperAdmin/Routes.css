@@ -1,12 +1,14 @@
+/* General Body */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+    line-height: 1.6;
 }
 
-/* Back button */
+/* Back Button */
 .back-button {
     position: absolute;
     top: 20px;
@@ -17,62 +19,78 @@ body {
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-/* Page title */
+.back-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Page Title */
 h1 {
     text-align: center;
     margin-top: 20px;
+    font-size: 32px;
+    color: #333;
+    font-weight: 600;
 }
 
-/* Add Route button at the top right */
+/* Add Route Button Container */
 .add-button-container {
-    margin: 20px auto; /* Centers the button horizontally */
-    width: 90%; /* Matches the table's width */
+    margin: 20px auto;
+    width: 90%;
     display: flex;
     justify-content: flex-end;
 }
 
 .add-button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 16px;
     background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .add-button:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
-/* Table container */
+/* Routes Table Container */
 .routes-container {
-    margin: 20px auto;
-    width: 90%;
-    border-radius: 10px; /* Rounds the corners */
-    overflow: hidden; /* Ensures corners stay rounded */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
-    background-color: white; /* Ensures a consistent background */
+    margin: 30px auto;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    background-color: white;
 }
 
-/* Table styles */
+/* Table Styles */
 .routes-table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
+    font-size: 14px;
 }
 
 .routes-table th, .routes-table td {
     border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
+    padding: 12px 20px;
+    text-align: left;
+    color: #555;
+    transition: background-color 0.3s ease;
 }
 
 .routes-table th {
     background-color: #007bff;
     color: white;
+    font-weight: 600;
 }
 
 .routes-table tr.selected {
@@ -80,18 +98,19 @@ h1 {
 }
 
 .routes-table tr:hover {
-    cursor: pointer;
     background-color: #f1f1f1;
+    cursor: pointer;
 }
 
-/* Update and Delete buttons in the table (for potential use) */
+/* Update and Delete Buttons in the Table */
 .update-btn,
 .delete-btn {
-    padding: 5px 10px;
+    padding: 6px 12px;
     font-size: 14px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .update-btn {
@@ -100,7 +119,8 @@ h1 {
 }
 
 .update-btn:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .delete-btn {
@@ -110,4 +130,63 @@ h1 {
 
 .delete-btn:hover {
     background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .routes-container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .routes-table th, .routes-table td {
+        padding: 10px 15px;
+    }
+
+    .add-button-container {
+        justify-content: center;
+    }
+
+    .add-button {
+        width: 100%;
+        padding: 12px;
+    }
+}
+.box {
+    width: 100%;
+    max-width: 1500px;
+    margin: 60px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    overflow: hidden;
+    transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.box:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Darker shadow when hovered */
+}
+
+.box h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.box p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Optional: If you want to add a border or background to inner elements inside the box */
+.box .inner-content {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
 }

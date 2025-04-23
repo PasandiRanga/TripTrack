@@ -235,7 +235,7 @@ body{
     justify-content: space-between;
     padding: 25px;
     border-radius: 20px;
-    background-color: #263043;
+    background-color:  #006064;
     color: white;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -277,7 +277,7 @@ body{
 }
 
 .charts-card {
-    background-color: #263043;
+    background-color:  #006064;
     margin: 20px 10px;
     padding: 25px;
     border-radius: 20px;

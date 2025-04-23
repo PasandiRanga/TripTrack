@@ -25,7 +25,7 @@ body {
 .back-button:hover {
     background-color: #007bff;
 }
-.box-wrraper {
+.box-wrapper {
     max-width: 1400px;  /* Limit the maximum width of the wrapper */
     width: 100%;  /* Ensure it takes up full width of the container */
     margin: 0 auto;  /* Center the wrapper horizontally */
@@ -38,7 +38,7 @@ body {
 
 /* For responsive design */
 @media (max-width: 768px) {
-    .box-wrraper {
+    .box-wrapper {
         padding: 10px;  /* Reduce padding on smaller screens */
     }
 }
@@ -143,7 +143,7 @@ h1 {
 .booking-table-container {
     margin: 20px auto;
     width: 90%;
-    max-width: 1250px;
+    max-width: 1230px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

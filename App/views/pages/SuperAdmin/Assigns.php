@@ -13,7 +13,7 @@
 <body>
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
-
+<div class="box">
     <!-- Page Title -->
     <h2>Assigns</h2>
 
@@ -69,7 +69,7 @@
             </tbody>
         </table>
     </div>
-
+    </div>
     <script>
         // Function to handle the Delete button click
         function deleteAssigns(scheduleId) {

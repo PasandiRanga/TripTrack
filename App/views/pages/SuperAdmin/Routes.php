@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Routes.css?v=<?php echo time(); ?>">
 </head>
 <body>
-
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
+    <div class="box">
     <div class="header-container">
-        <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
+        
         <h1>Routes</h1>
     </div>
 
@@ -59,6 +60,7 @@
                 ?>
             </tbody>
         </table>
+    </div>
     </div>
     <script>
         function updateRoute(routeNumber) {
