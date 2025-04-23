@@ -109,7 +109,7 @@
             }
     ?>
     <div class="page-top">
-      <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/home'">Back</button>
+      <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/newhome'">Back</button>
       
       <h1>Seat Layout</h1>  
     </div>
