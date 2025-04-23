@@ -25,7 +25,7 @@
 <body>
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">Back</button>
-
+<div class="box">
     <!-- Page Title -->
     <h2><?php echo $isUpdate ? 'Update Assign' : 'Add New Assign'; ?></h2>
 
@@ -82,6 +82,7 @@
 
         <button type="submit"><?php echo $isUpdate ? 'Update Assign' : 'Add Assign'; ?></button>
     </form>
+</div>
 
     <script>
         document.getElementById("driver_id").addEventListener("change", function() {

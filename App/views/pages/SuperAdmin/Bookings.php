@@ -13,7 +13,7 @@
 <body>
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
-<div class="box-wrraper">
+<div class="box-wrapper">
     <h1>Booking Records</h1>
 
     <br>
@@ -59,9 +59,7 @@
                 <th>From</th>
                 <th>To</th>
                 <th>No. of Seats</th>
-                <th>Selected Seats</th>
-                <th>Total Price</th>
-                <th>Schedule ID</th>
+                <th>Payment Method</th>
             </tr>
         </thead>
         <tbody id="guest-tbody">
@@ -77,9 +75,7 @@
                     <td><?= $booking['from_location'] ?></td>
                     <td><?= $booking['to_location'] ?></td>
                     <td><?= $booking['number_of_seats'] ?></td>
-                    <td><?= $booking['selected_seats'] ?></td>
-                    <td><?= $booking['total_price'] ?></td>
-                    <td><?= $booking['schedule_id'] ?></td>
+                    <td><?= $booking['paymentMethod'] ?></td>
                 </tr>
                 <!-- Hidden row for additional details -->
                 <tr class="details-row" style="display:none;">
@@ -101,37 +97,41 @@
     <table class="booking-table">
         <thead id="registered-thead">
             <tr>
+                <!-- <th>Past Booking ID</th> -->
                 <th>ID</th>
                 <th>Booking Date</th>
                 <th>Booking Time</th>
+                <th>Schedule Date</th>
                 <th>No. of Seats</th>
-                <th>Seats</th>
                 <th>User ID</th>
                 <th>Schedule ID</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Total Price</th>
+                <th>Panelty fee</th>
             </tr>
         </thead>
         <tbody id="registered-tbody">
             <?php foreach ($data['book1'] as $booking1): ?>
                 <tr class="booking-row" onclick="toggleDetails(this)">
+                    <!-- <td><//?= $booking1['pastBookingId'] ?></td> -->
                     <td><?= $booking1['id'] ?></td>
-                    <td><?= $booking1['booking_date'] ?></td>
-                    <td><?= $booking1['booking_time'] ?></td>
-                    <td><?= $booking1['number_of_seats'] ?></td>
-                    <td><?= $booking1['selected_seats'] ?></td>
+                    <td><?= $booking1['Booking_date'] ?></td>
+                    <td><?= $booking1['Booking_time'] ?></td>
+                    <td><?= $booking1['scheduleDate'] ?></td>
+                    <td><?= $booking1['No_of_seats'] ?></td>
                     <td><?= $booking1['User_id'] ?></td>
                     <td><?= $booking1['schedule_id'] ?></td>
                     <td><?= $booking1['from_location'] ?></td>
                     <td><?= $booking1['to_location'] ?></td>
                     <td><?= $booking1['total_price'] ?></td>
+                    <td><?= $booking1['penalty_fee'] ?></td>
                 </tr>
                 <!-- Hidden row for additional details -->
                 <tr class="details-row" style="display:none;">
                     <td colspan="10">
                         <div class="additional-details">
-                            <p><strong>Selected Seats:</strong> <?= $booking1['selected_seats'] ?></p>
+                            <p><strong>Selected Seats:</strong> <?= $booking1['Seats'] ?></p>
                             <p><strong>Total Price:</strong> <?= $booking1['total_price'] ?></p>
                             <p><strong>Schedule ID:</strong> <?= $booking1['schedule_id'] ?></p>
                         </div>
@@ -151,7 +151,6 @@
                 <th>Booking Date</th>
                 <th>Booking Time</th>
                 <th>No. of Seats</th>
-                <th>Seats</th>
                 <th>User ID</th>
                 <th>Schedule ID</th>
                 <th>From</th>
@@ -167,7 +166,6 @@
                     <td><?= $cancel['Booking_date'] ?></td>
                     <td><?= $cancel['Booking_time'] ?></td>
                     <td><?= $cancel['No_of_seats'] ?></td>
-                    <td><?= $cancel['Seats'] ?></td>
                     <td><?= $cancel['User_id'] ?></td>
                     <td><?= $cancel['schedule_id'] ?></td>
                     <td><?= $cancel['from_location'] ?></td>
@@ -199,7 +197,6 @@
                 <th>Booking Date</th>
                 <th>Booking Time</th>
                 <th>No. of Seats</th>
-                <th>Seats</th>
                 <th>User ID</th>
                 <th>Schedule ID</th>
                 <th>From</th>
@@ -215,7 +212,6 @@
                     <td><?= $cancel['Booking_date'] ?></td>
                     <td><?= $cancel['Booking_time'] ?></td>
                     <td><?= $cancel['No_of_seats'] ?></td>
-                    <td><?= $cancel['Seats'] ?></td>
                     <td><?= $cancel['User_id'] ?></td>
                     <td><?= $cancel['schedule_id'] ?></td>
                     <td><?= $cancel['from_location'] ?></td>
@@ -272,37 +268,45 @@
             });
         });
 
-        function filterTable() {
-            const filterToday = document.getElementById('filterToday').checked;
-            const filterYesterday = document.getElementById('filterYesterday').checked;
-            const filterThisWeek = document.getElementById('filterThisWeek').checked;
-            const filterThisMonth = document.getElementById('filterThisMonth').checked;
+function filterTable() {
+    const filterToday = document.getElementById('filterToday').checked;
+    const filterYesterday = document.getElementById('filterYesterday').checked;
+    const filterThisWeek = document.getElementById('filterThisWeek').checked;
+    const filterThisMonth = document.getElementById('filterThisMonth').checked;
 
-            const rows = document.querySelectorAll('.booking-table tbody tr');
-            const today = new Date();
-            const oneDay = 24 * 60 * 60 * 1000;
+    const rows = document.querySelectorAll('.booking-table tbody tr');
+    const today = new Date();
+    const oneDay = 24 * 60 * 60 * 1000;
 
-            rows.forEach(row => {
-                const bookingDate = new Date(row.cells[1]?.textContent);
-                let isVisible = true;
+    // If no filters are checked, show all rows
+    if (!filterToday && !filterYesterday && !filterThisWeek && !filterThisMonth) {
+        rows.forEach(row => {
+            row.style.display = ''; // Reset to show all rows
+        });
+        return;
+    }
 
-                if (filterToday) {
-                    isVisible = bookingDate.toDateString() === today.toDateString();
-                } else if (filterYesterday) {
-                    const yesterday = new Date(today.getTime() - oneDay);
-                    isVisible = bookingDate.toDateString() === yesterday.toDateString();
-                } else if (filterThisWeek) {
-                    const startOfWeek = new Date(today);
-                    startOfWeek.setDate(today.getDate() - today.getDay());
-                    isVisible = bookingDate >= startOfWeek && bookingDate <= today;
-                } else if (filterThisMonth) {
-                    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-                    isVisible = bookingDate >= startOfMonth && bookingDate <= today;
-                }
+    rows.forEach(row => {
+        const bookingDate = new Date(row.cells[1]?.textContent); // Booking Date is in the second column
+        let isVisible = true;
 
-                row.style.display = isVisible ? '' : 'none';
-            });
+        if (filterToday) {
+            isVisible = bookingDate.toDateString() === today.toDateString();
+        } else if (filterYesterday) {
+            const yesterday = new Date(today.getTime() - oneDay);
+            isVisible = bookingDate.toDateString() === yesterday.toDateString();
+        } else if (filterThisWeek) {
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay());
+            isVisible = bookingDate >= startOfWeek && bookingDate <= today;
+        } else if (filterThisMonth) {
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            isVisible = bookingDate >= startOfMonth && bookingDate <= today;
         }
+
+        row.style.display = isVisible ? '' : 'none'; // Show or hide the row based on filter
+    });
+}
 
 
 function toggleBookingType() {
@@ -333,6 +337,12 @@ function toggleBookingType() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Set "This Month" filter checkbox to checked by default
+    document.getElementById('filterThisMonth').checked = true;
+
+    // Call the filterTable function to apply the filter after loading
+    filterTable();
+
     toggleBookingType();  // Make sure the correct table is shown when the page loads
 });
     </script>

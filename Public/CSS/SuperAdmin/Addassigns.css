@@ -1,18 +1,23 @@
-/* Styling for the Add Assigns Page */
+/* Base Styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f7fa;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
+/* Heading */
 h2 {
     text-align: center;
-    margin-top: 30px;
-    color: black;
+    margin: 40px 0 20px;
+    font-size: 28px;
+    color: #333;
 }
 
+/* Back Button */
 .back-button {
+    display: inline-block;
     margin: 20px;
     padding: 10px 20px;
     font-size: 14px;
@@ -21,55 +26,102 @@ h2 {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .back-button:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
 }
 
+/* Form Container */
 .assign-form {
     width: 100%;
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
+    max-width: 550px;
+    margin: 0 auto 40px;
+    padding: 25px;
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
+}
+
+.assign-form:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .assign-form label {
     display: block;
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: black;
+    font-size: 15px;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
 }
 
-.assign-form input, select {
+/* Inputs & Selects */
+.assign-form input,
+.assign-form select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
     box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.2s ease;
 }
 
-.assign-form input:focus {
-    border-color: black;
+.assign-form input:focus,
+.assign-form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     outline: none;
 }
 
+/* Submit Button */
 .assign-form button {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .assign-form button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+@media (max-width: 600px) {
+    .assign-form {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .back-button {
+        width: calc(100% - 40px);
+        margin: 20px auto;
+        display: block;
+        text-align: center;
+    }
+}
+.box {
+    width: 100%;
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    transition: box-shadow 0.3s ease;
+}
+
+.box:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }

@@ -131,13 +131,13 @@ class M_SuperAdminPages {
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 
-    public function getGuestBookings() {
-        $this->db->query('SELECT * FROM guestbooking order by booking_date desc');
+    public function getPastGuestBookings() {
+        $this->db->query('SELECT * FROM pastguestbooking order by booking_date desc');
         return $this->db->resultSet();
     }
 
-    public function getRegisterBookings() {
-        $this->db->query('SELECT * FROM registeredbooking order by Booking_date desc');
+    public function getPastRegisterBookings() {
+        $this->db->query('SELECT * FROM pastregbooking order by Booking_date desc');
         return $this->db->resultSet();
     }
 
