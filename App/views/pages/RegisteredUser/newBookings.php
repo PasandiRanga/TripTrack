@@ -213,8 +213,7 @@
     const busData = <?php echo json_encode($busData); ?>;
     const cancelledBookings = <?php echo json_encode($cancellationData); ?>;
     const userData = <?php echo json_encode($data['user'] ?? []); ?>;
-
-
+    
 
     </script>
 

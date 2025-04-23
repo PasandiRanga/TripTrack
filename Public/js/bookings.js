@@ -541,8 +541,7 @@ function showCancelPopup(booking , schedule){
                 scheduleId: schedule.scheduleId
             }).toString();
 
-            window.location.href = `<?php echo URLROOT; ?>/RegisteredPages/paymentPortal?${queryParams}`;
-        };
+        window.location.href = '/TripTrack/RegisteredPages/paymentPortal?' + queryParams;        };
 
     }
     popup.classList.remove('hidden');
