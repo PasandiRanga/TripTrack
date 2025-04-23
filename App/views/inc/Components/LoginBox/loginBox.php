@@ -53,7 +53,7 @@
                 
                 <div class="spinner" id="loadingSpinner"></div>
                 
-                <center><button type="submit" class="sign-in-btn" id="sendResetLinkBtn">Send Reset Link</button></center>
+                <center><button type="submit" class="sign-in-btn" id="sendResetLinkBtn">Submit</button></center>
             </form>
         </div>
     </div>
