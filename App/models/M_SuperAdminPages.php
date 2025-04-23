@@ -558,6 +558,13 @@ class M_SuperAdminPages {
                 return false;  
             }
         }
+
+        public function updateProfileImage($adminId, $imageName) {
+            $this->db->query("UPDATE employee SET profile_pic = :image WHERE employee_id = :id");
+            $this->db->bind(':image', $imageName);
+            $this->db->bind(':id', $adminId);
+            return $this->db->execute();
+        }
 //------------------------------------------------------------------------------------------------------------------------------------
     //Reviews
 

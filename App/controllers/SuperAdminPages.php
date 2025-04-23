@@ -1161,6 +1161,26 @@ class SuperAdminPages extends Controller {
             $this->view('pages/SuperAdmin/Profile', $profile);
     }
 
+    public function updateProfileImage() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $file = $_FILES['profile_image'];
+
+            if ($file['error'] === 0 && in_array($file['type'], ['image/jpeg', 'image/jpg', 'image/png'])) {
+                $imageName = uniqid() . '_' . $file['name'];
+                move_uploaded_file($file['tmp_name'], APPROOT . "/../public/images/profileImages/" . $imageName);
+
+                // Save to session and database
+                $_SESSION['user_profile_image'] = $imageName;
+                $this->SuperAdminModel->updateProfileImage($_SESSION['user_id'], $imageName);
+
+                redirect('SuperAdminPages/profile');
+            } else {
+                die('Invalid image upload');
+            }
+        }
+    }
+
+
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //boxex in the dashboard 
