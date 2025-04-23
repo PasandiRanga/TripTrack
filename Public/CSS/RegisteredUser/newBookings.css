@@ -54,7 +54,7 @@
             align-items: center;
             padding: 20px 25px;
             justify-content: space-between;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, #00897b, #006064);
             color: white;
             border-radius: var(--border-radius) var(--border-radius) 0 0;
         }

@@ -115,29 +115,25 @@
             <p class="description">We’d love to hear from you. Please fill out this form and we’ll get in touch shortly.</>
 
             <div class="input-container">
+              <label for="name">Name</label>
               <input type="text" name="name" id="name" class="name" value="<?php echo isset($postdata['name']) ? $postdata['name'] : ''; ?>" />
-              <label for="">Name</label>
-              <span>Name</span>
               <p class="invalid"><?php echo isset($postdata['name_err']) ? $postdata['name_err'] : ''; ?></p>
             </div>
             <div class="input-container">
+              <label for="email">Email</label>
               <input type="mail" name="email" id="email" class="input" value="<?php echo isset($postdata['email']) ? $postdata['email'] : ''; ?>" />
-              <label for="">Email</label>
-              <span>Email</span>
               <p class="invalid"><?php echo isset($postdata['email_err']) ? $postdata['email_err'] : ''; ?></p>
 
             </div>
             <div class="input-container">
+              <label for="tel">Phone</label>
               <input type="tel" name="phone" class="input" value="<?php echo isset($postdata['contactNo_err']) ? $postdata['contactNo_err'] : ''; ?>"  />
-              <label for="">Phone</label>
-              <span>Phone</span>
               <p class="invalid"><?php echo isset($postdata['contactNo_err']) ? $postdata['contactNo_err'] : ''; ?></p>
 
             </div>
             <div class="input-container textarea">
+              <label for="message">Message</label>
               <textarea name="message" class="input" value="<?php echo isset($postdata['message_err']) ? $postdata['message_err'] : ''; ?>"></textarea>
-              <label for="">Message</label>
-              <span>Message</span>
               <p class="invalid"><?php echo isset($postdata['message_err']) ? $postdata['message_err'] : ''; ?></p>
 
             </div>
