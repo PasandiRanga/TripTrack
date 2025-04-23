@@ -304,7 +304,7 @@
             opacity: 1,
             },
             grid: {
-            borderColor: '#55596e',
+            borderColor: '#fff',
             yaxis: {
                 lines: {
                 show: true,
@@ -428,7 +428,7 @@
             type: 'gradient',
             },
             grid: {
-            borderColor: '#55596e',
+            borderColor: '#fff',
             yaxis: {
                 lines: {
                 show: true,

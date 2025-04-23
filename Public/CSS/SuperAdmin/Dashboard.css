@@ -2,7 +2,7 @@ body{
 
     margin: 0;
     padding: 0;
-    background-color: #1f2a40; /* Darker shade for better contrast */
+    background-color: #006064; /* Darker shade for better contrast */
     color: #cfd8dc;            /* Softer, high-contrast text */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
@@ -46,7 +46,7 @@ body{
     display: flex;
     margin-left: auto;
     height: 60px;
-    background-color: flex;
+    background-color: #006064;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px 0 30px;
@@ -110,7 +110,7 @@ body{
 
     grid-area: sidebar;
     height: 100%;
-    background-color: #263043;
+    background-color: #006064;
     overflow-y: auto;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -207,7 +207,7 @@ body{
 
 .main-container {
     grid-area: main;
-    background-color: #f5f5f5; /* Softer beige */
+    background-color: #d8f8ee; /* Softer beige */
     padding: 20px;
     overflow-y: auto;
 }
@@ -235,8 +235,7 @@ body{
     justify-content: space-between;
     padding: 25px;
     border-radius: 20px;
-    background-color:  #006064;
-    color: white;
+    background: linear-gradient(135deg, #00897b, #006064); /* fixed here */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -260,7 +259,7 @@ body{
 
 .card-title {
     font-size: 16px;
-    color: #aaa;
+    color: #fff;
 }
 
 .card-value {
@@ -277,7 +276,7 @@ body{
 }
 
 .charts-card {
-    background-color:  #006064;
+    background: linear-gradient(135deg, #00897b, #006064);
     margin: 20px 10px;
     padding: 25px;
     border-radius: 20px;
