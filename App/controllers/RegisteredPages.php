@@ -435,9 +435,6 @@
 
                 try {
 
-                    
-                    
-
                     // Generate QR Code text
                     $qrText = "Booking Receipt\n";
                     $qrText .= "UserID: {$bookingData['User_id']}\n";
@@ -709,7 +706,7 @@
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-            $bookingsDetails = $this->RegisteredpagesModel->getRegBookings($_SESSION['user_id']);
+            // $bookingsDetails = $this->RegisteredpagesModel->getRegBookings($_SESSION['user_id']);
             // $reviews = $this->RegisteredpagesModel->getReviews($_SESSION['user_id']);
 
             $data = [
@@ -720,7 +717,6 @@
                 'notifications' => $notifications,
                 'pastSchedule' => $pastschedule,
                 'user' => $user,
-                'regBookingsDetails' => $bookingsDetails,
                 'cancellations' => $cancellations
                 // 'reviews' => $reviews
             ];

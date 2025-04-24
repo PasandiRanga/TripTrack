@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const toSelect = document.getElementById('to');
     const numofseats = document.getElementById('noOfseats');
     const penaltyFee = parseFloat(document.getElementById('bookingForm').getAttribute('data-penalty-fee') || 0);
+    console.log(penaltyFee);
 
     // Get all error elements
     const nameError = document.getElementById('NameError');

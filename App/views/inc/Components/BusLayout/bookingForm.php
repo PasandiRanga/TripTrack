@@ -6,6 +6,7 @@
       data-show-popup="<?php echo isset($data['showPopup']) && $data['showPopup'] ? 'true' : 'false'; ?>">
     <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($selectedBus['License_id']); ?>">
     <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
+    <input type="hidden" name="penaltyFee" id="penaltyFeeInput" value="<?php echo ($userRole === 'RegisteredUser' && !empty($pastNotArrivedBookings)) ? array_sum(array_column($pastNotArrivedBookings, 'penalty_fee')) : 0; ?>">
 
     <!-- Name and email -->
     <div class="form-group">
