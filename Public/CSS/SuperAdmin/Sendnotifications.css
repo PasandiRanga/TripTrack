@@ -1,60 +1,64 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 40px 20px 20px;
-    background-color: #f4f4f4;
+    background: #d8f8ee;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Center elements vertically */
-    min-height: 100vh; /* Ensure full height */
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
+    padding: 10px 18px;
+    background: linear-gradient(to right, #43cea2, #185a9d);
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition */
+    border-radius: 6px;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.1s ease;
 }
 
 .back-button:hover {
-    background-color: #0056b3; /* Darker blue for hover effect */
+    background: linear-gradient(to right, #30cfd0, #2bb673);
+    transform: translateY(-2px);
 }
 
+
 h2 {
-    color: #333;
-    font-size: 24px; /* Slightly larger font */
     text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-    text-transform: uppercase; /* Make heading uppercase */
+    margin: 40px 0 20px;
+    font-size: 28px;
+    color: #00695c;
 }
 
 .notification-form {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Add spacing between elements */
+    gap: 20px;
     align-items: center;
-    justify-content: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.notification-form:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 .notification-form label {
-    font-size: 16px;
-    color: #555;
-    font-weight: bold;
-    text-align: left;
+    font-size: 15px;
+    color: #37474f;
+    font-weight: 600;
     width: 100%;
 }
 
@@ -62,46 +66,47 @@ h2 {
 .notification-form input,
 .notification-form textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px 15px;
+    border: 1px solid #cfd8dc;
+    border-radius: 8px;
     font-size: 14px;
-    transition: border-color 0.3s ease; /* Smooth transition */
+    background-color: #fafafa;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .notification-form select:focus,
 .notification-form input:focus,
 .notification-form textarea:focus {
-    border-color: #007bff; /* Highlighted border on focus */
+    border-color: #0288d1;
+    box-shadow: 0 0 4px rgba(2, 136, 209, 0.3);
     outline: none;
+    background-color: #ffffff;
 }
 
 .notification-form textarea {
-    resize: none; /* Prevent resizing */
-    height: 80px; /* Default height for text areas */
+    resize: none;
+    height: 90px;
 }
 
 .notification-form button {
     width: 100%;
-    padding: 10px;
+    padding: 14px;
+    background: linear-gradient(135deg, #00897b, #006064);
     color: white;
-    background-color: #28a745;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition */
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .notification-form button:hover {
-    background-color: #218838; /* Darker green on hover */
+    background: linear-gradient(to right, #2bb673, #30cfd0);
+    transform: translateY(-2px);
 }
 
-.notification-form button:active {
-    background-color: #1e7e34; /* Even darker green on click */
-    transform: scale(0.98); /* Slight press effect */
-}
+
 
 @media (max-width: 600px) {
     body {
@@ -109,11 +114,11 @@ h2 {
     }
 
     .notification-form {
-        width: 90%; /* Full width on smaller screens */
-        padding: 20px;
+        width: 95%;
+        padding: 25px;
     }
 
     h2 {
-        font-size: 22px; /* Smaller heading on mobile */
+        font-size: 24px;
     }
 }

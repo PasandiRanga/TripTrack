@@ -1,7 +1,7 @@
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
+    background-color: #d8f8ee;
     margin: 0;
     padding: 0;
     color: #333;
@@ -13,16 +13,17 @@ body {
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #007bff;
-    border-radius: 4px;
+    background: linear-gradient(135deg, #00897b, #006064);
+    border-radius: 6px;
     color: white;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .back-button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to right, #2bb673, #30cfd0);
+    transform: translateY(-2px);
 }
 
 .box {
@@ -32,7 +33,7 @@ body {
     width: 95%;
     max-width: 1200px;
     border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
     overflow-x: auto;
     transition: all 0.3s ease-in-out;
 }
@@ -41,10 +42,10 @@ body {
 h2 {
     text-align: center;
     margin: 20px 0 30px;
-    color: #263043;
+    color: #00695c;
     font-size: 32px;
     font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* Add Assign Button */
@@ -58,16 +59,16 @@ h2 {
 .add-assign-btn {
     padding: 12px 30px;
     font-size: 14px;
-    background-color: #28a745;
+    background: linear-gradient(135deg, #26a69a, #00897b);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .add-assign-btn:hover {
-    background-color: #218838;
+    background: linear-gradient(to right, #2bb673, #30cfd0);
     transform: translateY(-2px);
 }
 
@@ -81,7 +82,7 @@ h2 {
     width: 95%;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
     background-color: white;
     padding: 20px;
     transition: box-shadow 0.3s ease;
@@ -94,9 +95,9 @@ h2 {
 }
 
 .assign-table th {
-    background-color: #007bff;
+    background:#006064;
     color: white;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     padding: 15px;
     text-align: left;
     font-size: 16px;
@@ -115,11 +116,11 @@ h2 {
 }
 
 .assign-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f0fdfa;
 }
 
 .assign-table tr:hover {
-    background-color: #f1f1f1;
+    background-color: #e0f7f4;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -128,30 +129,33 @@ h2 {
 .update-btn,
 .delete-btn {
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     border: none;
+    font-weight: 500;
 }
 
+/* Update Button */
 .update-btn {
-    background-color: #007bff;
+    background: #007bff;
     color: white;
 }
 
 .update-btn:hover {
-    background-color: #0056b3;
+    background: #007BFF;
     transform: translateY(-2px);
 }
 
+/* Delete Button */
 .delete-btn {
-    background-color: #f44336;
+    background: #FF6347;
     color: white;
 }
 
 .delete-btn:hover {
-    background-color: #d32f2f;
+    background: #d13b20;
     transform: translateY(-2px);
 }
 
@@ -160,7 +164,7 @@ h2 {
     transform: translateY(1px);
 }
 
-/* Responsive table */
+/* Responsive Table */
 @media screen and (max-width: 768px) {
     .assign-table-container {
         width: 100%;
@@ -205,7 +209,7 @@ h2 {
         content: attr(data-label);
         font-weight: bold;
         text-transform: uppercase;
-        color: #007bff;
+        color: #00897b;
         display: block;
         margin-bottom: 5px;
     }

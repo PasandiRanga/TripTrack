@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #eafaf6;
+    background-color: #d8f8ee;
     margin: 0;
     padding: 0;
     display: flex;
@@ -45,7 +45,7 @@ h2 {
 
 /* Form Container */
 .route-form {
-    background: #ffffff;
+    background: #d8f8ee;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);

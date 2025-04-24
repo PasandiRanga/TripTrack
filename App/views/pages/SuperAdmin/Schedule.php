@@ -35,7 +35,6 @@
                     <th>Arrival Time</th>
                     <th>Duration</th>
                     <th>Available Seats</th>
-                    <th>Booked Seats</th>
                     <th>Update</th>
                     <th>Delete</th>
                 </tr>
@@ -50,7 +49,7 @@
                 ]; */
                 if(isset($data['schedule']) && is_array($data['schedule'])){
                     foreach ($data['schedule'] as $schedule) {
-                        echo "<tr onclick='selectRow(this)'>";
+                        echo "<tr onclick='toggleDetailRow(this)'>";
                         echo "<td>{$schedule['scheduleId']}</td>";
                         echo "<td>{$schedule['License_id']}</td>";
                         echo "<td>{$schedule['direction']}</td>";
@@ -60,7 +59,6 @@
                         echo "<td>{$schedule['arrivalTime']}</td>";
                         echo "<td>{$schedule['duration']}</td>";
                         echo "<td>{$schedule['availableSeats']}</td>";
-                        echo "<td>{$schedule['bookedSeats']}</td>";
                         if ($schedule['bookedSeats'] == 0) {
                             echo "<td><button class='update-btn' onclick='updateSchedule(\"{$schedule['scheduleId']}\")'>Update</button></td>";
                             echo "<td><button class='delete-btn' onclick='deleteSchedule(\"{$schedule['scheduleId']}\")'>Delete</button></td>";
@@ -69,6 +67,14 @@
                             echo "<td><button class='delete-btn' onclick='showPopup(\"Cannot delete a schedule with bookings.\")'>Delete</button></td>";
                         }
                         echo "</tr>";
+                            echo "<tr class='detail-row'>";
+                            echo "<td colspan='12'>";
+                            echo "<div class='details-box'>";
+                            echo "<strong>Schedule ID:</strong> {$schedule['scheduleId']}<br>";
+                            echo "<strong>Booked Seats:</strong> {$schedule['bookedSeats']}<br>";
+                            echo "</div>";
+                            echo "</td>";
+                            echo "</tr>";
                     }
                 } else {
                     echo "<tr><td colspan='14'>No bus data available.</td></tr>";
@@ -78,6 +84,12 @@
             </tbody>
         </table>
     </div>
+
+    <!-- <div class="details-container" id="detailsContainer" style="display:none;">
+        <h3>Schedule Details</h3>
+        <p><strong>Schedule ID:</strong> <span id="detailScheduleId"></span></p>
+        <p><strong>Booked Seats:</strong> <span id="detailBookedSeats"></span></p>
+    </div> -->
 
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box">
@@ -198,6 +210,30 @@
             const deletePopupOverlay = document.getElementById("deletePopupOverlay");
             deletePopupOverlay.style.display = "none";
         }
+
+        function toggleDetailRow(clickedRow) {
+            // Collapse all other detail rows
+            document.querySelectorAll(".detail-row").forEach(row => {
+                if (row !== clickedRow.nextElementSibling) {
+                    row.style.display = "none";
+                }
+            });
+
+            // Toggle the current detail row
+            const detailRow = clickedRow.nextElementSibling;
+            if (detailRow && detailRow.classList.contains("detail-row")) {
+                detailRow.style.display = 
+                    detailRow.style.display === "table-row" ? "none" : "table-row";
+            }
+
+            // Optional: highlight selected row
+            document.querySelectorAll(".schedule-table tr").forEach(row => {
+                row.classList.remove("selected");
+            });
+            clickedRow.classList.add("selected")
+        }
+
+
     </script>
 </body>
 </html>
