@@ -10,46 +10,7 @@
     <title>Fleet Management</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Fleet.css?v=<?php echo time(); ?>">
     <style>
-        .add-button-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-        }
-
-        .add-button-container button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .add-button-container button:hover {
-            background-color: #007bff;
-        }
-
-        .fleet-table button {
-            padding: 5px 10px;
-            margin: 2px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .fleet-table button.delete-button {
-            background-color: #FF6347;
-        }
-
-        .fleet-table button:hover {
-            opacity: 0.9;
-        }
-
-        .fleet-table .selected {
-            background-color: #f2f2f2;
-        }
+    
     </style>
 </head>
 <body>
