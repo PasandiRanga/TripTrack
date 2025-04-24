@@ -703,8 +703,7 @@
         public function newBookings() {
             $upcomingbookings = $this->RegisteredpagesModel->getUpcomingBookings($_SESSION['user_id']);  
             $pastbookings = $this->RegisteredpagesModel->getPastBookings($_SESSION['user_id']); 
-            // echo '<script> console.log("Upcoming Bookings: ", ' . json_encode($upcomingbookings) . '); </script>';
-            // echo '<script> console.log("Past Bookings: ", ' . json_encode($pastbookings) . '); </script>';
+            $cancellations = $this->RegisteredpagesModel->getCancellations($_SESSION['user_id']);
             $upcomingschedule = $this->RegisteredpagesModel->getUpcomingSchedule();
             $pastschedule = $this->RegisteredpagesModel->getPastSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
@@ -722,6 +721,7 @@
                 'pastSchedule' => $pastschedule,
                 'user' => $user,
                 'regBookingsDetails' => $bookingsDetails,
+                'cancellations' => $cancellations
                 // 'reviews' => $reviews
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
