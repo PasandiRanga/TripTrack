@@ -26,7 +26,7 @@
 <body>
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">Back</button>
-
+<div class="box">
     <h1><?php echo $isUpdate ? 'Update Schedule' : 'Add New Schedule'; ?></h1>
 
     <!-- Schedule form -->
@@ -98,8 +98,8 @@
 
         <!-- Form buttons -->
         <div class="button-group">
-            <button type="button" onclick="clearForm()">Clear</button>
             <button type="submit"><?php echo $isUpdate ? 'Update Schedule' : 'Add Schedule'; ?></button>
+            <button type="button" class="clear-button" onclick="clearForm()">Clear</button>
         </div>
     </form>
 
@@ -109,6 +109,7 @@
             <button onclick="closePopup()">OK</button>
         </div>
     </div>
+</div>
 
 <script>
 
