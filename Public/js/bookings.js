@@ -583,7 +583,7 @@ function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, ban
     console.log("inside confirmOnlineCancellation");
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '<?php echo URLROOT; ?>/RegisteredPages/cancelBooking';
+    form.action = '/TripTrack/RegisteredPages/cancelBooking';
             
     const data = {
         schedule_id:scheduleId, 
