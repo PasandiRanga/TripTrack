@@ -79,7 +79,7 @@
                 const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/AddRoute');
                 url.searchParams.append('routeNumber', routeNumber);
                 url.searchParams.append('route', route);
-                url.searchParams.append('stops', stops);
+                url.searchParams.append('stops', encodeURIComponent(stops));
                 url.searchParams.append('price', price);
                 url.searchParams.append('priceperkm', pricePerKm);
 

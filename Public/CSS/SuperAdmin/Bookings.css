@@ -1,7 +1,7 @@
 /* General Body Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #d8f8ee;
     margin: 0;
     padding: 20px;
     display: flex;
@@ -15,7 +15,7 @@ body {
     top: 20px;
     left: 20px;
     padding: 10px 15px;
-    background-color: #007bff;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     border-radius: 4px;
     color: white;
     border: none;
@@ -23,7 +23,8 @@ body {
 }
 
 .back-button:hover {
-    background-color: #007bff;
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    transform: translateY(-2px);
 }
 .box-wrapper {
     max-width: 1400px;  /* Limit the maximum width of the wrapper */
@@ -46,7 +47,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background-color: #fff;
+    background-color: #d8f8ee;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -106,10 +107,13 @@ body {
 
 /* Page Header */
 h1 {
-    font-size: 28px;
-    color: black;
-    margin-bottom: 20px;
     text-align: center;
+    font-size: 32px;
+    color: #006064;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Filter Container Styling */
@@ -165,7 +169,7 @@ h1 {
 }
 
 .booking-table th {
-    background-color: #007bff;
+    background-color: #006064;
     color: white;
     font-weight: 600;
     text-transform: uppercase;
