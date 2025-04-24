@@ -5,7 +5,7 @@
 <?php
     $routeNumber = $_GET['routeNumber'] ?? '';
     $route = $_GET['route'] ?? '';
-    $stops = $_GET['stops'] ?? '';
+    $stops = isset($_GET['stops']) ? urldecode($_GET['stops']) : '';
     $price = $_GET['price'] ?? '';
     $pricePerKm = $_GET['priceperkm'] ?? '';
     $isUpdate = !empty($routeNumber); // Check if it's an update operation
@@ -21,7 +21,7 @@
 <body>
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/routes'">Back</button>
-
+<div class="box">
     <!-- Page Title -->
     <h2>Add New Route</h2>
 
@@ -34,7 +34,7 @@
         <input type="text" id="route" name="route" placeholder="Enter Route" value="<?php echo htmlspecialchars($route); ?>" required>
 
         <label for="stops">Stops:</label>
-        <input type="text" id="stops" name="stops" placeholder="Enter Stops" value="<?php echo htmlspecialchars($stops); ?>" required>
+        <textarea id="stops" name="stops" placeholder="Enter Stops" required><?php echo htmlspecialchars($stops); ?></textarea>
 
         <label for="price">Price:</label>
         <input type="text" id="price" name="price" placeholder="Enter Price" value="<?php echo htmlspecialchars($price); ?>" required>
@@ -43,8 +43,26 @@
         <input type="text" id="priceperkm" name="priceperkm" placeholder="Enter Price per km" value="<?php echo htmlspecialchars($pricePerKm); ?>" required>
 
         <button type="submit"><?php echo $isUpdate ? 'Update Route' : 'Add Route'; ?></button>
+        <button type="button" class="clear-button" onclick="clearForm()">Clear</button>
     </form>
+    </div>
 <script>
+
+    function clearForm() {
+        if (confirm("Are you sure you want to clear the form?")) {
+            document.getElementById("route").value = "";
+            document.getElementById("stops").value = "";
+            document.getElementById("price").value = "";
+            document.getElementById("priceperkm").value = "";
+
+            // Only clear routeNumber if it's NOT an update operation
+            const isUpdate = <?php echo json_encode($isUpdate); ?>;
+            if (!isUpdate) {
+                document.getElementById("routeNumber").value = "";
+            }
+        }
+    }
+
     document.getElementById("routeForm").addEventListener("submit", function(event) {
         event.preventDefault();
 

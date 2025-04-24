@@ -45,6 +45,10 @@
             $this->view('pages/RegisteredUser/home', $data);
         }
 
+        public function slide() {
+            $this->view('inc/Components/ImageSlide/imageSlide');
+        }
+
         public function busLayout() {
             $schedule = $this->RegisteredpagesModel->getSchedule();
             $bus = $this->RegisteredpagesModel->getBusDetails();
@@ -73,7 +77,8 @@
             ];
 
             $this->view('inc/Components/BusLayout/BusLayout', $data);
-        }       
+        } 
+
         public function contactUs() {
             
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
@@ -309,10 +314,6 @@
             }
         }
 
-        public function slide() {
-            $this->view('inc/Components/ImageSlide/imageSlide');
-        }
-
         public function getReviews() {
             $licenseId = $_GET['License_id'] ?? null;
             if ($licenseId) {
@@ -331,63 +332,14 @@
                     'email' => trim($_POST['email']),
                     'contactNo' => trim($_POST['phone']),
                     'message' => trim($_POST['message']),
-                    'userid' => $_POST['user_id'],
-                    'name_err' => '',
-                    'email_err' => '',
-                    'contactNo_err' => '',
-                    'message_err' => ''     
+                    'userid' => $_SESSION['user_id'] ?? null
                 ];
-
-                
-
-                // Validate name
-                if (empty($data['name'])) {
-                    $data['name_err'] = 'Please enter your name';
-                }
-
-                // Validate email
-                if (empty($data['email'])) {
-                    $data['email_err'] = 'Please enter your email';
-                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                    $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
-                }
-
-                // Validate contact number
-                if (empty($data['contactNo'])) {
-                    $data['contactNo_err'] = 'Please enter your contact number';
-                } elseif (!ctype_digit($data['contactNo'])) {
-                    $data['contactNo_err'] = 'The contact number must contain only numbers';
-                } elseif (strlen($data['contactNo']) !== 10) {
-                    $data['contactNo_err'] = 'The contact number must be exactly 10 digits long';
-                } elseif ($data['contactNo'][0] !== '0') {
-                    $data['contactNo_err'] = 'The contact number must start with 0';
-                }
-
-                 // Validate message
-                if (empty($data['message'])) {
-                    $data['message_err'] = 'Please enter a message';
-                }
-
-                
-    
-                // Validate inputs
-                if (empty($data['name_err']) && empty($data['email_err']) && empty($data['contactNo_err']) && empty($data['message_err'])) {
-                    // Save to database using model
-                    if ($this->RegisteredpagesModel->addSupportRequest($data)) {
-                        // Redirect on success
-                        $_SESSION['success_message'] = "Your support request has been submitted successfully.";
-                        header('Location: ' . URLROOT . '/RegisteredPages/contactUs?status=success');
-                        exit();
-                    } else {
-                        // Handle database error
-                        $data['error_message'] = "Something went wrong. Please try again.";
-                        $this->view('pages/RegisteredUser/contactus', $data);
-                    }
-                } else {
-                    
-                    // Reload view with errors
-                    $this->view('pages/RegisteredUser/contactus', $data);
-                }
+      
+                $this->RegisteredpagesModel->addSupportRequest($data);
+                // Redirect on success
+                $_SESSION['success_message'] = "Your support request has been submitted successfully.";
+                header('Location: ' . URLROOT . '/RegisteredPages/contactUs?status=success');
+                exit();
             } else {
                 header('Location: ' . URLROOT . '/RegisteredPages/contactUs');
                 exit();
@@ -451,6 +403,7 @@
                     $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];
                     $bookingData['qrCodeFilename'] = $qrData['qrCodeFilename'];
 
+                    //If there are penalty fees inlcuded
                     if(isset($_POST['penaltyFee']) && $_POST['penaltyFee'] > 0 && isset($_SESSION['user_id']) ){
                         $penaltyFee = floatval($_POST['penaltyFee']);
                         $userId = $_SESSION['user_id'];
@@ -493,22 +446,23 @@
         }
 
         private function generateQRCode($qrText) {
-            require_once APPROOT . '/libraries/phpqrcode/qrlib.php'; // Adjust path as needed
+            require_once APPROOT . '/libraries/phpqrcode/qrlib.php';
 
             $qrDir = APPROOT . "/public/qrcodes/";
             
-            // Ensure QR code directory exists
+            // Ensuring QR code directory exists
             if (!file_exists($qrDir)) {
                 mkdir($qrDir, 0777, true);
             }
 
-            $filename = "REGqr_" . time() . ".png"; // Unique filename
+            //Asigning a unique file name
+            $filename = "REGqr_" . time() . ".png"; 
             $filePath = $qrDir . $filename;
 
-            // Generate QR Code
+            // Generating the QR Code
             QRcode::png($qrText, $filePath, QR_ECLEVEL_L, 10);
 
-            // Return QR Code URL
+            // Returning QR Code URL
             return [
                 'qrCodeUrl' => URLROOT . "/public/qrcodes/" . $filename,
                 'qrCodeFilename' => $filename // Pass the filename as well
@@ -521,7 +475,7 @@
             $bookingID = $this->RegisteredpagesModel->getBookingID($bookingData['User_id'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
 
             if (is_string($bookingID) && strpos($bookingID, '{id:') !== false) {
-                // This is a simple regex to extract just the ID value like "R363"
+                //Regex to extract just the ID value
                 preg_match('/id: [\'"]([^\'"]+)[\'"]/', $bookingID, $matches);
                 if (isset($matches[1])) {
                     $bookingID = $matches[1];
@@ -542,7 +496,7 @@
                 $mail->setFrom(SMTP_EMAIL, 'TripTrack');
                 $mail->addAddress($bookingData['email'], $bookingData['name']);
                 
-                // Attach the QR code image as inline image
+                // Attaching the QR code image as inline image
                 $qrCodePath = APPROOT . "/public/qrcodes/" . $bookingData['qrCodeFilename']; // Ensure you pass the filename too
                 $mail->addEmbeddedImage($qrCodePath, 'qr_code_image', 'qr_code.png', 'base64', 'image/png');
                 
@@ -620,7 +574,7 @@
                 $mail->isHTML(true);
                 $mail->Subject = 'Your Booking Cancellation - TripTrack';
 
-                // Determine if it's an online or cash booking based on payment method
+                // Determining if it's an online or cash booking based on payment method
                 $isOnlineBooking = ($cancellationData['paymentMethod'] != 'Cash');
                 
                 $mail->Body = '
@@ -645,7 +599,7 @@
                         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Payment Method:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['paymentMethod']) . '</td></tr>
                         <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Cancellation Fee:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">Rs. ' . htmlspecialchars($cancellationData['cancellation_fee']) . '</td></tr>';
                         
-                // Show refund amount only for online bookings
+                // Showing refund amount only for online bookings
                 if ($isOnlineBooking) {
                     $mail->Body .= '
                         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Refund Amount:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">Rs. ' . htmlspecialchars($cancellationData['refund_amount']) . '</td></tr>';
@@ -654,7 +608,7 @@
                 $mail->Body .= '
                         <tr style="background-color: #f2f2f2;"><td style="padding: 8px; border: 1px solid #ddd;"><strong>Cancellation Date:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['time_date']) . '</td></tr>';
                 
-                // Add account details only for online bookings
+                // Adding account details only for online bookings
                 if ($isOnlineBooking) {
                     $mail->Body .= '
                         <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Account Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">' . htmlspecialchars($cancellationData['account_name']) . '</td></tr>
@@ -668,7 +622,7 @@
                     
                     <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #2c3e50; border-radius: 3px;">';
                 
-                // Add specific refund message for online bookings
+                // Adding specific refund message for online bookings
                 if ($isOnlineBooking) {
                     $mail->Body .= '<strong>Important Note:</strong> Your refund of Rs. ' . htmlspecialchars($cancellationData['refund_amount']) . ' will be deposited to your provided bank account within 2 to 3 business days.';
                 } else {
@@ -706,9 +660,7 @@
             $bus = $this->RegisteredpagesModel->getBusDetails();
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
             $user = $this->RegisteredpagesModel->findUserById($_SESSION['user_id']);
-            // $bookingsDetails = $this->RegisteredpagesModel->getRegBookings($_SESSION['user_id']);
-            // $reviews = $this->RegisteredpagesModel->getReviews($_SESSION['user_id']);
-
+            
             $data = [
                 'upcomingbookings' => $upcomingbookings,
                 'pastbookings' => $pastbookings,
@@ -718,9 +670,8 @@
                 'pastSchedule' => $pastschedule,
                 'user' => $user,
                 'cancellations' => $cancellations
-                // 'reviews' => $reviews
             ];
-            echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
+            // echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
             $this->view('pages/RegisteredUser/newBookings' , $data);
         }
@@ -735,19 +686,19 @@
                     'profile_image_err' => ''
                 ];
 
-                $userId = $_SESSION['user_id']; // Assuming you store this in session
+                $userId = $_SESSION['user_id']; 
 
                 // Check and upload image
                 if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
                     if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
                         $imagePath = $data['profile_image_name']; // Save only the filename or relative path
 
-                        // Call the model to update image path in DB
+                        // Calling the model to update image path in DB
                         if ($this->RegisteredpagesModel->updateProfileImage($userId, $imagePath)) {
-                            // Update session profile image
+                            // Updating session profile image
                             $_SESSION['user_profile_image'] = $imagePath;
 
-                            // Redirect to profile with success message
+                            // Redirecting to profile with success message
                             redirect('RegisteredPages/profile');
                         } else {
                             $data['profile_image_err'] = 'Failed to update image in database';
@@ -760,7 +711,7 @@
                     $data['profile_image_err'] = 'No image selected';
                 }
 
-                // Reload profile with error if any
+                // Reloading profile with error if any
                 $data['user'] = $this->RegisteredpagesModel->findUserById($userId);
                 $this->view('RegisteredUser/profile', $data);
 
@@ -772,11 +723,10 @@
         /* For all noticiation page */
         public function allNotifications()
         {
-            echo '<script>console.log("Inside the controller")</script>';
-            // Get all notifications for the current user
+            // Geting all notifications for the current user
             $allnotifications = $this->NotificationModel->getAllUserNotifications($_SESSION['user_id']);
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
-            echo '<script> console.log("Notifications: ", ' . json_encode($allnotifications) . '); </script>';
+            // echo '<script> console.log("Notifications: ", ' . json_encode($allnotifications) . '); </script>';
 
             $data = [
                 'currentController' => 'RegisteredPages',
@@ -785,7 +735,7 @@
                 'allnotifications' => $allnotifications,
                 'notifications' => $notifications
             ];
-            echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
+            // echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
             
             $this->view('pages/RegisteredUser/allNotifications', $data);
@@ -794,14 +744,14 @@
         /* For the notification icon */
         public function getAllNotifications()
         {
-            // Check if it's an AJAX request
+            // Checking if it's an AJAX request
             if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 redirect('pages/error');
             }
             
             $notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
             
-            // Return JSON response
+            // Returning the JSON response
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => true,
@@ -812,14 +762,14 @@
         /* Mark notifications as seen notification icon*/
         public function markNotificationsAsSeen()
         {
-            // Check if it's an AJAX request
+            // Checking if it's an AJAX request
             if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 redirect('pages/error');
             }
             
             $success = $this->NotificationModel->markNotificationsAsSeen($_SESSION['user_id']);
             
-            // Return JSON response
+            // Returning JSON response
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => $success
@@ -828,12 +778,12 @@
 
         /* Update notification read status in notification icon*/
         public function toggleReadStatus() {
-            // Check if it's an AJAX request
+            // Checking if it's an AJAX request
             if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 redirect('pages/error');
             }
             
-            // Get POST data
+            // Get the POST data
             $input = json_decode(file_get_contents('php://input'), true);
             $notificationId = $input['notification_id'] ?? null;
             $isRead = $input['is_read'] ?? false;
@@ -844,7 +794,8 @@
                     'success' => false,
                     'message' => 'Notification ID is required'
                 ]);
-                exit(); // Add this to ensure nothing else is output
+                //Ensuring nothing else it outputted
+                exit();
             }
             
             $success = $this->NotificationModel->updateReadStatus($notificationId, $isRead, $_SESSION['user_id']);
@@ -859,15 +810,12 @@
 
         public function deleteNotification(){
             // Turn off output buffering
-
             ob_start();
             
             try {
-                // Check if it's an AJAX request
+                // Checking if it's an AJAX request
                 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-                    // echo '<script>console.log("Not POST");</script>';
                     throw new Exception('Invalid request method');
-
                 }
                 
                 // Get POST data
@@ -875,20 +823,17 @@
                 $notificationId = $input['notification_id'] ?? null;
                 // echo '<script>console.log("Notification id"' .json_encode($notificationId) . ');</script>';
 
-                
                 if (!$notificationId) {
                     throw new Exception('Notification ID is required');
                 }
                 
                 $success = $this->NotificationModel->deleteNotification($notificationId, $_SESSION['user_id']);
                 // echo '<script>console.log(' . json_encode($success) . ');</script>';
-        
-
-        
+    
                 // Clear any output that might have happened
                 ob_clean();
                 
-                // Return JSON response
+                // Returning the JSON response
                 header('Content-Type: application/json');
                 echo json_encode([
                     'success' => $success
@@ -898,7 +843,7 @@
                 // Clear any output
                 ob_clean();
                 
-                // Return error JSON
+                // Returning an error JSON
                 header('Content-Type: application/json');
                 echo json_encode([
                     'success' => false,
@@ -906,10 +851,11 @@
                 ]);
             }
         }
+
         /* Dismiss notification in notification icon*/
         public function dismissNotification()
         {
-            // Check if it's an AJAX request
+            // Checking if it's an AJAX request
             if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 redirect('pages/error');
             }
@@ -945,7 +891,7 @@
                 
                 $input = json_decode(file_get_contents('php://input'), true);
                 
-                // Check if ids array exists
+                // Checking if ids array exists
                 if (!isset($input['ids']) || !is_array($input['ids'])) {
                     throw new Exception('Invalid input format');
                 }
@@ -990,12 +936,12 @@
                 'license_id' => $_POST['license_id'],
                 'rate' => $_POST['rating'],
                 'review' => trim($_POST['opinion']),
-                'date' => gmdate('Y-m-d', time() + 19800), // Sri Lanka is UTC+5:30
-                'time' => gmdate('H:i:s', time() + 19800)  // Sri Lanka is UTC+5:30
+                'date' => gmdate('Y-m-d', time() + 19800), 
+                'time' => gmdate('H:i:s', time() + 19800)  
             ];
             
             if ($this->RegisteredpagesModel->addReview($data)) {
-                // redirect to previous or success page
+                // redirecting to previous or success page
                 redirect('RegisteredPages/newBookings');
             } else {
                 die('Something went wrong');

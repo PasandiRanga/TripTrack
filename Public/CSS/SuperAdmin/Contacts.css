@@ -1,115 +1,115 @@
 /* General Styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
-    color: black;
+    background-color: #d8f8ee;
+    color: #333;
 }
+
+.box {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 96, 100, 0.2);
+    padding: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    border-left: 6px solid #006064;
+    transition: box-shadow 0.3s ease;
+}
+
 
 /* Back Button */
 .back-button {
-    margin: 20px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
     padding: 10px 20px;
-    font-size: 14px;
-    background-color: #007bff;
+    background: linear-gradient(135deg, #00897b, #006064);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
 .back-button:hover {
-    background-color: #007bff;
+    background: linear-gradient(135deg, #006064, #004d40);
 }
+
 
 /* Page Title */
 h2 {
     text-align: center;
     margin: 20px 0;
     color: black;
+    font-weight: 600;
 }
 
-/* Add Assign Button */
-.top-actions {
-    margin: 20px auto; /* Centers the button horizontally */
-    width: 90%; /* Matches the table's width */
-    display: flex;
-    justify-content: flex-end;
-}
-
-.add-assign-btn {
-    padding: 10px 20px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.add-assign-btn:hover {
-    background-color: #007bff;
-}
-
-/* Table Container */
+/* Cards Layout Container */
 .contact-table-container {
-    max-width: 90%;
-    margin: 0 auto 20px;
-    overflow-x: auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
-/* Table Styling */
-.contact-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
+/* Individual Contact Card */
+.contact-card {
+    background: #f38a8a;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out;
 }
 
-.contact-table thead {
-    background-color: #007bff;
-    color: white;
+.contact-card:hover {
+    transform: scale(1.02);
 }
 
-.contact-table th,
-.contact-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+/* Card Content Text */
+.contact-card p {
+    color: black;
+    margin: 6px 0;
+    font-size: 14px;
 }
 
-.contact-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+/* Card Labels */
+.contact-card p strong {
+    color: black;
 }
 
-.contact-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
+/* Reply Button */
 .reply-btn {
     background-color: #007bff;
     color: white;
+    padding: 10px 14px;
     border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 13px;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
-}
-.reply-btn.replied {
-    background-color: #28a745; /* Green */
-    color: white;
-    cursor: not-allowed;
-    border: none;
-    transition: background-color 0.3s;
-}
-
-/* Replied row background */
-.contact-table tbody tr.replied-row {
-    background-color: #e6f9e6 !important; /* Light green background */
+    align-self: flex-start;
 }
 
 .reply-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
+}
+
+.reply-btn.replied {
+    background-color: #28a745;
+    cursor: not-allowed;
+}
+
+/* Optional: Different Background for Replied */
+.replied-card {
+    background-color: #e6f9e6;
 }
