@@ -170,6 +170,19 @@ body {
     box-sizing: border-box;
 }
 
+.name{
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .input-container input:focus, .input-container textarea:focus {
     border-color: #00897b;
     box-shadow: 0 0 0 2px rgba(0, 137, 123, 0.1);
@@ -248,4 +261,18 @@ body {
         width: 100%;
         margin-top: 15px;
     }
+}
+
+.input-error {
+  border-color: #e22222 !important;
+}
+
+.error-message {
+  color: #e22222;
+  font-size: 12px;
+  margin-top: 6px;
+  display: none;
+  font-weight: 500;
+  padding-left: 4px;
+  animation: fadeIn 0.3s ease;
 }

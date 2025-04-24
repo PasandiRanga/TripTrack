@@ -14,7 +14,7 @@
         <div>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Name'])) ? htmlspecialchars($userData['Name']) : ''; ?>" required>
-            <div id="NameError" class="error-message">Name can only contain characters.</div>
+            <div id="NameError" class="error-message"></div>
         </div>
         <!-- Input email -->
         <div>

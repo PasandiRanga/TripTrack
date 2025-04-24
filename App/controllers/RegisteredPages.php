@@ -332,63 +332,14 @@
                     'email' => trim($_POST['email']),
                     'contactNo' => trim($_POST['phone']),
                     'message' => trim($_POST['message']),
-                    'userid' => $_POST['user_id'],
-                    'name_err' => '',
-                    'email_err' => '',
-                    'contactNo_err' => '',
-                    'message_err' => ''     
+                    'userid' => $_SESSION['user_id'] ?? null
                 ];
-
-                
-
-                // Validate name
-                if (empty($data['name'])) {
-                    $data['name_err'] = 'Please enter your name';
-                }
-
-                // Validate email
-                if (empty($data['email'])) {
-                    $data['email_err'] = 'Please enter your email';
-                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                    $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
-                }
-
-                // Validate contact number
-                if (empty($data['contactNo'])) {
-                    $data['contactNo_err'] = 'Please enter your contact number';
-                } elseif (!ctype_digit($data['contactNo'])) {
-                    $data['contactNo_err'] = 'The contact number must contain only numbers';
-                } elseif (strlen($data['contactNo']) !== 10) {
-                    $data['contactNo_err'] = 'The contact number must be exactly 10 digits long';
-                } elseif ($data['contactNo'][0] !== '0') {
-                    $data['contactNo_err'] = 'The contact number must start with 0';
-                }
-
-                 // Validate message
-                if (empty($data['message'])) {
-                    $data['message_err'] = 'Please enter a message';
-                }
-
-                
-    
-                // Validate inputs
-                if (empty($data['name_err']) && empty($data['email_err']) && empty($data['contactNo_err']) && empty($data['message_err'])) {
-                    // Save to database using model
-                    if ($this->RegisteredpagesModel->addSupportRequest($data)) {
-                        // Redirect on success
-                        $_SESSION['success_message'] = "Your support request has been submitted successfully.";
-                        header('Location: ' . URLROOT . '/RegisteredPages/contactUs?status=success');
-                        exit();
-                    } else {
-                        // Handle database error
-                        $data['error_message'] = "Something went wrong. Please try again.";
-                        $this->view('pages/RegisteredUser/contactus', $data);
-                    }
-                } else {
-                    
-                    // Reload view with errors
-                    $this->view('pages/RegisteredUser/contactus', $data);
-                }
+      
+                $this->RegisteredpagesModel->addSupportRequest($data);
+                // Redirect on success
+                $_SESSION['success_message'] = "Your support request has been submitted successfully.";
+                header('Location: ' . URLROOT . '/RegisteredPages/contactUs?status=success');
+                exit();
             } else {
                 header('Location: ' . URLROOT . '/RegisteredPages/contactUs');
                 exit();

@@ -13,7 +13,6 @@
 <body>
 
     <?php 
-        // Assuming $data['currentController'] and $data['currentMethod'] are passed to this view
         $currentController = $data['currentController'] ?? '';
         // echo "Current controller is: " . $currentController;
         $currentMethod = $data['currentMethod'] ?? '';
@@ -29,7 +28,7 @@ $selectedDate = $_GET['date'] ?? date('Y-m-d');
 $displayedCards = 0;
 $totalCards = 0;
 
-// Count the total number of cards that will be displayed
+// Counting the total number of cards that will be displayed
 foreach ($busData as $bus) {
     foreach ($scheduleData as $schedule) {
         if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
@@ -38,7 +37,6 @@ foreach ($busData as $bus) {
     }
 }
 
-// Instead, iterate through all buses
 foreach ($busData as $bus) {
     // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
@@ -117,7 +115,7 @@ foreach ($busData as $bus) {
                     </div>
                     <div class="route-stops">
                         <?php 
-                        // Ensure that 'stops' is not empty and is a string before processing
+                        // Ensuring that 'stops' is not empty and is a string before processing
                             if (!empty($stops) && is_string($stops)) {
                                 // Convert the string of stops into an array
                                 $stopsArray = explode(',', $stops);
@@ -141,7 +139,6 @@ foreach ($busData as $bus) {
                                     echo '<span>' . htmlspecialchars($stopsArray[$totalStops - 1]) . '</span>';
                                 }
                             } else {
-                                // Display a default message if there are no stops
                                 echo '<span>No stops available</span>';
                             }
 
@@ -152,7 +149,6 @@ foreach ($busData as $bus) {
                 <div class="bus-card-footer">
                 <div class="rating">
                     <?php
-                    // Modified stars display code to handle decimal ratings correctly
                     for ($i = 1; $i <= 5; $i++) {
                         // Full star
                         if ($i <= floor($roundedRating)) {
@@ -177,7 +173,7 @@ foreach ($busData as $bus) {
                 </div>
             </div>
             <?php
-            $displayedCards++; // Increment counter when a bus card is displayed
+            $displayedCards++; 
         }
     }
 }
@@ -186,7 +182,6 @@ foreach ($busData as $bus) {
 if ($displayedCards === 0) {
     echo '<div class="no-buses-message">No buses available for the selected date.</div>';
 } elseif ($totalCards > 8) {
-    // Show the "Show More" button only if there are more than 8 cards
     echo '<div class="show-more-container">
         <button id="show-more-btn" class="show-more-btn">Show More</button>
     </div>';

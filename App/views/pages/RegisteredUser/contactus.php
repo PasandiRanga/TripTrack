@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/Footer/footer.css?v=<?php echo time(); ?>">
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/test.css?v=<?php echo time(); ?>"> -->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/GuestUser/contactUs.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -20,24 +21,24 @@
 <body>
 
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredtUser'); ?>;
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     ?>
 
     <?php
 
-    $notifications =  $data['notifications'] ?? [];
-
     $postdata = $data;
     
-        $data['currentController'] = 'RegisteredPages';
-        $data['currentMethod'] = 'allNotifications';
-        $data['userRole'] = $userRole;
+    $data = [
+        'currentController' => 'ReigsteredPages', // Adjust this based on your controller
+        'currentMethod' => 'contactUs', // Adjust this based on the method
+        'userRole' => $userRole
+    ];
     ?> 
 
     <?php
@@ -76,16 +77,16 @@
           <div class="info">
             <div class="information">
               <i class="fas fa-map-marker-alt icon-custom"></i>
-              <p>123 Main Street, Suite 400
+              <p>&nbsp;&nbsp;123 Main Street, Suite 400
               City, State, ZIP Code</p>
             </div>
             <div class="information">
               <i class="fas fa-envelope icon-custom"></i>
-              <p>info@example.com</p>
+              <p>&nbsp;&nbsp;info@example.com</p>
             </div>
             <div class="information">
               <i class="fas fa-phone-alt icon-custom"></i>
-              <p>Phone: +1 (123) 456-7890</p>
+              <p>&nbsp;&nbsp;Phone: +1 (123) 456-7890</p>
             </div>
           </div>
 
@@ -116,39 +117,74 @@
 
             <div class="input-container">
               <label for="name">Name</label>
-              <input type="text" name="name" id="name" class="name" value="<?php echo isset($postdata['name']) ? $postdata['name'] : ''; ?>" />
-              <p class="invalid"><?php echo isset($postdata['name_err']) ? $postdata['name_err'] : ''; ?></p>
+              <input type="name" name="name" id="name" class="name" value="<?php echo isset($postdata['name']) ? $postdata['name'] : ''; ?>" />
+              <div id="NameError" class="error-message">Name can only contain characters.</div>
             </div>
             <div class="input-container">
               <label for="email">Email</label>
-              <input type="mail" name="email" id="email" class="input" value="<?php echo isset($postdata['email']) ? $postdata['email'] : ''; ?>" />
-              <p class="invalid"><?php echo isset($postdata['email_err']) ? $postdata['email_err'] : ''; ?></p>
+              <input type="mail" name="email" id="ContactEmail" class="input" value="<?php echo isset($postdata['email']) ? $postdata['email'] : ''; ?>" />
+              <div id="EmailError" class="error-message">Enter a valid email</div>
 
             </div>
             <div class="input-container">
               <label for="tel">Phone</label>
-              <input type="tel" name="phone" class="input" value="<?php echo isset($postdata['contactNo_err']) ? $postdata['contactNo_err'] : ''; ?>"  />
-              <p class="invalid"><?php echo isset($postdata['contactNo_err']) ? $postdata['contactNo_err'] : ''; ?></p>
+              <input type="tel" name="phone" id="contact" class="input" value="<?php echo isset($postdata['contactNo_err']) ? $postdata['contactNo_err'] : ''; ?>"  />
+              <div id="ContactError" class="error-message">Enter a valid contact number</div>
 
             </div>
             <div class="input-container textarea">
               <label for="message">Message</label>
-              <textarea name="message" class="input" value="<?php echo isset($postdata['message_err']) ? $postdata['message_err'] : ''; ?>"></textarea>
-              <p class="invalid"><?php echo isset($postdata['message_err']) ? $postdata['message_err'] : ''; ?></p>
+              <textarea name="message" id="message" class="input" value="<?php echo isset($postdata['message_err']) ? $postdata['message_err'] : ''; ?>"></textarea>
+              <div id="MessageError" class="error-message">Message is required</div>
 
             </div>
-            <input type="submit" value="Send" class="btn" />
-          </form>
+            <input type="submit" id="submitBtn" value="Send" class="btn" />          </form>
         </div>
       </div>
     </div>
- </div>
+</div>
 <div class="footerContainer">
-  <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
+<?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
 </div>
      
-    <script>
+  <script>
     const inputs = document.querySelectorAll(".input");
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('ContactEmail');
+    const contactInput = document.getElementById('contact');
+    const messageInput = document.getElementById('message');
+    const nameError = document.getElementById('NameError');
+    const emailError = document.getElementById('EmailError');
+    const contactError = document.getElementById('ContactError');
+    const messageError = document.getElementById('MessageError');
+    const contactForm = document.querySelector(".contact-form form");
+
+    document.querySelectorAll('.error-message').forEach(error => {
+        error.style.display = 'none';
+    });
+
+    contactForm.addEventListener('submit', function(event) {
+        // Prevent form from submitting immediately
+        event.preventDefault();
+        
+        // Run form validation
+        if (validateForm()) {
+            // If validation passes, submit the form properly
+            // Use the native form submission instead of calling submit() directly
+            contactForm.submit();
+          
+        }
+    });
+
+    function validateForm() {
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isContactValid = validateContact();
+        const isMessageValid = validateMessage();
+        
+        // Only return true if all validations pass
+        return isNameValid && isEmailValid && isContactValid && isMessageValid;
+    }
 
     function focusFunc() {
     let parent = this.parentNode;
@@ -166,6 +202,89 @@
     input.addEventListener("focus", focusFunc);
     input.addEventListener("blur", blurFunc);
     });
+
+    function showError(inputElement, errorElement, message, isError) {
+        if (isError) {
+            inputElement.classList.add('input-error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        } else {
+            inputElement.classList.remove('input-error');
+            errorElement.style.display = 'none';
+        }
+    }
+
+    function validateName() {
+        const name = nameInput.value.trim();
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        
+        if (name === '') {
+            showError(nameInput, nameError, 'Name is required', true);
+            return false;
+        } else if (!nameRegex.test(name)) {
+            showError(nameInput, nameError, 'Name should only contain letters and spaces', true);
+            return false;
+        } else {
+            showError(nameInput, nameError, '', false);
+            return true;
+        }
+    }
+
+    function validateEmail() {
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email === '') {
+            showError(emailInput, emailError, 'Email is required', true);
+            return false;
+        } else if (!emailRegex.test(email)) {
+            showError(emailInput, emailError, 'Please enter a valid email address', true);
+            return false;
+        } else {
+            showError(emailInput, emailError, '', false);
+            return true;
+        }
+    }
+
+    function validateContact() {
+        const contact = contactInput.value.trim();
+        const contactRegex = /^\d{10}$/;
+        
+        if (contact === '') {
+            showError(contactInput, contactError, 'Contact number is required', true);
+            return false;
+        } else if (!contactRegex.test(contact)) {
+            showError(contactInput, contactError, 'Please enter a valid 10-digit contact number', true);
+            return false;
+        } else {
+            showError(contactInput, contactError, '', false);
+            return true;
+        }
+    }
+
+    function validateMessage(){
+      const message = messageInput.value.trim();
+      if(message === ''){
+        showError(messageInput , messageError, 'Message is required' , true);
+        return false;
+      }else{
+        showError(messageInput , messageError, '', false);
+        return true;
+      }
+      
+    }
+
+    contactInput.addEventListener('input', function() {
+        // Remove non-digit characters and limit to 10 digits
+        this.value = this.value.replace(/\D/g, '').substring(0, 10);
+        validateContact();
+    });
+
+    nameInput.addEventListener('input', validateName);
+    emailInput.addEventListener('input', validateEmail);
+    
+
+    
 
 
 </script>
