@@ -378,7 +378,7 @@
                     c.Name,  
                     r.review 
                 FROM 
-                    bus_reviews r
+                    ratings r
                 INNER JOIN 
                     customer c 
                 ON 
