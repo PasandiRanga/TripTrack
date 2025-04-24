@@ -9,6 +9,7 @@
         <center><h1 style="color:#43cea2">LOGIN</h1></center>
         <div class="login-section">
             <form class="form" action="<?php echo URLROOT ?>/GuestPages/Login" method="POST" id="loginForm">
+                
                 <label>Email</label>
                 <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($headerData['email'] ?? ''); ?>" placeholder="Enter email">
                 <span class="form-invalid">
@@ -22,6 +23,7 @@
                            placeholder="Enter password">
                     <span class="toggle-password" id="togglePassword"><i class="fas fa-eye-slash"></i></span>
                 </div>
+
                 <span class="form-invalid">
                     <?php echo !empty($headerData['password_err']) ? $headerData['password_err'] : ''; ?>
                 </span>
