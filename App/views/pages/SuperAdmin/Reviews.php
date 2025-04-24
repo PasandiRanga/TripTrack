@@ -13,88 +13,40 @@
 <body>
 
 <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
-
+<div class="box">
 <h2 class="title">Reviews</h2>
-<br>
-<div class="review-table-container"> 
-<table class="review-table">
-    <tr>
-        <th>ReviewID</th>
-        <th>BusID</th>
-        <th>UserID</th>
-        <th>Review</th>
-        <th>Date Time</th>
-        <th>Reply</th>
-        <th>Status</th>        
-    </tr>
-
-    <?php
-    // Array of reviews
-    // $reviews = [
-    //     ['reviewId' => 1, 'userId' => 1001, 'review' => 'Great service! Very comfortable seats.', 'dateTime' => '2024-11-10 08:30:00', 'busId' => 2001, 'replied' => false],
-    //     ['reviewId' => 2, 'userId' => 1002, 'review' => 'Driver was late by 10 minutes but overall good experience.', 'dateTime' => '2024-11-11 10:00:00', 'busId' => 2002, 'replied' => true],
-    //     ['reviewId' => 3, 'userId' => 1003, 'review' => 'Bus was clean and on time. Highly recommend!', 'dateTime' => '2024-11-12 15:45:00', 'busId' => 2003, 'replied' => false]
-    // ];
-
-    // Loop through the reviews array and display each review
-    foreach ($data['reviews'] as $review) {
-        // Apply 'new-review' class if review is unreplied, otherwise apply 'replied-review'
-        $rowClass = !$review['replied'] ? 'new-review' : 'replied-review';
-        echo "<tr onclick=\"goToReplyPage({$review['reviewId']})\" class=\"$rowClass\">";
-        echo "<td>{$review['reviewId']}</td>";
-        echo "<td>{$review['License_id']}</td>";
-        echo "<td>{$review['User_id']}</td>";
-        echo "<td>{$review['review']}</td>";
-        echo "<td>{$review['created_at']}</td>";
-        echo "<td>{$review['reply']}</td>";
-        echo "<td>" . ($review['replied'] ? 'Yes' : 'No') . "</td>"; // Display "Yes" or "No" for replied status
-        echo "</tr>";
-    }
+<div class="cards-container">
+    <?php foreach ($data['reviews'] as $review): 
+        $cardClass = !$review['replied'] ? 'review-card new-review' : 'review-card replied-review';
     ?>
-</table>
+        <div class="<?php echo $cardClass; ?>" onclick="goToReplyPage(
+            <?php echo $review['reviewId']; ?>,
+            '<?php echo $review['License_id']; ?>',
+            '<?php echo $review['User_id']; ?>',
+            '<?php echo htmlspecialchars($review['review'], ENT_QUOTES); ?>',
+            '<?php echo $review['created_at']; ?>'
+        )">
+            <h3>Review #<?php echo $review['reviewId']; ?> - Bus <?php echo $review['License_id']; ?></h3>
+            <p><strong>User ID:</strong> <?php echo $review['User_id']; ?></p>
+            <p><strong>Review:</strong> <?php echo $review['review']; ?></p>
+            <p><strong>Date:</strong> <?php echo $review['created_at']; ?></p>
+            <p><strong>Reply:</strong> <?php echo $review['reply']; ?></p>
+            <p class="status"><strong>Status:</strong> <?php echo $review['replied'] ? 'Replied' : 'Not Replied'; ?></p>
+        </div>
+    <?php endforeach; ?>
+</div>
 </div>
 
 <script>
-    // Function to navigate to the reply page with all row information
-    function goToReplyPage(reviewId) {
-        // Find the row with the matching review ID
-        const rows = Array.from(document.querySelectorAll("table.review-table tbody tr"));
-        const row = rows.find(row => row.cells[0].innerText == reviewId);
+    function goToReplyPage(reviewId, License_id, User_id, review, created_at) {
+        const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/replyreviews');
+        url.searchParams.append('review_id', reviewId);
+        url.searchParams.append('License_id', License_id);
+        url.searchParams.append('User_id', User_id);
+        url.searchParams.append('review', review);
+        url.searchParams.append('created_at', created_at);
 
-        if (row) {
-            // Extract data from the row
-            const License_id = row.cells[1].innerText;
-            const User_id = row.cells[2].innerText;
-            const review = row.cells[3].innerText;
-            const created_at = row.cells[4].innerText;
-
-            // Redirect to the replyreviews page with pre-filled data
-            const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/replyreviews');
-            url.searchParams.append('review_id', reviewId);
-            url.searchParams.append('License_id', License_id);
-            url.searchParams.append('User_id', User_id);
-            url.searchParams.append('review', review);
-            url.searchParams.append('created_at', created_at);
-
-            window.location.href = url.toString();
-        } else {
-            alert("Review not found.");
-        }
-    }
-
-    function updateReviewRowStyles() {
-        const rows = document.querySelectorAll("table.review-table tbody tr");
-
-        rows.forEach(row => {
-            const repliedStatus = row.cells[6].innerText; // Assuming the 'Status' column is at index 6
-            if (repliedStatus === 'No') {
-                row.classList.add('new-review');
-                row.classList.remove('replied-review');
-            } else {
-                row.classList.add('replied-review');
-                row.classList.remove('new-review');
-            }
-        });
+        window.location.href = url.toString();
     }
 </script>
 
