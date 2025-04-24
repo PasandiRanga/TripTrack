@@ -101,9 +101,9 @@
     <div class="form-group-inline">
         <label>Payment method:</label>
         <?php if ($userRole === 'RegisteredUser'): ?>
-            <input type="radio" id="cashPayment" name="paymentMethod" value="Cash" required> <label for="cashPayment" style="display: inline;">Cash</label>
+            <input type="radio" id="cashPayment" name="paymentMethod" value="Cash"> <label for="cashPayment" style="display: inline;">Cash</label>
         <?php endif; ?>
-        <input type="radio" id="onlinePayment" name="paymentMethod" value="Online" required> <label for="onlinePayment" style="display: inline;">Online</label>
+        <input type="radio" id="onlinePayment" name="paymentMethod" value="Online"> <label for="onlinePayment" style="display: inline;">Online</label>
         <div id="paymentMethodError" class="error-message">Please select a payment method</div>
     </div>
 
@@ -115,7 +115,7 @@
         <p><strong>Total Price:</strong> Rs. <span id="total-price">0</span></p>
     </div>
        
-    <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>
+    <button type="submit" id="checkoutButton" class="checkout-button" >Proceed to Checkout</button>
     
     <?php
         // Penalty fee notification
