@@ -15,9 +15,10 @@
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
+    <div class="box">
 
     <!-- Page Title -->
-    <h2 class="centered">View Employees</h2>
+    <h1 class="centered">View Employees</h1>
 
 
     <!-- Top Actions -->
@@ -75,6 +76,8 @@
                 ?>
             </tbody>
         </table>
+    </div>
+
     </div>
 
     <script>

@@ -1,76 +1,170 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+      font-family: 'Poppins', sans-serif;
+      background-color: #d8f8ee;
+      margin: 0;
+      padding: 20px;
+    }
 
-/* Style for the back button */
+    .report-container {
+      max-width: 1000px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: black;
+    }
+
+    .header p {
+      font-size: 0.9rem;
+      color: black;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: black;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #b2dfdb;
+      padding-bottom: 5px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .box {
+      background-color: #e0f7fa;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .box h3 {
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      color: #00695c;
+    }
+
+    .box span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    .sub-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .sub-box {
+      background-color:#f1f8e9;
+      padding: 15px;
+      border-radius: 8px;
+      flex: 1 1 200px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .sub-box h4 {
+      margin-bottom: 5px;
+      font-size: 1rem;
+      color: #558b2f;
+    }
+
+    .sub-box span {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #33691e;
+    }
+
+    .generate-btn {
+      margin-top: 30px;
+      display: block;
+      padding: 12px 24px;
+      background-color: #00796b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .generate-btn:hover {
+      background-color: #004d40;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    .month-selector {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .month-selector select {
+      padding: 8px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
 .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    border-radius: 4px;
+    display: inline-block;
+    margin: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
     color: white;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
 }
+
 .back-button:hover {
-    background-color: #007bff;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 60px;
-    font-size: 24px;
-}
-.report-table-container{
-    margin: 20px auto;
-    width: 90%;
-    border-radius: 10px; /* Rounds the corners */
-    overflow: hidden; /* Ensures corners stay rounded */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
-    background-color: white; /* Ensures a consistent background */
-}
-.report-table{
-    width: 100%;
-    border-collapse: separate; /* Necessary for border-radius to apply */
-    border-spacing: 0; /* Removes any gaps between cells */
-}
-
-.report-table th {
-    background-color: #007bff;
-    color: white;
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-}
-
-.report-table td {
-    padding: 12px;
-    text-align: center;
-    color: black;
-}
-
-/* Profit styling */
-.profit {
-    color: green !important; /* Ensure the color overrides defaults */
-    font-weight: bold;
-}
-
-/* Loss styling */
-.loss {
-    color: red !important; /* Ensure the color overrides defaults */
-    font-weight: bold;
-}
-
-/* Row hover effect */
-.report-table tbody tr:hover {
-    background-color: #f1f1f1; /* Light grey background on hover */
-    transition: background-color 0.2s ease-in-out; /* Smooth hover transition */
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    transform: translateY(-2px);
 }

@@ -34,7 +34,7 @@
             <?php
                 echo '<script>console.log(' . json_encode($data) . ');</script>';
             ?>
-
+        <div class="box-form">
             <!-- License ID -->
             <div class="form-group">
                 <label for="License_id">License ID:</label>
