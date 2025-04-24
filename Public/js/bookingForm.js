@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nicInput = document.getElementById('nic');
     const selectedSeatsInput = document.getElementById('selectedSeats');
     const noOfSeatsInput = document.getElementById('noOfseats');
-    const checkoutButton = document.getElementById('checkoutButton');
+    const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
     const fromSelect = document.getElementById('from');
     const toSelect = document.getElementById('to');
     const numofseats = document.getElementById('noOfseats');
@@ -210,13 +210,15 @@ document.addEventListener('DOMContentLoaded', function() {
         validateNIC();
     });
 
-    // Add event listeners for validation
     nameInput.addEventListener('input', validateName);
+
     emailInput.addEventListener('input', validateEmail);
+
     fromSelect.addEventListener('change', function() {
         validateLocations();
         updatePrice(fromSelect.value, toSelect.value);
     });
+
     toSelect.addEventListener('change', function() {
         validateLocations();
         updatePrice(fromSelect.value, toSelect.value);
@@ -227,16 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePrice(fromSelect.value, toSelect.value);
     });
 
-    // Event listener for payment method selection
-    const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
     paymentRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             validatePaymentMethod();
-            validateForm();
         });
     });
     
-    // Function to validate the entire form
     function validateForm() {
         const isNameValid = validateName();
         const isEmailValid = validateEmail();
@@ -246,18 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const areSeatsValid = validateSeats();
         const isPaymentMethodValid = validatePaymentMethod();
         
-        // Enable checkout button only if all validations pass
-        checkoutButton.disabled = !(
-            isNameValid && 
-            isEmailValid && 
-            isContactValid && 
-            isNICValid && 
-            areLocationsValid && 
-            areSeatsValid && 
-            isPaymentMethodValid
-        );
-        
-        checkoutButton.style.opacity = checkoutButton.disabled ? '0.6' : '1';
+        return isNameValid && isEmailValid && isContactValid && isNICValid && areLocationsValid && areSeatsValid && isPaymentMethodValid
     }
     
     // Handle payment method logic
@@ -311,29 +298,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('signInBox').classList.remove('hidden');
     }
 
-    // Update form submission handling
-    bookingForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
+    bookingForm.addEventListener('submit', function(event) {
+        // Prevent form from submitting immediately
+        event.preventDefault();
         
-        // Perform full validation
-        const isValid = validateName() && 
-                        validateEmail() && 
-                        validateContact() && 
-                        validateNIC() && 
-                        validateLocations() && 
-                        validateSeats() && 
-                        validatePaymentMethod();
-        
-        if (!isValid) {
-            return false;
-        }
-
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-        
-        // If updateFormAction returns true, submit the form directly
-        // Otherwise, the confirmBox will be shown
-        if (updateFormAction(paymentMethod.value)) {
-            bookingForm.submit();
+        // Run form validation
+        if (validateForm()) {
+            // If validation passes, submit the form properly
+            // Use the native form submission instead of calling submit() directly
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            if(updateFormAction(paymentMethod.value)) {
+                bookingForm.submit();
+            }
         }
     });
 
@@ -382,9 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (from && to) {
                     updatePrice(from, to);
                 }
-
-                // Validate form after seat selection changes
-                // validateForm();
             });
         });
     }
