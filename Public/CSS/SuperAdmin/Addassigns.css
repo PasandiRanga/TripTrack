@@ -1,7 +1,7 @@
 /* Base Styling */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7fa;
+    background-color: #d8f8ee;
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -12,26 +12,28 @@ h2 {
     text-align: center;
     margin: 40px 0 20px;
     font-size: 28px;
-    color: #333;
+    color: #00695c;
 }
 
 /* Back Button */
 .back-button {
-    display: inline-block;
-    margin: 20px;
-    padding: 10px 20px;
-    font-size: 14px;
-    background-color: #007bff;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 18px;
+    background: linear-gradient(to right, #43cea2, #185a9d);
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.1s ease;
 }
 
 .back-button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to right, #30cfd0, #2bb673);
+    transform: translateY(-2px);
 }
 
 /* Form Container */
@@ -40,14 +42,14 @@ h2 {
     max-width: 550px;
     margin: 0 auto 40px;
     padding: 25px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    background-color: #d8f8ee;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
     transition: box-shadow 0.3s ease;
 }
 
 .assign-form:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
 }
 
 .assign-form label {
@@ -55,7 +57,7 @@ h2 {
     font-size: 15px;
     margin-bottom: 6px;
     font-weight: 500;
-    color: #333;
+    color: black;
 }
 
 /* Inputs & Selects */
@@ -64,7 +66,7 @@ h2 {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #bbb;
     border-radius: 6px;
     font-size: 15px;
     box-sizing: border-box;
@@ -73,8 +75,8 @@ h2 {
 
 .assign-form input:focus,
 .assign-form select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    border-color: #00897b;
+    box-shadow: 0 0 5px rgba(0, 137, 123, 0.3);
     outline: none;
 }
 
@@ -82,20 +84,22 @@ h2 {
 .assign-form button {
     width: 100%;
     padding: 14px;
-    background-color: #007bff;
+    background: linear-gradient(135deg, #00897b, #006064);
     color: white;
     border: none;
     border-radius: 6px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .assign-form button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to right, #2bb673, #30cfd0);
     transform: translateY(-2px);
 }
+
+/* Responsive */
 @media (max-width: 600px) {
     .assign-form {
         margin: 20px;
@@ -109,19 +113,21 @@ h2 {
         text-align: center;
     }
 }
+
+/* Box container for table/content */
 .box {
     width: 100%;
     max-width: 1000px;
     margin: 30px auto;
     padding: 25px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #cfd8dc;
+    border-radius: 12px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
     overflow-x: auto;
     transition: box-shadow 0.3s ease;
 }
 
 .box:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
 }
