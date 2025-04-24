@@ -118,7 +118,7 @@
         if (!bookingStatus.scheduleIds.length) {
             dateInfo += `<p>No bookings available for this date.</p>
                          <br><br>
-                         <img class="cal" src="<?php echo URLROOT; ?>/public/images/calender.png" alt="calendar">`;
+                         <img class="cal" src="${URLROOT}/Public/images/calendar.png" alt="calendar">`;
         } else {
             dateInfo += `<div class="booking-list">`;
             
@@ -135,7 +135,7 @@
                                 <div class="menu">
                                     <ul>
                                         <li class="view-ticket">View Tikcet</li>
-                                        <li class="cancel-booking" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Cancel</li>
+                                        <li class="cancel-booking" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Cancel Booking</li>
                                     </ul>
                                 </div>
                                 <div class="booking-summary">
@@ -193,6 +193,7 @@
                 });
             }
 
+            //Cancel bookings
             if (bookingStatus.hasCancels){
                 dateInfo += `<h4>Cancelled Bookings</h4>`;
                 cancelledBookings.forEach(booking => {
@@ -209,7 +210,7 @@
                                 <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
-                                        <li>view ticket</li>
+                                        <li class="view-ticket" data-booking-id="${booking.id}" data-schedule-id="${booking.schedule_id}">view ticket</li>                                    
                                     </ul>
                                 </div>
                                 <div class="booking-summary">
@@ -274,22 +275,29 @@
 
         document.querySelectorAll('.view-ticket').forEach(item => {
             item.addEventListener('click', function() {
-                const bookingItem = this.closest('.booking-item');
-                const bookingId = bookingItem.querySelector('.cancel-booking')?.getAttribute('data-booking-id') || 
+                // Try to get IDs directly from this element first
+                let bookingId = this.getAttribute('data-booking-id');
+                let scheduleId = this.getAttribute('data-schedule-id');
+                
+                // If not found, try to get from siblings
+                if (!bookingId || !scheduleId) {
+                    const bookingItem = this.closest('.booking-item');
+                    bookingId = bookingId || bookingItem.querySelector('.cancel-booking')?.getAttribute('data-booking-id') || 
                                 bookingItem.querySelector('.add-review')?.getAttribute('data-booking-id');
-                const scheduleId = bookingItem.querySelector('.cancel-booking')?.getAttribute('data-schedule-id') || 
+                    scheduleId = scheduleId || bookingItem.querySelector('.cancel-booking')?.getAttribute('data-schedule-id') || 
                                 bookingItem.querySelector('.add-review')?.getAttribute('data-schedule-id');
+                }
                 
                 // Find the booking and schedule objects
                 const bookingObj = [...upcomingBookings, ...pastBookings, ...cancelledBookings].find(b => b.id == bookingId);
                 const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || 
                                 pastScheduleData.find(s => s.scheduleId == scheduleId);
-                const busObj = busData.find(b => b.License_id === scheduleObj.License_id);
-                
-                // You need to retrieve user data - assuming you have it available in PHP
+                const busObj = scheduleObj ? busData.find(b => b.License_id === scheduleObj.License_id || b.busId === scheduleObj.busId) : null;
                 
                 if (bookingObj && scheduleObj && busObj) {
                     showTicket(bookingObj, scheduleObj, busObj, userData);
+                } else {
+                    console.error("Missing data:", {bookingObj, scheduleObj, busObj});
                 }
             });
         });
@@ -654,6 +662,14 @@ function toggleDetails(event, element) {
         })
     })
 
+    // Add close button functionality
+    const closeColumnBtn = document.querySelector(".close-column-btn");
+    const column2 = document.querySelector(".column:nth-child(2)");
+    
+    closeColumnBtn.addEventListener("click", function() {
+        column2.style.display = "none";
+    });
+
 function showTicket(booking, schedule, bus, user) {
     const ticketPopup = document.getElementById('ticketViewPopup');
     const ticketContent = ticketPopup.querySelector('.ticketView-popup-details');
@@ -691,10 +707,10 @@ function showTicket(booking, schedule, bus, user) {
         // Remove any leading slashes and adjust the path structure
         qrImagePath = qrImagePath.replace(/^\/+/, '');
         
-        // Use the correct path prefix
-        qrDisplay = `<img src="<?php echo URLROOT; ?>/qrcodes/${qrImagePath}" alt="QR Code" class="ticket-qr">`;
+        // Use the correct path based on your file structure
+        qrDisplay = `<img src="${URLROOT}/public/qrcode/qrimage/${qrImagePath}" alt="QR Code" class="ticket-qr">`;
         
-        console.log("QR Image URL:", `<?php echo URLROOT; ?>/qrcodes/${qrImagePath}`);
+        console.log("QR Image URL:", `${URLROOT}App/public/qrcode/qrimage/${qrImagePath}`);
     } else {
         qrDisplay = `<i class="fas fa-qrcode fa-5x"></i>`;
     }
@@ -703,7 +719,7 @@ function showTicket(booking, schedule, bus, user) {
         <div class="bus-ticket">
             <div class="ticket-header">
                 <div class="location">
-                    <h2>${booking.from_location.toUpperCase()}</h2>
+                    <h2>${booking.from_location.toUpperCase()}&nbsp</h2>
                 </div>
                 <hr class="dotted-line">
                 <div class="icon">
@@ -711,7 +727,7 @@ function showTicket(booking, schedule, bus, user) {
                 </div>
                 <hr class="dotted-line">
                 <div class="location">
-                    <h2>${booking.to_location.toUpperCase()}</h2>
+                    <h2>&nbsp${booking.to_location.toUpperCase()}</h2>
                 </div>
             </div>
             

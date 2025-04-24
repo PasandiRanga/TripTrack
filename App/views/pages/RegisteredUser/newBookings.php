@@ -130,6 +130,7 @@
                 </div> 
             </div>
             <div class="column">
+                <div class="close-column-btn">&times;</div>
                 <div class="date-details">
                         <div id="date-info">
                         </div>
@@ -213,10 +214,11 @@
     const busData = <?php echo json_encode($busData); ?>;
     const cancelledBookings = <?php echo json_encode($cancellationData); ?>;
     const userData = <?php echo json_encode($data['user'] ?? []); ?>;
-    
-
     </script>
 
+<script>
+    const URLROOT = '<?php echo URLROOT; ?>';
+</script>
     </body>
     </html>
 
