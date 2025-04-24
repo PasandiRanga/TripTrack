@@ -8,15 +8,21 @@ body {
 
 /*Style for the back button */
 .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 15px;
-    background-color: #006064;
-    border-radius: 4px;
+    display: inline-block;
+    margin: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
     color: white;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    transform: translateY(-2px);
 }
 
 h1 {
@@ -253,7 +259,7 @@ h1 {
 h1 {
     text-align: center;
     font-size: 32px;
-    color: #007bff;
+    color: #006064;
     margin-top: 20px;
     margin-bottom: 30px;
     font-weight: bold;
@@ -322,6 +328,47 @@ h1 {
         padding: 5px; /* Reduce padding */
     }
 }
+
+    .add-button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .add-button-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-button-container button:hover {
+            background-color: #007bff;
+        }
+
+        .fleet-table button {
+            padding: 5px 10px;
+            margin: 2px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .fleet-table button.delete-button {
+            background-color: #FF6347;
+        }
+
+        .fleet-table button:hover {
+            opacity: 0.9;
+        }
+
+        .fleet-table .selected {
+            background-color: #f2f2f2;
+        }
 
 /* Popup box styles */
         .popup-overlay {
