@@ -710,7 +710,7 @@ function showTicket(booking, schedule, bus, user) {
         // Use the correct path based on your file structure
         qrDisplay = `<img src="${URLROOT}/public/qrcode/qrimage/${qrImagePath}" alt="QR Code" class="ticket-qr">`;
         
-        console.log("QR Image URL:", `${URLROOT}/public/qrcode/qrimage/${qrImagePath}`);
+        console.log("QR Image URL:", `${URLROOT}App/public/qrcode/qrimage/${qrImagePath}`);
     } else {
         qrDisplay = `<i class="fas fa-qrcode fa-5x"></i>`;
     }
