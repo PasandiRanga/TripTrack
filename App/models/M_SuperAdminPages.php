@@ -610,7 +610,7 @@ class M_SuperAdminPages {
 //------------------------------------------------------------------------------------------------------------------------------------
 
     public function getBusDelays() {
-        $this->db->query('SELECT * FROM bus_delay');
+        $this->db->query('SELECT * FROM bus_delay order by delay_id DESC');
         return $this->db->resultSet();
     }
 

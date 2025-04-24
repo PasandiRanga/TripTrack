@@ -280,13 +280,13 @@
         public function GuestSignUp() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                $enteredOTP = $_POST['entered_otp'] ?? '';
+                $enteredOTP = $_POST['otp'] ?? '';
                 $storedOTP = $_SESSION['email_otp'] ?? '';
                 $otpTime = $_SESSION['email_otp_time'] ?? 0;
                 
                 if ($enteredOTP !== $storedOTP || (time() - $otpTime) > 900) {
                     $data['otp_err'] = 'Invalid or expired OTP';
-                    return $this->view('GuestPages/home', $data);
+                    return $this->view('inc/Components/SignUp/signUp', $data); // Return to signup page instead
                 }
                 
                 unset($_SESSION['email_otp']);

@@ -42,7 +42,7 @@ h1 {
 /* Add Route Button Container */
 .add-button-container {
     margin: 20px auto;
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
 }
