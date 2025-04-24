@@ -341,6 +341,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    document.addEventListener('DOMContentLoaded', function() {
+        <?php if(isset($data['otp_err']) && !empty($data['otp_err'])): ?>
+            document.getElementById('confirmBox').classList.remove('hidden');
+        <?php endif; ?>
+    });
+
     // Add event listeners to all input fields
     nameInput.addEventListener('input', function() {
         validateName();
