@@ -1,9 +1,19 @@
-/* CSS for Reviews Table */
+/* General Page Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
+    background-color: #d8f8ee;
     margin: 0;
     padding: 0;
+}
+.box {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 96, 100, 0.2);
+    padding: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    border-left: 6px solid #006064;
+    transition: box-shadow 0.3s ease;
 }
 
 /* Back Button Style */
@@ -11,92 +21,92 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    border-radius: 4px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #00897b, #006064);
     color: white;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
 .back-button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(135deg, #006064, #004d40);
 }
 
+/* Title */
 .title {
-    font-size: 28px;
-    color: black;
-    margin-bottom: 20px;
+    font-size: 32px;
+    color: #006064;
     text-align: center;
+    margin-top: 60px;
+    margin-bottom: 30px;
 }
 
-.review-table-container {
-    margin: 20px auto;
-    width: 90%;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+/* Cards Container */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 0 20px 40px;
+}
+
+/* Review Card Styles */
+.review-card {
+    width: 350px;
     background-color: white;
-}
-
-.review-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.review-table th {
-    background-color: #007bff;
-    color: white;
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-}
-
-.review-table td {
-    padding: 12px;
-    text-align: center;
-    color: black;
-}
-
-/* Zebra striping */
-.review-table tr:nth-child(even) {
-    background-color: #f4f4f4;
-}
-
-.review-table tr:nth-child(odd) {
-    background-color: #ffffff;
-}
-
-/* Row hover */
-.review-table tr:hover {
-    background-color: #f1f1f1;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
+    border-left: 8px solid #006064;
 }
 
-/* Highlight Selected Row */
-.review-table tr.selected {
-    background-color: #d3d3d3;
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Unreplied Reviews */
+.new-review {
+    background-color: #ffeaea;
+    border-left-color: #d32f2f;
+}
+
+/* Replied Reviews */
+.replied-review {
+    background-color: #e0f7e9;
+    border-left-color: #2e7d32;
+}
+
+.review-card h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #006064;
+}
+
+.review-card p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 15px;
+}
+
+.review-card .status {
     font-weight: bold;
+    color: #006064;
 }
 
-/* Highlight Unreplied Review */
-.review-table tr.new-review {
-    background-color: #ffdddd !important; /* Light red for unreplied */
-}
-
-/* Optional: Replied review (if used) */
-.review-table tr.replied-review {
-    background-color: #eaffea !important; /* Light green */
-}
-
+/* Responsive */
 @media (max-width: 768px) {
-    .review-table {
-        font-size: 14px;
+    .review-card {
+        width: 90%;
     }
 
     .back-button {
         font-size: 14px;
-        padding: 8px 12px;
+        padding: 8px 16px;
     }
 }
