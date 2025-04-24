@@ -42,7 +42,7 @@
     $userData = $data['user'] ?? [];
     $notifications = $data['notifications'] ?? [];
     // $reviews = $data['reviews'] ?? [];
-    $regBookingsData = $data['regBookingsDetails'] ?? []; // Add this line
+    // $regBookingsData = $data['regBookingsDetails'] ?? []; 
     $busData = $data['bus'] ?? [];
     // $userData = $data['user'] ?? [];
     $data['currentController'] = 'RegisteredPages';
