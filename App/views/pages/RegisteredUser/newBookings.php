@@ -154,7 +154,7 @@
 
     <!--Cancel Booking pop up -->
     <div id="cancelPopup" class="popup hidden">
-        <div class="popup-content">
+        <div class="cancel-popup-content">
             <h3>Cancel Booking</h3>
             <p id="popup-details"></p>
             <!--Content will come here -->
