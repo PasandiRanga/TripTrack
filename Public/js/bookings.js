@@ -51,6 +51,8 @@
                 scheduleIds.add(booking.schedule_id);
             }
         });
+        console.log("Has cancels ",hasCancels);
+
 
         return {
             hasUpcoming,
@@ -79,8 +81,14 @@
             if (i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear()) {
                 className = "active";
             }
-            if (bookingStatus.hasUpcoming) className += " upcoming-booking";
-            if (bookingStatus.hasPast) className += " past-booking";
+            if (bookingStatus.hasUpcoming) {
+                className += " upcoming-booking";
+            } else if (bookingStatus.hasPast) {
+                className += " past-booking";
+            } else if (bookingStatus.hasCancels) {
+                className += " cancelled-booking";
+            }
+
 
             liTag += `<li class="${className}" data-date="${dateStr}">${i}</li>`;
         }
