@@ -303,7 +303,7 @@ class SuperAdminPages extends Controller {
     }
 
 //----------------------------------------------------------------------------------------------------------------------
-                                    //reviews
+                                    //reports
 //---------------------------------------------------------------------------------------------------------------------- 
 
 
@@ -362,11 +362,11 @@ class SuperAdminPages extends Controller {
             }
 
             $data = [
-                'reviewId' => trim($inputData['reviewId'] ?? ''),
+                'rating_id' => trim($inputData['rating_id'] ?? ''),
                 'reply' => trim($inputData['reply'] ?? '')
             ];
 
-            if (empty($data['reviewId']) || empty($data['reply'])) {
+            if (empty($data['rating_id']) || empty($data['reply'])) {
                 echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
                 http_response_code(400);
                 exit();

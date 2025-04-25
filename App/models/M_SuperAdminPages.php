@@ -586,16 +586,16 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
     public function getReviews() {
-        $this->db->query('SELECT * FROM bus_reviews');
+        $this->db->query('SELECT * FROM ratings');
         return $this->db->resultSet();
     }
 
     public function replyreview($data) {
         
-        $this->db->query('UPDATE bus_reviews SET reply = :reply, replied = :replied WHERE reviewId = :reviewId');
+        $this->db->query('UPDATE ratings SET reply = :reply, replied = :replied WHERE rating_id = :rating_id');
         $this->db->bind(':reply', $data['reply']);
         $this->db->bind(':replied', 'Yes');
-        $this->db->bind(':reviewId', $data['reviewId']);
+        $this->db->bind(':rating_id', $data['rating_id']);
 
         if ($this->db->execute()) {
             return true;
