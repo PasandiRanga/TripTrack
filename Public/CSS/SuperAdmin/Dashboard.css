@@ -485,3 +485,12 @@ body{
 .close-btn:hover {
   background-color: darkred;
 }
+.notification-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    margin-left: 8px;
+    vertical-align: middle;
+}

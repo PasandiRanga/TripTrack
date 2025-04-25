@@ -35,6 +35,11 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function getScheduledBusID() {
+        $this->db->query('SELECT License_id FROM schedule');
+        return $this->db->resultSet();
+    }
+
     // Retrieve a specific bus by License_id
     public function getBusByLicenseId($License_id) {
         $this->db->query('SELECT * FROM bus WHERE License_id = :License_id');
@@ -586,16 +591,16 @@ class M_SuperAdminPages {
 
 //------------------------------------------------------------------------------------------------------------------------------------
     public function getReviews() {
-        $this->db->query('SELECT * FROM bus_reviews');
+        $this->db->query('SELECT * FROM ratings');
         return $this->db->resultSet();
     }
 
     public function replyreview($data) {
         
-        $this->db->query('UPDATE bus_reviews SET reply = :reply, replied = :replied WHERE reviewId = :reviewId');
+        $this->db->query('UPDATE ratings SET reply = :reply, replied = :replied WHERE rating_id = :rating_id');
         $this->db->bind(':reply', $data['reply']);
         $this->db->bind(':replied', 'Yes');
-        $this->db->bind(':reviewId', $data['reviewId']);
+        $this->db->bind(':rating_id', $data['rating_id']);
 
         if ($this->db->execute()) {
             return true;
@@ -613,6 +618,31 @@ class M_SuperAdminPages {
         $this->db->query('SELECT * FROM bus_delay order by delay_id DESC');
         return $this->db->resultSet();
     }
+
+    // public function hasNewDelayNotification() {
+    //     $query = "SELECT COUNT(*) as count FROM bus_delay WHERE DATE(created_at) = CURDATE()"; // assuming `created_at` exists
+    //     $this->db->query($query);
+    //     $result = $this->db->single();
+    //     return $result['count'] > 0;
+    // }
+
+    public function markDelayAsViewed($delayId) {
+        $this->db->query("UPDATE bus_delay SET viewed = 1 WHERE delay_id = :delay_id");
+        $this->db->bind(':delay_id', $delayId);
+        return $this->db->execute();
+    }
+
+
+    public function hasUnviewedDelays() {
+        $this->db->query("SELECT * FROM bus_delay WHERE viewed = 0;");
+        $result = $this->db->single();
+        return isset($result->count) && $result->count > 0;
+    }
+
+    // public function markDelaysAsViewed() {
+    //     $this->db->query("UPDATE bus_delay SET viewed = 1 WHERE viewed = 0");
+    //     $this->db->execute();
+    // }
 
     public function sendNotification($data) {
         $this->db->query('
@@ -900,28 +930,55 @@ public function getTotalBusesReport() {
 
 //------------------------------------------------------------------------------------------------------------------------------------
   
-    public function getTotalIncome() {
-        $this->db->query("
-            SELECT 
-                (SELECT IFNULL(SUM(total_price), 0) FROM registeredbooking) AS registered_income,
-                (SELECT IFNULL(SUM(total_price), 0) FROM guestbooking) AS guest_income
-        ");
+public function getTotalBookingsIncome() {
+    $this->db->query("
+        SELECT SUM(total) AS total FROM (
+            SELECT SUM(total_price) AS total 
+            FROM pastguestbooking 
+            WHERE DATE_FORMAT(booking_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+            UNION ALL
+            SELECT SUM(total_price) AS total 
+            FROM pastregbooking 
+            WHERE DATE_FORMAT(booking_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+        ) AS combined
+    ");
+    $result = $this->db->single();
+    return isset($result['total']) ? (float) $result['total'] : 0.0;
+}
+public function getTotalRefunds() {
+    $this->db->query("
+        SELECT SUM(refund_total) AS total FROM (
+            SELECT SUM(refund_amount) AS refund_total 
+            FROM cancelled_online_bookings 
+            WHERE DATE_FORMAT(time_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+            UNION ALL
+            SELECT SUM(refund_amount) AS refund_total 
+            FROM cancelled_cash_bookings 
+            WHERE DATE_FORMAT(time_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+        ) AS combined
+    ");
+    $result = $this->db->single();
+    return isset($result['total']) ? (float) $result['total'] : 0.0;
+}
 
-        $result = $this->db->single(); // Fetch the single row
-        return $result; // Returns ['registered_income' => X, 'guest_income' => Y]
-    }
-    
-    public function getRegisteredIncome() {
-        $this->db->query("SELECT SUM(total_price) AS registered_income FROM registeredbooking");
-        $result = $this->db->single();  
-        return $result['registered_income'] ?? 0; // Return 0 if no income found
-    }
+public function getTotalCancellationFees() {
+    $this->db->query("
+        SELECT SUM(fee_total) AS total FROM (
+            SELECT SUM(cancellation_fee) AS fee_total 
+            FROM cancelled_online_bookings 
+            WHERE DATE_FORMAT(time_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+            UNION ALL
+            SELECT SUM(cancellation_fee) AS fee_total 
+            FROM cancelled_cash_bookings 
+            WHERE DATE_FORMAT(time_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+        ) AS combined
+    ");
+    $result = $this->db->single();
+    return isset($result['total']) ? (float) $result['total'] : 0.0;
+}
 
-    public function getGuestIncome(){
-        $this->db->query("SELECT SUM(total_price) AS guest_income FROM guestbooking");
-        $result = $this->db->single();
-        return $result['guest_income'] ?? 0; // Return 0 if no income found
-    }
+
+
 
 //------------------------------------------------------------------------------------------------------------------------------------
     //box 02
@@ -940,33 +997,41 @@ public function getTotalBusesReport() {
 //------------------------------------------------------------------------------------------------------------------------------------
  
 
-    public function getTotalGuestBookings() {
-        $this->db->query("SELECT COUNT(id) AS total_guests FROM guestbooking");
-        $result = $this->db->single();
-        return $result['total_guests'] ?? 0;
-    }
+public function getTotalMonthlyBookings() {
+    $this->db->query("
+        SELECT COUNT(*) AS total_bookings
+        FROM (
+            SELECT id
+            FROM pastguestbooking 
+            WHERE DATE_FORMAT(booking_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
 
-    public function getTotalRegisteredBookings() {
-        $this->db->query("SELECT COUNT(id) AS total_registered FROM registeredbooking");
-        $result = $this->db->single();
-        return $result['total_registered'] ?? 0;
-    }
+            UNION ALL
 
-    public function getTotalBookings() {
-        $this->db->query("
-            SELECT 
-                (SELECT COUNT(*) FROM registeredbooking) AS registered_bookings,
-                (SELECT COUNT(*) FROM guestbooking) AS guest_bookings
-        ");
+            SELECT id
+            FROM pastregbooking 
+            WHERE DATE_FORMAT(Booking_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+        ) AS combined
+    ");
+    
+    $result = $this->db->single();
+    return isset($result['total_bookings']) ? (int) $result['total_bookings'] : 0;
+}
 
-        $result = $this->db->single(); // Fetch the single row
-        return $result; // Returns ['registered_bookings' => X, 'guest_bookings' => Y]
-    }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //box 03
+
+
 
 //------------------------------------------------------------------------------------------------------------------------------------
+    //box 04
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+public function getTotalSchedules() {
+    $this->db->query("SELECT COUNT(*) AS total_schedules FROM schedule"); // Replace 'schedule' with your actual table name
+    $result = $this->db->single();
+    return isset($result['total_schedules']) ? (int) $result['total_schedules'] : 0;
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------
     //chart 01 Routes with income
 

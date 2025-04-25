@@ -9,14 +9,18 @@ class SuperAdminPages extends Controller {
     }
 
     public function home() {
-            $income = $this->SuperAdminModel->getTotalIncome();
-            $totalcustomers = $this->SuperAdminModel->getTotalCustomers();
-            $total_guests = $this->SuperAdminModel->getTotalGuestBookings();
-            $total_registered = $this->SuperAdminModel->getTotalRegisteredBookings();
-            $total_bookings = $total_guests + $total_registered;
+            $hasNewDelays = $this->SuperAdminModel->hasUnviewedDelays();
+            $totalcustomers = $this->SuperAdminModel->getRegisteredCustomersReport();
+            $totalbookings = (int) $this->SuperAdminModel->getTotalMonthlyBookings();
             // Calculate the total income
-            $totalIncome = $income['registered_income'] + $income['guest_income'];
+            $totalbookingsIncome = $this->SuperAdminModel->getTotalBookingsIncome();
+            $totalcancellationIncome = $this->SuperAdminModel->getTotalRefunds();
+            $totalcancellationfees = $this->SuperAdminModel->getTotalCancellationFees();
+            //totla income
+            $totalincome = $totalbookingsIncome - $totalcancellationIncome + $totalcancellationfees;
 
+            //total schedules
+            $totalSchedules = $this->SuperAdminModel->getTotalSchedules();
             //chart 2
             $chartbookings =  $this->SuperAdminModel->getLast7DaysBookingCounts();
             $chartcancellations = $this->SuperAdminModel->getLast7DaysCancellationCounts();
@@ -25,16 +29,17 @@ class SuperAdminPages extends Controller {
             $routes = $this->SuperAdminModel->getTopRoutesIncome();
             // Pass the data to the view or return as JSON (API)
             $data = [
-                'registered_income' => $income['registered_income'],
-                'guest_income' => $income['guest_income'],
-                'total_income' => $totalIncome,
+                'total_income' => $totalincome,
+                'total_bookings_income' => $totalbookingsIncome,
+                'total_cancellation_income' => $totalcancellationIncome,
+                'total_cancellation_fees' => $totalcancellationfees,
                 'total_customers' => $totalcustomers,
-                'total_guests' => $total_guests,
-                'total_registered' => $total_registered,
-                'total_bookings' => $total_bookings,
+                'total_bookings' => $totalbookings,
+                'total_schedules' => $totalSchedules,
                 'chartbookings' => $chartbookings,
                 'chartcancellations' => $chartcancellations,
                 'routes' => $routes,
+                'hasNewDelays' => $hasNewDelays,
             ];
 
 
@@ -44,8 +49,17 @@ class SuperAdminPages extends Controller {
 
     public function fleet() {
         $bus = $this->SuperAdminModel->getBus();
+        $scheduledbuses = $this->SuperAdminModel->getScheduledBusID();
+
+        $scheduledLicenseIDs = array_column($scheduledbuses, 'License_id'); // Get all scheduled license IDs
+
+        $freeBuses = array_filter($bus, function($b) use ($scheduledLicenseIDs) {
+            return !in_array($b['License_id'], $scheduledLicenseIDs);
+        });
         $data = [
-            'bus' => $bus
+            'bus' => $bus,
+            'scheduledbuses' => $scheduledbuses,
+            'freeBuses' => $freeBuses // Pass the free buses to the view
         ];
         $this->view('pages/SuperAdmin/Fleet', $data);
     }
@@ -298,7 +312,7 @@ class SuperAdminPages extends Controller {
     }
 
 //----------------------------------------------------------------------------------------------------------------------
-                                    //reviews
+                                    //reports
 //---------------------------------------------------------------------------------------------------------------------- 
 
 
@@ -357,11 +371,11 @@ class SuperAdminPages extends Controller {
             }
 
             $data = [
-                'reviewId' => trim($inputData['reviewId'] ?? ''),
+                'rating_id' => trim($inputData['rating_id'] ?? ''),
                 'reply' => trim($inputData['reply'] ?? '')
             ];
 
-            if (empty($data['reviewId']) || empty($data['reply'])) {
+            if (empty($data['rating_id']) || empty($data['reply'])) {
                 echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
                 http_response_code(400);
                 exit();
@@ -527,12 +541,28 @@ class SuperAdminPages extends Controller {
 //---------------------------------------------------------------------------------------------------------------------- 
 
     public function notifications() {
-
         $delays = $this->SuperAdminModel->getBusDelays();
         $data = [
             'delays' => $delays
         ];
         $this->view('pages/SuperAdmin/Notifications', $data);
+    }
+
+    // public function markDelaysAsViewed() {
+    //     $this->SuperAdminModel->markDelaysAsViewed();
+    //     header('Location: ' . URLROOT . '/SuperAdminPages/notifications');
+    //     exit;
+    // }
+    public function markDelays() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $delayId = $_POST['delay_id'];
+
+            $this->SuperAdminModel->markDelayAsViewed($delayId);
+
+            // Redirect back to notification page
+            header("Location: " . URLROOT . "/SuperAdminPages/notifications");
+            exit;
+        }
     }
 
 

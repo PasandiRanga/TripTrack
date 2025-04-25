@@ -109,3 +109,20 @@ h2 {
 .delay-table tbody tr:hover {
     background-color: #b2dfdb;  /* Slightly darker teal on hover */
 }
+
+
+.mark-button {
+    padding: 5px 10px;
+    background-color: #006064;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.marked-text {
+    color: green;
+    font-weight: bold;
+}
+

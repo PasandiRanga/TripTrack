@@ -36,6 +36,8 @@
                         <th>Departure Time</th>
                         <th>New Departure Time</th>
                         <th>Reason</th>
+                        <th>Date Time</th>
+                        <th>Marked</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +50,18 @@
                                 <td><?php echo htmlspecialchars($delay['dep_time']); ?></td>
                                 <td><?php echo htmlspecialchars($delay['new_dep_time']); ?></td>
                                 <td><?php echo htmlspecialchars($delay['reason']); ?></td>
+                                <td><?php echo htmlspecialchars($delay['created_at']); ?></td>
+                                <td>
+                                    <?php if ($delay['viewed'] == 0): ?>
+                                        <form method="post" action="<?php echo URLROOT; ?>/SuperAdminPages/markDelays">
+                                            <input type="hidden" name="delay_id" value="<?php echo $delay['delay_id']; ?>">
+                                            <button type="submit" class="mark-button">Mark</button>
+                                        </form>
+                                    <?php else: ?>
+                                        <span class="marked-text">Marked</span>
+                                    <?php endif; ?>
+                                </td>
+                                
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
