@@ -58,7 +58,7 @@
             <?php
                 if (isset($data['bus']) && is_array($data['bus'])) {
                 // Get scheduled license IDs
-                $scheduledLicenseIDs = array_column($data['scheduledbuses'], 'License_id');
+                    $scheduledLicenseIDs = array_column($data['scheduledbuses'], 'License_id');
 
                 foreach ($data['bus'] as $bus) {
                     echo "<tr class='selected'>";
@@ -75,7 +75,7 @@
                         echo "<td><button class='update-button' onclick='updateBus(\"{$bus['License_id']}\")'>Update</button></td>";
                         echo "<td><button class='delete-button' onclick='deleteBus(\"{$bus['License_id']}\")'>Delete</button></td>";
                     } else {
-                        echo "<td colspan='2' style='color: black;'>Scheduled</td>";
+                        echo "<td colspan='2' style='color: red;'>Scheduled</td>";
                     }
 
                     echo "</tr>";
