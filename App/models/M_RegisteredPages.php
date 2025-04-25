@@ -12,17 +12,14 @@
             return $this->db->single() ? true : false;
         }
 
-        public function cancelOnlineBooking($bookingId, $scheduleId , $cancellation_fee, $refund_amount, $bankDetails) {
-            // echo '<script> console.log("scheduleId2: ", ' . json_encode($scheduleId) . '); </script>';
-            // echo '<script> console.log("Bank Details: ", ' . json_encode($bankDetails) . '); </script>';  
-                 
+        public function cancelOnlineBooking($bookingId, $scheduleId , $cancellation_fee, $refund_amount, $bankDetails) {     
             try {
                 $this->db->beginTransaction();
                 
                 $this->db->query("SELECT selected_seats FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
-                echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
+                // echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
              
                
                 if (!$seats) {
@@ -35,20 +32,22 @@
                 if (!$bookedSeats) {
                     throw new Exception("Schedule not found");
                 }
-                echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
+                // echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
 
 
                 $seatsString = $seats['selected_seats'];
-                $seatsString = str_replace('"', '', $seatsString); // Remove any quote characters
+                $seatsString = str_replace('"', '', $seatsString); 
                 $seatsArray = array_map('trim', explode(',', $seatsString));
-                echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
-
-                $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); // Convert bookedSeats into an array
+                // echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
+                
+                //Converting booked seats into an array
+                $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); 
 
                 $bookedSeatsArray = array_values(array_diff($bookedSeatsArray, $seatsArray));
 
-                $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
-                echo '<script> console.log("Booked seats of the schedule after cancellation: ", ' . json_encode($bookedSeats) . '); </script>';
+                //// Converting bookedSeats array back to string
+                $bookedSeats = implode(',', $bookedSeatsArray);
+                // echo '<script> console.log("Booked seats of the schedule after cancellation: ", ' . json_encode($bookedSeats) . '); </script>';
 
 
                 $this->db->query("UPDATE schedule SET bookedSeats = :bookedSeats WHERE scheduleId = :scheduleId");
@@ -62,7 +61,6 @@
                 if (!$booking) {
                     throw new Exception("Booking not found");
                 }
-
 
                 $this->db->query("INSERT INTO cancelled_online_bookings (id,Booking_date, Booking_time, No_of_seats, Seats, User_id, schedule_id, from_location, to_location, total_price, paymentMethod , booking_status , time_date , cancellation_fee , refund_amount, account_name , account_number , bank_name , branch_name)
                 VALUES(:id, :Booking_date, :Booking_time, :No_of_seats, :Seats, :User_id, :schedule_id, :from_location, :to_location, :total_price, :paymentMethod , 'Cancelled', NOW(), :cancellation_fee , :refund_amount , :account_name , :account_number , :bank_name , :branch_name);");
@@ -96,7 +94,7 @@
                 $this->db->rollBack();
                 $_SESSION['error'] = $e->getMessage();
                 error_log($e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return false;
             }
         }
@@ -108,10 +106,8 @@
                 $this->db->query("SELECT selected_seats FROM registeredbooking WHERE id = :bookingId");
                 $this->db->bind(':bookingId', $bookingId);
                 $seats = $this->db->single();
-                echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
-               
-                
-               
+                // echo '<script> console.log("seats: ", ' . json_encode($seats) . '); </script>';
+                              
                 if (!$seats) {
                     throw new Exception("Booking not found");
                 }
@@ -122,22 +118,19 @@
                 if (!$bookedSeats) {
                     throw new Exception("Schedule not found");
                 }
-                echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
-
-            
-
+                // echo '<script> console.log("Booked seats of the schedule: ", ' . json_encode($bookedSeats) . '); </script>';
 
                 $seatsString = $seats['selected_seats'];
-                $seatsString = str_replace('"', '', $seatsString); // Remove any quote characters
+                $seatsString = str_replace('"', '', $seatsString); 
                 $seatsArray = array_map('trim', explode(',', $seatsString));
-                echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
+                // echo '<script> console.log("Seats Arrray: ", ' . json_encode($seatsArray) . '); </script>';
 
-                $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); // Convert bookedSeats into an array
+                $bookedSeatsArray = explode(',', $bookedSeats['bookedSeats']); 
 
                 $bookedSeatsArray = array_values(array_diff($bookedSeatsArray, $seatsArray));
 
-                $bookedSeats = implode(',', $bookedSeatsArray); // Convert bookedSeats array back to string
-                echo '<script> console.log("Booked seats of the schedule after cancellation: ", ' . json_encode($bookedSeats) . '); </script>';
+                $bookedSeats = implode(',', $bookedSeatsArray);
+                // echo '<script> console.log("Booked seats of the schedule after cancellation: ", ' . json_encode($bookedSeats) . '); </script>';
 
 
 
@@ -182,7 +175,7 @@
                 $this->db->rollBack();
                 $_SESSION['error'] = $e->getMessage();
                 error_log($e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return false;
             }
         }
@@ -192,10 +185,8 @@
             $this->db->bind(':bookingId', $bookingId);
             $this->db->bind(':userId', $userId);
             $onlineBooking = $this->db->single();
-            
             // echo '<script> console.log("Cancellation Online data from Db", ' . json_encode($onlineBooking) . '); </script>';
             
-
             if ($onlineBooking) {
                 return $onlineBooking;
             }
@@ -205,7 +196,7 @@
             $this->db->bind(':userId', $userId);
             $cashBooking = $this->db->single();
 
-            echo '<script> console.log("Cancellation cash data from Db", ' . json_encode($cashBooking) . '); </script>';
+            // echo '<script> console.log("Cancellation cash data from Db", ' . json_encode($cashBooking) . '); </script>';
             return $cashBooking;
             
         }
@@ -216,7 +207,7 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching schedule: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return [];
             }
         }
@@ -227,7 +218,7 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching schedule: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return [];
             }
         }
@@ -238,7 +229,7 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching schedule: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return [];
             }
         }
@@ -249,7 +240,7 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching schedule: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return [];
             }
         }
@@ -259,7 +250,7 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching bus details: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return []; 
             }
         }
@@ -269,7 +260,7 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching bus details: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return []; 
             }
         }
@@ -290,11 +281,10 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching upcoming booking details: " . $e->getMessage());
-                echo "<script>console.error(" . json_encode($e->getMessage()) . ");</script>";
+                // echo "<script>console.error(" . json_encode($e->getMessage()) . ");</script>";
                 return [];
             }
         }
-
 
         public function getPastBookings($userId){
             try {
@@ -303,12 +293,13 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching booking details: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return [];
             }
 
         }
 
+        //Only return whethere there is a user by that email
         public function findUserByEmail($email){
             $this->db->query('SELECT * FROM customer WHERE Email=:email');
             $this->db->bind(":email",$email);
@@ -334,7 +325,7 @@
             }
         }
 
-        //This for find a single person
+        //This for find a single person return the details of the user
         public function getUserByEmail($email) {
             $this->db->query('SELECT * FROM customer WHERE Email = :email');
             $this->db->bind(':email', $email);
@@ -348,23 +339,8 @@
             $this->db->bind(':user_id', $currentUserId);
             
             $this->db->execute();
-            
             // If any rows are returned, the NIC is used by another user
             return $this->db->rowCount() > 0;
-        }
-
-        public function findUserByNIC($nic) {
-            $this->db->query('SELECT * FROM customer WHERE NIC = :nic');
-            $this->db->bind(':nic', $nic);
-            
-            $row = $this->db->single();
-            
-            // Check if row exists
-            if ($this->db->rowCount() > 0) {
-                return true;
-            } else {
-                return false;
-            }
         }
 
         public function deleteAccount($userID) {
@@ -380,7 +356,6 @@
             }
         }
         
-
         public function updateProfile($data) {
             $this->db->query("UPDATE customer 
                               SET Name = :name, Email = :email, Contact_number = :contact_number, NIC = :nic, Address = :address 
@@ -403,7 +378,7 @@
                     c.Name,  
                     r.review 
                 FROM 
-                    bus_reviews r
+                    ratings r
                 INNER JOIN 
                     customer c 
                 ON 
@@ -433,7 +408,7 @@
                 return $this->db->resultSet();
             } catch (Exception $e) {
                 error_log("Error fetching route details: " . $e->getMessage());
-                echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
+                // echo "<script>console.error('PHP Error: " . addslashes($e->getMessage()) . "');</script>";
                 return []; 
             }
         }

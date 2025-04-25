@@ -6,6 +6,7 @@
       data-show-popup="<?php echo isset($data['showPopup']) && $data['showPopup'] ? 'true' : 'false'; ?>">
     <input type="hidden" name="License_id" value="<?php echo htmlspecialchars($selectedBus['License_id']); ?>">
     <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
+    <input type="hidden" name="penaltyFee" id="penaltyFeeInput" value="<?php echo ($userRole === 'RegisteredUser' && !empty($pastNotArrivedBookings)) ? array_sum(array_column($pastNotArrivedBookings, 'penalty_fee')) : 0; ?>">
 
     <!-- Name and email -->
     <div class="form-group">
@@ -13,7 +14,7 @@
         <div>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Name'])) ? htmlspecialchars($userData['Name']) : ''; ?>" required>
-            <div id="NameError" class="error-message">Name can only contain characters.</div>
+            <div id="NameError" class="error-message"></div>
         </div>
         <!-- Input email -->
         <div>
@@ -100,9 +101,9 @@
     <div class="form-group-inline">
         <label>Payment method:</label>
         <?php if ($userRole === 'RegisteredUser'): ?>
-            <input type="radio" id="cashPayment" name="paymentMethod" value="Cash" required> <label for="cashPayment" style="display: inline;">Cash</label>
+            <input type="radio" id="cashPayment" name="paymentMethod" value="Cash"> <label for="cashPayment" style="display: inline;">Cash</label>
         <?php endif; ?>
-        <input type="radio" id="onlinePayment" name="paymentMethod" value="Online" required> <label for="onlinePayment" style="display: inline;">Online</label>
+        <input type="radio" id="onlinePayment" name="paymentMethod" value="Online"> <label for="onlinePayment" style="display: inline;">Online</label>
         <div id="paymentMethodError" class="error-message">Please select a payment method</div>
     </div>
 
@@ -114,7 +115,7 @@
         <p><strong>Total Price:</strong> Rs. <span id="total-price">0</span></p>
     </div>
        
-    <button type="submit" id="checkoutButton" class="checkout-button" disabled>Proceed to Checkout</button>
+    <button type="submit" id="checkoutButton" class="checkout-button" >Proceed to Checkout</button>
     
     <?php
         // Penalty fee notification

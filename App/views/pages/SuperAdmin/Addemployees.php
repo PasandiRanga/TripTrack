@@ -22,8 +22,8 @@
 </head>
 <body>
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">Back</button>
-
-    <h2><?php echo $isUpdate ? 'Update Employee' : 'Create Employee'; ?></h2>
+<div class="box">
+    <h2><?php echo $isUpdate ? 'Update Employee' : 'Add Employee'; ?></h2>
 
     <form id="userForm" method="POST" class="user-form">
         <?php if ($isUpdate): ?>
@@ -68,9 +68,10 @@
             <button type="button" onclick="<?php echo $isUpdate ? 'updateEmployee()' : 'addEmployee()'; ?>">
                 <?php echo $isUpdate ? 'Update Employee' : 'Create Employee'; ?>
             </button>
-            <button type="button" onClick="clearForm()">Clear</button>
+            <button type="button" class="clear-button" onClick="clearForm()">Clear</button>
         </div>
     </form>
+</div>
 
 <script>
     document.getElementById('togglePassword').addEventListener('change', function() {

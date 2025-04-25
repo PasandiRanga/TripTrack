@@ -42,7 +42,7 @@
     $userData = $data['user'] ?? [];
     $notifications = $data['notifications'] ?? [];
     // $reviews = $data['reviews'] ?? [];
-    $regBookingsData = $data['regBookingsDetails'] ?? []; // Add this line
+    // $regBookingsData = $data['regBookingsDetails'] ?? []; 
     $busData = $data['bus'] ?? [];
     // $userData = $data['user'] ?? [];
     $data['currentController'] = 'RegisteredPages';
@@ -130,6 +130,7 @@
                 </div> 
             </div>
             <div class="column">
+                <div class="close-column-btn">&times;</div>
                 <div class="date-details">
                         <div id="date-info">
                         </div>
@@ -153,7 +154,7 @@
 
     <!--Cancel Booking pop up -->
     <div id="cancelPopup" class="popup hidden">
-        <div class="popup-content">
+        <div class="cancel-popup-content">
             <h3>Cancel Booking</h3>
             <p id="popup-details"></p>
             <!--Content will come here -->
@@ -213,10 +214,11 @@
     const busData = <?php echo json_encode($busData); ?>;
     const cancelledBookings = <?php echo json_encode($cancellationData); ?>;
     const userData = <?php echo json_encode($data['user'] ?? []); ?>;
-    
-
     </script>
 
+<script>
+    const URLROOT = '<?php echo URLROOT; ?>';
+</script>
     </body>
     </html>
 

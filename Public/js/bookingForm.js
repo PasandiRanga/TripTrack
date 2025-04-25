@@ -3,17 +3,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const userRole = document.getElementById('bookingForm').getAttribute('data-user-role');
     const urlRoot = document.getElementById('bookingForm').getAttribute('data-urlroot');
     let selectedPaymentMethod = ''; 
+    let busStopsInOrder = [];
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('Bookingemail');
     const contactInput = document.getElementById('contact');
     const nicInput = document.getElementById('nic');
     const selectedSeatsInput = document.getElementById('selectedSeats');
     const noOfSeatsInput = document.getElementById('noOfseats');
-    const checkoutButton = document.getElementById('checkoutButton');
+    const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
     const fromSelect = document.getElementById('from');
     const toSelect = document.getElementById('to');
     const numofseats = document.getElementById('noOfseats');
     const penaltyFee = parseFloat(document.getElementById('bookingForm').getAttribute('data-penalty-fee') || 0);
+    console.log(penaltyFee);
 
     // Get all error elements
     const nameError = document.getElementById('NameError');
@@ -49,6 +51,81 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!totalPriceInput.value || totalPriceInput.value === '0') {
         totalPriceInput.value = '0.00';
     }
+
+    function initializeBusStops() {
+        // Get all options from the fromSelect dropdown
+        const options = Array.from(fromSelect.options).map(option => option.value);
+        busStopsInOrder = options.filter(option => option !== '');
+    }
+
+    initializeBusStops();
+
+    function updateToOptions() {
+        // Get the selected From value
+        const fromValue = fromSelect.value;
+        
+        if (!fromValue) return;
+        
+        // Find the index of the selected From value in the bus stops array
+        const fromIndex = busStopsInOrder.indexOf(fromValue);
+        
+        if (fromIndex === -1) return;
+        
+        // Save current To selection if possible
+        const currentToValue = toSelect.value;
+        
+        // Clear all existing options in the To dropdown
+        while (toSelect.options.length > 0) {
+            toSelect.remove(0);
+        }
+        
+        // Add new options to the To dropdown - only stops after the From stop
+        for (let i = fromIndex + 1; i < busStopsInOrder.length; i++) {
+            const option = document.createElement('option');
+            option.value = busStopsInOrder[i];
+            option.textContent = busStopsInOrder[i];
+            toSelect.appendChild(option);
+        }
+        
+        // If no options were added, add a placeholder
+        if (toSelect.options.length === 0) {
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = 'No stops available';
+            toSelect.appendChild(option);
+        }
+        
+        // Try to restore previous selection if it's still valid
+        if (currentToValue) {
+            const stillValid = Array.from(toSelect.options).some(opt => opt.value === currentToValue);
+            if (stillValid) {
+                toSelect.value = currentToValue;
+            }
+        }
+        
+        // Validate locations after update
+        validateLocations();
+        
+        // Update price if both selections are valid
+        if (fromSelect.value && toSelect.value) {
+            updatePrice(fromSelect.value, toSelect.value);
+        }
+    }
+    
+    // Replace or modify the existing fromSelect event listener
+    fromSelect.addEventListener('change', function() {
+        updateToOptions();
+    });
+
+    updateToOptions();
+    
+    // Keep the existing toSelect event listener, just make sure it calls validateLocations
+    toSelect.addEventListener('change', function() {
+        validateLocations();
+        if (fromSelect.value && toSelect.value) {
+            updatePrice(fromSelect.value, toSelect.value);
+        }
+    });
 
     // Function to show/hide error message
     function showError(inputElement, errorElement, message, isError) {
@@ -133,21 +210,32 @@ document.addEventListener('DOMContentLoaded', function() {
         const to = toSelect.value;
         
         if (from === '') {
-            showError(fromSelect, fromError, 'Please select a departure location', true);
+            fromSelect.classList.add('input-error');
+            fromError.textContent = 'Please select a departure location';
+            fromError.style.display = 'block';
             return false;
         } else {
-            showError(fromSelect, fromError, '', false);
+            fromSelect.classList.remove('input-error');
+            fromError.style.display = 'none';
         }
         
         if (to === '') {
-            showError(toSelect, toError, 'Please select an arrival location', true);
+            toSelect.classList.add('input-error');
+            toError.textContent = 'Please select an arrival location';
+            toError.style.display = 'block';
             return false;
         } else {
-            showError(toSelect, toError, '', false);
+            toSelect.classList.remove('input-error');
+            toError.style.display = 'none';
         }
         
-        if (from === to && from !== '') {
-            showError(fromSelect, fromError, 'Departure and arrival locations cannot be the same', true);
+        const fromIndex = busStopsInOrder.indexOf(from);
+        const toIndex = busStopsInOrder.indexOf(to);
+        
+        if (fromIndex >= toIndex && from !== '' && to !== '') {
+            toSelect.classList.add('input-error');
+            toError.textContent = 'Arrival location must be after departure location';
+            toError.style.display = 'block';
             return false;
         }
         
@@ -209,33 +297,33 @@ document.addEventListener('DOMContentLoaded', function() {
         validateNIC();
     });
 
-    // Add event listeners for validation
     nameInput.addEventListener('input', validateName);
+
     emailInput.addEventListener('input', validateEmail);
+
     fromSelect.addEventListener('change', function() {
         validateLocations();
         updatePrice(fromSelect.value, toSelect.value);
     });
+
     toSelect.addEventListener('change', function() {
         validateLocations();
         updatePrice(fromSelect.value, toSelect.value);
     });
+
+
 
     numofseats.addEventListener('input', function() {
         validateSeats();
         updatePrice(fromSelect.value, toSelect.value);
     });
 
-    // Event listener for payment method selection
-    const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
     paymentRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             validatePaymentMethod();
-            validateForm();
         });
     });
     
-    // Function to validate the entire form
     function validateForm() {
         const isNameValid = validateName();
         const isEmailValid = validateEmail();
@@ -245,18 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const areSeatsValid = validateSeats();
         const isPaymentMethodValid = validatePaymentMethod();
         
-        // Enable checkout button only if all validations pass
-        checkoutButton.disabled = !(
-            isNameValid && 
-            isEmailValid && 
-            isContactValid && 
-            isNICValid && 
-            areLocationsValid && 
-            areSeatsValid && 
-            isPaymentMethodValid
-        );
-        
-        checkoutButton.style.opacity = checkoutButton.disabled ? '0.6' : '1';
+        return isNameValid && isEmailValid && isContactValid && isNICValid && areLocationsValid && areSeatsValid && isPaymentMethodValid
     }
     
     // Handle payment method logic
@@ -304,35 +381,26 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("confirmBox").classList.add("hidden");
     };
 
+    window.validateLocations = validateLocations;
+
     // Show the login box on page load if required
     const showPopup = bookingForm.getAttribute('data-show-popup') === 'true';
     if (showPopup && document.getElementById('signInBox')) {
         document.getElementById('signInBox').classList.remove('hidden');
     }
 
-    // Update form submission handling
-    bookingForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
+    bookingForm.addEventListener('submit', function(event) {
+        // Prevent form from submitting immediately
+        event.preventDefault();
         
-        // Perform full validation
-        const isValid = validateName() && 
-                        validateEmail() && 
-                        validateContact() && 
-                        validateNIC() && 
-                        validateLocations() && 
-                        validateSeats() && 
-                        validatePaymentMethod();
-        
-        if (!isValid) {
-            return false;
-        }
-
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-        
-        // If updateFormAction returns true, submit the form directly
-        // Otherwise, the confirmBox will be shown
-        if (updateFormAction(paymentMethod.value)) {
-            bookingForm.submit();
+        // Run form validation
+        if (validateForm()) {
+            // If validation passes, submit the form properly
+            // Use the native form submission instead of calling submit() directly
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            if(updateFormAction(paymentMethod.value)) {
+                bookingForm.submit();
+            }
         }
     });
 
@@ -381,9 +449,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (from && to) {
                     updatePrice(from, to);
                 }
-
-                // Validate form after seat selection changes
-                // validateForm();
             });
         });
     }
@@ -491,4 +556,5 @@ document.addEventListener('DOMContentLoaded', function() {
     if (from && to) {
         updatePrice(from, to);
     }
+
 });

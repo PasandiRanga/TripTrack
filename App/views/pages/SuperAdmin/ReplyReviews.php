@@ -21,17 +21,32 @@
 
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/reviews'">Back</button>
-
+<div class="box">
     <h2>Reply to Review</h2>
     <br>
 
-    <!-- Display Review Information -->
+    <!-- Display Review Information in a 2x2 Grid -->
     <div class="review-info">
-        <p><strong>Review ID:</strong> <?php echo htmlspecialchars($reviewId); ?></p>
-        <p><strong>User ID:</strong> <?php echo htmlspecialchars($User_id); ?></p>
-        <p><strong>Date and Time:</strong> <?php echo htmlspecialchars($created_at); ?></p>
-        <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($License_id); ?></p>
-        <p><strong>Review:</strong> <?php echo htmlspecialchars($review); ?></p>
+        <div class="review-details">
+            <div class="row">
+                <p><strong>Review ID:</strong> <?php echo htmlspecialchars($reviewId); ?></p>
+                <p><strong>User ID:</strong> <?php echo htmlspecialchars($User_id); ?></p>
+            </div>
+            <div class="row">
+                <p><strong>Date and Time:</strong> <?php echo htmlspecialchars($created_at); ?></p>
+                <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($License_id); ?></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Message Box (Styled Like Other Boxes) -->
+    <div class="review-box">
+        <div class="box-header">
+            <strong>Review:</strong>
+        </div>
+        <div class="box-content">
+            <p><?php echo htmlspecialchars($review); ?></p>
+        </div>
     </div>
 
     <!-- Reply Form -->
@@ -42,52 +57,50 @@
         <br>
         <button type="submit">Submit Reply</button>
     </form>
-
-
+</div>
     <script>
         // Function to handle reply form submission
         document.getElementById("replyForm").addEventListener("submit", submitReply);
 
-            async function submitReply(event) {
-                event.preventDefault();
+        async function submitReply(event) {
+            event.preventDefault();
 
-                const replyText = document.getElementById("reply").value.trim();
-                const reviewId = document.querySelector('input[name="reviewId"]').value;
+            const replyText = document.getElementById("reply").value.trim();
+            const reviewId = document.querySelector('input[name="reviewId"]').value;
 
-                if (replyText === "") {
-                    alert("Please enter a reply before submitting.");
-                    return;
-                }
-
-                const confirmSubmit = confirm("Are you sure you want to submit this reply?");
-                if (!confirmSubmit) return;
-
-                try {
-                    const response = await fetch('<?php echo URLROOT; ?>/SuperAdminPages/replyreview', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            reviewId: reviewId,
-                            reply: replyText
-                        })
-                    });
-
-                    const result = await response.json();
-
-                    if (result.status === "success") {
-                        alert("Reply submitted successfully!");
-                        window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/reviews';
-                    } else {
-                        alert(result.message || "Failed to submit reply.");
-                    }
-                } catch (error) {
-                    console.error(error);
-                    alert("An error occurred while submitting the reply.");
-                }
+            if (replyText === "") {
+                alert("Please enter a reply before submitting.");
+                return;
             }
 
+            const confirmSubmit = confirm("Are you sure you want to submit this reply?");
+            if (!confirmSubmit) return;
+
+            try {
+                const response = await fetch('<?php echo URLROOT; ?>/SuperAdminPages/replyreview', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reviewId: reviewId,
+                        reply: replyText
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    alert("Reply submitted successfully!");
+                    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/reviews';
+                } else {
+                    alert(result.message || "Failed to submit reply.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred while submitting the reply.");
+            }
+        }
     </script>
 </body>
 </html>

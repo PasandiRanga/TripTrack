@@ -1,239 +1,209 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #d8f8ee;
     color: #333;
 }
 
-/* Back button */
+/* Back Button */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
+    padding: 10px 18px;
+    background: linear-gradient(to right, #43cea2, #185a9d);
     color: white;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 4px;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.1s ease;
 }
 
-/* Page title */
+.back-button:hover {
+    background: linear-gradient(to right, #30cfd0, #2bb673);
+    transform: translateY(-2px);
+}
+
+/* Page Title */
 h1 {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
+    font-size: 32px;
+    color: #006064;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Add Schedule button at the top right */
+/* Top Actions */
 .top-actions {
-    margin: 20px auto; /* Centers the button horizontally */
-    width: 90%; /* Matches the table's width */
+    margin: 30px auto 20px;
+    width: 90%;
     display: flex;
     justify-content: flex-end;
 }
 
 .add-schedule-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
+    display: inline-block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #00897b, #006064);
+    border-radius: 6px;
     color: white;
+    font-size: 14px;
+    text-decoration: none;
     border: none;
     cursor: pointer;
-    border-radius: 4px;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .add-schedule-btn:hover {
-    background-color: #007bff;
+    transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
-/* Table container */
+/* Table Container */
 .table-container {
     margin: 20px auto;
     width: 90%;
-    border-radius: 10px; /* Rounds the corners */
-    overflow: hidden; /* Ensures corners stay rounded */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow to the table */
-    background-color: white; /* Ensures a consistent background */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-/* Table styles */
+/* Table Styles */
 .schedule-table {
     width: 100%;
     border-collapse: collapse;
-    border-spacing: 0;
+    font-size: 15px;
 }
 
 .schedule-table th, .schedule-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #e0f2f1;
+    padding: 12px 15px;
     text-align: left;
 }
 
 .schedule-table th {
-    background-color: #007bff;
+    background: #006064;
     color: white;
-}
-
-.schedule-table tr.selected {
-    background-color: #d3d3d3;
+    font-weight: 600;
 }
 
 .schedule-table tr:hover {
+    background-color: #e0f2f1;
     cursor: pointer;
-    background-color: #f1f1f1;
 }
 
-/* Update and Delete buttons in the table 
-.schedule-table button {
-    padding: 5px 10px;
-    font-size: 14px;
-    background-color: #063946;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
+.schedule-table tr.selected {
+    background-color: #b2dfdb;
 }
 
-.schedule-table button:hover {
-    background-color: #085d70;
-}
-*/
+/* Action Buttons */
 .update-btn,
 .delete-btn {
-    padding: 5px 10px;
+    padding: 8px 14px;
     font-size: 14px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: 600;
 }
 
 .update-btn {
-    background-color: #007bff;
+    background: #007bff;
     color: white;
 }
 
 .update-btn:hover {
-    background-color: #007bff;
+    background: #073f94;
 }
 
 .delete-btn {
-    background-color: #f44336;
+    background: #f44336;
     color: white;
 }
 
 .delete-btn:hover {
+    background: #d32f2f;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup Box */
+.popup-box {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.popup-box p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.popup-box .confirm-btn,
+.popup-box .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.popup-box .confirm-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.popup-box .confirm-btn:hover {
     background-color: #d32f2f;
 }
 
+.popup-box .cancel-btn {
+    background-color: #00897b;
+    color: white;
+}
 
-/* Popup box styles */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+.popup-box .cancel-btn:hover {
+    background-color: #00695c;
+}
 
-        .popup-box {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.detail-row {
+    display: none;
+    background-color: #f1fdfb;
+}
+.details-box {
+    padding: 10px;
+    border-left: 4px solid #38b2ac;
+}
+.schedule-table tr.selected {
+    background-color: #c6f6d5; /* soft green highlight */
+}
 
-        .popup-box p {
-            margin: 0 0 20px;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .popup-box button {
-            padding: 10px 20px;
-            background: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .popup-box button:hover {
-            background: #0056b3;
-        }
-
- /* Delete Popup box styles */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .popup-box {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            max-width: 350px;
-            height: 150px;
-            width: 90%;
-        }
-
-        .popup-box p {
-            margin: 0 0 20px;
-            font-size: 16px;
-            color: #000;
-        }
-
-        .popup-box button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .popup-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-
-        .popup-box .confirm-btn {
-            background: #dc3545;
-            color: #fff;
-        }
-
-        .popup-box .confirm-btn:hover {
-            background: #c82333;
-        }
-
-        .popup-box .cancel-btn {
-            background: #007bff;
-            color: #fff;
-        }
-
-        .popup-box .cancel-btn:hover {
-            background: #007bff;
-        }

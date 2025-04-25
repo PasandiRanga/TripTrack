@@ -280,13 +280,13 @@
         public function GuestSignUp() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                $enteredOTP = $_POST['entered_otp'] ?? '';
+                $enteredOTP = $_POST['otp'] ?? '';
                 $storedOTP = $_SESSION['email_otp'] ?? '';
                 $otpTime = $_SESSION['email_otp_time'] ?? 0;
                 
                 if ($enteredOTP !== $storedOTP || (time() - $otpTime) > 900) {
                     $data['otp_err'] = 'Invalid or expired OTP';
-                    return $this->view('GuestPages/home', $data);
+                    return $this->view('inc/Components/SignUp/signUp', $data); // Return to signup page instead
                 }
                 
                 unset($_SESSION['email_otp']);
@@ -548,52 +548,14 @@
                     'email' => trim($_POST['email']),
                     'contactNo' => trim($_POST['phone']),
                     'message' => trim($_POST['message']),
-                    'name_err' => '',
-                    'email_err' => '',
-                    'contactNo_err' => '',
-                    'message_err' => ''     
+                     
                 ];
-                // Validate name
-                if (empty($data['name'])) {
-                    $data['name_err'] = 'Please enter your name';
-                }
-                // Validate email
-                if (empty($data['email'])) {
-                    $data['email_err'] = 'Please enter your email';
-                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                    $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
-                }
-                // Validate contact number
-                if (empty($data['contactNo'])) {
-                    $data['contactNo_err'] = 'Please enter your contact number';
-                } elseif (!ctype_digit($data['contactNo'])) {
-                    $data['contactNo_err'] = 'The contact number must contain only numbers';
-                } elseif (strlen($data['contactNo']) !== 10) {
-                    $data['contactNo_err'] = 'The contact number must be exactly 10 digits long';
-                } elseif ($data['contactNo'][0] !== '0') {
-                    $data['contactNo_err'] = 'The contact number must start with 0';
-                }
-                // Validate message
-                if (empty($data['message'])) {
-                    $data['message_err'] = 'Please enter a message';
-                }
-                // Validate inputs
-                if (empty($data['name_err']) && empty($data['email_err']) && empty($data['contactNo_err']) && empty($data['message_err'])) {
-                    // Save to database using model
-                    if ($this->GuestpagesModel->addSupportRequest($data)) {
-                        // Redirect on success
-                        $_SESSION['success_message'] = "Your support request has been submitted successfully.";
-                        header('Location: ' . URLROOT . '/GuestPages/contact?status=success');
-                        exit();
-                    } else {
-                        // Handle database error
-                        $data['error_message'] = "Something went wrong. Please try again.";
-                        $this->view('pages/GuestUser/contactus', $data);
-                    }
-                } else {
-                    // Reload view with errors
-                    $this->view('pages/GuestUser/contactus', $data);
-                }
+                
+                $this->GuestpagesModel->addSupportRequest($data);
+                 // Redirect on success
+                $_SESSION['success_message'] = "Your support request has been submitted successfully.";
+                header('Location: ' . URLROOT . '/GuestPages/contact?status=success');
+                exit();       
             } else {
                 // Redirect if accessed directly
                 header('Location: ' . URLROOT . '/GuestPages/contact');
