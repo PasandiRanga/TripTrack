@@ -45,12 +45,8 @@
             <tr>
                 <th>Licence ID</th>
                 <th>Route No</th>
-                <!-- <th>Route</th> -->
-                <!-- <th>Bus Type</th> -->
-                <!-- <th>Stops</th> -->
                 <th>Starts</th>
                 <th>Destination</th>
-                <!-- <th>Ratings</th> -->
                 <th>Passengers</th>
                 <th>Price</th>
                 <th>Price per KM</th>
@@ -60,7 +56,10 @@
         </thead>
         <tbody id="fleet-table-body">
             <?php
-            if (isset($data['bus']) && is_array($data['bus'])) {
+                if (isset($data['bus']) && is_array($data['bus'])) {
+                // Get scheduled license IDs
+                $scheduledLicenseIDs = array_column($data['scheduledbuses'], 'License_id');
+
                 foreach ($data['bus'] as $bus) {
                     echo "<tr class='selected'>";
                     echo "<td>{$bus['License_id']}</td>";
@@ -70,8 +69,15 @@
                     echo "<td>{$bus['passengers']}</td>";
                     echo "<td>{$bus['price']}</td>";
                     echo "<td>{$bus['priceperkm']}</td>";
-                    echo "<td><button class='update-button' onclick='updateBus(\"{$bus['License_id']}\")'>Update</button></td>";
-                    echo "<td><button class='delete-button' onclick='deleteBus(\"{$bus['License_id']}\")'>Delete</button></td>";
+
+                    // Only show update/delete buttons if bus is not scheduled
+                    if (!in_array($bus['License_id'], $scheduledLicenseIDs)) {
+                        echo "<td><button class='update-button' onclick='updateBus(\"{$bus['License_id']}\")'>Update</button></td>";
+                        echo "<td><button class='delete-button' onclick='deleteBus(\"{$bus['License_id']}\")'>Delete</button></td>";
+                    } else {
+                        echo "<td colspan='2' style='color: black;'>Scheduled</td>";
+                    }
+
                     echo "</tr>";
                 }
             } else {

@@ -35,6 +35,11 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
+    public function getScheduledBusID() {
+        $this->db->query('SELECT License_id FROM schedule');
+        return $this->db->resultSet();
+    }
+
     // Retrieve a specific bus by License_id
     public function getBusByLicenseId($License_id) {
         $this->db->query('SELECT * FROM bus WHERE License_id = :License_id');

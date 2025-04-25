@@ -49,8 +49,17 @@ class SuperAdminPages extends Controller {
 
     public function fleet() {
         $bus = $this->SuperAdminModel->getBus();
+        $scheduledbuses = $this->SuperAdminModel->getScheduledBusID();
+
+        $scheduledLicenseIDs = array_column($scheduledbuses, 'License_id'); // Get all scheduled license IDs
+
+        $freeBuses = array_filter($bus, function($b) use ($scheduledLicenseIDs) {
+            return !in_array($b['License_id'], $scheduledLicenseIDs);
+        });
         $data = [
-            'bus' => $bus
+            'bus' => $bus,
+            'scheduledbuses' => $scheduledbuses,
+            'freeBuses' => $freeBuses // Pass the free buses to the view
         ];
         $this->view('pages/SuperAdmin/Fleet', $data);
     }
