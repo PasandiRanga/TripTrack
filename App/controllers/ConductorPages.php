@@ -469,10 +469,15 @@
         public function newHome() {
             $upcomingschedule = $this->ConductorpagesModel->getUpcomingSchedule($_SESSION['user_id']);
             $pastschedule = $this->ConductorpagesModel->getPastSchedule($_SESSION['user_id']);
+            $totalSchedules = $this->ConductorpagesModel->getTotalSchedules($_SESSION['user_id']);
+            $latestNotification = $this->ConductorpagesModel->getLatestNotification();
+
 
             $data = [
                 'upcomingSchedule' => $upcomingschedule,
-                'pastSchedule' => $pastschedule
+                'pastSchedule' => $pastschedule,
+                'totalSchedules' => $totalSchedules,
+                'latestNotification' => $latestNotification
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
