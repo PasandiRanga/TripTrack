@@ -94,7 +94,7 @@
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box">
             <p id="popupMessage"></p>
-            <button onclick="closePopup()">OK</button>
+            <button class="ok-button" onclick="closePopup()">OK</button>
         </div>
     </div>
 

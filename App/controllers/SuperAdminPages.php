@@ -103,12 +103,12 @@ class SuperAdminPages extends Controller {
                 exit();
             }
 
-            // Start and Destination should be alphabetic with optional spaces
-            if (!preg_match('/^[A-Za-z ]+$/', $data['start_location']) || !preg_match('/^[A-Za-z ]+$/', $data['destination'])) {
-                echo json_encode(['status' => 'error', 'message' => 'Start and Destination must contain only letters and spaces.']);
-                http_response_code(400);
-                exit();
-            }
+            // // Start and Destination should be alphabetic with optional spaces
+            // if (!preg_match('/^[A-Za-z ]+$/', $data['start_location']) || !preg_match('/^[A-Za-z ]+$/', $data['destination'])) {
+            //     echo json_encode(['status' => 'error', 'message' => 'Start and Destination must contain only letters and spaces.']);
+            //     http_response_code(400);
+            //     exit();
+            // }
 
             // Call the model method to add the bus
             if ($this->SuperAdminModel->addBus($data)) {
