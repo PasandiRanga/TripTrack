@@ -34,7 +34,7 @@
             <?php
                 echo '<script>console.log(' . json_encode($data) . ');</script>';
             ?>
-
+        <div class="box-form">
             <!-- License ID -->
             <div class="form-group">
                 <label for="License_id">License ID:</label>
@@ -48,6 +48,7 @@
                     <option value="">Select Route Number</option>
                     <?php if (!empty($data['route'])): foreach ($data['route'] as $route): ?>
                         <option value="<?php echo $route['routeNumber']; ?>"
+                                data-routename="<?php echo htmlspecialchars($route['route']); ?>"
                                 data-price="<?php echo htmlspecialchars($route['price']); ?>"
                                 data-priceperkm="<?php echo htmlspecialchars($route['priceperkm']); ?>"
                                 <?php echo $route['routeNumber'] == $routeNumber ? 'selected' : ''; ?>>
@@ -62,13 +63,13 @@
             <!-- Start Location -->
             <div class="form-group">
                 <label for="start_location">Starts:</label>
-                <input type="text" id="start_location" name="start_location" value="<?php echo $startLocation; ?>" required placeholder="e.g., Colombo">
+                <input type="text" id="start_location" name="start_location" value="<?php echo $startLocation; ?>" required placeholder="e.g., Colombo" readonly>
             </div>
 
             <!-- Destination -->
             <div class="form-group">
                 <label for="destination">Destination:</label>
-                <input type="text" id="destination" name="destination" value="<?php echo $destination; ?>" required placeholder="e.g., Kandy">
+                <input type="text" id="destination" name="destination" value="<?php echo $destination; ?>" required placeholder="e.g., Kandy" readonly>
             </div>
 
             <!-- Passengers -->
@@ -113,10 +114,20 @@
 <script>
 
     function clearForm() {
-        document.getElementById('License_id').value = '';
+        const isUpdate = <?php echo json_encode($isUpdate); ?>;
+
+        if (!isUpdate) {
+            document.getElementById('License_id').value = '';
+        }
+
+        document.getElementById('routeNumber').value = '';
         document.getElementById('start_location').value = '';
         document.getElementById('destination').value = '';
+        document.getElementById('passengers').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('priceperkm').value = '';
     }
+
     // Show popup message
     function showPopup(message) {
         const popupOverlay = document.getElementById("popupOverlay");
@@ -132,74 +143,81 @@
         popupOverlay.style.display = "none";
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        // Update price and price per KM based on selected route
-        document.getElementById("routeNumber").addEventListener("change", function () {
-            const selectedOption = this.options[this.selectedIndex];
-            const price = selectedOption.getAttribute("data-price");
-            const pricePerKm = selectedOption.getAttribute("data-priceperkm");
+    document.addEventListener("DOMContentLoaded", function () {
 
+        const routeDropdown = document.getElementById("routeNumber");
+        const priceField = document.getElementById("price");
+        const pricePerKmField = document.getElementById("priceperkm");
+        const startLocationField = document.getElementById("start_location");
+        const destinationField = document.getElementById("destination");
 
-            document.getElementById("price").value = price || '';
-            document.getElementById("priceperkm").value = pricePerKm || '';
-        });
+    // Unified change handler for route dropdown
+    routeDropdown.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const price = selectedOption.getAttribute("data-price");
+        const pricePerKm = selectedOption.getAttribute("data-priceperkm");
+        const routeName = selectedOption.getAttribute("data-routename");
 
-        // Clear form fields and reset price fields
-        document.getElementById("fleet-form").addEventListener("reset", function () {
-            document.getElementById("price").value = '';
-            document.getElementById("priceperkm").value = '';
-        });
+        // Set price fields
+        priceField.value = price || '';
+        pricePerKmField.value = pricePerKm || '';
 
-        // Handle form submission
-        document.getElementById("fleet-form").addEventListener("submit", function (event) {
-
-            event.preventDefault();
-
-            // Determine the correct endpoint based on whether it's an update or add operation
-            const isUpdate = <?php echo json_encode($isUpdate); ?>;
-            const endpoint = isUpdate 
-                ? '<?php echo URLROOT; ?>/SuperAdminPages/updateBus' 
-
-                : '<?php echo URLROOT; ?>/SuperAdminPages/AddFleet';
-
-            // Collect form data
-            let formData = {
-                License_id: document.getElementById("License_id").value.trim(),
-                routeNumber: document.getElementById("routeNumber").value.trim(),
-                start_location: document.getElementById("start_location").value.trim(),
-                destination: document.getElementById("destination").value.trim(),
-                passengers: document.getElementById("passengers").value.trim(),
-                price: document.getElementById("price").value.trim(),
-                priceperkm: document.getElementById("priceperkm").value.trim()
-            };
-
-
-            // Debugging: Log form data
-            console.log(formData);
-
-
-            // Send the request to the appropriate endpoint
-            fetch(endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            })
-
-                .then(response => response.json()) // Parse JSON response
-                .then(data => {
-                    console.log("Server Response:", data);
-                    if (data.status === "success") {
-                        showPopup(isUpdate ? "Bus updated successfully!" : "Bus added successfully!");
-                        document.getElementById("popupOverlay").querySelector("button").onclick = function () {
-                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
-                        };
-                    } else {
-                        showPopup("Error: " + data.message);
-                    }
-                })
-                .catch(error => showPopup("An error occurred: " + error.message));
-        });
+        // Set route start and destination
+        if (routeName && routeName.includes('-')) {
+            const [start, destination] = routeName.split('-');
+            startLocationField.value = start.trim();
+            destinationField.value = destination.trim();
+        } else {
+            startLocationField.value = '';
+            destinationField.value = '';
+        }
     });
+
+    // Clear price fields on form reset
+    document.getElementById("fleet-form").addEventListener("reset", function () {
+        priceField.value = '';
+        pricePerKmField.value = '';
+    });
+
+    // Handle form submission
+    document.getElementById("fleet-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const isUpdate = <?php echo json_encode($isUpdate); ?>;
+        const endpoint = isUpdate
+            ? '<?php echo URLROOT; ?>/SuperAdminPages/updateBus'
+            : '<?php echo URLROOT; ?>/SuperAdminPages/AddFleet';
+
+        const formData = {
+            License_id: document.getElementById("License_id").value.trim(),
+            routeNumber: routeDropdown.value.trim(),
+            start_location: startLocationField.value.trim(),
+            destination: destinationField.value.trim(),
+            passengers: document.getElementById("passengers").value.trim(),
+            price: priceField.value.trim(),
+            priceperkm: pricePerKmField.value.trim()
+        };
+
+        fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                showPopup(isUpdate ? "Bus updated successfully!" : "Bus added successfully!");
+                document.getElementById("popupOverlay").querySelector("button").onclick = function () {
+                    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/fleet';
+                };
+            } else {
+                showPopup("Error: " + data.message);
+            }
+        })
+        .catch(error => showPopup("An error occurred: " + error.message));
+    });
+});
+
 
 </script>
 </body>

@@ -256,8 +256,7 @@
         }
 
         .booking-details {
-            max-height: 0;
-            overflow: hidden;
+            /* overflow: hidden; */
             transition: max-height 0.4s ease, padding 0.3s ease;
             padding: 0 5px;
         }
@@ -390,7 +389,7 @@
             z-index: 1000;
         }
 
-        .popup-content, .policypopup-content{
+        .cancel-popup-content, .policypopup-content{
             background-color: white;
             padding: 25px;
             border-radius: var(--border-radius);

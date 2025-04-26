@@ -20,16 +20,16 @@
         $cardClass = !$review['replied'] ? 'review-card new-review' : 'review-card replied-review';
     ?>
         <div class="<?php echo $cardClass; ?>" onclick="goToReplyPage(
-            <?php echo $review['reviewId']; ?>,
+            <?php echo $review['rating_id']; ?>,
             '<?php echo $review['License_id']; ?>',
             '<?php echo $review['User_id']; ?>',
-            '<?php echo htmlspecialchars($review['review'], ENT_QUOTES); ?>',
-            '<?php echo $review['created_at']; ?>'
+            '<?php echo htmlspecialchars($review['Review'], ENT_QUOTES); ?>',
+            '<?php echo $review['Date']; ?>'
         )">
-            <h3>Review #<?php echo $review['reviewId']; ?> - Bus <?php echo $review['License_id']; ?></h3>
+            <h3>Review #<?php echo $review['rating_id']; ?> - Bus <?php echo $review['License_id']; ?></h3>
             <p><strong>User ID:</strong> <?php echo $review['User_id']; ?></p>
-            <p><strong>Review:</strong> <?php echo $review['review']; ?></p>
-            <p><strong>Date:</strong> <?php echo $review['created_at']; ?></p>
+            <p><strong>Review:</strong> <?php echo $review['Review']; ?></p>
+            <p><strong>Date:</strong> <?php echo $review['Date']; ?></p>
             <p><strong>Reply:</strong> <?php echo $review['reply']; ?></p>
             <p class="status"><strong>Status:</strong> <?php echo $review['replied'] ? 'Replied' : 'Not Replied'; ?></p>
         </div>
@@ -38,13 +38,13 @@
 </div>
 
 <script>
-    function goToReplyPage(reviewId, License_id, User_id, review, created_at) {
+    function goToReplyPage(rating_id, License_id, User_id, review, date) {
         const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/replyreviews');
-        url.searchParams.append('review_id', reviewId);
+        url.searchParams.append('rating_id', rating_id);
         url.searchParams.append('License_id', License_id);
         url.searchParams.append('User_id', User_id);
-        url.searchParams.append('review', review);
-        url.searchParams.append('created_at', created_at);
+        url.searchParams.append('Review', review);
+        url.searchParams.append('Date', date);
 
         window.location.href = url.toString();
     }

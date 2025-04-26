@@ -3,6 +3,7 @@
     authCheck(['Admin']);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,9 +71,19 @@
                     <span class="material-icons-outlined">poll</span> Reports
                 </li>
 
+               
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/notifications'">
-                    <span class="material-icons-outlined">notifications</span> Notifications
+                    <span class="material-icons-outlined">notifications</span>
+                    Notifications
+                    <?php if (empty($data['hasNewDelays'])): ?>
+                        <span class="notification-dot"></span>
+                    <?php endif; ?>
                 </li>
+                <script>
+                    const hasDelays = <?php echo json_encode($data['hasNewDelays']); ?>;
+                    console.log("Has unviewed delays:", hasDelays);
+                </script>
+
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">
                     <span class="material-icons-outlined">schedule</span> Schedule
@@ -102,19 +113,15 @@
             </div>
 
             <div class="main-cards">
-                <div class="card" onclick="showPopupBox1(
-                            'Total Monthly Income Details',
-                            'Total Monthly Income: LKR <?php echo $data['total_income']; ?>',
-                            'Total Guest Bookings Income: <?php echo $data['guest_income']; ?>',
-                            'Total Registered Bookings Income: <?php echo $data['registered_income']; ?>' )">
+                <div class="card">
                     <div class="card-inner">
                         <h3 class="card-title">Total Monthly Income</h3>
                         <span class="material-icons-outlined">local_atm</span>
                     </div>
-                    <h1 class="card-value"><?php echo 'LKR ', $data['total_income']; ?></h1>
+                    <h1 class="card-value"><?php echo 'RS ', number_format($data['total_income'], 2);?></h1>
                 </div>
 
-                <div class="card" onclick="showPopup('Total Customers: <?php echo $data['total_customers']; ?>')">
+                <div class="card">
                     <div class="card-inner">
                         <h3 class="card-title">Customers</h3>
                         <span class="material-icons-outlined">groups</span>
@@ -122,11 +129,7 @@
                     <h1 class="card-value"><?php echo $data['total_customers']; ?></h1>
                 </div>
 
-                <div class="card" onclick="showPopupBox3(
-                            'Monthly Bookings Details',
-                            'Total Monthly Bookings: <?php echo $data['total_bookings']; ?>',
-                            'Total Guest Bookings: <?php echo $data['total_guests']; ?>',
-                            'Total Registered Bookings: <?php echo $data['total_registered']; ?>' )">
+                <div class="card">
                     <div class="card-inner">
                         <h3 class="card-title">Monthly Bookings</h3>
                         <span class="material-icons-outlined">book</span>
@@ -134,12 +137,12 @@
                     <h1 class="card-value"><?php echo $data['total_bookings']; ?></h1>
                 </div>
 
-                <div class="card" onclick="showPopup('Completed Schedules: 56')">
+                <div class="card">
                     <div class="card-inner">
                         <h3 class="card-title">Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
                     </div>
-                    <h1 class="card-value"><?php echo '56'; // Example PHP dynamic content ?></h1>
+                    <h1 class="card-value"><?php echo $data['total_schedules']; ?></h1>
                 </div>
             </div>
 
@@ -242,25 +245,25 @@
         document.addEventListener("DOMContentLoaded", displayCurrentDate);
 
         //Card popups
-        function showPopupBox1(title, income, guest, registered){
-            document.getElementById("card-text").innerHTML = `
-                <h2>${title}</h2>
-                <strong>${income}</strong><br><br>
-                <strong>${guest}</strong><br><br>
-                <strong>${registered}</strong>
-                `;
-            document.getElementById("cardpopup").style.display = "flex";
-        }
+        // function showPopupBox1(title, income, guest, registered){
+        //     document.getElementById("card-text").innerHTML = `
+        //         <h2>${title}</h2>
+        //         <strong>${income}</strong><br><br>
+        //         <strong>${guest}</strong><br><br>
+        //         <strong>${registered}</strong>
+        //         `;
+        //     document.getElementById("cardpopup").style.display = "flex";
+        // }
 
-        function showPopupBox3(title, totalbooking, guest, registered){
-            document.getElementById("card-text").innerHTML = `
-                <h2>${title}</h2>
-                <strong>${totalbooking}</strong><br><br>
-                <strong>${guest}</strong><br><br>
-                <strong>${registered}</strong>
-            `;
-            document.getElementById("cardpopup").style.display = "flex";
-        }
+        // function showPopupBox3(title, totalbooking, guest, registered){
+        //     document.getElementById("card-text").innerHTML = `
+        //         <h2>${title}</h2>
+        //         <strong>${totalbooking}</strong><br><br>
+        //         <strong>${guest}</strong><br><br>
+        //         <strong>${registered}</strong>
+        //     `;
+        //     document.getElementById("cardpopup").style.display = "flex";
+        // }
 
         function closePopup() {
             document.getElementById("cardpopup").style.display = "none";
@@ -412,7 +415,7 @@
                 show: false,
             },
             },
-            colors: ['#00ab57', '#d50000'],
+            colors: ['#007bff', '#d50000'],
             labels: labels,
             dataLabels: {
             enabled: false,

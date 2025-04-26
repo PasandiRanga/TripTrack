@@ -126,6 +126,13 @@
             return $this->db->resultSet();
         }
 
+        public function getTotalSchedules($userId) {
+            $this->db->query("SELECT monthly_count FROM assign Where conductor_id = :userId OR driver_id = :userId");
+            $this->db->bind(':userId', $userId);
+
+            return $this->db->single();
+        }
+
         public function findEmployeeById($userId){
             $this->db->query('SELECT * FROM employee WHERE employee_id=:userId');
 
@@ -553,18 +560,25 @@
         }
 
         public function deleteNotification($notificationId,$userId) {
-            $this->db->query('UPDATE notifications SET is_deleted =1 WHERE id=:id AND employee_id = :user_id');
+            $this->db->query('UPDATE sendnotifications_employee SET is_deleted =1 WHERE id=:id AND employee_id = :user_id');
             $this->db->bind(':id', $notificationId);
             $this->db->bind(':user_id', $userId);
             return $this->db->execute();    
         }
 
         public function updateReadStatusOfAll($notiID , $userID){
-            $this->db->query('UPDATE notifications SET is_read = :is_read WHERE id = :id AND employee_id = :user_id');
+            $this->db->query('UPDATE sendnotifications_employee SET is_read = :is_read WHERE id = :id AND employee_id = :user_id');
             $this->db->bind(':is_read', 1);
             $this->db->bind(':id', $notiID);
             $this->db->bind(':user_id', $userID);
             return $this->db->execute();
+        }
+
+        public function getLatestNotification() {
+            $this->db->query('SELECT *FROM sendnotifications_employee ORDER BY created_at DESC LIMIT 1');
+            $this->db->execute();
+
+            return $this->db->single();
         }
     }
 ?>

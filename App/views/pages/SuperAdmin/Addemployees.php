@@ -22,8 +22,8 @@
 </head>
 <body>
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">Back</button>
-
-    <h2><?php echo $isUpdate ? 'Update Employee' : 'Create Employee'; ?></h2>
+<div class="box">
+    <h2><?php echo $isUpdate ? 'Update Employee' : 'Add Employee'; ?></h2>
 
     <form id="userForm" method="POST" class="user-form">
         <?php if ($isUpdate): ?>
@@ -68,15 +68,67 @@
             <button type="button" onclick="<?php echo $isUpdate ? 'updateEmployee()' : 'addEmployee()'; ?>">
                 <?php echo $isUpdate ? 'Update Employee' : 'Create Employee'; ?>
             </button>
-            <button type="button" onClick="clearForm()">Clear</button>
+            <button type="button" class="clear-button" onClick="clearForm()">Clear</button>
         </div>
     </form>
+</div>
+
+<!-- Popup Modal -->
+<div id="popup" class="popup-overlay" style="display: none;">
+  <div class="popup-content">
+    <p id="popup-message"></p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+<style>
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.popup-content {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.popup-content button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+</style>
+
 
 <script>
+
+    function showPopup(message) {
+        document.getElementById('popup-message').textContent = message;
+        document.getElementById('popup').style.display = 'flex';
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
     document.getElementById('togglePassword').addEventListener('change', function() {
         const passwordField = document.getElementById('password');
         passwordField.type = this.checked ? 'text' : 'password';
     });
+
     function clearForm() {
         document.getElementById("userForm").reset();
     }
@@ -88,7 +140,7 @@
         const confirmPassword = document.getElementById("confirm_password").value.trim();
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match. Please try again.");
+            showPopup("Passwords do not match. Please try again.");
             return;
         }
 
@@ -112,15 +164,46 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === "success") {
-                alert("Employee created successfully!");
-                window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/employees';
+                showPopup("Employee created successfully!");
+                setTimeout(() => {
+                    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/employees';
+                }, 2000);
+            } else if (data.errors) {
+                // Build error messages
+                let errorMessages = "";
+
+                if (data.errors.name_err) {
+                    errorMessages += "Name: " + data.errors.name_err + "\n";
+                }
+                if (data.errors.contactNo_err) {
+                    errorMessages += "Contact Number: " + data.errors.contactNo_err + "\n";
+                }
+                if (data.errors.nic_err) {
+                    errorMessages += "NIC: " + data.errors.nic_err + "\n";
+                }
+                if (data.errors.address_err) {
+                    errorMessages += "Address: " + data.errors.address_err + "\n";
+                }
+                if (data.errors.email_err) {
+                    errorMessages += "Email: " + data.errors.email_err + "\n";
+                }
+                if (data.errors.password_err) {
+                    errorMessages += "Password: " + data.errors.password_err + "\n";
+                }
+                if (data.errors.role_err) {
+                    errorMessages += "Role: " + data.errors.role_err + "\n";
+                }
+
+                showPopup(errorMessages.trim()); // Show all errors nicely
             } else {
-                alert("Error: " + (data.message || "An error occurred."));
+                // Other server error (not validation)
+                showPopup("Error: " + (data.message || "An error occurred."));
             }
         })
         .catch(error => {
-            alert("An error occurred: " + error.message);
+            showPopup("An error occurred: " + error.message);
         });
+
     }
 
     function updateEmployee() {
@@ -135,7 +218,6 @@
             email: document.getElementById("email").value.trim()
         };
 
-        // Send the data to the server
         fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -143,17 +225,42 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (data.status === "success") {
-                alert("Employee updated successfully!");
-                window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/employees';
+           if (data.status === "success") {
+                showPopup("Employee updated successfully!");
+                setTimeout(() => {
+                    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/employees';
+                }, 2000);
+            }
+            else if (data.errors) {
+                // Build and display validation error messages
+                let errorMessages = "";
+
+                if (data.errors.name_err) {
+                    errorMessages += "Name: " + data.errors.name_err + "\n";
+                }
+                if (data.errors.contactNo_err) {
+                    errorMessages += "Contact Number: " + data.errors.contactNo_err + "\n";
+                }
+                if (data.errors.nic_err) {
+                    errorMessages += "NIC: " + data.errors.nic_err + "\n";
+                }
+                if (data.errors.address_err) {
+                    errorMessages += "Address: " + data.errors.address_err + "\n";
+                }
+                if (data.errors.email_err) {
+                    errorMessages += "Email: " + data.errors.email_err + "\n";
+                }
+
+                showPopup(errorMessages.trim());
             } else {
-                alert("Error: " + (data.message || "An error occurred."));
+                showPopup("Error: " + (data.message || "An error occurred."));
             }
         })
         .catch(error => {
-            alert("An error occurred: " + error.message);
+            showPopup("An error occurred: " + error.message);
         });
     }
+
 </script>
 </body>
 </html>

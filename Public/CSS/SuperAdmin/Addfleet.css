@@ -1,41 +1,64 @@
+/* General Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #d8f8ee; /* Updated background */
+    color: #333;
 }
 
-/* Style for the back button */
+/* Back Button Styling */
 .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 15px;
-    border-radius: 4px;
-    background-color: #007bff;
+    display: inline-block;
+    margin: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
     color: white;
+    background: linear-gradient(135deg, #43cea2, #185a9d);
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
 }
-/* Styling for the Box Wrapper */
-.box {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
+
+.back-button:hover {
+    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    transform: translateY(-2px);
 }
 
 /* Header Styling */
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    color: #333;
+    color: #006064;
+    font-size: 26px;
 }
 
-/* Styling for the Form */
+/* Form Container */
+.box {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.box-form{
+    background: #d8f8ee;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Form Styling */
 #fleet-form {
     width: 100%;
 }
@@ -46,7 +69,7 @@ h1 {
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-weight: 600;
     color: #444;
 }
@@ -54,63 +77,60 @@ h1 {
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
+    font-size: 14px;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Focus state for inputs and selects */
 .form-group input:focus,
 .form-group select:focus {
-    border-color: #007bff;
+    border-color: #00897b;
     outline: none;
+    box-shadow: 0 0 8px rgba(0, 137, 123, 0.3);
 }
 
-/* Styling for the Buttons Container */
+/* Button Container */
 .button-container {
     display: flex;
     justify-content: space-between;
-    gap: 15px;
-    width: 100%;  /* Ensuring it takes full width */
-    margin-top: 20px;
+    gap: 12px;
+    width: 100%;
 }
 
-/* Styling for the Buttons */
+/* Button Styling */
 .button {
     padding: 12px 20px;
-    background-color: #007bff;
+    background-color: #00897b;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 48%; /* Ensure the buttons are side by side with equal width */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 48%; /* Equal width for both buttons */
 }
 
-/* Hover effect for the submit button */
 .button:hover {
-    background-color: #0056b3;
+    background-color: #006064;
 }
 
-/* Styling for the Clear button */
 .button[type="button"] {
     background-color: #f44336;
 }
 
-/* Hover effect for the clear button */
 .button[type="button"]:hover {
     background-color: #d32f2f;
 }
 
-/* Responsive design for smaller screens */
-@media screen and (max-width: 768px) {
+/* Responsive Design */
+@media (max-width: 768px) {
     .box {
         margin: 20px;
-        padding: 15px;
+        padding: 20px;
     }
 
     h1 {
@@ -120,7 +140,7 @@ h1 {
     /* Stack buttons vertically on small screens */
     .button-container {
         flex-direction: column;
-        align-items: center; /* Center the buttons */
+        align-items: center;
         gap: 10px;
     }
 
@@ -128,45 +148,46 @@ h1 {
         width: 100%; /* Buttons take up full width on small screens */
     }
 }
-/* Popup box styles */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
 
-        .popup-box {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
+/* Popup Box Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-        .popup-box p {
-            margin: 0 0 20px;
-            font-size: 16px;
-            color: #333;
-        }
+.popup-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
 
-        .popup-box button {
-            padding: 10px 20px;
-            background: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+.popup-box p {
+    margin: 0 0 20px;
+    font-size: 16px;
+    color: #333;
+}
 
-        .popup-box button:hover {
-            background: #0056b3;
-        }
+.popup-box button {
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup-box button:hover {
+    background: #0056b3;
+}

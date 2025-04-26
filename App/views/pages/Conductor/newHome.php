@@ -16,7 +16,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Employee Dashboard</title>
 </head>
 
 <body>
@@ -33,6 +33,8 @@
         $userRole = $_SESSION['user_role'] ?? 'Conductor';
         $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
         $pastScheduleData = $data['pastSchedule'] ??[];
+        $totalSchedules = $data['totalSchedules'] ?? [];
+        $latestNotification = $data['latestNotification'];
 
         $upcomingSchedules = [];
         $pastSchedules = [];
@@ -40,21 +42,13 @@
 
     <div class="grid-container">
         <header class="header">
-            <div class="menu-icons" onclick="openSidebar()">
-                <span class="material-icons-outlined">menu</span>
-            </div>
 
-            <div class="header-left">
-                
-                <img src="../Public/images/logo.png" alt="Logo" class="logo">
+            <div class="header-right" id="menuIcon" onclick="openSidebar()">
+                <div class="sidebar-menu-icon">
+                    <span class="material-icons-outlined">menu</span>
+                </div>
             </div>
-            <!--
-            <div class="header-right">
-                <span class="material-icons-outlined">notifications</span>
-                <span class="material-icons-outlined">email</span>
-                <span class="material-icons-outlined">account_circle</span>
-            </div>
-            -->
+            
         </header>
 
         <aside id="sidebar">
@@ -93,7 +87,7 @@
                     <span class="text">Notifications</span>
                 </li>
 
-                <li class="sidebar-list-item" onclick="Openpopup()">
+                <li class="sidebar-list-item" onclick="openLogoutModal()">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span class="text">LogOut</span>
                 </li>
@@ -101,18 +95,23 @@
         </aside>
 
         <main class="main-container">
+            <div class="main-title">
+                    <h2>Employee Dashboard</h2> 
+                    <img class="logo-right" src="../images/logo2.png" alt="Logo" class="logo">
+                </div>
+
             <div class="main-cards">
                 <div class="card">
                     <div class="card-inner">
                         <h3 class="card-title">Total Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
                     </div>
-                    <h1 class="card-value">17</h1>
+                    <h1 class="card-value-notification"><?php echo count($data['totalSchedules']); ?></h1>
                 </div>
 
                 <div class="card">
                     <div class="card-inner">
-                        <h3 class="card-title">Top Route</h3>
+                        <h3 class="card-title">Employee Route</h3>
                         <span class="material-icons-outlined">book</span>
                     </div>
                     <h1 class="card-value">Colombo-Kandy</h1>
@@ -123,7 +122,8 @@
                         <h3 class="card-title">Notifications</h3>
                         <span class="material-icons-outlined">local_atm</span>
                     </div>
-                    <h1 class="card-value">value</h1>
+                    <h2 class="card-value-notification"><?php echo $data['latestNotification']['title']; ?></h1>
+                    <p class="notification-time"><?php echo $data['latestNotification']['created_at']; ?></p>
                 </div>
             </div>
 
@@ -161,6 +161,7 @@
                     </div> 
                 </div>
                 <div class="column">
+                    <div class="close-column-btn">&times;</div>
                     <div class="date-details">
                         <div id="date-info">
                         </div>
@@ -173,38 +174,28 @@
 
     <div class="modal-overlay" id="logoutModal">
         <div class="modal-content">
-            <h2>Are you sure you want to logout?</h2>
-            <p>This will end your current session.</p>
-            <div class="modal-buttons">
-                <button class="modal-button btn-yes" onclick="proceedLogout()">Yes</button>
-                <button class="modal-button btn-no" onclick="cancelLogout()">No</button>
-            </div>
+            <h1>Are you sure you want to logout?</h1>
+            <h4>You won't be able to revert this !</h4>
+            <p>
+                <button id="yes" onclick="proceedLogout()">Yes</button>
+                <button id="no" onclick="cancelLogout()">No</button>
+            </p>
+            <div class="close-btn" onclick="cancelLogout()">×</div>
         </div>
     </div>
 
     <script>
         //logout
-        let popup = document.getElementById("logoutModal");
-        function Openpopup(){
-            popup.classList.add("open-popup");
-        }
-        function showLogoutModal() {
-            document.getElementById('logoutModal').style.display = 'flex';
+        function openLogoutModal() {
+            document.getElementById("logoutModal").classList.add("open-modal");
         }
 
-        // Hide the logout modal
-        function hideLogoutModal() {
-            document.getElementById('logoutModal').style.display = 'none';
+        function cancelLogout() {
+            document.getElementById("logoutModal").classList.remove("open-modal");
         }
 
-        // Proceed with logout and redirect to login page
         function proceedLogout() {
             window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
-        }
-
-        // Function to redirect back to dashboard
-        function cancelLogout() {
-            window.location.href = "<?php echo URLROOT; ?>/ConductorPages/home";
         }
 
         window.toggleDetails = function(event, element) {

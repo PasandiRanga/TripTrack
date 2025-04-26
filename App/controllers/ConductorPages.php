@@ -106,7 +106,7 @@
             try {
                 // Check if it's an AJAX request
                 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-                    // echo '<script>console.log("Not POST");</script>';
+                    echo '<script>console.log("Not POST");</script>';
                     throw new Exception('Invalid request method');
 
                 }
@@ -122,7 +122,7 @@
                 }
                 
                 $success = $this->ConductorpagesModel->deleteNotification($notificationId, $_SESSION['user_id']);
-                // echo '<script>console.log(' . json_encode($success) . ');</script>';
+                echo '<script>console.log(' . json_encode($success) . ');</script>';
         
 
         
@@ -469,10 +469,15 @@
         public function newHome() {
             $upcomingschedule = $this->ConductorpagesModel->getUpcomingSchedule($_SESSION['user_id']);
             $pastschedule = $this->ConductorpagesModel->getPastSchedule($_SESSION['user_id']);
+            $totalSchedules = $this->ConductorpagesModel->getTotalSchedules($_SESSION['user_id']);
+            $latestNotification = $this->ConductorpagesModel->getLatestNotification();
+
 
             $data = [
                 'upcomingSchedule' => $upcomingschedule,
-                'pastSchedule' => $pastschedule
+                'pastSchedule' => $pastschedule,
+                'totalSchedules' => $totalSchedules,
+                'latestNotification' => $latestNotification
             ];
             echo '<script> console.log("Data: ", ' . json_encode($data) . '); </script>';
 
