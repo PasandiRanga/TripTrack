@@ -677,48 +677,48 @@
         }
 
         public function updateProfileImage() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Filter the POST data
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        
-        $userId = $_SESSION['user_id'];
-        $data = [
-            'user' => $this->RegisteredpagesModel->findUserById($userId),
-            'profile_image_err' => ''
-        ];
-        
-        // Check if an image was submitted
-        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-            $data['profile_image'] = $_FILES['profile_image'];
-            $data['profile_image_name'] = time() . '_' . $_FILES['profile_image']['name'];
-            
-            // Attempt to upload the image
-            if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
-                $imagePath = $data['profile_image_name'];
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Filter the POST data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
                 
-                // Update the database
-                if ($this->RegisteredpagesModel->updateProfileImage($userId, $imagePath)) {
-                    // Update session and redirect
-                    $_SESSION['user_profile_image'] = $imagePath;
-                    // Remove the flash() function call
-                    redirect('RegisteredPages/profile');
+                $userId = $_SESSION['user_id'];
+                $data = [
+                    'user' => $this->RegisteredpagesModel->findUserById($userId),
+                    'profile_image_err' => ''
+                ];
+                
+                // Check if an image was submitted
+                if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+                    $data['profile_image'] = $_FILES['profile_image'];
+                    $data['profile_image_name'] = time() . '_' . $_FILES['profile_image']['name'];
+                    
+                    // Attempt to upload the image
+                    if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
+                        $imagePath = $data['profile_image_name'];
+                        
+                        // Update the database
+                        if ($this->RegisteredpagesModel->updateProfileImage($userId, $imagePath)) {
+                            // Update session and redirect
+                            $_SESSION['user_profile_image'] = $imagePath;
+                            // Remove the flash() function call
+                            redirect('RegisteredPages/profile');
+                        } else {
+                            $data['profile_image_err'] = 'Failed to update image in database';
+                        }
+                    } else {
+                        $data['profile_image_err'] = 'Profile image upload failed';
+                    }
                 } else {
-                    $data['profile_image_err'] = 'Failed to update image in database';
+                    // No image was selected or there was an upload error
+                    $data['profile_image_err'] = 'Please select an image file';
                 }
+                
+                // If we get here, there was an error - load the profile page with error messages
+                $this->view('RegisteredUser/profile', $data);
             } else {
-                $data['profile_image_err'] = 'Profile image upload failed';
+                redirect('RegisteredPages/profile');
             }
-        } else {
-            // No image was selected or there was an upload error
-            $data['profile_image_err'] = 'Please select an image file';
         }
-        
-        // If we get here, there was an error - load the profile page with error messages
-        $this->view('RegisteredUser/profile', $data);
-    } else {
-        redirect('RegisteredPages/profile');
-    }
-}
 
         /* For all noticiation page */
         public function allNotifications()
