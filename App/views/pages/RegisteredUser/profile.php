@@ -87,30 +87,30 @@
         <!--Pop Up the image update box-->
         <div class="imageUpdateBox hidden" id="imageUpdateBox">
             <div class="imageUpdateBoxContent">
-            <form action="<?php echo URLROOT ?>/RegisteredPages/updateProfileImage" method="POST" enctype="multipart/form-data">
-                <!-- Profile Image Upload Section -->
-                    <div class="form-drag-area">
-                        <div class="icon">
-                            <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
-                        </div>
-                        <div class="right_content">
-                            <div class="form_upload">
-                                <input type="file" name="profile_image" id="profile_image" style="display:none" >
-                                Browse File
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-validation">
-                        <div class="profile_image_validation">
-                            <img src="<?php echo URLROOT; ?>/public/images/tick1.png" alt="tick" width="35px" height="35px">
-                            Selected a profile image
-                        </div>
-                    </div>
-                    <span class="form-invalid"><?php echo isset($data['profile_image_err']) ? $data['profile_image_err'] : ''; ?></span>
-                <div class="close-btn" onclick="closeImageUpdateBox()">×</div>
+            <form action="<?php echo URLROOT ?>/RegisteredPages/updateProfileImage" method="POST" enctype="multipart/form-data" id="imageUploadForm">
+    <!-- Profile Image Upload Section -->
+    <div class="form-drag-area">
+        <div class="icon">
+            <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
+        </div>
+        <div class="right_content">
+            <div class="form_upload">
+                <input type="file" name="profile_image" id="profile_image" style="display:none" required>
+                Browse File
+            </div>
+        </div>
+    </div>
+    <div class="form-validation">
+        <div class="profile_image_validation">
+            <img src="<?php echo URLROOT; ?>/public/images/tick1.png" alt="tick" width="35px" height="35px">
+            Selected a profile image
+        </div>
+    </div>
+    <span class="form-invalid"><?php echo isset($data['profile_image_err']) ? $data['profile_image_err'] : ''; ?></span>
+    <div class="close-btn" onclick="closeImageUpdateBox()">×</div>
 
-                <center><button class="Done" onclick="confirmImage()">Done</button></center>
-            </form>
+    <center><button type="submit" class="Done" id="submitImage">Done</button></center>
+</form>
             </div>
         </div>
 
@@ -169,15 +169,11 @@
     function confirmAction() {
         console.log("Action Type:", actionType);
         if (actionType === 'logout') {
-            window.location.href = '<?php echo URLROOT; ?>/GuestPages/logout'; // Ensure correct logout URL
+            window.location.href = '<?php echo URLROOT; ?>/GuestPages/logout'; 
         } else if (actionType === 'delete') {
-            window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount'; // Ensure correct delete URL
+            window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount'; 
         }
         closeConfirmBox(); // Close the confirmation box after action is confirmed
-    }
-
-    function confirmImage(){
-        window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/updateProfileImage'; // Ensure correct update URL
     }
 
     function showUpdateBox() {

@@ -677,48 +677,48 @@
         }
 
         public function updateProfileImage() {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Filter the POST data
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        
+        $userId = $_SESSION['user_id'];
+        $data = [
+            'user' => $this->RegisteredpagesModel->findUserById($userId),
+            'profile_image_err' => ''
+        ];
+        
+        // Check if an image was submitted
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+            $data['profile_image'] = $_FILES['profile_image'];
+            $data['profile_image_name'] = time() . '_' . $_FILES['profile_image']['name'];
+            
+            // Attempt to upload the image
+            if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
+                $imagePath = $data['profile_image_name'];
                 
-                $data = [
-                    'profile_image' => $_FILES['profile_image'],
-                    'profile_image_name' => time() . '_' . $_FILES['profile_image']['name'],
-                    'profile_image_err' => ''
-                ];
-
-                $userId = $_SESSION['user_id']; 
-
-                // Check and upload image
-                if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
-                    if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
-                        $imagePath = $data['profile_image_name']; // Save only the filename or relative path
-
-                        // Calling the model to update image path in DB
-                        if ($this->RegisteredpagesModel->updateProfileImage($userId, $imagePath)) {
-                            // Updating session profile image
-                            $_SESSION['user_profile_image'] = $imagePath;
-
-                            // Redirecting to profile with success message
-                            redirect('RegisteredPages/profile');
-                        } else {
-                            $data['profile_image_err'] = 'Failed to update image in database';
-                        }
-
-                    } else {
-                        $data['profile_image_err'] = 'Profile image upload failed';
-                    }
+                // Update the database
+                if ($this->RegisteredpagesModel->updateProfileImage($userId, $imagePath)) {
+                    // Update session and redirect
+                    $_SESSION['user_profile_image'] = $imagePath;
+                    // Remove the flash() function call
+                    redirect('RegisteredPages/profile');
                 } else {
-                    $data['profile_image_err'] = 'No image selected';
+                    $data['profile_image_err'] = 'Failed to update image in database';
                 }
-
-                // Reloading profile with error if any
-                $data['user'] = $this->RegisteredpagesModel->findUserById($userId);
-                $this->view('RegisteredUser/profile', $data);
-
             } else {
-                redirect('RegisteredPages/profile');
+                $data['profile_image_err'] = 'Profile image upload failed';
             }
+        } else {
+            // No image was selected or there was an upload error
+            $data['profile_image_err'] = 'Please select an image file';
         }
+        
+        // If we get here, there was an error - load the profile page with error messages
+        $this->view('RegisteredUser/profile', $data);
+    } else {
+        redirect('RegisteredPages/profile');
+    }
+}
 
         /* For all noticiation page */
         public function allNotifications()
