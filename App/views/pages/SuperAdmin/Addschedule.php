@@ -109,7 +109,7 @@
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box">
             <p id="popupMessage"></p>
-            <button onclick="closePopup()">OK</button>
+            <button class="ok-button" onclick="closePopup()">OK</button>
         </div>
     </div>
 </div>
@@ -260,10 +260,10 @@
                             window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/schedule';
                         };
                     } else {
-                        alert("Error: " + data.message);
+                        showPopup("Error: " + data.message);
                     }
                 })
-                .catch(error => alert("An error occurred: " + error.message));
+                .catch(error => showPopup("An error occurred: " + error.message));
         });
     });
 </script>

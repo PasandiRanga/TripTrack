@@ -189,10 +189,22 @@ h1 {
 .popup-box .cancel-btn:hover {
     background-color: #00695c;
 }
-
+.popup-box .ok-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.popup-box .ok-button:hover {
+    background-color: #388e3c;
+}
 .popup-buttons {
     display: flex;
     justify-content: center;
+    background-color: #2bb673;
     gap: 10px;
 }
 .detail-row {
