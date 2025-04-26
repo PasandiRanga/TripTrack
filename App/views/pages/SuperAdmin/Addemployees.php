@@ -18,6 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $isUpdate ? 'Update Employee' : 'Create Employee'; ?></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Addemployees.css?v=<?php echo time(); ?>">
 </head>
 <body>
@@ -47,11 +48,17 @@
 
         <?php if (!$isUpdate): ?>
 
-            <label for="password">Password:</label>
+        <label for="password">Password:</label>
+        <div class="password-wrapper">
             <input type="password" id="password" name="password" placeholder="Enter Password" required>
-        
-            <label for="confirm_password">Confirm Password:</label>
+            <span class="toggle-password" onclick="togglePassword('password', this)"><i class="fas fa-eye"></i></span>
+        </div>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <div class="password-wrapper">
             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+            <span class="toggle-password" onclick="togglePassword('confirm_password', this)"><i class="fas fa-eye"></i></span>
+        </div>
 
             <label for="role">Role:</label>
             <select id="role" name="role" required>
@@ -110,10 +117,52 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* Space for the icon */
+    box-sizing: border-box;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-75%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #757575;
+}
+
+.toggle-password:hover {
+    color: #00897b;
+}
+
+
 </style>
 
 
 <script>
+
+    function togglePassword(fieldId, icon) {
+        const field = document.getElementById(fieldId);
+        const iconElement = icon.querySelector('i');
+        if (field.type === "password") {
+            field.type = "text";
+            iconElement.classList.remove('fa-eye-slash');
+            iconElement.classList.add('fa-eye');
+        } else {
+            field.type = "password";
+            iconElement.classList.remove('fa-eye');
+            iconElement.classList.add('fa-eye-slash');
+        }
+    }
+
 
     function showPopup(message) {
         document.getElementById('popup-message').textContent = message;
