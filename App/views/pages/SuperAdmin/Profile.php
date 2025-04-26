@@ -55,6 +55,38 @@
             align-items: center;
             gap: 10px;
         }
+
+        .edit-image-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #006064;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .edit-image-button i {
+            margin-right: 5px;
+        }
+
+        .edit-image-button:hover {
+            background-color: #00897b;
+            transform: scale(1.05);
+        }
+
+        .edit-image-button:active {
+            background-color: #1c5d8e;
+            transform: scale(0.98);
+        }
+
+        .edit-image-button:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+        }
+
     </style>
 </head>
 <body>

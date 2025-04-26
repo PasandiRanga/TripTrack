@@ -10,24 +10,23 @@ body {
     height: 100vh;
 }
 
+/* Back Button */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 18px;
-    background: linear-gradient(to right, #43cea2, #185a9d);
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #00897b, #006064);
     color: white;
     border: none;
-    cursor: pointer;
     border-radius: 6px;
-    font-weight: 500;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease, transform 0.1s ease;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
 .back-button:hover {
-    background: linear-gradient(to right, #30cfd0, #2bb673);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #006064, #004d40);
 }
 
 

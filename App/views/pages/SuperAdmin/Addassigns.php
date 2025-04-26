@@ -84,7 +84,32 @@
     </form>
 </div>
 
+<!-- Popup Box -->
+<div class="popup-overlay" id="popupOverlay" style="display: none;">
+    <div class="popup-box">
+        <p id="popupMessage"></p>
+        <button class="ok-button" onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+
     <script>
+
+        function showPopup(message, callback) {
+            document.getElementById('popupMessage').textContent = message;
+            document.getElementById('popupOverlay').style.display = 'flex';
+            // Store the callback to run after closing
+            window.popupCallback = callback;
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+            if (typeof window.popupCallback === 'function') {
+                window.popupCallback();
+                window.popupCallback = null;
+            }
+        }
+
         document.getElementById("driver_id").addEventListener("change", function() {
             const selectedOption = this.options[this.selectedIndex];
             const driverName = selectedOption.getAttribute("data-name") || "";
@@ -145,13 +170,15 @@
         .then(data => {
             console.log("Server Response:", data);
             if (data.status === "success") {
-                alert(isUpdate ? "Assign updated successfully!" : "Assign added successfully!");
-                window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/assigns';
+                // Show popup instead of alert
+                showPopup(isUpdate ? "Assign updated successfully!" : "Assign added successfully!", function() {
+                    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/assigns';
+                });
             } else {
-                alert("Error: " + data.message);
+                showPopup("Error: " + data.message);
             }
         })
-        .catch(error => alert("An error occurred: " + error.message));
+        .catch(error => showPopup("An error occurred: " + error.message));
     });
     </script>
 </body>
