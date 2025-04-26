@@ -21,13 +21,13 @@
 <body>
 
     <script>
-        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'GuestUser'); ?>;
+        var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
         localStorage.setItem('userRole', userRole);
     </script>
 
     <?php
     // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+    $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
     ?>
 
     <?php
