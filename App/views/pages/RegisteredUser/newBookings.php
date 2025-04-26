@@ -197,7 +197,7 @@
                     <i class='bx bx-star star' style="--i: 3;"></i>
                     <i class='bx bx-star star' style="--i: 4;"></i>
                 </div>
-                <textarea name="opinion" cols="30" rows="5" placeholder="Let your travel tale ride with us..."></textarea>
+                <textarea name="opinion" cols="30" rows="5" placeholder="Let your travel tale ride with us..." required></textarea>
                 <div class="popup-actions">
                     <button type="submit" class="post">Post</button>
                     <button class="cancel-btn" id="closeButton">close</button>
