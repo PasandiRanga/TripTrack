@@ -76,8 +76,11 @@
 
         <div class="form-group">
             <label for="date">Date:</label>
-            <input type="date" id="date" name="date" value="<?php echo htmlspecialchars($date); ?>" required>
+            <input type="date" id="date" name="date" 
+                value="<?php echo htmlspecialchars($date); ?>" 
+                min="<?php echo date('Y-m-d'); ?>" required>
         </div>
+
 
         <div class="form-group">
             <label for="departureTime">Departure Time:</label>
@@ -106,19 +109,24 @@
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box">
             <p id="popupMessage"></p>
-            <button onclick="closePopup()">OK</button>
+            <button class="ok-button" onclick="closePopup()">OK</button>
         </div>
     </div>
 </div>
 
 <script>
-
- document.addEventListener("DOMContentLoaded", function () {
-        // Function to clear the form fields
-        function clearForm() {
-            document.getElementById("schedule-form").reset();
-            document.getElementById("scheduleId").value = ""; // Clear schedule ID
+    function clearForm() {
+                document.getElementById("schedule-form").reset();
+                document.getElementById("availableSeats").value = ""; // Clear manually if reset doesn't work due to 'readonly'
+                const scheduleIdInput = document.getElementById("scheduleId");
+                if (scheduleIdInput) {
+                    scheduleIdInput.value = ""; // Clear hidden field if exists
+                }
         }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to clear the form fields
+        
 
          // Function to show the popup
         function showPopup(message) {
@@ -252,10 +260,10 @@
                             window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/schedule';
                         };
                     } else {
-                        alert("Error: " + data.message);
+                        showPopup("Error: " + data.message);
                     }
                 })
-                .catch(error => alert("An error occurred: " + error.message));
+                .catch(error => showPopup("An error occurred: " + error.message));
         });
     });
 </script>

@@ -376,7 +376,7 @@
                 SELECT 
                     c.User_id,
                     c.Name,  
-                    r.review 
+                    r.Review 
                 FROM 
                     ratings r
                 INNER JOIN 

@@ -11,6 +11,122 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Employees.css?v=<?php echo time(); ?>">
 </head>
 <body>
+    <style>
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.popup-content {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.popup-content button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* semi-transparent dark background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    display: none; /* hidden by default */
+}
+
+/* Popup Box */
+.popup-box {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    animation: popupFadeIn 0.3s ease-out;
+}
+
+/* Popup Message */
+#deletePopupMessage {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Popup Buttons */
+.popup-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+/* Confirm Button */
+.confirm-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.confirm-btn:hover {
+    background-color: #218838;
+}
+
+/* Cancel Button */
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+/* Animation */
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+</style>
 
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
@@ -66,7 +182,7 @@
                         echo "<td>" . (!empty($user['email']) ? $user['email'] : '-') . "</td>";
                         echo "<td>{$user['role']}</td>";
                         echo "<td><button class='update' onclick=\"editUser('{$user['employee_id']}')\">Update</button></td>";
-                        echo "<td><button class='delete' onclick=deleteUser(\"{$user['employee_id']}\")>Delete</button></td>";
+                        echo "<td><button class='delete' onclick='deleteUser(\"{$user['employee_id']}\")'>Delete</button></td>";
                         echo "</tr>";
                     }
                 } else {
@@ -79,8 +195,52 @@
     </div>
 
     </div>
+    <div id="popup" class="popup-overlay" style="display: none;">
+    <div class="popup-content">
+        <p id="popup-message"></p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+    </div>
+
+    <div class="popup-overlay" id="deletePopupOverlay">
+        <div class="popup-box">
+            <p id="deletePopupMessage">Are you sure you want to delete this schedule?</p>
+            <div class="popup-buttons">
+                <button class="confirm-btn" id="confirmDeleteBtn">Yes</button>
+                <button class="cancel-btn" onclick="closeDeletePopup()">No</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+
+        function showPopup(message, onCloseCallback = null) {
+            const popup = document.getElementById('popup');
+            const messageElement = document.getElementById('popup-message');
+            messageElement.textContent = message;
+            popup.style.display = 'flex'; // or 'block' depending on your CSS
+            popup.dataset.callback = onCloseCallback ? 'true' : '';
+
+            // Save the callback if provided
+            popup.onCloseCallback = onCloseCallback;
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'none';
+
+            // Run the callback if it exists
+            if (popup.onCloseCallback) {
+                popup.onCloseCallback();
+                popup.onCloseCallback = null; // Clear it after running
+            }
+        }
+
+                function showPopup(message) {
+            document.getElementById('popup-message').textContent = message;
+            document.getElementById('popup').style.display = 'flex';
+        }
+
         // Function to handle the Edit action
         function editUser(employee_id) {
             // Find the row corresponding to the selected employee
@@ -106,34 +266,53 @@
 
                 window.location.href = url.toString();
             } else {
-                alert('Employee not found.');
+                showPopup('Employee not found.');
             }
         }
 
         // Function to handle the Delete action
+       let employeeIdToDelete = null; // To keep the employee_id outside
+
         function deleteUser(employee_id) {
-            if(confirm('Are you sure you want to delete this Employee?')){
-                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteEmployee',{
+            employeeIdToDelete = employee_id;
+            document.getElementById("deletePopupOverlay").style.display = "flex"; // Show popup
+        }
+
+        // When user clicks "Yes" in the popup
+        document.getElementById("confirmDeleteBtn").addEventListener("click", function() {
+            if (employeeIdToDelete) {
+                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteEmployee', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json'},
-                    body: JSON.stringify({employee_id})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employee_id: employeeIdToDelete })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if(data.status === 'success'){
+                    if (data.status === 'success') {
                         const rows = Array.from(document.querySelectorAll("table.employee-table tbody tr"));
-                        const row = rows.find(row => row.cells[0].innerText.trim() === String(employee_id));
-                        if(row){
+                        const row = rows.find(row => row.cells[0].innerText.trim() === String(employeeIdToDelete));
+                        if (row) {
                             row.remove();
                         }
-                        alert(data.message);
+                        showPopup(data.message); // Show custom popup message
                     } else {
-                        alert(data.message);
+                        showPopup(data.message); // Show error message
                     }
+                    closeDeletePopup(); // Always close the delete confirmation popup
                 })
-                .catch(() => alert('Error deleting the employee.'));
+                .catch(() => {
+                    showPopup('Error deleting the employee.');
+                    closeDeletePopup();
+                });
             }
+        });
+
+        // Close the delete confirmation popup
+        function closeDeletePopup() {
+            document.getElementById("deletePopupOverlay").style.display = "none";
+            employeeIdToDelete = null;
         }
+
 
     </script>
 </body>
