@@ -26,16 +26,17 @@
     <?php
     // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
+        $notifications = $data['notifications'] ?? [];
+
+
     ?>
 
     <?php
     $postdata = $data;
     
-    $data = [
-        'currentController' => 'ReigsteredPages', 
-        'currentMethod' => 'contactUs',
-        'userRole' => $userRole
-    ];
+     $data['currentController'] = 'RegisteredPages';
+    $data['currentMethod'] = 'contactUs';
+    $data['userRole'] = $userRole;
     ?> 
 
     <?php
