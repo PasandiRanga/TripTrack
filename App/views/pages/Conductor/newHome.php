@@ -106,7 +106,7 @@
                         <h3 class="card-title">Total Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
                     </div>
-                    <h1 class="card-value-notification"><?php echo $data['totalSchedules']; ?></h1>
+                    <h1 class="card-value-notification"><?php echo count($data['totalSchedules']); ?></h1>
                 </div>
 
                 <div class="card">
