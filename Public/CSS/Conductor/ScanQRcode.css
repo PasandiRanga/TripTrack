@@ -14,7 +14,7 @@ body {
     top: 30px !important;
     left: 40px !important;
     padding: 10px 20px;
-        background: linear-gradient(135deg, #43cea2, #185a9d);
+        background: linear-gradient(135deg, #00897b, #006064);
         border: none;
         color: white;
         font-size: 0.9em;
@@ -30,7 +30,7 @@ body {
     top: 30px !important;
     right: 40px !important;
     padding: 10px 20px;
-        background: linear-gradient(135deg, #43cea2, #185a9d);
+        background: linear-gradient(135deg, #00897b, #006064);
         border: none;
         color: white;
         font-size: 1.0em;
@@ -41,15 +41,11 @@ body {
 }
 
 .back-button:hover {
-    background-color: #052d37;
-}
-
-button {
-    background: linear-gradient(135deg, #43cea2, #185a9d);
+    background: linear-gradient(135deg, #00796b, #00838f);
 }
 
 button:hover {
-        background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+        background: linear-gradient(135deg, #00796b, #00838f);
     }
 
 /* View Layout Button Specific Style */
