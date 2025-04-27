@@ -193,7 +193,7 @@
 
         public function viewDelays(){
             $data = $this->ConductorpagesModel->getDelays();
- 
+            
             $this->view('pages/Conductor/ViewDelays', $data);
         }
 
@@ -403,7 +403,7 @@
             $this->view('pages/Conductor/busLayout', $data);
         }
 
-        public function home() {
+        /*public function home() {
             $assignDetails = $this->ConductorpagesModel->getAssignDetailsByEmployeeId($_SESSION['user_id']);
 
             echo '<script> console.log("assign details: ", ' . json_encode($assignDetails) . '); </script>';
@@ -454,11 +454,11 @@
             /*echo '<pre>';
             print_r($schedule); // Check the final processed schedule data
             echo '</pre>';
-            exit; // Stop execution to only see this output*/
+            exit; // Stop execution to only see this output
 
             $data = ['schedule' => $schedule];
             $this->view('pages/Conductor/home', $data);
-        }
+        }*/
 
         // public function viewDelays() {
         //     $data = $this->ConductorpagesModel->getDelays();
@@ -470,7 +470,7 @@
             $upcomingschedule = $this->ConductorpagesModel->getUpcomingSchedule($_SESSION['user_id']);
             $pastschedule = $this->ConductorpagesModel->getPastSchedule($_SESSION['user_id']);
             $totalSchedules = $this->ConductorpagesModel->getTotalSchedules($_SESSION['user_id']);
-            $latestNotification = $this->ConductorpagesModel->getLatestNotification();
+            $latestNotification = $this->ConductorpagesModel->getLatestNotification($_SESSION['user_id']);
 
 
             $data = [
@@ -574,9 +574,152 @@
         public function profile() {
             $data = $this->ConductorpagesModel->findEmployeeById($_SESSION['user_id']);
             //$notifications = $this->NotificationModel->getNewNotifications($_SESSION['user_id']);
-            //error_log("profile details: " . print_r($data, true));
+            error_log("user  id: " . print_r($_SESSION['user_id'], true));
+            error_log("profile details: " . print_r($data, true));
             
             $this->view('pages/Conductor/profile' , $data);
+        }
+
+        public function updateProfileImage() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                
+                $data = [
+                    'profile_image' => $_FILES['profile_image'],
+                    'profile_image_name' => time() . '_' . $_FILES['profile_image']['name'],
+                    'profile_image_err' => ''
+                ];
+
+                $userId = $_SESSION['user_id']; 
+
+                // Check and upload image
+                if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
+                    if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
+                        $imagePath = $data['profile_image_name']; // Save only the filename or relative path
+
+                        // Calling the model to update image path in DB
+                        if ($this->ConductorpagesModel->updateProfileImage($userId, $imagePath)) {
+                            // Updating session profile image
+                            $_SESSION['user_profile_image'] = $imagePath;
+
+                            // Redirecting to profile with success message
+                            redirect('ConductorPages/profile');
+                        } else {
+                            $data['profile_image_err'] = 'Failed to update image in database';
+                        }
+
+                    } else {
+                        $data['profile_image_err'] = 'Profile image upload failed';
+                    }
+                } else {
+                    $data['profile_image_err'] = 'No image selected';
+                }
+
+                // Reloading profile with error if any
+                $data['user'] = $this->ConductorpagesModel->findEmployeeById($userId);
+                $this->view('Conductor/profile', $data);
+
+            } else {
+                redirect('Conductor/profile');
+            }
+        }
+
+        public function profileUpdate() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                
+                $data = [
+                    'name' => trim($_POST['name']),
+                    'email' => trim($_POST['email']),
+                    'contact_number' => trim($_POST['contact_number']),
+                    'nic' => trim($_POST['nic']),
+                    'address' => trim($_POST['address']),
+                    'current_email' => $_SESSION['user_email'],
+                    'name_err' => '',
+                    'email_err' => '',
+                    'contact_number_err' => '',
+                    'nic_err' => '',
+                    'address_err' => '',
+                    'has_errors' => false
+                ];
+                
+                // Validate name
+                if (empty($data['name'])) {
+                    $data['name_err'] = 'Please enter name';
+                    $data['has_errors'] = true;
+                }
+                
+                // Validate email
+                if (empty($data['email'])) {
+                    $data['email_err'] = 'Please enter email';
+                    $data['has_errors'] = true;
+                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    $data['email_err'] = 'Please enter a valid email format (e.g., abc@gmail.com)';
+                    $data['has_errors'] = true;
+                } else {
+                    // Only check for duplicate email if the email has changed from the current user's email
+                    if ($data['email'] !== $data['current_email'] && $this->ConductorpagesModel->findUserByEmail($data['email'])) {
+                        $data['email_err'] = 'This email is already registered';
+                        $data['has_errors'] = true;
+                    }
+                }
+                
+                // Validate contact number
+                if (empty($data['contact_number'])) {
+                    $data['contact_number_err'] = 'Please enter contact number';
+                    $data['has_errors'] = true;
+                } elseif (!preg_match('/^\d{10}$/', $data['contact_number'])) {
+                    $data['contact_number_err'] = 'Please enter a valid contact number';
+                    $data['has_errors'] = true;
+                }
+                
+                // Validate NIC
+                if (empty($data['nic'])) {
+                    $data['nic_err'] = 'Please enter a NIC';
+                    $data['has_errors'] = true;
+                } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
+                    // Check if the NIC is either 12 digits or 9 digits followed by "V"
+                    $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
+                    $data['has_errors'] = true;
+                } else {
+                    // Get the user's current NIC from the database using their email
+                    $currentUser = $this->ConductorpagesModel->findUserByEmail($data['current_email']);
+                    
+                    // Only check for duplicate NIC if the NIC has changed from the current user's NIC
+                    if ($data['nic'] !== $currentUser->NIC) {
+                        // Check if another user has this NIC
+                        if ($this->ConductorpagesModel->isNICUsedByAnotherUser($data['nic'], $currentUser->User_id)) {
+                            $data['nic_err'] = 'This NIC is already registered';
+                            $data['has_errors'] = true;
+                        }
+                    }
+                }
+                
+                // Validate address
+                if (empty($data['address'])) {
+                    $data['address_err'] = 'Please enter address';
+                    $data['has_errors'] = true;
+                }
+                
+                // If validation fails, store form data and errors in session and redirect back
+                if ($data['has_errors']) {
+                    $_SESSION['profile_data'] = $data;
+                    header("Location: " . URLROOT . '/ConductorPages/Profile');
+                    exit();
+                }
+                
+                // Validation passed - update profile
+                if ($this->ConductorpagesModel->updateProfile($data)) {
+                    $_SESSION['user_email'] = $data['email'];
+                    $_SESSION['success_message'] = 'Profile updated successfully';
+                    header('Location: ' . URLROOT . '/ConductorPages/profile');
+                } else {
+                    $_SESSION['error_message'] = 'Something went wrong updating your profile';
+                    header("Location: " . URLROOT . '/ConductorPages/Profile');
+                }
+            } else {
+                header("Location: " . URLROOT . '/ConductorPages/Profile');
+            }
         }
     }
 ?>
