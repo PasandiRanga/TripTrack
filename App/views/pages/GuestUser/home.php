@@ -41,6 +41,7 @@
         var userRole = <?php echo json_encode($userRole); ?>;
         var routeData = <?php echo json_encode($routeData); ?>;
         var averageRatings = <?php echo json_encode($averageRatings); ?>;
+        console.log("Averaage rating: " , averageRatings);
     </script>
 
     <?php

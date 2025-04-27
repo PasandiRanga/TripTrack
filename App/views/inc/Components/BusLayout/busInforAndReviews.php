@@ -104,7 +104,7 @@
                     const reviewsHtml = data.reviews.map(review => `
                     <div class="review-item">
                         <div class="review-name">${review.Name}</div>
-                        <div class="review-text">${review.review}</div>
+                        <div class="review-text">${review.Review}</div>
                     </div>
                     `).join('');
                     reviewsContainer.innerHTML = reviewsHtml || '<p>No reviews available for this bus.</p>';
