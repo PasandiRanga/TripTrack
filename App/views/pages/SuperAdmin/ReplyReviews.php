@@ -24,25 +24,23 @@
     <h2>Reply to Review</h2>
     <br>
 
-    <div class="review-info">
-        <div class="review-details">
-            <div class="row">
+    <div class="review-section">
+        <div class="review-info">
+            <div class="info-row">
                 <p><strong>Review ID:</strong> <?php echo htmlspecialchars($rating_id); ?></p>
                 <p><strong>User ID:</strong> <?php echo htmlspecialchars($User_id); ?></p>
-            </div>
-            <div class="row">
                 <p><strong>Date and Time:</strong> <?php echo htmlspecialchars($date); ?></p>
                 <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($License_id); ?></p>
             </div>
         </div>
-    </div>
 
-    <div class="review-box">
-        <div class="box-header">
-            <strong>Review:</strong>
-        </div>
-        <div class="box-content">
-            <p><?php echo htmlspecialchars($review); ?></p>
+        <div class="review-box">
+            <div class="box-header">
+                <strong>Review:</strong>
+            </div>
+            <div class="box-content">
+                <p><?php echo htmlspecialchars($review); ?></p>
+            </div>
         </div>
     </div>
 
@@ -72,119 +70,6 @@
   </div>
 </div>
 
-<style>
-/* Popup Overlay */
-.popup-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none; /* Initially hidden */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-/* Popup Content (Modal Box) */
-.popup-content {
-    background: white;
-    padding: 20px 30px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    width: 400px;
-    height: auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Heading inside popup */
-.popup-content h2 {
-    color: #424242;
-    font-size: 24px;
-    margin-bottom: 10px;
-    margin-top: 5px;
-}
-
-/* Subheading inside popup */
-.popup-content h4 {
-    color: #757575;
-    font-size: 16px;
-    font-weight: normal;
-    margin-top: 0;
-    margin-bottom: 30px;
-}
-
-/* Text inside the popup (confirmation message) */
-.popup-content p {
-    color: #333;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-/* Buttons inside Popup */
-.popup-content button {
-    margin: 8px;
-    padding: 8px 16px;
-    background-color: #c0392b;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-/* Hover Effects for buttons */
-.popup-content button:hover {
-    transform: translateY(-2px);
-}
-
-.popup-content button:nth-child(2) {
-    background-color: #006064;
-}
-
-.popup-content button:nth-child(2):hover {
-    background-color: #006064;
-}
-
-/* Centered Buttons Container */
-.popup-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* Success Popup Button (OK Button) */
-.popup-content .ok-button {
-    background-color: #006064;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* Success Popup Button Hover */
-.popup-content .ok-button:hover {
-    background-color: #006064;
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Apply animation to popup */
-.popup-modal .popup-content {
-    animation: fadeIn 0.3s ease;
-}
-
-
-</style>
 
 <script>
 let replyTextGlobal = '';
