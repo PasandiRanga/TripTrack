@@ -2,7 +2,6 @@
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 
-    // Get the review ID from the URL parameter
     $rating_id = isset($_GET['rating_id']) ? htmlspecialchars_decode($_GET['rating_id']) : null;
     $User_id = isset($_GET['User_id']) ? htmlspecialchars_decode($_GET['User_id']) : null;
     $License_id = isset($_GET['License_id']) ? htmlspecialchars_decode($_GET['License_id']) : null;
@@ -25,7 +24,6 @@
     <h2>Reply to Review</h2>
     <br>
 
-    <!-- Display Review Information in a 2x2 Grid -->
     <div class="review-info">
         <div class="review-details">
             <div class="row">
@@ -39,7 +37,6 @@
         </div>
     </div>
 
-    <!-- Review Message Box (Styled Like Other Boxes) -->
     <div class="review-box">
         <div class="box-header">
             <strong>Review:</strong>
@@ -49,7 +46,6 @@
         </div>
     </div>
 
-    <!-- Reply Form -->
     <form method="post" action="<?php echo URLROOT; ?>/SuperAdminPages/replyreview" class="reply-form" id="replyForm">
         <input type="hidden" name="rating_id" value="<?php echo htmlspecialchars($rating_id); ?>">
         <label for="reply">Your Reply:</label>
@@ -58,49 +54,117 @@
         <button type="submit">Submit Reply</button>
     </form>
 </div>
-    <script>
-        // Function to handle reply form submission
-        document.getElementById("replyForm").addEventListener("submit", submitReply);
 
-        async function submitReply(event) {
-            event.preventDefault();
+<!-- Confirmation Popup -->
+<div id="confirmModal" class="popup-modal" style="display:none;">
+  <div class="popup-content">
+    <p>Are you sure you want to submit this reply?</p>
+    <button id="confirmYesBtn">Yes</button>
+    <button onclick="closeConfirm()">No</button>
+  </div>
+</div>
 
-            const replyText = document.getElementById("reply").value.trim();
-            const rating_id = document.querySelector('input[name="rating_id"]').value;
+<!-- Success Popup -->
+<div id="popupModal" class="popup-modal" style="display:none;">
+  <div class="popup-content">
+    <p id="popupMessage"></p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
 
-            if (replyText === "") {
-                alert("Please enter a reply before submitting.");
-                return;
-            }
+<style>
+.popup-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.popup-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+.popup-content button {
+    margin: 8px;
+    padding: 8px 16px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.popup-content button:nth-child(2) {
+    background-color: #e74c3c;
+}
+</style>
 
-            const confirmSubmit = confirm("Are you sure you want to submit this reply?");
-            if (!confirmSubmit) return;
+<script>
+let replyTextGlobal = '';
+let ratingIdGlobal = '';
 
-            try {
-                const response = await fetch('<?php echo URLROOT; ?>/SuperAdminPages/replyreview', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        rating_id: rating_id,
-                        reply: replyText
-                    })
-                });
+// When Submit Button Clicked
+document.getElementById("replyForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    replyTextGlobal = document.getElementById("reply").value.trim();
+    ratingIdGlobal = document.querySelector('input[name="rating_id"]').value;
 
-                const result = await response.json();
+    if (replyTextGlobal === "") {
+        alert("Please enter a reply before submitting.");
+        return;
+    }
+    // Open Confirmation Modal
+    document.getElementById('confirmModal').style.display = 'flex';
+});
 
-                if (result.status === "success") {
-                    alert("Reply submitted successfully!");
-                    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/reviews';
-                } else {
-                    alert(result.message || "Failed to submit reply.");
-                }
-            } catch (error) {
-                console.error(error);
-                alert("An error occurred while submitting the reply.");
-            }
+// If user clicks "Yes" in Confirm Modal
+document.getElementById('confirmYesBtn').addEventListener('click', function() {
+    submitReply();
+    closeConfirm();
+});
+
+function closeConfirm() {
+    document.getElementById('confirmModal').style.display = 'none';
+}
+
+async function submitReply() {
+    try {
+        const response = await fetch('<?php echo URLROOT; ?>/SuperAdminPages/replyreview', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                rating_id: ratingIdGlobal,
+                reply: replyTextGlobal
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+            showPopup("Reply submitted successfully!");
+        } else {
+            alert(result.message || "Failed to submit reply.");
         }
-    </script>
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while submitting the reply.");
+    }
+}
+
+function showPopup(message) {
+    document.getElementById('popupMessage').innerText = message;
+    document.getElementById('popupModal').style.display = 'flex';
+}
+
+function closePopup() {
+    document.getElementById('popupModal').style.display = 'none';
+    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/reviews';
+}
+</script>
+
 </body>
 </html>
