@@ -62,14 +62,18 @@ h2 {
 }
 
 .user-form input,
-.user-form select {
-    width: 100%;
+.user-form select{
+    width: 85%;
+    max-width: 500px;
     padding: 12px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
     transition: border 0.2s ease, box-shadow 0.2s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .user-form input:focus,

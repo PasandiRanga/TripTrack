@@ -127,7 +127,7 @@ h2 {
     background-color: #fff;
     margin: 15% auto;
     padding: 30px;
-    border: 2px solid #4CAF50;
+    border: 2px solid #006064;
     width: 300px;
     text-align: center;
     border-radius: 10px;
@@ -136,7 +136,7 @@ h2 {
 #closePopup {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #006064;
     color: white;
     border: none;
     border-radius: 5px;
@@ -144,5 +144,5 @@ h2 {
 }
 
 #closePopup:hover {
-    background-color: #45a049;
+    background-color: #006064;
 }

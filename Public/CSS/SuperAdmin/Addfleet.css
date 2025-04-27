@@ -182,7 +182,7 @@ h1 {
 
 .popup-box button {
     padding: 10px 20px;
-    background: #007bff;
+    background: #00897b;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -190,5 +190,5 @@ h1 {
 }
 
 .popup-box button:hover {
-    background: #0056b3;
+    background: #00897b;
 }
