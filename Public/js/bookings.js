@@ -5,6 +5,9 @@
     const prevNextIcons = document.querySelectorAll(".icons span");
     const column2 = document.querySelector(".column:nth-child(2)");
 
+    if (!localStorage.getItem('reviewedBookings')) {
+        localStorage.setItem('reviewedBookings', JSON.stringify([]));
+    }
     
 
     let date = new Date(),
@@ -157,20 +160,32 @@
                 });
             }
 
+            function hasBeenReviewed(bookingId) {
+                const reviewedBookings = JSON.parse(localStorage.getItem('reviewedBookings') || '[]');
+                return reviewedBookings.includes(bookingId);
+            }
+
             // Show past bookings
+            // Modify the part where you add the "Add Review" option in showDateDetails
+            // Replace the part in showDateDetails that creates the menu for past bookings
             if (bookingStatus.hasPast) {
                 dateInfo += `<h4>Past Bookings</h4>`;
                 pastBookings.forEach(booking => {
                     const schedule = pastScheduleData.find(s => s.scheduleId === booking.schedule_id);
                     if (schedule && schedule.date === dateStr) {
                         const bus = busData.find(b => b.busId === schedule.busId);
+                        const isReviewed = hasBeenReviewed(booking.id);
+                        
                         dateInfo += `
                             <div class="booking-item past" onclick="toggleDetails(event, this)">
                                 <div class="three-dots" onclick="toggleMenu(event)">&#x22EE;</div>
                                 <div class="menu">
                                     <ul>
                                         <li class="view-ticket" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">View Ticket</li>
-                                        <li class="add-review" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Add Reviews</li>
+                                        ${!isReviewed ? 
+                                            `<li class="add-review" data-booking-id="${booking.id}" data-schedule-id="${schedule.scheduleId}">Add Reviews</li>` : 
+                                            `<li class="reviewed-booking" style="color: #888; cursor: default;">Already Reviewed</li>`
+                                        }
                                     </ul>
                                 </div>
                                 <div class="booking-summary">
@@ -185,7 +200,6 @@
                                     <p><strong>Bus:</strong> ${bus ? bus.License_id : 'N/A'}</p>
                                     <p><strong>Booking ID:</strong> ${booking.id}</p>
                                     <p><strong>Payment Method:</strong> ${booking.paymentMethod}</p>
-
                                 </div>
                             </div>
                         `;
@@ -304,7 +318,7 @@
     }
     //----------Rating and Review Box----------
 
-    // Show review popup
+    // Modify the showReviewPopup function to include validation
     function showReviewPopup(bookingObj, scheduleObj) {
         const popup = document.getElementById("reviewPopup");
         const details = document.getElementById("review-popup-details");
@@ -313,26 +327,42 @@
         const bus = busData.find(b => b.busId === scheduleObj.busId);
         const licenseId = bus ? bus.License_id : 'N/A';
         
-        console.log("License ID:", licenseId);
-        console.log("Booking ID:", bookingObj.id);
-
         document.getElementById("license_id_input").value = licenseId;
         
-        // Display booking details in the popup if needed
-        // details.innerHTML = `
-        //     <p><strong>From:</strong> ${bookingObj.from_location}</p>
-        //     <p><strong>To:</strong> ${bookingObj.to_location}</p>
-        // `;
-        
         popup.classList.remove("hidden");
-    
+
+        // Add validation for the form submission
+        const form = popup.querySelector("form");
+        form.onsubmit = function(event) {
+            const textarea = form.querySelector("textarea[name='opinion']");
+            const rating = form.querySelector("input[name='rating']");
+            
+            if (!textarea.value.trim()) {
+                event.preventDefault();
+                alert("Please enter your review text");
+                return false;
+            }
+            
+            if (!rating.value) {
+                event.preventDefault();
+                alert("Please select a rating");
+                return false;
+            }
+            
+            // Store the submitted booking ID in localStorage to track reviewed bookings
+            const reviewedBookings = JSON.parse(localStorage.getItem('reviewedBookings') || '[]');
+            reviewedBookings.push(bookingObj.id);
+            localStorage.setItem('reviewedBookings', JSON.stringify(reviewedBookings));
+            
+            return true;
+        };
+        
         // Attach close button listener
         const closeBtn = popup.querySelector(".cancel-btn");
         if (closeBtn) {
             closeBtn.onclick = closeReviewBox;
         }
-    }
-
+}
     //close reviewPopup
     document.getElementById("closeButton").addEventListener("click", function (event) {
         event.preventDefault();

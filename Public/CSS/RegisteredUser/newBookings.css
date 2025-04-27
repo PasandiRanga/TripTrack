@@ -305,75 +305,75 @@
         }
 
         .menu {
-    display: none;
-    position: absolute;
-    top: 45px;
-    right: 15px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 100;
-    width: 200px;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    border: 1px solid #eaecef;
-}
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 15px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            width: 200px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: 1px solid #eaecef;
+        }
 
-.menu.show {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
+        .menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-.menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+        .menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-.menu ul li {
-    padding: 12px 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid #eaecef;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-}
+        .menu ul li {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #eaecef;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
 
-.menu ul li:last-child {
-    border-bottom: none;
-}
+        .menu ul li:last-child {
+            border-bottom: none;
+        }
 
-.menu ul li:hover {
-    background-color: #f6f8fa;
-    padding-left: 20px;
-}
+        .menu ul li:hover {
+            background-color: #f6f8fa;
+            padding-left: 20px;
+        }
 
-.menu ul li.view-ticket::before {
-    content: "📋";
-    margin-right: 8px;
-}
+        .menu ul li.view-ticket::before {
+            content: "📋";
+            margin-right: 8px;
+        }
 
-.menu ul li.cancel-booking {
-    color: #e53935;
-}
+        .menu ul li.cancel-booking {
+            color: #e53935;
+        }
 
-.menu ul li.cancel-booking::before {
-    content: "✕";
-    margin-right: 8px;
-}
+        .menu ul li.cancel-booking::before {
+            content: "✕";
+            margin-right: 8px;
+        }
 
-.menu ul li.add-review {
-    color: #43a047;
-}
+        .menu ul li.add-review {
+            color: #43a047;
+        }
 
-.menu ul li.add-review::before {
-    content: "★";
-    margin-right: 8px;
-}
+        .menu ul li.add-review::before {
+            content: "★";
+            margin-right: 8px;
+        }
 
         /* Modal Styling */
         .popup, .policypopup, #reviewPopup , #ticketViewPopup {
@@ -389,7 +389,7 @@
             z-index: 1000;
         }
 
-        .cancel-popup-content, .policypopup-content, .reviewPopup-content{
+        .cancel-popup-content, .policypopup-content{
             background-color: white;
             padding: 25px;
             border-radius: var(--border-radius);
@@ -402,6 +402,17 @@
             border-top: 8px solid #00897b;
         }
 
+        .reviewPopup-content{
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            max-width: 550px;
+            width: 90%;
+            max-height: 80vh;
+            animation: fadeIn 0.5s ease-in-out;
+            border: 1px solid #00897b;
+            border-top: 8px solid #00897b;
+        }
         .popup.hidden, .policypopup.hidden, #reviewPopup.hidden ,#ticketViewPopup.hidden{
             display: none;
         }
@@ -574,7 +585,7 @@
         }
 
         textarea {
-            width: 100%;
+            width: 90%;
             background-color: #f2fffe;
             padding: 12px;
             border-radius: var(--border-radius);
