@@ -2,9 +2,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css">
 </head>
-<?php
-    include APPROOT . '/views/inc/Components/Button/button.php';
-?>
+
 
 <div class="search-bar-container">
     <div class="input-group">

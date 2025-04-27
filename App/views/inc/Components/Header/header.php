@@ -108,7 +108,6 @@
 
         <script>
 
-            // Show the login box
             document.addEventListener('DOMContentLoaded', function () {
                 const showPopup = <?php echo isset($data['showPopup']) && $data['showPopup'] ? 'true' : 'false'; ?>;
 
@@ -139,8 +138,6 @@
                 }
             }
 
-        
-        //navbar
             document.addEventListener('DOMContentLoaded', function() {
                 const menuToggle = document.getElementById('menu-toggle');
                 const navbarItems = document.getElementById('navbar-items');

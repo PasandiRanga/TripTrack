@@ -29,7 +29,6 @@
                 </span>
                 
                 <div class="checkbox-group">
-                    <!-- Updated to trigger popup -->
                     <div class="tosign"><a href="javascript:void(0)" id="forgotPasswordLink">Forgot password?</a></div>
                 </div>
                 
@@ -40,7 +39,6 @@
         </div>
     </div>
     
-    <!-- Forgot Password Popup -->
     <div class="popup-overlay" id="forgotPasswordPopup">
         <div class="popup-content">
             <span class="close-popup" id="closePopup">&times;</span>
@@ -62,7 +60,6 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Password toggle
             const passwordInput = document.getElementById('password');
             const togglePassword = document.getElementById('togglePassword');
             
@@ -78,7 +75,6 @@
                 }
             });
             
-            // Forgot Password Popup
             const forgotPasswordLink = document.getElementById('forgotPasswordLink');
             const forgotPasswordPopup = document.getElementById('forgotPasswordPopup');
             const closePopup = document.getElementById('closePopup');
@@ -87,7 +83,6 @@
             const resetEmailError = document.getElementById('resetEmailError');
             const loadingSpinner = document.getElementById('loadingSpinner');
             
-            // Open popup
             forgotPasswordLink.addEventListener('click', function() {
                 forgotPasswordPopup.style.display = 'flex';
                 document.getElementById('resetEmail').value = '';
@@ -95,19 +90,16 @@
                 popupMessage.style.display = 'none';
             });
             
-            // Close popup
             closePopup.addEventListener('click', function() {
                 forgotPasswordPopup.style.display = 'none';
             });
             
-            // Close popup when clicking outside
             forgotPasswordPopup.addEventListener('click', function(e) {
                 if (e.target === forgotPasswordPopup) {
                     forgotPasswordPopup.style.display = 'none';
                 }
             });
             
-            // Handle form submission
             forgotPasswordForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -115,17 +107,14 @@
                 resetEmailError.textContent = '';
                 popupMessage.style.display = 'none';
                 
-                // Basic validation
                 if (!email) {
                     resetEmailError.textContent = 'Please enter your email';
                     return;
                 }
                 
-                // Show loading spinner
                 loadingSpinner.style.display = 'block';
                 document.getElementById('sendResetLinkBtn').disabled = true;
                 
-                // Send AJAX request
                 fetch('<?php echo URLROOT ?>/GuestPages/processForgotPassword', {
                     method: 'POST',
                     headers: {
@@ -135,25 +124,20 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Hide loading spinner
                     loadingSpinner.style.display = 'none';
                     document.getElementById('sendResetLinkBtn').disabled = false;
                     
                     if (data.success) {
-                        // Show success message
                         popupMessage.className = 'popup-message success';
                         popupMessage.textContent = data.message;
                         popupMessage.style.display = 'block';
                         
-                        // Clear form
                         document.getElementById('resetEmail').value = '';
                         
-                        // Close popup after 3 seconds
                         setTimeout(() => {
                             forgotPasswordPopup.style.display = 'none';
                         }, 3000);
                     } else {
-                        // Show error message
                         if (data.email_err) {
                             resetEmailError.textContent = data.email_err;
                         } else if (data.message) {
@@ -164,11 +148,9 @@
                     }
                 })
                 .catch(error => {
-                    // Hide loading spinner
                     loadingSpinner.style.display = 'none';
                     document.getElementById('sendResetLinkBtn').disabled = false;
                     
-                    // Show error message
                     popupMessage.className = 'popup-message error';
                     popupMessage.textContent = 'Something went wrong. Please try again.';
                     popupMessage.style.display = 'block';
