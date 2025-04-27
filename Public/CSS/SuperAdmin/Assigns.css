@@ -12,19 +12,20 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 15px;
+    padding: 10px 20px;
     background: linear-gradient(135deg, #00897b, #006064);
-    border-radius: 6px;
     color: white;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
 .back-button:hover {
-    background: linear-gradient(to right, #2bb673, #30cfd0);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #006064, #004d40);
 }
+
 
 .box {
     background-color: #ffffff;

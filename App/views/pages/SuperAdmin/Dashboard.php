@@ -171,7 +171,7 @@
     <div class="modal-overlay" id="logoutModal">
         <div class="modal-content">
             <h2>Are you sure you want to logout?</h2>
-            <p>This will end your current session.</p>
+            <h4>This will end your current session.</h4>
             <div class="modal-buttons">
                 <button class="modal-button btn-yes" onclick="proceedLogout()">Yes</button>
                 <button class="modal-button btn-no" onclick="cancelLogout()">No</button>

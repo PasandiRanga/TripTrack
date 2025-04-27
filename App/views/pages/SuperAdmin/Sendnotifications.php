@@ -21,7 +21,7 @@
             <h2 class="form_header">Send Notification</h2>
 
             <!-- Employee Fields -->
-            <div id="employeeFields" class="notification-section">
+            <div class="field-group">
                 <label for="employeeId">Select Employee:</label>
                 <select id="employeeId" name="employeeId" required>
                     <option value="">Select Employee</option>
@@ -33,24 +33,42 @@
                         </option>
                     <?php endforeach; ?>
                 </select>
+            </div>
 
-                <label for="employeeName">Employee Name:</label>
-                <input type="text" id="employeeName" readonly placeholder="Employee Name">
+            <div class="input-group">
+                <div class="field-group">
+                    <label for="employeeName">Employee Name:</label>
+                    <input type="text" id="employeeName" readonly placeholder="Employee Name">
+                </div>
+                <div class="field-group">
+                    <label for="employeeRole">Role:</label>
+                    <input type="text" id="employeeRole" readonly placeholder="Employee Role">
+                </div>
+            </div>
 
-                <label for="employeeRole">Role:</label>
-                <input type="text" id="employeeRole" readonly placeholder="Employee Role">
-
+            <div class="field-group">
                 <label for="notificationTitle">Title:</label>
                 <input type="text" id="notificationTitle" name="title" placeholder="Enter Title" required>
+            </div>
 
+            <div class="field-group">
                 <label for="notificationMessage">Message:</label>
                 <textarea id="notificationMessage" name="message" placeholder="Enter your message here" required></textarea>
-
             </div>
 
             <button type="submit">Send Notification</button>
         </form>
     </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="popup">
+        <div class="popup-content">
+            <h2>Success!</h2>
+            <p>Notification sent successfully!</p>
+            <button id="closePopup">OK</button>
+        </div>
+    </div>
+
 
     <script>
 
@@ -107,9 +125,16 @@
                         .then(response => response.json())
                         .then(response => {
                             if (response.status === 'success') {
-                                alert("Notification sent successfully!");
-                                window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/notifications';
-                            } else {
+                                const popup = document.getElementById('successPopup');
+                                popup.style.display = 'block';
+
+                                const closeBtn = document.getElementById('closePopup');
+                                closeBtn.addEventListener('click', function () {
+                                    popup.style.display = 'none';
+                                    window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/notifications';
+                                });
+                            }
+                            else {
                                 alert("Error: " + response.message);
                             }
                         })

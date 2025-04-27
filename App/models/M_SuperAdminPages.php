@@ -63,6 +63,14 @@ class M_SuperAdminPages {
         }
     }
 
+    public function isLicenseIdExists($license_id) {
+        $this->db->query('SELECT License_id FROM bus WHERE License_id = :license_id');
+        $this->db->bind(':license_id', $license_id);
+        $this->db->execute();
+        return $this->db->rowCount() > 0; // returns true if a record exists
+    }
+
+
     // Update bus details using License_id
     public function updateBus($data) {
         $this->db->query('UPDATE bus SET 

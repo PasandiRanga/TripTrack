@@ -109,6 +109,11 @@ class SuperAdminPages extends Controller {
             //     http_response_code(400);
             //     exit();
             // }
+            if ($this->SuperAdminModel->isLicenseIdExists($data['License_id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'License ID already exists.']);
+                http_response_code(409);
+                exit();
+            }
 
             // Call the model method to add the bus
             if ($this->SuperAdminModel->addBus($data)) {

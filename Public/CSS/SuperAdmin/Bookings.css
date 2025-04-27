@@ -9,23 +9,25 @@ body {
     align-items: center;
 }
 
-/* Back Button Styling */
+/* Back Button */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 15px;
-    background: linear-gradient(135deg, #43cea2, #185a9d);
-    border-radius: 4px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #00897b, #006064);
     color: white;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
 .back-button:hover {
-    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #006064, #004d40);
 }
+
 .box-wrapper {
     max-width: 1400px;  /* Limit the maximum width of the wrapper */
     width: 100%;  /* Ensure it takes up full width of the container */
