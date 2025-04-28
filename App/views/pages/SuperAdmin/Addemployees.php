@@ -2,7 +2,7 @@
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 
-    // Retrieve and decode query parameters for updating an employee
+    
     $employee_id = isset($_GET['employee_id']) ? urldecode($_GET['employee_id']) : '';
     $name = isset($_GET['name']) ? urldecode($_GET['name']) : '';
     $nic = isset($_GET['nic']) ? urldecode($_GET['nic']) : '';
@@ -10,7 +10,7 @@
     $contactNo = isset($_GET['contactNo']) ? urldecode($_GET['contactNo']) : '';
     $email = isset($_GET['email']) ? urldecode($_GET['email']) : '';
     $role = isset($_GET['role']) ? urldecode($_GET['role']) : '';
-    $isUpdate = !empty($employee_id); // Determine if this is an update
+    $isUpdate = !empty($employee_id);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +80,7 @@
     </form>
 </div>
 
-<!-- Popup Modal -->
+
 <div id="popup" class="popup-overlay" style="display: none;">
   <div class="popup-content">
     <p id="popup-message"></p>
@@ -88,6 +88,7 @@
   </div>
 </div>
 <style>
+
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -100,48 +101,126 @@
     align-items: center;
     z-index: 1000;
 }
+
+
 .popup-content {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
+    background-color: white;
+    width: 400px;
+    height: auto;
+    padding: 30px 25px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    position: relative;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-.popup-content button {
-    margin-top: 15px;
-    padding: 8px 16px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-top: 5px solid #00897b;
+    animation: fadeIn 0.3s ease;
 }
 
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.popup-content h2 {
+    color: #424242;
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+
+.popup-content h4 {
+    color: #757575;
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+
+.popup-content p {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+
+.popup-content button {
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.popup-content .btn-yes {
+    background-color: white;
+    color: #e22222;
+    border: 2px solid #e22222;
+}
+
+.popup-content .btn-yes:hover {
+    background-color: #e22222;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(226, 34, 34, 0.2);
+}
+
+
+.popup-content .btn-no {
+    background-color: white;
+    color: #00897b;
+    border: 2px solid #00897b;
+}
+
+.popup-content .btn-no:hover {
+    background-color: #00897b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 137, 123, 0.2);
+}
 .password-wrapper {
     position: relative;
-    width: 100%;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
 }
 
 .password-wrapper input {
-    width: 100%;
-    padding-right: 40px; /* Space for the icon */
-    box-sizing: border-box;
+    width: 97%;
+    padding: 12px; 
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    display: block;
 }
 
-.toggle-password {
+.password-wrapper .toggle-password {
     position: absolute;
     top: 50%;
-    right: 10px;
-    transform: translateY(-75%);
+    right: 12px;
+    transform: translateY(-50%) translateY(-1px); 
     cursor: pointer;
-    font-size: 18px;
-    color: #757575;
+    color: #888;
+}
+.password-wrapper .toggle-password:hover {
+    color: #006064; 
 }
 
-.toggle-password:hover {
-    color: #00897b;
-}
 
 
 </style>
@@ -203,8 +282,8 @@
             role: document.getElementById("role").value.trim()
         };
 
-        console.log("Form Data:", formData); // Debugging line to check form data
-        // Send the data to the server
+        console.log("Form Data:", formData); 
+        
         fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -218,7 +297,7 @@
                     window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/employees';
                 }, 2000);
             } else if (data.errors) {
-                // Build error messages
+                
                 let errorMessages = "";
 
                 if (data.errors.name_err) {
@@ -243,9 +322,9 @@
                     errorMessages += "Role: " + data.errors.role_err + "\n";
                 }
 
-                showPopup(errorMessages.trim()); // Show all errors nicely
+                showPopup(errorMessages.trim()); 
             } else {
-                // Other server error (not validation)
+                
                 showPopup("Error: " + (data.message || "An error occurred."));
             }
         })
@@ -278,10 +357,10 @@
                 showPopup("Employee updated successfully!");
                 setTimeout(() => {
                     window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/employees';
-                }, 2000);
+                }, 5000);
             }
             else if (data.errors) {
-                // Build and display validation error messages
+                
                 let errorMessages = "";
 
                 if (data.errors.name_err) {

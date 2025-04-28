@@ -9,12 +9,10 @@
 <body>
     <div class="signInContent">
         <div class="login-wrapper">
-            <!-- Logo Section -->
             <div class="logo-section">
                 <img src="<?php echo URLROOT; ?>/public/images/logo.png" alt="Company Logo">
             </div>
 
-            <!-- Login Form Section -->
             <div class="login-section">
                 <center><h1>RESET PASSWORD</h1></center>
                 <form class="form" action="<?php echo URLROOT ?>/GuestPages/processResetPassword" method="POST">
@@ -74,12 +72,10 @@
                 const password = passwordInput.value.trim();
                 const confirmPassword = confirmPasswordInput.value.trim();
 
-                // Clear previous error messages
                 document.querySelectorAll('.form-invalid').forEach(el => el.textContent = '');
 
                 let isValid = true;
 
-                // Password validations
                 if (!password) {
                     passwordInput.parentElement.nextElementSibling.textContent = "Password is required";
                     isValid = false;
@@ -100,7 +96,6 @@
                     isValid = false;
                 }
 
-                // Confirm password validations
                 if (!confirmPassword) {
                     confirmPasswordInput.parentElement.nextElementSibling.textContent = "Please confirm your password";
                     isValid = false;
@@ -110,7 +105,7 @@
                 }
 
                 if (!isValid) {
-                    e.preventDefault(); // Prevent form from submitting
+                    e.preventDefault(); 
                 }
             });
         });

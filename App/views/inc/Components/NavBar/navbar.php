@@ -1,5 +1,4 @@
 <?php
-// Helper function to check if the current page matches
 if (!function_exists('isCurrentPage')) {
     function isCurrentPage($controller, $method, $currentController, $currentMethod) {
         return (strtolower($currentController) === strtolower($controller) && 
@@ -7,11 +6,10 @@ if (!function_exists('isCurrentPage')) {
     }
 }
 
-// Get current controller and method
 $currentController = $data['currentController'] ?? '';
 $currentMethod = $data['currentMethod'] ?? '';
 $userRole = $data['userRole'] ?? '';
-$notifications = $data['notifications'] ?? []; // Ensure the variable exists
+$notifications = $data['notifications'] ?? []; 
 ?>
 
 <nav class="navbar">
@@ -38,7 +36,6 @@ $notifications = $data['notifications'] ?? []; // Ensure the variable exists
                     <span class="text">CONTACT US</span>
                 </a>
                 
-                <!-- Add notifications and profile for mobile view -->
                 <div class="mobile-only">
                     <a href="#" class="navbar-item notifications-item">
                         <i class="fa-solid fa-bell"></i>

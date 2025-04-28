@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<!-- Confirmation Popup -->
+
 <div id="confirmModal" class="popup-modal" style="display:none;">
   <div class="popup-content">
     <p>Are you sure you want to delete this assign?</p>
@@ -69,7 +69,7 @@
   </div>
 </div>
 
-<!-- Success Popup -->
+
 <div id="popupModal" class="popup-modal" style="display:none;">
   <div class="popup-content">
     <p id="popupMessage"></p>
@@ -78,34 +78,98 @@
 </div>
 
 <style>
+
 .popup-modal {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    display: none; 
 }
+
+
 .popup-content {
-    background: white;
-    padding: 20px 30px;
+    background-color: white;
+    width: 400px;
+    padding: 30px 25px;
+    box-sizing: border-box;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: popupFadeIn 0.3s ease-out;
 }
+
+
+.popup-content p {
+    font-size: 18px;
+    color: #424242;
+    margin-bottom: 20px;
+}
+
+
 .popup-content button {
-    margin: 8px;
-    padding: 8px 16px;
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
 }
+
+
+.popup-content button:nth-child(1) {
+    background-color: #2ecc71; 
+    color: white;
+}
+
+.popup-content button:nth-child(1):hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+}
+
+.popup-content button:nth-child(1):active {
+    background-color: #3e8e41;
+}
+
+
 .popup-content button:nth-child(2) {
+    background-color: #e74c3c; 
+    color: white;
+}
+
+.popup-content button:nth-child(2):hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+}
+
+.popup-content button:nth-child(2):active {
     background-color: #e74c3c;
 }
+
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 </style>
 
 <script>

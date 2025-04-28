@@ -8,29 +8,31 @@ body {
     background-color: #d8f8ee;
 }
 
-.back-button {
-    display: inline-block;
-    margin: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background: linear-gradient(135deg, #43cea2, #185a9d);
 
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
+.back-button {
+    position: relative;
+    display: inline-block;
+    top: 30px !important;
+    left: 40px !important;
+    padding: 10px 20px;
+        background: linear-gradient(135deg, #00897b, #006064);
+        border: none;
+        color: white;
+        font-size: 0.9em;
+        border-radius: 6px;
+        cursor: pointer;
+        height: 35px; /* Adjusted to match input group height */
+        min-width: 80px;
 }
 
 .back-button:hover {
-    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    background: linear-gradient(135deg, #00796b, #00838f); 
 }
 
 h1 {
     left: 42%;
-    position: fixed;
-    top: 40px;
+    top: 20px;
     text-align: center;
-    margin: 0;
     margin-bottom: 0px;
     font-size: 2.5rem;
     color: #43cea2;
@@ -90,7 +92,7 @@ h1 {
 .bus-info {
     width: auto;
     max-width: 610px;
-    /* max-width: 860px; */
+    border: 3px solid #00897b;
     margin-top: 70px;
     padding: 40px;
     padding-bottom: 40px;
@@ -103,6 +105,21 @@ h1 {
     position: relative;
     margin-bottom: 30px;
     height: auto;
+}
+
+.bus-info:before {
+    content: "Bus Details";
+    position: absolute;
+    top: -15px;
+    left: 80px;
+    background: #00897b;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 137, 123, 0.2);
 }
 
 .bus-info h2 {

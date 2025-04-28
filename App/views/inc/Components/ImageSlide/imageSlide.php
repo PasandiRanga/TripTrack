@@ -41,11 +41,9 @@
     let currentIndex = 0;
 
     function showSlide(index) {
-      // Update image position
       const imageWidth = images[0].clientWidth;
       imagesWrapper.style.transform = `translateX(-${index * imageWidth}px)`;
 
-      // Handle text transition
       slides.forEach((slide, i) => {
         slide.style.opacity = '0';
         slide.style.transform = 'translateY(20px)';

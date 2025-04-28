@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 function createButton($buttonNumber, $label, $type = 'button') {
     // Define button classes
@@ -18,4 +18,4 @@ function createButton($buttonNumber, $label, $type = 'button') {
     }
 }
 
-?>
+?> -->

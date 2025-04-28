@@ -72,7 +72,6 @@ body{
 #sidebar {
     height: 100% !important;
     grid-area: sidebar;
-    height: 100%;
     /*background: rgba(1, 197, 148, 0.95);
     background-color: #1abc9c;*/
     background-color: #006064;
@@ -733,7 +732,6 @@ body{
 .card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     padding: 25px;
     border-radius: 20px;
     background: linear-gradient(135deg, #00897b, #006064);
@@ -799,3 +797,32 @@ body{
 .card-value-notification {
     margin-bottom: 10px;
 }
+
+@media screen and (max-width: 576px) {
+            .main-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 0 15px;
+            }
+            
+            .main-title {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+            
+            .logo-right {
+                margin-top: 10px;
+            }
+            
+            .card-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .card-inner .material-icons-outlined {
+                margin-bottom: 10px;
+            }
+        }

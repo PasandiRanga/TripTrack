@@ -6,7 +6,6 @@ body {
 }
 
 
-/* Back Button */
 .back-button {
     position: absolute;
     top: 20px;
@@ -33,7 +32,6 @@ h1 {
     margin-top: 20px;
 }
 
-/* Search Container */
 .search-container {
     margin: 30px auto;
     display: flex;
@@ -42,7 +40,6 @@ h1 {
     align-items: center;
 }
 
-/* Search Input */
 .search-input {
     padding: 10px 15px;
     width: 250px;
@@ -59,7 +56,7 @@ h1 {
     box-shadow: #006064;
 }
 
-/* Search Button */
+
 .search-button, .search-button-clear {
     padding: 10px 20px;
     border-radius: 5px;
@@ -88,29 +85,29 @@ h1 {
     background-color: #d32f2f;
 }
 
-/* Input Style */
+
 .search-container input {
     padding: 10px;
     width: 250px;
     font-size: 16px;
 }
 
-/* Container for the table */
+
 .fleet-table-container {
     margin: 30px auto;
     width: 95%;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Softer, more subtle shadow */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     background-color: #d8f8ee;
-    padding: 20px; /* Added padding for better spacing around the table */
-    transition: box-shadow 0.3s ease; /* Added smooth transition for hover effect */
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
 }
 
-/* Fleet Table Styling */
+
 .fleet-table {
     width: 100%;
-    border-collapse: collapse; /* Collapse borders for more compact look */
+    border-collapse: collapse;
 }
 
 .fleet-table th {
@@ -121,29 +118,28 @@ h1 {
     text-align: left;
     font-size: 16px;
     font-weight: 600;
-    letter-spacing: 0.5px; /* Added slight letter spacing for readability */
+    letter-spacing: 0.5px;
 }
 
 .fleet-table td {
     padding: 12px;
     text-align: left;
     font-size: 14px;
-    color: black; /* Softer text color for better readability */
+    color: black;
     max-width: 300px;
-    word-wrap: break-word; /* Prevents long text from breaking the layout */
+    word-wrap: break-word;
 }
 
 .fleet-table tr.selected {
-    background-color: #e7e7e7; /* Slightly darker grey for selected row */
+    background-color: #e7e7e7;
 }
 
 .fleet-table tr:hover {
-    background-color: #f1f1f1; /* Subtle hover effect */
+    background-color: #f1f1f1;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth hover effect */
+    transition: background-color 0.3s ease;
 }
 
-/* Action Buttons Container */
 .action-buttons {
     display: flex;
     justify-content: flex-end;
@@ -151,7 +147,7 @@ h1 {
     margin-top: 20px;
 }
 
-/* Action Button Styling */
+
 .action-buttons button {
     padding: 12px 25px;
     border-radius: 6px;
@@ -165,17 +161,17 @@ h1 {
 
 .action-buttons button:hover {
     background-color: #006064;
-    transform: translateY(-2px); /* Adds slight "lift" on hover for better feedback */
+    transform: translateY(-2px);
 }
 
 .action-buttons button:active {
-    transform: translateY(1px); /* Slightly pushes the button down on click */
+    transform: translateY(1px);
 }
 
-/* Button for adding new items */
+
 .add-button-wrapper {
     text-align: right;
-    margin: 20px 30px 10px 0; /* Adjust margins as needed */
+    margin: 20px 30px 10px 0;
 }
 
 .add-button {
@@ -200,45 +196,44 @@ h1 {
     transform: translateY(1px);
 }
 
-/* Ensure the table is responsive on smaller screens */
+
 @media screen and (max-width: 768px) {
     .fleet-table-container {
-        width: 100%; /* Make the container full width on mobile */
-        padding: 10px; /* Add some padding for better layout */
+        width: 100%; 
+        padding: 10px; 
     }
 
     .fleet-table {
         width: 100%;
-        border: none; /* Remove borders */
+        border: none;
         border-collapse: collapse;
-        overflow-x: auto; /* Allow horizontal scrolling */
-        display: block; /* Make table block for scrolling */
+        overflow-x: auto; 
+        display: block; 
     }
 
     .fleet-table th, .fleet-table td {
-        font-size: 14px; /* Reduce font size for better readability */
-        padding: 10px; /* Add padding for easier touch interaction */
+        font-size: 14px;
+        padding: 10px; 
     }
 
-    /* Make table headers more readable */
+
     .fleet-table th {
         background-color: #006064;
         color: white;
         text-align: center;
     }
 
-    /* Add horizontal scrolling for the table */
+   
     .fleet-table-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* Row hover effect for mobile */
     .fleet-table tr:hover {
         background-color: #f1f1f1;
     }
 
-    /* Action buttons for mobile */
+
     .action-buttons button {
         font-size: 12px;
         padding: 8px 16px;
@@ -267,7 +262,7 @@ h1 {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive table adjustments for smaller devices */
+
 @media screen and (max-width: 768px) {
     .box {
         padding: 15px;
@@ -291,27 +286,27 @@ h1 {
 }
 
 
-/* For Extra small screens (<= 576px) */
+
 @media screen and (max-width: 576px) {
-    /* Stack table rows vertically (convert to cards) */
+  
     .fleet-table {
-        display: block; /* Turn table into a block */
+        display: block; 
     }
 
     .fleet-table td {
-        display: block; /* Make each cell a block on small screens */
-        width: 100%; /* Make cells take full width */
-        text-align: right; /* Align text to the right for labels */
-        border-bottom: 1px solid #ddd; /* Add a border for separation */
+        display: block;
+        width: 100%;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
         padding: 10px 0;
     }
 
     .fleet-table th {
-        display: none; /* Hide headers since it's converted to cards */
+        display: none;
     }
 
     .fleet-table td:before {
-        content: attr(data-label); /* Use a custom attribute for labels */
+        content: attr(data-label);
         font-weight: bold;
         text-transform: uppercase;
         color: #006064;
@@ -319,14 +314,14 @@ h1 {
         margin-bottom: 5px;
     }
 
-    /* Action buttons styling for mobile */
+  
     .action-buttons button {
-        width: 100%; /* Make action buttons full width */
+        width: 100%;
         margin-top: 10px;
     }
 
     .fleet-table-container {
-        padding: 5px; /* Reduce padding */
+        padding: 5px;
     }
 }
 
@@ -371,7 +366,7 @@ h1 {
             background-color: #f2f2f2;
         }
 
-/* Popup box styles */
+
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -403,7 +398,7 @@ h1 {
 
         .popup-box button {
             padding: 10px 20px;
-            background: #007bff;
+            background: #00897b;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -411,10 +406,10 @@ h1 {
         }
 
         .popup-box button:hover {
-            background: #0056b3;
+            background: #00897b;
         }
 
- /* Delete Popup box styles */
+
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -474,10 +469,10 @@ h1 {
         }
 
         .popup-box .cancel-btn {
-            background: #007bff;
+            background: #00897b;
             color: #fff;
         }
 
         .popup-box .cancel-btn:hover {
-            background: #007bff;
+            background: #00897b;
         }

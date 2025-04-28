@@ -33,10 +33,9 @@ authCheck(['Conductor', 'Driver']);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/newhome'">Back</button>
+    <!--<button class="acceptBooking-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/acceptBookingForm'">Accept Booking by ID</button>
 
-    <button class="acceptBooking-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/acceptBookingForm'">Accept Booking by ID</button>
-
-    <!--<button id="viewLayout1" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/busLayout'">View Bus Layout</button>-->
+    <button id="viewLayout1" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/busLayout'">View Bus Layout</button>-->
 
     <h1>Scan QR Code</h1>
 
@@ -48,8 +47,7 @@ authCheck(['Conductor', 'Driver']);
         <!-- Modal for QR code result -->
         <div class="modal-overlay" id="qrModal">
             <div class="modal-content">
-                
-                <p id="qrResultText"></p>
+                <div id="qrResultText"></div>
                 <button onclick="closeModal()">Close</button>
                 <button id="viewLayout" onclick="redirectToBusLayout()">View Bus Layout</button>
 
@@ -69,17 +67,17 @@ authCheck(['Conductor', 'Driver']);
             }
 
             domReady(function () {
-                var lastResult, countResults = 0;
+                var lastResult;
 
                 // If QR code is found
                 function onScanSuccess(decodedText) {
 
                     if (decodedText !== lastResult) {
-                        ++countResults;
                         lastResult = decodedText;
+                        processQRCode(decodedText);
 
                         // Show QR result in the modal
-                        showModal(decodedText);
+                        //showModal(decodedText);
                     }
                 }
 
@@ -89,54 +87,63 @@ authCheck(['Conductor', 'Driver']);
                 htmlscanner.render(onScanSuccess);
             });
 
+            function processQRCode(decodedText) {
+                const data = parseQrText(decodedText);
+                document.getElementById('qrModal').style.display = 'flex';
+
+                sendToServer(data.scheduleId, data.seats, decodedText);
+            }
+
+
             // Function to show modal with parsed data
             function showModal(decodedText) {
 
                 const data = parseQrText(decodedText);
 
-                document.getElementById('qrResultText').innerHTML =
+                /*document.getElementById('qrResultText').innerHTML =
                     `<h2 class="qr-title">Booking is Accepted!!</h2>
                     <pre>${decodedText}</pre>`;
 
+                document.getElementById('qrModal').style.display = 'flex';*/
+
+                let qrContent = `<h2 class="qr-title">Booking is Accepted!!</h2>
+                     <pre>${decodedText}</pre>`;
+
+                document.getElementById('qrResultText').innerHTML = qrContent;
+    
+                // Don't display the modal yet - wait for server response
                 document.getElementById('qrModal').style.display = 'flex';
 
-                sendToServer(data["Schedule ID"], data["Seats"]);
+                sendToServer(data["Schedule ID"], data["Seats"], qrContent);
             }
 
             // Function to parse QR code text into key-value pairs
             function parseQrText(decodedText) {
-                const data = {};
-
                 const lines = decodedText.split('\n');
+                let scheduleId = '';
+                let seats = [];
 
                 lines.forEach(line => {
                     if (line.includes("Schedule ID:")) {
-                        const scheduleId = line.split("Schedule ID:")[1].trim();
-                        data["Schedule ID"] = scheduleId;
-
-                        // Save to localStorage
+                        scheduleId = line.split("Schedule ID:")[1].trim();
                         localStorage.setItem("scheduleId", scheduleId);
                     }
-
                     if (line.includes("Seats:")) {
-                        let rawSeats = line.split("Seats:")[1].trim();
-                        let seatArray = rawSeats.split(',').map(seat => seat.trim());
-
-                        // Add quotes around the joined string
-                        data["Seats"] = seatArray;
+                        seats = line.split("Seats:")[1].split(',').map(seat => seat.trim());
                     }
                 });
 
-                return data;
+                return { scheduleId, seats };
             }
 
             // Function to close modal
             function closeModal() {
                 document.getElementById('qrModal').style.display = 'none';
+                document.getElementById('qrResultText').innerHTML = ''; // clear previous content
             }
 
-            function sendToServer(scheduleId, seats) {
-                console.log("Sending to server:", scheduleId, seats);
+            function sendToServer(scheduleId, seats, decodedText) {
+                //console.log("Sending to server:", scheduleId, seats);
                 fetch('<?php echo URLROOT; ?>/ConductorPages/processScannedQR', {
                     method: 'POST',
                     headers: {
@@ -148,26 +155,36 @@ authCheck(['Conductor', 'Driver']);
                     })
                 })
                 .then(res => {
+                    console.log("Got response:", res.status);
                     if (!res.ok) {
                         throw new Error('Server response was not ok');
                     }
                     return res.json();
                 })
                 .then(data => {
-                    console.log('Response from server:', data);
-
-                    if (data.status === 'success') {
-                        document.getElementById('qrResultText').innerHTML +=
-                            `<p class="success">${data.message}</p>`;
+                    console.log("Server response data:", data);
+                    if (data.status === 'error') {
+                        if(data.message === 'Schedule date is not today.') {
+                            document.getElementById('qrResultText').innerHTML = `
+                                <h2 class="error-title">This QR is not from today schedule!</h2>
+                                <p class="error">${data.message}</p>`;
+                        }else {
+                            document.getElementById('qrResultText').innerHTML = `
+                                <h2 class="error-title">Already Accepted!</h2>
+                                <p class="error">${data.message}</p>`;
+                        }
                     } else {
-                        document.getElementById('qrResultText').innerHTML +=
-                            `<p class="error">${data.message}</p>`;
+                        console.log("Server response data inside else:", decodedText);
+                        document.getElementById('qrResultText').innerHTML = `
+                            <h2 class="success-title">Booking Accepted!</h2>
+                            <pre>${decodedText}</pre>
+                        `;
                     }
                 })
                 .catch(err => {
                     console.error('Error:', err);
                     document.getElementById('qrResultText').innerHTML +=
-                        '<p class="error">Error updating server. Please try again.</p>';
+                        '<p class="error">Invalid QR code. Please try again.</p>';
                 });
 
             }

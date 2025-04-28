@@ -24,12 +24,12 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Addschedule.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <!-- Back button -->
+    
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">Back</button>
 <div class="box">
     <h1><?php echo $isUpdate ? 'Update Schedule' : 'Add New Schedule'; ?></h1>
 
-    <!-- Schedule form -->
+    
     <form id="schedule-form" method="POST" action="<?php echo $isUpdate ? URLROOT . '/SuperAdminPages/updateschedule' : URLROOT . '/SuperAdminPages/addschedule'; ?>">
 
         <?php if ($isUpdate): ?>
@@ -99,7 +99,7 @@
 
 
 
-        <!-- Form buttons -->
+        
         <div class="button-group">
             <button type="submit"><?php echo $isUpdate ? 'Update Schedule' : 'Add Schedule'; ?></button>
             <button type="button" class="clear-button" onclick="clearForm()">Clear</button>
@@ -117,18 +117,15 @@
 <script>
     function clearForm() {
                 document.getElementById("schedule-form").reset();
-                document.getElementById("availableSeats").value = ""; // Clear manually if reset doesn't work due to 'readonly'
+                document.getElementById("availableSeats").value = ""; 
                 const scheduleIdInput = document.getElementById("scheduleId");
                 if (scheduleIdInput) {
-                    scheduleIdInput.value = ""; // Clear hidden field if exists
+                    scheduleIdInput.value = ""; 
                 }
         }
 
     document.addEventListener("DOMContentLoaded", function () {
-        // Function to clear the form fields
         
-
-         // Function to show the popup
         function showPopup(message) {
             const popupOverlay = document.getElementById("popupOverlay");
             const popupMessage = document.getElementById("popupMessage");
@@ -137,14 +134,14 @@
             popupOverlay.style.display = "flex";
         }
 
-        // Function to close the popup
+    
         function closePopup() {
             const popupOverlay = document.getElementById("popupOverlay");
             popupOverlay.style.display = "none";
         }
 
 
-        // Function to update availableSeats when License_id is selected
+        
         document.getElementById("License_id").addEventListener("change", function () {
             let selectedOption = this.options[this.selectedIndex];
             let availableSeats = selectedOption.getAttribute("data-seats");
@@ -164,7 +161,7 @@
                 let arrTotalMinutes = arrHours * 60 + arrMinutes;
 
                 if (arrTotalMinutes < depTotalMinutes) {
-                    arrTotalMinutes += 24 * 60; // Handle next-day arrival
+                    arrTotalMinutes += 24 * 60; 
                 }
 
                 const diffMinutes = arrTotalMinutes - depTotalMinutes;
@@ -180,7 +177,7 @@
         document.getElementById("departureTime").addEventListener("change", calculateDuration);
         document.getElementById("arrivalTime").addEventListener("change", calculateDuration);
 
-        // Form validation function
+        
         function validateForm() {
             const License_id = document.getElementById("License_id").value.trim();
             const date = document.getElementById("date").value;
@@ -218,7 +215,7 @@
             return true;
         }
 
-        // Handle form submission
+        
         document.getElementById("schedule-form").addEventListener("submit", function (event) {
             event.preventDefault();
 
@@ -227,7 +224,7 @@
             }
 
             let formData = {
-                //scheduleId: document.getElementById("scheduleId").value.trim(), 
+                
                 License_id: document.getElementById("License_id").value.trim(),
                 availableSeats: document.getElementById("availableSeats").value.trim(),
                 date: document.getElementById("date").value.trim(),
@@ -243,7 +240,7 @@
                 formData.scheduleId = "<?php echo htmlspecialchars($scheduleId); ?>";
             }
 
-            //console.log(formData);
+            
             const endpoint = <?php echo $isUpdate ? "'".URLROOT."/SuperAdminPages/updateSchedule'" : "'".URLROOT."/SuperAdminPages/addschedule'"; ?>;
 
 
@@ -257,7 +254,7 @@
                     if (data.status === "success") {
                         showPopup(isUpdate ? "Schedule updated successfully!" : "Schedule added successfully!");
                         document.getElementById("popupOverlay").querySelector("button").onclick = function () {
-                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/schedule';
+                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/addassigns';
                         };
                     } else {
                         showPopup("Error: " + data.message);

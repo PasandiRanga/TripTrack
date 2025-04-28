@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Bookings.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <!-- Back button -->
+    
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 <div class="box-wrapper">
     <h1>Booking Records</h1>
 
     <br>
     <div class='box'>
-    <!-- Select box for filtering booking types -->
+   
     <div class="filter-box-container">
         <label for="bookingType">Select Booking Type:</label>
         <select id="bookingType" onchange="toggleBookingType()">
@@ -29,13 +29,13 @@
         </select>
     </div>
 
-<!-- Search box -->
+
     <div class="search-container">
         <label for="searchBox">Search:</label>
         <input type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for bookings...">
     </div>
 
-<!-- Filter checkboxes -->
+
     <div class="filter-container">
         <label><input type="checkbox" id="filterToday" class="filter-checkbox"> Today</label>
         <label><input type="checkbox" id="filterYesterday" class="filter-checkbox"> Yesterday</label>
@@ -46,7 +46,7 @@
 
 <div class="booking-table-container">
     <table class="booking-table">
-        <!-- Guest bookings table -->
+        
         <thead id="guest-thead">
             <tr>
                 <th>ID</th>
@@ -77,7 +77,7 @@
                     <td><?= $booking['number_of_seats'] ?></td>
                     <td><?= $booking['paymentMethod'] ?></td>
                 </tr>
-                <!-- Hidden row for additional details -->
+                
                 <tr class="details-row" style="display:none;">
                     <td colspan="13">
                         <div class="additional-details">
@@ -92,12 +92,12 @@
     </table>
 </div>
 
-        <!-- Registered bookings table -->
+        
 <div class="booking-table-container">
     <table class="booking-table">
         <thead id="registered-thead">
             <tr>
-                <!-- <th>Past Booking ID</th> -->
+                
                 <th>ID</th>
                 <th>Booking Date</th>
                 <th>Booking Time</th>
@@ -112,7 +112,7 @@
         <tbody id="registered-tbody">
             <?php foreach ($data['book1'] as $booking1): ?>
                 <tr class="booking-row" onclick="toggleDetails(this)">
-                    <!-- <td><//?= $booking1['pastBookingId'] ?></td> -->
+                    
                     <td><?= $booking1['id'] ?></td>
                     <td><?= $booking1['Booking_date'] ?></td>
                     <td><?= $booking1['Booking_time'] ?></td>
@@ -123,7 +123,7 @@
                     <td><?= $booking1['to_location'] ?></td>
                     <td><?= $booking1['penalty_fee'] ?></td>
                 </tr>
-                <!-- Hidden row for additional details -->
+                
                 <tr class="details-row" style="display:none;">
                     <td colspan="10">
                         <div class="additional-details">
@@ -138,7 +138,7 @@
     </table>
 </div>
 
-<!-- Cancelled online bookings table -->
+
 <div class="booking-table-container">
     <table class="booking-table">
         <thead id="cancel-online-thead">
@@ -165,7 +165,7 @@
                     <td><?= $cancel['to_location'] ?></td>
                     <td><?= $cancel['time_date'] ?></td>
                 </tr>
-                <!-- Hidden row for additional details -->
+                
                 <tr class="details-row" style="display:none;">
                     <td colspan="11">
                         <div class="additional-details">
@@ -180,7 +180,7 @@
     </table>
 </div>
 
-<!-- Cancelled cash bookings table -->
+
 <div class="booking-table-container">
     <table class="booking-table">
         <thead id="cancel-cash-thead">
@@ -207,7 +207,7 @@
                     <td><?= $cancel['to_location'] ?></td>
                     <td><?= $cancel['time_date'] ?></td>
                 </tr>
-                <!-- Hidden row for additional details -->
+                
                 <tr class="details-row" style="display:none;">
                     <td colspan="11">
                         <div class="additional-details">
@@ -224,10 +224,10 @@
 </div>
     <script>
         function toggleDetails(row) {
-            // Find the next sibling of the clicked row (which is the hidden details row)
+            
             const detailsRow = row.nextElementSibling;
             
-            // Toggle the visibility of the details row
+            
             if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
                 detailsRow.style.display = 'table-row';
             } else {
@@ -252,7 +252,7 @@
                         if (cb !== event.target) cb.checked = false;
                     });
                 }
-                filterTable(); // Call the filter function on change
+                filterTable(); 
             });
         });
 
@@ -266,16 +266,16 @@ function filterTable() {
     const today = new Date();
     const oneDay = 24 * 60 * 60 * 1000;
 
-    // If no filters are checked, show all rows
+    
     if (!filterToday && !filterYesterday && !filterThisWeek && !filterThisMonth) {
         rows.forEach(row => {
-            row.style.display = ''; // Reset to show all rows
+            row.style.display = ''; 
         });
         return;
     }
 
     rows.forEach(row => {
-        const bookingDate = new Date(row.cells[1]?.textContent); // Booking Date is in the second column
+        const bookingDate = new Date(row.cells[1]?.textContent); 
         let isVisible = true;
 
         if (filterToday) {
@@ -292,7 +292,7 @@ function filterTable() {
             isVisible = bookingDate >= startOfMonth && bookingDate <= today;
         }
 
-        row.style.display = isVisible ? '' : 'none'; // Show or hide the row based on filter
+        row.style.display = isVisible ? '' : 'none'; 
     });
 }
 
@@ -300,19 +300,19 @@ function filterTable() {
 function toggleBookingType() {
     const bookingType = document.getElementById('bookingType').value;
 
-    // Get all table containers (guest, registered, cancel online, and cancel cash)
+    
     const guestTable = document.querySelector('#guest-thead').closest('table').parentElement;
     const registeredTable = document.querySelector('#registered-thead').closest('table').parentElement;
     const cancelOnlineTable = document.querySelector('#cancel-online-thead').closest('table').parentElement;
     const cancelCashTable = document.querySelector('#cancel-cash-thead').closest('table').parentElement;
 
-    // Hide all tables by default
+    
     guestTable.style.display = 'none';
     registeredTable.style.display = 'none';
     cancelOnlineTable.style.display = 'none';
     cancelCashTable.style.display = 'none';
 
-    // Show the selected table based on the booking type
+    
     if (bookingType === 'guest') {
         guestTable.style.display = '';
     } else if (bookingType === 'registered') {
@@ -325,13 +325,13 @@ function toggleBookingType() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Set "This Month" filter checkbox to checked by default
+    
     document.getElementById('filterThisMonth').checked = true;
 
-    // Call the filterTable function to apply the filter after loading
+    
     filterTable();
 
-    toggleBookingType();  // Make sure the correct table is shown when the page loads
+    toggleBookingType();  
 });
     </script>
 </body>

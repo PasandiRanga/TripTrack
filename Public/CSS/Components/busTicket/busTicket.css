@@ -34,12 +34,11 @@
     
 }
 
-/* Dotted line style */
 .dotted-line {
     border: none;
-    border-top: 1px dotted #ffffff; /* Dotted line with blue color */
-    width: 100%; /* Ensure the line stretches */
-    margin: 0; /* Remove any margins */
+    border-top: 1px dotted #ffffff; 
+    width: 100%; 
+    margin: 0; 
 }
 
 .dotted-separator {
@@ -63,7 +62,7 @@
 .price h3 {
     font-size: 1.4em;
     font-weight: bold;
-    color: #4CAF50; /* Gold color for price */
+    color: #4CAF50; 
 }
 
 .ticket-footer {

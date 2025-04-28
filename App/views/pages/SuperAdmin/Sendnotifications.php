@@ -16,11 +16,11 @@
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/notifications'">Back</button>
 
     <div class="left-side">
-        <!-- Notification Form -->
+       
         <form id="notificationForm" method="POST" action="<?php echo URLROOT . '/SuperAdminPages/sendnotifications'?>" class="notification-form">
             <h2 class="form_header">Send Notification</h2>
 
-            <!-- Employee Fields -->
+            
             <div class="field-group">
                 <label for="employeeId">Select Employee:</label>
                 <select id="employeeId" name="employeeId" required>
@@ -60,7 +60,7 @@
         </form>
     </div>
 
-    <!-- Success Popup -->
+    
     <div id="successPopup" class="popup">
         <div class="popup-content">
             <h2>Success!</h2>
@@ -73,7 +73,7 @@
     <script>
 
         document.addEventListener("DOMContentLoaded", function () {
-                // Initialize employee name and role fields based on the selected employee
+                
                 const employeeSelect = document.getElementById("employeeId");
                 const nameField = document.getElementById("employeeName");
                 const roleField = document.getElementById("employeeRole");
@@ -87,12 +87,12 @@
                     roleField.value = role;
                 });
 
-                // Form submission logic
+                
                 const notificationForm = document.getElementById("notificationForm");
 
                 if (notificationForm) {
                     notificationForm.addEventListener("submit", function (event) {
-                        event.preventDefault(); // Prevent default form submission
+                        event.preventDefault(); 
 
                         const empId = document.getElementById("employeeId").value;
                         const empName = document.getElementById("employeeName").value;

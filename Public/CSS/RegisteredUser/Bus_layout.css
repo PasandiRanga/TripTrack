@@ -1,23 +1,21 @@
 body {
-    background: linear-gradient(to bottom, #a2d8ff, #ffffff); /* Light blue to white gradient */
+    background: linear-gradient(to bottom, #a2d8ff, #ffffff); 
     position: relative;
-    margin: 0; /* Remove the default margin */
+    margin: 0;
     padding: 0;
     justify-content: center; 
     align-items: center;
 }
 
-/* Header positioning */
 #header-placeholder {
     position: relative; 
     width: 100%;
     z-index: 1000;
     background-color: #064060;
     height: 3rem; 
-    margin-bottom: 20px; /* Gap between header and content */
+    margin-bottom: 20px; 
 }
 
-/* Navbar positioning */
 #navbar-placeholder {
     position: absolute;
     top: 10px;
@@ -27,12 +25,11 @@ body {
     margin-top: 2rem;
 }
 
-/* Main container spacing */
 .container {
     display: flex;
     justify-content: space-between; 
     width: 90%; 
-    margin: 20px auto; /* Space around the content */
+    margin: 20px auto; 
 }
 
 .left-column, .right-column {
@@ -44,9 +41,6 @@ body {
 .left-column {
     margin-right: 20px; 
 }
-
-/* Other styles remain unchanged */
-
 
 .box {
     border: 1px solid #ffffff; 
@@ -60,7 +54,7 @@ body {
 }
 
 #right-column {
-    display: none; /* Hide the right column by default */
+    display: none; 
 }
 
 .route {
@@ -89,7 +83,7 @@ body {
 }
 
 .service {
-    background-color: #e0f7e0; /* light green background similar to the image */
+    background-color: #e0f7e0; 
     padding: 5px;
     border-radius: 5px;
     display: inline-block;
@@ -197,8 +191,8 @@ input:required {
 .number-button {
     width: 60px;
     height: 100px;
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-    border: 3px solid #002b38; /* Thick border color to complement page background */
+    background-color: rgba(255, 255, 255, 0.5); 
+    border: 3px solid #002b38; 
     border-radius: 10px;
     color: #002b38;
     font-size: 20px;
@@ -212,7 +206,7 @@ input:required {
 .number-button:hover {
     transform: scale(1.1);
     cursor: pointer;
-    background-color: rgba(0, 85, 105, 0.5); /* Semi-transparent dark color on hover */
+    background-color: rgba(0, 85, 105, 0.5); 
 }
 
 

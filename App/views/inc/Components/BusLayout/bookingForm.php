@@ -8,15 +8,12 @@
     <input type="hidden" name="scheduleId" value="<?php echo htmlspecialchars($selectedSchedule['scheduleId']); ?>">
     <input type="hidden" name="penaltyFee" id="penaltyFeeInput" value="<?php echo ($userRole === 'RegisteredUser' && !empty($pastNotArrivedBookings)) ? array_sum(array_column($pastNotArrivedBookings, 'penalty_fee')) : 0; ?>">
 
-    <!-- Name and email -->
     <div class="form-group">
-        <!-- Input name -->
         <div>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Name'])) ? htmlspecialchars($userData['Name']) : ''; ?>" required>
             <div id="NameError" class="error-message"></div>
         </div>
-        <!-- Input email -->
         <div>
             <label for="Bookingemail">E-mail:</label>
             <input type="email" id="Bookingemail" name="email" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Email'])) ? htmlspecialchars($userData['Email']) : ''; ?>" required>
@@ -24,15 +21,12 @@
         </div>
     </div>
 
-    <!-- Contact number and NIC -->
     <div class="form-group">
-        <!-- Input contact number -->
         <div>
             <label for="contact">Contact No:</label>
             <input type="text" id="contact" name="contact" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['Contact_number'])) ? htmlspecialchars($userData['Contact_number']) : ''; ?>" required placeholder="10 digits">
             <div id="ContactError" class="error-message">Please enter valid contact number</div>
         </div>
-        <!-- Input NIC number -->
         <div>
             <label for="nic">NIC No:</label>
             <input type="text" id="nic" name="nic" value="<?php echo ($userRole === 'RegisteredUser' && isset($userData['NIC'])) ? htmlspecialchars($userData['NIC']) : ''; ?>" required placeholder="9 digits + v or 12 digits">
@@ -41,18 +35,15 @@
     </div>
 
     <div class="form-group">
-        <!-- 'From' Dropdown (Departure) -->
         <div>
             <label for="from">From:</label>
             <select id="from" name="from" required>
                 <?php 
                     if (!empty($busStops) && is_array($busStops)) {
-                        // Loop through each stop in the busStops array and create an option for it
                         foreach ($busStops as $stop) {
                             echo "<option value=\"" . htmlspecialchars($stop) . "\">" . htmlspecialchars($stop) . "</option>";
                         }
                     } else {
-                        // If no stops are available, show a default option
                         echo "<option value=\"\">No stops available</option>";
                     }
                 ?>
@@ -60,19 +51,16 @@
             <div id="fromError" class="error-message">Please select a departure location</div>
         </div>
         
-        <!-- 'To' Dropdown (Arrival) -->
         <div>
             <label for="to">To:</label>
             <select id="to" name="to" required>
                 <?php 
                     if (!empty($busStops) && is_array($busStops)) {
-                        // Skip the first element (departure) and loop through the rest of the bus stops
-                        array_shift($busStops); // Remove the first element
+                        array_shift($busStops);
                         foreach ($busStops as $stop) {
                             echo "<option value=\"" . htmlspecialchars($stop) . "\">" . htmlspecialchars($stop) . "</option>";
                         }
                     } else {
-                        // If no stops are available, show a default option
                         echo "<option value=\"\">No stops available</option>";
                     }
                 ?>
@@ -81,15 +69,12 @@
         </div>
     </div>
 
-    <!-- Number of seats and selected seats -->
     <div class="form-group">
-        <!-- Number of seats input -->
         <div>
             <label for="noOfseats">Number of seats:</label>
             <input type="number" id="noOfseats" name="noOfseats" min="1" step="1" value="0" readonly required>
             <div id="noOfseatsError" class="error-message">Please select at least one seat</div>
         </div>
-        <!-- Selected seats input -->
         <div>
             <label for="selectedSeats">Selected seats:</label>
             <input type="text" id="selectedSeats" name="selectedSeats" readonly required>
@@ -97,7 +82,6 @@
         </div>
     </div>
         
-    <!-- Payment method -->
     <div class="form-group-inline">
         <label>Payment method:</label>
         <?php if ($userRole === 'RegisteredUser'): ?>
@@ -118,7 +102,6 @@
     <button type="submit" id="checkoutButton" class="checkout-button" >Proceed to Checkout</button>
     
     <?php
-        // Penalty fee notification
         $penaltyFee = 0;
 
         if ($userRole === 'RegisteredUser' && !empty($pastNotArrivedBookings)) {
@@ -153,4 +136,3 @@
     </div>
 </div>
 
-<!-- Include the external JavaScript file -->

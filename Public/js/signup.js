@@ -1,4 +1,3 @@
-// Profile image drag-and-drop
 const dropArea = document.querySelector(".form-drag-area");
 const dropText = document.querySelector(".description");
 const browseButton = document.querySelector(".form_upload");
@@ -31,6 +30,7 @@ dropArea.addEventListener("drop", (event) => {
     event.preventDefault();
     file = event.dataTransfer.files[0];
 
+    // Adding the file to the input element programmatically
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
     inputPath.files = dataTransfer.files;
@@ -60,7 +60,6 @@ function showImage() {
     }
 }
 
-// Show password functionality
 const togglePassword = document.querySelector("#togglePassword");
 const passwordField = document.querySelector("#password");
 const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
@@ -89,7 +88,6 @@ toggleConfirmPassword.addEventListener("click", () => {
 });
 
 
-// OTP Related Functions
 function showConfirmBox() {
     document.getElementById("confirmBox").classList.remove("hidden");
 }
@@ -107,7 +105,6 @@ document.getElementById("Register").addEventListener("click", function(e) {
         console.log("Form validated successfully. Requesting OTP...");
 
 
-        // Request OTP
         fetch(`${URLROOT}/GuestPages/sendOTP`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -116,7 +113,7 @@ document.getElementById("Register").addEventListener("click", function(e) {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                showConfirmBox(); 
+                showConfirmBox(); // Show OTP popup
                 console.log('OTP for testing:', data.debug_otp || 'Hidden'); // Debugging
             } else {
                 alert(data.message || 'Failed to send OTP. Please try again.');
@@ -130,7 +127,6 @@ document.getElementById("Register").addEventListener("click", function(e) {
 });
 
 
-// Verify OTP button click handler
 document.getElementById("verify").addEventListener("click", function(event) {
     event.preventDefault();
     const form = document.querySelector("form");
@@ -145,7 +141,6 @@ document.getElementById("verify").addEventListener("click", function(event) {
     form.submit();
 });
 
-// Resend OTP handler
 document.querySelector(".resend-otp a").addEventListener("click", function(e) {
     e.preventDefault();
     const email = document.getElementById("email").value;

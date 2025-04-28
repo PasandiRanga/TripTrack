@@ -12,7 +12,6 @@
 
     <title>Notifications <?php echo SITENAME; ?></title>
 
-    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="crossorigin="anonymous"referrerpolicy="no-referrer">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
@@ -45,7 +44,6 @@
 
 
 
-<!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <div class="hero-container">
         <br/>
@@ -83,7 +81,6 @@
                         <?php endif; ?>
                         <div class="notification-icon">
                             <?php 
-                            // Determine icon based on notification type
                             $icon = 'fa-bell';
                             if (isset($Anotification['type'])) {
                                 switch($Anotification['type']) {
@@ -164,14 +161,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Filter buttons
     const filterAll = document.getElementById('filter-all');
     const filterUnread = document.getElementById('filter-unread');
     const filterRead = document.getElementById('filter-read');
     const markAllRead = document.getElementById('mark-all-read');
     const notificationItems = document.querySelectorAll('.notifi-items');
     
-    // Set active filter button
     function setActiveFilter(activeButton) {
         [filterAll, filterUnread, filterRead].forEach(button => {
             button.classList.remove('active');
@@ -179,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
         activeButton.classList.add('active');
     }
     
-    // Filter notifications
     function filterNotifications() {
         const activeFilter = document.querySelector('.filter-buttons button.active').id;
         
@@ -204,29 +198,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Toggle notification content visibility
     document.querySelectorAll('.notification-headers').forEach(header => {
         header.addEventListener('click', function() {
             const item = this.parentElement;
             const content = item.querySelector('.notification-contents');
             const arrow = item.querySelector('.dropdown-arrows');
             
-            // Toggle the active class on the content
             content.classList.toggle('active');
             
-            // Change the arrow direction
             if (content.classList.contains('active')) {
-                arrow.innerHTML = '&#9650;'; // Up arrow
+                arrow.innerHTML = '&#9650;'; 
             } else {
-                arrow.innerHTML = '&#9660;'; // Down arrow
+                arrow.innerHTML = '&#9660;'; 
             }
         });
     });
     
-    // Mark as read/unread functionality
     document.querySelectorAll('.mark-read-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent triggering the parent click event
+            e.stopPropagation();
             
             const id = this.getAttribute('data-id');
             const item = this.closest('.notifi-items');
@@ -235,16 +225,13 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(item)
             console.log(isCurrentlyRead)
             
-            // Toggle read/unread class
             item.classList.toggle('read');
             item.classList.toggle('unread');
             
-            // Update button text
             this.innerHTML = isCurrentlyRead ? 
                 '<i class="fas fa-envelope-open"></i> Mark as read' : 
                 '<i class="fas fa-envelope"></i> Mark as unread';
             
-            // Toggle unread indicator
             const indicator = item.querySelector('.unread-indicator');
             if (isCurrentlyRead) {
                 if (!indicator) {
@@ -258,13 +245,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-             // Check if we're in the unread filter view and hide the item if it's now read
             const activeFilter = document.querySelector('.filter-buttons button.active').id;
             if (activeFilter === 'filter-unread' && !isCurrentlyRead) {
-                // If we're in unread filter and marking as read, hide this item
                 item.style.display = 'none';
             } else if (activeFilter === 'filter-read' && isCurrentlyRead) {
-                // If we're in read filter and marking as unread, hide this item
                 item.style.display = 'none';
             }
             
@@ -272,21 +256,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'  // Add this header
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify({ 
-                    notification_id: id,  // Change from 'id' to 'notification_id'
+                    notification_id: id, 
                     is_read: !isCurrentlyRead 
                 })
             })
             .then(response => {
-                // Check if response is empty
                 if (response.status === 204) {
                     console.log('Empty response with status 204');
-                    return {success: true}; // Handle no-content response
+                    return {success: true}; 
                 }
                     
-                // Log the raw response for debugging
                 response.clone().text().then(text => {
                     console.log('Raw server response:', text);
                 });
@@ -296,7 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (!data.success) {
                     console.error('Failed to update notification status');
-                    // Revert changes if failed
                     item.classList.toggle('read');
                     item.classList.toggle('unread');
 
@@ -309,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error type :', error.name);
                 console.error('Error message:', error.message);
 
-                // Revert changes on error
                 item.classList.toggle('read');
                 item.classList.toggle('unread');
 
@@ -320,19 +300,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Delete notification functionality
     document.querySelectorAll('.delete-notification-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent triggering the parent click event
+            e.stopPropagation(); 
             
             const id = this.getAttribute('data-id');
             const item = this.closest('.notifi-items');
             
             if (confirm('Are you sure you want to delete this notification?')) {
-                // Delete animation
                 item.classList.add('deleting');
                 
-                // Delete from server via AJAX
                 fetch(`${URLROOT}/RegisteredPages/deleteNotification`, {
                     method: 'POST',
                     headers: {
@@ -346,11 +323,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Remove the notification from the UI
                         setTimeout(() => {
                             item.remove();
                             
-                            // Check if there are no more notifications
                             if (document.querySelectorAll('.notifi-items').length === 0) {
                                 const noNotifications = document.createElement('div');
                                 noNotifications.className = 'no-notifications';
@@ -377,7 +352,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Mark all as read functionality
     markAllRead.addEventListener('click', function() {
         const unreadItems = document.querySelectorAll('.notifi-items.unread');
         
@@ -388,28 +362,24 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const unreadIds = Array.from(unreadItems).map(item => item.getAttribute('data-notification-id'));
         
-        // Update UI first for responsive feel
         unreadItems.forEach(item => {
             item.classList.remove('unread');
             item.classList.add('read');
             
-            // Update button text
             const markBtn = item.querySelector('.mark-read-btn');
             markBtn.innerHTML = '<i class="fas fa-envelope"></i> Mark as unread';
             
-            // Remove unread indicator
             const indicator = item.querySelector('.unread-indicator');
             if (indicator) {
                 indicator.remove();
             }
         });
         
-        // Send to server
         fetch(`${URLROOT}/RegisteredPages/markAllAsRead`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'  // Add this for consistency
+                'X-Requested-With': 'XMLHttpRequest'  
             },
             body: JSON.stringify({ ids: unreadIds })
         })
@@ -417,7 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (!data.success) {
                 console.error('Failed to mark all as read');
-                // Could revert changes if needed
             }
         })
         .catch(error => {
@@ -425,7 +394,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Add event listeners to filter buttons
     filterAll.addEventListener('click', function() {
         setActiveFilter(this);
         filterNotifications();
@@ -442,34 +410,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     
-    // Apply initial filtering
     filterNotifications();
     
-    // Auto-expand the notification specified in the URL if any
     const urlParams = new URLSearchParams(window.location.search);
     const openNotificationId = urlParams.get('open');
     
     if (openNotificationId) {
         const targetNotification = document.querySelector(`.notifi-items[data-notification-id="${openNotificationId}"]`);
         if (targetNotification) {
-            // Expand the notification
             const content = targetNotification.querySelector('.notification-contents');
             const arrow = targetNotification.querySelector('.dropdown-arrows');
             
             content.classList.add('active');
-            arrow.innerHTML = '&#9650;'; // Up arrow
+            arrow.innerHTML = '&#9650;'; 
             
-            // Mark as read if it was unread
             if (targetNotification.classList.contains('unread')) {
                 const markReadBtn = targetNotification.querySelector('.mark-read-btn');
-                markReadBtn.click(); // Simulate click on the mark as read button
+                markReadBtn.click(); 
             }
             
-            // Scroll to the notification
             setTimeout(() => {
                 targetNotification.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // Add highlight effect
                 targetNotification.classList.add('highlight');
                 setTimeout(() => {
                     targetNotification.classList.remove('highlight');

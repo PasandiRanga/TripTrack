@@ -14,11 +14,11 @@
     </style>
 </head>
 <body>
-    <!-- Back button -->
+    
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
     
 
-    <!-- Add button -->
+    
     <div class="box">
     <h1>Fleet Management</h1>
     
@@ -26,7 +26,7 @@
         <a href="<?php echo URLROOT; ?>/SuperAdminPages/AddFleet" class="add-button">Add Bus</a>
     </div>
 
-    <!-- Search and Clear -->
+    
     <div class="search-container">
         <label for="search">Search: </label>
         <input type="text" id="search" class="search-input" placeholder="Search buses...">
@@ -38,7 +38,7 @@
     </div>
     
 
-    <!-- Fleet table -->
+    
     <div class="fleet-table-container">
     <table class="fleet-table">
         <thead>
@@ -57,7 +57,7 @@
         <tbody id="fleet-table-body">
             <?php
                 if (isset($data['bus']) && is_array($data['bus'])) {
-                // Get scheduled license IDs
+                
                     $scheduledLicenseIDs = array_column($data['scheduledbuses'], 'License_id');
 
                 foreach ($data['bus'] as $bus) {
@@ -70,7 +70,7 @@
                     echo "<td>{$bus['price']}</td>";
                     echo "<td>{$bus['priceperkm']}</td>";
 
-                    // Only show update/delete buttons if bus is not scheduled
+                    
                     if (!in_array($bus['License_id'], $scheduledLicenseIDs)) {
                         echo "<td><button class='update-button' onclick='updateBus(\"{$bus['License_id']}\")'>Update</button></td>";
                         echo "<td><button class='delete-button' onclick='deleteBus(\"{$bus['License_id']}\")'>Delete</button></td>";
@@ -96,10 +96,10 @@
         </div>
     </div>
 
-        <!-- Delete Confirmation Popup -->
+       
     <div class="popup-overlay" id="deletePopupOverlay">
         <div class="popup-box">
-            <p id="deletePopupMessage">Are you sure you want to delete this schedule?</p>
+            <p id="deletePopupMessage">Are you sure you want to delete this Bus?</p>
             <div class="popup-buttons">
                 <button class="confirm-btn" id="confirmDeleteBtn">Yes</button>
                 <button class="cancel-btn" onclick="closeDeletePopup()">No</button>
@@ -121,15 +121,15 @@
             const popupOverlay = document.getElementById("popupOverlay");
             popupOverlay.style.display = "none";
         }
-        // Delete Bus Function
+        
         function deleteBus(License_id) {
             const deletePopupOverlay = document.getElementById("deletePopupOverlay");
             const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
-            // Show the delete confirmation popup
+            
             deletePopupOverlay.style.display = "flex";
 
-            // Attach event listener to the confirm button
+            
             confirmDeleteBtn.onclick = function () {
             fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteBus', {
                 method: 'POST',
@@ -139,20 +139,20 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                // Find the row with the matching License_id and remove it
+                
                 const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
                 const row = rows.find(row => row.cells[0].innerText === License_id);
                 if (row) {
-                    row.remove(); // Remove the row if it matches the License_id
+                    row.remove(); 
                 }
-                showPopup(data.message); // Show success popup
+                showPopup(data.message); 
                 } else {
-                showPopup(data.message); // Show error popup
+                showPopup(data.message); 
                 }
             })
             .catch(() => showPopup('Error deleting the bus from the fleet.'))
             .finally(() => {
-                // Hide the delete confirmation popup
+                
                 deletePopupOverlay.style.display = "none";
             });
             };
@@ -164,12 +164,7 @@
         }
 
 
-        // Update Bus Function
-        // function updateBus(License_id) {
-        //     window.location.href = '<//?php echo URLROOT; ?>/SuperAdminPages/updatefleet?License_id=' + encodeURIComponent(License_id);
-        // }
-
-        // Search Function
+        
         function searchFleet() {
             const searchQuery = document.getElementById("search").value.trim();
             console.log(searchQuery);
@@ -194,7 +189,7 @@
             .catch(() => showPopup('An error occurred while searching.'));
         }
 
-        // Clear Search Function
+        
         function clearSearch() {
             document.getElementById("search").value = "";
 
@@ -213,10 +208,9 @@
             .catch(() => alert('An error occurred while reloading data.'));
         }
 
-        //Update Table Function
         function updateTable(buses) {
             const tableBody = document.getElementById("fleet-table-body");
-            tableBody.innerHTML = ''; // Clear the table before inserting new rows
+            tableBody.innerHTML = ''; 
 
             if (buses.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="14">No buses found.</td></tr>';
@@ -246,13 +240,13 @@
 
         function updateBus(License_id) {
 
-        // Find the row with the matching License_id
+        
         const rows = Array.from(document.querySelectorAll("table.fleet-table tbody tr"));
         const row = rows.find(row => row.cells[0].innerText === License_id);
 
         if (row) {
 
-            // Extract data from the row
+            
             const routeNumber = row.cells[1].innerText;
             const startLocation = row.cells[2].innerText;
             const destination = row.cells[3].innerText;
@@ -260,7 +254,7 @@
             const price = row.cells[5].innerText;
             const pricePerKm = row.cells[6].innerText;
 
-            // Redirect to the AddFleet page with pre-filled data
+            
             const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/AddFleet');
             url.searchParams.append('License_id', License_id);
             url.searchParams.append('routeNumber', routeNumber);
@@ -278,9 +272,6 @@
     }
 
 
-        // function redirectToUpdateForm(License_id) {
-        //     window.location.href = '<//?php echo URLROOT; ?>/SuperAdminPages/AddFleet?License_id=' + encodeURIComponent(License_id);
-        // }
     </script>
 </body>
 </html>

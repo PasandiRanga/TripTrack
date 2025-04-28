@@ -30,7 +30,6 @@
 
     <?php
     $userId = $_SESSION['user_id'] ?? '';
-    // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'RegisteredUser';
     $scheduleData = $data['schedule'] ?? [];
     $busData = $data['bus'] ?? [];
@@ -57,21 +56,10 @@
         console.log("Average ratings: ",averageRatings);
     </script>
 
-<?php
-   
-    // $headerData = [
-    //     'showPopup' => $data['show_pop'] ?? false,
-    //     'email' => $data['email'] ?? '',
-    //     'password_err' => $data['password_err'] ?? '',
-    //     'email_err' => $data['email_err'] ?? ''
-    // ];
-
-    $data['currentController'] = 'RegisteredPages';
-    $data['currentMethod'] = 'home';
-    $data['userRole'] = $userRole;
-    // echo '<pre>' . print_r($headerData,true) . '</pre>';
-
-    
+    <?php
+        $data['currentController'] = 'RegisteredPages';
+        $data['currentMethod'] = 'home';
+        $data['userRole'] = $userRole;
     ?>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -95,7 +83,6 @@
         <div class="date-bar-container">
     <div class="date-scroll">
         <?php
-        // Get current date and create dates for next 7 days
         $dates = [];
         for ($i = 0; $i < 20; $i++) {
             $date = date('Y-m-d', strtotime("+$i days"));
@@ -114,7 +101,6 @@
         
         <div id="bus-card-container" class="bus-card-container">
             <?php 
-                // Pass $data['schedule'] to busCardGenerator.php
                 require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
             ?>
         </div>    
@@ -122,40 +108,31 @@
 <?php require APPROOT.'/views/inc/Components/Footer/footer.php'; ?>
 
 <script>
-// Replace the two separate script blocks with this single, optimized version
 document.addEventListener('DOMContentLoaded', function() {
     var averageRatings = <?php echo json_encode($averageRatings); ?>;
     const dateItems = document.querySelectorAll('.date-item');
     const travelDateInput = document.getElementById('travelDate');
     
-    // Apply ratings initially when page loads
     applyRatingsToCards();
     
     dateItems.forEach(item => {
         item.addEventListener('click', function() {
-            // Prevent multiple rapid clicks
             if (this.classList.contains('processing')) {
                 return;
             }
             
-            // Add processing class to prevent multiple clicks
             this.classList.add('processing');
             
-            // Remove active class from all items
             dateItems.forEach(di => di.classList.remove('active'));
             
-            // Add active class to clicked item
             this.classList.add('active');
             
-            // Get the selected date
             const selectedDate = this.dataset.date;
             
-            // Update the search bar date input
             if (travelDateInput) {
                 travelDateInput.value = selectedDate;
             }
             
-            // Show loading indicator
             const busCardContainer = document.getElementById('bus-card-container');
             busCardContainer.innerHTML = '<div class="loading">Loading...</div>';
             
@@ -164,10 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(html => {
                     document.getElementById('bus-card-container').innerHTML = html;
                     
-                    // After loading the new HTML, reapply ratings
                     setTimeout(applyRatingsToCards, 100);
                     
-                    // Remove processing class
                     this.classList.remove('processing');
                 })
                 .catch(error => {
@@ -177,13 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Function to apply ratings to bus cards
     function applyRatingsToCards() {
         const busCards = document.querySelectorAll('.bus-card');
         console.log("Applying ratings to", busCards.length, "cards");
         
         busCards.forEach(card => {
-            // Extract the license ID from the card's onclick attribute
             const onclickAttr = card.getAttribute('onclick');
             if (!onclickAttr) return;
             
@@ -199,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         const numericRating = isNaN(parseFloat(rating)) ? 0 : parseFloat(rating);
                         const roundedRating = Math.round(numericRating * 2) / 2;
                         
-                        // Generate stars HTML
                         let starsHTML = '';
                         for (let i = 1; i <= 5; i++) {
                             if (i <= Math.floor(roundedRating)) {
@@ -220,18 +192,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Handle show more button
     const showMoreBtn = document.getElementById('show-more-btn');
     if (showMoreBtn) {
         showMoreBtn.addEventListener('click', function() {
-            // Show all additional cards
             const hiddenCards = document.querySelectorAll('.hidden-card');
             
             hiddenCards.forEach(card => {
                 card.style.display = 'block';
             });
-            
-            // Hide the "Show More" button
             this.style.display = 'none';
         });
     }

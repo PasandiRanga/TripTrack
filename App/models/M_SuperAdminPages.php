@@ -1,22 +1,22 @@
 <?php
 class M_SuperAdminPages {
-    // Declare a variable to grant access to the database
+    
     private $db;
 
-    // Instantiate the database class when the script is called
+    
     public function __construct() {
         $this->db = new Database();
     }
 
-    // Fleet Management
+    
 
-    // Add a new bus
+    
     public function addBus($data) {
-        //echo var_dump($data);
+        
         $this->db->query("INSERT INTO bus (License_id, routeNumber, start_location, destination, passengers, price, priceperkm) 
                            VALUES (:License_id, :routeNumber, :start_location, :destination, :passengers, :price, :priceperkm)");
 
-        // Bind parameters
+        
         $this->db->bind(':License_id', $data['License_id']);
         $this->db->bind(':routeNumber', $data['routeNumber']);
         $this->db->bind(':start_location', $data['start_location']);
@@ -25,11 +25,11 @@ class M_SuperAdminPages {
         $this->db->bind(':price', $data['price']);
         $this->db->bind(':priceperkm', $data['priceperkm']);
 
-        // Execute the query and return the result
+    
         return $this->db->execute();
     }
 
-    // Retrieve all buses
+    
     public function getBus() {
         $this->db->query('SELECT * FROM bus');
         return $this->db->resultSet();
@@ -40,24 +40,24 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    // Retrieve a specific bus by License_id
+    
     public function getBusByLicenseId($License_id) {
         $this->db->query('SELECT * FROM bus WHERE License_id = :License_id');
         $this->db->bind(':License_id', $License_id);
-        return $this->db->single(); // Fetch a single row
+        return $this->db->single();
     }
 
-    // Delete a bus by License_id
+    
     public function deleteBus($License_id) {
-        // Query to delete the bus
+        
         $this->db->query('DELETE FROM bus WHERE License_id = :License_id');
         $this->db->bind(':License_id', $License_id);
         
-        // Check if execution was successful
+        
         if ($this->db->execute()) {
             return true;
         } else {
-            // Optionally, log the error
+            
             error_log("Failed to delete bus with License_id: $License_id");
             return false;
         }
@@ -67,11 +67,11 @@ class M_SuperAdminPages {
         $this->db->query('SELECT License_id FROM bus WHERE License_id = :license_id');
         $this->db->bind(':license_id', $license_id);
         $this->db->execute();
-        return $this->db->rowCount() > 0; // returns true if a record exists
+        return $this->db->rowCount() > 0;
     }
 
 
-    // Update bus details using License_id
+    
     public function updateBus($data) {
         $this->db->query('UPDATE bus SET 
             routeNumber = :routeNumber,
@@ -82,24 +82,20 @@ class M_SuperAdminPages {
             priceperkm = :priceperkm
             WHERE License_id = :License_id');
 
-        // Bind parameters
+        
         $this->db->bind(':routeNumber', $data['routeNumber']);
-        //$this->db->bind(':route', $data['route']);
-        //$this->db->bind(':busType', $data['busType']);
-        //$this->db->bind(':stops', $data['stops']);
         $this->db->bind(':start_location', $data['start_location']);
         $this->db->bind(':destination', $data['destination']);
-        //$this->db->bind(':rating', $data['rating']);
         $this->db->bind(':passengers', $data['passengers']);
         $this->db->bind(':price', $data['price']);
         $this->db->bind(':priceperkm', $data['priceperkm']);
         $this->db->bind(':License_id', $data['License_id']);
 
-        // Execute and return result
+        
         return $this->db->execute();
     }
 
-    // Search buses by License_id or Route Number
+    
     public function searchFleet($searchQuery) {
         $sql = "SELECT * FROM bus WHERE LOWER(License_id) LIKE :searchQuery OR LOWER(routeNumber) LIKE :searchQuery";
 
@@ -109,11 +105,11 @@ class M_SuperAdminPages {
         return $this->db->resultSet();
     }
 
-    //Get the total count of buses
+    
     public function getBusCount($searchTerm){
         
         if (empty($searchTerm)) {
-            return ['total_buses' => 0]; // Ensure return value is always valid
+            return ['total_buses' => 0];
         }
         
         $this->db->query("SELECT COUNT(*) AS total_buses FROM bus WHERE License_id LIKE :searchTerm OR routeNumber LIKE :searchTerm");
@@ -124,7 +120,7 @@ class M_SuperAdminPages {
 
     }
 
-    // Retrieve all fleet data
+    
     public function getAllFleet() {
         $sql = "SELECT * FROM bus";
         $this->db->query($sql);
@@ -139,10 +135,9 @@ class M_SuperAdminPages {
 
 
 
-//-----------------------------------------------------------------------------------------------------------------------------------
-    // Bookings
 
-//-----------------------------------------------------------------------------------------------------------------------------------
+
+
 
     public function getPastGuestBookings() {
         $this->db->query('SELECT * FROM pastguestbooking order by booking_date desc');
@@ -163,10 +158,11 @@ class M_SuperAdminPages {
         $this->db->query('SELECT * FROM cancelled_cash_bookings order by time_date desc');
         return $this->db->resultSet();
     }
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Employee
 
-//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
     public function findUserByNIC($nic){
         $this->db->query('SELECT * FROM employee WHERE nic=:nic');
@@ -199,7 +195,7 @@ class M_SuperAdminPages {
     public function addemployee($data) {
         $this->db->query('INSERT INTO employee(name, address, contactNo, email, password, role, nic) VALUES(:name, :address, :contactNo, :email, :password, :role, :nic)');
         
-        // Bind parameters
+        
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':contactNo', $data['contactNo']);
@@ -208,7 +204,7 @@ class M_SuperAdminPages {
         $this->db->bind(':role', $data['role']);
         $this->db->bind(':nic', $data['nic']);
 
-        // Execute and return result
+        
         if ($this->db->execute()) {
             return true;
         } else {
@@ -217,14 +213,15 @@ class M_SuperAdminPages {
     }
 
     public function getEmployee(){
-        $this->db->query('SELECT * FROM employee');
+        $this->db->query('SELECT * FROM employee ORDER BY employee_id DESC;
+');
         return $this->db->resultSet();
     }
 
     public function updateEmployee($data){
         $this->db->query('UPDATE employee SET name = :name, address = :address, contactNo = :contactNo, email = :email, nic = :nic WHERE employee_id = :employee_id');
 
-        // Bind parameters
+        
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':contactNo', $data['contactNo']);
@@ -232,7 +229,7 @@ class M_SuperAdminPages {
         $this->db->bind(':nic', $data['nic']);
         $this->db->bind(':employee_id', $data['employee_id']);
 
-        // Execute and return result
+        
         if($this->db->execute()){
             return true;
         } else {
@@ -253,10 +250,10 @@ class M_SuperAdminPages {
         }
     }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Schedule
 
-//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
     public function addschedule($data){
         $this->db->query('INSERT INTO schedule (License_id, date, departureTime, arrivalTime, duration, availableSeats, bookedSeats, direction, type) VALUES (:License_id, :date, :departureTime, :arrivalTime, :duration, :availableSeats, :bookedSeats, :direction, :type)');
@@ -266,12 +263,11 @@ class M_SuperAdminPages {
         $this->db->bind(':departureTime', $data['departureTime']);
         $this->db->bind(':arrivalTime', $data['arrivalTime']);
         $this->db->bind(':availableSeats', $data['availableSeats']);
-        //$this->db->bind(':bookedSeats', $data['bookedSeats']);
         $this->db->bind(':duration', $data['duration']);
         $this->db->bind(':direction', $data['direction']);
         $this->db->bind(':type', $data['type']);
 
-        $bookedSeats = null; // Always NULL
+        $bookedSeats = null;
         $this->db->bind(':bookedSeats', $bookedSeats, PDO::PARAM_NULL);
 
 
@@ -301,7 +297,7 @@ class M_SuperAdminPages {
     }
 
     public function getAvailableBuses(){
-        // Query to get buses that are not in the schedule
+    
         $this->db->query("
             SELECT License_id, passengers
             FROM bus
@@ -316,7 +312,7 @@ class M_SuperAdminPages {
         $this->db->query('UPDATE schedule SET License_id = :License_id, date = :date, departureTime = :departureTime, arrivalTime = :arrivalTime, duration = :duration, direction = :direction, type = :type WHERE scheduleId = :scheduleId');
 
 
-        // Bind parameters
+        
         $this->db->bind(':License_id', $data['License_id']);
         $this->db->bind(':date', $data['date']);
         $this->db->bind(':departureTime', $data['departureTime']);
@@ -326,7 +322,7 @@ class M_SuperAdminPages {
         $this->db->bind(':type', $data['type']);
         $this->db->bind(':scheduleId', $data['scheduleId']);
 
-        // Execute and return result
+        
         if($this->db->execute()){
             return true;
         } else {
@@ -347,10 +343,11 @@ class M_SuperAdminPages {
         }
     }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //support requests
 
-//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
     public function getcontactsrequests(){
         $this->db->query('SELECT * FROM support_request');
         return $this->db->resultSet();
@@ -362,10 +359,10 @@ class M_SuperAdminPages {
         return $this->db->execute();
     }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Routes
 
-//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
     public function getRoutes(){
         $this->db->query('SELECT * FROM routes');
         return $this->db->resultSet();
@@ -384,15 +381,15 @@ class M_SuperAdminPages {
             return true;
         }
         else{
-            error_log("Error: Failed to insert assignment"); // Log error
-            return false; // Failure
+            error_log("Error: Failed to insert assignment");
+            return false; 
         }
     }
 
     public function updateRoute($data){
         $this->db->query('UPDATE routes SET routeNumber = :routeNumber, route = :route, stops = :stops, price = :price, priceperkm = :priceperkm WHERE routeNumber = :routeNumber');
 
-        //bind parameters for the update route
+        
         $this->db->bind(':routeNumber', $data['routeNumber']);
         $this->db->bind(':route', $data['route']);
         $this->db->bind(':stops', $data['stops']);
@@ -421,10 +418,8 @@ class M_SuperAdminPages {
         }
     }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Assigns
 
-//------------------------------------------------------------------------------------------------------------------------------------
+
     public function getAssigns(){
         $this->db->query('SELECT * FROM assign');
         return $this->db->resultSet();
@@ -453,7 +448,7 @@ class M_SuperAdminPages {
             if ($this->db->execute()) {
                 return true;
             } else {
-                // Log error details
+                
                 error_log("Database error: Failed to execute query in addAssigns method.");
                 return false;
             }
@@ -505,39 +500,21 @@ class M_SuperAdminPages {
     }
 
 
-    // public function getDriverId(){
-    //     $this->db->query("SELECT employee_id FROM employee WHERE role='Driver'");
-    //     return $this->db->resultSet();
-    // }
-
-    // public function getConductorId(){
-    //     $this->db->query("SELECT employee_id FROM employee WHERE role='Conductor'");
-    //     return $this->db->resultSet();
-    // }
-
-    // public function getAssignedDrivers(){
-    //     $this->db->query("SELECT driver_id FROM assign");
-    //     return $this->db->resultSet();
-    // }
-
-    // public function getAssignedConductors(){
-    //     $this->db->query("SELECT conductor_id FROM assign");
-    //     return $this->db->resultSet();
-    // }
+    
 
 
     public function updateAssign($data) {
-        date_default_timezone_set('Asia/Colombo'); // Set the timezone
-        $currentDate = date("Y-m-d");  // Get current date
-        $currentTime = date("H:i:s");  // Get current time
+        date_default_timezone_set('Asia/Colombo'); 
+        $currentDate = date("Y-m-d");  
+        $currentTime = date("H:i:s");  
 
-        // Debug log to verify data
+        
         error_log("Model updateAssign Data: " . json_encode($data));
 
-        // Update query
+        
         $this->db->query('UPDATE assign SET driver_name = :driver_name, driver_id = :driver_id, conductor_name = :conductor_name, conductor_id = :conductor_id, assign_time = :assign_time, assign_date = :assign_date WHERE scheduleId = :scheduleId');
 
-        // Bind parameters
+        
         $this->db->bind(':scheduleId', $data['scheduleId']);
         $this->db->bind(':driver_name', $data['driverName']);
         $this->db->bind(':driver_id', $data['driver_id']);
@@ -546,7 +523,7 @@ class M_SuperAdminPages {
         $this->db->bind(':assign_time', $currentTime);
         $this->db->bind(':assign_date', $currentDate);
 
-        // Execute the query and return the result
+        
         if ($this->db->execute()) {
             return true;
         } else {
@@ -567,10 +544,10 @@ class M_SuperAdminPages {
         }
     }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Profile
 
-//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
         public function findEmployeeById($userId){
             $this->db->query('SELECT * FROM employee WHERE employee_id=:userId');
@@ -594,10 +571,12 @@ class M_SuperAdminPages {
             $this->db->bind(':id', $adminId);
             return $this->db->execute();
         }
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Reviews
 
-//------------------------------------------------------------------------------------------------------------------------------------
+        
+
+
+
+
     public function getReviews() {
         $this->db->query('SELECT * FROM ratings');
         return $this->db->resultSet();
@@ -617,22 +596,17 @@ class M_SuperAdminPages {
             return false;
         }
     }
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Notifications
 
-//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
     public function getBusDelays() {
         $this->db->query('SELECT * FROM bus_delay order by delay_id DESC');
         return $this->db->resultSet();
     }
 
-    // public function hasNewDelayNotification() {
-    //     $query = "SELECT COUNT(*) as count FROM bus_delay WHERE DATE(created_at) = CURDATE()"; // assuming `created_at` exists
-    //     $this->db->query($query);
-    //     $result = $this->db->single();
-    //     return $result['count'] > 0;
-    // }
 
     public function markDelayAsViewed($delayId) {
         $this->db->query("UPDATE bus_delay SET viewed = 1 WHERE delay_id = :delay_id");
@@ -647,10 +621,7 @@ class M_SuperAdminPages {
         return isset($result->count) && $result->count > 0;
     }
 
-    // public function markDelaysAsViewed() {
-    //     $this->db->query("UPDATE bus_delay SET viewed = 1 WHERE viewed = 0");
-    //     $this->db->execute();
-    // }
+
 
     public function sendNotification($data) {
         $this->db->query('
@@ -658,7 +629,7 @@ class M_SuperAdminPages {
             VALUES (:employee_id, :employee_name, :employee_type, :title, :message)
         ');
 
-        // Bind parameters
+        
         $this->db->bind(':employee_id', $data['employee_id']);
         $this->db->bind(':employee_name', $data['employee_name']);
         $this->db->bind(':employee_type', $data['employee_type']);
@@ -666,7 +637,7 @@ class M_SuperAdminPages {
         $this->db->bind(':message', $data['message']);
 
 
-        // Execute and return result
+       
         if ($this->db->execute()) {
             return true;
         } else {
@@ -679,16 +650,12 @@ class M_SuperAdminPages {
         $this->db->query("SELECT employee_id, name, role FROM employee WHERE role IN ('Driver', 'Conductor')");
         return $this->db->resultSet();
     }
-//------------------------------------------------------------------------------------------------------------------------------------
-    //Reports
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //total bookings
-       //guest bookings
-       //registered bookings
- 
 
-// Total Bookings (Guest + Registered)
+
+
+
+
 public function getTotalBookingsReport() {
     $this->db->query("
         SELECT 
@@ -754,9 +721,7 @@ public function getTotalBookingsIncomeReport() {
 }
 
 
-    //booking cancellation
-       //cancelled online bookings
-       //cancelled cash bookings
+    
 
 public function getTotalCancellationsReport() {
     $this->db->query("
@@ -804,12 +769,7 @@ public function getCashCancellationsReport() {
     ");
     return $this->db->resultSet();
 }
-//--------------------------------------------------------------------------------------------------------------------------------
-//    //total income
-       //total income from guest bookings
-       //total income from registered bookings
-//---------------------------------------------------------------------------------------------------------------------------------
-// Guest Booking Income
+
 public function getGuestBookingIncomeReport() {
     $this->db->query("
         SELECT DATE_FORMAT(booking_date, '%Y-%m') as month, SUM(total_price) as total 
@@ -820,7 +780,7 @@ public function getGuestBookingIncomeReport() {
     return $this->db->resultSet();
 }
 
-// Registered Booking Income
+
 public function getRegisteredBookingIncomeReport() {
     $this->db->query("
         SELECT DATE_FORMAT(Booking_date, '%Y-%m') as month, SUM(total_price) as total 
@@ -831,7 +791,7 @@ public function getRegisteredBookingIncomeReport() {
     return $this->db->resultSet();
 }
 
-// Online Cancellation Refunds and Fees
+
 public function getTotalRefundsReport() {
     $this->db->query("
         SELECT month, SUM(refund_total) as refund_total FROM (
@@ -913,31 +873,14 @@ public function getTotalBusesReport() {
 
     
     
-    //total registered customers
-    //total employees in the system
-        //total drivers in the system
-        //total conductors in the system
-        //total admins in the system
-    //total routes
-    //total buses in the system
-    //total schedules in the system
 
 
 
 
 
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //boxex in the dashboard 
-
-//------------------------------------------------------------------------------------------------------------------------------------
 
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //box 01
-
-//------------------------------------------------------------------------------------------------------------------------------------
-  
 public function getTotalBookingsIncome() {
     $this->db->query("
         SELECT SUM(total) AS total FROM (
@@ -988,22 +931,13 @@ public function getTotalCancellationFees() {
 
 
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //box 02
-
-//------------------------------------------------------------------------------------------------------------------------------------
- 
     public function getTotalCustomers() {
         $this->db->query("SELECT COUNT(User_id) AS total_customers FROM customer");
         $result = $this->db->single();
         return $result['total_customers'] ?? 0;
     }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //box 03
 
-//------------------------------------------------------------------------------------------------------------------------------------
- 
 
 public function getTotalMonthlyBookings() {
     $this->db->query("
@@ -1028,26 +962,15 @@ public function getTotalMonthlyBookings() {
 
 
 
-
-//------------------------------------------------------------------------------------------------------------------------------------
-    //box 04
-
-//------------------------------------------------------------------------------------------------------------------------------------
-
 public function getTotalSchedules() {
-    $this->db->query("SELECT COUNT(*) AS total_schedules FROM schedule"); // Replace 'schedule' with your actual table name
+    $this->db->query("SELECT COUNT(*) AS total_schedules FROM schedule"); 
     $result = $this->db->single();
     return isset($result['total_schedules']) ? (int) $result['total_schedules'] : 0;
 }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //chart 01 Routes with income
-
-//------------------------------------------------------------------------------------------------------------------------------------
-
 
 public function getTopRoutesIncome() {
-    // Query to get the top 5 routes with total income for the current month
+    
     $this->db->query("
         SELECT 
             b.routeNumber,
@@ -1067,15 +990,11 @@ public function getTopRoutesIncome() {
         LIMIT 5;
     ");
     
-    // Return the result set
+    
     return $this->db->resultSet();
 }
 
-//------------------------------------------------------------------------------------------------------------------------------------
-    //chart 02 booking-cancellation
 
-//------------------------------------------------------------------------------------------------------------------------------------
- 
 public function getLast7DaysBookingCounts()
 {
     $this->db->query("
@@ -1137,56 +1056,7 @@ public function getLast7DaysCancellationCounts()
     return $this->db->resultSet();
 }
 
-/*
--- Bookings (guestbooking + registeredbooking)
-SELECT date_series.day,
-       COALESCE(gb.count, 0) + COALESCE(rb.count, 0) AS bookings
-FROM (
-    SELECT CURDATE() - INTERVAL n DAY AS day
-    FROM (
-        SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL
-        SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
-    ) AS days
-) AS date_series
-LEFT JOIN (
-    SELECT DATE(booking_date) AS day, COUNT(*) AS count
-    FROM guestbooking
-    WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
-    GROUP BY DATE(booking_date)
-) AS gb ON gb.day = date_series.day
-LEFT JOIN (
-    SELECT DATE(booking_date) AS day, COUNT(*) AS count
-    FROM registeredbooking
-    WHERE booking_date >= CURDATE() - INTERVAL 6 DAY
-    GROUP BY DATE(booking_date)
-) AS rb ON rb.day = date_series.day;
 
-
-
-
-
-//-- Cancellations (cancelled_online_bookings + cancelled_cash_bookings)
-SELECT date_series.day,
-       COALESCE(co.count, 0) + COALESCE(cc.count, 0) AS cancellations
-FROM (
-    SELECT CURDATE() - INTERVAL n DAY AS day
-    FROM (
-        SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL
-        SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
-    ) AS days
-) AS date_series
-LEFT JOIN (
-    SELECT DATE(Booking_date) AS day, COUNT(*) AS count
-    FROM cancelled_online_bookings
-    WHERE Booking_date >= CURDATE() - INTERVAL 6 DAY
-    GROUP BY DATE(Booking_date)
-) AS co ON co.day = date_series.day
-LEFT JOIN (
-    SELECT DATE(Booking_date) AS day, COUNT(*) AS count
-    FROM cancelled_cash_bookings
-    WHERE Booking_date >= CURDATE() - INTERVAL 6 DAY
-    GROUP BY DATE(Booking_date)
-) AS cc ON cc.day = date_series.day; */
 
 }
 ?>

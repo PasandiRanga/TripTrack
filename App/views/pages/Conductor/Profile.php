@@ -60,13 +60,42 @@
         <!-- Left Side: User Info -->
         <div class="profile-left">
             <div class="profile-pic">
-            <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $profile['profile_pic'];?>" alt="Profile Picture" class="profile-pic">
+                <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $profile['profile_pic'];?>" alt="Profile Picture" class="profile-pic">
             </div>
+            <button class="edit-image-button" onclick="showImageUpdateBox()"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>
             <!--<button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>-->         
             <h2><?php echo $profile['name']; ?></h2>
-            <p><?php echo $profile['employee_id']; ?></p>
 
             <button class="logout-button" onclick="openLogoutModal()"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>  LogOut</button>
+        </div>
+
+        <div class="imageUpdateBox hidden" id="imageUpdateBox">
+            <div class="imageUpdateBoxContent">
+            <form action="<?php echo URLROOT ?>/ConductorPages/updateProfileImage" method="POST" enctype="multipart/form-data">
+                <!-- Profile Image Upload Section -->
+                    <div class="form-drag-area">
+                        <div class="icon">
+                            <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
+                        </div>
+                        <div class="right_content">
+                            <div class="form_upload">
+                                <input type="file" name="profile_image" id="profile_image" style="display:none" >
+                                Browse File
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-validation">
+                        <div class="profile_image_validation">
+                            <img src="<?php echo URLROOT; ?>/public/images/tick1.png" alt="tick" width="35px" height="35px">
+                            Selected a profile image
+                        </div>
+                    </div>
+                    <span class="form-invalid"><?php echo isset($data['profile_image_err']) ? $data['profile_image_err'] : ''; ?></span>
+                <div class="close-btn" onclick="closeImageUpdateBox()">×</div>
+
+                <center><button class="Done" onclick="confirmImage()">Done</button></center>
+            </form>
+            </div>
         </div>
 
         <!-- Right Side: User Details -->
@@ -99,6 +128,9 @@
                 <label>Address</label>
                 <input type="text" value="<?php echo $profile['address']; ?>"readonly>
             </div>
+
+            <button class="edit-button" onclick="showUpdateBox()">Edit</button>
+
         </div>
     </div>
 
@@ -114,7 +146,17 @@
         </div>
     </div>
 
+    <?php require APPROOT.'/views/pages/Conductor/Conductor_Inc/profile/profileForm.php'; ?>
+
     <script>
+        function showUpdateBox() {
+            document.getElementById('updateBox').classList.remove('hidden');
+        }
+
+        function closeUpdateBox() {
+            document.getElementById('updateBox').classList.add('hidden');
+        }
+
 
         //logout
         function openLogoutModal() {
@@ -127,6 +169,83 @@
 
         function proceedLogout() {
             window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
+        }
+
+        function showImageUpdateBox() {
+            document.getElementById("imageUpdateBox").classList.remove("hidden");
+        }
+
+        function closeImageUpdateBox() {
+            document.getElementById("imageUpdateBox").classList.add("hidden");
+        }
+
+        function confirmImage(){
+            window.location.href = '<?php echo URLROOT; ?>/ConductorPages/updateProfileImage'; // Ensure correct update URL
+        }
+
+        const dropArea = document.querySelector(".form-drag-area");
+        const dropText = document.querySelector(".description");
+        const browseButton = document.querySelector(".form_upload");
+        const inputPath = document.querySelector("#profile_image");
+        const placeholder = document.querySelector("#placeholder");
+        const validate = document.querySelector(".profile_image_validation");
+        let file;
+
+        browseButton.onclick = () => {
+            inputPath.click();
+        };
+
+        inputPath.addEventListener("change", function () {
+            file = this.files[0];
+            showImage();
+        });
+
+        dropArea.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            dropArea.classList.add("active");
+            dropText.textContent = "Release to Upload the Image";
+        });
+
+        dropArea.addEventListener("dragleave", () => {
+            dropArea.classList.remove("active");
+            dropText.textContent = "Drag & Drop to Upload Image";
+        });
+
+        dropArea.addEventListener("drop", (event) => {
+            event.preventDefault();
+            file = event.dataTransfer.files[0];
+
+            // Adding the file to the input element programmatically
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            inputPath.files = dataTransfer.files;
+            showImage();
+            dropArea.classList.remove("active");
+        });
+
+        function showImage() {
+            const fileType = file.type;
+
+            // Valid image extensions
+            const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
+
+            if (validExtensions.includes(fileType)) {
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    const fileURL = fileReader.result;
+
+                    // Set image preview
+                    placeholder.setAttribute("src", fileURL);
+                };
+
+                fileReader.readAsDataURL(file);
+
+                // Show validation tick
+                validate.classList.add("active");
+            } else {
+                    alert("This is not a valid image file. Please upload a JPEG, JPG, or PNG file.");
+                    dropArea.classList.remove("active");
+            }
         }
 
     </script>

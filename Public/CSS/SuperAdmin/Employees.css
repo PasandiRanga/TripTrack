@@ -1,4 +1,4 @@
-/* General Styling */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -7,7 +7,7 @@ body {
     color: #333;
 }
 
-/* Box Wrapper */
+
 .box {
     max-width: 1400px;
     margin: 40px auto;
@@ -17,7 +17,7 @@ body {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Back Button */
+
 .back-button {
     position: absolute;
     top: 20px;
@@ -45,7 +45,7 @@ h1{
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-/* Add Button Styling */
+
 .top-actions {
     margin: 20px auto;
     width: 90%;
@@ -75,7 +75,7 @@ h1{
     transform: translateY(1px);
 }
 
-/* Table Styling */
+
 .user-table {
     width: 100%;
     border-collapse: collapse;
@@ -118,7 +118,7 @@ h1{
     background-color: #e0f2f1;
 }
 
-/* Button Styling */
+
 button {
     background-color: #007bff;
     color: white;

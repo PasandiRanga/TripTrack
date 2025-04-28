@@ -25,16 +25,15 @@
     </script>
 
     <?php
-    // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
+        $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     ?>
 
     <?php
-    $data = [
-        'currentController' => 'GuestPages', // Adjust this based on your controller
-        'currentMethod' => 'about', // Adjust this based on the method
-        'userRole' => $userRole
-    ];
+        $data = [
+            'currentController' => 'GuestPages', // Adjust this based on your controller
+            'currentMethod' => 'about', // Adjust this based on the method
+            'userRole' => $userRole
+        ];
     ?>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -46,7 +45,6 @@
             <?php require APPROOT.'/views/inc/Components/Header/header.php'; ?>
         </div>
         
-        <!-- Hero Section -->
         <div class="hero-section" style="background: url('<?php echo URLROOT; ?>/Public/images/aboutPage.jpg') no-repeat center center; background-size: cover;">
             <div class="hero-overlay"></div>
             <div class="hero-content">
@@ -60,7 +58,6 @@
         </div>
         
         <div class="about-container">
-            <!-- About Section -->
             <div id="learn-more" class="section-title">
                 <h2>About Trip Track</h2>
                 <p>Your reliable travel companion for bus journeys across Sri Lanka</p>
@@ -80,7 +77,6 @@
                 </div>
             </div>
             
-            <!-- Mission & Vision -->
             <div class="mission-vision">
                 <div class="mission-box">
                     <div class="box-icon">
@@ -100,7 +96,6 @@
                 </div>
             </div>
 
-            <!-- Team Section -->
             <div class="team-section">
                 <div class="section-title">
                     <h2>Leadership</h2>
@@ -131,7 +126,6 @@
 
             </div>
             
-            <!-- Values Section -->
             <div class="values-section">
                 <div class="section-title">
                     <h2>Our Core Values</h2>
@@ -191,7 +185,6 @@
         localStorage.setItem('userRole', userRole);
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Counter animation for numbers section
             function animateCounters() {
                 const counters = document.querySelectorAll('.number-count');
                 const speed = 200;
@@ -210,7 +203,6 @@
                 });
             }
             
-            // Check if element is in viewport
             function isInViewport(element) {
                 const rect = element.getBoundingClientRect();
                 return (
@@ -221,7 +213,6 @@
                 );
             }
             
-            // Start animation when scrolled into view
             const numbersSection = document.querySelector('.numbers-section');
             let animated = false;
             

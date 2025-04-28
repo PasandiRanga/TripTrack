@@ -14,7 +14,7 @@ body {
     top: 30px !important;
     left: 40px !important;
     padding: 10px 20px;
-        background: linear-gradient(135deg, #43cea2, #185a9d);
+        background: linear-gradient(135deg, #00897b, #006064);
         border: none;
         color: white;
         font-size: 0.9em;
@@ -30,7 +30,7 @@ body {
     top: 30px !important;
     right: 40px !important;
     padding: 10px 20px;
-        background: linear-gradient(135deg, #43cea2, #185a9d);
+        background: linear-gradient(135deg, #00897b, #006064);
         border: none;
         color: white;
         font-size: 1.0em;
@@ -41,15 +41,11 @@ body {
 }
 
 .back-button:hover {
-    background-color: #052d37;
-}
-
-button {
-    background: linear-gradient(135deg, #43cea2, #185a9d);
+    background: linear-gradient(135deg, #00796b, #00838f);
 }
 
 button:hover {
-        background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+        background: linear-gradient(135deg, #00796b, #00838f);
     }
 
 /* View Layout Button Specific Style */
@@ -157,31 +153,236 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2); /* lighter dark overlay */
+    backdrop-filter: blur(5px);
     display: none;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 20px;
     text-align: center;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
+    animation: fadeIn 0.3s ease;
 }
 
 .modal-content h2 {
-    margin-bottom: 10px;
-    font-size: 20px;
+    color: #00897b;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.modal-content pre {
+    background: #f0fdfa;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 18px;
+    text-align: left;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 20px;
+    overflow-x: auto;
 }
 
 .modal-content button {
-    padding: 8px 16px;
-    background-color: #007bff;
+    margin: 10px 10px 0;
+    padding: 12px 25px;
+    background-color: #00897b;
+    color: white;
     border: none;
-    color: #fff;
-    border-radius: 5px;
+    border-radius: 12px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content button:hover {
+    background-color: #00796b;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #9e9e9e;
+    transition: all 0.2s ease;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.close-btn:hover {
+    color: #e22222;
+    background-color: #f5f5f5;
+}
+
+@media screen and (max-width: 480px) {
+    /* Further adjustments for even smaller devices */
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    /* QR Reader Container */
+    .qr-reader-container {
+        padding: 15px;
+    }
+
+    /* Adjust back button and accept button for small screens */
+    .back-button,
+    .acceptBooking-button {
+        padding: 7px 14px;
+        font-size: 0.85em;
+        min-width: 60px;
+    }
+
+    /* Adjust View Layout Button */
+    #viewLayout1 {
+        font-size: 13px;
+        padding: 7px 14px;
+    }
+
+    /* Modal content for very small screens */
+    .modal-content {
+        padding: 15px;
+        font-size: 15px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    .modal-content pre {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .modal-content button {
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+
+    .close-btn {
+        font-size: 20px;
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Adjusting the container padding and margins */
+    .container {
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    /* Adjusting the title */
+    h1 {
+        font-size: 1.5rem;
+        position: relative;
+        top: 0;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    /* QR Reader Container */
+    .qr-reader-container {
+        width: 100%;
+        margin: 30px auto !important;
+        padding: 25px;
+        box-shadow: none; /* Remove shadow on smaller screens */
+    }
+
+    /* Adjusting QR Reader Box */
+    #qr-reader {
+        width: 100%;
+        padding: 10px;
+        border: 2px dashed #063946;
+        border-radius: 10px;
+        background-color: #e9f5f8;
+    }
+
+    /* Adjust QR Result Text */
+    #qr-result {
+        font-size: 1rem;
+        margin-top: 15px;
+    }
+
+    /* Back and Accept Booking Button */
+    .back-button,
+    .acceptBooking-button {
+        padding: 8px 16px;
+        font-size: 0.9em;
+        top: 10px;
+        min-width: 70px;
+    }
+
+    .back-button {
+        left: 20px;
+    }
+
+    .acceptBooking-button {
+        right: 20px;
+    }
+
+    /* View Layout Button */
+    #viewLayout1 {
+        padding: 8px 16px;
+        font-size: 14px;
+        position: relative;
+        right: 15px !important;
+    }
+
+    /* Modal content and close button styles for mobile */
+    .modal-content {
+        padding: 20px;
+        font-size: 16px;
+        width: 90%;
+    }
+
+    .modal-content h2 {
+        font-size: 22px;
+    }
+
+    .modal-content pre {
+        font-size: 16px;
+        padding: 15px;
+    }
+
+    .modal-content button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .close-btn {
+        font-size: 22px;
+        width: 30px;
+        height: 30px;
+    }
+
+    /* For modal overlay */
+    .modal-overlay {
+        background: rgba(0, 0, 0, 0.5); /* Slightly darker overlay for better visibility */
+        backdrop-filter: blur(5px);
+        justify-content: center;
+        align-items: center;
+    }
 }
