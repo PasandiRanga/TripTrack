@@ -23,7 +23,7 @@
             </a>
       </div>
 
-        <div class="right-column">
+       <div class="right-column">
                 
                 <form action="<?php echo URLROOT ?>/GuestPages/GuestSignUp" method="POST" enctype="multipart/form-data">
 
@@ -132,7 +132,6 @@
     <script>
 // Form Validation Script
 document.addEventListener('DOMContentLoaded', function() {
-    // Get all form elements
     const form = document.querySelector('form');
     const nameInput = document.getElementById('name');
     const numberInput = document.getElementById('number');
@@ -144,15 +143,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const termsCheckbox = document.getElementById('terms');
     const registerButton = document.getElementById('Register');
 
-    // Ensure all error messages are initially hidden
     document.querySelectorAll('.form-invalid').forEach(error => {
-        // First check if it's empty
         if (!error.textContent.trim()) {
             error.style.display = 'none';
         }
     });
 
-    // Disable the Register button initially
     registerButton.disabled = true;
     registerButton.style.opacity = '0.5';
     registerButton.style.cursor = 'not-allowed';

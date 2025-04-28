@@ -319,7 +319,7 @@
                         $data['profile_image_err'] = 'Profile image uploading unsuccessful';
                     }
                 } else {
-                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; // Replace with your actual default image filename, if applicable
+                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; 
                 }
                 // Validate the name
                 if (empty($data['name'])) {
@@ -327,19 +327,18 @@
                 }
                 // Validate the contact number
                 if (empty($data['number'])) {
-                    $data['number_err'] = 'Please enter a contact number'; // Check if the field is empty
+                    $data['number_err'] = 'Please enter a contact number'; 
                 } elseif (!ctype_digit($data['number'])) {
-                    $data['number_err'] = 'The contact number must contain only numbers'; // Check if it contains only numeric characters
+                    $data['number_err'] = 'The contact number must contain only numbers'; 
                 } elseif (strlen($data['number']) !== 10) {
-                    $data['number_err'] = 'The contact number must be exactly 10 digits long'; // Check if it is exactly 10 digits
+                    $data['number_err'] = 'The contact number must be exactly 10 digits long'; 
                 } elseif ($data['number'][0] !== '0') {
-                    $data['number_err'] = 'The contact number must start with 0'; // Check if it starts with 0
+                    $data['number_err'] = 'The contact number must start with 0'; 
                 }
                 // Validate the NIC
                 if (empty($data['nic'])) {
                     $data['nic_err'] = 'Please enter a NIC';
                 } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
-                    // Check if the NIC is either 12 digits or 11 digits followed by "V"
                     $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
                 }else {
                     if ($this->GuestpagesModel->findUserByNIC($data['nic'])) {
@@ -365,33 +364,24 @@
                 if (empty($data['password'])) {
                     $data['password_err'] = 'Please enter a password';
                 } elseif (strlen($data['password']) < 8) {
-                    // Check if the password is at least 8 characters long
                     $data['password_err'] = 'Password must be at least 8 characters long';
                 } elseif (!preg_match('/[A-Z]/', $data['password'])) {
-                    // Check if the password contains at least one uppercase letter
                     $data['password_err'] = 'Password must contain at least one uppercase letter';
                 } elseif (!preg_match('/[a-z]/', $data['password'])) {
-                    // Check if the password contains at least one lowercase letter
                     $data['password_err'] = 'Password must contain at least one lowercase letter';
                 } elseif (!preg_match('/\d/', $data['password'])) {
-                    // Check if the password contains at least one number
                     $data['password_err'] = 'Password must contain at least one number';
                 } elseif (!preg_match('/[\W_]/', $data['password'])) {
-                    // Check if the password contains at least one special character (symbol)
                     $data['password_err'] = 'Password must contain at least one special character';
                 } elseif (empty($data['confirm'])) {
-                    // Check if confirm password is empty
                     $data['confirm_err'] = 'Please confirm the password';
                 } elseif ($data['password'] != $data['confirm']) {
-                    // Check if the password and confirm password match
                     $data['confirm_err'] = 'Passwords do not match';
                 }
 
                 // Register the user if no errors are present
                 if (empty($data['name_err']) && empty($data['number_err']) && empty($data['nic_err']) && empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_err']) && empty($data['profile_image_err'])) {
-                    // Hash the password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-                    // Register the user
                     if ($this->GuestpagesModel->register($data)) {
                         header('Location: ' . URLROOT . '/GuestPages/home' );
                         exit();  
