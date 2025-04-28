@@ -421,7 +421,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const price = selectedBus.price;
         let pricePerSeat = 0;
 
-        // From middle to destination
         if (destination === to.trim() && startLocation !== from.trim()) {
             let totalDistance = 0;
             let boardingDistance = 0;
@@ -443,12 +442,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const finalDistance = totalDistance - boardingDistance;
             pricePerSeat = leastPrice * finalDistance;
             
-        // From start to destination
         } else if (destination === to.trim() && startLocation === from.trim()) {
-            // Full journey price
             pricePerSeat = price;
         
-        // From middle to middle 
         } else if (destination !== to.trim() && startLocation !== from.trim()) {
             let toDistance = 0;
             let fromDistance = 0;
@@ -465,7 +461,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const finalDistance = toDistance - fromDistance;
             pricePerSeat = leastPrice * finalDistance;
         
-        // From start to middle
         } else if (startLocation === from.trim() && destination !== to.trim()) {
             for (const route of distanceData) {
                 if (route.start === startLocation && route.location.trim() === to.trim()) {

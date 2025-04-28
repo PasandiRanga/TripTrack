@@ -1,11 +1,7 @@
-/* contactus.css */
 
-/* General page styling */
 .hero-container {
     width: 100%;
-    /* height: 370px; */
     position: relative;
-    /* margin-top: 20px; */
     background: linear-gradient(to bottom, #a2d8ff, #ffffff);
 }
 
@@ -17,7 +13,6 @@ body {
     flex-direction: column;
 }
 
-/* Container for the contact form */
 .contact-container {
     width: 100%;
     max-width: 600px;
@@ -28,7 +23,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Header styling */
 .contact-container h3 {
     margin-top: 0;
     color: #333333;
@@ -36,8 +30,6 @@ body {
     text-align: center;
 }
 
-
-/* Form styling */
 .contact-container form {
     display: flex;
     flex-direction: column;
@@ -79,9 +71,6 @@ img.name-image {
     border-color: #5c9ded;
 }
 
-
-
-/* Button styling */
 .button-component {
     width: 100%;
     padding: 10px;
@@ -98,7 +87,6 @@ img.name-image {
     background-color: #3b7ad8;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .contact-container {
         padding: 15px;

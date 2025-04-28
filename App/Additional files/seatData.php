@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 // Seat data for different bus layouts
 $seatData = [
     // Bus with 56 seats layout (seatType 1)
@@ -71,4 +71,4 @@ $seatData = [
                 ]
                 ]
 ];
-?>
+?> -->

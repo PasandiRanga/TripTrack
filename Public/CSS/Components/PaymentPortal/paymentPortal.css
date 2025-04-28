@@ -66,7 +66,6 @@ input::placeholder {
     color: #a0aec0;
 }
 
-/* Error styling */
 .input-error {
     border-color: #e53e3e !important;
     background-color: #fff5f5;
@@ -137,7 +136,6 @@ input.invalid {
     box-shadow: none;
 }
 
-/* Card Number Input Styling with Icons */
 .card-input-container {
     position: relative;
 }
@@ -170,12 +168,10 @@ input.invalid {
     background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjY4IiB2aWV3Qm94PSIwIDAgMTAwIDY4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHJlY3QgeD0iMSIgeT0iMSIgd2lkdGg9Ijk4IiBoZWlnaHQ9IjY2IiByeD0iNyIgZmlsbD0iIzAxNkZkMSIvPg0KPHBhdGggZD0iTTUwLjg5ODQgMzQuMDAxN0gzMS4xMDE2VjE3SDUwLjg5ODRWMTM0LjAwMTdaIiBmaWxsPSJ3aGl0ZSIvPg0KPHBhdGggZD0iTTMzIDM0LjAwMDFDMzMgMjcuMzcyOSAzNS4yODYxIDIxLjIxODggMzkuMDQyMyAxNi40NjIxQzM1LjYzMjkgMTIuOTI2NiAzMC44NzU3IDExIDI1LjY2NjcgMTFDMTQuNDM2MiAxMSA1IDIxLjE2NjYgNSAzNC4wMDAxQzUgNDYuODMzNiAxNC40MzYyIDU3IDI1LjY2NjcgNTdDMzAuODc1NyA1NyAzNS42MzI5IDU1LjA3MzQgMzkuMDQyMyA1MS41MzM2QzM1LjI4NjEgNDYuNzgxMyAzMyA0MC42MjczIDMzIDMzLjk5NzJWMzQuMDAwMVoiIGZpbGw9IiMxQTM1N0EiLz4NCjxwYXRoIGQ9Ik05NSAzNEM5NSA0Ni44MzM2IDg1LjU2MzggNTcgNzQuMzMzMyA1N0M2OS4xMjQzIDU3IDY0LjM2NzEgNTUuMDczNCA2MC45NTc3IDUxLjUzMzZDNjQuNzEzOSA0Ni43ODEzIDY3IDQwLjYyNzMgNjcgMzRDNjcgMjcuMzcyOSA2NC43MTM5IDIxLjIxODggNjAuOTU3NyAxNi40NjIxQzY0LjM2NzEgMTIuOTI2NiA2OS4xMjQzIDExIDc0LjMzMzMgMTFDODUuNTYzOCAxMSA5NSAyMS4xNjY2IDk1IDM0WiIgZmlsbD0id2hpdGUiLz4NCjwvc3ZnPg==');
 }
 
-/* Remove default cardTypeGroup styling */
 #cardTypeGroup {
     display: none;
 }
 
-/* Payment Status Styling */
 .payment-status {
     margin-top: 20px;
     text-align: center;
@@ -196,7 +192,6 @@ input.invalid {
     border: 1px solid #fed7d7;
 }
 
-/* Secure Payment Indicator */
 .secure-payment {
     display: flex;
     align-items: center;
@@ -214,14 +209,12 @@ input.invalid {
     fill: #4299e1;
 }
 
-/* For read-only inputs like amount */
 input[readonly] {
     background-color: #edf2f7;
     color: #4a5568;
     font-weight: 600;
 }
 
-/* Loading spinner for submit button */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -239,7 +232,6 @@ input[readonly] {
     vertical-align: middle;
 }
 
-/* Responsive styling */
 @media (max-width: 576px) {
     .payment-container {
         padding: 30px 20px;
@@ -271,18 +263,15 @@ input[readonly] {
     }
 }
 
-/* Focus within styling for form groups */
 .form-group:focus-within label {
     color: #3182ce;
 }
 
-/* Valid input styling */
 input:valid:not([readonly]):not(:placeholder-shown) {
     border-color: #48bb78;
     background-color: #f0fff4;
 }
 
-/* Card number custom styling */
 #cardNumber {
     letter-spacing: 1px;
     font-family: monospace;
@@ -290,7 +279,6 @@ input:valid:not([readonly]):not(:placeholder-shown) {
     padding-right: 85px;
 }
 
-/* Add some subtle animation to the form */
 .payment-container {
     animation: fadeIn 0.5s ease-out;
 }

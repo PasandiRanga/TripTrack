@@ -4,7 +4,6 @@ div.background {
     width: 50px;
     height: 408.91px;
     left: 0px;
-    /* top: 3.5rem; */
     position: absolute;
 }
 
@@ -41,12 +40,12 @@ img.name-image {
     gap: 20px;
     justify-content: center;
     background-color: #ffffff;
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Drop shadow */
-    padding: 20px; /* Add padding if needed */
-    margin: 20px auto; /* Center the container */
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 20px; 
+    margin: 20px auto; 
     width: 90%; 
-    box-sizing: border-box; /* Ensure padding and border are included in total width */
+    box-sizing: border-box; 
     color : black;
 }
 

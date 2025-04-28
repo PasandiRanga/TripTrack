@@ -2,36 +2,36 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 300px; /* Adjust width of container as needed */
+    width: 300px; 
 }
 
 .button-style-1,
 .button-style-2,
 .button-style-3 {
     border-radius: 50px;
-    padding: 15px 20px; /* Adjust padding to add space around the text */
+    padding: 15px 20px; 
     text-align: center;
     font-size: 16px;
-    white-space: nowrap; /* Prevent the text from wrapping */
+    white-space: nowrap; 
 }
 
 .button-style-1 {
     background-color: #003B4C;
     color: #FFFFFF;
     border: none;
-    min-width: 100px; /* Optional: Set a minimum width */
+    min-width: 100px; 
 }
 
 .button-style-2 {
     background-color: #FFFFFF;
     color: #003B4C;
     border: 2px solid #003B4C;
-    min-width: 100px; /* Optional: Set a minimum width */
+    min-width: 100px; 
 }
 
 .button-style-3 {
     background-color: #4CAF92;
     color: #FFFFFF;
     border: none;
-    min-width: 100px; /* Optional: Set a minimum width */
+    min-width: 100px; 
 }

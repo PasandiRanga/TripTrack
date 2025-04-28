@@ -1,4 +1,3 @@
-/* Base body and html settings */
 body, html {
     margin: 0;
     padding: 0;
@@ -8,7 +7,6 @@ body, html {
     height: 100%;
 }
 
-/* Bus Information Container */
 .bus-info {
     max-width: 690px;
     margin: 70px auto 30px;
@@ -36,7 +34,6 @@ body, html {
     box-shadow: 0 2px 8px rgba(0, 137, 123, 0.2);
 }
 
-/* Route Container */
 .route-container {
     display: flex;
     justify-content: space-between;
@@ -57,7 +54,6 @@ body, html {
     margin: 0;
 }
 
-/* Bus Info Paragraph Styling */
 .bus-info p {
     margin: 8px 0;
     font-size: 0.9em;
@@ -69,7 +65,6 @@ body, html {
     font-weight: 600;
 }
 
-/* Star Rating Styling */
 .rating {
     margin: 15px 0;
     display: flex;
@@ -95,7 +90,6 @@ body, html {
     color: #555;
 }
 
-/* Bus Travel Info Details */
 .info-details {
     display: flex;
     align-items: center;
@@ -126,7 +120,6 @@ body, html {
     color: #666;
 }
 
-/* Icons Styling */
 .icon-time {
     margin: 0 8px;
     color: #00897b;
@@ -136,7 +129,6 @@ body, html {
     font-size: 1.2em;
 }
 
-/* Dotted Line Between Departure and Arrival */
 .time-container {
     flex-grow: 1;
     position: relative;
@@ -150,7 +142,6 @@ body, html {
     margin: 0;
 }
 
-/* Price Container */
 .price-container {
     position: absolute;
     bottom: 20px;
@@ -163,7 +154,6 @@ body, html {
     color: #38c095;
 }
 
-/* View Reviews Button */
 .view-button {
     position: absolute;
     bottom: 20px;
@@ -188,7 +178,6 @@ body, html {
     box-shadow: 0 6px 18px rgba(0, 137, 123, 0.3);
 }
 
-/* Modal for Reviews */
 .modal {
     display: none;
     position: fixed;
@@ -248,7 +237,6 @@ body, html {
     background-color: #f5f5f5;
 }
 
-/* Review Item Styling */
 .review-item {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -277,7 +265,6 @@ body, html {
     padding-right: 5px;
 }
 
-/* Responsive Design */
 @media screen and (max-width: 1286px) {
     .bus-info {
         width: 90%;

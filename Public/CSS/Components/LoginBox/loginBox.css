@@ -1,5 +1,4 @@
-/* Main Login Box Container */
-/* Main Login Box Container */
+
 .signInContent {
     background-color: white;
     width: 480px;
@@ -13,7 +12,7 @@
     justify-content: center;
     box-sizing: border-box;
     position: relative;
-    z-index: 1; /* Add a base z-index */
+    z-index: 1; 
 }
 
 .signInContent h1 {
@@ -24,7 +23,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Form styling */
 .login-section {
     width: 100%;
 }
@@ -37,7 +35,6 @@ form {
     box-sizing: border-box;
 }
 
-/* Labels */
 label {
     font-size: 15px;
     font-weight: 600;
@@ -47,7 +44,6 @@ label {
     letter-spacing: 0.8px;
 }
 
-/* Input fields */
 input[type="password"], input[type="email"], input[type="text"] {
     padding: 12px 15px;
     font-size: 16px;
@@ -70,7 +66,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     outline: none;
 }
 
-/* Password container */
 .password-container {
     position: relative;
     width: 100%;
@@ -93,7 +88,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     color: #00897b;
 }
 
-/* Checkbox group */
 .checkbox-group {
     display: flex;
     justify-content: space-between;
@@ -103,7 +97,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     color: #757575;
 }
 
-/* Checkbox styling */
 .checkbox-group label {
     display: flex;
     align-items: center;
@@ -149,7 +142,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     justify-content: center;
 }
 
-/* Sign-in button */
 .sign-in-btn {
     background: linear-gradient(135deg, #00897b, #006064);
     color: white;
@@ -172,7 +164,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     box-shadow: 0 6px 18px rgba(0, 137, 123, 0.3);
 }
 
-/* Forgot password and signup links */
 .tosign {
     margin-top: 20px;
     font-size: 14px;
@@ -192,7 +183,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     text-decoration: underline;
 }
 
-/* Error message */
 .form-invalid {
     color: #e22222;
     font-size: 14px;
@@ -200,7 +190,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     display: block;
 }
 
-/* Popup Overlay */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -211,12 +200,11 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1050; /* Increased z-index to ensure it appears on top */
+    z-index: 1050; 
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
 }
 
-/* Popup Content */
 .popup-content {
     background-color: white;
     width: 400px;
@@ -234,7 +222,7 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-top: 5px solid #00897b;
     animation: fadeIn 0.3s ease;
-    z-index: 1051; /* Even higher z-index for content */
+    z-index: 1051; 
 }
 
 
@@ -250,7 +238,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     margin-top: 5px;
 }
 
-/* Close button */
 .close-popup {
     position: absolute;
     top: 15px;
@@ -265,8 +252,8 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    z-index: 1052; /* Highest z-index to ensure visibility */
-    background-color: white; /* Ensure background is opaque */
+    z-index: 1052; 
+    background-color: white; 
 }
 
 .close-popup:hover {
@@ -274,7 +261,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     background-color: #f5f5f5;
 }
 
-/* Popup messages */
 .popup-message {
     padding: 12px;
     margin: 15px 0;
@@ -296,7 +282,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     border: 1px solid #a5d6a7;
 }
 
-/* Loading spinner */
 .spinner {
     display: none;
     width: 30px;
@@ -313,7 +298,6 @@ input[type="password"]:focus, input[type="email"]:focus, input[type="text"]:focu
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive design */
 @media (max-width: 600px) {
     .signInContent, .popup-content {
         width: 90%;

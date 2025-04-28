@@ -1,11 +1,9 @@
-/* Reset some default styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Ensure the container fits the page size and is centered */
 .signupbody {
     min-height: 100vh;
     display: flex;
@@ -16,7 +14,6 @@
     background-color: #f4f4f4;
 }
 
-/* Container for the two columns */
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -29,7 +26,6 @@
     margin: 10px 5px;
 }
 
-/* Styling for the left column */
 .left-column {
     flex: 1 1 45%;
     background: linear-gradient(135deg, #00897b, #006064);
@@ -74,7 +70,6 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
-/* Styling for the right column */
 .right-column {
     flex: 1 1 55%;
     padding: 40px;
@@ -93,7 +88,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Form Container */
 form {
     width: 100%;
     max-width: 480px;
@@ -101,7 +95,6 @@ form {
     flex-direction: column;
 }
 
-/* Form Input Fields */
 .form-input-title {
     font-size: 15px;
     font-weight: 600;
@@ -138,7 +131,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     outline: none;
 }
 
-/* Password container */
 .password-container {
     position: relative;
     width: 100%;
@@ -161,7 +153,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     color: #00897b;
 }
 
-/* Checkbox Section */
 .form-agreement {
     margin: 15px 0 25px;
     font-size: 14px;
@@ -203,7 +194,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     justify-content: center;
 }
 
-/* Register Button */
 .button {
     background: linear-gradient(135deg, #00897b, #006064);
     color: white;
@@ -226,7 +216,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     box-shadow: 0 6px 18px rgba(0, 137, 123, 0.3);
 }
 
-/* Error message */
 .form-invalid {
     color: #e22222;
     font-size: 14px;
@@ -238,7 +227,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     display: none;
 }
 
-/* Drag Area */
 .form-drag-area {
     background-color: #f2fffe;
     padding: 20px;
@@ -294,7 +282,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Form validation */
 .form-validation {
     margin: 10px 0;
 }
@@ -313,7 +300,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     color: #00897b;
 }
 
-/* OTP Button */
 button.otp {
     background-color: #00897b;
     color: white;
@@ -330,7 +316,6 @@ button.otp:hover {
     background-color: #006064;
 }
 
-/* Confirm Box */
 .confirmBox {
     position: fixed;
     top: 0;
@@ -400,7 +385,6 @@ button.otp:hover {
     background-color: #f5f5f5;
 }
 
-/* Verify OTP */
 .otpverify input {
     padding: 12px 15px;
     font-size: 16px;
@@ -446,7 +430,6 @@ button.otp:hover {
     text-decoration: underline;
 }
 
-/* Animations */
 @keyframes zoomIn {
     0% {
         transform: scale(0.5);
@@ -468,7 +451,6 @@ button.otp:hover {
     animation-delay: 0.5s;
 }
 
-/* Success box */
 .success-box {
     display: flex;
     align-items: center;
@@ -499,12 +481,10 @@ button.otp:hover {
     margin-right: 10px;
 }
 
-/* Hidden elements */
 .hidden {
     display: none;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;

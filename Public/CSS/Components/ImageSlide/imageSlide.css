@@ -1,4 +1,3 @@
-/* Style for the image container */
 .image-container {
   position: relative;
   overflow: hidden;
@@ -6,7 +5,6 @@
   height: 480px;
 }
 
-/* Wrapper for the images */
 .images-wrapper {
   display: flex;
   transition: transform 1s ease-in-out;
@@ -32,7 +30,6 @@
   z-index: 1;
 }
 
-/* Center text in the middle of the image slider */
 .text-slider {
   position: absolute;
   top: 50%;
@@ -44,19 +41,19 @@
   font-size: 50px;
   font-weight: bold;
   font-family: cursive;
-  z-index: 2; /* Ensure it appears above images */
+  z-index: 2; 
 }
 
 .slide {
-  position: absolute; /* Ensure slides overlap */
-  opacity: 0; /* Initially hidden */
-  transition: opacity 1s ease, transform 1s ease; /* Smooth transitions */
-  transform: translateY(20px); /* Slightly below center initially */
+  position: absolute; 
+  opacity: 0; 
+  transition: opacity 1s ease, transform 1s ease; 
+  transform: translateY(20px);
 }
 
 .slide.active {
-  opacity: 1; /* Make visible */
-  transform: translateY(0); /* Center the text */
+  opacity: 1; 
+  transform: translateY(0); 
 }
 
 .text-slider{

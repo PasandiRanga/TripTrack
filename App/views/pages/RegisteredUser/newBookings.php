@@ -10,8 +10,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>newBookings <?php echo SITENAME; ?></title>
-
-    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer">
@@ -23,7 +21,6 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 </head>
-    <!-- Set user role in localStorage -->
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'RegisteredUser'); ?>;
         localStorage.setItem('userRole', userRole);
@@ -41,16 +38,11 @@
     $pastScheduleData = $data['pastSchedule'] ??[];
     $userData = $data['user'] ?? [];
     $notifications = $data['notifications'] ?? [];
-    // $reviews = $data['reviews'] ?? [];
-    // $regBookingsData = $data['regBookingsDetails'] ?? []; 
     $busData = $data['bus'] ?? [];
-    // $userData = $data['user'] ?? [];
     $data['currentController'] = 'RegisteredPages';
     $data['currentMethod'] = 'bookings';
     $data['userRole'] = $userRole;
 ?>
-
-    <!-- Header and Navbar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <div class="hero-container">
         <br/>
@@ -62,10 +54,7 @@
     
 
     <?php
-        $currentDate = date("Y-m-d"); // Current date to compare with booking dates
-        // echo($currentDate);
-        
-        // Filter upcoming and past bookings based on the schedule date
+        $currentDate = date("Y-m-d");
         $upcomingBookings = [];
         $pastBookings = [];
 
@@ -74,9 +63,8 @@
 
         foreach ($upcomingBookingData as $upcoming) {
             $matchedSchedules = array_filter($upcomingScheduleData, function ($s) use ($upcoming) {
-                return $s['scheduleId'] == $upcoming['schedule_id']; // Match schedule by ID
+                return $s['scheduleId'] == $upcoming['schedule_id']; 
             });
-            // Merge results to ensure all schedules are collected
             $upcomingSchedules = array_merge($upcomingSchedules, $matchedSchedules);
             echo '<script> console.log(' . json_encode(value: $upcomingSchedules) . ') </script>';
 
@@ -85,9 +73,8 @@
         foreach($pastBookingData as $past) {
             $matchedSchedules = array_filter($pastScheduleData, function ($s) use ($past) {
 
-                return $s['scheduleId'] == $past['schedule_id']; // Match schedule by ID
+                return $s['scheduleId'] == $past['schedule_id']; 
             });
-            // Merge results to ensure all schedules are collected
             $pastSchedules = array_merge($pastSchedules, $matchedSchedules);
             echo '<script> console.log(' . json_encode(value: $pastSchedules) . ') </script>';
 
@@ -97,8 +84,8 @@
 
     <?php
     if (isset($_SESSION['error'])) {
-        echo "<p class='error'>" . $_SESSION['error'] . "</p>"; // Display the error message
-        unset($_SESSION['error']); // Clear the error message from session after displaying
+        echo "<p class='error'>" . $_SESSION['error'] . "</p>"; 
+        unset($_SESSION['error']); 
     }
     ?>
 
@@ -139,12 +126,10 @@
         </div>
     </center>
 
-    <!--Cancel Policy pop up -->
     <div id="cancelPolicyPopup" class="policypopup hidden">
         <div class="policypopup-content">
             <h3 align="center">Cancel Booking</h3>
             <p id="policypopup-details"></p>
-            <!--Content will come here -->
             <div class="policypopup-actions">
                 <button id="understand" class="uderstant-btn">I understand</button>
                 <button id="closePopup" class="cancel-btn" onclick="closePolicyBox()">Close</button>
@@ -152,40 +137,33 @@
         </div>
     </div>
 
-    <!--Cancel Booking pop up -->
     <div id="cancelPopup" class="popup hidden">
         <div class="cancel-popup-content">
             <h3>Cancel Booking</h3>
             <p id="popup-details"></p>
-            <!--Content will come here -->
             <div class="popup-actions">
                 <button id="confirmCancel" class="confirm-btn">Confirm</button>
                 <button id="closePopup" class="cancel-btn" onclick="closeCancelBox()">Close</button>
             </div>
-            <!-- <div class="close-btn" onclick="closeCancelBox()">×</div> -->
         </div>
     </div>
 
 
-    <!--View ticket-->
     <div id="ticketViewPopup" class="popup hidden">
         <div id="ticketBox" class="ticketPopup-content">
             <sapan id="closeTicketBtn" class="close-popup">&times;</sapan>
             <div class="ticketView-popup-details">
-                <!-- Dynamic content will be injected here -->
             </div>
         </div>
     </div>
 
     
-    <!-- Rating and Reviews pop up -->
     <div id="reviewPopup" class="popup hidden">
         <div class="reviewPopup-content">
             <div id="review-popup-details"></div>
             <h3>Tell Us How the Wheels Rolled!</h3>
                 
             <form action="<?php echo URLROOT ?>/RegisteredPages/addReviews" method="POST" enctype="multipart/form-data">
-                <!-- Add the license_id input here -->
                 <input type="hidden" name="license_id" id="license_id_input" value="">
                 <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user_id']); ?>">
 
@@ -206,7 +184,7 @@
         </div>
     </div>
 
-    <script> // Get PHP variables
+    <script>
     const upcomingBookings = <?php echo json_encode($upcomingBookingData); ?>;
     const pastBookings = <?php echo json_encode($pastBookingData); ?>;
     const upcomingScheduleData = <?php echo json_encode($upcomingScheduleData); ?>;

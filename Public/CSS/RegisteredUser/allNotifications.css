@@ -1,4 +1,3 @@
-/* Notifications Page Styles */
 body{
       background:#d8f8ee; 
 }
@@ -317,13 +316,11 @@ body{
     font-weight: bold;
 }
 
-/* Animation for deleting notifications */
 .notifi-items.deleting {
     transform: translateX(100%);
     opacity: 0;
 }
 
-/* Highlight effect */
 .notifi-items.highlight {
     animation: highlight 2s ease;
 }
@@ -333,7 +330,6 @@ body{
     100% { background-color: inherit; }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .notification-filters {
         flex-direction: column;

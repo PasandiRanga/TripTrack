@@ -1,4 +1,3 @@
-/* Main Colors */
 :root {
   --primary-color: #00897b;
   --secondary-color: #006064;
@@ -10,7 +9,6 @@
   --transition: all 0.3s ease;
 }
 
-/* Global Styles */
 body, html {
   margin: 0;
   padding: 0;
@@ -20,7 +18,6 @@ body, html {
   height: 100%;
 }
 
-/* Form Container */
 .booking-form {
   max-width: 1000px;
   margin: 20px auto;
@@ -30,7 +27,6 @@ body, html {
   position: relative;
 }
 
-/* Form Headings */
 .booking-form h2 {
   text-align: center;
   margin-bottom: 30px;
@@ -52,7 +48,6 @@ body, html {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
-/* Form Layout */
 .form-group {
   display: flex;
   justify-content: space-between;
@@ -69,7 +64,6 @@ body, html {
   margin-bottom: 20px;
 }
 
-/* Labels */
 .booking-form label {
   display: block;
   margin-bottom: 8px;
@@ -78,7 +72,6 @@ body, html {
   font-size: 15px;
 }
 
-/* Inputs */
 .booking-form input[type="text"],
 .booking-form input[type="email"],
 .booking-form input[type="tel"],
@@ -131,13 +124,11 @@ body, html {
   margin-left: 0;
 }
 
-/* Radio labels should be inline */
 .booking-form input[type="radio"] + label {
   display: inline;
   margin-right: 15px;
 }
 
-/* Select Styling */
 select {
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
@@ -146,7 +137,6 @@ select {
   background-size: 20px;
 }
 
-/* Error Messages */
 .error-message {
   color: var(--error-color);
   font-size: 12px;
@@ -166,7 +156,6 @@ select {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Price Display */
 .price-info {
   background-color: var(--bg-light);
   padding: 15px;
@@ -176,7 +165,6 @@ select {
   border-left: 4px solid var(--primary-color);
 }
 
-/* Buttons */
 .checkout-button {
   padding: 14px 20px;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -203,7 +191,6 @@ select {
   cursor: not-allowed;
 }
 
-/* Confirm Box */
 .confirmBox {
   position: fixed;
   top: 0;
@@ -320,7 +307,6 @@ select {
   background-color: #f5f5f5;
 }
 
-/* Penalty Notice */
 .penalty-notice {
   background-color: #fff3cd;
   color: #856404;
@@ -331,7 +317,6 @@ select {
   font-size: 15px;
 }
 
-/* Responsive Design */
 @media screen and (max-width: 1000px) {
   .form-group {
     flex-direction: column !important;
