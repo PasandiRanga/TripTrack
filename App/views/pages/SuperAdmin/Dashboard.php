@@ -442,7 +442,7 @@
             yaxis: [
             {
                 title: {
-                text: 'Purchase Orders',
+                text: 'Booking Scale',
                 style: {
                     color: '#f5f7ff',
                 },
@@ -456,7 +456,7 @@
             {
                 opposite: true,
                 title: {
-                text: 'Sales Orders',
+                text: 'Cancellation Scale',
                 style: {
                     color: '#f5f7ff',
                 },
