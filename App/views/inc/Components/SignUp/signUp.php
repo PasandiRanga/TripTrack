@@ -118,6 +118,11 @@
     <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const otpErrorElement = document.querySelector('[class="form-invalid"]:not(:empty)');
+    if (otpErrorElement && otpErrorElement.textContent.includes('OTP')) {
+        document.getElementById('confirmBox').classList.remove('hidden');
+    }
+
     const form = document.querySelector('form');
     const nameInput = document.getElementById('name');
     const numberInput = document.getElementById('number');
@@ -318,9 +323,16 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.addEventListener('DOMContentLoaded', function() {
+        // Check if there's an OTP error and show the confirmation box
         <?php if(isset($data['otp_err']) && !empty($data['otp_err'])): ?>
             document.getElementById('confirmBox').classList.remove('hidden');
         <?php endif; ?>
+        
+        // This will ensure the OTP box stays visible when there's an error
+        const otpErrorElement = document.querySelector('[name="otp"] + .form-invalid');
+        if (otpErrorElement && otpErrorElement.textContent.trim() !== '') {
+            document.getElementById('confirmBox').classList.remove('hidden');
+        }
     });
 
     nameInput.addEventListener('input', function() {

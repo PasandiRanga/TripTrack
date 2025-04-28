@@ -263,18 +263,6 @@
 
         public function GuestSignUp() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-                $enteredOTP = $_POST['otp'] ?? '';
-                $storedOTP = $_SESSION['email_otp'] ?? '';
-                $otpTime = $_SESSION['email_otp_time'] ?? 0;
-                
-                if ($enteredOTP !== $storedOTP || (time() - $otpTime) > 900) {
-                    $data['otp_err'] = 'Invalid or expired OTP';
-                    return $this->view('inc/Components/SignUp/signUp', $data);
-                }
-                
-                unset($_SESSION['email_otp']);
-                unset($_SESSION['email_otp_time']);
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
                 $data = [
@@ -295,8 +283,27 @@
                     'address_err' => '',
                     'email_err' => '',
                     'password_err' => '',
-                    'confirm_err' => ''
+                    'confirm_err' => '',
+                    'otp_err' => ''
+
                 ];
+
+                // Check OTP if it's provided
+                $enteredOTP = $_POST['entered_otp'] ?? '';
+                
+                if (!empty($enteredOTP)) {
+                    $storedOTP = $_SESSION['email_otp'] ?? '';
+                    $otpTime = $_SESSION['email_otp_time'] ?? 0;
+                    
+                    if ($enteredOTP !== $storedOTP || (time() - $otpTime) > 900) {
+                        $data['otp_err'] = 'Invalid or expired OTP';
+                        return $this->view('inc/Components/SignUp/signUp', $data);
+                    }
+                    
+                    // OTP is valid, proceed with registration
+                    unset($_SESSION['email_otp']);
+                    unset($_SESSION['email_otp_time']);
+                }
 
                 if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
                     if (!uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
@@ -364,6 +371,11 @@
 
                 if (empty($data['name_err']) && empty($data['number_err']) && empty($data['nic_err']) && empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_err']) && empty($data['profile_image_err'])) {
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                    if (empty($enteredOTP)) {
+                        return $this->view('inc/Components/SignUp/signUp', $data);
+                    }
+            
                     if ($this->GuestpagesModel->register($data)) {
                         header('Location: ' . URLROOT . '/GuestPages/home' );
                         exit();  
