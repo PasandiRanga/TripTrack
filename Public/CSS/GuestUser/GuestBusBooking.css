@@ -1,14 +1,11 @@
 body {
     font-family: 'Poppins', sans-serif;
-    margin: 0; /* Remove the default margin */
+    margin: 0;
     padding: 0;
     justify-content: center; 
     align-items: center;
     background-color: #d8f8ee;
 }
-
-/* Main container spacing */
-
 
 .left-column, .right-column {
     display: flex;
@@ -19,8 +16,6 @@ body {
 .left-column {
     margin-right: 20px; 
 }
-
-/* Other styles remain unchanged */
 
 .box {
     border: 1px solid #ffffff; 
@@ -34,7 +29,7 @@ body {
 }
 
 #right-column {
-    display: none; /* Hide the right column by default */
+    display: none; 
 }
 
 .route {
@@ -63,7 +58,7 @@ body {
 }
 
 .service {
-    background-color: #e0f7e0; /* light green background similar to the image */
+    background-color: #e0f7e0; 
     padding: 5px;
     border-radius: 5px;
     display: inline-block;
@@ -165,10 +160,9 @@ input:required {
 .hero-container {
     width: 100%;
     margin-bottom: 10px;
-    /* height: 370px; */
     position: relative;
 }
-/* Bus info container */
+
 .bus-info {
     width: 60%;
     max-width: 600px;
@@ -181,12 +175,9 @@ input:required {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Poppins', sans-serif;
     color: #333;
-    /* display: flex; */
     flex-direction: column;
-    /* gap: 10px; */
     position:relative;
     margin-bottom: 30px;
-    /* flex:1; */
     height: auto;
 
 }
@@ -209,35 +200,28 @@ input:required {
     margin: 0;
 }
 
-
-/* Route title styling */
 .bus-info h2 {
     font-size: 1.5em;
     margin: 0;
     color: #222;
-    /* font-family: "ABeeZee"; */
 }
 
-/* Subtitle styling */
 .bus-info p {
     margin: 1px 0;
     font-size: 0.9em;
     color: #555;
 }
 
-/* Highlighted information box for rating and price */
 .bus-info .highlight {
     font-weight: bold;
     font-size: 1.2em;
     color: #36A690;
 }
 
-/* Container for departure and arrival details */
 .info-details {
     display: flex;
     align-items: center;
     margin-top: 20px;
-    /* gap: 20px; Reduce gap between departure and arrival times */
     margin-left: 70px;
     margin-bottom: 60px;
    
@@ -246,28 +230,26 @@ input:required {
 .info-item {
     display: flex;
     align-items: center;
-    /* margin-left: 30px; */
 }
 
 .icon-time {
-    margin-right: 8px; /* Space between the icon and the text */
+    margin-right: 8px; 
     margin-left:8px;
 }
 
 .info-item div {
     display: flex;
-    flex-direction: column; /* Arrange the time and text vertically */
-    align-items: flex-start; /* Align the text to the left */
+    flex-direction: column; 
+    align-items: flex-start; 
 }
 
 .info-item i {
-    font-size: 10em; /* Adjust the icon size */
-    color: #007bff; /* Set the color of the icons */
+    font-size: 10em; 
+    color: #007bff; 
 }
 
-/* Optional: reduce the margin between the two .info-item elements */
 .info-details > .info-item:not(:last-child) {
-    margin-right: 2px; /* Adjust this value to reduce the gap */
+    margin-right: 2px; 
 }
 
 .info-item h3 {
@@ -281,45 +263,36 @@ input:required {
     color: #666;
 }
 
-
-/* Ensure the dotted line stays in the middle */
-/* Style for the horizontal dotted line with a circle in the middle */
 .time-container {
-    position: relative; /* Make it a positioned container for the pseudo-element */
-    flex-grow: 0.75; /* Allow the line to expand between the two items */
-    margin: 0 10px; /* Add space between the elements */
-    
+    position: relative; 
+    flex-grow: 0.75; 
+    margin: 0 10px;  
 }
 
-/* Dotted line style */
 .dotted-line {
     border: none;
-    border-top: 2px dotted #064060; /* Dotted line with blue color */
-    width: 100%; /* Ensure the line stretches */
-    margin: 0; /* Remove any margins */
+    border-top: 2px dotted #064060;
+    width: 100%;
+    margin: 0; 
 }
 
-/* Add a hollow circle in the middle of the dotted line */
 .time-container::before {
-    content: ""; /* Empty content for the hollow circle */
+    content: ""; 
     position: absolute;
-    top: -5px; /* Adjust to center vertically on the line */
-    left: 50%; /* Position in the middle horizontally */
-    transform: translateX(-50%); /* Center it */
-    width: 12px; /* Circle size */
-    height: 12px; /* Circle size */
-    border: 2px solid #064060; /* Border color matching the line */
-    border-radius: 50%; /* Make it circular */
-    background-color: #fff; /* Hollow circle with white background */
+    top: -5px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 12px; 
+    height: 12px; 
+    border: 2px solid #064060; 
+    border-radius: 50%; 
+    background-color: #fff; 
 }
 
-
-
-/* Button styling */
 .view-button {
     position: absolute;
-    bottom: 20px; /* Position from the bottom */
-    left: 20px;   /* Position from the left */
+    bottom: 20px; 
+    left: 20px;
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
@@ -340,17 +313,17 @@ input:required {
 }
 
 .rating i {
-    font-size: 1.2em; /* Adjust star size as needed */
-    color: #cccccc; /* Default unfilled star color */
+    font-size: 1.2em;
+    color: #cccccc;
     margin-right: 2px;
 }
 
 .filled-star {
-    color: #ffc107; /* Yellow color for filled stars */
+    color: #ffc107;
 }
 
 .empty-star {
-    color: #cccccc; /* Gray color for empty stars */
+    color: #cccccc;
 }
 
 .price-container {
@@ -361,28 +334,24 @@ input:required {
 }
 
 .price-container .highlight {
-    font-size: 28px; /* Adjust font size if needed */
+    font-size: 28px;
     font-weight: bold;
-    color: #38c095; /* Customize color as desired */
+    color: #38c095;
     margin-right: 10px;
 }
 
-/* Booking form styling */
 .booking-form {
-    flex: 1; /* Take up available space */
-    /* width: 35%; Adjust the width of booking form */
+    flex: 1;
     padding-left: 40px;
     padding-right: 45px;
     padding-top: 20px;
     background-color: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* margin-left: 70px; */
     margin-left: 300px;
     max-width: 600px;
 }
 
-/* Form header style */
 .booking-form h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -410,7 +379,6 @@ input:required {
     box-sizing: border-box;
 }
 
-/* Ensure the booking form input fields and buttons are responsive */
 .booking-form input[type="text"],
 .booking-form input[type="email"],
 .booking-form input[type="tel"],
@@ -419,14 +387,9 @@ input:required {
     border: 1px solid #43cea2;
     border-radius: 4px;
     font-size: 14px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to each field */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* .booking-form h2{
-    align: center;
-} */
-
-/* Submit button style */
 .booking-form button {
     padding: 12px 20px;
     font-size: 16px;
@@ -435,49 +398,47 @@ input:required {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%; /* Make button full width */
+    width: 100%;
     margin-top: 20px;
 }
 
 
 .booking-form button:hover {
     background: linear-gradient(135deg, #185a9d, #43cea2);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darken shadow on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .form-group {
     display: flex; 
     align-items: center;
-    margin-bottom: 10px; /* Optional: to control spacing between groups */
+    margin-bottom: 10px;
 }
 
 .form-group label {
-    margin-right: 5px; /* Reduce right margin for a closer fit */
+    margin-right: 5px; 
     margin-bottom: 5px;;
 }
 
 .form-group input[type="radio"],
 .form-groupe input[type="radio"]  {
-    margin-left: 5px; /* Optional: control spacing between radio buttons */
+    margin-left: 5px; 
 }
 
-/* Styling for select (dropdown) fields */
 select {
     padding: 8px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to dropdown */
-    background-color: #fff; /* Set background color for dropdown */
-    width: 100%; /* Ensure the select element takes up the full width */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    background-color: #fff; 
+    width: 100%;
 }
 
-/* Styling for select options (for when the dropdown is open) */
 select:focus {
-    border-color: #0000; /* Change the border color when focused */
-    outline: none; /* Remove default outline */
-    background-color: white; /* Light background when focused */
+    border-color: #0000;
+    outline: none; 
+    background-color: white; 
 }
 
 select option {
@@ -486,20 +447,14 @@ select option {
     color: #000;
 }
 
-/* Optional: style for the dropdown arrow to match the input fields */
 select::-ms-expand {
-    display: none; /*Remove default arrow in Internet Explorer*/
+    display: none; 
 }
 
-/* Custom arrow styling for modern browsers */
 select {
-    /* appearance: none;  */
-    /* -webkit-appearance: none; For Safari */
-    /* -moz-appearance: none; For Firefox */
-    /* background-image: url('path-to-your-arrow-icon.svg'); Set a custom arrow icon */
     background-repeat: no-repeat;
-    background-position: right 10px center; /* Position the arrow on the right */
-    background-size: 15px; /* Set the size of the arrow */
+    background-position: right 10px center; 
+    background-size: 15px;
     width:280px;
 }
 
@@ -513,10 +468,10 @@ select {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-
+    justify-content: center; 
+    align-items: center;
 }
+
 .modal-content {
     background-color: #fff;
     margin: auto;
@@ -528,15 +483,15 @@ select {
 }
 
 #from, #to {
-    border: 1px solid #43cea2; /* Example border color (green) */
+    border: 1px solid #43cea2;
     border-radius: 4px;
     padding: 8px;
     background: white;
 }
 
 #from:focus, #to:focus {
-    border-color: #43cea2; /* Darker green for focus state */
-    outline: none; /* Remove default focus outline */
+    border-color: #43cea2; 
+    outline: none; 
 }
 
 .close {
@@ -548,26 +503,25 @@ select {
 #reviewsContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Space between reviews */
-
+    gap: 10px; 
 }
 
 .review-item {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* Two columns: 1 part for name, 2 parts for review text */
-    gap: 10px; /* Space between columns */
+    grid-template-columns: 1fr 2fr; 
+    gap: 10px; 
     padding: 10px;
-    border-bottom: 1px solid #ddd; /* Optional: Line between reviews */
+    border-bottom: 1px solid #ddd; 
 }
 
 .review-name {
     font-weight: bold;
-    text-align: left; /* Align name to the left */
+    text-align: left; 
 }
 
 .review-text {
-    text-align: left; /* Align review text to the left */
-    font-style: italic; /* Optional: Styling for the review text */
+    text-align: left;
+    font-style: italic; 
 }
 
 #nicError {

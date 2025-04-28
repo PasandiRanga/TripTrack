@@ -85,25 +85,25 @@
 </div>
 
 <!-- Popup Box -->
-<div class="popup-overlay" id="popupOverlay" style="display: none;">
-    <div class="popup-box">
-        <p id="popupMessage"></p>
-        <button class="ok-button" onclick="closePopup()">OK</button>
-    </div>
+<div id="popup" class="popup-overlay" style="display: none;">
+  <div class="popup-content">
+    <p id="popup-message"></p>
+    <button onclick="closePopup()">OK</button>
+  </div>
 </div>
 
 
     <script>
 
         function showPopup(message, callback) {
-            document.getElementById('popupMessage').textContent = message;
-            document.getElementById('popupOverlay').style.display = 'flex';
+            document.getElementById('popup-message').textContent = message;
+            document.getElementById('popup').style.display = 'flex';
             // Store the callback to run after closing
             window.popupCallback = callback;
         }
 
         function closePopup() {
-            document.getElementById('popupOverlay').style.display = 'none';
+            document.getElementById('popup').style.display = 'none';
             if (typeof window.popupCallback === 'function') {
                 window.popupCallback();
                 window.popupCallback = null;

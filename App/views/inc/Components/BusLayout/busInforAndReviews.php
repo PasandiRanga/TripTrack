@@ -15,10 +15,8 @@
     <p><strong>Available Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['availableSeats']); ?></p>
     <div class="rating">
         <?php
-            // Get the current bus license ID
             $busLicenseId = $selectedBus['License_id'];
             
-            // Get the rating for this specific bus from the averageRatings array
             $rating = isset($averageRatings[$busLicenseId]) && $averageRatings[$busLicenseId] !== "No ratings" 
                 ? (float)$averageRatings[$busLicenseId] 
                 : 0.0;
@@ -60,7 +58,7 @@
             <hr class="dotted-line">
         </div>
         <div class="info-item">
-            <span class="icon-time"><i class="fas fa-map-marker-alt"></i></span> <!-- Location icon -->
+            <span class="icon-time"><i class="fas fa-map-marker-alt"></i></span> 
             <div>
                 <h3><?php echo htmlspecialchars($selectedSchedule['arrivalTime']); ?></h3>
                 <p>Arrival</p>
@@ -79,7 +77,6 @@
         <span class="close" onclick="closeReviewsModal()">&times;</span>
         <h2>Bus Reviews</h2>
         <div id="reviewsContainer">
-            <!-- Reviews -->
         </div>
     </div>
 </div>
@@ -93,7 +90,6 @@
         const reviewsContainer = document.getElementById('reviewsContainer');
         modal.style.display = 'block';
 
-        // Clear previous reviews
         reviewsContainer.innerHTML = '<p>Loading reviews...</p>';
 
         fetch('<?php echo URLROOT; ?>/RegisteredPages/getReviews?License_id=' + licenseId)
@@ -104,7 +100,7 @@
                     const reviewsHtml = data.reviews.map(review => `
                     <div class="review-item">
                         <div class="review-name">${review.Name}</div>
-                        <div class="review-text">${review.review}</div>
+                        <div class="review-text">${review.Review}</div>
                     </div>
                     `).join('');
                     reviewsContainer.innerHTML = reviewsHtml || '<p>No reviews available for this bus.</p>';

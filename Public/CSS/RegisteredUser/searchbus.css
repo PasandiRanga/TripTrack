@@ -1,4 +1,3 @@
-/* General styling for body */
 body {
     margin: 0;
     padding: 0;
@@ -6,22 +5,20 @@ body {
     background-color: white;
 }
 
-/* Header positioning */
 #header-placeholder {
-    position: relative; /* Adjust positioning as needed */
+    position: relative; 
     width: 100%;
     z-index: 1000;
     background-color: #064060;
-    height :3rem; /* Match header background color */
+    height :3rem; 
 }
 
 
-/* Navbar positioning */
 #navbar-placeholder {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 1000; /* Ensure it stays on top */
+    z-index: 1000; 
     background-color: rgba(54, 166, 144, 0.812);
     margin-top: 2rem;
 }
@@ -43,14 +40,11 @@ img.bus {
 }
 
 div.text-container {
-    /* width: 866.47px; */
-    /* height: 232.15px; */
     left: 800px;
     top: 240px;
     position: absolute;
     color: white;
     font-family: 'Encode Sans SC';
-    /* word-wrap: break-word; */
 }
 
 div.text-container .light-text {
@@ -102,7 +96,6 @@ img.name-image {
     cursor: pointer;
 }
 
-/* Bus cards section */
 .bus-cards {
     padding: 20px;
     display: flex;

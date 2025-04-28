@@ -1,17 +1,11 @@
 <?php
-    //Class name should be the same as the file name of the model
     class M_GuestPages {
-        //Declare a variable to grant access to the database
         private $db;
 
-        //whenever the script is called we need to instantiate the data base class
         public function __construct(){
-            //Instantiate the database class
             $this->db = new Database();
         }
 
-          
-        //Register the user
         public function register($data){
             $this->db->query('INSERT INTO customer(Name,Email,NIC,Address,Contact_number,Password,Profile_image) VALUES(:name,:email,:nic,:address,:number,:password,:profile_image)');
             $this->db->bind(':name',$data['name']);
@@ -30,7 +24,6 @@
             }
         }
 
-        //Find user by email
         public function findUserByEmail($email){
             $this->db->query('SELECT * FROM customer WHERE Email=:email');
             $this->db->bind(":email",$email);
@@ -45,14 +38,12 @@
             }
         }
 
-        //Get schedule by date
         public function getScheduleByDate($date){
             $this->db->query('SELECT * FROM schedule WHERE date = :date');
             $this->db->bind(':date', $date);
             return $this->db->resultSet();
         }
 
-        //Get the schedule from the database
         public function getSchedule(){
             try {
                 $this->db->query('SELECT * FROM schedule');
@@ -63,9 +54,7 @@
                 return []; 
             }
         }
-
-            
-        //login the user
+         
         public function login($email, $password) {
             $userTables = [
                 'customer' => 'Email',
@@ -96,7 +85,6 @@
             return false;
         }
         
-        //Get the bus details from the database
         public function getBusDetails(){
             try {
                 $this->db->query('SELECT * FROM bus');
@@ -108,7 +96,6 @@
             }
         }
       
-        //Get the bus details from the database
         public function getDistance(){
             try {
                 $this->db->query('SELECT * FROM distancefromstart');
@@ -120,7 +107,6 @@
             }
         }
 
-        //Get the route details from the database
         public function getRoute(){
             try {
                 $this->db->query('SELECT * FROM routes');
@@ -132,7 +118,6 @@
             }
         }
 
-        //Find the user by nic
         public function findUserByNIC($nic){
             $this->db->query('SELECT * FROM customer WHERE NIC=:nic');
             $this->db->bind(":nic",$nic);
@@ -145,7 +130,6 @@
             }
         }
 
-        //Add support request
         public function addSupportRequest($data) {
             $this->db->query('INSERT INTO support_request (name, email, contactNo, message) VALUES (:name, :email, :contactNo, :message)');
             $this->db->bind(':name', $data['name']);
@@ -156,7 +140,6 @@
             return $this->db->execute();
         }
 
-        //Insert guest booking data
         public function createBooking($bookingData) {
             $this->db->query("SELECT * FROM guestbooking WHERE schedule_id = :scheduleId AND selected_seats = :selectedSeats");
             $this->db->bind(':scheduleId', $bookingData['scheduleId']);
@@ -165,20 +148,14 @@
             $this->db->bind(':selectedSeats', $bookingData['selectedSeatsJSON']);
 
             $existingBooking = $this->db->single();
-
-            // Check if a booking already exists with the same scheduleId and selectedSeats
-            // If it does, do not insert a new booking
             echo '<script>console.log(' .json_encode($existingBooking) . ');</script>';
-          
-
             if ($existingBooking) {
-                return; // Do not insert duplicate booking
+                return; 
             }
 
             date_default_timezone_set('Asia/Colombo');
             $currentDate = date('Y-m-d'); 
             $currentTime = date('H:i:s'); 
-
 
 
             $this->db->query("INSERT INTO guestbooking (name, email, contact, nic, from_location, to_location, 
@@ -203,10 +180,7 @@
             return $this->db->execute();
         }
 
-
-        //Update the booked seats in the schedule
         public function updateScheduleSeats($scheduleId, $selectedSeats) {
-            // Fetch current booked seats and available seats
             $this->db->query("SELECT bookedSeats, availableSeats FROM schedule WHERE scheduleId = :scheduleId");
             $this->db->bind(':scheduleId', $scheduleId);
             $scheduleData = $this->db->single();
@@ -214,18 +188,14 @@
             $currentBookedSeats = $scheduleData['bookedSeats'];
             $availableSeats = (int)$scheduleData['availableSeats'];
 
-            // Convert booked seats to array
             $currentBookedSeatsArray = $currentBookedSeats ? explode(',', $currentBookedSeats) : [];
             $selectedSeatsArray = is_array($selectedSeats) ? $selectedSeats : explode(',', $selectedSeats);
 
-            // Merge and get unique booked seats
             $updatedBookedSeatsArray = array_unique(array_merge($currentBookedSeatsArray, $selectedSeatsArray));
             $updatedBookedSeats = implode(',', $updatedBookedSeatsArray);
 
-            // Calculate new available seats count
             $newAvailableSeats = max(0, $availableSeats - count($selectedSeatsArray));
 
-            // Update schedule table
             $this->db->query("UPDATE schedule SET bookedSeats = :updatedBookedSeats, availableSeats = :newAvailableSeats WHERE scheduleId = :scheduleId");
             $this->db->bind(':updatedBookedSeats', $updatedBookedSeats);
             $this->db->bind(':newAvailableSeats', $newAvailableSeats);
@@ -234,23 +204,18 @@
             return $this->db->execute();
         }
 
-
         public function setPasswordResetToken($email, $token, $expiry) {
             try {
-                // First, check if a reset record already exists for this user
                 $this->db->query('SELECT * FROM password_resets WHERE email = :email');
                 $this->db->bind(':email', $email);
                 $existing = $this->db->single();
                 
                 if ($this->db->rowCount() > 0) {
-                    // Update existing token
                     $this->db->query('UPDATE password_resets SET token = :token, expiry = :expiry WHERE email = :email');
                 } else {
-                    // Insert new token
                     $this->db->query('INSERT INTO password_resets (email, token, expiry) VALUES (:email, :token, :expiry)');
                 }
                 
-                // Bind values
                 $this->db->bind(':email', $email);
                 $this->db->bind(':token', $token);
                 $this->db->bind(':expiry', $expiry);
@@ -260,70 +225,63 @@
                     } else {
                         return false;
                     }
-                } catch (Exception $e) {
-                    error_log('Error setting password reset token: ' . $e->getMessage());
-                    return false;
-                }
-            }
-
-            public function checkResetToken($email) {
-                $this->db->query('SELECT * FROM password_resets WHERE email = :email');
-                $this->db->bind(':email', $email);
-                $row = $this->db->single();
-                
-                if ($this->db->rowCount() > 0) {
-                    return $row;
-                } else {
-                    return false;
-                }
-            }
-
-            public function resetPassword($email, $password) {
-                try {
-                    // Start transaction
-                    $this->db->beginTransaction();
-                    
-                    // Update user password
-                    $this->db->query('UPDATE customer SET Password = :password WHERE Email = :email');
-                    $this->db->bind(':password', $password);
-                    $this->db->bind(':email', $email);
-                    if($this->db->execute()){
-                        echo "Password changed";
-                        
-                    }
-                 
-                    // Remove reset token
-                    $this->db->query('DELETE FROM password_resets WHERE email = :email');
-                    $this->db->bind(':email', $email);
-                    if($this->db->execute()){
-                        echo "Reset deleted";
-                        
-                    }
-                    
-                    // Commit transaction
-                    $this->db->endTransaction();
-                    
-                    return true;
-                } catch (Exception $e) {
-                // Rollback transaction if something went wrong
-                    $this->db->rollBack();
-                    error_log('Error resetting password: ' . $e->getMessage());
-                    return false;
-                }
-            }
-
-            public function getAverageRatings($licenseId){
-                $this->db->query('SELECT License_id,AVG(rate) as average_rate FROM ratings WHERE License_id = :licenseId');
-                $this->db->bind(':licenseId',$licenseId);
-                return $this->db->single();
-            }
-
-            public function getBookingID($email , $scheduleID , $selectedSeats){
-                $this->db->query("SELECT id FROM guestbooking WHERE :email = email AND :scheduleid = schedule_id AND :selectedSeats = selected_seats");
-                $this->db->bind(':email' , $email);
-                $this->db->bind('scheduleid' , $scheduleID);
-                $this->db->bind(':selectedSeats' , $selectedSeats);
-                return $this->db->single();
+            } catch (Exception $e) {
+                error_log('Error setting password reset token: ' . $e->getMessage());
+                return false;
             }
         }
+
+        public function checkResetToken($email) {
+            $this->db->query('SELECT * FROM password_resets WHERE email = :email');
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+                
+            if ($this->db->rowCount() > 0) {
+                return $row;
+            } else {
+                return false;
+            }
+        }
+
+        public function resetPassword($email, $password) {
+            try {
+                $this->db->beginTransaction();
+                    
+                $this->db->query('UPDATE customer SET Password = :password WHERE Email = :email');
+                $this->db->bind(':password', $password);
+                $this->db->bind(':email', $email);
+                if($this->db->execute()){
+                    echo "Password changed";   
+                }
+                 
+                $this->db->query('DELETE FROM password_resets WHERE email = :email');
+                $this->db->bind(':email', $email);
+                if($this->db->execute()){
+                    echo "Reset deleted";        
+                }
+                    
+                $this->db->endTransaction();
+                return true;
+
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                error_log('Error resetting password: ' . $e->getMessage());
+                return false;
+            }
+        }
+
+        public function getAverageRatings($licenseId){
+            $this->db->query('SELECT License_id,AVG(rate) as average_rate FROM ratings WHERE License_id = :licenseId');
+            $this->db->bind(':licenseId',$licenseId);
+            return $this->db->single();
+        }
+
+        public function getBookingID($email , $scheduleID , $selectedSeats){
+            $this->db->query("SELECT id FROM guestbooking WHERE :email = email AND :scheduleid = schedule_id AND :selectedSeats = selected_seats");
+            $this->db->bind(':email' , $email);
+            $this->db->bind('scheduleid' , $scheduleID);
+            $this->db->bind(':selectedSeats' , $selectedSeats);
+            return $this->db->single();
+        }
+    }
 ?>

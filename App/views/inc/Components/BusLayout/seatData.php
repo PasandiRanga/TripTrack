@@ -1,11 +1,9 @@
 <?php
-// Seat data for different bus layouts
 $seatData = [
-    // Bus with 56 seats layout (seatType 1)
     [
         'seatType' => 37,
         'seats' => [
-            [1, 2, '', 3, 4],      // Row with a gap in the middle
+            [1, 2, '', 3, 4],     
             [5, 6, '', 7, 8],
             [9, 10, '', 11, 12],
             [13, 14, '', 15, 16],
@@ -16,7 +14,6 @@ $seatData = [
             [33, 34, 35, 36, 37],
         ]
     ],
-    // Bus with 36 seats layout (seatType 2)
     [
         'seatType' => 50,
         'seats' => [
@@ -38,7 +35,7 @@ $seatData = [
         [
             'seatType' => 45,
             'seats' => [
-                [1, 2, '', 3, 4],      // Row with a gap in the middle
+                [1, 2, '', 3, 4],     
                 [5, 6, '', 7, 8],
                 [9, 10, '', 11, 12],
                 [13, 14, '', 15, 16],

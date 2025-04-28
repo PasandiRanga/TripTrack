@@ -55,23 +55,22 @@
                     <span class="material-icons-outlined">queue</span> Fleet
                 </li>
                 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/bookings'">
-                    <span class="material-icons-outlined">book</span> Bookings
-                </li>
-
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/employees'">
                     <span class="material-icons-outlined">group_add</span> Employees
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reviews'">
-                    <span class="material-icons-outlined">fact_check</span> Reviews
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">
+                    <span class="material-icons-outlined">schedule</span> Schedule
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reports'">
-                    <span class="material-icons-outlined">poll</span> Reports
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">
+                    <span class="material-icons-outlined">assignment_ind</span> Assigns
                 </li>
 
-               
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/bookings'">
+                    <span class="material-icons-outlined">book</span> Bookings
+                </li>
+
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/notifications'">
                     <span class="material-icons-outlined">notifications</span>
                     Notifications
@@ -84,14 +83,19 @@
                     console.log("Has unviewed delays:", hasDelays);
                 </script>
 
-
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/schedule'">
-                    <span class="material-icons-outlined">schedule</span> Schedule
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reviews'">
+                    <span class="material-icons-outlined">fact_check</span> Reviews
                 </li>
 
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">
-                    <span class="material-icons-outlined">assignment_ind</span> Assigns
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/reports'">
+                    <span class="material-icons-outlined">poll</span> Reports
                 </li>
+
+               
+                
+
+
+                
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/SuperAdminPages/routes'">
                     <span class="material-icons-outlined">route</span> Routes
                 </li>
@@ -139,7 +143,7 @@
 
                 <div class="card">
                     <div class="card-inner">
-                        <h3 class="card-title">Completed Schedules</h3>
+                        <h3 class="card-title">Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
                     </div>
                     <h1 class="card-value"><?php echo $data['total_schedules']; ?></h1>

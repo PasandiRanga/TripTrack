@@ -14,21 +14,16 @@
 
     <?php 
         $currentController = $data['currentController'] ?? '';
-        // echo "Current controller is: " . $currentController;
         $currentMethod = $data['currentMethod'] ?? '';
-        // echo "Current method is: " . $currentMethod;
         $userRole = $_SESSION['user_role'] ?? '';
-        ?>
+    ?>
        
 <?php
-// Get the selected date from the query parameter, default to current date if none selected
 $selectedDate = $_GET['date'] ?? date('Y-m-d');
 
-// Initialize the counter before the loop
 $displayedCards = 0;
 $totalCards = 0;
 
-// Counting the total number of cards that will be displayed
 foreach ($busData as $bus) {
     foreach ($scheduleData as $schedule) {
         if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
@@ -37,28 +32,22 @@ foreach ($busData as $bus) {
     }
 }
 
+//Finding the matching schedule dataa and route data for a bus
 foreach ($busData as $bus) {
-    // Find the matching schedule data for the bus
     foreach ($scheduleData as $schedule) {
-        //find the matching route data for the bus
         foreach ($routeData as $route) {
             if ($route['routeNumber'] === $bus['routeNumber'] ) {
                 $busRoute = $route;
                 $stops = $busRoute['stops'];
             }
         }
-        // Check if the schedule matches the selected date
         if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
-            // Get the specific rating for this bus
+
             $busRating = isset($averageRatings[$bus['License_id']]) ? $averageRatings[$bus['License_id']] : 0;
-            // Check if the rating is numeric
             $ratingIsNumeric = is_numeric($busRating);
-            // If rating is not numeric, set a default value for star display
             $numericRating = $ratingIsNumeric ? (float)$busRating : 0;
-            
-            // Round to nearest 0.5 for star display
             $roundedRating = round($numericRating * 2) / 2;
-            // Determine if this card should be hidden initially
+
             $cardClass = ($displayedCards >= 8) ? 'bus-card hidden-card' : 'bus-card';
             ?>
             <div class="<?php echo $cardClass; ?>" onclick="window.location.href = '<?php 
@@ -101,7 +90,6 @@ foreach ($busData as $bus) {
                         $duration = $schedule['duration'];
                         list($hours, $minutes, $seconds) = explode(':', $duration);
 
-                        // Prepare the human-readable duration
                         $humanReadableDuration = '';
                         if ($hours > 0) {
                             $humanReadableDuration .= $hours . ' hour' . ($hours > 1 ? 's' : '');
@@ -115,27 +103,23 @@ foreach ($busData as $bus) {
                     </div>
                     <div class="route-stops">
                         <?php 
-                        // Ensuring that 'stops' is not empty and is a string before processing
                             if (!empty($stops) && is_string($stops)) {
-                                // Convert the string of stops into an array
+
                                 $stopsArray = explode(',', $stops);
-
-                                // Count the number of stops
                                 $totalStops = count($stopsArray);
-                                $middleIndex = floor($totalStops / 2); // Calculate the middle stop index
+                                $middleIndex = floor($totalStops / 2); 
 
-                                // Display the stops only if there are any
                                 if ($totalStops > 0) {
                                     echo '<span>' . htmlspecialchars($stopsArray[0]) . '</span>';
                                 }
 
                                 if ($totalStops > 1) {
-                                    echo '<div class="route-line"></div>'; // Optional separator
+                                    echo '<div class="route-line"></div>'; 
                                     echo '<span>' . htmlspecialchars($stopsArray[$middleIndex]) . '</span>';
                                 }
 
                                 if ($totalStops > 2) {
-                                    echo '<div class="route-line"></div>'; // Optional separator
+                                    echo '<div class="route-line"></div>'; 
                                     echo '<span>' . htmlspecialchars($stopsArray[$totalStops - 1]) . '</span>';
                                 }
                             } else {
@@ -150,21 +134,18 @@ foreach ($busData as $bus) {
                 <div class="rating">
                     <?php
                     for ($i = 1; $i <= 5; $i++) {
-                        // Full star
                         if ($i <= floor($roundedRating)) {
                             echo '<i class="fas fa-star" style="color: #FFD700;"></i>';
                         } 
-                        // Half star
                         elseif ($i - 0.5 <= $roundedRating) {
                             echo '<i class="fas fa-star-half-alt" style="color: #FFD700;"></i>';
                         } 
-                        // Empty star
                         else {
                             echo '<i class="fas fa-star" style="color: #ccc;"></i>';
                         }
                     }
                     ?>
-                    <span><?php echo $ratingIsNumeric ? number_format($numericRating, 1) : $busRating; ?></span> <!-- Display rating value -->
+                    <span><?php echo $ratingIsNumeric ? number_format($numericRating, 1) : $busRating; ?></span> 
                 </div>
 
                     <div class="price">
@@ -178,7 +159,7 @@ foreach ($busData as $bus) {
     }
 }
 
-// If no buses found for the selected date
+
 if ($displayedCards === 0) {
     echo '<div class="no-buses-message">No buses available for the selected date.</div>';
 } elseif ($totalCards > 8) {
@@ -197,10 +178,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const showMoreBtn = document.getElementById('show-more-btn');
     
     if (showMoreBtn) {
-        console.log("Show more button found");
         showMoreBtn.addEventListener('click', function() {
             console.log("Show more button clicked");
-            // Show all additional cards
+
             const hiddenCards = document.querySelectorAll('.hidden-card');
             console.log("Additional cards found:", hiddenCards.length);
             
@@ -209,7 +189,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("Card display set to block");
             });
             
-            // Hide the "Show More" button
             this.style.display = 'none';
             console.log("Button hidden");
         });

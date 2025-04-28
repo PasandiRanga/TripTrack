@@ -41,6 +41,7 @@
         var userRole = <?php echo json_encode($userRole); ?>;
         var routeData = <?php echo json_encode($routeData); ?>;
         var averageRatings = <?php echo json_encode($averageRatings); ?>;
+        console.log("Averaage rating: " , averageRatings);
     </script>
 
     <?php
@@ -79,7 +80,6 @@
         <div class="date-bar-container">
     <div class="date-scroll">
         <?php
-        // Get current date and create dates for next 7 days
         $dates = [];
         for ($i = 0; $i < 20; $i++) {
             $date = date('Y-m-d', strtotime("+$i days"));
@@ -98,7 +98,6 @@
         
         <div id="bus-card-container" class="bus-card-container">
             <?php 
-                // Pass $data['schedule'] to busCardGenerator.php
                 require APPROOT . '/views/inc/Components/BusCard/busCardGenerator.php';
             ?>
         </div>
@@ -113,41 +112,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateItems = document.querySelectorAll('.date-item');
     const travelDateInput = document.getElementById('travelDate');
     
-    // Apply ratings initially when page loads
     applyRatingsToCards();
     
-    // Set up the show more button
     setupShowMoreButton();
     
     dateItems.forEach(item => {
         item.addEventListener('click', function() {
-            // Prevent multiple rapid clicks
             if (this.classList.contains('processing')) {
                 return;
             }
             
-            // Add processing class to prevent multiple clicks
             this.classList.add('processing');
             
-            // Remove active class from all items
             dateItems.forEach(di => di.classList.remove('active'));
             
-            // Add active class to clicked item
             this.classList.add('active');
             
-            // Get the selected date
             const selectedDate = this.dataset.date;
             
-            // Update the search bar date input
             if (travelDateInput) {
                 travelDateInput.value = selectedDate;
             }
             
-            // Show loading indicator
             const busCardContainer = document.getElementById('bus-card-container');
             busCardContainer.innerHTML = '<div class="loading">Loading...</div>';
             
-            // Use the correct controller based on user role
             const controllerPath = userRole === 'GuestUser' ? 'GuestPages' : 'RegisteredPages';
             
             fetch(`${URLROOT}/${controllerPath}/filterBusByDate?date=${selectedDate}`)
@@ -156,13 +145,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('bus-card-container').innerHTML = html;
                     console.log("Loaded new content for date:", selectedDate);
                     
-                    // After loading the new HTML, reapply ratings and setup buttons with a slight delay
                     setTimeout(function() {
                         applyRatingsToCards();
                         setupShowMoreButton();
                     }, 100);
                     
-                    // Remove processing class
                     this.classList.remove('processing');
                 })
                 .catch(error => {
@@ -173,13 +160,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Function to apply ratings to bus cards
     function applyRatingsToCards() {
         const busCards = document.querySelectorAll('.bus-card');
         console.log("Applying ratings to", busCards.length, "cards");
         
         busCards.forEach(card => {
-            // Extract the license ID from the card's onclick attribute
             const onclickAttr = card.getAttribute('onclick');
             if (!onclickAttr) return;
             
@@ -195,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         const numericRating = isNaN(parseFloat(rating)) ? 0 : parseFloat(rating);
                         const roundedRating = Math.round(numericRating * 2) / 2;
                         
-                        // Generate stars HTML
                         let starsHTML = '';
                         for (let i = 1; i <= 5; i++) {
                             if (i <= Math.floor(roundedRating)) {
@@ -216,26 +200,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Function to set up the "Show More" button
     function setupShowMoreButton() {
         const showMoreBtn = document.getElementById('show-more-btn');
         
         if (showMoreBtn) {
-            // Remove any existing event listeners (to prevent duplicates)
             showMoreBtn.replaceWith(showMoreBtn.cloneNode(true));
             
-            // Get the fresh reference
             const freshBtn = document.getElementById('show-more-btn');
             
             freshBtn.addEventListener('click', function() {
-                // Show all additional cards
                 const hiddenCards = document.querySelectorAll('.hidden-card');
                 
                 hiddenCards.forEach(card => {
                     card.style.display = 'block';
-                });
-                
-                // Hide the "Show More" button
+                }); 
                 this.style.display = 'none';
             });
         }

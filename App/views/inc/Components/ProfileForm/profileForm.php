@@ -2,7 +2,6 @@
     <div class="updateBoxContent">
         <form class="profileForm" action="<?php echo URLROOT ?>/RegisteredPages/profileUpdate" method="POST">
             <?php 
-            // Initialize variables for form values
             $formData = isset($_SESSION['profile_data']) ? $_SESSION['profile_data'] : $profile;
             $name = isset($formData['name']) ? $formData['name'] : $profile['Name'];
             $email = isset($formData['email']) ? $formData['email'] : $profile['Email'];
@@ -66,7 +65,6 @@
         document.getElementById('updateBox').classList.add('hidden');
     }
     
-    // Display update box if there are validation errors
     document.addEventListener('DOMContentLoaded', function() {
         <?php if(isset($_SESSION['profile_data']) && $_SESSION['profile_data']['has_errors']) : ?>
             showUpdateBox();
@@ -75,7 +73,6 @@
 </script>
 
 <?php
-// Clear session data after displaying it
 if (isset($_SESSION['profile_data'])) {
     unset($_SESSION['profile_data']);
 }

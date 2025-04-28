@@ -7,7 +7,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 /* Back Button */
@@ -19,24 +19,28 @@ body {
     background: linear-gradient(135deg, #00897b, #006064);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .back-button:hover {
     background: linear-gradient(135deg, #006064, #004d40);
+    transform: translateY(-2px);
 }
 
 
+/* Container */
 .container {
     width: 80%;
     margin: 0 auto;
     text-align: center;
+    padding: 20px;
 }
 
-
+/* Heading */
 h2 {
     text-align: center;
     font-size: 32px;
@@ -44,27 +48,28 @@ h2 {
     margin-top: 20px;
     margin-bottom: 30px;
     font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
 }
 
-
-
+/* Button Container */
 .button-container {
     text-align: right;
     margin-bottom: 20px;
 }
 
+/* Send Notification Button */
 .send-notification-button {
     display: inline-block;
     padding: 12px 30px;
     background: linear-gradient(135deg, #00897b, #006064);
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
     font-size: 14px;
     text-decoration: none;
     border: none;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .send-notification-button:hover {
@@ -72,6 +77,7 @@ h2 {
     filter: brightness(1.1);
 }
 
+/* Table Wrapper */
 .table-wrapper {
     width: 100%;
     display: flex;
@@ -81,47 +87,62 @@ h2 {
     padding: 0 20px;
 }
 
+/* Delay Table */
 .delay-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     table-layout: auto;
 }
 
-.delay-table th,
-.delay-table td {
+/* Table Headers */
+.delay-table th {
     padding: 12px 15px;
-    border: 1px solid #ddd;
+    background-color: #006064;
+    color: white;
+    font-weight: bold;
     text-align: center;
 }
 
-.delay-table th {
-    background-color: #006064; /* Dark teal header */
-    color: white;
-    font-weight: bold;
+/* Table Cells */
+.delay-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
 }
 
+/* Table Body */
 .delay-table tbody tr {
-    background-color: white;  /* Light teal color for all rows */
+    background-color: white;
+    transition: background-color 0.3s ease;
 }
 
 .delay-table tbody tr:hover {
-    background-color: #b2dfdb;  /* Slightly darker teal on hover */
+    background-color: #b2dfdb;
 }
 
-
+/* Mark Button */
 .mark-button {
     padding: 5px 10px;
     background-color: #006064;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 13px;
+    transition: background 0.3s ease;
 }
 
+.mark-button:hover {
+    background-color: #004d40;
+}
+
+/* Marked Text */
 .marked-text {
     color: green;
     font-weight: bold;
 }
-

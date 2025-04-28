@@ -28,34 +28,26 @@
                 <form action="<?php echo URLROOT ?>/GuestPages/GuestSignUp" method="POST" enctype="multipart/form-data">
 
                     <center><h1 style="color:#43cea2">SIGN UP</h1></center>
-                    <!----Full Name---->
                     <div class="form-input-title">Full Name <span class="required">*</span></div>
                     <input type="text" name="name" id="name" value="<?php echo isset($data['name']) ? $data['name'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['name_err']) ? $data['name_err'] : ''; ?></span>
 
-                    <!----Contact Number---->
                     <div class="form-input-title">Contact Number <span class="required">*</span></div>
                     <input type="text" name="number" id="number" value="<?php echo isset($data['number']) ? $data['number'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['number_err']) ? $data['number_err'] : ''; ?></span>
 
-                    <!----NIC---->
                     <div class="form-input-title">NIC <span class="required">*</span></div>
                     <input type="text" name="nic" id="nic" value="<?php echo isset($data['nic']) ? $data['nic'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['nic_err']) ? $data['nic_err'] : ''; ?></span>
 
-                    <!----Address---->
                     <div class="form-input-title">Address <span class="required">*</span></div>
                     <input type="text" name="address" id="address" value="<?php echo isset($data['address']) ? $data['address'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['address_err']) ? $data['address_err'] : ''; ?></span>
 
-                    <!----Email---->
                     <div class="form-input-title">Email <span class="required">*</span></div>
                     <input type="text" name="email" id="email" value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>">
                     <span class="form-invalid"><?php echo isset($data['email_err']) ? $data['email_err'] : ''; ?></span>
 
-                    <!-- <button class="otp" id="sendOTP" type="button">Send OTP</button> -->
-
-                    <!-- Password Field -->
                     <div class="form-input-title">Password <span class="required">*</span></div>
                     <div class="password-container">
                         <input type="password" name="password" id="password" value="<?php echo isset($data['password']) ? $data['password'] : ''; ?>">
@@ -63,7 +55,6 @@
                     </div>
                     <span class="form-invalid"><?php echo isset($data['password_err']) ? $data['password_err'] : ''; ?></span>
 
-                    <!-- Confirm Password Field -->
                     <div class="form-input-title">Confirm Password <span class="required">*</span></div>
                     <div class="password-container">
                         <input type="password" name="confirm" id="confirm" value="<?php echo isset($data['confirm']) ? $data['confirm'] : ''; ?>">
@@ -71,7 +62,6 @@
                     </div>
                     <span class="form-invalid"><?php echo isset($data['confirm_err']) ? $data['confirm_err'] : ''; ?></span>
 
-                    <!-- Profile Image Upload Section -->
                     <div class="form-drag-area">
                         <div class="icon">
                             <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
@@ -92,8 +82,6 @@
                     </div>
                     <span class="form-invalid"><?php echo isset($data['profile_image_err']) ? $data['profile_image_err'] : ''; ?></span>
 
-
-                    <!-- Checkbox Section -->
                     <div class="form-agreement">
                         <p>
                             <input type="checkbox" id="terms" name="terms">
@@ -101,7 +89,6 @@
                         </p>
                     </div>
 
-                    <!-- Register Button Section -->
                     <div class="form-register">
                     <center><input id="Register" class="button" type="submit" value="Register"  ></center>                 
                     </div>
@@ -130,9 +117,7 @@
     </div>
     <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
     <script>
-// Form Validation Script
 document.addEventListener('DOMContentLoaded', function() {
-    // Get all form elements
     const form = document.querySelector('form');
     const nameInput = document.getElementById('name');
     const numberInput = document.getElementById('number');
@@ -144,20 +129,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const termsCheckbox = document.getElementById('terms');
     const registerButton = document.getElementById('Register');
 
-    // Ensure all error messages are initially hidden
     document.querySelectorAll('.form-invalid').forEach(error => {
-        // First check if it's empty
         if (!error.textContent.trim()) {
             error.style.display = 'none';
         }
     });
 
-    // Disable the Register button initially
     registerButton.disabled = true;
     registerButton.style.opacity = '0.5';
     registerButton.style.cursor = 'not-allowed';
 
-    // Error message elements
     const createErrorElement = (inputId) => {
         const errorId = `${inputId}_err`;
         let errorElement = document.getElementById(errorId);
@@ -173,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return errorElement;
     };
 
-    // Validation functions
     const validateName = () => {
         const namePattern = /^[A-Za-z\s]+$/;
         const errorElement = createErrorElement('name');
@@ -213,7 +193,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const validateNIC = () => {
-        // Pattern for 9 digits followed by 'v' or 'V', or 12 digits
         const nicPattern = /^([0-9]{9}[vV]|[0-9]{12})$/;
         const errorElement = createErrorElement('nic');
         
@@ -266,7 +245,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const validatePassword = () => {
-        // At least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
         const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         const errorElement = createErrorElement('password');
         
@@ -317,7 +295,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Validate all fields and enable/disable the Register button
     const validateForm = () => {
         const isNameValid = validateName();
         const isNumberValid = validateNumber();
@@ -328,7 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const isConfirmValid = validateConfirmPassword();
         const isTermsChecked = validateTerms();
 
-        // If all validations pass, enable the Register button
         if (isNameValid && isNumberValid && isNICValid && isAddressValid && 
             isEmailValid && isPasswordValid && isConfirmValid && isTermsChecked) {
             registerButton.disabled = false;
@@ -347,7 +323,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <?php endif; ?>
     });
 
-    // Add event listeners to all input fields
     nameInput.addEventListener('input', function() {
         validateName();
     });
@@ -381,7 +356,6 @@ document.addEventListener('DOMContentLoaded', function() {
         validateForm();
     });
 
-    // Prevent form submission if validation fails
     form.addEventListener('submit', function(event) {
         validateForm();
         if (registerButton.disabled) {

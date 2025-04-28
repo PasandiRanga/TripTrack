@@ -57,7 +57,7 @@
         .wrapper {
             border-radius: var(--border-radius);
             height: 100%;
-            overflow: hidden; /* Prevent any unwanted scrollbars */
+            overflow: hidden; 
             transition: transform 0.3s ease;
         }
 
@@ -175,7 +175,6 @@
             border: 2px solid #a2f5f5;
         }
         
-        /* Booking details display */
         .date-details {
             padding: 20px;
             height: 100%;
@@ -256,7 +255,6 @@
         }
 
         .booking-details {
-            /* overflow: hidden; */
             transition: max-height 0.4s ease, padding 0.3s ease;
             padding: 0 5px;
         }
@@ -282,7 +280,6 @@
             color: var(--dark-color);
         }
 
-        /* Action Menu Styling */
         .three-dots {
             position: absolute;
             top: 15px;
@@ -375,7 +372,6 @@
             margin-right: 8px;
         }
 
-        /* Modal Styling */
         .popup, .policypopup, #reviewPopup , #ticketViewPopup {
             position: fixed;
             top: 0;
@@ -565,7 +561,6 @@
             box-shadow: 0 4px 12px rgba(226, 34, 34, 0.2);
         }
 
-        /* Rating component */
         .rating {
             display: flex;
             gap: 8px;
@@ -607,7 +602,6 @@
             margin: 20px 0;
         }
         
-        /* Responsive design */
         @media screen and (max-width: 992px) {
             .container {
                 flex-direction: column;
@@ -723,12 +717,11 @@
     
 }
 
-/* Dotted line style */
 .dotted-line {
     border: none;
-    border-top: 2px dotted #000000; /* Dotted line with blue color */
-    width: 100%; /* Ensure the line stretches */
-    margin: 0; /* Remove any margins */
+    border-top: 2px dotted #000000; 
+    width: 100%; 
+    margin: 0; 
 }
 
 .dotted-separator {
@@ -757,7 +750,7 @@
 .price h3 {
     font-size: 1.4em;
     font-weight: bold;
-    color: #00897b; /* Gold color for price */
+    color: #00897b;
 }
 
 .ticket-footer {
@@ -814,7 +807,6 @@ span .close-popup {
     z-index: 10;
 }
 
-/* Make sure the parent element has position relative */
 .column:nth-child(2) {
     position: relative;
 }

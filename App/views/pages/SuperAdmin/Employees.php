@@ -12,37 +12,7 @@
 </head>
 <body>
     <style>
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-.popup-content {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-.popup-content button {
-    margin-top: 15px;
-    padding: 8px 16px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Popup Overlay */
+/* Common Popup Overlay */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -57,74 +27,132 @@
     display: none; /* hidden by default */
 }
 
-/* Popup Box */
-.popup-box {
-    background: #fff;
-    padding: 30px 20px;
-    border-radius: 10px;
+/* Popup Content (First Box) */
+.popup-content {
+    background-color: white;
+    width: 400px;
+    height: auto;
+    padding: 30px 25px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    position: relative;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    width: 320px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-top: 5px solid #00897b;
     animation: popupFadeIn 0.3s ease-out;
 }
 
-/* Popup Message */
-#deletePopupMessage {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #333;
+/* Popup Box (Second Box) */
+.popup-box {
+    background-color: white;
+    width: 400px;
+    height: auto;
+    padding: 30px 25px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    position: relative;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-top: 5px solid #00897b;
+    animation: popupFadeIn 0.3s ease-out;
 }
 
-/* Popup Buttons */
+/* Popup Message (Heading inside popup-box) */
+#deletePopupMessage {
+    font-size: 24px;
+    color: #424242;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+/* Buttons inside .popup-content */
+.popup-content button {
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+}
+
+/* Popup Buttons container inside .popup-box */
 .popup-buttons {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
     margin-top: 20px;
 }
 
 /* Confirm Button */
 .confirm-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
+    background-color: white;
+    color: #e22222;
+    border: 2px solid #e22222;
+    width: 120px;
+    height: 40px;
     font-size: 16px;
-    transition: background 0.3s;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .confirm-btn:hover {
-    background-color: #218838;
+    background-color: #e22222;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(226, 34, 34, 0.2);
 }
 
 /* Cancel Button */
 .cancel-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
+    background-color: white;
+    color: #00897b;
+    border: 2px solid #00897b;
+    width: 120px;
+    height: 40px;
     font-size: 16px;
-    transition: background 0.3s;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cancel-btn:hover {
-    background-color: #c82333;
+    background-color: #00897b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 137, 123, 0.2);
 }
 
 /* Animation */
 @keyframes popupFadeIn {
     from {
         opacity: 0;
-        transform: scale(0.8);
+        transform: scale(0.9);
     }
     to {
         opacity: 1;
         transform: scale(1);
     }
 }
+
 
 </style>
 
@@ -173,7 +201,7 @@
                 ]; */
                 if(isset($data['emp']) && is_array($data['emp'])) {
                     foreach ($data['emp'] as $user) {
-                        echo "<tr>";
+                        echo "<tr data-employee-id=\"{$user['employee_id']}\">";
                         echo "<td>{$user['employee_id']}</td>";
                         echo "<td>{$user['name']}</td>";
                         echo "<td>{$user['nic']}</td>";
@@ -270,15 +298,16 @@
             }
         }
 
-        // Function to handle the Delete action
-       let employeeIdToDelete = null; // To keep the employee_id outside
+// Keep the employeeIdToDelete outside
+        let employeeIdToDelete = null;
 
+        // Function to trigger the delete popup
         function deleteUser(employee_id) {
             employeeIdToDelete = employee_id;
-            document.getElementById("deletePopupOverlay").style.display = "flex"; // Show popup
+            document.getElementById("deletePopupOverlay").style.display = "flex";
         }
 
-        // When user clicks "Yes" in the popup
+        // Confirm Delete Button
         document.getElementById("confirmDeleteBtn").addEventListener("click", function() {
             if (employeeIdToDelete) {
                 fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteEmployee', {
@@ -289,16 +318,19 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        const rows = Array.from(document.querySelectorAll("table.employee-table tbody tr"));
-                        const row = rows.find(row => row.cells[0].innerText.trim() === String(employeeIdToDelete));
+                        // Find the table row with the matching employee_id
+                        const row = document.querySelector(`tr[data-employee-id="${employeeIdToDelete}"]`);
                         if (row) {
-                            row.remove();
+                            // Optional: fade-out animation before removing
+                            row.style.transition = "opacity 0.3s ease";
+                            row.style.opacity = "0";
+                            setTimeout(() => row.remove(), 300);
                         }
-                        showPopup(data.message); // Show custom popup message
+                        showPopup(data.message); // success popup
                     } else {
-                        showPopup(data.message); // Show error message
+                        showPopup(data.message); // error popup
                     }
-                    closeDeletePopup(); // Always close the delete confirmation popup
+                    closeDeletePopup();
                 })
                 .catch(() => {
                     showPopup('Error deleting the employee.');
@@ -307,11 +339,12 @@
             }
         });
 
-        // Close the delete confirmation popup
+        // Function to close the delete popup
         function closeDeletePopup() {
             document.getElementById("deletePopupOverlay").style.display = "none";
             employeeIdToDelete = null;
         }
+
 
 
     </script>

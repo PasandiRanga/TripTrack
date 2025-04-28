@@ -25,8 +25,7 @@
     </script>
 
     <?php
-    // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
+        $userRole = $_SESSION['user_role'] ?? 'RegisteredUser';
     ?>
 
 
@@ -39,26 +38,21 @@
     ?>
 
     <script>
-        // Encode the PHP array as JSON for JavaScript
         var profileData = <?php echo json_encode($profile); ?>;
         console.log("Profile Data:", profileData);
     </script>
 
     
-    <!-- Header and Navbar -->
     <br/>
     <center><?php require APPROOT.'/views/inc/Components/Header/header.php'; ?></center>
 
-    <!-- Profile Container -->
     <div class="profile-container">
-        <!-- Left Side: User Info -->
         <div class="profile-left">
             <div class="profile-pic">
                 <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $_SESSION['user_profile_image'];?>" alt="Profile Picture" class="profile-pic">
             </div>
             <button class="edit-image-button" onclick="showImageUpdateBox()"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>            
             <h2><?php echo $profile['Name']; ?></h2>
-            <!-- <p><?php echo $profile['User_id']; ?></p> -->
 
             <div class="btn">
 
@@ -71,7 +65,6 @@
             </div>
         </div>
 
-        <!--Pop Up the confirmation box-->
         <div class="confirmBox hidden" id="confirmBox">
             <div class="confirmBoxContent">
                 <h1>Are You Sure ? </h1>
@@ -84,11 +77,9 @@
             </div>
         </div>
 
-        <!--Pop Up the image update box-->
         <div class="imageUpdateBox hidden" id="imageUpdateBox">
             <div class="imageUpdateBoxContent">
             <form action="<?php echo URLROOT ?>/RegisteredPages/updateProfileImage" method="POST" enctype="multipart/form-data" id="imageUploadForm">
-    <!-- Profile Image Upload Section -->
     <div class="form-drag-area">
         <div class="icon">
             <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
@@ -114,7 +105,6 @@
             </div>
         </div>
 
-        <!-- Right Side: User Details -->
         <div class="profile-right">
             <div class="detail">
                 <label>Full Name</label>
@@ -142,7 +132,6 @@
         </div>
     </div>
 
-    <!-- UPDATION FORM-->
     <?php require APPROOT.'/views/inc/Components/ProfileForm/profileForm.php'; ?>
     
     <script>
@@ -173,7 +162,7 @@
         } else if (actionType === 'delete') {
             window.location.href = '<?php echo URLROOT; ?>/RegisteredPages/deleteAccount'; 
         }
-        closeConfirmBox(); // Close the confirmation box after action is confirmed
+        closeConfirmBox(); 
     }
 
     function showUpdateBox() {
@@ -184,7 +173,6 @@
         document.getElementById('updateBox').classList.add('hidden');
     }
 
-    // Profile image drag-and-drop
     const dropArea = document.querySelector(".form-drag-area");
     const dropText = document.querySelector(".description");
     const browseButton = document.querySelector(".form_upload");
@@ -193,7 +181,6 @@
     const validate = document.querySelector(".profile_image_validation");
     let file;
 
-    // Browse option and upload functionality
     browseButton.onclick = () => {
         inputPath.click();
     };
@@ -218,7 +205,6 @@
         event.preventDefault();
         file = event.dataTransfer.files[0];
 
-        // Adding the file to the input element programmatically
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
         inputPath.files = dataTransfer.files;
@@ -229,7 +215,6 @@
     function showImage() {
         const fileType = file.type;
 
-        // Valid image extensions
         const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
 
         if (validExtensions.includes(fileType)) {
@@ -237,13 +222,11 @@
             fileReader.onload = () => {
                 const fileURL = fileReader.result;
 
-                // Set image preview
                 placeholder.setAttribute("src", fileURL);
             };
 
             fileReader.readAsDataURL(file);
 
-            // Show validation tick
             validate.classList.add("active");
         } else {
                 alert("This is not a valid image file. Please upload a JPEG, JPG, or PNG file.");

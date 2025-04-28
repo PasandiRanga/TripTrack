@@ -3,7 +3,7 @@ div.text-container {
     top: 250px;
     position: absolute;
     color: rgb(0, 0, 0);
-    font-family: 'Poppins', sans-serif; /* Corrected font-family */
+    font-family: 'Poppins', sans-serif; 
     position: absolute; 
     align-items: center !important;
 }
@@ -15,30 +15,26 @@ div.text-container {
     display: inline-block;
     position: relative;
     overflow: visible;
-    height: 120px; /* Adjust this to match the text size */
-    color: rgb(0, 0, 0); /* Ensure text color is set */
+    height: 120px; 
+    color: rgb(0, 0, 0); 
     padding-left: 50px;
     visibility: hidden;
-    font-family: 'Poppins', sans-serif; /* Corrected font-family */
+    font-family: 'Poppins', sans-serif; 
     align-items: center !important;
 }
 
-/* Show the element after the page has loaded */
 body.loaded .rotate-text {
     visibility: visible;
 }
 
-/* Animation for sliding out the old text */
 .slide-out {
     animation: slideOut 0.5s forwards;
 }
 
-/* Animation for sliding in the new text */
 .slide-in {
     animation: slideIn 0.5s forwards;
 }
 
-/* Keyframes for slide-out */
 @keyframes slideOut {
     0% {
         transform: translateY(0);
@@ -50,7 +46,6 @@ body.loaded .rotate-text {
     }
 }
 
-/* Keyframes for slide-in */
 @keyframes slideIn {
     0% {
         transform: translateY(-100%);

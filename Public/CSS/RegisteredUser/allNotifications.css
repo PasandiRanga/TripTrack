@@ -1,4 +1,3 @@
-/* Notifications Page Styles */
 body{
       background:#d8f8ee; 
 }
@@ -63,7 +62,7 @@ body{
 
 .notification-search input:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #00897b;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
@@ -89,9 +88,9 @@ body{
 }
 
 .filter-buttons button.active {
-    background-color: #007bff;
+    background-color: #00897b;
     color: white;
-    border-color: #007bff;
+    border-color: #00897b;
 }
 
 #mark-all-read {
@@ -118,7 +117,7 @@ body{
 }
 
 .notifi-items.unread {
-    border-left: 4px solid #007bff;
+    border-left: 4px solid #00897b;
     background-color: #f8f9ff;
 }
 
@@ -143,7 +142,7 @@ body{
 .unread-indicator {
     width: 10px;
     height: 10px;
-    background-color: #007bff;
+    background-color:  #00897b;
     border-radius: 50%;
     margin-right: 10px;
 }
@@ -153,7 +152,7 @@ body{
     height: 40px;
     border-radius: 50%;
     background-color: #e9f5ff;
-    color: #007bff;
+    color:  #00897b;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -239,7 +238,7 @@ body{
 
 .notification-action-btn {
     background-color: #e9f5ff;
-    color: #007bff;
+    color: #00897b;
     border: 1px solid #cce5ff;
 }
 
@@ -298,7 +297,7 @@ body{
     padding: 8px 14px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    color: #007bff;
+    color:#00897b;
     text-decoration: none;
     transition: all 0.2s;
 }
@@ -308,22 +307,20 @@ body{
 }
 
 .pagination a.active {
-    background-color: #007bff;
+    background-color:#00897b;
     color: white;
-    border-color: #007bff;
+    border-color:#00897b;
 }
 
 .pagination-arrow {
     font-weight: bold;
 }
 
-/* Animation for deleting notifications */
 .notifi-items.deleting {
     transform: translateX(100%);
     opacity: 0;
 }
 
-/* Highlight effect */
 .notifi-items.highlight {
     animation: highlight 2s ease;
 }
@@ -333,7 +330,6 @@ body{
     100% { background-color: inherit; }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .notification-filters {
         flex-direction: column;

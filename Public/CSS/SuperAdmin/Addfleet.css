@@ -77,13 +77,14 @@ h1 {
 
 .form-group input,
 .form-group select {
-    width: 100%;
+    width: 100%; /* ⬅️ changed from 100% */
+    margin: 0 auto; /* ⬅️ centers the fields */
     padding: 12px;
-    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
     transition: border 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
 }
 
 /* Focus state for inputs and selects */
@@ -182,7 +183,7 @@ h1 {
 
 .popup-box button {
     padding: 10px 20px;
-    background: #007bff;
+    background: #00897b;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -190,5 +191,5 @@ h1 {
 }
 
 .popup-box button:hover {
-    background: #0056b3;
+    background: #00897b;
 }

@@ -72,7 +72,6 @@
             $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
 
-        //Receipt for booking 
         public function GuestReceipt() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $bookingData = [
@@ -94,34 +93,27 @@
             
 
                 try {
-                    // Save booking details
                     $this->GuestpagesModel->createBooking($bookingData);
                     
-                    // Update schedule seat availability
                     $this->GuestpagesModel->updateScheduleSeats($bookingData['scheduleId'], explode(', ', $bookingData['selectedSeats']));
 
-                    // Generate QR Code text
                     $qrText = "Booking Receipt\n";
                     $qrText .= "Schedule ID: {$bookingData['scheduleId']}\n";
                     $qrText .= "Seats: {$bookingData['selectedSeats']}\n";
                     $qrText .= "Total Price: Rs. {$bookingData['totalPrice']}\n";
                     $qrText .= "Payment method: {$bookingData['paymentMethod']}\n";
 
-                    // Generate QR Code and get its URL
 
                     $qrData = $this->generateQRCode("Booking Receipt\nSchedule ID: {$bookingData['scheduleId']}\nSeats: {$bookingData['selectedSeats']}\nTotal Price: Rs. {$bookingData['totalPrice']}\nPayment method: {$bookingData['paymentMethod']}");
             
-                    // Add the QR code data to booking data
                     $bookingData['qrCodeUrl'] = $qrData['qrCodeUrl'];
                     $bookingData['qrCodeFilename'] = $qrData['qrCodeFilename'];
 
                     $bookingID = $this->GuestpagesModel->getBookingID($bookingData['email'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
                     $bookingId = $bookingID['id'];
 
-                    // Send booking confirmation email
                     $this->sendBookingEmail($bookingData);
 
-                    // Load Receipt View
                     $this->view('inc/Components/Receipt/GuestReceipt', [
                         'bookingData' => $bookingData,
                         'qrText' => $qrText,
@@ -140,25 +132,22 @@
         }
 
         private function generateQRCode($qrText) {
-            require_once APPROOT . '/libraries/phpqrcode/qrlib.php'; // Adjust path as needed
+            require_once APPROOT . '/libraries/phpqrcode/qrlib.php'; 
 
             $qrDir = APPROOT . "/public/qrcodes/";
             
-            // Ensure QR code directory exists
             if (!file_exists($qrDir)) {
                 mkdir($qrDir, 0777, true);
             }
 
-            $filename = "qr_" . time() . ".png"; // Unique filename
+            $filename = "qr_" . time() . ".png"; 
             $filePath = $qrDir . $filename;
 
-            // Generate QR Code
             QRcode::png($qrText, $filePath, QR_ECLEVEL_L, 10);
 
-            // Return QR Code URL
             return [
                 'qrCodeUrl' => URLROOT . "/public/qrcodes/" . $filename,
-                'qrCodeFilename' => $filename // Pass the filename as well
+                'qrCodeFilename' => $filename 
             ];
         }
 
@@ -168,10 +157,8 @@
             echo '<script>console.log("Inside send email");</script>';
 
             $bookingID = $this->GuestpagesModel->getBookingID($bookingData['email'], $bookingData['scheduleId'], $bookingData['selectedSeatsJSON']);
-         
 
             try {
-                // SMTP Configuration using defined constants
                 $mail->isSMTP();
                 $mail->Host       = SMTP_HOST;
                 $mail->SMTPAuth   = true;
@@ -180,15 +167,12 @@
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port       = SMTP_PORT;
 
-                // Email Headers
                 $mail->setFrom(SMTP_EMAIL, 'TripTrack');
                 $mail->addAddress($bookingData['email'], $bookingData['name']);
 
-                // Attach the QR code image as inline image
-                $qrCodePath = APPROOT . "/public/qrcodes/" . $bookingData['qrCodeFilename']; // Ensure you pass the filename too
+                $qrCodePath = APPROOT . "/public/qrcodes/" . $bookingData['qrCodeFilename']; 
                 $mail->addEmbeddedImage($qrCodePath, 'qr_code_image', 'qr_code.png', 'base64', 'image/png');
 
-                // Email content
                 $mail->isHTML(true);
                 $mail->Subject = 'Your Booking Confirmation - TripTrack';
                 $mail->Body = '
@@ -286,7 +270,7 @@
                 
                 if ($enteredOTP !== $storedOTP || (time() - $otpTime) > 900) {
                     $data['otp_err'] = 'Invalid or expired OTP';
-                    return $this->view('inc/Components/SignUp/signUp', $data); // Return to signup page instead
+                    return $this->view('inc/Components/SignUp/signUp', $data);
                 }
                 
                 unset($_SESSION['email_otp']);
@@ -313,44 +297,43 @@
                     'password_err' => '',
                     'confirm_err' => ''
                 ];
-                // Validate the profile image
+
                 if ($data['profile_image'] && $data['profile_image']['tmp_name']) {
                     if (!uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/images/profileImages/')) {
                         $data['profile_image_err'] = 'Profile image uploading unsuccessful';
                     }
                 } else {
-                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; // Replace with your actual default image filename, if applicable
+                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; 
                 }
-                // Validate the name
+
                 if (empty($data['name'])) {
                     $data['name_err'] = 'Please enter a name';
                 }
-                // Validate the contact number
+
                 if (empty($data['number'])) {
-                    $data['number_err'] = 'Please enter a contact number'; // Check if the field is empty
+                    $data['number_err'] = 'Please enter a contact number'; 
                 } elseif (!ctype_digit($data['number'])) {
-                    $data['number_err'] = 'The contact number must contain only numbers'; // Check if it contains only numeric characters
+                    $data['number_err'] = 'The contact number must contain only numbers'; 
                 } elseif (strlen($data['number']) !== 10) {
-                    $data['number_err'] = 'The contact number must be exactly 10 digits long'; // Check if it is exactly 10 digits
+                    $data['number_err'] = 'The contact number must be exactly 10 digits long'; 
                 } elseif ($data['number'][0] !== '0') {
-                    $data['number_err'] = 'The contact number must start with 0'; // Check if it starts with 0
+                    $data['number_err'] = 'The contact number must start with 0'; 
                 }
-                // Validate the NIC
+
                 if (empty($data['nic'])) {
                     $data['nic_err'] = 'Please enter a NIC';
                 } elseif (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}V$/', $data['nic'])) {
-                    // Check if the NIC is either 12 digits or 11 digits followed by "V"
                     $data['nic_err'] = 'NIC must be exactly 12 digits or 9 digits followed by "V" at the end';
                 }else {
                     if ($this->GuestpagesModel->findUserByNIC($data['nic'])) {
                         $data['nic_err'] = 'This NIC is already registered';
                     }
                 }
-                //Validate the Address
+
                 if (empty($data['address'])) {
                     $data['address_err'] = 'Please enter an address';
                 }
-                // Validate Email
+
                 if (empty($data['email'])) {
                     $data['email_err'] = 'Please enter an email';
                 } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
@@ -361,37 +344,26 @@
                     }
                 }
 
-                // Validate password
                 if (empty($data['password'])) {
                     $data['password_err'] = 'Please enter a password';
                 } elseif (strlen($data['password']) < 8) {
-                    // Check if the password is at least 8 characters long
                     $data['password_err'] = 'Password must be at least 8 characters long';
                 } elseif (!preg_match('/[A-Z]/', $data['password'])) {
-                    // Check if the password contains at least one uppercase letter
                     $data['password_err'] = 'Password must contain at least one uppercase letter';
                 } elseif (!preg_match('/[a-z]/', $data['password'])) {
-                    // Check if the password contains at least one lowercase letter
                     $data['password_err'] = 'Password must contain at least one lowercase letter';
                 } elseif (!preg_match('/\d/', $data['password'])) {
-                    // Check if the password contains at least one number
                     $data['password_err'] = 'Password must contain at least one number';
                 } elseif (!preg_match('/[\W_]/', $data['password'])) {
-                    // Check if the password contains at least one special character (symbol)
                     $data['password_err'] = 'Password must contain at least one special character';
                 } elseif (empty($data['confirm'])) {
-                    // Check if confirm password is empty
                     $data['confirm_err'] = 'Please confirm the password';
                 } elseif ($data['password'] != $data['confirm']) {
-                    // Check if the password and confirm password match
                     $data['confirm_err'] = 'Passwords do not match';
                 }
 
-                // Register the user if no errors are present
                 if (empty($data['name_err']) && empty($data['number_err']) && empty($data['nic_err']) && empty($data['address_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_err']) && empty($data['profile_image_err'])) {
-                    // Hash the password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-                    // Register the user
                     if ($this->GuestpagesModel->register($data)) {
                         header('Location: ' . URLROOT . '/GuestPages/home' );
                         exit();  
@@ -435,17 +407,14 @@
                     'password_err' => '',
                     'show_pop' => true
                 ];
-                // Validate email
                 if (empty($data['email'])) {
                     $data['email_err'] = 'Please enter the email';
                 } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                     $data['email_err'] = 'Please enter a valid email address';
                 }
-                // Validate password
                 if (empty($data['password'])) {
                     $data['password_err'] = 'Please enter the password';
                 }
-                // Check for errors
                 if (empty($data['email_err']) && empty($data['password_err'])) {
                     $loginResult = $this->GuestpagesModel->login($data['email'], $data['password']);
                     if (!empty($loginResult)) {
@@ -488,7 +457,6 @@
             $_SESSION['user_type'] = $userTable;
             $_SESSION['user_email'] = $userTable === 'customer' ? $loggedUser['Email'] : $loggedUser['email'];
             $_SESSION['user_name'] = $userTable === 'customer' ? $loggedUser['Name'] : $loggedUser['name'];
-            // Determine redirect path based on user type
             switch ($userTable) {
                 case 'customer':
                     $_SESSION['user_role'] = 'RegisteredUser';
@@ -513,7 +481,6 @@
                         break;
                     }
                 default:
-                    // Default case if userTable is unexpected
                     header('Location: ' . URLROOT . '/GuestPages/login');
                     break;
             }
@@ -552,12 +519,10 @@
                 ];
                 
                 $this->GuestpagesModel->addSupportRequest($data);
-                 // Redirect on success
                 $_SESSION['success_message'] = "Your support request has been submitted successfully.";
                 header('Location: ' . URLROOT . '/GuestPages/contact?status=success');
                 exit();       
             } else {
-                // Redirect if accessed directly
                 header('Location: ' . URLROOT . '/GuestPages/contact');
                 exit();
             }
@@ -661,20 +626,15 @@
             }
         }
 
-
-
         public function processForgotPassword() {
 
             ob_start();
 
-            // Set header for JSON response
             header('Content-Type: application/json');
             
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
                 
-                // Init data
                 $data = [
                     'email' => trim($_POST['email']),
                     'email_err' => '',
@@ -682,7 +642,6 @@
                     'message' => ''
                 ];
                 
-                // Validate Email
                 if (empty($data['email'])) {
                     $data['email_err'] = 'Please enter email';
                 } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
@@ -691,24 +650,16 @@
                     $data['email_err'] = 'No account found with that email address';
                 }
                 
-                // Make sure errors are empty
                 if (empty($data['email_err'])) {
                     try {
 
-                        // echo '<script>console.log("Found customer");</script>';
-                
-                        // Generate token
                         $token = bin2hex(random_bytes(32));
                         
-                        // Hash token before storing
                         $hashed_token = password_hash($token, PASSWORD_DEFAULT);
                         
-                        // Set expiry time (1 hour from now)
                         $expiry = date('Y-m-d H:i:s', time() + 3600);
                         
-                        // Save token to database
                         if ($this->GuestpagesModel->setPasswordResetToken($data['email'], $hashed_token, $expiry)) {
-                            // Send email with reset link
                             $reset_link = URLROOT . '/GuestPages/resetPassword/' . $token . '/' . urlencode($data['email']);
                             
                             $to = $data['email'];
@@ -736,13 +687,11 @@
                     } catch (Exception $e) {
                         $data['message'] = 'System error. Please try again later.';
                         error_log($e->getMessage());
-                        // You might want to log the error: error_log($e->getMessage());
                     }
                 }
 
                 ob_end_clean();
                 
-                // Return JSON response
                 echo json_encode($data);
                 ob_end_flush();
 
@@ -751,7 +700,6 @@
             } else {
 
                 ob_end_clean();
-                // Return error JSON for non-POST requests
                 echo json_encode([
                     'success' => false,
                     'message' => 'Invalid request method'
@@ -760,10 +708,6 @@
             }
         }
 
-        
-
-
-        // Reset password form
         public function resetPassword($token = null, $email = null) {
             if ($token === null || $email === null) {
                 $this->flash('password_reset', 'Invalid password reset link', 'alert alert-danger');
@@ -772,7 +716,6 @@
             
             $email = urldecode($email);
             
-            // Check if token is valid and not expired
             $tokenData = $this->GuestpagesModel->checkResetToken($email);
             
             if (!$tokenData) {
@@ -781,14 +724,12 @@
                 return;
             }
             
-            // Verify token
             if (!password_verify($token, $tokenData['token'])) {
                 $this->flash('password_reset', 'Invalid password reset link', 'alert alert-danger');
                 redirect('GuestPages/home');
                 return;
             }
             
-            // Check if token is expired
             if (strtotime($tokenData['expiry']) < time()) {
                 $this->flash('password_reset', 'Your password reset link has expired', 'alert alert-danger');
                 redirect('GuestPages/home');
@@ -810,10 +751,8 @@
 
         public function processResetPassword() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
                 
-                // Init data
                 $data = [
                     'token' => trim($_POST['token']),
                     'email' => trim($_POST['email']),
@@ -826,11 +765,9 @@
                 echo json_encode($_POST['email']);
             
                 
-                // Hash password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 
                     
-                // Update password and clear reset token
                     if ($this->GuestpagesModel->resetPassword($data['email'], $data['password'])) {
                         $this->flash('password_reset', 'Your password has been reset successfully');
                         redirect('GuestPages/home');
