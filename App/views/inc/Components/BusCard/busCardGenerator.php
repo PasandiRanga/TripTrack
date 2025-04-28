@@ -32,7 +32,7 @@ foreach ($busData as $bus) {
     }
 }
 
-//Finding the matching schedule dataa and route data for a bus
+//Finding the matching schedule data and route data for a bus
 foreach ($busData as $bus) {
     foreach ($scheduleData as $schedule) {
         foreach ($routeData as $route) {
@@ -41,7 +41,7 @@ foreach ($busData as $bus) {
                 $stops = $busRoute['stops'];
             }
         }
-        if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate) {
+        if ($schedule['License_id'] === $bus['License_id'] && $schedule['date'] === $selectedDate && ($schedule['date'] . ' ' . $schedule['departureTime']) > date('Y-m-d H:i:s')) {
 
             $busRating = isset($averageRatings[$bus['License_id']]) ? $averageRatings[$bus['License_id']] : 0;
             $ratingIsNumeric = is_numeric($busRating);
@@ -63,7 +63,7 @@ foreach ($busData as $bus) {
                     <div class="route-info">
                         <h2>
                             <?php 
-                            if ($schedule['direction'] === 'backward') {
+                            if ($schedule['direction'] === 'Backward') {
                                 echo $bus['destination'] . ' - ' . $bus['start_location'];
                             } else {
                                 echo $bus['start_location'] . ' - ' . $bus['destination'];

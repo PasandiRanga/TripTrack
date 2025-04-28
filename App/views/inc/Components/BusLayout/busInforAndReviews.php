@@ -1,7 +1,7 @@
 <div class="bus-info">
     <div class="route-container">
         <h2><?php 
-                if ($selectedSchedule['direction'] === 'backward') {
+                if ($selectedSchedule['direction'] === 'Backward') {
                     echo $selectedBus['destination'] . ' - ' . $selectedBus['start_location'];
                 } else {
                     echo $selectedBus['start_location'] . ' - ' . $selectedBus['destination'];
