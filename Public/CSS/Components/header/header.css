@@ -5,7 +5,6 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* Header container */
 .headers {
     display: flex;
     padding: 15px;
@@ -39,7 +38,6 @@ html, body {
     width: auto;
 }
 
-/* Inner container for logo and topic */
 .abc {
     display: flex;
     align-items: center;
@@ -48,14 +46,12 @@ html, body {
     position: relative;
 }
 
-/* Logo styling */
 .logo {
     width: 50px;
     height: 50px;
     flex-shrink: 0;
 }
 
-/* Unordered list reset */
 ul {
     margin: 0;
     padding: 0;
@@ -63,7 +59,6 @@ ul {
     align-items: center;
 }
 
-/* List item styling */
 li {
     list-style: none;
     display: inline-block;
@@ -75,7 +70,6 @@ li {
     align-items: center;
 }
 
-/* Login button styling */
 .login-button {
     background-color: transparent;
     color:#006064;
@@ -99,22 +93,19 @@ li {
     margin-left: 20px;
 }
 
-/*---------------SIGNIN BOX------------------------------------ */
-
-/* Overlay for the sign-in box */
 .signInBox {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh; /* Full screen height */
-    background: rgba(0, 0, 0, 0.7);  /* Dark background */
+    height: 100vh; 
+    background: rgba(0, 0, 0, 0.7);  
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     transition: opacity 0.3s ease;
-    overflow: hidden; /* Prevent overflow outside the overlay */
+    overflow: hidden; 
 }
 
 .hidden {
@@ -124,14 +115,14 @@ li {
 .signInBoxContent {
     background-color: #fff;
     width: auto;
-    height: auto; /* Ensure the height is dynamic */
+    height: auto; 
     padding: 20px;
     box-sizing: border-box;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional box shadow */
-    position: relative;  /* This ensures the close button is positioned relative to this box */
-    max-height: 100vh; /*Set a max height for the container (80% of viewport height)*/
-    overflow-y: auto;/* Enables vertical scrolling when content overflows*/
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    position: relative; 
+    max-height: 100vh; 
+    overflow-y: auto;
 }
 
 .close-btn {
@@ -180,13 +171,11 @@ li {
     width: 100%;
 }
 
-/* Add styles for the navbar toggle button */
 .navbar-toggle {
     display: none;
     padding: 10px;
 }
 
-/* Media queries for mobile responsiveness */
 @media (max-width: 1290px) {
     .headers {
         padding: 10px;
@@ -230,7 +219,6 @@ li {
         width: auto;
     }
 
-    /* Hide desktop notifications and profile on mobile */
     .user-section .notiicon,
     .user-section .profile {
         display: none;

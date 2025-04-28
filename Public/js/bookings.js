@@ -54,6 +54,8 @@
                 scheduleIds.add(booking.schedule_id);
             }
         });
+        console.log("Has upcoming ",hasUpcoming);
+        console.log("Has past ",hasPast);
         console.log("Has cancels ",hasCancels);
 
 
@@ -103,7 +105,6 @@
         currentDate.innerText = `${months[currMonth]} ${currYear}`;
         daysTag.innerHTML = liTag;
 
-        // Attach event listeners to dates
         document.querySelectorAll(".days li").forEach(day => {
             day.addEventListener("click", function () {
                 if (!this.classList.contains("inactive")) {
@@ -125,7 +126,6 @@
         } else {
             dateInfo += `<div class="booking-list">`;
             
-            // Show upcoming bookings
             if (bookingStatus.hasUpcoming) {
                 dateInfo += `<h4>Upcoming Bookings</h4>`;
                 upcomingBookings.forEach(booking => {
@@ -165,9 +165,6 @@
                 return reviewedBookings.includes(bookingId);
             }
 
-            // Show past bookings
-            // Modify the part where you add the "Add Review" option in showDateDetails
-            // Replace the part in showDateDetails that creates the menu for past bookings
             if (bookingStatus.hasPast) {
                 dateInfo += `<h4>Past Bookings</h4>`;
                 pastBookings.forEach(booking => {
@@ -207,14 +204,12 @@
                 });
             }
 
-            //Cancel bookings
             if (bookingStatus.hasCancels){
                 dateInfo += `<h4>Cancelled Bookings</h4>`;
                 cancelledBookings.forEach(booking => {
                     const pastschedule = pastScheduleData.find(s => s.scheduleId === booking.schedule_id);
                     const upcomingschedule = upcomingScheduleData.find(s => s.scheduleId === booking.schedule_id);
                     
-                    // Use either past or upcoming schedule based on what's available
                     const schedule = pastschedule || upcomingschedule;
                     
                     if (schedule && schedule.date === dateStr) {
@@ -253,13 +248,11 @@
 
         document.getElementById("date-info").innerHTML = dateInfo;
 
-        // Add this after the dateInfo is inserted into the DOM
         document.querySelectorAll('.cancel-booking').forEach(item => {
             item.addEventListener('click', function() {
                 const bookingId = this.getAttribute('data-booking-id');
                 const scheduleId = this.getAttribute('data-schedule-id');
                 
-                // Find the booking and schedule objects
                 const bookingObj = [...upcomingBookings, ...pastBookings].find(b => b.id == bookingId);
                 const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || pastScheduleData.find(s => s.scheduleId == scheduleId);
                 
@@ -269,7 +262,6 @@
             });
         });
 
-        //rating and review box
         document.querySelectorAll('.add-review').forEach(item => {
         item.addEventListener('click', function () {
             const bookingId = this.getAttribute('data-booking-id');
@@ -284,16 +276,11 @@
         });
         });
 
-        // After you attach event listeners for cancellation and reviews in the showDateDetails function,
-        // Add this code to handle ticket viewing:
-
         document.querySelectorAll('.view-ticket').forEach(item => {
             item.addEventListener('click', function() {
-                // Try to get IDs directly from this element first
                 let bookingId = this.getAttribute('data-booking-id');
                 let scheduleId = this.getAttribute('data-schedule-id');
                 
-                // If not found, try to get from siblings
                 if (!bookingId || !scheduleId) {
                     const bookingItem = this.closest('.booking-item');
                     bookingId = bookingId || bookingItem.querySelector('.cancel-booking')?.getAttribute('data-booking-id') || 
@@ -302,7 +289,6 @@
                                 bookingItem.querySelector('.add-review')?.getAttribute('data-schedule-id');
                 }
                 
-                // Find the booking and schedule objects
                 const bookingObj = [...upcomingBookings, ...pastBookings, ...cancelledBookings].find(b => b.id == bookingId);
                 const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || 
                                 pastScheduleData.find(s => s.scheduleId == scheduleId);
@@ -316,14 +302,11 @@
             });
         });
     }
-    //----------Rating and Review Box----------
-
-    // Modify the showReviewPopup function to include validation
+   
     function showReviewPopup(bookingObj, scheduleObj) {
         const popup = document.getElementById("reviewPopup");
         const details = document.getElementById("review-popup-details");
         
-        // Find the bus associated with this schedule
         const bus = busData.find(b => b.busId === scheduleObj.busId);
         const licenseId = bus ? bus.License_id : 'N/A';
         
@@ -331,7 +314,6 @@
         
         popup.classList.remove("hidden");
 
-        // Add validation for the form submission
         const form = popup.querySelector("form");
         form.onsubmit = function(event) {
             const textarea = form.querySelector("textarea[name='opinion']");
@@ -349,7 +331,6 @@
                 return false;
             }
             
-            // Store the submitted booking ID in localStorage to track reviewed bookings
             const reviewedBookings = JSON.parse(localStorage.getItem('reviewedBookings') || '[]');
             reviewedBookings.push(bookingObj.id);
             localStorage.setItem('reviewedBookings', JSON.stringify(reviewedBookings));
@@ -357,13 +338,11 @@
             return true;
         };
         
-        // Attach close button listener
         const closeBtn = popup.querySelector(".cancel-btn");
         if (closeBtn) {
             closeBtn.onclick = closeReviewBox;
         }
 }
-    //close reviewPopup
     document.getElementById("closeButton").addEventListener("click", function (event) {
         event.preventDefault();
         closeReviewBox();
@@ -393,9 +372,9 @@
 });
 
 function toggleMenu(event) {
-    event.stopPropagation(); // Prevent bubbling
+    event.stopPropagation(); 
     const menu = event.target.nextElementSibling;
-    console.log("Clicked menu:", menu); // Debug log
+    console.log("Clicked menu:", menu); 
 
     if (menu && menu.classList.contains('menu')) {
         document.querySelectorAll('.menu').forEach(m => {
@@ -406,12 +385,10 @@ function toggleMenu(event) {
 }
 
 
-// Add event listener to detect clicks outside the menu
 document.addEventListener("click", function(event) {
     const menu = document.querySelector('.menu');
     const threeDots = document.querySelector('.three-dots');
     
-    // If the click is outside the menu and the three dots
     if (!menu.contains(event.target) && event.target !== threeDots) {
         menu.classList.remove('show');
     }
@@ -435,9 +412,6 @@ function showCancelPolicy(booking , schedule){
         </div>
     `;
 
-    // policydetails.innerHTML = '';
-    // policydetails.appendChild(containerDiv);
-
     understandBtn.onclick = function(){
         showCancelPopup(booking , schedule);
         policypopup.classList.add('hidden');
@@ -453,9 +427,9 @@ function calculateCancellationFeePercentage(scheduledate) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
     if (diffDays >= 1) {
-        return 0.10; // 10% fee
+        return 0.10; 
     } else {
-        return 0.50; // 50% fee
+        return 0.50; 
     }
 }
 
@@ -467,9 +441,6 @@ function showCancelPopup(booking , schedule){
     const cancellationFeePercentage = calculateCancellationFeePercentage(schedule.date);
     const feeAmount = booking.total_price * cancellationFeePercentage;
     const refundAmount = booking.total_price - feeAmount;
-
-    // const containerDiv = document.createElement('div');
-    // containerDiv.className = 'cancellation-form';
 
     if(booking.paymentMethod == 'Online'){
         details.innerHTML = `
@@ -520,10 +491,6 @@ function showCancelPopup(booking , schedule){
                 
     `;
 
-        // details.innerHTML = '';
-        // details.appendChild(containerDiv);
-        
-        // Add event listener to confirm button
         confirmBtn.onclick = function() {
             const bankDetails = {
                 accountName: document.getElementById('accountName').value,
@@ -575,10 +542,6 @@ function showCancelPopup(booking , schedule){
                 <p> Confirm will take you to the payment portal to collect the cancellation fee</p>
         `;
 
-        // Clear previous content and append the new container
-        // details.innerHTML = '';
-        // details.appendChild(containerDiv);
-
         confirmBtn.onclick = function() {
             const queryParams = new URLSearchParams({
                 bookingId: booking.id,
@@ -593,7 +556,6 @@ function showCancelPopup(booking , schedule){
     popup.classList.remove('hidden');
 }
 
-// Close the popup
 function closeCancelBox() {
     console.log("closeCancelBox");
     document.getElementById('cancelPopup').classList.add('hidden');
@@ -604,7 +566,6 @@ function closePolicyBox() {
     document.getElementById('cancelPolicyPopup').classList.add('hidden');
 }
 
-// Confirm cancellation (AJAX or form submission)
 function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, bankDetails, scheduleId) {
     console.log(bankDetails);
     console.log(scheduleId);
@@ -625,8 +586,6 @@ function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, ban
 
     console.log(data);
 
-            
-    // Create hidden inputs for all data
     Object.entries(data).forEach(([key, value]) => {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -650,7 +609,6 @@ function confirmOnlineCancellation(bookingId, cancellationFee, refundAmount, ban
     }
 
 function toggleDetails(event, element) {
-    // Don't toggle details if click is on the three-dots or menu
     if (event.target.closest('.three-dots') || event.target.closest('.menu')) {
         return;
     }
@@ -667,7 +625,6 @@ function toggleDetails(event, element) {
     }
 }
 
-    //javascript for star filling
     const allStar = document.querySelectorAll('.rating .star')
     const ratingValue = document.querySelector('.rating input')
 
@@ -692,7 +649,6 @@ function toggleDetails(event, element) {
         })
     })
 
-    // Add close button functionality
     const closeColumnBtn = document.querySelector(".close-column-btn");
     const column2 = document.querySelector(".column:nth-child(2)");
     
@@ -704,29 +660,23 @@ function showTicket(booking, schedule, bus, user) {
     const ticketPopup = document.getElementById('ticketViewPopup');
     const ticketContent = ticketPopup.querySelector('.ticketView-popup-details');
     
-    // Get the matching schedule and bus for this booking
     const bookingScheduleId = booking.schedule_id;
     
-    // Handle both array and single object for schedule
     const matchedSchedule = Array.isArray(schedule) ? 
         schedule.find(s => s.scheduleId == bookingScheduleId) : 
         (schedule.scheduleId == bookingScheduleId ? schedule : null);
     
-    // Get the bus license ID from the schedule
     const busLicenseId = matchedSchedule ? matchedSchedule.License_id : null;
     
-    // Find the matching bus
     const matchedBus = Array.isArray(bus) ? 
         bus.find(b => b.License_id == busLicenseId) : 
         (bus.License_id == busLicenseId ? bus : null);
     
-    // Format data for display
     const seats = booking.Seats || "N/A";
     const numberOfSeats = booking.number_of_seats || 1;
     const userName = user.Name || user.user_name || "User";
     const userNIC = user.NIC || user.nic || "N/A";
     
-    // Get route number - it might be in different properties based on your DB structure
     const routeNumber = matchedBus ? (matchedBus.routeNumber || matchedBus.route_number) : "N/A";
     const formattedPrice = booking.total_price ? Number(booking.total_price).toFixed(2) : "0.00";
     
@@ -734,12 +684,8 @@ function showTicket(booking, schedule, bus, user) {
     let qrDisplay;
 
     if (qrImagePath) {
-        // Remove any leading slashes and adjust the path structure
         qrImagePath = qrImagePath.replace(/^\/+/, '');
-        
-        // Use the correct path based on your file structure
         qrDisplay = `<img src="${URLROOT}/public/qrcode/qrimage/${qrImagePath}" alt="QR Code" class="ticket-qr">`;
-        
         console.log("QR Image URL:", `${URLROOT}App/public/qrcode/qrimage/${qrImagePath}`);
     } else {
         qrDisplay = `<i class="fas fa-qrcode fa-5x"></i>`;
@@ -792,19 +738,13 @@ function showTicket(booking, schedule, bus, user) {
         </div>
     `;
 
-    // Show the ticket popup
     ticketPopup.classList.remove('hidden');
-    
-    // Ensure the popup fits on screen
-    document.body.style.overflow = 'hidden'; // Prevent body scrolling when popup is active
-    
-    // Add event listener to close button
+    document.body.style.overflow = 'hidden'; 
     document.getElementById('closeTicketBtn').addEventListener('click', function() {
         ticketPopup.classList.add('hidden');
-        document.body.style.overflow = ''; // Restore body scrolling
+        document.body.style.overflow = ''; 
     });
     
-    // Close popup when clicking outside the ticket (optional)
     ticketPopup.addEventListener('click', function(e) {
         if (e.target === ticketPopup) {
             ticketPopup.classList.add('hidden');
@@ -812,7 +752,6 @@ function showTicket(booking, schedule, bus, user) {
         }
     });
     
-    // Debug information to help troubleshoot
     console.log("Booking:", booking);
     console.log("Schedule:", matchedSchedule);
     console.log("Bus:", matchedBus);

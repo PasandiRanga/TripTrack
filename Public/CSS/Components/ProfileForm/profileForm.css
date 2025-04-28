@@ -1,21 +1,19 @@
-/* Overlay for the sign-in box */
 .updateBox {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh; /* Full screen height */
-    background: rgba(0, 0, 0, 0.7);  /* Dark background */
+    height: 100vh; 
+    background: rgba(0, 0, 0, 0.7);  
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     transition: opacity 0.3s ease;
-    overflow: hidden; /* Prevent overflow outside the overlay */
+    overflow: hidden; 
 }
 
 
-/* Hidden class for toggling visibility */
 .hidden {
     display: none;
 }
@@ -23,22 +21,20 @@
 .updateBoxContent {
     background-color: #fff;
     width: auto;
-    height: auto; /* Ensure the height is dynamic */
+    height: auto; 
     padding: 20px;
     box-sizing: border-box;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional box shadow */
-    position: relative;  /* This ensures the close button is positioned relative to this box */
-    max-height: 100vh; /*Set a max height for the container (80% of viewport height)*/
-    overflow-y: auto;/* Enables vertical scrolling when content overflows*/
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    position: relative; 
+    max-height: 100vh; 
+    overflow-y: auto;
 }
 
-
-/* Close button styling - positioned at top right of the signInBoxContent */
 .close-btn {
     position: absolute;
-    top: 10px; /* Adjust for desired distance from the top */
-    right: 10px; /* Adjust for desired distance from the right */
+    top: 10px; 
+    right: 10px; 
     font-size: 30px;
     cursor: pointer;
     color: #cc0000;

@@ -117,20 +117,19 @@ body {
     position: fixed;
     top: 10px;
     left: 10px;
-    background-color: #fff;  /* Optional: Background color */
-    padding: 10px 15px;       /* Optional: Adjust button padding */
-    border-radius: 5px;       /* Optional: Rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Optional: Box shadow */
-    font-size: 16px;           /* Optional: Font size */
-    text-decoration: none;     /* Remove underline */
-    color: #333;               /* Text color */
+    background-color: #fff;  
+    padding: 10px 15px;       
+    border-radius: 5px;      
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  
+    font-size: 16px;           
+    text-decoration: none;     
+    color: #333;               
 }
 
 .back-button i {
-    margin-right: 5px;  /* Space between icon and text */
+    margin-right: 5px; 
 }
 
-/* Optional: Style for hover effect */
 .back-button:hover {
-    background-color: #f0f0f0;  /* Light gray background on hover */
+    background-color: #f0f0f0;  
 }

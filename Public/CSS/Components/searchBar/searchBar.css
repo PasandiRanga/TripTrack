@@ -58,7 +58,6 @@
     background: linear-gradient(135deg,  #006064 ,#00897b);
 }
 
-/* The overlay and popup styles */
 .overlay {
     display: none;
     position: fixed;
@@ -92,7 +91,6 @@
     margin-top: 10px;
 }
 
-/* Media queries */
 @media (max-width: 1024px) {
     .search-bar-container {
         padding: 15px;

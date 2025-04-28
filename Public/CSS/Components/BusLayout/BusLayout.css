@@ -42,9 +42,7 @@ body {
     
 }
 
-/* Ensure the layout changes at 768px or less */
 @media screen and (max-width: 1200px) {
-    /* Reset the grid layout completely for mobile */
     .layout-container {
         display: flex !important;
         flex-direction: column !important;
@@ -65,10 +63,8 @@ body {
         order: 2 !important;
     }
 
-    /* Adjust the containers to stack vertically */
     .all-container {
         width: auto !important;
-        /* max-width: 100% !important; */
         margin: 10px 0 !important;
         order: 1;
     }
@@ -77,7 +73,6 @@ body {
         width:auto;
     }
 
-    /* Adjust booking form to full width */
     .form {
         width: 96% !important;
         padding: 15px !important;
@@ -90,7 +85,6 @@ body {
 
 }
 
-/* Additional mobile-specific adjustments */
 @media screen and (max-width: 480px) {
     body {
         font-size: 14px !important;
@@ -162,7 +156,6 @@ h4 {
     color: rgb(95, 97, 97);
 }
 
-/* Close button styling */
 .close-btn {
     position: absolute;
     top: 10px;

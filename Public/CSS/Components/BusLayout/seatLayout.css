@@ -1,4 +1,3 @@
-/* Seat Layout Container Styling */
 .box.right-box {
     background-color: white;
     padding: 35px;
@@ -32,17 +31,14 @@
     box-shadow: 0 2px 8px rgba(0, 137, 123, 0.2);
 }
 
-/* Button Container */
 .button-container {
     display: flex;
     column-gap: 15px;
     justify-content: flex-start;
     margin-bottom: 15px;
     flex-wrap: wrap;
-    /* width: 100%; */
 }
 
-/* Empty/Disabled Seat */
 .disable {
     border-radius: 8px;
     color: transparent;
@@ -56,7 +52,6 @@
     height: 50px;
 }
 
-/* Basic Seat Button */
 .number-button {
     width: 50px;
     height: 50px;
@@ -81,7 +76,6 @@
     position: relative;
 }
 
-/* Hover state for available seats */
 .number-button:not(.booked):hover {
     transform: translateY(-3px);
     border: 2px solid #00897b;
@@ -90,7 +84,6 @@
     cursor: pointer;
 }
 
-/* Booked Seat */
 .number-button.booked {
     background-color: #e22222;
     border: 2px solid #ea6969;
@@ -100,7 +93,6 @@
     position: relative;
 }
 
-/* Tooltip for booked seats */
 .number-button.booked::after {
     content: 'Booked';
     position: absolute;
@@ -123,7 +115,6 @@
     opacity: 1;
 }
 
-/* Selected seat */
 .number-button.selected {
     background-color: #00897b;
     color: white;
@@ -132,7 +123,6 @@
     position: relative;
 }
 
-/* Tooltip for selected seats */
 .number-button.selected::after {
     content: 'Selected';
     position: absolute;
@@ -155,7 +145,6 @@
     opacity: 1;
 }
 
-/* Legend for seat types */
 .seat-legend {
     display: flex;
     justify-content: center;
@@ -196,7 +185,6 @@
     opacity: 0.7;
 }
 
-/* Responsive Design */
 @media screen and (max-width: 1000px) {
     .box.right-box {
         width: 90%;
