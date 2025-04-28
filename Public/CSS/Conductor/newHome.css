@@ -797,3 +797,32 @@ body{
 .card-value-notification {
     margin-bottom: 10px;
 }
+
+@media screen and (max-width: 576px) {
+            .main-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 0 15px;
+            }
+            
+            .main-title {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+            
+            .logo-right {
+                margin-top: 10px;
+            }
+            
+            .card-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .card-inner .material-icons-outlined {
+                margin-bottom: 10px;
+            }
+        }

@@ -67,9 +67,9 @@
             $this->view('pages/Conductor/Notifications', $data);
         }
 
-        /* Update notification read status in notification icon*/
+        
         public function toggleReadStatus() {
-            // Check if it's an AJAX request
+            error_log("toggleReadStatus function called");
             if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 redirect('pages/error');
             }
@@ -88,6 +88,7 @@
                 exit(); // Add this to ensure nothing else is output
             }
             
+            error_log('isRead value: ' . var_export($isRead, true));
             $success = $this->ConductorpagesModel->updateReadStatus($notificationId, $isRead, $_SESSION['user_id']);
             
             // Return JSON response
