@@ -22,7 +22,6 @@
 </script>
 
 <?php
-    // get data from the controller
     $Allnotifications = $data['allnotifications'] ?? [];
     $newnotifications = $data['newnotifications'] ??[];
 
@@ -130,7 +129,6 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Filter buttons
         const filterAll = document.getElementById('filter-all');
         const filterUnread = document.getElementById('filter-unread');
         const filterRead = document.getElementById('filter-read');
@@ -138,7 +136,6 @@
         const searchInput = document.getElementById('notification-search');
         const notificationItems = document.querySelectorAll('.notifi-items');
 
-        // Set active filter button
         function setActiveFilter(activeButton) {
             [filterAll, filterUnread, filterRead].forEach(button => {
                 button.classList.remove('active');
@@ -146,7 +143,6 @@
             activeButton.classList.add('active');
         }
 
-        // Filter notifications
         function filterNotifications() {
             const searchText = searchInput.value.toLowerCase();
             const activeFilter = document.querySelector('.filter-buttons button.active').id;
@@ -173,47 +169,41 @@
             });
         }
 
-        // Toggle notification content visibility
         document.querySelectorAll('.notification-headers').forEach(header => {
             header.addEventListener('click', function() {
                 const item = this.parentElement;
                 const content = item.querySelector('.notification-contents');
                 const arrow = item.querySelector('.dropdown-arrows');
                 
-                // Toggle the active class on the content
                 content.classList.toggle('active');
                 
-                // Change the arrow direction
                 if (content.classList.contains('active')) {
-                    arrow.innerHTML = '&#9650;'; // Up arrow
+                    arrow.innerHTML = '&#9650;';
                 } else {
-                    arrow.innerHTML = '&#9660;'; // Down arrow
+                    arrow.innerHTML = '&#9660;';
                 }
             });
         });
 
-        // Mark as read/unread functionality
         document.querySelectorAll('.mark-read-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent triggering the parent click event
+                console.log("Button clicked");
+                e.stopPropagation();
                 
                 const id = this.getAttribute('data-id');
                 const item = this.closest('.notifi-items');
                 const isCurrentlyRead = item.classList.contains('read');
-                console.log(id)
-                console.log(item)
-                console.log(isCurrentlyRead)
+                console.log("id: ",id)
+                console.log("item: ",item)
+                console.log("isCurrentlyRead: ",isCurrentlyRead)
                 
-                // Toggle read/unread class
                 item.classList.toggle('read');
                 item.classList.toggle('unread');
                 
-                // Update button text
                 this.innerHTML = isCurrentlyRead ? 
                     '<i class="fas fa-envelope-open"></i> Mark as read' : 
                     '<i class="fas fa-envelope"></i> Mark as unread';
                 
-                // Toggle unread indicator
                 const indicator = item.querySelector('.unread-indicator');
                 if (isCurrentlyRead) {
                     if (!indicator) {
@@ -244,7 +234,7 @@
                         'X-Requested-With': 'XMLHttpRequest'  // Add this header
                     },
                     body: JSON.stringify({ 
-                        notification_id: id,  // Change from 'id' to 'notification_id'
+                        notification_id: id,
                         is_read: !isCurrentlyRead 
                     })
                 })

@@ -201,6 +201,28 @@
     </div>
 
     <script>
+        var sidebarOpen = false; // Fixed typo from 'sidebarOpean'
+        var sidebar = document.getElementById("sidebar");
+        var menuIcon = document.getElementById("menuIcon");
+
+        function openSidebar() {
+            if (!sidebarOpen) {
+                sidebar.classList.add("sidebar-responsive");
+                //menuIcon.style.display = "none"; // Hide menu icon
+                //sidebar.style.transform = "translateX(0)";
+                sidebarOpen = true;
+            }
+        }
+
+        function closeSidebar() {
+            if (sidebarOpen) {
+                sidebar.classList.remove("sidebar-responsive");
+                 //menuIcon.style.display = "block"; // Show menu icon again
+                //sidebar.style.transform = "translateX(-100%)";
+                sidebarOpen = false;
+            }
+        }
+
         //logout
         function openLogoutModal() {
             document.getElementById("logoutModal").classList.add("open-modal");
