@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f7fa !important;
+    background-color: #d8f8ee !important;
     margin: 0;
     padding: 0;
     color: #333;
@@ -12,7 +12,7 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: #063946;
+    background: linear-gradient(135deg, #00897b, #006064);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -23,7 +23,7 @@ body {
 }
 
 .back-button:hover {
-    background-color: #052d37;
+    background: linear-gradient(135deg, #00796b, #00838f);
 }
 
 h1 {
@@ -61,7 +61,7 @@ table {
 }
 
 table th {
-    background-color: #063946;  /* Semi-transparent background */
+    background-color: #006064;  /* Semi-transparent background */
     color: white; /* Dark text for contrast */
     font-weight: bold;
     padding: 18px;

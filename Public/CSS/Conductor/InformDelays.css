@@ -14,7 +14,7 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background: linear-gradient(135deg, #43cea2, #185a9d);
+    background: linear-gradient(135deg, #00897b, #006064);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -24,7 +24,7 @@ body {
 
 .back-button:hover,
 .view_delays-button:hover {
-    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    background: linear-gradient(135deg, #00796b, #00838f);
 }
 
 .back-button {
@@ -143,11 +143,11 @@ textarea[id="reason"]:focus {
     cursor: pointer;
     margin-top: 10px;
     text-align: center;
-    background: linear-gradient(135deg, #43cea2, #185a9d);
+    background: linear-gradient(135deg, #00897b, #006064);
 }
 
 .submit-btn:hover {
-    background: linear-gradient(to right, #2bb673 0%, #30cfd0 100%);
+    background: linear-gradient(135deg, #00796b, #00838f);
 }
 
 /* Responsive Styles */

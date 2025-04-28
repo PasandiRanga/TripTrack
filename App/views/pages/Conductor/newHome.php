@@ -34,7 +34,7 @@
         $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
         $pastScheduleData = $data['pastSchedule'] ??[];
         $totalSchedules = $data['totalSchedules'] ?? [];
-        $latestNotification = $data['latestNotification'];
+        /*$latestNotification = $data['latestNotification'];*/
 
         $upcomingSchedules = [];
         $pastSchedules = [];
@@ -72,9 +72,9 @@
                     <span class="text">Scan QR Code</span>
                 </li>
 
-                <!-- <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/requestLeave'">
+                <!-- <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/AcceptBookingForm'">
                     <i class="fa-solid fa-upload"></i>
-                    <span class="text">Request Leaves</span>
+                    <span class="text">Accept Bookings</span>
                 </li> -->
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/informDelays'">
@@ -85,6 +85,11 @@
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/notifications'">
                     <i class="fa-solid fa-bell"></i>
                     <span class="text">Notifications</span>
+                </li>
+
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/AcceptBookingForm'">
+                    <i class="fa-solid fa-upload"></i>
+                    <span class="text">Accept Bookings</span>
                 </li>
 
                 <li class="sidebar-list-item" onclick="openLogoutModal()">
@@ -112,19 +117,30 @@
                 <div class="card">
                     <div class="card-inner">
                         <h3 class="card-title">Employee Route</h3>
-                        <span class="material-icons-outlined">book</span>
+                        <span class="material-icons-outlined">alt_route</span>
                     </div>
-                    <h1 class="card-value">Colombo-Kandy</h1>
+                    <h2><?php echo $data['upcomingSchedule'][0]['start_location'] . ' - ' . $data['upcomingSchedule'][0]['destination']; ?></h2>
                 </div>
 
-                <div class="card">
-                    <div class="card-inner">
-                        <h3 class="card-title">Notifications</h3>
-                        <span class="material-icons-outlined">local_atm</span>
+                <?php if (!empty($data['latestNotification'])): ?>
+                    <div class="card">
+                        <div class="card-inner">
+                            <h3 class="card-title">Notifications</h3>
+                            <span class="material-icons-outlined">notifications</span>
+                        </div>
+                        <h3 class="card-value-notification"><?php echo $data['latestNotification']['title']; ?></h3>
+                        <p class="notification-time"><?php echo $data['latestNotification']['created_at']; ?></p>
                     </div>
-                    <h2 class="card-value-notification"><?php echo $data['latestNotification']['title']; ?></h1>
-                    <p class="notification-time"><?php echo $data['latestNotification']['created_at']; ?></p>
-                </div>
+                <?php else: ?>
+                    <div class="card">
+                        <div class="card-inner">
+                            <h3 class="card-title">Notifications</h3>
+                            <span class="material-icons-outlined">notifications</span>
+                        </div>
+                        <h2 class="card-value-notification">No Notifications Available</h2>
+                        <p class="notification-time">—</p>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <!--<div class="main-title">
@@ -226,6 +242,13 @@
             const prevNextIcons = document.querySelectorAll(".icons span");
             const column2 = document.querySelector(".column:nth-child(2)");
             //renderCalendar(); // Call the calendar render function
+
+            const closeBtn = document.querySelector('.close-column-btn');
+
+            closeBtn.addEventListener('click', function() { 
+                column2.style.display = 'none';
+                document.getElementById("date-info").innerHTML = ""; 
+            });
 
             const upcomingScheduleData = <?php echo json_encode($upcomingScheduleData); ?>;
             const pastScheduleData = <?php echo json_encode($pastScheduleData); ?>;
