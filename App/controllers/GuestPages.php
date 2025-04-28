@@ -376,7 +376,6 @@
                         return $this->view('inc/Components/SignUp/signUp', $data);
                     }
             
-                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                     if ($this->GuestpagesModel->register($data)) {
                         header('Location: ' . URLROOT . '/GuestPages/home' );
                         exit();  
