@@ -3,14 +3,14 @@
     authCheck(['Admin']);
 ?>
 <?php
-    // Check if this is an update operation
+    
     $scheduleId = isset($_GET['scheduleId']) ? htmlspecialchars_decode($_GET['scheduleId']) : '';
     $driverName = isset($_GET['driverName']) ? htmlspecialchars_decode($_GET['driverName']) : '';
     $conductorName = isset($_GET['conductorName']) ? htmlspecialchars_decode($_GET['conductorName']) : '';
     $driverId = isset($_GET['driver_id']) ? htmlspecialchars_decode($_GET['driver_id']) : '';
     $conductorId = isset($_GET['conductor_id']) ? htmlspecialchars_decode($_GET['conductor_id']) : '';
 
-    $isUpdate = !empty($scheduleId); // Determine if it's an update operation
+    $isUpdate = !empty($scheduleId);
 
 ?>
 
@@ -23,13 +23,13 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/AddAssigns.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <!-- Back Button -->
+    
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/assigns'">Back</button>
 <div class="box">
-    <!-- Page Title -->
+    
     <h2><?php echo $isUpdate ? 'Update Assign' : 'Add New Assign'; ?></h2>
 
-    <!-- Add/Update Assignment Form -->
+    
     <form id="assignForm" method="POST" action="<?php echo $isUpdate ? URLROOT . '/SuperAdminPages/updateassign' : URLROOT . '/SuperAdminPages/addassigns'; ?>" class="assign-form">
         <label for="scheduleId">Schedule ID:</label>
         <select id="scheduleId" name="scheduleId" <?php echo $isUpdate ? 'disabled' : 'required'; ?>>
@@ -42,7 +42,7 @@
         </select>
 
         <?php if ($isUpdate): ?>
-            <!-- Hidden input to include scheduleId in the form data for updates -->
+            
             <input type="text" name="scheduleId" value="<?php echo htmlspecialchars($scheduleId); ?>" readonly>
         <?php endif; ?>
 
@@ -84,7 +84,6 @@
     </form>
 </div>
 
-<!-- Popup Box -->
 <div id="popup" class="popup-overlay" style="display: none;">
   <div class="popup-content">
     <p id="popup-message"></p>
@@ -98,7 +97,6 @@
         function showPopup(message, callback) {
             document.getElementById('popup-message').textContent = message;
             document.getElementById('popup').style.display = 'flex';
-            // Store the callback to run after closing
             window.popupCallback = callback;
         }
 
@@ -125,7 +123,7 @@
         document.getElementById("assignForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
-        // Collect form data
+        
         let scheduleId;
         <?php if ($isUpdate): ?>
             scheduleId = "<?php echo $scheduleId; ?>"; 
@@ -137,7 +135,7 @@
         const driverId = document.getElementById("driver_id").value.trim();
         const conductorId = document.getElementById("conductor_id").value.trim();
 
-        // Validate form data
+
         if (!scheduleId || !driverName || !conductorName || !driverId || !conductorId) {
             alert("All fields are required. view and try again.");
             return;
@@ -145,11 +143,11 @@
 
         console.log("Form Data:", { scheduleId, driverName, conductorName, driverId, conductorId });
 
-        // Determine the correct endpoint
-        const isUpdate = <?php echo json_encode($isUpdate); ?>; // Pass PHP boolean as JavaScript boolean
+        
+        const isUpdate = <?php echo json_encode($isUpdate); ?>;
         const endpoint = isUpdate ? <?php echo json_encode(URLROOT . '/SuperAdminPages/updateassign'); ?> : <?php echo json_encode(URLROOT . '/SuperAdminPages/addassigns'); ?>;
 
-        // Prepare form data
+        
         const formData = {
             scheduleId: scheduleId,
             driverName: driverName,
@@ -160,7 +158,7 @@
         console.log("Form Data to Send:", formData);
         console.log("isUpdate:", isUpdate);
         console.log("Endpoint:", endpoint);
-        // Send the request to the appropriate endpoint
+        
         fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -170,7 +168,7 @@
         .then(data => {
             console.log("Server Response:", data);
             if (data.status === "success") {
-                // Show popup instead of alert
+                
                 showPopup(isUpdate ? "Assign updated successfully!" : "Assign added successfully!", function() {
                     window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/assigns';
                 });

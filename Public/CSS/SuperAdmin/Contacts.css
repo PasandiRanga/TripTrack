@@ -1,4 +1,4 @@
-/* General Styling */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -19,7 +19,6 @@ body {
 }
 
 
-/* Back Button */
 .back-button {
     position: absolute;
     top: 20px;
@@ -39,7 +38,7 @@ body {
 }
 
 
-/* Page Title */
+
 h2 {
     text-align: center;
     margin: 20px 0;
@@ -47,7 +46,7 @@ h2 {
     font-weight: 600;
 }
 
-/* Cards Layout Container */
+
 .contact-table-container {
     max-width: 95%;
     margin: 0 auto;
@@ -57,7 +56,6 @@ h2 {
     justify-content: center;
 }
 
-/* Individual Contact Card */
 .contact-card {
     background: #7edb9d;
     border-radius: 12px;
@@ -74,19 +72,19 @@ h2 {
     transform: scale(1.02);
 }
 
-/* Card Content Text */
+
 .contact-card p {
     color: black;
     margin: 6px 0;
     font-size: 14px;
 }
 
-/* Card Labels */
+
 .contact-card p strong {
     color: black;
 }
 
-/* Reply Button */
+
 .reply-btn {
     background-color: #007bff;
     color: white;
@@ -109,7 +107,7 @@ h2 {
     cursor: not-allowed;
 }
 
-/* Optional: Different Background for Replied */
+
 .replied-card {
     background-color: #e6f9e6;
 }
@@ -126,7 +124,7 @@ h2 {
     z-index: 1000;
 }
 
-/* Popup Box */
+
 .popup-box {
     background: #fff;
     padding: 25px;

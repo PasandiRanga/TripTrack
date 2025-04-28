@@ -1,4 +1,4 @@
-/* General Body Styling */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #d8f8ee;
@@ -9,7 +9,7 @@ body {
     align-items: center;
 }
 
-/* Back Button */
+
 .back-button {
     position: absolute;
     top: 20px;
@@ -29,20 +29,20 @@ body {
 }
 
 .box-wrapper {
-    max-width: 1400px;  /* Limit the maximum width of the wrapper */
-    width: 100%;  /* Ensure it takes up full width of the container */
-    margin: 0 auto;  /* Center the wrapper horizontally */
-    padding: 20px;  /* Add some padding inside the wrapper */
-    background-color: #fff;  /* White background for the wrapper */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Light shadow for some depth */
-    border-radius: 8px;  /* Rounded corners for a softer look */
-    overflow: hidden;  /* Prevent content overflow */
+    max-width: 1400px;  
+    width: 100%;  
+    margin: 0 auto;  
+    padding: 20px;  
+    background-color: #fff;  
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  
+    border-radius: 8px;  
+    overflow: hidden;  
 }
 
-/* For responsive design */
+
 @media (max-width: 768px) {
     .box-wrapper {
-        padding: 10px;  /* Reduce padding on smaller screens */
+        padding: 10px;  
     }
 }
 .box {
@@ -53,11 +53,11 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Adjust width as needed */
-    max-width: 470px; /* You can set a maximum width */
+    width: 100%; 
+    max-width: 470px; 
     margin: 20px auto;
 }
-/* Styling for the filter box container */
+
 .filter-box-container {
     margin: 20px;
     padding: 10px;
@@ -67,17 +67,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 350px; /* Adjust width as needed */
+    width: 350px; 
 }
 
-/* Label for the select box */
+
 .filter-box-container label {
     font-size: 16px;
     margin-right: 10px;
     color: #333;
 }
 
-/* Styling for the select box */
+
 #bookingType {
     padding: 8px 12px;
     font-size: 14px;
@@ -85,29 +85,29 @@ body {
     border: 1px solid #ccc;
     background-color: #fff;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    outline: none; /* Remove the default outline */
+    outline: none; 
 }
 
-/* Focus effect on the select box */
+
 #bookingType:focus {
-    border-color: #4CAF50; /* Green border on focus */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green shadow effect */
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
-/* Option styling */
+
 #bookingType option {
     padding: 10px;
     background-color: #fff;
     color: #333;
 }
 
-/* Hover effect on options */
+
 #bookingType option:hover {
     background-color: #f1f1f1;
     color: #000;
 }
 
-/* Page Header */
+
 h1 {
     text-align: center;
     font-size: 32px;
@@ -118,7 +118,7 @@ h1 {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Filter Container Styling */
+
 .filter-container {
     margin-bottom: 20px;
     text-align: center;
@@ -145,7 +145,7 @@ h1 {
     border-color: black;
 }
 
-/* Table Styling */
+
 .booking-table-container {
     margin: 20px auto;
     width: 90%;
@@ -201,7 +201,7 @@ h1 {
     color: #0056b3;
 }
 
-/* Hidden details row */
+
 .details-row {
     background-color: #f4f4f4;
 }
@@ -215,12 +215,12 @@ h1 {
     margin: 5px 0;
 }
 
-/* Hover and Click Effects */
+
 .booking-row:hover {
     background-color: #e7e7e7;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 768px) {
     .booking-table-container {
         width: 100%;
@@ -233,10 +233,10 @@ h1 {
         font-size: 12px;
     }
 }
-/* Search Box */
+
 .search-container {
     display: flex;
-    justify-content: flex-end; /* push content to the right */
+    justify-content: flex-end;
     align-items: center;
     margin: 20px 0;
 }
@@ -244,28 +244,28 @@ h1 {
 .search-container label {
     font-size: 16px;
     margin-right: 10px;
-    color: #333; /* Slightly darker for better contrast */
+    color: #333;
 }
 
 .search-container input {
-    padding: 10px 15px; /* Increased padding for better size and feel */
+    padding: 10px 15px;
     font-size: 14px;
     width: 300px;
     border: 1px solid #ccc;
-    border-radius: 25px; /* Rounded edges for a modern feel */
-    transition: all 0.3s ease; /* Smooth transition effect */
-    background-color: #fff; /* White background */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .search-container input:focus {
     border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Blue glow on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
-/* Optional: Adding a placeholder styling */
+
 .search-container input::placeholder {
-    color: #aaa; /* Lighter text for placeholder */
+    color: #aaa; 
     font-style: italic;
 }

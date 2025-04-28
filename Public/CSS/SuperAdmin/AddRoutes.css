@@ -1,4 +1,4 @@
-/* General Styles */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #d8f8ee;
@@ -11,7 +11,7 @@ body {
     height: 100vh;
 }
 
-/* Page Title */
+
 h2 {
     text-align: center;
     font-size: 32px;
@@ -22,7 +22,7 @@ h2 {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Back Button */
+
 .back-button {
     position: absolute;
     top: 20px;
@@ -42,7 +42,7 @@ h2 {
 }
 
 
-/* Form Container */
+
 .route-form {
     background: #d8f8ee;
     padding: 30px;
@@ -61,14 +61,14 @@ h2 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Form Labels */
+
 label {
     font-weight: 600;
     font-size: 14px;
     color: #333;
 }
 
-/* Input Fields */
+
 input[type="text"] {
     width: 100%;
     padding: 10px 12px;
@@ -84,7 +84,7 @@ input[type="text"]:focus {
     box-shadow: 0 0 0 3px rgba(0, 191, 165, 0.1);
 }
 
-/* Submit Button */
+
 button[type="submit"] {
     background: linear-gradient(135deg, #00897b, #006064);
     color: white;

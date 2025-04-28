@@ -10,7 +10,7 @@
     <title>Routes</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Routes.css?v=<?php echo time(); ?>">
     <style>
-        /* Overlay Styling */
+    
         .popup-modal {
             position: fixed;
             top: 0;
@@ -18,13 +18,13 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            display: none; /* Initially hidden */
+            display: none;
             justify-content: center;
-            align-items: center; /* Center the modal */
+            align-items: center;
             z-index: 1000;
         }
 
-        /* Popup Content (Modal Box) */
+        
         .popup-content {
             background-color: white;
             width: 400px;
@@ -44,13 +44,13 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* Fade In Animation */
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Heading (h2 inside popup) */
+        
         .popup-content h2 {
             color: #424242;
             font-size: 24px;
@@ -58,7 +58,7 @@
             margin-top: 5px;
         }
 
-        /* Subheading (h4 inside popup, if you have) */
+        
         .popup-content h4 {
             color: #757575;
             font-size: 16px;
@@ -67,7 +67,7 @@
             margin-bottom: 30px;
         }
 
-        /* Buttons Container inside popup */
+        
         .popup-content p {
             display: flex;
             justify-content: center;
@@ -76,7 +76,7 @@
             margin-bottom: 10px;
         }
 
-        /* Buttons inside popup */
+        
         .popup-content button {
             width: 120px;
             height: 40px;
@@ -88,7 +88,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Yes Button (red theme) */
+        
         .popup-content .btn-yes {
             background-color: white;
             color: #e22222;
@@ -102,7 +102,7 @@
             box-shadow: 0 4px 12px rgba(226, 34, 34, 0.2);
         }
 
-        /* No Button (teal theme) */
+        
         .popup-content .btn-no {
             background-color: white;
             color: #00897b;
@@ -116,7 +116,7 @@
             box-shadow: 0 4px 12px rgba(0, 137, 123, 0.2);
         }
 
-        /* Success Button */
+        
         .ok-button {
             background-color: #007bff;
             color: white;
@@ -138,7 +138,7 @@
             </a>
         </div>
 
-        <!-- Routes Table -->
+        
         <div class="routes-container">
             <table class="routes-table">
                 <thead>
@@ -175,7 +175,7 @@
         </div>
     </div>
 
-    <!-- Confirmation Popup -->
+    
     <div id="confirmModal" class="popup-modal">
         <div class="popup-content">
             <h2>Are you sure?</h2>
@@ -187,7 +187,7 @@
         </div>
     </div>
 
-    <!-- Success Popup -->
+    
     <div id="successModal" class="popup-modal">
         <div class="popup-content">
             <h2>Success</h2>
@@ -199,34 +199,34 @@
     <script>
         let routeToDelete = null;
 
-        // Open Confirmation Popup
+        
         function openConfirmPopup(routeNumber) {
-            routeToDelete = routeNumber; // Store the route number to delete
-            document.getElementById('confirmModal').style.display = 'flex'; // Show confirmation modal
+            routeToDelete = routeNumber;
+            document.getElementById('confirmModal').style.display = 'flex';
         }
 
-        // Close Confirmation Popup
+        
         function closeConfirm() {
-            document.getElementById('confirmModal').style.display = 'none'; // Close confirmation modal
+            document.getElementById('confirmModal').style.display = 'none';
         }
 
-        // Handle 'Yes' button in confirmation popup
+        
         document.getElementById('confirmYesBtn').addEventListener('click', function() {
             deleteRoute(routeToDelete);
         });
         function updateRoute(routeNumber) {
-            // Find the row with the matching route number
+            
             const rows = Array.from(document.querySelectorAll("table.routes-table tbody tr"));
             const row = rows.find(row => row.cells[0].innerText === routeNumber);
 
             if (row) {
-                // Extract data from the row
+                
                 const route = row.cells[1].innerText;
                 const stops = row.cells[2].innerText;
                 const price = row.cells[3].innerText;
                 const pricePerKm = row.cells[4].innerText;
 
-                // Redirect to the AddRoute page with pre-filled data
+            
                 const url = new URL('<?php echo URLROOT; ?>/SuperAdminPages/AddRoute');
                 url.searchParams.append('routeNumber', routeNumber);
                 url.searchParams.append('route', route);
@@ -239,7 +239,7 @@
                 alert("Route not found.");
             }
         }
-        // Delete Route
+    
         function deleteRoute(routeNumber) {
             fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteRoute', {
                 method: 'POST',
@@ -249,28 +249,28 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Find the row with the matching routeNumber and remove it
+                    
                     const rows = Array.from(document.querySelectorAll("table.routes-table tbody tr"));
                     const row = rows.find(row => row.cells[0].innerText === routeNumber);
                     if (row) {
                         row.remove();
                     }
 
-                    // Show success message in the popup
+                    
                     document.getElementById('popupMessage').innerText = data.message;
-                    document.getElementById('successModal').style.display = 'flex'; // Show success popup
-                    closeConfirm(); // Close the confirmation popup
+                    document.getElementById('successModal').style.display = 'flex'; 
+                    closeConfirm(); 
                 } else {
                     alert(data.message);
-                    closeConfirm(); // Close the confirmation popup
+                    closeConfirm(); 
                 }
             })
             .catch(() => alert('Error deleting the route.'));
         }
 
-        // Close Success Popup
+        
         function closeSuccess() {
-            document.getElementById('successModal').style.display = 'none'; // Hide success popup
+            document.getElementById('successModal').style.display = 'none'; 
         }
     </script>
 </body>
