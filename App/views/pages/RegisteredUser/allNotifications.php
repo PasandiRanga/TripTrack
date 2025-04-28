@@ -82,22 +82,6 @@
                         <div class="notification-icon">
                             <?php 
                             $icon = 'fa-bell';
-                            if (isset($Anotification['type'])) {
-                                switch($Anotification['type']) {
-                                    case 'booking':
-                                        $icon = 'fa-ticket-alt';
-                                        break;
-                                    case 'payment':
-                                        $icon = 'fa-credit-card';
-                                        break;
-                                    case 'schedule':
-                                        $icon = 'fa-clock';
-                                        break;
-                                    case 'system':
-                                        $icon = 'fa-cog';
-                                        break;
-                                }
-                            }
                             ?>
                             <i class="fas <?php echo $icon; ?>"></i>
                         </div>
@@ -138,25 +122,7 @@
         <?php endif; ?>
     </div>
     
-    <div class="pagination-container">
-        <?php if (!empty($data['pagination']) && $data['pagination']['totalPages'] > 1): ?>
-            <div class="pagination">
-                <?php if ($data['pagination']['currentPage'] > 1): ?>
-                    <a href="?page=<?php echo ($data['pagination']['currentPage'] - 1); ?>" class="pagination-arrow">&laquo; Prev</a>
-                <?php endif; ?>
-                
-                <?php for ($i = 1; $i <= $data['pagination']['totalPages']; $i++): ?>
-                    <a href="?page=<?php echo $i; ?>" class="pagination-number <?php echo ($i == $data['pagination']['currentPage']) ? 'active' : ''; ?>">
-                        <?php echo $i; ?>
-                    </a>
-                <?php endfor; ?>
-                
-                <?php if ($data['pagination']['currentPage'] < $data['pagination']['totalPages']): ?>
-                    <a href="?page=<?php echo ($data['pagination']['currentPage'] + 1); ?>" class="pagination-arrow">Next &raquo;</a>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
-    </div>
+    
 </div>
 
 <script>
