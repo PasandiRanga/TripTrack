@@ -490,6 +490,38 @@
             return $this->db->resultSet();
         }
 
+        public function checkAcceptedOrNot($seats, $schedule_id) {
+            
+            // Prepare and execute query
+            $this->db->query('SELECT acceptedSeats FROM schedule WHERE scheduleId = :schedule_id');
+            $this->db->bind(':schedule_id', $schedule_id);
+            $this->db->execute();
+
+            // Get single result
+            $row = $this->db->single();
+
+            if (!$row) {
+                return false;
+            }
+
+            $acceptedSeatsText = $row['acceptedSeats'];
+
+            if (empty($acceptedSeatsText)) {
+                return false;
+            }
+
+            $acceptedSeats = array_map('trim', explode(',', $acceptedSeatsText));
+
+            // Check if any seat from $seats_to_check is already accepted
+            foreach ($seats as $seat) {
+                if (in_array($seat, $acceptedSeats)) {
+                    return true; // found a matching seat
+                }
+            }
+
+            return false; // no matching seats, all free
+        }
+
         public function updateAcceptedSeats($seats, $schedule_id) {
             $this->db->query('SELECT acceptedSeats FROM schedule WHERE scheduleId = :schedule_id');
             $this->db->bind(':schedule_id', $schedule_id);

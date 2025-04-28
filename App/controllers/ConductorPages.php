@@ -249,14 +249,20 @@
             // Make sure the request is POST
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 try {
+                    error_log("Step 1: Received POST request");
                     // Get the raw POST body
                     $input = file_get_contents("php://input");
                     $data = json_decode($input, true); // Decode JSON to associative array
 
+                    error_log("Step 3: JSON decoded successfully: " . print_r($data, true));
+
                     // Check if the required data exists
                     if (!isset($data['schedule_id']) || !isset($data['seats'])) {
                         http_response_code(400);
-                        echo json_encode(['message' => 'Missing required data']);
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Missing required data'
+                        ]);
                         return;
                     }
 
@@ -264,30 +270,42 @@
                     $scheduleId = $data['schedule_id'];
                     $seats = $data['seats'];
 
+                    if (empty($scheduleId) || empty($seats) || !is_array($seats)) {
+                        http_response_code(400);
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Invalid schedule ID or seats data'
+                        ]);
+                        return;
+                    }
+
                     $seatsString = '"' . implode(', ', $seats) . '"';
+                    error_log("Step 6: schedule_id = $scheduleId, seatsString = $seatsString");
 
-                    //error_log("booking details: " . $seatsString);
+                    // Check if seats are already accepted
+                    $isAlreadyAccepted = $this->ConductorpagesModel->checkAcceptedOrNot($seats, $scheduleId);
+                    error_log("Step 7: checkAcceptedOrNot result: " . var_export($isAlreadyAccepted, true));
 
-                    $response = [
-                        'message' => 'Data received',
-                        'schedule_id' => $scheduleId,
-                        'seats' => $seatsString
-                    ];
+                    if ($isAlreadyAccepted) {
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'These seats are already accepted.'
+                        ]);
+                        return;
+                    }
 
+                    // Update seats to accepted
                     $acceptedSeats = $this->ConductorpagesModel->updateAcceptedSeats($seats, $scheduleId);
+                    error_log("Step 8: updateAcceptedSeats result: " . var_export($acceptedSeats, true));
 
-                    //error_log("accepted seats: " . $acceptedSeats);
-                    error_log("accepted seats: " . print_r($acceptedSeats, true));
+                    // Attempt to get booking from guest bookings first
+                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsString);
 
                     $result = false;
 
-                    // Attempt to get booking from guest bookings
-                    $booking = $this->ConductorpagesModel->getGuestBooking($scheduleId, $seatsString);
-                    error_log("booking details: " . print_r($booking, true));
-                    if($booking) {
+                    if ($booking) {
                         $result = $this->ConductorpagesModel->insertPastGuestBooking($booking);
-                        error_log("made it past the insert: ");
-                    }else {
+                    } else {
                         // If not found in guest bookings, try registered bookings
                         $booking = $this->ConductorpagesModel->getRegisteredBooking($scheduleId, $seatsString);
                         if ($booking) {
@@ -295,30 +313,41 @@
                         }
                     }
 
-                    if($booking) {
+                    if ($booking) {
                         if ($result) {
-                            $response['message'] = 'Booking verified and recorded successfully';
+                            echo json_encode([
+                                'status' => 'success',
+                                'message' => 'Booking verified and recorded successfully'
+                            ]);
                         } else {
                             http_response_code(500);
-                            $response['status'] = 'error';
-                            $response['message'] = 'Failed to record booking';
+                            echo json_encode([
+                                'status' => 'error',
+                                'message' => 'Failed to record booking'
+                            ]);
                         }
                     } else {
                         http_response_code(404);
-                        $response['status'] = 'error';
-                        $response['message'] = 'Booking not found with the provided details';
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Booking not found with the provided details'
+                        ]);
                     }
-                    echo json_encode($response);
 
                 } catch (Exception $e) {
+                    error_log("Step X: Exception occurred: " . $e->getMessage());
                     http_response_code(500);
                     echo json_encode([
                         'status' => 'error',
-                        'message' => 'Server error: ' . $e->getMessage()]);
+                        'message' => 'Server error: ' . $e->getMessage()
+                    ]);
                 }
             } else {
                 http_response_code(405); // Method Not Allowed
-                echo json_encode(['status' => 'error', 'message' => 'Only POST requests are allowed']);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Only POST requests are allowed'
+                ]);
             }
         }
 
