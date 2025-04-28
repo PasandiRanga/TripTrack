@@ -31,7 +31,7 @@
             foreach ($schedule as $item) {
                 $licenseId = $item['License_id'];
                 $avg = $this->GuestpagesModel->getAverageRatings($licenseId);
-                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : '0.0';
             }
 
             $data = [
@@ -59,7 +59,7 @@
             foreach ($schedule as $item) {
                 $licenseId = $item['License_id'];
                 $avg = $this->GuestpagesModel->getAverageRatings($licenseId);
-                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : '0.0';
             }
 
             $data = [
