@@ -1,3 +1,7 @@
+<?php
+    require_once APPROOT.'/helpers/auth_check.php';
+    authCheck(['RegisteredUser'])
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +25,6 @@
             <p><strong>From:</strong> <?php echo htmlspecialchars($data['bookingData']['from']); ?></p>
             <p><strong>To:</strong> <?php echo htmlspecialchars($data['bookingData']['to']); ?></p>
             <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($data['bookingData']['License_id']); ?></p>
-            <p><strong>Schedule ID:</strong> <?php echo htmlspecialchars($data['bookingData']['scheduleId']); ?></p>
             <p><strong>Number of Seats:</strong> <?php echo htmlspecialchars($data['bookingData']['noOfSeats']); ?></p>
             <p><strong>Seats:</strong> <?php echo htmlspecialchars(implode(', ', (array)$data['bookingData']['selectedSeats'])); ?></p>
             <p><strong>Total Price:</strong> Rs. <?php echo htmlspecialchars($data['bookingData']['totalPrice']); ?></p>
@@ -40,7 +43,6 @@
     </div>
 
     <script>
-        // Generate QR code
         var qrText = <?php echo json_encode($data['qrText']); ?>;
         new QRCode(document.getElementById("qrcode"), {
             text: qrText,
@@ -48,7 +50,6 @@
             height: 400
         });
 
-        // PDF download function
         function downloadPDF() {
             var downloadButton = document.querySelector('.download');
             downloadButton.style.display = 'none';

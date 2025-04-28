@@ -2,9 +2,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css">
 </head>
-<?php
-    include APPROOT . '/views/inc/Components/Button/button.php';
-?>
+
 
 <div class="search-bar-container">
     <div class="input-group">
@@ -161,6 +159,7 @@
             // Find the corresponding bus data for each schedule by License_id
             const bus = busData.find(b => b.License_id === schedule.License_id);
 
+
             const route = routeData.find(r=>r.routeNumber === bus.routeNumber );
 
             if (!bus) {
@@ -168,26 +167,46 @@
                 return; // Skip rendering this schedule if bus data is missing
             }
 
+            // Get the rating value and handle formatting
+            const busRating = averageRatings[bus.License_id] || 0;
+            const ratingIsNumeric = !isNaN(parseFloat(busRating)) && isFinite(busRating);
+            const numericRating = ratingIsNumeric ? parseFloat(busRating) : 0;
+            const roundedRating = Math.round(numericRating * 2) / 2; // Round to nearest 0.5
+
             // Process the stops array to remove extra spaces
             const stopsArray = route.stops.split(',').map(stop => stop.trim());
 
             // Get the URL dynamically based on the user role
             const bookingUrl = `${URLROOT}/${
                 userRole === 'GuestUser' ? 'GuestPages' : 'RegisteredPages'
-            }/busLayout?license_number=${encodeURIComponent(bus.license_number)}&scheduleId=${encodeURIComponent(schedule.scheduleId)}`;
+            }/busLayout?Licenseid=${encodeURIComponent(bus.License_id)}&scheduleId=${encodeURIComponent(schedule.scheduleId)}`;
 
             // Create the schedule card
             const scheduleDiv = document.createElement('div');
             scheduleDiv.classList.add('bus-card');
 
-            
+            // Create the star rating HTML
+            let starsHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(roundedRating)) {
+                    // Full star
+                    starsHTML += '<i class="fas fa-star" style="color: #FFD700;"></i>';
+                } else if (i - 0.5 <= roundedRating) {
+                    // Half star
+                    starsHTML += '<i class="fas fa-star-half-alt" style="color: #FFD700;"></i>';
+                } else {
+                    // Empty star
+                    starsHTML += '<i class="fas fa-star" style="color: #ccc;"></i>';
+                }
+            }
+
 
             // Create the internal elements of the bus card without wrapping them in the anchor tag
             scheduleDiv.innerHTML = `
                 <div class="bus-card-header">
                     <div class="route-info">
-                        <h2>${bus.start_location} - ${bus.destination}</h2>
-                        <span class="bus-type">${bus.routeNumber}</span>
+                        <h2>${schedule.direction === 'backward' ? `${bus.destination} - ${bus.start_location}` : `${bus.start_location} - ${bus.destination}`}</h2>
+                        <span class="bus-type">Route : ${bus.routeNumber}</span>
                     </div>
                 </div>
                 <div class="bus-card-timing">
@@ -196,24 +215,25 @@
                         <div class="departure-time"><span>${schedule.departureTime}</span></div>
                         <div class="arrival-time"><span>${schedule.arrivalTime}</span></div>
                     </div>
-                    <div class="duration"><span>${schedule.duration}</span></div>
-                    <div class="route-stops">
+                    <div class="duration">
+                        <span>${formatDuration(schedule.duration)}</span>
+                    </div>                    <div class="route-stops">
                          ${formatStops(stopsArray)}
                     </div>
                 </div>
                 <div class="bus-card-footer">
                     <div class="rating">
-                        ${Array(5).fill().map((_, i) =>
-                            `<i class="fas fa-star" style="color: ${i < bus.rating ? '#FFD700' : '#ccc'};"></i>`
-                        ).join('')}
-                        <span>${bus.rating}</span>
+                        ${starsHTML}
+                        <span>${ratingIsNumeric ? numericRating.toFixed(1) : 'No rating'}</span>
                     </div>
                     <div class="price"><span>${bus.price}</span></div>
                 </div>
             `;
 
             scheduleDiv.addEventListener('click', function() {
-                window.location.href = bookingUrl;  // Redirect to booking URL
+                window.location.href = `${URLROOT}/${
+                    userRole === 'GuestUser' ? 'GuestPages' : 'RegisteredPages'
+                }/busLayout?Licenseid=${encodeURIComponent(bus.License_id)}&scheduleId=${encodeURIComponent(schedule.scheduleId)}`;
             });
 
             // Append the bus card to the container
@@ -241,6 +261,23 @@ document.addEventListener('DOMContentLoaded', function () {
     travelDateInput.min = today;  // Set the min attribute to today
 });
 
+
+function formatDuration(duration) {
+    if (!duration) return '';
+    
+    const [hours, minutes, seconds] = duration.split(':');
+    let formattedDuration = '';
+    
+    if (parseInt(hours) > 0) {
+        formattedDuration += parseInt(hours) + ' hour' + (parseInt(hours) > 1 ? 's' : '');
+    }
+    
+    if (parseInt(minutes) > 0) {
+        formattedDuration += (formattedDuration ? ' ' : '') + parseInt(minutes) + ' minute' + (parseInt(minutes) > 1 ? 's' : '');
+    }
+    
+    return formattedDuration || 'N/A';
+}
 
 function formatStops(stopsArray) {
     const length = stopsArray.length;

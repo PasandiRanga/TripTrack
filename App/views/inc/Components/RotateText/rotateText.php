@@ -1,5 +1,4 @@
 <?php
-// You can dynamically set the rotating texts if needed using PHP
 $rotatingTexts = [
     "Book your way with ease",
     "Colombo - Anuradhapura",

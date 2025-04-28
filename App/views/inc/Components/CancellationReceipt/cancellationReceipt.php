@@ -28,7 +28,6 @@
     <div class="receipt">
         <div class="receipt-header">
             <h1>Booking Cancellation Receipt</h1>
-            <!-- <p>Receipt #: CR-2025-04-07-001</p> -->
             <p>Date: <?php echo $cancellationData['time_date']; ?></p>
         </div>
         
@@ -45,10 +44,6 @@
                 <span class="detail-label">Original Booking Date:</span>
                 <span class="detail-value"><?php echo $cancellationData['Booking_date'];?></span>
             </div>
-            <!-- <div class="detail-row">
-                <span class="detail-label">Cancellation Date:</span>
-                <span class="detail-value">April 7, 2025</span>
-            </div> -->
             <div class="detail-row">
                 <span class="detail-label">Payment Method:</span>
                 <span class="detail-value"><?php echo $cancellationData['paymentMethod'];?></span>
@@ -121,7 +116,7 @@
             var downloadButton = document.querySelector('.download-btn');
             downloadButton.style.display = 'none';
             
-            var element = document.querySelector('.receipt'); // Changed from getElementById('receipt-content')
+            var element = document.querySelector('.receipt'); 
             html2pdf().from(element).save('Booking_Receipt.pdf');
             
             downloadButton.style.display = 'block';
