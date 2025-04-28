@@ -164,10 +164,15 @@ authCheck(['Conductor', 'Driver']);
                 .then(data => {
                     console.log("Server response data:", data);
                     if (data.status === 'error') {
-                        document.getElementById('qrResultText').innerHTML = `
-                            <h2 class="error-title">Already Accepted!</h2>
-                            <p class="error">${data.message}</p>
-                        `;
+                        if(data.message === 'Schedule date is not today.') {
+                            document.getElementById('qrResultText').innerHTML = `
+                                <h2 class="error-title">This QR is not from today schedule!</h2>
+                                <p class="error">${data.message}</p>`;
+                        }else {
+                            document.getElementById('qrResultText').innerHTML = `
+                                <h2 class="error-title">Already Accepted!</h2>
+                                <p class="error">${data.message}</p>`;
+                        }
                     } else {
                         console.log("Server response data inside else:", decodedText);
                         document.getElementById('qrResultText').innerHTML = `
@@ -179,7 +184,7 @@ authCheck(['Conductor', 'Driver']);
                 .catch(err => {
                     console.error('Error:', err);
                     document.getElementById('qrResultText').innerHTML +=
-                        '<p class="error">Error updating server. Please try again.</p>';
+                        '<p class="error">Invalid QR code. Please try again.</p>';
                 });
 
             }

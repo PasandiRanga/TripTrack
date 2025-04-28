@@ -282,6 +282,19 @@
                     $seatsString = '"' . implode(', ', $seats) . '"';
                     error_log("Step 6: schedule_id = $scheduleId, seatsString = $seatsString");
 
+                    $ScheduleDate = $this->ConductorpagesModel->getScheduleDate($scheduleId);
+                    $ScheduleDateString = $ScheduleDate['date'];
+
+                    $currentDate = date('Y-m-d');
+
+                    if(!($ScheduleDateString === $currentDate)) {
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Schedule date is not today.'
+                        ]);
+                        return;
+                    }
+
                     // Check if seats are already accepted
                     $isAlreadyAccepted = $this->ConductorpagesModel->checkAcceptedOrNot($seats, $scheduleId);
                     error_log("Step 7: checkAcceptedOrNot result: " . var_export($isAlreadyAccepted, true));

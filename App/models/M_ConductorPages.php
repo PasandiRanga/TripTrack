@@ -490,6 +490,14 @@
             return $this->db->resultSet();
         }
 
+        public function getScheduleDate($schedule_id) {
+            $this->db->query('SELECT date FROM schedule WHERE scheduleId = :schedule_id');
+            $this->db->bind(':schedule_id', $schedule_id);
+            //$this->db->execute();
+
+            return $this->db->single();
+        }
+
         public function checkAcceptedOrNot($seats, $schedule_id) {
             
             // Prepare and execute query
