@@ -29,7 +29,7 @@
             foreach ($schedule as $item) {
                 $licenseId = $item['License_id'];
                 $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
-                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : '0.0';
             }
 
             echo '<script>console.log("Notifications in controller:", ' . json_encode($notifications) . ');</script>';
@@ -62,7 +62,7 @@
             foreach ($schedule as $item) {
                 $licenseId = $item['License_id'];
                 $avg = $this->RegisteredpagesModel->getAverageRatings($licenseId);
-                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : 'No ratings';
+                $averageRatings[$licenseId] = isset($avg['average_rate']) ? round($avg['average_rate'], 1) : '0.0';
             }
 
             $data = [

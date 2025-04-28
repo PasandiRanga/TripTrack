@@ -17,7 +17,7 @@
         <?php
             $busLicenseId = $selectedBus['License_id'];
             
-            $rating = isset($averageRatings[$busLicenseId]) && $averageRatings[$busLicenseId] !== "No ratings" 
+            $rating = isset($averageRatings[$busLicenseId]) && $averageRatings[$busLicenseId] !== "0.0" 
                 ? (float)$averageRatings[$busLicenseId] 
                 : 0.0;
                 
@@ -37,10 +37,10 @@
         ?>
     <span>
         <?php 
-            if (isset($averageRatings[$busLicenseId]) && $averageRatings[$busLicenseId] !== "No ratings") {
+            if (isset($averageRatings[$busLicenseId]) && $averageRatings[$busLicenseId] !== "0.0") {
                 echo number_format($rating, 1);
             } else {
-                echo "No ratings";
+                echo "0.0";
             }
         ?>
     </span>
