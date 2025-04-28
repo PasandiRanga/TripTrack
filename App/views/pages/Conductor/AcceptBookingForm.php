@@ -71,6 +71,92 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nicInput = document.getElementById('nic');
+            const bookingIdInput = document.getElementById('bookingId');
+            const form = document.getElementById('acceptBookingForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            const nicError = document.createElement('div');
+            nicError.id = 'nicError';
+            nicError.classList.add('error-message'); 
+            nicInput.parentNode.appendChild(nicError);
+
+            // Create Booking ID error message element
+            const bookingIdError = document.createElement('div');
+            bookingIdError.id = 'bookingIdError';
+            bookingIdError.classList.add('error-message'); 
+            bookingIdInput.parentNode.appendChild(bookingIdError);
+
+            function validateNIC() {
+                const nicValue = nicInput.value.trim();
+                const validOldNIC = /^[0-9]{9}[vV]$/;
+                const validNewNIC = /^[0-9]{12}$/;
+
+                if (nicValue === "") {
+                    nicInput.classList.remove('input-error');
+                    nicError.textContent = "";
+                    return false;
+                }
+                else if (validOldNIC.test(nicValue) || validNewNIC.test(nicValue)) {
+                    nicInput.classList.remove('input-error');
+                    nicError.textContent = "";
+                    return true;
+                } else {
+                    nicInput.classList.add('input-error');
+                    nicError.textContent = "NIC must be either 9 digits followed by V or exactly 12 digits";
+                    return false;
+                }
+            }
+
+            function validateBookingId() {
+                const bookingIdValue = bookingIdInput.value.trim();
+                const validBookingId = /^[RG][0-9]{3}$/; // R + 3 digits
+
+                if (bookingIdValue === "") {
+                    bookingIdInput.classList.remove('input-error');
+                    bookingIdError.textContent = "";
+                    return false;
+                }
+                else if (validBookingId.test(bookingIdValue)) {
+                    bookingIdInput.classList.remove('input-error');
+                    bookingIdError.textContent = "";
+                    return true;
+                } else {
+                    bookingIdInput.classList.add('input-error');
+                    bookingIdError.textContent = "Booking ID must start with R or G followed by 3 digits (e.g., R123 or G456)";
+                    return false;
+                }
+            }
+
+            function checkFormValidity() {
+                const isNicValid = validateNIC();
+                const isBookingIdValid = validateBookingId();
+                submitBtn.disabled = !(isNicValid && isBookingIdValid);
+            }
+
+            nicInput.addEventListener('input', function () {
+                nicInput.value = nicInput.value.toUpperCase(); // force uppercase V
+                validateNIC();
+                checkFormValidity();
+            });
+
+            bookingIdInput.addEventListener('input', function () {
+                bookingIdInput.value = bookingIdInput.value.toUpperCase(); // auto capitalize R if needed
+                validateBookingId();
+                checkFormValidity();
+            });
+
+            form.addEventListener('submit', function(event) {
+                if (!(validateNIC() && validateBookingId())) {
+                    event.preventDefault(); // stop submission if invalid
+                }
+            });
+
+            // Initial validation in case fields are pre-filled
+            checkFormValidity();
+        });
+
         const form = document.getElementById("acceptBookingForm");
         const popup = document.getElementById("resultModal");
 
@@ -127,5 +213,3 @@
     </script>
 </body>
 </html>
-    
-        

@@ -374,6 +374,7 @@
 
                     if (str_starts_with($bookingId, 'R')) {
                         // Call registered booking check
+
                         $bookingData = $this->ConductorpagesModel->checkRegBooking($bookingId, $nic);
                     } elseif (str_starts_with($bookingId, 'G')) {
                         // Call guest booking check
@@ -382,10 +383,43 @@
                         $bookingData = null;
                     }
 
+                    if(!$bookingData) {
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Invalid Booking ID or NIC.'
+                        ]);
+                        return;
+                    }
+
                     $seatsString = $bookingData['selected_seats'];
                     $scheduleId = $bookingData['schedule_id'];
 
                     $seats = array_map('trim', explode(',', trim($seatsString, '"')));
+
+                    $ScheduleDate = $this->ConductorpagesModel->getScheduleDate($scheduleId);
+                    $ScheduleDateString = $ScheduleDate['date'];
+
+                    $currentDate = date('Y-m-d');
+
+                    if(!($ScheduleDateString === $currentDate)) {
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Schedule date is not today.'
+                        ]);
+                        return;
+                    }
+
+                    // Check if seats are already accepted
+                    $isAlreadyAccepted = $this->ConductorpagesModel->checkAcceptedOrNot($seats, $scheduleId);
+                    error_log("Step 7: checkAcceptedOrNot result: " . var_export($isAlreadyAccepted, true));
+
+                    if ($isAlreadyAccepted) {
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'These seats are already accepted.'
+                        ]);
+                        return;
+                    }
 
                     $acceptedSeats = $this->ConductorpagesModel->updateAcceptedSeats($seats, $scheduleId);
 
