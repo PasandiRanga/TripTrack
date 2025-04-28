@@ -40,7 +40,7 @@
 
     ?>
 
-    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/scanQRcode'">Back</button>
+    <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/newHome'">Back</button>
 
     <div class="form-container">
         <h2 class="form-title">Accept Booking</h2>

@@ -490,6 +490,38 @@
             return $this->db->resultSet();
         }
 
+        public function checkAcceptedOrNot($seats, $schedule_id) {
+            
+            // Prepare and execute query
+            $this->db->query('SELECT acceptedSeats FROM schedule WHERE scheduleId = :schedule_id');
+            $this->db->bind(':schedule_id', $schedule_id);
+            $this->db->execute();
+
+            // Get single result
+            $row = $this->db->single();
+
+            if (!$row) {
+                return false;
+            }
+
+            $acceptedSeatsText = $row['acceptedSeats'];
+
+            if (empty($acceptedSeatsText)) {
+                return false;
+            }
+
+            $acceptedSeats = array_map('trim', explode(',', $acceptedSeatsText));
+
+            // Check if any seat from $seats_to_check is already accepted
+            foreach ($seats as $seat) {
+                if (in_array($seat, $acceptedSeats)) {
+                    return true; // found a matching seat
+                }
+            }
+
+            return false; // no matching seats, all free
+        }
+
         public function updateAcceptedSeats($seats, $schedule_id) {
             $this->db->query('SELECT acceptedSeats FROM schedule WHERE scheduleId = :schedule_id');
             $this->db->bind(':schedule_id', $schedule_id);
@@ -574,11 +606,56 @@
             return $this->db->execute();
         }
 
-        public function getLatestNotification() {
-            $this->db->query('SELECT *FROM sendnotifications_employee ORDER BY created_at DESC LIMIT 1');
-            $this->db->execute();
+        public function getLatestNotification($userId) {
+            $this->db->query('SELECT *FROM sendnotifications_employee WHERE employee_id = :userId ORDER BY created_at DESC LIMIT 1');
+            $this->db->bind(':userId', $userId);
 
             return $this->db->single();
+        }
+
+        public function updateProfileImage($userId, $imagePath) {
+            $this->db->query('UPDATE employee SET Profile_pic = :image WHERE employee_id = :id');
+            $this->db->bind(':image', $imagePath);
+            $this->db->bind(':id', $userId);
+
+            return $this->db->execute();
+        }
+
+        public function findUserByEmail($email){
+            $this->db->query('SELECT * FROM employee WHERE email=:email');
+            $this->db->bind(":email",$email);
+            $row = $this->db->single();
+            if($this->db->rowCount()>0){
+                return true;
+            }
+            else{
+                return false;  
+            }
+        }
+
+        public function isNICUsedByAnotherUser($nic, $currentUserId) {
+            $this->db->query('SELECT * FROM employee WHERE nic = :nic AND employee_id != :user_id');
+            $this->db->bind(':nic', $nic);
+            $this->db->bind(':user_id', $currentUserId);
+            
+            $this->db->execute();
+            // If any rows are returned, the NIC is used by another user
+            return $this->db->rowCount() > 0;
+        }
+
+        public function updateProfile($data) {
+            $this->db->query("UPDATE employee 
+                              SET Name = :name, email = :email, contactNo = :contact_number, nic = :nic, address = :address 
+                              WHERE email = :current_email");
+        
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':contact_number', $data['contact_number']);
+            $this->db->bind(':nic', $data['nic']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':current_email', $data['current_email']); // Use the current email for the condition
+        
+            return $this->db->execute();
         }
     }
 ?>

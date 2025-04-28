@@ -1,6 +1,6 @@
 <?php
     require_once APPROOT.'/helpers/auth_check.php';
-    authCheck(['Conductor' , 'Driver']);
+    authCheck(['Conductor', 'Driver']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,37 +18,50 @@
     <h1>View Delays</h1>
 
     <table id="delays">
-    <thead>
-        <tr>
-            <!-- <th>Delay ID</th> -->
-            <th>Schedule ID</th>
-            <th>Bus Number</th>
-            <th>Bus Route</th>
-            <th>Departure Time</th>
-            <th>New Departure Time</th>
-            <th>Reason</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($data['delays']) && !empty($data['buses']) && !empty($data['schedules'])): ?>
-            <?php foreach ($data['delays'] as $delay): ?>
-                <?php foreach($data['buses'] as $bus) :?>
-                    <?php foreach($data['schedules'] as $schedule): ?>
-                        <?php if($delay['schedule_id'] == $schedule['scheduleId'] && $schedule['License_id'] == $bus['License_id']): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($delay['schedule_id']); ?></td>
-                                <td><?php echo htmlspecialchars($bus['License_id']); ?></td>
-                                <td><?php echo htmlspecialchars($bus['start_location']); ?> - <?php echo htmlspecialchars($bus['destination']); ?></td>
-                                <td><?php echo htmlspecialchars($delay['dep_time']); ?></td>
-                                <td><?php echo htmlspecialchars($delay['new_dep_time']); ?></td>
-                                <td><?php echo htmlspecialchars($delay['reason']); ?></td>
-                            </tr>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+        <thead>
+            <tr>
+                <th>Schedule ID</th>
+                <th>Bus Number</th>
+                <th>Bus Route</th>
+                <th>Departure Time</th>
+                <th>New Departure Time</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($data['delays'])): ?>
+                <?php
+                // Prepare lookup arrays for schedules and buses for faster access
+                $scheduleMap = [];
+                foreach ($data['schedules'] as $schedule) {
+                    $scheduleMap[$schedule['scheduleId']] = $schedule;
+                }
+
+                $busMap = [];
+                foreach ($data['buses'] as $bus) {
+                    $busMap[$bus['License_id']] = $bus;
+                }
+                ?>
+
+                <?php foreach ($data['delays'] as $delay): ?>
+                    <?php
+                    $schedule = isset($scheduleMap[$delay['schedule_id']]) ? $scheduleMap[$delay['schedule_id']] : null;
+                    $bus = ($schedule && isset($busMap[$schedule['License_id']])) ? $busMap[$schedule['License_id']] : null;
+                    ?>
+
+                    <?php if ($schedule && $bus): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($delay['schedule_id']); ?></td>
+                            <td><?php echo htmlspecialchars($bus['License_id']); ?></td>
+                            <td><?php echo htmlspecialchars($bus['start_location']); ?> - <?php echo htmlspecialchars($bus['destination']); ?></td>
+                            <td><?php echo htmlspecialchars($delay['dep_time']); ?></td>
+                            <td><?php echo htmlspecialchars($delay['new_dep_time']); ?></td>
+                            <td><?php echo htmlspecialchars($delay['reason']); ?></td>
+                        </tr>
+                    <?php endif; ?>
                 <?php endforeach; ?>
-            <?php endforeach; ?>
-        <?php endif;?>
-    </tbody>
+            <?php endif; ?>
+        </tbody>
     </table>
 </body>
 </html>
