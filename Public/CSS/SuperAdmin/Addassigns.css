@@ -131,52 +131,97 @@ h2 {
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
 }
 
+/* Popup Overlay */
 .popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6); /* Darkened background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none; /* Hidden by default */
+}
+
+/* Popup Box */
+/* Overlay Styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-.popup-box {
-    background: #fff;
-    padding: 25px;
+/* Popup Content (Modal Box) */
+.popup-content {
+    background-color: white;
+    width: 400px;
+    height: auto;
+    padding: 30px 25px;
+    box-sizing: border-box;
     border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    position: relative;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    max-width: 400px;
-    width: 90%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-top: 5px solid #00897b;
+    animation: fadeIn 0.3s ease;
 }
 
-.popup-box p {
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #333;
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.ok-button {
-    background-color: #4CAF50; /* Green color */
-    color: white;
-    border: none;
-    padding: 10px 20px;
+/* Heading (h2 inside popup) */
+.popup-content h2 {
+    color: #424242;
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+/* Subheading (h4 inside popup, if you have) */
+.popup-content h4 {
+    color: #757575;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* Buttons Container inside popup */
+.popup-content p {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Buttons inside popup */
+.popup-content button {
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 15px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.ok-button:hover {
-    background-color: #45a049;
-}
-
-.ok-button:active {
-    background-color: #3e8e41;
-}

@@ -99,7 +99,7 @@
         <!-- Delete Confirmation Popup -->
     <div class="popup-overlay" id="deletePopupOverlay">
         <div class="popup-box">
-            <p id="deletePopupMessage">Are you sure you want to delete this schedule?</p>
+            <p id="deletePopupMessage">Are you sure you want to delete this Bus?</p>
             <div class="popup-buttons">
                 <button class="confirm-btn" id="confirmDeleteBtn">Yes</button>
                 <button class="cancel-btn" onclick="closeDeletePopup()">No</button>

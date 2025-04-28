@@ -257,7 +257,7 @@
                     if (data.status === "success") {
                         showPopup(isUpdate ? "Schedule updated successfully!" : "Schedule added successfully!");
                         document.getElementById("popupOverlay").querySelector("button").onclick = function () {
-                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/schedule';
+                            window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/addassigns';
                         };
                     } else {
                         showPopup("Error: " + data.message);

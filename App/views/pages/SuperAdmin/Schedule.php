@@ -180,31 +180,37 @@
 
             // Attach a one-time event listener to the confirm button
             confirmDeleteBtn.onclick = function () {
-            fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteSchedule', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ scheduleId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                const rows = Array.from(document.querySelectorAll("table.schedule-table tbody tr"));
-                const row = rows.find(row => row.cells[0].innerText.trim() === String(scheduleId));
-                if (row) {
-                    row.remove();
-                }
-                showPopup(data.message);
-                } else {
-                showPopup(data.message);
-                }
-            })
-            .catch(() => showPopup('Error deleting the schedule.'))
-            .finally(() => {
-                // Close the delete confirmation popup
-                deletePopupOverlay.style.display = "none";
-            });
+                fetch('<?php echo URLROOT; ?>/SuperAdminPages/deleteSchedule', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ scheduleId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const rows = Array.from(document.querySelectorAll("table.schedule-table tbody tr"));
+                        const mainRow = rows.find(row => row.cells[0]?.innerText.trim() === String(scheduleId));
+                        
+                        if (mainRow) {
+                            const detailRow = mainRow.nextElementSibling;
+                            mainRow.remove(); // Remove main schedule row
+                            if (detailRow && detailRow.classList.contains('detail-row')) {
+                                detailRow.remove(); // Also remove detail (booked seats) row
+                            }
+                        }
+                        showPopup(data.message);
+                    } else {
+                        showPopup(data.message);
+                    }
+                })
+                .catch(() => showPopup('Error deleting the schedule.'))
+                .finally(() => {
+                    // Close the delete confirmation popup
+                    deletePopupOverlay.style.display = "none";
+                });
             };
         }
+
 
         function closeDeletePopup() {
             const deletePopupOverlay = document.getElementById("deletePopupOverlay");
