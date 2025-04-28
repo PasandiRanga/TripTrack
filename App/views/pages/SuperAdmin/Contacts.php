@@ -12,14 +12,14 @@
 </head>
 <body>
 
-    <!-- Back Button -->
+    
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
     <div class="box">
-        <!-- Page Title -->
+        
         <h2>Customer Support Requests</h2><br>
 
-        <!-- Contact Requests in Card Style -->
+        
         <div class="contact-table-container">
             <?php if (isset($data['contact']) && is_array($data['contact'])): ?>
                 <?php foreach ($data['contact'] as $contact): ?>
@@ -53,7 +53,6 @@
         </div>
     </div>
 
-    <!-- Popup Overlay -->
     <div class="popup-overlay" id="popupOverlay" style="display: none;">
         <div class="popup-box">
             <p id="popupMessage"></p>
@@ -61,22 +60,22 @@
         </div>
     </div>
 
-    <!-- JavaScript for reply + update -->
+  
     <script>
-        // Function to show the popup with a custom message
+       
         function show(message) {
             document.getElementById('popupMessage').textContent = message;
-            document.getElementById('popupOverlay').style.display = 'flex'; // Show the popup
+            document.getElementById('popupOverlay').style.display = 'flex'; 
         }
 
-        // Function to close the popup
+        
         function closePopup() {
-            document.getElementById('popupOverlay').style.display = 'none'; // Hide the popup
+            document.getElementById('popupOverlay').style.display = 'none'; 
         }
 
-        // Reply to a contact request and mark it as replied
+        
         function reply(button, mailtoUrl, requestId) {
-            window.location.href = mailtoUrl; // Open the email client for replying
+            window.location.href = mailtoUrl; 
 
             button.textContent = 'Replied';
             button.disabled = true;
@@ -96,14 +95,14 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    show("Marked as replied on the server."); // Show the popup with success message
+                    show("Marked as replied on the server."); 
                 } else {
                     alert("Failed to mark as replied on the server.");
                 }
             })
             .catch(err => {
                 console.error("Error updating status:", err);
-                show("An error occurred while updating the status."); // Show the popup with error message
+                show("An error occurred while updating the status."); 
             });
         }
     </script>

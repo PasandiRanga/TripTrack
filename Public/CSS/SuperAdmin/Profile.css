@@ -6,7 +6,7 @@ body,html {
     background-color: #d8f8ee;
     width: 100%;
     height: 100%;
-    /* overflow: hidden; or auto */
+    
 
 }
 
@@ -62,7 +62,7 @@ h1 {
 
 .profile-pic-container {
     display: flex;
-    align-items: flex-end; /* Aligns the button at the bottom of the image */
+    align-items: flex-end;
     position: relative;
 }
 
@@ -132,7 +132,6 @@ h1 {
     border-bottom: none;
 }
 
-/* Label styling */
 .detail label {
     font-size: 15px;
     font-weight: 600;
@@ -142,7 +141,6 @@ h1 {
     letter-spacing: 0.8px;
 }
 
-/* Input field styling */
 .detail input {
     padding: 12px 15px;
     font-size: 16px;
@@ -153,8 +151,8 @@ h1 {
     margin-bottom: 5px;
     transition: all 0.2s ease;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-    width: 100%; /* Make all inputs full width */
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    width: 100%;
+    box-sizing: border-box;
     font-weight: bolder;
 
 }
@@ -179,7 +177,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Semi-transparent to show the background */
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,7 +186,7 @@ h1 {
 .open-popup{
     visibility: visible;
 }
-/* Modal box styling */
+
 .modal-content {
     background-color: #fff;
     padding: 30px;
@@ -199,13 +197,13 @@ h1 {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Heading */
+
 .modal-content h2 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-/* Buttons */
+
 .modal-buttons {
     display: flex;
     justify-content: space-around;
@@ -231,7 +229,6 @@ h1 {
 }
 
 
-/* Image update box styling - matching the confirmation box */
 .imageUpdateBox {
     position: fixed;
     top: 0;
@@ -247,7 +244,6 @@ h1 {
     backdrop-filter: blur(5px);
 }
 
-/* Fix for form-drag-area overflow */
 .imageUpdateBoxContent {
     background-color: white;
     width: 450px;
@@ -265,8 +261,8 @@ h1 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-top: 5px solid #00897b;
     animation: fadeIn 0.3s ease;
-    overflow: hidden; /* Add this to prevent overflow */
-    max-width: 90vw; /* Add this for better responsiveness */
+    overflow: hidden; 
+    max-width: 90vw;
 }
 .form-drag-area {
     background: #f5f7fa;
@@ -276,8 +272,8 @@ h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #424242;
-    width: calc(100% - 20px); /* Adjust width with padding consideration */
-    box-sizing: border-box; /* Include padding in width calculation */
+    width: calc(100% - 20px);
+    box-sizing: border-box;
     transition: all 0.3s ease;
-    max-width: 100%; /* Ensure it doesn't exceed parent width */
+    max-width: 100%;
 }

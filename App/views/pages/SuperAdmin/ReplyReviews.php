@@ -18,7 +18,7 @@
 </head>
 <body>
 
-    <!-- Back Button -->
+    
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/reviews'">Back</button>
 <div class="box">
     <h2>Reply to Review</h2>
@@ -53,7 +53,7 @@
     </form>
 </div>
 
-<!-- Confirmation Popup -->
+
 <div id="confirmModal" class="popup-modal" style="display:none;">
   <div class="popup-content">
     <p>Are you sure you want to submit this reply?</p>
@@ -62,7 +62,7 @@
   </div>
 </div>
 
-<!-- Success Popup -->
+
 <div id="popupModal" class="popup-modal" style="display:none;">
   <div class="popup-content">
     <p id="popupMessage"></p>
@@ -75,7 +75,7 @@
 let replyTextGlobal = '';
 let ratingIdGlobal = '';
 
-// When Submit Button Clicked
+
 document.getElementById("replyForm").addEventListener("submit", function(event) {
     event.preventDefault();
     replyTextGlobal = document.getElementById("reply").value.trim();
@@ -85,11 +85,11 @@ document.getElementById("replyForm").addEventListener("submit", function(event) 
         alert("Please enter a reply before submitting.");
         return;
     }
-    // Open Confirmation Modal
+    
     document.getElementById('confirmModal').style.display = 'flex';
 });
 
-// If user clicks "Yes" in Confirm Modal
+
 document.getElementById('confirmYesBtn').addEventListener('click', function() {
     submitReply();
     closeConfirm();

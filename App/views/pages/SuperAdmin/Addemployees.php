@@ -2,7 +2,7 @@
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 
-    // Retrieve and decode query parameters for updating an employee
+    
     $employee_id = isset($_GET['employee_id']) ? urldecode($_GET['employee_id']) : '';
     $name = isset($_GET['name']) ? urldecode($_GET['name']) : '';
     $nic = isset($_GET['nic']) ? urldecode($_GET['nic']) : '';
@@ -10,7 +10,7 @@
     $contactNo = isset($_GET['contactNo']) ? urldecode($_GET['contactNo']) : '';
     $email = isset($_GET['email']) ? urldecode($_GET['email']) : '';
     $role = isset($_GET['role']) ? urldecode($_GET['role']) : '';
-    $isUpdate = !empty($employee_id); // Determine if this is an update
+    $isUpdate = !empty($employee_id);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +80,7 @@
     </form>
 </div>
 
-<!-- Popup Modal -->
+
 <div id="popup" class="popup-overlay" style="display: none;">
   <div class="popup-content">
     <p id="popup-message"></p>
@@ -88,7 +88,7 @@
   </div>
 </div>
 <style>
-/* Overlay Styling */
+
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -102,7 +102,7 @@
     z-index: 1000;
 }
 
-/* Popup Content (Modal Box) */
+
 .popup-content {
     background-color: white;
     width: 400px;
@@ -122,13 +122,13 @@
     animation: fadeIn 0.3s ease;
 }
 
-/* Fade In Animation */
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Heading (h2 inside popup) */
+
 .popup-content h2 {
     color: #424242;
     font-size: 24px;
@@ -136,7 +136,7 @@
     margin-top: 5px;
 }
 
-/* Subheading (h4 inside popup, if you have) */
+
 .popup-content h4 {
     color: #757575;
     font-size: 16px;
@@ -145,7 +145,7 @@
     margin-bottom: 30px;
 }
 
-/* Buttons Container inside popup */
+
 .popup-content p {
     display: flex;
     justify-content: center;
@@ -154,7 +154,7 @@
     margin-bottom: 10px;
 }
 
-/* Buttons inside popup */
+
 .popup-content button {
     width: 120px;
     height: 40px;
@@ -166,7 +166,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Yes Button (green theme) */
+
 .popup-content .btn-yes {
     background-color: white;
     color: #e22222;
@@ -180,7 +180,7 @@
     box-shadow: 0 4px 12px rgba(226, 34, 34, 0.2);
 }
 
-/* No Button (teal theme) */
+
 .popup-content .btn-no {
     background-color: white;
     color: #00897b;
@@ -202,7 +202,7 @@
 
 .password-wrapper input {
     width: 97%;
-    padding: 12px; /* extra space for the eye icon */
+    padding: 12px; 
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
@@ -213,12 +213,12 @@
     position: absolute;
     top: 50%;
     right: 12px;
-    transform: translateY(-50%) translateY(-1px); /* moved slightly higher */
+    transform: translateY(-50%) translateY(-1px); 
     cursor: pointer;
     color: #888;
 }
 .password-wrapper .toggle-password:hover {
-    color: #006064; /* optional hover color */
+    color: #006064; 
 }
 
 
@@ -282,8 +282,8 @@
             role: document.getElementById("role").value.trim()
         };
 
-        console.log("Form Data:", formData); // Debugging line to check form data
-        // Send the data to the server
+        console.log("Form Data:", formData); 
+        
         fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -297,7 +297,7 @@
                     window.location.href = '<?php echo URLROOT; ?>/SuperAdminPages/employees';
                 }, 2000);
             } else if (data.errors) {
-                // Build error messages
+                
                 let errorMessages = "";
 
                 if (data.errors.name_err) {
@@ -322,9 +322,9 @@
                     errorMessages += "Role: " + data.errors.role_err + "\n";
                 }
 
-                showPopup(errorMessages.trim()); // Show all errors nicely
+                showPopup(errorMessages.trim()); 
             } else {
-                // Other server error (not validation)
+                
                 showPopup("Error: " + (data.message || "An error occurred."));
             }
         })
@@ -360,7 +360,7 @@
                 }, 5000);
             }
             else if (data.errors) {
-                // Build and display validation error messages
+                
                 let errorMessages = "";
 
                 if (data.errors.name_err) {

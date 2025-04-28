@@ -1,13 +1,13 @@
-/* General Body Styling */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #d8f8ee; /* Updated background */
+    background-color: #d8f8ee; 
     color: #333;
 }
 
-/* Back Button */
+
 .back-button {
     position: absolute;
     top: 20px;
@@ -27,7 +27,7 @@ body {
 }
 
 
-/* Header Styling */
+
 h1 {
     text-align: center;
     margin-bottom: 30px;
@@ -35,7 +35,7 @@ h1 {
     font-size: 26px;
 }
 
-/* Form Container */
+
 .box {
     max-width: 600px;
     margin: 50px auto;
@@ -59,7 +59,7 @@ h1 {
     animation: fadeIn 0.4s ease-in-out;
 }
 
-/* Form Styling */
+
 #fleet-form {
     width: 100%;
 }
@@ -77,8 +77,8 @@ h1 {
 
 .form-group input,
 .form-group select {
-    width: 100%; /* ⬅️ changed from 100% */
-    margin: 0 auto; /* ⬅️ centers the fields */
+    width: 100%; 
+    margin: 0 auto; 
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -87,7 +87,7 @@ h1 {
     box-sizing: border-box;
 }
 
-/* Focus state for inputs and selects */
+
 .form-group input:focus,
 .form-group select:focus {
     border-color: #00897b;
@@ -95,7 +95,7 @@ h1 {
     box-shadow: 0 0 8px rgba(0, 137, 123, 0.3);
 }
 
-/* Button Container */
+
 .button-container {
     display: flex;
     justify-content: space-between;
@@ -103,7 +103,7 @@ h1 {
     width: 100%;
 }
 
-/* Button Styling */
+
 .button {
     padding: 12px 20px;
     background-color: #00897b;
@@ -113,7 +113,7 @@ h1 {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 48%; /* Equal width for both buttons */
+    width: 48%; 
 }
 
 .button:hover {
@@ -128,7 +128,7 @@ h1 {
     background-color: #d32f2f;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .box {
         margin: 20px;
@@ -139,7 +139,7 @@ h1 {
         font-size: 24px;
     }
 
-    /* Stack buttons vertically on small screens */
+    
     .button-container {
         flex-direction: column;
         align-items: center;
@@ -147,11 +147,11 @@ h1 {
     }
 
     .button {
-        width: 100%; /* Buttons take up full width on small screens */
+        width: 100%;
     }
 }
 
-/* Popup Box Styles */
+
 .popup-overlay {
     position: fixed;
     top: 0;
