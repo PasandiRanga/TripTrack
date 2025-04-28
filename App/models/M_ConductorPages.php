@@ -98,7 +98,7 @@
 
         public function getPastSchedule($userId) {
             //Get schedule IDs assigned to this user
-            $this->db->query("SELECT scheduleId FROM past_assign WHERE userId = :userId");
+            $this->db->query("SELECT scheduleId FROM past_assign WHERE driver_id = :userId OR conductor_id = :userId");
             $this->db->bind(':userId', $userId);
             $scheduleIdRows = $this->db->resultSet();
             $scheduleIds = array_column($scheduleIdRows, 'scheduleId');
