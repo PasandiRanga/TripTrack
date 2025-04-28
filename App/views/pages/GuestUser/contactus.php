@@ -20,30 +20,22 @@
     </script>
 
     <?php
-    // Retrieve user role from session or set to a default value
-    $userRole = $_SESSION['userRole'] ?? 'GuestUser';
-
-
+        $userRole = $_SESSION['userRole'] ?? 'GuestUser';
     ?>
 
     <?php
-    $postdata = $data;
-    
-     $data['currentController'] = 'GuestPages';
-    $data['currentMethod'] = 'contact';
-    $data['userRole'] = $userRole;
+        $postdata = $data;
+        
+        $data['currentController'] = 'GuestPages';
+        $data['currentMethod'] = 'contact';
+        $data['userRole'] = $userRole;
     ?> 
 
     <?php
-        // Display success message if it exists
         if (isset($_SESSION['success_message'])):
     ?>
-        <script>
-            // Don't use alert, we'll use our custom popup instead
-            // alert("<?php echo $_SESSION['success_message']; ?>");
-        </script>
+        
     <?php
-        // Clear the success message after displaying it
         unset($_SESSION['success_message']);
         endif;
     ?>
@@ -100,7 +92,6 @@
                     </div>
                 </div>
 
-                <!-- Confirmation popup -->
                 <div class="successBox hidden" id="successBox">
                     <div class="successBoxContent">
                         <div class="close-btn" onclick="closesuccessBox()">×</div>
@@ -158,12 +149,10 @@
         const messageError = document.getElementById('MessageError');
         const contactForm = document.getElementById('contactForm');
 
-        // Hide all error messages initially
         document.querySelectorAll('.error-message').forEach(error => {
             error.style.display = 'none';
         });
 
-        // Functions to show/hide confirmation box
         function showsuccessBox() {
             document.getElementById("successBox").classList.remove("hidden");
         }
@@ -172,17 +161,12 @@
             document.getElementById("successBox").classList.add("hidden");
         }
 
-        // Form submission handler
         contactForm.addEventListener('submit', function(event) {
-            // Prevent form from submitting immediately
             event.preventDefault();
             
-            // Run form validation
             if (validateForm()) {
-                // Show the confirmation box
                 showsuccessBox();
                 
-                // Submit the form after a delay to allow user to see the message
                 setTimeout(function() {
                     contactForm.submit();
                 }, 4000);
@@ -195,7 +179,6 @@
             const isContactValid = validateContact();
             const isMessageValid = validateMessage();
             
-            // Only return true if all validations pass
             return isNameValid && isEmailValid && isContactValid && isMessageValid;
         }
 
@@ -287,7 +270,6 @@
         }
 
         contactInput.addEventListener('input', function() {
-            // Remove non-digit characters and limit to 10 digits
             this.value = this.value.replace(/\D/g, '').substring(0, 10);
             validateContact();
         });
@@ -296,7 +278,6 @@
         emailInput.addEventListener('input', validateEmail);
         messageInput.addEventListener('input', validateMessage);
 
-        // Check if there's a success message from PHP session and show popup
         <?php if (isset($_SESSION['success_message'])): ?>
             showConfirmBox();
         <?php endif; ?>

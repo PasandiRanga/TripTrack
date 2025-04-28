@@ -1,20 +1,18 @@
-<?php
+<!-- <?php
 
 require_once APPROOT.'/helpers/auth_check.php';
 authCheck(['RegisteredUser']);
 
-require_once '../../../Database.php'; // Include your database connection file
+require_once '../../../Database.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bookingId = $_POST['booking_id'];
     echo($bookingId);
     $scheduleId = $_POST['schedule_id'];
-    $seatsToCancel = $_POST['seats']; // E.g., "1,2,3"
-
+    $seatsToCancel = $_POST['seats']; 
     try {
         $db = new Database();
 
-        // Begin transaction
         $db->beginTransaction();
 
         // Step 1: Delete the booking record from `registeredbooking`
@@ -55,4 +53,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 }
-?>
+?> -->

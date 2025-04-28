@@ -72,7 +72,6 @@
             $this->view('inc/Components/BusLayout/BusLayout', $data);
         }
 
-        //Receipt for booking 
         public function GuestReceipt() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $bookingData = [
