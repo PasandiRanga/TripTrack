@@ -146,65 +146,88 @@ h1 {
 /* Popup Box */
 .popup-box {
     background: #ffffff;
-    padding: 25px;
+    padding: 30px 25px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 400px;
+    max-width: 420px;
     width: 90%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: fadeIn 0.3s ease;
 }
 
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Message Text */
 .popup-box p {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 18px;
+    color: #424242;
+    margin-bottom: 25px;
 }
 
-.popup-box .confirm-btn,
-.popup-box .cancel-btn {
-    padding: 10px 20px;
+/* Buttons Area */
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Confirm Button */
+.popup-box .confirm-btn {
+    background-color: #e53935;
+    color: white;
+    padding: 10px 22px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    margin: 5px;
-}
-
-.popup-box .confirm-btn {
-    background-color: #f44336;
-    color: white;
+    transition: background 0.3s ease, transform 0.2s;
 }
 
 .popup-box .confirm-btn:hover {
-    background-color: #d32f2f;
+    background-color: #c62828;
+    transform: translateY(-2px);
 }
 
+/* Cancel Button */
 .popup-box .cancel-btn {
     background-color: #00897b;
     color: white;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
 }
 
 .popup-box .cancel-btn:hover {
     background-color: #00695c;
+    transform: translateY(-2px);
 }
+
+/* OK Button */
 .popup-box .ok-button {
-    background-color: #4caf50;
+    background-color: #00695c;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 22px;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    border-radius: 8px;
     font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
 }
+
 .popup-box .ok-button:hover {
-    background-color: #388e3c;
+    background-color: #00695c;
+    transform: translateY(-2px);
 }
-.popup-buttons {
-    display: flex;
-    justify-content: center;
-    background-color: #2bb673;
-    gap: 10px;
-}
+/* Details Row */
 .detail-row {
     display: none;
     background-color: #f1fdfb;

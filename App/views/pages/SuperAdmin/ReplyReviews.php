@@ -24,25 +24,23 @@
     <h2>Reply to Review</h2>
     <br>
 
-    <div class="review-info">
-        <div class="review-details">
-            <div class="row">
+    <div class="review-section">
+        <div class="review-info">
+            <div class="info-row">
                 <p><strong>Review ID:</strong> <?php echo htmlspecialchars($rating_id); ?></p>
                 <p><strong>User ID:</strong> <?php echo htmlspecialchars($User_id); ?></p>
-            </div>
-            <div class="row">
                 <p><strong>Date and Time:</strong> <?php echo htmlspecialchars($date); ?></p>
                 <p><strong>Bus ID:</strong> <?php echo htmlspecialchars($License_id); ?></p>
             </div>
         </div>
-    </div>
 
-    <div class="review-box">
-        <div class="box-header">
-            <strong>Review:</strong>
-        </div>
-        <div class="box-content">
-            <p><?php echo htmlspecialchars($review); ?></p>
+        <div class="review-box">
+            <div class="box-header">
+                <strong>Review:</strong>
+            </div>
+            <div class="box-content">
+                <p><?php echo htmlspecialchars($review); ?></p>
+            </div>
         </div>
     </div>
 
@@ -72,36 +70,6 @@
   </div>
 </div>
 
-<style>
-.popup-modal {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-.popup-content {
-    background: white;
-    padding: 20px 30px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-.popup-content button {
-    margin: 8px;
-    padding: 8px 16px;
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.popup-content button:nth-child(2) {
-    background-color: #e74c3c;
-}
-</style>
 
 <script>
 let replyTextGlobal = '';
