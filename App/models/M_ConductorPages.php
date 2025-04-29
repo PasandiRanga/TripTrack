@@ -1,15 +1,11 @@
 <?php
     class M_ConductorPages {
-        //Declare a variable to grant access to the database
+
         private $db;
 
-        //whenever the script is called we need to instantiate the data base class
-
         public function __construct(){
-            //Instantiate the database class
-            $this->db = new Database();
 
-            //We should connect this model with the corressponding controller
+            $this->db = new Database();
 
         }
 
@@ -23,7 +19,7 @@
 
         public function getLicenseIdByScheduleId($scheduleId) {
             if (!is_array($scheduleId)) {
-                $scheduleId = [$scheduleId]; // Convert single value to an array
+                $scheduleId = [$scheduleId];
             }
 
             if (empty($scheduleId)) {
@@ -35,7 +31,7 @@
             $this->db->query("SELECT scheduleId, License_id, date, departureTime, arrivalTime, availableSeats, bookedSeats, type FROM schedule WHERE scheduleId IN ($placeholders)");
             
             foreach ($scheduleId as $index => $id) {
-                $this->db->bind(($index + 1), $id, PDO::PARAM_INT); // Bind each scheduleId dynamically
+                $this->db->bind(($index + 1), $id, PDO::PARAM_INT);
             }
 
             return $this->db->resultSet();
@@ -51,7 +47,7 @@
             $this->db->query("SELECT License_id, routeNumber, start_location, destination, price, priceperkm FROM bus WHERE License_id IN ($placeholders)");
             
             foreach ($License_id as $index => $id) {
-                $this->db->bind(($index + 1), $id); // Bind each License_id dynamically
+                $this->db->bind(($index + 1), $id);
             }
 
             return $this->db->resultSet();
@@ -67,7 +63,6 @@
         }
 
         public function getUpcomingSchedule($userId) {
-            //Get schedule IDs assigned to this user
             $this->db->query("SELECT scheduleId FROM assign WHERE conductor_id = :userId OR driver_id = :userId");
             $this->db->bind(':userId', $userId);
             $scheduleIdRows = $this->db->resultSet();
@@ -77,10 +72,8 @@
                 return [];
             }
 
-            //Build placeholders and bind schedule IDs
             $placeholders = implode(',', array_fill(0, count($scheduleIds), '?'));
 
-            //Query schedule + bus data via JOIN
             $this->db->query("
                 SELECT s.scheduleId, s.License_id, s.date, s.departureTime, s.arrivalTime, s.availableSeats, s.bookedSeats, s.type, b.start_location, b.destination, b.routeNumber, b.price, b.priceperkm
                 FROM schedule s
@@ -89,15 +82,14 @@
             ");
 
             foreach ($scheduleIds as $index => $id) {
-                $this->db->bind($index + 1, $id); // Bind positionally: ? placeholders
+                $this->db->bind($index + 1, $id);
             }
 
-            //Fetch and return the joined data
             return $this->db->resultSet();
         }
 
         public function getPastSchedule($userId) {
-            //Get schedule IDs assigned to this user
+
             $this->db->query("SELECT scheduleId FROM past_assign WHERE driver_id = :userId OR conductor_id = :userId");
             $this->db->bind(':userId', $userId);
             $scheduleIdRows = $this->db->resultSet();
@@ -107,10 +99,8 @@
                 return [];
             }
 
-            //Build placeholders and bind schedule IDs
             $placeholders = implode(',', array_fill(0, count($scheduleIds), '?'));
 
-            //Query schedule + bus data via JOIN
             $this->db->query("
                 SELECT s.scheduleId, s.License_id, s.date, s.departureTime, s.arrivalTime, s.availableSeats, s.bookedSeats, s.type, b.start_location, b.destination, b.routeNumber, b.price, b.priceperkm
                 FROM past_schedules s
@@ -119,10 +109,9 @@
             ");
 
             foreach ($scheduleIds as $index => $id) {
-                $this->db->bind($index + 1, $id); // Bind positionally: ? placeholders
+                $this->db->bind($index + 1, $id);
             }
 
-            //Fetch and return the joined data
             return $this->db->resultSet();
         }
 
@@ -151,10 +140,8 @@
 
         public function addDelays($data) {
             try {
-                // Begin transaction
                 $this->db->beginTransaction();
 
-                // Step 1: Insert delay into bus_delay table
                 $this->db->query("INSERT INTO bus_delay (schedule_id, employee_id, dep_time, new_dep_time, reason)
                                 VALUES (:scheduleID, :employee_id, :time, :newTime, :reason)");
                 $this->db->bind(':scheduleID', $data['scheduleID']);
@@ -173,14 +160,12 @@
 
                 echo '<script>console.log(' . json_encode($result) . ');</script>';
 
-                // Step 2: Get user IDs affected by this schedule
                 $this->db->query("SELECT User_id FROM registeredbooking WHERE schedule_id = :scheduleID");
                 $this->db->bind(':scheduleID', $data['scheduleID']);
                 $userRows = array_unique($this->db->resultSet(), SORT_REGULAR);
 
                 echo '<script>console.log(' . json_encode($userRows) . ');</script>';
             
-                // Step 3: Get bus and schedule details
                 $this->db->query("SELECT License_id, departureTime FROM schedule WHERE scheduleId = :scheduleID");
                 $this->db->bind(':scheduleID', $data['scheduleID']);
                 $scheduleDetails = $this->db->single();
@@ -220,7 +205,6 @@
                 $link = NULL;
                 $createdAt = date("Y-m-d H:i:s");
 
-                // Step 4: Insert notification for each user
                 foreach ($userRows as $user) {
                     $this->db->query("INSERT INTO notifications (user_id, title, message, link, is_read, is_seen, is_deleted, created_at, is_dismissed)
                                     VALUES (:user_id, :title, :message, :link, 0, 0, 0, :created_at, 0)");
@@ -232,42 +216,28 @@
                     $this->db->execute();
                 }
 
-                // Commit if everything went well
                 $this->db->endTransaction();
                 return true;
 
             } catch (Exception $e) {
-                // Rollback on error
                 $this->db->rollBack();
                 error_log("Add Delay Error: " . $e->getMessage());
                 return false;
             }
         }
 
-
-        public function getBusesForDelays($delays){
-
-        }
-
         public function getBusByScheduleID($schedules) {
-            // echo '<script> console.log("schedules: ", ' . json_encode($schedules) . '); </script>';
             
             $buses = [];
             
             foreach($schedules as $scheduleWrapper) {
-                // echo '<script> console.log("schedule: ", ' . json_encode($scheduleWrapper) . '); </script>';
-                
-                // Get the actual schedule object from the wrapper array (at index 0)
                 $schedule = $scheduleWrapper[0];
-                
-                // Now we can safely access the License_id
+
                 if (is_object($schedule)) {
                     $licenseId = $schedule->License_id;
                 } else {
                     $licenseId = $schedule['License_id'];
                 }
-                
-                // echo '<script> console.log("License id: ", ' . json_encode($licenseId) . '); </script>';
                 
                 $this->db->query('SELECT * FROM bus WHERE :licenseId = License_id');
                 $this->db->bind(':licenseId', $licenseId);
@@ -275,7 +245,7 @@
                 
                 if (!empty($result)) {
                     $buses = array_merge($buses, $result);
-                    $buses = array_unique($buses, SORT_REGULAR); // Remove duplicate entries
+                    $buses = array_unique($buses, SORT_REGULAR);
                 }
             }
             
@@ -336,7 +306,6 @@
             $buses = [];
 
             foreach ($delays as $delay) {
-                // Get schedule
                 $this->db->query('SELECT * FROM schedule WHERE scheduleID = :scheduleID');
                 $this->db->bind(":scheduleID", $delay['schedule_id']);
                 $schedule = $this->db->single();
@@ -344,7 +313,6 @@
                 if ($schedule) {
                     $schedules[] = $schedule;
 
-                    // Get bus info from License_id
                     $this->db->query('SELECT * FROM bus WHERE License_id = :licenseID');
                     $this->db->bind(':licenseID', $schedule['License_id']);
                     $bus = $this->db->single();
@@ -372,13 +340,10 @@
         }
 
         public function deleteLeave($leave_id) {
-            // Prepare the query
             $this->db->query('DELETE FROM employee_leave WHERE leave_id = :leave_id');
         
-            // Bind the leave_id parameter
             $this->db->bind(':leave_id', $leave_id);
         
-            // Execute the query and return true if successful, false otherwise
             return $this->db->execute();
         }
 
@@ -428,7 +393,6 @@
         }
 
         public function insertPastGuestBooking($bookingData) {
-            error_log("📌 insertPastGuestBooking() was called");
             error_log("booking details at model: " . print_r($bookingData, true));
             
             $this->db->query("INSERT INTO pastguestbooking (id, name, email, contact, nic, from_location, to_location, number_of_seats, selected_seats, total_price, schedule_id, paymentMethod, booking_date, booking_time, booking_status) 
@@ -465,15 +429,14 @@
             $schedules = [];
 
             foreach($assigns as $assign) {
-                // Assuming scheduleId is the column name in the assign table
-                $scheduleId = $assign['scheduleId']; // Adjust this based on your actual column name
+                $scheduleId = $assign['scheduleId'];
                 
                 $this->db->query('SELECT * FROM schedule WHERE scheduleId = :schedule_id');
                 $this->db->bind(':schedule_id', $scheduleId);
                 $schedules[] = $this->db->resultSet();
             }
 
-            return $schedules ?? []; // Return an empty array if no schedules found
+            return $schedules ?? [];
             
         }
 
@@ -493,19 +456,16 @@
         public function getScheduleDate($schedule_id) {
             $this->db->query('SELECT date FROM schedule WHERE scheduleId = :schedule_id');
             $this->db->bind(':schedule_id', $schedule_id);
-            //$this->db->execute();
 
             return $this->db->single();
         }
 
         public function checkAcceptedOrNot($seats, $schedule_id) {
             
-            // Prepare and execute query
             $this->db->query('SELECT acceptedSeats FROM schedule WHERE scheduleId = :schedule_id');
             $this->db->bind(':schedule_id', $schedule_id);
             $this->db->execute();
 
-            // Get single result
             $row = $this->db->single();
 
             if (!$row) {
@@ -520,14 +480,13 @@
 
             $acceptedSeats = array_map('trim', explode(',', $acceptedSeatsText));
 
-            // Check if any seat from $seats_to_check is already accepted
             foreach ($seats as $seat) {
                 if (in_array($seat, $acceptedSeats)) {
-                    return true; // found a matching seat
+                    return true;
                 }
             }
 
-            return false; // no matching seats, all free
+            return false;
         }
 
         public function updateAcceptedSeats($seats, $schedule_id) {
@@ -647,7 +606,6 @@
             $this->db->bind(':user_id', $currentUserId);
             
             $this->db->execute();
-            // If any rows are returned, the NIC is used by another user
             return $this->db->rowCount() > 0;
         }
 
@@ -661,7 +619,7 @@
             $this->db->bind(':contact_number', $data['contact_number']);
             $this->db->bind(':nic', $data['nic']);
             $this->db->bind(':address', $data['address']);
-            $this->db->bind(':current_email', $data['current_email']); // Use the current email for the condition
+            $this->db->bind(':current_email', $data['current_email']);
         
             return $this->db->execute();
         }

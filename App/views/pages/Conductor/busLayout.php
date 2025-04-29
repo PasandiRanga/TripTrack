@@ -8,7 +8,6 @@
 <head>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/busLayout.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Conductor/seatLayout.css?v=<?php echo time(); ?>">
-    <!--css files-->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/header/header.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/Components/navbar/navbar.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
@@ -28,14 +27,7 @@
     <?php
         $userRole = $_SESSION['user_role'] ?? 'Conductor';
         $scheduleData = $data['scheduleData'] ?? [];
-        //$acceptedSeats = $scheduleData['acceptedSeats'] ?? [];
         $busData = $data['busData'] ?? [];
-
-        /*$bookedSeatsArray = explode(',', $bookedSeats);
-        $acceptedSeatsArray = explode(',', $acceptedSeats);
-
-        $notAcceptedSeats = array_diff($bookedSeatsArray, $acceptedSeatsArray);
-        $notAcceptedSeats = array_values($notAcceptedSeats);*/
 
         $data['currentController'] = 'ConductorPages';
         $data['currentMethod'] = 'busLayout';
@@ -86,14 +78,10 @@
         echo "<script>console.log('Seat Data:', " . json_encode($seatData) . ");</script>";
         foreach ($seatData as $layout) {
             echo "<script>console.log('Seat type:', " . json_encode($layout) . ");</script>";
-            //echo "<script>console.log('Seat type 2:', " . json_encode($layout['seats']) . ");</script>";
             echo "<script>console.log('bus type 1:', " . json_encode($busType) . ");</script>";
             if($layout['seatType'] == $busType) {
-              //echo "<script>console.log('bus type 2:', " . json_encode($busType) . ");</script>";
-              //echo "<script>console.log('Seat type 3:', " . json_encode($layout['seats']) . ");</script>";
               echo "<script>console.log('Seat Type 2:', " . json_encode($layout['seatType']) . ");</script>";
               $busLayout = $layout['seats'];
-              //echo "<script>console.log('Bus layout:', " . json_encode($busLayout) . ");</script>";
               echo "<script>console.log('BusLayout:', " . json_encode($busLayout) . ");</script>";
               break;
             }
@@ -137,7 +125,6 @@
             <p><strong>Booked Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['bookedSeats']); ?></p>
             <p><strong>Accepted Seats:</strong> <?php echo htmlspecialchars($selectedSchedule['acceptedSeats']); ?></p>
             <p><strong>Not Yet Accepted Seats:</strong> <?php echo implode(', ', $notAcceptedSeats); ?></p>
-            <!--not accepted seats-->
 
             <div class="info-details">
                 <div class="info-item">

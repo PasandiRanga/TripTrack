@@ -188,3 +188,42 @@
         gap: 10px;
     }
 }
+
+@media screen and (max-width: 480px) {
+    .box.right-box {
+        padding: 20px 10px;
+        margin: 10px auto;
+    }
+    
+    .button-container {
+        flex-wrap: wrap;
+        column-gap: 8px;
+        row-gap: 8px;
+        justify-content: center;
+    }
+    
+    .number-button, .disable {
+        width: 40px;
+        height: 40px;
+        font-size: 12px;
+    }
+    
+    .number-button.booked::after,
+    .number-button.accepted::after {
+        font-size: 10px;
+        padding: 2px 5px;
+        top: -20px; /* Slightly closer */
+    }
+    
+    .seat-legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .seat-legend .legend-item {
+        width: 100%;
+    }
+}

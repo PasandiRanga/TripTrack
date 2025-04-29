@@ -7,7 +7,6 @@ body {
     height: 100vh;
 }
 
-/* Back Button */
 .back-button {
     position: fixed;
     display: inline-block;
@@ -20,7 +19,7 @@ body {
         font-size: 0.9em;
         border-radius: 6px;
         cursor: pointer;
-        height: 35px; /* Adjusted to match input group height */
+        height: 35px;
         min-width: 80px;
 }
 
@@ -36,7 +35,7 @@ body {
         font-size: 1.0em;
         border-radius: 6px;
         cursor: pointer;
-        height: 37px; /* Adjusted to match input group height */
+        height: 37px;
         min-width: 80px;
 }
 
@@ -48,7 +47,6 @@ button:hover {
         background: linear-gradient(135deg, #00796b, #00838f);
     }
 
-/* View Layout Button Specific Style */
 #viewLayout1 {
     display: inline-block;
     background: linear-gradient(135deg, #43cea2, #185a9d);background-color: #063946;
@@ -74,9 +72,6 @@ button:hover {
     text-align: center;
 }
 
-
-
-/* Main Title */
 h1 {
     top: 30px;
     left: 42%;
@@ -88,12 +83,10 @@ h1 {
     position: fixed;
 }
 
-/* Container */
 .container {
     margin-top: 40px;
 }
 
-/* QR Reader Container */
 .qr-reader-container {
     position: fixed;
     margin: 60px auto !important;
@@ -115,7 +108,6 @@ h1 {
     background-color: #e9f5f8;
 }
 
-/* QR Result */
 #qr-result {
     margin-top: 20px;
     font-size: 1.2rem;
@@ -124,36 +116,13 @@ h1 {
     word-wrap: break-word;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    .qr-reader-container {
-        width: 90%;
-    }
-
-    #qr-reader {
-        width: 100%;
-    }
-
-    #qr-result {
-        font-size: 1rem;
-    }
-}
-
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2); /* lighter dark overlay */
+    background: rgba(0, 0, 0, 0.2); 
     backdrop-filter: blur(5px);
     display: none;
     justify-content: center;
@@ -235,154 +204,93 @@ h1 {
     background-color: #f5f5f5;
 }
 
-@media screen and (max-width: 480px) {
-    /* Further adjustments for even smaller devices */
-    h1 {
-        font-size: 1.25rem;
-    }
-
-    /* QR Reader Container */
-    .qr-reader-container {
-        padding: 15px;
-    }
-
-    /* Adjust back button and accept button for small screens */
-    .back-button,
-    .acceptBooking-button {
-        padding: 7px 14px;
-        font-size: 0.85em;
-        min-width: 60px;
-    }
-
-    /* Adjust View Layout Button */
-    #viewLayout1 {
-        font-size: 13px;
-        padding: 7px 14px;
-    }
-
-    /* Modal content for very small screens */
-    .modal-content {
-        padding: 15px;
-        font-size: 15px;
-    }
-
-    .modal-content h2 {
-        font-size: 20px;
-    }
-
-    .modal-content pre {
-        font-size: 15px;
-        padding: 10px;
-    }
-
-    .modal-content button {
-        font-size: 12px;
-        padding: 8px 15px;
-    }
-
-    .close-btn {
-        font-size: 20px;
-        width: 28px;
-        height: 28px;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    /* Adjusting the container padding and margins */
-    .container {
-        padding: 15px;
-        margin-top: 20px;
-    }
-
-    /* Adjusting the title */
-    h1 {
-        font-size: 1.5rem;
-        position: relative;
-        top: 0;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    /* QR Reader Container */
-    .qr-reader-container {
-        width: 100%;
-        margin: 30px auto !important;
-        padding: 25px;
-        box-shadow: none; /* Remove shadow on smaller screens */
-    }
-
-    /* Adjusting QR Reader Box */
-    #qr-reader {
-        width: 100%;
-        padding: 10px;
-        border: 2px dashed #063946;
-        border-radius: 10px;
-        background-color: #e9f5f8;
-    }
-
-    /* Adjust QR Result Text */
-    #qr-result {
-        font-size: 1rem;
-        margin-top: 15px;
-    }
-
-    /* Back and Accept Booking Button */
-    .back-button,
-    .acceptBooking-button {
-        padding: 8px 16px;
-        font-size: 0.9em;
-        top: 10px;
-        min-width: 70px;
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
     }
 
     .back-button {
-        left: 20px;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        padding: 6px 12px;
+        font-size: 0.8em;
+        height: auto;
+        min-width: auto;
+        z-index: 1001;
     }
 
     .acceptBooking-button {
-        right: 20px;
+        top: 15px;
+        right: 15px;
+        padding: 6px 12px;
+        font-size: 0.8em;
+        height: auto;
+        min-width: auto;
     }
 
-    /* View Layout Button */
-    #viewLayout1 {
-        padding: 8px 16px;
-        font-size: 14px;
+    h1 {
         position: relative;
-        right: 15px !important;
+        top: 65px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.8rem;
+        width: 90%;
+        text-align: center;
+        padding: 0 10px;
     }
 
-    /* Modal content and close button styles for mobile */
+    .container {
+        margin-top: 120px;
+        padding: 0 15px;
+    }
+
+    .qr-reader-container {
+        position: relative;
+        margin: 0 auto;
+        left: 0;
+        width: 100%;
+        max-width: 350px;
+        padding: 20px 10px;
+        box-shadow: none;
+        background: #ffffff;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #qr-reader {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 8px;
+        padding: 8px;
+        margin: 0 auto;
+        background-color: #e9f5f8;
+    }
+
+    #viewLayout1 {
+        margin-top: 20px;
+        width: 100%;
+    }
+
     .modal-content {
-        padding: 20px;
+        padding: 20px 15px;
+        width: 95%;
+        max-width: 95%;
+        border-radius: 15px;
+    }
+
+    .modal-content pre {
         font-size: 16px;
-        width: 90%;
     }
 
     .modal-content h2 {
         font-size: 22px;
     }
 
-    .modal-content pre {
-        font-size: 16px;
-        padding: 15px;
-    }
-
-    .modal-content button {
-        font-size: 14px;
-        padding: 10px 20px;
-    }
-
-    .close-btn {
+    .qr-title {
         font-size: 22px;
-        width: 30px;
-        height: 30px;
-    }
-
-    /* For modal overlay */
-    .modal-overlay {
-        background: rgba(0, 0, 0, 0.5); /* Slightly darker overlay for better visibility */
-        backdrop-filter: blur(5px);
-        justify-content: center;
-        align-items: center;
+        margin-top: 20px;
     }
 }

@@ -10,9 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,21 +20,17 @@
     <script>
         var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'Conductor'); ?>;
         localStorage.setItem('userRole', userRole);
+
+        const URLROOT = '<?php echo URLROOT; ?>';
     </script>
 
     <?php
-        // Get current date
         $currentDate = date('Y-m-d');
 
         $userId = $_SESSION['user_id'] ?? '';
-        $userRole = $_SESSION['user_role'] ?? 'Conductor';
         $upcomingScheduleData = $data['upcomingSchedule'] ?? [];
         $pastScheduleData = $data['pastSchedule'] ??[];
         $totalSchedules = $data['totalSchedules'] ?? [];
-        /*$latestNotification = $data['latestNotification'];*/
-
-        $upcomingSchedules = [];
-        $pastSchedules = [];
     ?>
 
     <div class="grid-container">
@@ -57,7 +50,6 @@
                 <i class="fa-solid fa-user"></i>
                 <span class="text">Employee</span>
 
-                <!--<span class="material-icons-outlined" onclick="closeSidebar()">close</span>-->
             </div>
 
             <ul class="sidebar-list">
@@ -72,10 +64,10 @@
                     <span class="text">Scan QR Code</span>
                 </li>
 
-                <!-- <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/AcceptBookingForm'">
+                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/AcceptBookingForm'">
                     <i class="fa-solid fa-upload"></i>
                     <span class="text">Accept Bookings</span>
-                </li> -->
+                </li>
 
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/informDelays'">
                     <i class="fa-solid fa-clock"></i>
@@ -85,11 +77,6 @@
                 <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/notifications'">
                     <i class="fa-solid fa-bell"></i>
                     <span class="text">Notifications</span>
-                </li>
-
-                <li class="sidebar-list-item" onclick="location.href='<?php echo URLROOT; ?>/ConductorPages/AcceptBookingForm'">
-                    <i class="fa-solid fa-upload"></i>
-                    <span class="text">Accept Bookings</span>
                 </li>
 
                 <li class="sidebar-list-item" onclick="openLogoutModal()">
@@ -102,7 +89,7 @@
         <main class="main-container">
             <div class="main-title">
                     <h2>Employee Dashboard</h2> 
-                    <img class="logo-right" src="../images/logo2.png" alt="Logo" class="logo">
+                    <img class="logo-right" src="../images/logo2.png" alt="Logo">
                 </div>
 
             <div class="main-cards">
@@ -111,7 +98,7 @@
                         <h3 class="card-title">Total Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
                     </div>
-                    <h1 class="card-value-notification"><?php echo count($data['totalSchedules']); ?></h1>
+                    <h1 class="card-value-notification"><?php echo $data['totalSchedules']['monthly_count']; ?></h1>
                 </div>
 
                 <div class="card">
@@ -125,7 +112,7 @@
                 <?php if (!empty($data['latestNotification'])): ?>
                     <div class="card">
                         <div class="card-inner">
-                            <h3 class="card-title">Notifications</h3>
+                            <h3 class="card-title">Latest Notification</h3>
                             <span class="material-icons-outlined">notifications</span>
                         </div>
                         <h3 class="card-value-notification"><?php echo $data['latestNotification']['title']; ?></h3>
@@ -143,16 +130,9 @@
                 <?php endif; ?>
             </div>
 
-            <!--<div class="main-title">
-                <h2>Employee Schedule</h2> 
-
-            </div>-->
-
             <center>
             <div class="container">
-                <!--<div class="container-heading">
-                <h1>Employee Schedule</h1>
-                </div>-->
+            
                 <div class="column">
                     <div class="wrapper">
                         <header>
@@ -201,15 +181,13 @@
     </div>
 
     <script>
-        var sidebarOpen = false; // Fixed typo from 'sidebarOpean'
+        var sidebarOpen = false;
         var sidebar = document.getElementById("sidebar");
         var menuIcon = document.getElementById("menuIcon");
 
         function openSidebar() {
             if (!sidebarOpen) {
                 sidebar.classList.add("sidebar-responsive");
-                //menuIcon.style.display = "none"; // Hide menu icon
-                //sidebar.style.transform = "translateX(0)";
                 sidebarOpen = true;
             }
         }
@@ -217,13 +195,10 @@
         function closeSidebar() {
             if (sidebarOpen) {
                 sidebar.classList.remove("sidebar-responsive");
-                 //menuIcon.style.display = "block"; // Show menu icon again
-                //sidebar.style.transform = "translateX(-100%)";
                 sidebarOpen = false;
             }
         }
 
-        //logout
         function openLogoutModal() {
             document.getElementById("logoutModal").classList.add("open-modal");
         }
@@ -237,18 +212,15 @@
         }
 
         window.toggleDetails = function(event, element) {
-            // Don't toggle details if click is on menu items
             if (event.target.closest('.three-dots') || event.target.closest('.menu')) {
                 return;
             }
 
-            // Find the schedule details within this element
             const details = element.querySelector('.schedule-details');
-            if (!details) return; // Guard against missing elements
+            if (!details) return;
             
             const arrow = element.querySelector('.arrow-icon');
             
-            // Toggle the display of the details
             if (details.style.display === 'block') {
                 details.style.display = 'none';
                 if (arrow) arrow.textContent = '▼';
@@ -263,7 +235,6 @@
             const daysTag = document.querySelector(".days");
             const prevNextIcons = document.querySelectorAll(".icons span");
             const column2 = document.querySelector(".column:nth-child(2)");
-            //renderCalendar(); // Call the calendar render function
 
             const closeBtn = document.querySelector('.close-column-btn');
 
@@ -363,17 +334,15 @@
                 if (!scheduleStatus.scheduleIds.length) {
                     dateInfo += `<p>No schedule available for this date.</p>
                                 <br><br>
-                                <img class="cal" src="<?php echo URLROOT; ?>/public/images/calender.png" alt="calendar">`;
+                                <img class="cal" src="<?php echo URLROOT; ?>/public/images/calendar.png" alt="calendar">`;
                 } else {
                     dateInfo += `<div class="schedule-list">`;
                     
-                    // Show upcoming bookings
                     if (scheduleStatus.hasUpcoming) {
                         dateInfo += `<h4>Upcoming Schedule</h4>`;
 
                         upcomingScheduleData.forEach(schedule => {
                             if (schedule.date === dateStr) {
-
                                 dateInfo += `
                                     <div class="schedule-item upcoming" onclick="toggleDetails(event, this)">
                                         
@@ -398,7 +367,6 @@
                         });
                     }
 
-                    // Show past bookings
                     if (scheduleStatus.hasPast) {
                         dateInfo += `<h4>Past Schedule</h4>`;
 
