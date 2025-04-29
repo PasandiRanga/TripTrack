@@ -311,6 +311,7 @@
                     }
                 } else {
                     $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; 
+                    $data['profile_image_name'] = './../../Public/images/profileImages/default.jpg'; 
                 }
 
                 if (empty($data['name'])) {
@@ -319,11 +320,15 @@
 
                 if (empty($data['number'])) {
                     $data['number_err'] = 'Please enter a contact number'; 
+                    $data['number_err'] = 'Please enter a contact number'; 
                 } elseif (!ctype_digit($data['number'])) {
+                    $data['number_err'] = 'The contact number must contain only numbers'; 
                     $data['number_err'] = 'The contact number must contain only numbers'; 
                 } elseif (strlen($data['number']) !== 10) {
                     $data['number_err'] = 'The contact number must be exactly 10 digits long'; 
+                    $data['number_err'] = 'The contact number must be exactly 10 digits long'; 
                 } elseif ($data['number'][0] !== '0') {
+                    $data['number_err'] = 'The contact number must start with 0'; 
                     $data['number_err'] = 'The contact number must start with 0'; 
                 }
 

@@ -29,6 +29,8 @@ dropArea.addEventListener("dragleave", () => {
 dropArea.addEventListener("drop", (event) => {
     event.preventDefault();
     file = event.dataTransfer.files[0];
+
+    // Adding the file to the input element programmatically
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
     inputPath.files = dataTransfer.files;
@@ -111,8 +113,8 @@ document.getElementById("Register").addEventListener("click", function(e) {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                showConfirmBox(); 
-                console.log('OTP for testing:', data.debug_otp || 'Hidden'); 
+                showConfirmBox(); // Show OTP popup
+                console.log('OTP for testing:', data.debug_otp || 'Hidden'); // Debugging
             } else {
                 alert(data.message || 'Failed to send OTP. Please try again.');
             }
