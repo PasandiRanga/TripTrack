@@ -293,6 +293,7 @@
                 const scheduleObj = upcomingScheduleData.find(s => s.scheduleId == scheduleId) || 
                                 pastScheduleData.find(s => s.scheduleId == scheduleId);
                 const busObj = scheduleObj ? busData.find(b => b.License_id === scheduleObj.License_id || b.busId === scheduleObj.busId) : null;
+                console.log("Bus object" , busObj);
                 
                 if (bookingObj && scheduleObj && busObj) {
                     showTicket(bookingObj, scheduleObj, busObj, userData);
@@ -669,15 +670,17 @@ function showTicket(booking, schedule, bus, user) {
     const busLicenseId = matchedSchedule ? matchedSchedule.License_id : null;
     
     const matchedBus = Array.isArray(bus) ? 
-        bus.find(b => b.License_id == busLicenseId) : 
-        (bus.License_id == busLicenseId ? bus : null);
+        bus.find(b => (b.License_id == busLicenseId || b.license_id == busLicenseId)) : 
+        ((bus.License_id == busLicenseId || bus.license_id == busLicenseId) ? bus : null);
+
+    console.log("Matched buses: " , matchedBus);
     
     const seats = booking.Seats || "N/A";
     const numberOfSeats = booking.number_of_seats || 1;
     const userName = user.Name || user.user_name || "User";
     const userNIC = user.NIC || user.nic || "N/A";
     
-    const routeNumber = matchedBus ? (matchedBus.routeNumber || matchedBus.route_number) : "N/A";
+    const routeNumber = matchedBus ? (matchedBus.routeNumber || matchedBus.routeNumber) : "N/A";
     const formattedPrice = booking.total_price ? Number(booking.total_price).toFixed(2) : "0.00";
         
     ticketContent.innerHTML = `
@@ -700,7 +703,6 @@ function showTicket(booking, schedule, bus, user) {
             
             <div class="ticket-body">
                 <div class="info">
-                    <p><strong>Route No:</strong>&nbsp;&nbsp; ${routeNumber}</p>
                     <p><strong>Bus Number:</strong>&nbsp;&nbsp; ${busLicenseId || "N/A"}</p>
                     <p><strong>Ticket Reference No:</strong>&nbsp;&nbsp; ${booking.id}</p>
                     <p><strong>Date:</strong>&nbsp;&nbsp; ${booking.scheduleDate || (matchedSchedule ? matchedSchedule.date : "N/A")}</p>
