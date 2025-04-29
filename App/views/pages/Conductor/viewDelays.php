@@ -30,8 +30,8 @@
         </thead>
         <tbody>
             <?php if (!empty($data['delays'])): ?>
+                <?php echo "<script>console.log('delay data:', " . json_encode($data['delays']) . ");</script>"?>
                 <?php
-                // Prepare lookup arrays for schedules and buses for faster access
                 $scheduleMap = [];
                 foreach ($data['schedules'] as $schedule) {
                     $scheduleMap[$schedule['scheduleId']] = $schedule;

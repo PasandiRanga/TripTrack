@@ -23,7 +23,6 @@
     </script>
 
     <?php
-    // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'Conductor';
     ?>
 
@@ -31,20 +30,15 @@
     <?php
     $profile = $data;
     error_log("profile details at view: " . print_r($data, true));
-    // echo '<pre>';
-    //         print_r($_SESSION['user_profile_image']);
-    //         echo '</pre>';
-    //         exit();
 
     $data = [
-        'currentController' => 'ConductorPages', // Adjust this based on your controller
-        'currentMethod' => 'profile', // Adjust this based on the method
+        'currentController' => 'ConductorPages',
+        'currentMethod' => 'profile',
         'userRole' => $userRole
     ];
     ?>
 
     <script>
-        // Encode the PHP array as JSON for JavaScript
         var profileData = <?php echo json_encode($profile); ?>;
         console.log("Profile Data:", profileData);
     </script>
@@ -55,15 +49,13 @@
         <h1>Employee Profile</h1>
     </div>
 
-    <!-- Profile Container -->
     <div class="profile-container">
         <!-- Left Side: User Info -->
         <div class="profile-left">
             <div class="profile-pic">
                 <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $profile['profile_pic'];?>" alt="Profile Picture" class="profile-pic">
             </div>
-            <button class="edit-image-button" onclick="showImageUpdateBox()"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>
-            <!--<button class="edit-image-button"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>-->         
+            <button class="edit-image-button" onclick="showImageUpdateBox()"><i class="fa-solid fa-pencil fa-sm"></i> Edit</button>        
             <h2><?php echo $profile['name']; ?></h2>
 
             <button class="logout-button" onclick="openLogoutModal()"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>  LogOut</button>
@@ -72,7 +64,6 @@
         <div class="imageUpdateBox hidden" id="imageUpdateBox">
             <div class="imageUpdateBoxContent">
             <form action="<?php echo URLROOT ?>/ConductorPages/updateProfileImage" method="POST" enctype="multipart/form-data">
-                <!-- Profile Image Upload Section -->
                     <div class="form-drag-area">
                         <div class="icon">
                             <img src="<?php echo URLROOT; ?>/public/images/placeholder.jpg" alt="placeholder" width="90px" height="90px" id="placeholder">
@@ -157,7 +148,6 @@
             document.getElementById('updateBox').classList.add('hidden');
         }
 
-
         //logout
         function openLogoutModal() {
             document.getElementById("logoutModal").classList.add("open-modal");
@@ -215,7 +205,6 @@
             event.preventDefault();
             file = event.dataTransfer.files[0];
 
-            // Adding the file to the input element programmatically
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(file);
             inputPath.files = dataTransfer.files;
@@ -226,7 +215,6 @@
         function showImage() {
             const fileType = file.type;
 
-            // Valid image extensions
             const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
 
             if (validExtensions.includes(fileType)) {
@@ -234,13 +222,11 @@
                 fileReader.onload = () => {
                     const fileURL = fileReader.result;
 
-                    // Set image preview
                     placeholder.setAttribute("src", fileURL);
                 };
 
                 fileReader.readAsDataURL(file);
 
-                // Show validation tick
                 validate.classList.add("active");
             } else {
                     alert("This is not a valid image file. Please upload a JPEG, JPG, or PNG file.");

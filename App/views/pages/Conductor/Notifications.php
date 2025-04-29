@@ -19,17 +19,19 @@
 <script>
     var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'Conductor'); ?>;
     localStorage.setItem('userRole', userRole);
+
+    const URLROOT = '<?php echo URLROOT; ?>';
+
 </script>
 
 <?php
     $Allnotifications = $data['allnotifications'] ?? [];
     $newnotifications = $data['newnotifications'] ??[];
 
-    // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'Conductor';
     $data = [
-        'currentController' => 'ConductorPages', // Adjust this based on your controller
-        'currentMethod' => 'notifications', // Adjust this based on the method
+        'currentController' => 'ConductorPages',
+        'currentMethod' => 'notifications',
         'userRole' => $userRole
     ];
 ?>
@@ -45,10 +47,10 @@
         </div>
         
         <div class="notification-filters">
-            <div class="notification-search">
+            <!--<div class="notification-search">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" id="notification-search" placeholder="      Search notifications...">
-            </div>
+            </div>-->
             <div class="filter-buttons">
                 <button id="filter-all" class="active">All</button>
                 <button id="filter-unread">Unread</button>
@@ -133,7 +135,7 @@
         const filterUnread = document.getElementById('filter-unread');
         const filterRead = document.getElementById('filter-read');
         const markAllRead = document.getElementById('mark-all-read');
-        const searchInput = document.getElementById('notification-search');
+        //const searchInput = document.getElementById('notification-search');
         const notificationItems = document.querySelectorAll('.notifi-items');
 
         function setActiveFilter(activeButton) {
@@ -144,7 +146,7 @@
         }
 
         function filterNotifications() {
-            const searchText = searchInput.value.toLowerCase();
+            //const searchText = searchInput.value.toLowerCase();
             const activeFilter = document.querySelector('.filter-buttons button.active').id;
             
             notificationItems.forEach(item => {
@@ -152,7 +154,7 @@
                 const content = item.querySelector('.notification-contents p').textContent.toLowerCase();
                 const isRead = item.classList.contains('read');
                 
-                const matchesSearch = title.includes(searchText) || content.includes(searchText);
+                //const matchesSearch = title.includes(searchText) || content.includes(searchText);
                 let matchesFilter = true;
                 
                 if (activeFilter === 'filter-unread') {

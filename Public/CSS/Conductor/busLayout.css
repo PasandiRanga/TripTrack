@@ -8,7 +8,6 @@ body {
     background-color: #d8f8ee;
 }
 
-
 .back-button {
     position: relative;
     display: inline-block;
@@ -21,7 +20,7 @@ body {
         font-size: 0.9em;
         border-radius: 6px;
         cursor: pointer;
-        height: 35px; /* Adjusted to match input group height */
+        height: 35px; 
         min-width: 80px;
 }
 
@@ -36,7 +35,7 @@ h1 {
     margin-bottom: 0px;
     font-size: 2.5rem;
     color: #43cea2;
-}/**/
+}
 
 .layout-container {
     display: flex;
@@ -50,43 +49,6 @@ h1 {
 .detail-container {
     flex: 1;
     width: auto !important;
-}
-
-@media screen and (max-width:1286) {
-    .bus-info{
-        width: auto !important;
-    }
-
-    .info-details {
-        align-items: flex-start !important;
-    }
-}
-
-@media screen and (max-width: 1000px) {
-    .bus-info {
-            width: auto !important;
-            margin-top: 70px !important;
-    }
-
-    .info-details {
-        align-items: flex-start !important;
-    }
-
-    .info-details > .info-item:not(:last-child) {
-        margin-right: 0 !important;
-        margin-bottom: 15px !important;
-    }
-
-    /* .time-container {
-        display: none !important;
-    } */
-
-    .dotted-line {
-        border: none;
-        border-top: 2px dotted #064060;
-        width: auto;
-        margin: 0;
-    }
 }
 
 .bus-info {
@@ -230,4 +192,116 @@ h1 {
     border-top: 2px dotted #064060;
     width: 100%;
     margin: 0;
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+
+    .back-button {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        padding: 8px 16px;
+        font-size: 0.8em;
+        z-index: 1001;
+        height: auto;
+        min-width: auto;
+    }
+
+    h1 {
+        position: relative;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.8rem;
+        width: 90%;
+        text-align: center;
+        padding: 0 10px;
+        z-index: 1000;
+    }
+
+    .layout-container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 100px;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .bus-info {
+        width: 100%;
+        max-width: 95%;
+        margin-top: 20px;
+        padding: 20px;
+    }
+
+    .info-details {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .info-item {
+        margin-bottom: 15px;
+    }
+
+    .qr-reader-container {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    #qr-reader {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 0 auto;
+        background-color: #e0f7fa;
+    }
+
+    #viewLayout1 {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .back-button {
+        font-size: 0.7em;
+        padding: 5px 10px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .info-item h3, 
+    .info-item p {
+        font-size: 0.9em;
+    }
+
+    .bus-info h2 {
+        font-size: 1.3em;
+    }
+
+    .route-container h2 {
+        font-size: 1.3em;
+    }
+
+    .route-container .date {
+        font-size: 1rem;
+    }
 }

@@ -82,7 +82,6 @@
             nicError.classList.add('error-message'); 
             nicInput.parentNode.appendChild(nicError);
 
-            // Create Booking ID error message element
             const bookingIdError = document.createElement('div');
             bookingIdError.id = 'bookingIdError';
             bookingIdError.classList.add('error-message'); 
@@ -111,7 +110,7 @@
 
             function validateBookingId() {
                 const bookingIdValue = bookingIdInput.value.trim();
-                const validBookingId = /^[RG][0-9]{3}$/; // R + 3 digits
+                const validBookingId = /^[RG][0-9]{3}$/;
 
                 if (bookingIdValue === "") {
                     bookingIdInput.classList.remove('input-error');
@@ -136,24 +135,23 @@
             }
 
             nicInput.addEventListener('input', function () {
-                nicInput.value = nicInput.value.toUpperCase(); // force uppercase V
+                nicInput.value = nicInput.value.toUpperCase();
                 validateNIC();
                 checkFormValidity();
             });
 
             bookingIdInput.addEventListener('input', function () {
-                bookingIdInput.value = bookingIdInput.value.toUpperCase(); // auto capitalize R if needed
+                bookingIdInput.value = bookingIdInput.value.toUpperCase();
                 validateBookingId();
                 checkFormValidity();
             });
 
             form.addEventListener('submit', function(event) {
                 if (!(validateNIC() && validateBookingId())) {
-                    event.preventDefault(); // stop submission if invalid
+                    event.preventDefault();
                 }
             });
 
-            // Initial validation in case fields are pre-filled
             checkFormValidity();
         });
 
@@ -161,7 +159,7 @@
         const popup = document.getElementById("resultModal");
 
         form.addEventListener("submit", function(event) {
-            event.preventDefault(); // Stop default form submit
+            event.preventDefault();
 
             const formData = new FormData(form);
 
@@ -171,7 +169,6 @@
             })
             .then(response => response.json()) 
             .then(data => {
-                // Show success or error message from backend
                 showModal(data);
             })
             .catch(error => {
