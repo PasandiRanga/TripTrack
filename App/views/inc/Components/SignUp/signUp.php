@@ -118,14 +118,11 @@
     <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
     <script>
 document.addEventListener('DOMContentLoaded', function() {
-<<<<<<< HEAD
-=======
     const otpErrorElement = document.querySelector('[class="form-invalid"]:not(:empty)');
     if (otpErrorElement && otpErrorElement.textContent.includes('OTP')) {
         document.getElementById('confirmBox').classList.remove('hidden');
     }
 
->>>>>>> 3b7fc4f706493950e3f71a2fed8a89fe392057db
     const form = document.querySelector('form');
     const nameInput = document.getElementById('name');
     const numberInput = document.getElementById('number');

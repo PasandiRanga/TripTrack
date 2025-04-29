@@ -145,6 +145,14 @@
     position: relative;
 }
 
+.number-button.accepted {
+    color: #fff;
+    background-color: #006064;
+    border: 2px solid #00897b;
+    opacity: 0.7;
+    position: relative;
+}
+
 .number-button.accepted::after {
         content: 'Accepted';
         position: absolute;
