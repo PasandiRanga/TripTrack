@@ -189,7 +189,7 @@
                     <div class="bus-card-footer">
                         <div class="rating">
                             ${starsHTML}
-                            <span>${ratingIsNumeric ? numericRating.toFixed(1) : 'No rating'}</span>
+                            <span>${ratingIsNumeric ? numericRating.toFixed(1) : '0.0'}</span>
                         </div>
                         <div class="price"><span>${bus.price}</span></div>
                     </div>

@@ -2,9 +2,8 @@
     require_once APPROOT.'/helpers/auth_check.php';
     authCheck(['Admin']);
 
-        // Check if this is an update operation
-    //$isUpdate = isset($_GET['License_id']);
-    $isUpdate = isset($_GET['License_id']) && !empty($_GET['License_id']); // Check if it's an update operation
+        
+    $isUpdate = isset($_GET['License_id']) && !empty($_GET['License_id']);
     $licenseId = $isUpdate ? htmlspecialchars($_GET['License_id']) : '';
     $routeNumber = $isUpdate ? htmlspecialchars($_GET['routeNumber']) : '';
     $startLocation = $isUpdate ? htmlspecialchars($_GET['start_location']) : '';
@@ -24,24 +23,24 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/CSS/SuperAdmin/Addfleet.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <!-- Back button -->
+    
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/fleet'">Back</button>
     <div class="box">
         <h1><?php echo $isUpdate ? 'Update Bus Details' : 'Add New Bus'; ?></h1>
 
-        <!-- Fleet form -->
+        
         <form id="fleet-form" method="POST" action="<?php echo $isUpdate ? URLROOT . '/SuperAdminPages/updateBus' : URLROOT . '/SuperAdminPages/AddFleet'; ?>" class="form-group">
             <?php
                 echo '<script>console.log(' . json_encode($data) . ');</script>';
             ?>
         <div class="box-form">
-            <!-- License ID -->
+           
             <div class="form-group">
                 <label for="License_id">License ID:</label>
                 <input type="text" id="License_id" name="License_id" value="<?php echo $licenseId; ?>" <?php echo $isUpdate ? 'readonly' : 'required'; ?>>
             </div>
 
-            <!-- Route Number -->
+           
             <div class="form-group">
                 <label for="routeNumber">Route No:</label>
                 <select id="routeNumber" name="routeNumber" required>
@@ -60,19 +59,19 @@
                 </select>
             </div>
 
-            <!-- Start Location -->
+            
             <div class="form-group">
                 <label for="start_location">Starts:</label>
                 <input type="text" id="start_location" name="start_location" value="<?php echo $startLocation; ?>" required placeholder="e.g., Colombo" readonly>
             </div>
 
-            <!-- Destination -->
+            
             <div class="form-group">
                 <label for="destination">Destination:</label>
                 <input type="text" id="destination" name="destination" value="<?php echo $destination; ?>" required placeholder="e.g., Kandy" readonly>
             </div>
 
-            <!-- Passengers -->
+            
             <div class="form-group">
                 <label for="passengers">Passengers:</label>
                 <select id="passengers" name="passengers" class="passengers" required>
@@ -84,26 +83,26 @@
                 </select>
             </div>
 
-            <!-- Price -->
+            
             <div class="form-group">
                 <label for="price">Price:</label>
                 <input type="number" id="price" name="price" value="<?php echo $price; ?>" required readonly>
             </div>
 
-            <!-- Price per KM -->
+            
             <div class="form-group">
                 <label for="priceperkm">Price per KM:</label>
                 <input type="number" id="priceperkm" name="priceperkm" value="<?php echo $pricePerKm; ?>" required readonly>
             </div>
 
-            <!-- Submit and Clear buttons -->
+            
             <div class="button-container">
                 <button class="button" type="submit"><?php echo $isUpdate ? 'Update Bus' : 'Add Bus'; ?></button>
                 <button class="button" type="button" onclick="clearForm()">Clear</button>
             </div>
         </form>
     </div>
-    <!-- Popup overlay -->
+    
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box">
             <p id="popupMessage"></p>
@@ -128,7 +127,7 @@
         document.getElementById('priceperkm').value = '';
     }
 
-    // Show popup message
+    
     function showPopup(message) {
         const popupOverlay = document.getElementById("popupOverlay");
         const popupMessage = document.getElementById("popupMessage");
@@ -137,7 +136,7 @@
         popupOverlay.style.display = "flex";
     }
 
-    // Close popup
+    
     function closePopup() {
         const popupOverlay = document.getElementById("popupOverlay");
         popupOverlay.style.display = "none";
@@ -151,18 +150,18 @@
         const startLocationField = document.getElementById("start_location");
         const destinationField = document.getElementById("destination");
 
-    // Unified change handler for route dropdown
+    
     routeDropdown.addEventListener("change", function () {
         const selectedOption = this.options[this.selectedIndex];
         const price = selectedOption.getAttribute("data-price");
         const pricePerKm = selectedOption.getAttribute("data-priceperkm");
         const routeName = selectedOption.getAttribute("data-routename");
 
-        // Set price fields
+        
         priceField.value = price || '';
         pricePerKmField.value = pricePerKm || '';
 
-        // Set route start and destination
+        
         if (routeName && routeName.includes('-')) {
             const [start, destination] = routeName.split('-');
             startLocationField.value = start.trim();
@@ -173,13 +172,13 @@
         }
     });
 
-    // Clear price fields on form reset
+    
     document.getElementById("fleet-form").addEventListener("reset", function () {
         priceField.value = '';
         pricePerKmField.value = '';
     });
 
-    // Handle form submission
+    
     document.getElementById("fleet-form").addEventListener("submit", function (event) {
         event.preventDefault();
 

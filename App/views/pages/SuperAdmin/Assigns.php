@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<!-- Confirmation Popup -->
+
 <div id="confirmModal" class="popup-modal" style="display:none;">
   <div class="popup-content">
     <p>Are you sure you want to delete this assign?</p>
@@ -69,7 +69,7 @@
   </div>
 </div>
 
-<!-- Success Popup -->
+
 <div id="popupModal" class="popup-modal" style="display:none;">
   <div class="popup-content">
     <p id="popupMessage"></p>
@@ -78,22 +78,22 @@
 </div>
 
 <style>
-/* Common Popup Overlay */
+
 .popup-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent dark background */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    display: none; /* hidden by default */
+    display: none; 
 }
 
-/* Popup Content (First Box) */
+
 .popup-content {
     background-color: white;
     width: 400px;
@@ -106,14 +106,14 @@
     animation: popupFadeIn 0.3s ease-out;
 }
 
-/* Popup Message (Text inside popup-content) */
+
 .popup-content p {
     font-size: 18px;
     color: #424242;
     margin-bottom: 20px;
 }
 
-/* Buttons inside .popup-content */
+
 .popup-content button {
     width: 120px;
     height: 40px;
@@ -126,9 +126,9 @@
     margin: 10px;
 }
 
-/* Confirm Button */
+
 .popup-content button:nth-child(1) {
-    background-color: #2ecc71; /* Green color */
+    background-color: #2ecc71; 
     color: white;
 }
 
@@ -142,9 +142,9 @@
     background-color: #3e8e41;
 }
 
-/* Cancel Button (No button) */
+
 .popup-content button:nth-child(2) {
-    background-color: #e74c3c; /* Red color */
+    background-color: #e74c3c; 
     color: white;
 }
 
@@ -158,7 +158,7 @@
     background-color: #e74c3c;
 }
 
-/* Animation */
+
 @keyframes popupFadeIn {
     from {
         opacity: 0;

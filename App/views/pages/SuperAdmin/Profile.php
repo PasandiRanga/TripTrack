@@ -108,9 +108,9 @@
     <h1>Admin Profile</h1>
 </div>
 
-<!-- Profile Container -->
+
 <div class="profile-container">
-    <!-- Image Update Modal -->
+   
     <div class="imageUpdateBox" id="imageUpdateBox">
         <div class="imageUpdateBoxContent">
             <form action="<?php echo URLROOT ?>/SuperAdminPages/updateProfileImage" method="POST" enctype="multipart/form-data">
@@ -138,7 +138,7 @@
         </div>
     </div>
 
-    <!-- Left Side: Profile Image -->
+    
     <div class="profile-left">
         <div class="profile-pic">
             <img src="<?php echo URLROOT;?>/images/profileImages/<?php echo $_SESSION['user_profile_image']; ?>" alt="Profile Picture" class="profile-pic">
@@ -154,7 +154,7 @@
         </button>
     </div>
 
-    <!-- Right Side: Admin Details -->
+    
     <div class="profile-right">
         <div class="detail">
             <label>Full Name</label>
@@ -187,7 +187,7 @@
     </div>
 </div>
 
-<!-- Logout Modal -->
+
 <div class="modal-overlay" id="logoutModal">
     <div class="modal-content">
         <h2>Are you sure you want to logout?</h2>

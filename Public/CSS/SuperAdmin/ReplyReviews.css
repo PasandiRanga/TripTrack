@@ -1,4 +1,4 @@
-/* Global Styles */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #d8f8ee;
@@ -6,7 +6,7 @@ body {
     padding: 20px;
 }
 
-/* Back Button */
+
 .back-button {
     background-color: #006064;
     color: white;
@@ -24,7 +24,6 @@ body {
     background-color: #004d40;
 }
 
-/* Main Container */
 .box {
     background: #ffffff;
     max-width: 1200px;
@@ -34,7 +33,7 @@ body {
     box-shadow: 0 8px 16px rgba(0, 96, 100, 0.2);
 }
 
-/* Heading */
+
 .box h2 {
     text-align: center;
     color: #006064;
@@ -42,7 +41,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* Review Section: Flex Layout */
+
 .review-section {
     display: flex;
     justify-content: center;
@@ -51,7 +50,7 @@ body {
     margin-bottom: 40px;
 }
 
-/* Review Info and Review Box Styles */
+
 .review-info, .review-box {
     flex: 1 1 320px;
     background-color: #d8f8ee;
@@ -64,14 +63,14 @@ body {
     min-width: 300px;
 }
 
-/* Info Details */
+
 .review-info .info-row p {
     margin: 8px 0;
     font-size: 15px;
     color: #333;
 }
 
-/* Review Box Headers */
+
 .review-box .box-header {
     margin-bottom: 15px;
     font-size: 18px;
@@ -79,13 +78,13 @@ body {
     color: #004d40;
 }
 
-/* Review Text */
+
 .review-box .box-content p {
     font-size: 16px;
     line-height: 1.6;
 }
 
-/* Reply Form Styles */
+
 .reply-form {
     margin-top: 40px;
     display: flex;
@@ -132,7 +131,7 @@ body {
     background-color: #004d40;
 }
 
-/* Popup Modal Common */
+
 .popup-modal {
     position: fixed;
     top: 0;
@@ -140,13 +139,13 @@ body {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none; /* Initially hidden */
+    display: none; 
     justify-content: center;
     align-items: center;
     z-index: 9999;
 }
 
-/* Popup Content Box */
+
 .popup-content {
     background: white;
     padding: 20px 30px;
@@ -157,14 +156,14 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
-/* Popup Text */
+
 .popup-content p {
     color: #333;
     font-size: 16px;
     margin-bottom: 20px;
 }
 
-/* Popup Buttons */
+
 .popup-content button {
     margin: 8px;
     padding: 10px 20px;
@@ -181,7 +180,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Confirm Yes Button */
+
 .popup-content #confirmYesBtn {
     background-color: #006064;
 }
@@ -190,7 +189,7 @@ body {
     background-color: #004d40;
 }
 
-/* Animation for Popups */
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }

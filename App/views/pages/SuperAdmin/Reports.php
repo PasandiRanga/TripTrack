@@ -19,7 +19,7 @@
 
 <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/SuperAdminPages/home'">Back</button>
 
-<!-- Month/Year Dropdown -->
+
 <div class="month-selector no-print">
   <label for="monthSelect">Select Month: </label>
   <select id="monthSelect">
@@ -207,7 +207,7 @@
 
 
 
-  <!-- Other sections go here with IDs for values like totalIncome, totalEmployees, etc. -->
+ 
 
 </div>
 
@@ -240,25 +240,21 @@
     totalCancellationFees: <?= json_encode($data['totalCancellationFees'] ?? []) ?>,
 
 
-    // Add other datasets here in same format if needed
+
   };
 
   function updateReportMonth() {
     const monthName = document.getElementById("monthSelect").value;
     const year = document.getElementById("yearSelect").value;
 
-    // Convert month name to MM format
+  
     const monthIndex = new Date(`${monthName} 1, 2000`).getMonth() + 1;
     const formattedMonth = monthIndex.toString().padStart(2, '0');
     const key = `${year}-${formattedMonth}`;
 
     document.getElementById("report-month").innerText = `Month: ${monthName} ${year}`;
 
-    // const guestPayments = findTotal(reportData.guestPayments);
-    // const registeredPayments = findTotal(reportData.registeredPayments);
-    // const totalPaymentIncome = guestPayments + registeredPayments;
 
-    // Helper function to find total by key
     function findTotal(dataArray, field = 'total') {
       const found = dataArray.find(entry => entry.month === key);
       return found ? (found[field] ?? 0) : 0;
@@ -294,7 +290,7 @@
 
     
   
-    // Repeat above logic for other metrics if needed
+   
   }
 
   window.onload = function () {

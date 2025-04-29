@@ -38,7 +38,7 @@
             </form>
         </div>
     </div>
-    
+    <!-- forget password -->
     <div class="popup-overlay" id="forgotPasswordPopup">
         <div class="popup-content">
             <span class="close-popup" id="closePopup">&times;</span>
@@ -75,6 +75,7 @@
                 }
             });
             
+            //forget password
             const forgotPasswordLink = document.getElementById('forgotPasswordLink');
             const forgotPasswordPopup = document.getElementById('forgotPasswordPopup');
             const closePopup = document.getElementById('closePopup');

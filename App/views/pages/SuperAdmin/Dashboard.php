@@ -29,14 +29,8 @@
             </div>
 
             <div class="header-right">
-                 <!-- <span>Admin Dashboard</span> <-->
             </div>
             
-            <!--
-            <div class="header-right">
-                <span id="current-date"></span> 
-            </div>
-            -->
         </header>
 
         <aside id="sidebar">
@@ -185,15 +179,13 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.52.0/apexcharts.min.js"></script>
     <script>
-        var sidebarOpen = false; // Fixed typo from 'sidebarOpean'
+        var sidebarOpen = false;
         var sidebar = document.getElementById("sidebar");
         var menuIcon = document.getElementById("menuIcon");
 
         function openSidebar() {
             if (!sidebarOpen) {
                 sidebar.classList.add("sidebar-responsive");
-                //menuIcon.style.display = "none"; // Hide menu icon
-                //sidebar.style.transform = "translateX(0)";
                 sidebarOpen = true;
             }
         }
@@ -201,13 +193,10 @@
         function closeSidebar() {
             if (sidebarOpen) {
                 sidebar.classList.remove("sidebar-responsive");
-                 //menuIcon.style.display = "block"; // Show menu icon again
-                //sidebar.style.transform = "translateX(-100%)";
                 sidebarOpen = false;
             }
         }
 
-        //logout
         let popup = document.getElementById("logoutModal");
         function Openpopup(){
         popup.classList.add("open-popup");
@@ -216,23 +205,18 @@
             document.getElementById('logoutModal').style.display = 'flex';
         }
 
-        // Hide the logout modal
         function hideLogoutModal() {
             document.getElementById('logoutModal').style.display = 'none';
         }
 
-        // Proceed with logout and redirect to login page
         function proceedLogout() {
             window.location.href = "<?php echo URLROOT; ?>/GuestPages/logout";
         }
 
-
-        // Function to redirect back to dashboard
         function cancelLogout() {
             window.location.href = "<?php echo URLROOT; ?>/SuperAdminPages/home";
         }
 
-        // Function to display the current date
         function displayCurrentDate() {
             const dateElement = document.getElementById("current-date");
             const currentDate = new Date();
@@ -242,32 +226,10 @@
                 month: "long",
                 day: "numeric"
             });
-            dateElement.textContent = formattedDate; // Update the date span
+            dateElement.textContent = formattedDate;
         }
 
-        // Call the function on page load
         document.addEventListener("DOMContentLoaded", displayCurrentDate);
-
-        //Card popups
-        // function showPopupBox1(title, income, guest, registered){
-        //     document.getElementById("card-text").innerHTML = `
-        //         <h2>${title}</h2>
-        //         <strong>${income}</strong><br><br>
-        //         <strong>${guest}</strong><br><br>
-        //         <strong>${registered}</strong>
-        //         `;
-        //     document.getElementById("cardpopup").style.display = "flex";
-        // }
-
-        // function showPopupBox3(title, totalbooking, guest, registered){
-        //     document.getElementById("card-text").innerHTML = `
-        //         <h2>${title}</h2>
-        //         <strong>${totalbooking}</strong><br><br>
-        //         <strong>${guest}</strong><br><br>
-        //         <strong>${registered}</strong>
-        //     `;
-        //     document.getElementById("cardpopup").style.display = "flex";
-        // }
 
         function closePopup() {
             document.getElementById("cardpopup").style.display = "none";
@@ -275,7 +237,6 @@
 
         const topRoutesData = <?= json_encode($data['routes'] ?? []) ?>;
 
-        // Extract route names and total incomes for the chart
         const routeNames = topRoutesData.map(route => route.route);
         const totalIncomes = topRoutesData.map(route => route.total_income);
         console.log(routeNames);
@@ -398,7 +359,7 @@
     const bookingData = bookingsFromPHP.map(item => item.bookings);
     const cancellationData = cancellationsFromPHP.map(item => item.cancellations);
         
-        // AREA CHART
+        
         const areaChartOptions = {
             series: [
             {
@@ -481,7 +442,7 @@
             yaxis: [
             {
                 title: {
-                text: 'Purchase Orders',
+                text: 'Booking Scale',
                 style: {
                     color: '#f5f7ff',
                 },
@@ -495,7 +456,7 @@
             {
                 opposite: true,
                 title: {
-                text: 'Sales Orders',
+                text: 'Cancellation Scale',
                 style: {
                     color: '#f5f7ff',
                 },

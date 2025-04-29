@@ -171,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateNIC() {
         const nic = nicInput.value.trim();
-        // NIC regex for either 9 digits followed by 'v' or 'V', or exactly 12 digits
         const nicRegex = /^(\d{9}[vV]|\d{12})$/;
         
         if (nic === '') {

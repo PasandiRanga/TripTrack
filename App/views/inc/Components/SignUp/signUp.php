@@ -23,7 +23,7 @@
             </a>
       </div>
 
-        <div class="right-column">
+       <div class="right-column">
                 
                 <form action="<?php echo URLROOT ?>/GuestPages/GuestSignUp" method="POST" enctype="multipart/form-data">
 
@@ -118,6 +118,14 @@
     <script src="<?php echo URLROOT; ?>/public/js/signup.js"></script>
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+<<<<<<< HEAD
+=======
+    const otpErrorElement = document.querySelector('[class="form-invalid"]:not(:empty)');
+    if (otpErrorElement && otpErrorElement.textContent.includes('OTP')) {
+        document.getElementById('confirmBox').classList.remove('hidden');
+    }
+
+>>>>>>> 3b7fc4f706493950e3f71a2fed8a89fe392057db
     const form = document.querySelector('form');
     const nameInput = document.getElementById('name');
     const numberInput = document.getElementById('number');
@@ -318,9 +326,16 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.addEventListener('DOMContentLoaded', function() {
+        // Check if there's an OTP error and show the confirmation box
         <?php if(isset($data['otp_err']) && !empty($data['otp_err'])): ?>
             document.getElementById('confirmBox').classList.remove('hidden');
         <?php endif; ?>
+        
+        // This will ensure the OTP box stays visible when there's an error
+        const otpErrorElement = document.querySelector('[name="otp"] + .form-invalid');
+        if (otpErrorElement && otpErrorElement.textContent.trim() !== '') {
+            document.getElementById('confirmBox').classList.remove('hidden');
+        }
     });
 
     nameInput.addEventListener('input', function() {
