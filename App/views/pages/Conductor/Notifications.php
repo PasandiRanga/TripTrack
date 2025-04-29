@@ -20,7 +20,8 @@
     var userRole = <?php echo json_encode($_SESSION['userRole'] ?? 'Conductor'); ?>;
     localStorage.setItem('userRole', userRole);
 
-    const URLROOT = '<?php echo URLROOT; ?>';
+        const URLROOT = 'http://localhost/TripTrack';
+
 
 </script>
 
@@ -131,14 +132,13 @@
 
     <script>
 
-    const URLROOT = 'http://localhost/TripTrack';
 
     document.addEventListener('DOMContentLoaded', function() {
         const filterAll = document.getElementById('filter-all');
         const filterUnread = document.getElementById('filter-unread');
         const filterRead = document.getElementById('filter-read');
         const markAllRead = document.getElementById('mark-all-read');
-        //const searchInput = document.getElementById('notification-search');
+        const searchInput = document.getElementById('notification-search');
         const notificationItems = document.querySelectorAll('.notifi-items');
 
         function setActiveFilter(activeButton) {
@@ -149,30 +149,28 @@
         }
 
         function filterNotifications() {
-            //const searchText = searchInput.value.toLowerCase();
-            const activeFilter = document.querySelector('.filter-buttons button.active').id;
+        const activeFilter = document.querySelector('.filter-buttons button.active').id;
+        
+        notificationItems.forEach(item => {
+            const title = item.querySelector('.notification-titles').textContent.toLowerCase();
+            const content = item.querySelector('.notification-contents p').textContent.toLowerCase();
+            const isRead = item.classList.contains('read');
             
-            notificationItems.forEach(item => {
-                const title = item.querySelector('.notification-titles').textContent.toLowerCase();
-                const content = item.querySelector('.notification-contents p').textContent.toLowerCase();
-                const isRead = item.classList.contains('read');
-                
-                //const matchesSearch = title.includes(searchText) || content.includes(searchText);
-                let matchesFilter = true;
-                
-                if (activeFilter === 'filter-unread') {
-                    matchesFilter = !isRead;
-                } else if (activeFilter === 'filter-read') {
-                    matchesFilter = isRead;
-                }
-                
-                if (matchesSearch && matchesFilter) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
+            let matchesFilter = true;
+            
+            if (activeFilter === 'filter-unread') {
+                matchesFilter = !isRead;
+            } else if (activeFilter === 'filter-read') {
+                matchesFilter = isRead;
+            }
+            
+            if (matchesFilter) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
 
         document.querySelectorAll('.notification-headers').forEach(header => {
             header.addEventListener('click', function() {
