@@ -190,17 +190,6 @@
         showImage();
     });
 
-    dropArea.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        dropArea.classList.add("active");
-        dropText.textContent = "Release to Upload the Image";
-    });
-
-    dropArea.addEventListener("dragleave", () => {
-        dropArea.classList.remove("active");
-        dropText.textContent = "Drag & Drop to Upload Image";
-    });
-
     dropArea.addEventListener("drop", (event) => {
         event.preventDefault();
         file = event.dataTransfer.files[0];
