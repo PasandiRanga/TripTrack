@@ -6,7 +6,7 @@
             echo '<div class="button-container">';
             foreach ($row as $seat) {
                 if ($seat === '') {
-                    echo '<button class="disable"></button>'; // Disabled seat (empty spaces)
+                    echo '<button class="disable"></button>';
                 } elseif (in_array(trim($seat), $notAcceptedSeats)) {
                     echo '<button class="number-button booked" disabled>' . htmlspecialchars($seat) . '</button>';
                 } elseif (in_array(trim($seat), $acceptedSeats)) {

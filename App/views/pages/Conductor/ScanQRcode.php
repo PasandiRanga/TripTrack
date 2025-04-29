@@ -33,9 +33,6 @@ authCheck(['Conductor', 'Driver']);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
     <button class="back-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/newhome'">Back</button>
-    <!--<button class="acceptBooking-button" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/acceptBookingForm'">Accept Booking by ID</button>
-
-    <button id="viewLayout1" onclick="window.location.href='<?php echo URLROOT; ?>/ConductorPages/busLayout'">View Bus Layout</button>-->
 
     <h1>Scan QR Code</h1>
 
@@ -44,13 +41,11 @@ authCheck(['Conductor', 'Driver']);
             <div id="qr-reader" style="width: 500px;"></div>
         </div>
 
-        <!-- Modal for QR code result -->
         <div class="modal-overlay" id="qrModal">
             <div class="modal-content">
                 <div id="qrResultText"></div>
                 <button onclick="closeModal()">Close</button>
                 <button id="viewLayout" onclick="redirectToBusLayout()">View Bus Layout</button>
-
             </div>
         </div>
 
@@ -69,15 +64,11 @@ authCheck(['Conductor', 'Driver']);
             domReady(function () {
                 var lastResult;
 
-                // If QR code is found
                 function onScanSuccess(decodedText) {
 
                     if (decodedText !== lastResult) {
                         lastResult = decodedText;
                         processQRCode(decodedText);
-
-                        // Show QR result in the modal
-                        //showModal(decodedText);
                     }
                 }
 
@@ -94,30 +85,21 @@ authCheck(['Conductor', 'Driver']);
                 sendToServer(data.scheduleId, data.seats, decodedText);
             }
 
-
             // Function to show modal with parsed data
             function showModal(decodedText) {
 
                 const data = parseQrText(decodedText);
-
-                /*document.getElementById('qrResultText').innerHTML =
-                    `<h2 class="qr-title">Booking is Accepted!!</h2>
-                    <pre>${decodedText}</pre>`;
-
-                document.getElementById('qrModal').style.display = 'flex';*/
 
                 let qrContent = `<h2 class="qr-title">Booking is Accepted!!</h2>
                      <pre>${decodedText}</pre>`;
 
                 document.getElementById('qrResultText').innerHTML = qrContent;
     
-                // Don't display the modal yet - wait for server response
                 document.getElementById('qrModal').style.display = 'flex';
 
                 sendToServer(data["Schedule ID"], data["Seats"], qrContent);
             }
 
-            // Function to parse QR code text into key-value pairs
             function parseQrText(decodedText) {
                 const lines = decodedText.split('\n');
                 let scheduleId = '';
@@ -139,11 +121,11 @@ authCheck(['Conductor', 'Driver']);
             // Function to close modal
             function closeModal() {
                 document.getElementById('qrModal').style.display = 'none';
-                document.getElementById('qrResultText').innerHTML = ''; // clear previous content
+                document.getElementById('qrResultText').innerHTML = '';
             }
 
             function sendToServer(scheduleId, seats, decodedText) {
-                //console.log("Sending to server:", scheduleId, seats);
+                console.log("Sending to server:", scheduleId, seats);
                 fetch('<?php echo URLROOT; ?>/ConductorPages/processScannedQR', {
                     method: 'POST',
                     headers: {

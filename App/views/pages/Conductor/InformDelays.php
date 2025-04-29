@@ -22,7 +22,6 @@
     </script>
 
     <?php
-    // Retrieve user role from session or set to a default value
     $userRole = $_SESSION['userRole'] ?? 'Conductor';
     ?>
 
@@ -30,13 +29,10 @@
     echo '<script>console.log("Data", ' . json_encode($data) . ');</script>';
 
     $scheduleData = $data['schedules'] ?? [];
-
     $busData = $data['buses'] ?? [];
 
     echo '<script>console.log("Schedules", ' . json_encode($scheduleData) . ');</script>';
     echo '<script>console.log("Buses", ' . json_encode($busData) . ');</script>';
-
-    
 
     $data['currentController'] = 'RegisteredPages';
     $data['currentMethod'] = 'allNotifications';
@@ -65,7 +61,6 @@
                             <?php if(isset($scheduleData)): ?>
                                 <?php foreach($scheduleData as $scheduleItem): ?>
                                     <?php 
-                                        // Extract the actual schedule data from the nested array
                                         $schedule = $scheduleItem[0]; 
                                     ?>
                                     <?php foreach($busData as $bus): ?>
@@ -108,6 +103,16 @@
     </div>
 
     <script>
+        document.getElementById('delayForm').addEventListener('submit', function(event) {
+            const newDepartureTime = document.getElementById('newTime').value;
+            const departureTime = document.getElementById('time').value;
+
+            if (newDepartureTime <= departureTime) {
+                alert('New departure time must be later than the original departure time.');
+                event.preventDefault();
+            }
+        });
+
         function fetchDepartureTime() {
             const scheduleSelect = document.getElementById('scheduleID');
             const selectedOption = scheduleSelect.options[scheduleSelect.selectedIndex];
@@ -117,10 +122,6 @@
             } else {
                 document.getElementById('time').value = '';
             }
-        }
-
-        function goBack() {
-            window.history.back();
         }
     </script>
 </body>
