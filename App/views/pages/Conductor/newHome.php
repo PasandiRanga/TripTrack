@@ -95,7 +95,7 @@
             <div class="main-cards">
                 <div class="card">
                     <div class="card-inner">
-                        <h3 class="card-title">Total Completed Schedules</h3>
+                        <h3 class="card-title">Monthly Completed Schedules</h3>
                         <span class="material-icons-outlined">beenhere</span>
                     </div>
                     <h1 class="card-value-notification"><?php echo $data['totalSchedules']['monthly_count']; ?></h1>
