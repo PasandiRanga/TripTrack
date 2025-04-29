@@ -360,6 +360,7 @@
                                             <p><strong>License ID:</strong> ${schedule.License_id}</p>
                                             <p><strong>Total Ticket Price:</strong> ${schedule.price}</p>
                                             <p><strong>Price Per KM:</strong> ${schedule.priceperkm}</p>
+                                            <p><strong>Type:</strong> ${schedule.type}</p>
                                         </div>
                                     </div>
                                 `;
@@ -390,6 +391,7 @@
                                             <p><strong>License ID:</strong> ${schedule.License_id}</p>
                                             <p><strong>Total Ticket Price:</strong> ${schedule.price}</p>
                                             <p><strong>Price Per KM:</strong> ${schedule.priceperkm}</p>
+                                            <p><strong>Type:</strong> ${schedule.type}</p>
                                         </div>
                                     </div>
                                 `;
