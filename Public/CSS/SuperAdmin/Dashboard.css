@@ -2,8 +2,8 @@ body{
 
     margin: 0;
     padding: 0;
-    background-color: #006064; /* Darker shade for better contrast */
-    color: #cfd8dc;            /* Softer, high-contrast text */
+    background-color: #006064; 
+    color: #cfd8dc;            
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
     line-height: 1.6;
@@ -25,8 +25,8 @@ body{
 }
 
 .material-icons-outlined:hover {
-    color: #90caf9; /* Light blue on hover */
-    transform: scale(1.1); /* Slight zoom for interactivity */
+    color: #90caf9; 
+    transform: scale(1.1);
 }
 
 .grid-container{
@@ -55,13 +55,13 @@ body{
 
 .header-left {
     display: flex;
-    align-items: center; /* Align items vertically */
-    gap: 10px; /* Space between logo and menu icon */
+    align-items: center; 
+    gap: 10px;
 }
 .header-right {
     display: flex;
-    align-items: center; /* Align items vertically */
-    gap: 10px; /* Space between logo and menu icon */
+    align-items: center;
+    gap: 10px;
 }
 
 .sidebar-menu-icon{
@@ -69,31 +69,18 @@ body{
 }
 
 .logo-right {
-    margin-left: auto; /* Pushes the logo to the right */
+    margin-left: auto;
     display: flex;
     align-items: center;
     width: 100px;
-    height: 100px; /* Aligns vertically */
+    height: 100px;
 }
 
-/*
-.header-left {
-    margin-right: auto; 
-    display: flex; 
-    align-items: center; 
-}
 
-.header-right {
-    margin-left: auto; 
-    display: flex; 
-    align-items: center; 
-    gap: 30px; 
-}
-*/
 
 .logo {
-    height: 60px; /* Adjust height to fit the header */
-    object-fit: contain; /* Ensure logo fits well */
+    height: 60px;
+    object-fit: contain;
 }
 
 .header-dashboard{
@@ -186,28 +173,11 @@ body{
     z-index: 12 !important;
 }
 
-/*
-.sidebar-responsive {
-    display: block !important; 
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 300px; 
-    height: 100vh; 
-    background-color: #1b1b1b; 
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000 !important; 
-    transform: translateX(-100%); 
-    transition: transform 0.3s ease-in-out; 
-}
 
-.sidebar.sidebar-responsive {
-    transform: translateX(0);
-} */
 
 .main-container {
     grid-area: main;
-    background-color: #d8f8ee; /* Softer beige */
+    background-color: #d8f8ee; 
     padding: 20px;
     overflow-y: auto;
 }
@@ -235,7 +205,7 @@ body{
     justify-content: space-between;
     padding: 25px;
     border-radius: 20px;
-    background: linear-gradient(135deg, #00897b, #006064); /* fixed here */
+    background: linear-gradient(135deg, #00897b, #006064);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -326,7 +296,7 @@ body{
   }
 }
 
-/* Small devices (tablets, <= 768px) */
+
 @media screen and (max-width: 768px) {
   .main-cards {
     grid-template-columns: 1fr;
@@ -340,7 +310,7 @@ body{
   }
 }
 
-/* Extra Small devices (phones, <= 576px) */
+
 @media screen and (max-width: 576px) {
   .header-left {
     display: none;
@@ -359,29 +329,28 @@ body{
   }
 }
 
-  /* Popup overlay for logout */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Semi-transparent to show the background */
+  background: rgba(0, 0, 0, 0.4); 
   display: flex;
   align-items: center;
   justify-content: center;
   visibility: hidden;
-  opacity: 0; /* Set initial opacity */
-  transition: visibility 0s 0.3s, opacity 0.3s ease; /* Smooth transition */
+  opacity: 0; 
+  transition: visibility 0s 0.3s, opacity 0.3s ease;
 }
 
 .open-popup {
   visibility: visible;
-  opacity: 1; /* Make it fully visible */
-  transition: visibility 0s 0s, opacity 0.3s ease; /* Smooth transition */
+  opacity: 1; 
+  transition: visibility 0s 0s, opacity 0.3s ease;
 }
 
-/* Modal box styling */
+
 .modal-content {
     background-color: white;
     width: 400px;
@@ -406,7 +375,7 @@ body{
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Heading */
+
 .modal-content h2 {
     color: #424242;
     font-size: 24px;
@@ -430,7 +399,7 @@ body{
     margin-bottom: 10px;
 }
 
-/* Yes Button */
+
 .btn-yes {
     background-color: white;
     color: #e22222;
@@ -452,7 +421,7 @@ body{
     box-shadow: 0 4px 12px rgba(226, 34, 34, 0.2);
 }
 
-/* No Button */
+
 .btn-no {
     background-color: white;
     color: #00897b;
@@ -475,9 +444,9 @@ body{
 }
 
 
-/* Card Popup */
+
 .card-popup {
-  display: none; /* Initially hidden */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -487,15 +456,15 @@ body{
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  transition: opacity 0.3s ease; /* Fade-in effect */
+  transition: opacity 0.3s ease;
 }
 
 .card-popup.open {
   display: flex;
-  opacity: 1; /* Fully visible */
+  opacity: 1;
 }
 
-/* Card content */
+
 .card-content {
   background-color: #fff;
   padding: 30px;

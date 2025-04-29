@@ -247,7 +247,7 @@
         }
 
         document.getElementById("date-info").innerHTML = dateInfo;
-
+        //cancel booking
         document.querySelectorAll('.cancel-booking').forEach(item => {
             item.addEventListener('click', function() {
                 const bookingId = this.getAttribute('data-booking-id');
@@ -261,7 +261,7 @@
                 }
             });
         });
-
+        //add reviews
         document.querySelectorAll('.add-review').forEach(item => {
         item.addEventListener('click', function () {
             const bookingId = this.getAttribute('data-booking-id');
@@ -679,18 +679,7 @@ function showTicket(booking, schedule, bus, user) {
     
     const routeNumber = matchedBus ? (matchedBus.routeNumber || matchedBus.route_number) : "N/A";
     const formattedPrice = booking.total_price ? Number(booking.total_price).toFixed(2) : "0.00";
-    
-    let qrImagePath = booking.qrcode_path || "";
-    let qrDisplay;
-
-    if (qrImagePath) {
-        qrImagePath = qrImagePath.replace(/^\/+/, '');
-        qrDisplay = `<img src="${URLROOT}/public/qrcode/qrimage/${qrImagePath}" alt="QR Code" class="ticket-qr">`;
-        console.log("QR Image URL:", `${URLROOT}App/public/qrcode/qrimage/${qrImagePath}`);
-    } else {
-        qrDisplay = `<i class="fas fa-qrcode fa-5x"></i>`;
-    }
-    
+        
     ticketContent.innerHTML = `
         <div class="bus-ticket">
             <div class="ticket-header">
@@ -731,9 +720,7 @@ function showTicket(booking, schedule, bus, user) {
                     <p><strong>Seat Numbers:</strong>&nbsp;&nbsp; ${seats}</p>
                     <p><strong>No of Seats:</strong>&nbsp;&nbsp; ${numberOfSeats}</p>
                 </div>
-                <div class="qr-code">
-                    ${qrDisplay}
-                </div>
+                
             </div>
         </div>
     `;

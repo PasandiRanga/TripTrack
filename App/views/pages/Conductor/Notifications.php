@@ -130,6 +130,9 @@
     </div>
 
     <script>
+
+    const URLROOT = 'http://localhost/TripTrack';
+
     document.addEventListener('DOMContentLoaded', function() {
         const filterAll = document.getElementById('filter-all');
         const filterUnread = document.getElementById('filter-unread');

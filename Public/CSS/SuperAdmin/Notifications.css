@@ -112,7 +112,7 @@ h2 {
 .delay-table td {
     padding: 12px 15px;
     border-bottom: 1px solid #ddd;
-    text-align: center;
+    text-align: left;
 }
 
 /* Table Body */

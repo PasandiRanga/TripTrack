@@ -16,7 +16,7 @@
     <div class="container">
         <h2>Delay Notifications</h2>
 
-        <!-- Send Notification Button -->
+        
         <div class="button-container">
             <button 
                 class="send-notification-button" 
@@ -25,7 +25,7 @@
             </button>
         </div>
 
-        <!-- Delay Notifications Table -->
+     
         <div class="table-wrapper">
             <table class="delay-table">
                 <thead>
