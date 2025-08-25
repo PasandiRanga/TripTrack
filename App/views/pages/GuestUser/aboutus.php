@@ -126,6 +126,123 @@
 
             </div>
             
+            <div class="team-section">
+                <div class="section-title">
+                    <h2>Development Team</h2>
+                    <p>Meet the talented developers and collaborators who built Trip Track</p>
+                </div>
+                
+                <div class="team-member" style="margin-bottom: 40px;">
+                    <div class="left-column">
+                        <div class="team-photo">
+                            <img src="<?php echo URLROOT; ?>/Public/images/placeholder.jpg" alt="Sahan Wickramasinghe">
+                        </div>
+                        <div class="team-name-role">
+                            <h3>Sahan Wickramasinghe</h3>
+                            <span class="position">Senior Backend Developer</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <p>Sahan is our lead backend developer who architected the robust server-side infrastructure of <span class="highlight">Trip Track</span>. With expertise in PHP, MySQL, and API development, he designed the scalable booking system and user management features.</p>
+                        <p>His experience in database optimization and security implementation ensures that all user data and transactions are handled safely and efficiently. Sahan's attention to detail in creating reliable backend services forms the backbone of our platform.</p>
+                        <p>When not coding, Sahan enjoys exploring new web technologies and contributing to open-source projects in the transportation tech space.</p>
+                    </div>
+                </div>
+
+                <div class="team-member" style="margin-bottom: 40px;">
+                    <div class="left-column">
+                        <div class="team-photo">
+                            <img src="<?php echo URLROOT; ?>/Public/images/placeholder.jpg" alt="Kavitha Ranasinghe">
+                        </div>
+                        <div class="team-name-role">
+                            <h3>Kavitha Ranasinghe</h3>
+                            <span class="position">Frontend Developer & UI Specialist</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                            <a href="#"><i class="fab fa-behance"></i></a>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <p>Kavitha brings <span class="highlight">Trip Track's</span> user interface to life with her exceptional frontend development skills. Specializing in responsive design and user experience optimization, she ensures our platform works seamlessly across all devices.</p>
+                        <p>Her expertise in CSS, JavaScript, and modern web standards has created an intuitive and visually appealing interface that makes bus booking simple and enjoyable for users of all technical backgrounds.</p>
+                        <p>Kavitha is passionate about accessibility and continuously works to make <span class="highlight">Trip Track</span> usable by everyone, regardless of their abilities or device preferences.</p>
+                    </div>
+                </div>
+
+                <div class="team-member" style="margin-bottom: 40px;">
+                    <div class="left-column">
+                        <div class="team-photo">
+                            <img src="<?php echo URLROOT; ?>/Public/images/placeholder.jpg" alt="Ruwan Perera">
+                        </div>
+                        <div class="team-name-role">
+                            <h3>Ruwan Perera</h3>
+                            <span class="position">Database Administrator & Systems Analyst</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-stack-overflow"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <p>Ruwan is responsible for designing and maintaining the complex database systems that power <span class="highlight">Trip Track's</span> operations. His expertise in data modeling and database optimization ensures lightning-fast response times even during peak booking periods.</p>
+                        <p>With a deep understanding of transportation logistics, Ruwan has created efficient data structures for managing routes, schedules, seat availability, and booking records across multiple bus operators throughout Sri Lanka.</p>
+                        <p>His proactive approach to system monitoring and performance tuning keeps our platform running smoothly 24/7, providing reliable service to thousands of daily users.</p>
+                    </div>
+                </div>
+
+                <div class="team-member" style="margin-bottom: 40px;">
+                    <div class="left-column">
+                        <div class="team-photo">
+                            <img src="<?php echo URLROOT; ?>/Public/images/placeholder.jpg" alt="Dimantha Silva">
+                        </div>
+                        <div class="team-name-role">
+                            <h3>Dimantha Silva</h3>
+                            <span class="position">UX/UI Designer & Product Manager</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-figma"></i></a>
+                            <a href="#"><i class="fab fa-adobe"></i></a>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <p>Dimantha is the creative force behind <span class="highlight">Trip Track's</span> user-centered design approach. Through extensive research and user testing, he has crafted an interface that perfectly balances functionality with aesthetic appeal.</p>
+                        <p>His role extends beyond design to product management, where he coordinates feature development, gathers user feedback, and ensures that every update enhances the overall user experience.</p>
+                        <p>Dimantha's background in design thinking and agile methodologies has been instrumental in creating a platform that truly serves the needs of Sri Lankan travelers.</p>
+                    </div>
+                </div>
+
+                <div class="team-member" style="margin-bottom: 40px;">
+                    <div class="left-column">
+                        <div class="team-photo">
+                            <img src="<?php echo URLROOT; ?>/Public/images/placeholder.jpg" alt="Priya Jayawardena">
+                        </div>
+                        <div class="team-name-role">
+                            <h3>Priya Jayawardena</h3>
+                            <span class="position">Quality Assurance Engineer & DevOps</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-docker"></i></a>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <p>Priya ensures that every feature of <span class="highlight">Trip Track</span> meets our high standards for quality and reliability. Her comprehensive testing strategies and automation frameworks catch issues before they reach our users.</p>
+                        <p>Beyond quality assurance, Priya manages our deployment processes and server infrastructure, implementing continuous integration practices that allow us to deliver updates quickly and safely.</p>
+                        <p>Her meticulous approach to testing and system reliability has earned the trust of users who depend on <span class="highlight">Trip Track</span> for their daily travel needs.</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="values-section">
                 <div class="section-title">
                     <h2>Our Core Values</h2>
